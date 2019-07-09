@@ -1,24 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Stopwatch-->
+        <scene sceneID="0TV-z3-Jeb">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController id="ZkM-Oh-f1Y" customClass="StopwatchViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f5x-eH-JBF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Y4L-nQ-dzE"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Stopwatch" id="g3P-ra-bcb"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EPe-1L-zeT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1026.0869565217392" y="-12.053571428571429"/>
+        </scene>
+        <!--Sessions-->
+        <scene sceneID="NUW-ZT-aBE">
+            <objects>
+                <viewController id="KdM-Vy-LJH" customClass="SessionsViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Pg-XH-dBZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9l5-ZW-TUo">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9l5-ZW-TUo" firstAttribute="leading" secondItem="dun-DM-n6V" secondAttribute="leading" id="IMi-vK-rWa"/>
+                            <constraint firstItem="9l5-ZW-TUo" firstAttribute="top" secondItem="dun-DM-n6V" secondAttribute="top" id="WAw-aT-y3e"/>
+                            <constraint firstItem="dun-DM-n6V" firstAttribute="trailing" secondItem="9l5-ZW-TUo" secondAttribute="trailing" id="fV0-hc-3kz"/>
+                            <constraint firstItem="dun-DM-n6V" firstAttribute="bottom" secondItem="9l5-ZW-TUo" secondAttribute="bottom" id="g6h-nH-5Do"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dun-DM-n6V"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Sessions" id="OQU-S8-5KJ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="FLM-oc-bio">
+                            <color key="tintColor" red="0.94117647058823528" green="0.36862745098039218" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Monday" id="ZES-kR-k4z">
+                            <color key="tintColor" red="0.94117647058823528" green="0.36862745098039218" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9l5-ZW-TUo" id="ciV-rp-8Cx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rXU-Lb-LdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1026.0869565217392" y="-661.60714285714278"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="GTo-l9-EN5">
+            <objects>
+                <tabBarController id="gLJ-6i-PBZ" customClass="TabBarController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zh0-bq-qjM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Cum-i8-bJz" kind="relationship" relationship="viewControllers" id="LOI-SD-bMj"/>
+                        <segue destination="TJg-1g-cBA" kind="relationship" relationship="viewControllers" id="zev-pU-box"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xj1-Lt-xtF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-802" y="-337"/>
+        </scene>
+        <!--Sessions-->
+        <scene sceneID="Xdx-o9-fIk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Cum-i8-bJz" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Sessions" id="z1O-UP-DJr"/>
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="fQm-1i-yk6">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KdM-Vy-LJH" kind="relationship" relationship="rootViewController" id="Pea-um-aTn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73l-1s-6g4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="115.94202898550725" y="-661.60714285714278"/>
+        </scene>
+        <!--Stopwatch-->
+        <scene sceneID="O2W-V7-Uik">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TJg-1g-cBA" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Stopwatch" id="3QU-W0-Hx7"/>
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="riR-ui-0hd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ZkM-Oh-f1Y" kind="relationship" relationship="rootViewController" id="9py-uT-o45"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JEz-08-C0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="115.94202898550725" y="-12.053571428571429"/>
         </scene>
     </scenes>
 </document>
