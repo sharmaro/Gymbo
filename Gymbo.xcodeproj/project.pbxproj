@@ -86,8 +86,8 @@
 		695D4C0822D450CD00E3FB1F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift.swift */,
 				695D4C0222D30CA300E3FB1F /* Layout.swift */,
+				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
