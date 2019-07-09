@@ -15,6 +15,7 @@
 		695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */; };
 		695D4C0122D30B1D00E3FB1F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */; };
 		695D4C0322D30CA300E3FB1F /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0222D30CA300E3FB1F /* Layout.swift */; };
+		695D4C0522D4508C00E3FB1F /* SessionDataModel.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0422D4508C00E3FB1F /* SessionDataModel.swift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchViewController.swift; sourceTree = "<group>"; };
 		695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		695D4C0222D30CA300E3FB1F /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		695D4C0422D4508C00E3FB1F /* SessionDataModel.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModel.swift.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,16 +63,33 @@
 			isa = PBXGroup;
 			children = (
 				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
-				695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */,
-				695D4BFC22D30AE900E3FB1F /* SessionsViewController.swift */,
-				695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */,
-				695D4C0222D30CA300E3FB1F /* Layout.swift */,
+				695D4C0722D450A800E3FB1F /* Main ViewControllers */,
+				695D4C0822D450CD00E3FB1F /* Helpers */,
 				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
 				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
 				695D4BE922CB28B800E3FB1F /* Assets.xcassets */,
 				695D4BEE22CB28B800E3FB1F /* Info.plist */,
 			);
 			path = Gymbo;
+			sourceTree = "<group>";
+		};
+		695D4C0722D450A800E3FB1F /* Main ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */,
+				695D4BFC22D30AE900E3FB1F /* SessionsViewController.swift */,
+				695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */,
+			);
+			path = "Main ViewControllers";
+			sourceTree = "<group>";
+		};
+		695D4C0822D450CD00E3FB1F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift.swift */,
+				695D4C0222D30CA300E3FB1F /* Layout.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +167,7 @@
 				695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Layout.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,
+				695D4C0522D4508C00E3FB1F /* SessionDataModel.swift.swift in Sources */,
 				695D4BFD22D30AE900E3FB1F /* SessionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
