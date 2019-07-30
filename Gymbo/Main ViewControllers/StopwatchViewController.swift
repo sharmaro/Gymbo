@@ -11,9 +11,6 @@ import UIKit
 class StopwatchViewController: UIViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.shadowImage = UIImage()
+        super.viewDidLoad()        
     }
 }
