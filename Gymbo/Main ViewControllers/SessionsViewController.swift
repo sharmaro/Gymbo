@@ -30,7 +30,6 @@ class SessionsViewController: UIViewController {
     private lazy var underlineView: UIView = {
        let view = UIView(frame: CGRect(x: quickStartButton.frame.origin.x, y: 0, width: quickStartButton.frame.width, height: underlineContainerView.bounds.height))
         view.backgroundColor = .black
-        view.layer.cornerRadius = 1
         return view
     }()
     
