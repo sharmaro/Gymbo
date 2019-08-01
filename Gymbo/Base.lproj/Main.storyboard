@@ -38,7 +38,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DFw-xB-l87">
-                                        <rect key="frame" x="30.000000000000007" y="0.0" width="100.66666666666669" height="48"/>
+                                        <rect key="frame" x="15" y="0.0" width="184.66666666666666" height="48"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Quick Start">
                                             <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -48,7 +48,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nf0-P3-e7g">
-                                        <rect key="frame" x="214.33333333333337" y="0.0" width="169.66666666666663" height="48"/>
+                                        <rect key="frame" x="214.66666666666663" y="0.0" width="184.33333333333337" height="48"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="My Saved Routines">
                                             <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -59,16 +59,15 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Nf0-P3-e7g" firstAttribute="width" secondItem="iin-ab-qwF" secondAttribute="width" multiplier="0.41" id="2BU-VL-bE6"/>
-                                    <constraint firstAttribute="trailing" secondItem="Nf0-P3-e7g" secondAttribute="trailing" constant="30" id="CON-Yt-lVN"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nf0-P3-e7g" secondAttribute="trailing" constant="15" id="CON-Yt-lVN"/>
                                     <constraint firstItem="Nf0-P3-e7g" firstAttribute="top" secondItem="iin-ab-qwF" secondAttribute="top" id="J3F-36-Oa4"/>
-                                    <constraint firstItem="DFw-xB-l87" firstAttribute="width" secondItem="iin-ab-qwF" secondAttribute="width" multiplier="0.243" id="bhF-cK-9SN"/>
                                     <constraint firstItem="DFw-xB-l87" firstAttribute="top" secondItem="iin-ab-qwF" secondAttribute="top" id="ibQ-DQ-B7T"/>
-                                    <constraint firstItem="Nf0-P3-e7g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DFw-xB-l87" secondAttribute="trailing" constant="28" id="jsj-la-1Ds"/>
+                                    <constraint firstItem="Nf0-P3-e7g" firstAttribute="leading" secondItem="DFw-xB-l87" secondAttribute="trailing" constant="15" id="jsj-la-1Ds"/>
                                     <constraint firstItem="Nf0-P3-e7g" firstAttribute="height" secondItem="iin-ab-qwF" secondAttribute="height" id="m9e-uR-IAr"/>
                                     <constraint firstItem="DFw-xB-l87" firstAttribute="height" secondItem="iin-ab-qwF" secondAttribute="height" id="scw-g2-EUF"/>
-                                    <constraint firstItem="DFw-xB-l87" firstAttribute="leading" secondItem="iin-ab-qwF" secondAttribute="leading" constant="30" id="uEl-vE-ciK"/>
+                                    <constraint firstItem="DFw-xB-l87" firstAttribute="leading" secondItem="iin-ab-qwF" secondAttribute="leading" constant="15" id="uEl-vE-ciK"/>
                                     <constraint firstAttribute="height" constant="48" id="ybN-hP-pLK"/>
+                                    <constraint firstItem="DFw-xB-l87" firstAttribute="width" secondItem="Nf0-P3-e7g" secondAttribute="width" id="z38-3k-lkN"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CYn-qa-DYs">
