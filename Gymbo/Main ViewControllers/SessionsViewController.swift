@@ -34,11 +34,6 @@ class SessionsViewController: UIViewController {
         return view
     }()
     
-    private struct CellHeight {
-        public static let quickStart: CGFloat = 100
-        public static let savedRoutines: CGFloat = 120
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
