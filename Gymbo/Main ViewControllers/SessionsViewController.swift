@@ -19,6 +19,7 @@ class SessionsViewController: UIViewController {
     @IBOutlet weak var mySavedRoutinesButton: UIButton!
     @IBOutlet weak var underlineContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addExerciseButton: UIButton!
     
     private var dataModel: [SessionDataModel]?
     
@@ -33,17 +34,29 @@ class SessionsViewController: UIViewController {
         return view
     }()
     
+    private lazy var emptyTableTextView: UITextView = {
+        let textViewWidth = CGFloat(200)
+        let textView = UITextView(frame: CGRect(x: 20, y: (view.bounds.height / 2) - 20, width: view.bounds.width - 40, height: 40))
+        textView.textAlignment = .center
+        textView.text = "Add exercises to get started"
+        textView.font = UIFont.systemFont(ofSize: 18)
+        return textView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupMenuButtons()
         setupTableView()
+        setupAddExerciseButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         underlineContainerView.addSubview(underlineView)
+        
+        setupEmptyTableViewLayout()
     }
     
     private func setupMenuButtons() {
@@ -62,7 +75,36 @@ class SessionsViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
     }
     
-    @IBAction func buttonPressed(_ sender: Any) {
+    private func setupAddExerciseButton() {
+        addExerciseButton.setTitle("Add \nExercise", for: .normal)
+        addExerciseButton.setTitleColor(.black, for: .normal)
+        addExerciseButton.titleLabel?.textAlignment = .center
+        addExerciseButton.backgroundColor = .lightGray
+        addExerciseButton.layer.cornerRadius = addExerciseButton.bounds.width / 2
+    }
+    
+    private func setupEmptyTableViewLayout() {
+        tableView.isHidden = true
+        
+        view.addSubview(emptyTableTextView)
+    }
+    
+    private func animateUnderlineView(_ selectedButton: UIButton) {
+        if underlineView.frame.origin.x != selectedButton.frame.origin.x {
+            UIView.animate(withDuration: 0.2) {
+                self.underlineView.frame.size.width = selectedButton.frame.width
+                self.underlineView.frame.origin.x = selectedButton.frame.origin.x
+            }
+        }
+    }
+    
+    private func updateViewFromMenuButton() {
+        
+    }
+    
+    // MARK: - IBAction methods
+    
+    @IBAction func menuButtonPressed(_ sender: Any) {
         if let button = sender as? UIButton {
             switch button.tag {
             case 0:
@@ -77,17 +119,10 @@ class SessionsViewController: UIViewController {
         }
     }
     
-    private func animateUnderlineView(_ selectedButton: UIButton) {
-        if underlineView.frame.origin.x != selectedButton.frame.origin.x {
-            UIView.animate(withDuration: 0.2) {
-                self.underlineView.frame.size.width = selectedButton.frame.width
-                self.underlineView.frame.origin.x = selectedButton.frame.origin.x
-            }
+    @IBAction func addExerciseButtonPressed(_ sender: Any) {
+        if let button = sender as? UIButton {
+            print("add exercise button pressed")
         }
-    }
-    
-    private func updateViewFromMenuButton() {
-        
     }
 }
 
