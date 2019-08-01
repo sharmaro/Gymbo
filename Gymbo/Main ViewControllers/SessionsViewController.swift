@@ -8,16 +8,31 @@
 
 import UIKit
 
+private enum MenuButtonState {
+    case quickStart
+    case mySavedRoutines
+}
+
 class SessionsViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var menuButtonsContainerView: UIView!
+    @IBOutlet weak var quickStartButton: UIButton!
+    @IBOutlet weak var mySavedRoutinesButton: UIButton!
+    @IBOutlet weak var underlineContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    var dataModel: [SessionDataModel]?
+    private var dataModel: [SessionDataModel]?
     
     private let collectionViewCellID = "MenuBarCollectionViewCell"
     // TODO: Create a private id for custom UITableViewCell
     
-    private let menuTitles: [String] = ["Quick Start", "My Saved Routines"]
+    private var menuButtonState = MenuButtonState.quickStart
+    
+    private lazy var underlineView: UIView = {
+       let view = UIView(frame: CGRect(x: quickStartButton.frame.origin.x, y: 0, width: quickStartButton.frame.width, height: underlineContainerView.bounds.height))
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 1
+        return view
+    }()
     
     private struct CellHeight {
         public static let quickStart: CGFloat = 100
@@ -27,67 +42,58 @@ class SessionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCollectionView()
+        setupMenuButtons()
         setupTableView()
     }
     
-    func setupCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: [])
+        underlineContainerView.addSubview(underlineView)
     }
     
-    func setupTableView() {
+    private func setupMenuButtons() {
+        quickStartButton.tag = 0
+        quickStartButton.adjustsImageWhenHighlighted = false
+        
+        mySavedRoutinesButton.tag = 1
+        mySavedRoutinesButton.adjustsImageWhenHighlighted = false
+    }
+    
+    private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
     }
-}
-
-extension SessionsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let menuBarCell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellID, for: indexPath) as? MenuBarCollectionViewCell else {
-            fatalError("Could not dequeue `MenuBarCollectionViewCell` at index path: \(indexPath)")
-        }
-        menuBarCell.titleLabel.text = menuTitles[indexPath.row]
-        return menuBarCell
-    }
-}
-
-extension SessionsViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            print("Quick Start selected")
-        case 1:
-            print("My Saved Routines selected")
-        default:
-            fatalError("Incorrect index path selected: \(indexPath).")
+    @IBAction func buttonPressed(_ sender: Any) {
+        if let button = sender as? UIButton {
+            switch button.tag {
+            case 0:
+                menuButtonState = .quickStart
+            case 1:
+                menuButtonState = .mySavedRoutines
+            default:
+                fatalError("Invalid button with tag: \(button.tag).")
+            }
+            animateUnderlineView(button)
+            updateViewFromMenuButton()
         }
     }
-}
-
-extension SessionsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.bounds.width / 2) - 10, height: collectionView.frame.height)
+    
+    private func animateUnderlineView(_ selectedButton: UIButton) {
+        if underlineView.frame.origin.x != selectedButton.frame.origin.x {
+            UIView.animate(withDuration: 0.2) {
+                self.underlineView.frame.size.width = selectedButton.frame.width
+                self.underlineView.frame.origin.x = selectedButton.frame.origin.x
+            }
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+    private func updateViewFromMenuButton() {
+        
     }
 }
 
@@ -109,36 +115,6 @@ extension SessionsViewController: UITableViewDataSource {
 extension SessionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selected row at indexPath: \(indexPath)")
-    }
-}
-
-class MenuBarCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var underlineView: UIView!
-    
-    override var isHighlighted: Bool {
-        didSet {
-            if isSelected {
-                // Do nothing
-            } else {
-                titleLabel.textColor = isHighlighted ? .black : .lightGray
-                underlineView.backgroundColor = isHighlighted ? .black : .lightGray
-            }
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            titleLabel.textColor = isSelected ? .black : .lightGray
-            underlineView.backgroundColor = isSelected ? .black : .lightGray
-        }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        underlineView.layer.cornerRadius = 1
     }
 }
 
