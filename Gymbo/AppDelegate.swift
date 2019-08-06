@@ -13,13 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        UINavigationBar.appearance().prefersLargeTitles = true
-        UINavigationBar.appearance().shadowImage = UIImage()
+        setupNavigationBar()
         
         return true
+    }
+    
+    private func setupNavigationBar() {
+        UINavigationBar.appearance().prefersLargeTitles = true
+        UINavigationBar.appearance().shadowImage = UIImage()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

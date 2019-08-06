@@ -8,64 +8,47 @@
 
 import UIKit
 
-private enum MenuButtonState {
-    case quickStart
-    case mySavedRoutines
+protocol DimmingViewDelegate: class {
+    func animateDimmingView(type: AnimationType)
+}
+
+enum AnimationType {
+    case show
+    case hide
 }
 
 class SessionsViewController: UIViewController {
-    @IBOutlet weak var menuButtonsContainerView: UIView!
-    @IBOutlet weak var quickStartButton: UIButton!
-    @IBOutlet weak var mySavedRoutinesButton: UIButton!
-    @IBOutlet weak var underlineContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addExerciseButton: UIButton!
+    @IBOutlet weak var addSessionButton: UIButton!
+    @IBOutlet weak var emptyExerciseLabel: UILabel!
     
     private var dataModel: [SessionDataModel]?
     
     private let collectionViewCellID = "MenuBarCollectionViewCell"
     // TODO: Create a private id for custom UITableViewCell
     
-    private var menuButtonState = MenuButtonState.quickStart
-    
-    private lazy var underlineView: UIView = {
-       let view = UIView(frame: CGRect(x: quickStartButton.frame.origin.x, y: 0, width: quickStartButton.frame.width, height: underlineContainerView.bounds.height))
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    private lazy var emptyTableTextView: UITextView = {
-        let textViewWidth = CGFloat(200)
-        let textView = UITextView(frame: CGRect(x: 20, y: (view.bounds.height / 2) - 20, width: view.bounds.width - 40, height: 40))
-        textView.textAlignment = .center
-        textView.text = "Add exercises to get started"
-        textView.font = UIFont.systemFont(ofSize: 18)
-        return textView
-    }()
+    private struct Constants {
+        public static let animationTime = CGFloat(0.2)
+        public static let normalAlphe = CGFloat(1.0)
+        public static let darkenedAlpha = CGFloat(0.1)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupMenuButtons()
         setupTableView()
-        setupAddExerciseButton()
+        fetchData()
+        setupAddSessionButton()
+        
+        var workouts = [Workout]()
+        for i in 0..<20 {
+            let workout = Workout(name: "name: \(i)", sets: i, reps: i, weight: Double(i), time: i, additionalInfo: "add. info: \(i)")
+            workouts.append(workout)
+        }
+        dataModel = [SessionDataModel(workouts: workouts)]
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        underlineContainerView.addSubview(underlineView)
-        
-        setupEmptyTableViewLayout()
-    }
-    
-    private func setupMenuButtons() {
-        quickStartButton.tag = 0
-        quickStartButton.adjustsImageWhenHighlighted = false
-        
-        mySavedRoutinesButton.tag = 1
-        mySavedRoutinesButton.adjustsImageWhenHighlighted = false
-    }
+    // MARK: - Helper funcs
     
     private func setupTableView() {
         tableView.dataSource = self
@@ -75,53 +58,58 @@ class SessionsViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
     }
     
-    private func setupAddExerciseButton() {
-        addExerciseButton.setTitle("Add \nExercise", for: .normal)
-        addExerciseButton.setTitleColor(.black, for: .normal)
-        addExerciseButton.titleLabel?.textAlignment = .center
-        addExerciseButton.backgroundColor = .lightGray
-        addExerciseButton.layer.cornerRadius = addExerciseButton.bounds.width / 2
+    private func fetchData() {
+//        tableView.isHidden = true
     }
     
-    private func setupEmptyTableViewLayout() {
-        tableView.isHidden = true
-        
-        view.addSubview(emptyTableTextView)
-    }
-    
-    private func animateUnderlineView(_ selectedButton: UIButton) {
-        if underlineView.frame.origin.x != selectedButton.frame.origin.x {
-            UIView.animate(withDuration: 0.2) {
-                self.underlineView.frame.size.width = selectedButton.frame.width
-                self.underlineView.frame.origin.x = selectedButton.frame.origin.x
-            }
-        }
+    private func setupAddSessionButton() {
+        addSessionButton.setTitle("Add \nSession", for: .normal)
+        addSessionButton.setTitleColor(.black, for: .normal)
+        addSessionButton.titleLabel?.textAlignment = .center
+        addSessionButton.backgroundColor = .lightGray
+        addSessionButton.layer.cornerRadius = addSessionButton.bounds.width / 2
     }
     
     private func updateViewFromMenuButton() {
+        // TODO:
+    }
+    
+    private func animateDarkenView() {
         
+        UIView.animate(withDuration: 0.2) {
+            self.navigationController?.view.alpha = 0.3
+        }
+    }
+    
+    private func animateBrightenView() {
+        UIView.animate(withDuration: 0.2) {
+            self.navigationController?.view.alpha = 1.0
+        }
     }
     
     // MARK: - IBAction methods
     
-    @IBAction func menuButtonPressed(_ sender: Any) {
-        if let button = sender as? UIButton {
-            switch button.tag {
-            case 0:
-                menuButtonState = .quickStart
-            case 1:
-                menuButtonState = .mySavedRoutines
-            default:
-                fatalError("Invalid button with tag: \(button.tag).")
-            }
-            animateUnderlineView(button)
-            updateViewFromMenuButton()
+    @IBAction func addSessionButtonPressed(_ sender: Any) {
+        if sender is UIButton,
+            let viewController = storyboard?.instantiateViewController(withIdentifier: "AddExerciseViewController") as? AddExerciseViewController {
+            viewController.modalPresentationStyle = .custom
+            viewController.dimmingViewDelegate = self
+            animateDimmingView(type: .show)
+            present(viewController, animated: true, completion: nil)
+        } else {
+            fatalError("Could not instantiate AddExerciseViewController.")
+            
         }
     }
-    
-    @IBAction func addExerciseButtonPressed(_ sender: Any) {
-        if let button = sender as? UIButton {
-            print("add exercise button pressed")
+}
+
+extension SessionsViewController: DimmingViewDelegate {
+    func animateDimmingView(type: AnimationType) {
+        switch type {
+        case .show:
+            animateDarkenView()
+        case .hide:
+            animateBrightenView()
         }
     }
 }
@@ -137,7 +125,13 @@ extension SessionsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // TODO:
-        return UITableViewCell()
+        guard let data = dataModel, let workouts = data[indexPath.section].workouts else {
+            fatalError("Cell for row at called with empty data model.")
+        }
+        
+        let cell = UITableViewCell()
+        cell.textLabel?.text = workouts[indexPath.row].name
+        return cell
     }
 }
 
