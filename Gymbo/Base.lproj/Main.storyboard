@@ -180,7 +180,6 @@
         <!--Sessions-->
         <scene sceneID="Xdx-o9-fIk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="73l-1s-6g4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController restorationIdentifier="SessionsViewController" storyboardIdentifier="SessionsViewController" automaticallyAdjustsScrollViewInsets="NO" id="Cum-i8-bJz" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Sessions" id="z1O-UP-DJr"/>
                     <toolbarItems/>
@@ -194,13 +193,13 @@
                         <segue destination="KdM-Vy-LJH" kind="relationship" relationship="rootViewController" id="Pea-um-aTn"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73l-1s-6g4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115.94202898550725" y="-661.60714285714278"/>
         </scene>
         <!--Stopwatch-->
         <scene sceneID="O2W-V7-Uik">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JEz-08-C0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController restorationIdentifier="StopwatchViewController" storyboardIdentifier="StopwatchViewController" automaticallyAdjustsScrollViewInsets="NO" id="TJg-1g-cBA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Stopwatch" id="3QU-W0-Hx7"/>
                     <toolbarItems/>
@@ -214,6 +213,7 @@
                         <segue destination="ZkM-Oh-f1Y" kind="relationship" relationship="rootViewController" id="9py-uT-o45"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JEz-08-C0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115.94202898550725" y="-12.053571428571429"/>
         </scene>
