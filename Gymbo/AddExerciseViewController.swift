@@ -43,12 +43,9 @@ class AddExerciseViewController: UIViewController {
         setupView()
         setupSearchTextField()
         setupTableView()
+        setupAddExerciseButton()
         
         searchedTextArray = textArray
-        
-        addExerciseButton.cornerRadius = 10
-        addExerciseButton.borderWidth = 1
-        addExerciseButton.borderColor = .black
     }
     
     private func setupView() {
@@ -80,6 +77,12 @@ class AddExerciseViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.clipsToBounds = true
         tableView.layer.cornerRadius = 20
+    }
+    
+    private func setupAddExerciseButton() {
+        addExerciseButton.cornerRadius = 10
+        addExerciseButton.borderWidth = 1
+        addExerciseButton.borderColor = .black
     }
     
     @objc private func doneButtonPressed(_ sender: UIButton) {
