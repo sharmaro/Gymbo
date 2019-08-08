@@ -14,15 +14,13 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addExerciseButton: CustomButton!
+    @IBOutlet weak var createExerciseButton: CustomButton!
     
     private lazy var doneButton: UIButton = {
         let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 45, height: 20)))
         button.setTitle("Done", for: .normal)
         button.titleFontSize = 12
-        button.borderWidth = 1
-        button.borderColor = UIColor.black
-        button.cornerRadius = 10
+        button.makeRound()
         button.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
@@ -43,7 +41,10 @@ class AddExerciseViewController: UIViewController {
         setupView()
         setupSearchTextField()
         setupTableView()
-        setupAddExerciseButton()
+        
+        createExerciseButton.setTitle("Create New Exercise", for: .normal)
+        createExerciseButton.titleLabel?.textAlignment = .center
+        createExerciseButton.makeRound()
         
         searchedTextArray = textArray
     }
@@ -60,6 +61,7 @@ class AddExerciseViewController: UIViewController {
         searchTextField.layer.cornerRadius = 10
         searchTextField.layer.borderWidth = 1
         searchTextField.layer.borderColor = UIColor.black.cgColor
+        searchTextField.borderStyle = .none
         searchTextField.leftViewMode = .always
         searchTextField.addTarget(self, action: #selector(textFieldDidChange(_ :)), for: .editingChanged)
         
@@ -79,14 +81,8 @@ class AddExerciseViewController: UIViewController {
         tableView.layer.cornerRadius = 20
     }
     
-    private func setupAddExerciseButton() {
-        addExerciseButton.cornerRadius = 10
-        addExerciseButton.borderWidth = 1
-        addExerciseButton.borderColor = .black
-    }
-    
     @objc private func doneButtonPressed(_ sender: UIButton) {
-        dimmingViewDelegate?.animateDimmingView(type: .hide)
+        dimmingViewDelegate?.animateDimmingView(type: .brighten)
         dismiss(animated: true, completion: nil)
     }
     
@@ -98,6 +94,12 @@ class AddExerciseViewController: UIViewController {
                 searchedTextArray = textArray.filter({ $0.lowercased().contains(changedText.lowercased()) })
             }
             tableView.reloadData()
+        }
+    }
+    
+    @IBAction func createExerciseButtonTapped(_ sender: Any) {
+        if sender is UIButton {
+            print(#function)
         }
     }
 }

@@ -26,13 +26,13 @@ class CustomButton: UIButton {
         }
     }
     
-    var cornerRadius: CGFloat = 0 {
+    var cornerRadius: CGFloat = 10 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
     }
     
-    var borderWidth: CGFloat = 0 {
+    var borderWidth: CGFloat = 1.5 {
         didSet {
             layer.borderWidth = borderWidth
         }
@@ -54,8 +54,17 @@ class CustomButton: UIButton {
         setup()
     }
     
-    func setup() {
+    private func setup() {
         setTitleColor(.black, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
+        titleLabel?.lineBreakMode = .byWordWrapping
+    }
+    
+    func makeRound(_ radius: CGFloat? = nil) {
+        layer.cornerRadius = radius ?? cornerRadius
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.cgColor
+        layer.masksToBounds = false
+        clipsToBounds = true
     }
 }

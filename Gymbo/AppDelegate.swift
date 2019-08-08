@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupNavigationBar()
         
+        UITableView.appearance().showsHorizontalScrollIndicator = false
+        UITableView.appearance().showsVerticalScrollIndicator = false
+        
         return true
     }
     

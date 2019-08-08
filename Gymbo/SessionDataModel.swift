@@ -40,23 +40,27 @@ struct Workout: Decodable {
         print("reps: \(String(describing: reps))")
         print("weight: \(String(describing: weight))")
         print("time: \(String(describing: time))")
-        print("additionalInfo: \(String(describing: additionalInfo))")
+        print("additional info: \(String(describing: additionalInfo))")
     }
 }
 
 struct SessionDataModel: Decodable {
+    var sessionName: String
     var workouts: [Workout]?
     
     init() {
+        sessionName = ""
         workouts = nil
     }
     
-    init(workouts: [Workout]) {
+    init(sessionName: String, workouts: [Workout]) {
+        self.sessionName = sessionName
         self.workouts = workouts
     }
     
     func printInfo() {
         print("---------------")
+        print("session name: \(sessionName)")
         workouts?.forEach( {$0.printInfo()} )
         print("---------------")
         print()
