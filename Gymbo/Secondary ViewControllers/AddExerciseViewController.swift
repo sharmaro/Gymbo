@@ -16,24 +16,41 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
     
-    private lazy var doneButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 45, height: 20)))
-        button.setTitle("Done", for: .normal)
+    private lazy var cancelButton: UIButton = {
+        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 20)))
+        button.setTitle("Cancel", for: .normal)
         button.titleFontSize = 12
-        button.makeRound()
-        button.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
+        button.addCornerRadius()
+        button.tag = 0
+        button.addTarget(self, action: #selector(navBarButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
     
-    weak var dimmingViewDelegate: DimmingViewDelegate?
+    private lazy var addButton: UIButton = {
+        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 20)))
+        button.setTitle("Add", for: .normal)
+        button.titleFontSize = 12
+        button.addCornerRadius()
+        button.isUserInteractionEnabled = false
+        button.alpha = 0.3
+        button.tag = 1
+        button.addTarget(self, action: #selector(navBarButtonPressed(_:)), for: .touchUpInside)
+        return button
+    }()
     
     private var textArray =
-        ["Hello", "This is", "a test", "Yummy", "Apple", "Carrot", "Orange", "Red", "Chocolate",
-         "Hello", "This is", "a test", "Yummy", "Apple", "Carrot", "Orange", "Red", "Chocolate",
-         "Hello", "This is", "a test", "Yummy", "Apple", "Carrot", "Orange", "Red", "Chocolate",
-         "Hello", "This is", "a test", "Yummy", "Apple", "Carrot", "Orange", "Red", "Chocolate"]
+        ["Exercise 0", "Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5", "Exercise 6", "Exercise 7",
+         "Exercise 8", "Exercise 9", "Exercise 10", "Exercise 11", "Exercise 12", "Exercise 13", "Exercise 14", "Exercise 15",
+         "Exercise 16", "Exercise 17", "Exercise 18", "Exercise 19", "Exercise 20", "Exercise 21", "Exercise 22", "Exercise 23"]
+    
+    // For searching exercises
     private var searchedTextArray = [String]()
     private var sortedArray = [[String]]()
+    
+    private var selectedExercises = [String]()
+    
+    weak var dimmingViewDelegate: DimmingViewDelegate?
+    weak var workoutListDelegate: WorkoutListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,14 +61,15 @@ class AddExerciseViewController: UIViewController {
         
         createExerciseButton.setTitle("Create New Exercise", for: .normal)
         createExerciseButton.titleLabel?.textAlignment = .center
-        createExerciseButton.makeRound()
+        createExerciseButton.addCornerRadius()
         
         searchedTextArray = textArray
     }
     
     private func setupView() {
         navigationBar.prefersLargeTitles = false
-        customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
+        customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
+        customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
         mainView.clipsToBounds = true
         mainView.layer.cornerRadius = 20
@@ -65,7 +83,7 @@ class AddExerciseViewController: UIViewController {
         searchTextField.leftViewMode = .always
         searchTextField.addTarget(self, action: #selector(textFieldDidChange(_ :)), for: .editingChanged)
         
-        let searchImageContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 26, height: 16)))
+        let searchImageContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 28, height: 16)))
         let searchImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 10, y: 0), size: CGSize(width: 16, height: 16)))
         searchImageView.contentMode = .scaleAspectFit
         searchImageView.image = UIImage(named: "searchImage")
@@ -76,12 +94,39 @@ class AddExerciseViewController: UIViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.separatorStyle = .none
         tableView.clipsToBounds = true
         tableView.layer.cornerRadius = 20
+        tableView.allowsMultipleSelection = true
+        tableView.keyboardDismissMode = .interactive
     }
     
-    @objc private func doneButtonPressed(_ sender: UIButton) {
+    private func updateAddButtonTitle() {
+        var buttonText = ""
+        if selectedExercises.count > 0 {
+            buttonText = selectedExercises.count > 0 ? "Add (\(selectedExercises.count))" : "Add"
+            
+            addButton.isUserInteractionEnabled = true
+            addButton.alpha = 1
+        } else {
+            buttonText = selectedExercises.count > 0 ? "Add (\(selectedExercises.count))" : "Add"
+            
+            addButton.isUserInteractionEnabled = false
+            addButton.alpha = 0.3
+        }
+        addButton.setTitle(buttonText, for: .normal)
+    }
+    
+    @objc private func navBarButtonPressed(_ sender: UIButton) {
+        switch sender.tag {
+        case 0: // Cancel button tapped
+            break
+        case 1: // Add button tapped
+            workoutListDelegate?.updateWorkoutList(selectedExercises)
+        default:
+            break
+        }
         dimmingViewDelegate?.animateDimmingView(type: .brighten)
         dismiss(animated: true, completion: nil)
     }
@@ -124,6 +169,20 @@ extension AddExerciseViewController: UITableViewDataSource {
 
 extension AddExerciseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected cell at index path: \(indexPath).")
+        selectedExercises.append(textArray[indexPath.row])
+        
+        updateAddButtonTitle()
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath),
+            let name = cell.textLabel?.text,
+            name.count > 0,
+            let index = selectedExercises.firstIndex(of: name) else {
+            return
+        }
+        selectedExercises.remove(at: index)
+        
+        updateAddButtonTitle()
     }
 }

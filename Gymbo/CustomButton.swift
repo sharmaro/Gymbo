@@ -60,7 +60,7 @@ class CustomButton: UIButton {
         titleLabel?.lineBreakMode = .byWordWrapping
     }
     
-    func makeRound(_ radius: CGFloat? = nil) {
+    func addCornerRadius(_ radius: CGFloat? = nil) {
         layer.cornerRadius = radius ?? cornerRadius
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor

@@ -8,26 +8,20 @@
 
 import Foundation
 
-struct Workout: Decodable {
-    var name: String?
-    var sets: Int?
+struct WorkoutDetails: Decodable {
     var reps: Int?
     var weight: Double?
     var time: Int?
     var additionalInfo: String?
     
     init() {
-        name = nil
-        sets = nil
         reps = nil
         weight = nil
         time = nil
         additionalInfo = nil
     }
     
-    init(name: String? = nil, sets: Int? = nil, reps: Int? = nil, weight: Double, time: Int? = nil, additionalInfo: String? = nil) {
-        self.name = name
-        self.sets = sets
+    init(reps: Int?, weight: Double?, time: Int?, additionalInfo: String?) {
         self.reps = reps
         self.weight = weight
         self.time = time
@@ -35,8 +29,6 @@ struct Workout: Decodable {
     }
     
     func printInfo() {
-        print("name: \(String(describing: name))")
-        print("sets: \(String(describing: sets))")
         print("reps: \(String(describing: reps))")
         print("weight: \(String(describing: weight))")
         print("time: \(String(describing: time))")
@@ -44,8 +36,42 @@ struct Workout: Decodable {
     }
 }
 
+struct Workout: Decodable {
+    var name: String?
+    var sets: Int?
+    var workoutDetails: [WorkoutDetails]?
+    
+    init() {
+        name = nil
+        sets = nil
+        workoutDetails = nil
+    }
+    
+    init(name: String? = nil, sets: Int? = nil, workoutDetails: [WorkoutDetails]?) {
+        self.name = name
+        self.sets = sets
+        self.workoutDetails = workoutDetails
+    }
+    
+    func printInfo() {
+        print("name: \(String(describing: name))")
+        print("sets: \(String(describing: sets))")
+        if let sets = sets {
+            for i in 0..<sets {
+                if let details = workoutDetails {
+                    print("workoutDetails: \(details[i].printInfo())")
+                }
+            }
+        }
+    }
+    
+    func getWorkoutText() -> String {
+        return "\(name ?? "name") | \(sets ?? 0))"
+    }
+}
+
 struct SessionDataModel: Decodable {
-    var sessionName: String
+    var sessionName: String?
     var workouts: [Workout]?
     
     init() {
@@ -53,16 +79,27 @@ struct SessionDataModel: Decodable {
         workouts = nil
     }
     
-    init(sessionName: String, workouts: [Workout]) {
+    init(sessionName: String?, workouts: [Workout]?) {
         self.sessionName = sessionName
         self.workouts = workouts
     }
     
     func printInfo() {
         print("---------------")
-        print("session name: \(sessionName)")
+        print("session name: \(String(describing: sessionName))")
         workouts?.forEach( {$0.printInfo()} )
         print("---------------")
         print()
+    }
+    
+    func getWorkoutText() -> String {
+        var completeString = ""
+        if let workouts = self.workouts {
+            for workout in workouts {
+                completeString.append("\(workout.getWorkoutText())\n")
+            }
+        }
+        
+        return completeString
     }
 }

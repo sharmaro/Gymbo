@@ -11,6 +11,9 @@
 		6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673A22F77A2900832C68 /* UIExtensions.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
 		6929673F22F9E0DD00832C68 /* AddSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673E22F9E0DD00832C68 /* AddSessionViewController.swift */; };
+		692D982222FE9E890032514D /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* ExerciseTableViewCell.swift */; };
+		692D982322FE9E890032514D /* ExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 692D982122FE9E890032514D /* ExerciseTableViewCell.xib */; };
+		692D982523027B0F0032514D /* SessionDataModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982423027B0F0032514D /* SessionDataModelManager.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
 		695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE622CB28B800E3FB1F /* Main.storyboard */; };
 		695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE922CB28B800E3FB1F /* Assets.xcassets */; };
@@ -27,6 +30,9 @@
 		6929673A22F77A2900832C68 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		6929673E22F9E0DD00832C68 /* AddSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSessionViewController.swift; sourceTree = "<group>"; };
+		692D982022FE9E890032514D /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
+		692D982122FE9E890032514D /* ExerciseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseTableViewCell.xib; sourceTree = "<group>"; };
+		692D982423027B0F0032514D /* SessionDataModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModelManager.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		695D4BE722CB28B800E3FB1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,6 +66,15 @@
 			path = "Secondary ViewControllers";
 			sourceTree = "<group>";
 		};
+		692D981F22FE9E640032514D /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				692D982022FE9E890032514D /* ExerciseTableViewCell.swift */,
+				692D982122FE9E890032514D /* ExerciseTableViewCell.xib */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
 		695D4BD622CB28B800E3FB1F = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +97,7 @@
 				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
 				695D4C0722D450A800E3FB1F /* Main ViewControllers */,
 				6929674022F9E0F800832C68 /* Secondary ViewControllers */,
+				692D981F22FE9E640032514D /* Custom Views */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
 				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
 				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
@@ -107,6 +123,7 @@
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
 				695D4C0222D30CA300E3FB1F /* Layout.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
+				692D982423027B0F0032514D /* SessionDataModelManager.swift */,
 				6929673A22F77A2900832C68 /* UIExtensions.swift */,
 			);
 			name = Helpers;
@@ -171,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */,
+				692D982322FE9E890032514D /* ExerciseTableViewCell.xib in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */,
 			);
@@ -185,6 +203,8 @@
 			files = (
 				695D4C0122D30B1D00E3FB1F /* TabBarViewController.swift in Sources */,
 				6929673F22F9E0DD00832C68 /* AddSessionViewController.swift in Sources */,
+				692D982523027B0F0032514D /* SessionDataModelManager.swift in Sources */,
+				692D982222FE9E890032514D /* ExerciseTableViewCell.swift in Sources */,
 				695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Layout.swift in Sources */,
