@@ -158,8 +158,8 @@ extension AddSessionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseTableViewCell", for: indexPath) as? ExerciseTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `ExerciseTableViewCell`.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell().reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell().reuseIdentifier)`.")
         }
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
         cell.exerciseCellDelegate = self

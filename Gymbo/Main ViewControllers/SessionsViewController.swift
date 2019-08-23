@@ -27,7 +27,7 @@ class SessionsViewController: UIViewController {
         static let normalAlphe = CGFloat(1.0)
         static let darkenedAlpha = CGFloat(0.1)
         
-        static let sessionCellLineHeight = CGFloat(25)
+        static let sessionCellLineHeight = CGFloat(120)
     }
     
     override func viewDidLoad() {
@@ -50,6 +50,7 @@ class SessionsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        tableView.register(UINib(nibName: "SessionsTableViewCell", bundle: nil), forCellReuseIdentifier: SessionsTableViewCell().reuseIdentifier)
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -99,7 +100,9 @@ extension SessionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SessionsTableViewCell().reuseIdentifier, for: indexPath) as? SessionsTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(SessionsTableViewCell().reuseIdentifier)`.")
+        }
         
         var totalString = "\(sessionDataModel[indexPath.row].sessionName ?? "No Name")\n"
         if let workouts = sessionDataModel[indexPath.row].workouts, workouts.count > 0 {
@@ -110,8 +113,7 @@ extension SessionsViewController: UITableViewDataSource {
                 }
             }
         }
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = totalString
+        cell.additionalInfoTextView.text = "text view"
         return cell
     }
 }
