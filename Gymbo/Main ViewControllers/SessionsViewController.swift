@@ -19,9 +19,6 @@ class SessionsViewController: UIViewController {
     
     private var sessionDataModel = [SessionDataModel]()
     
-    private let collectionViewCellID = "MenuBarCollectionViewCell"
-    // TODO: Create a private id for custom UITableViewCell
-    
     private struct Constants {
         static let animationTime = CGFloat(0.2)
         static let normalAlphe = CGFloat(1.0)
