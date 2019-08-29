@@ -9,18 +9,8 @@
 import UIKit
 
 class SessionsTableViewCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var setsLabel: UILabel!
-    @IBOutlet weak var repsLabel: UILabel!
-    @IBOutlet weak var weightLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    
-    @IBOutlet weak var setsValueLabel: UILabel!
-    @IBOutlet weak var repsValueLabel: UILabel!
-    @IBOutlet weak var weightValueLabel: UILabel!
-    @IBOutlet weak var timeValueLabel: UILabel!
-    @IBOutlet weak var additionalInfoTextView: UITextView!
+    @IBOutlet weak var sessionTitleLabel: UILabel!
+    @IBOutlet weak var workoutsInfoLabel: UILabel!
     
     override var reuseIdentifier: String {
         return "SessionsTableViewCell"
@@ -28,5 +18,16 @@ class SessionsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        setupLabel()
+    }
+    
+    private func setupLabel() {
+        workoutsInfoLabel.numberOfLines = 0
+    }
+    
+    func clearLabels() {
+        sessionTitleLabel.text?.removeAll()
+        workoutsInfoLabel.text?.removeAll()
     }
 }

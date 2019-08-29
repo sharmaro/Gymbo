@@ -107,7 +107,7 @@ class AddSessionViewController: UIViewController {
         }
         numberOfSets += 1
         workoutList[button.tag].sets = numberOfSets
-        let newWorkoutDetails = WorkoutDetails(reps: 0, weight: 0, time: 0, additionalInfo: "")
+        let newWorkoutDetails = WorkoutDetails(reps: nil, weight: nil, time: nil, additionalInfo: nil)
         workoutList[button.tag].workoutDetails?.append(newWorkoutDetails)
         tableView.reloadData()
     }
@@ -162,6 +162,7 @@ extension AddSessionViewController: UITableViewDataSource {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell().reuseIdentifier)`.")
         }
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
+        cell.indexPath = indexPath
         cell.exerciseCellDelegate = self
 
         return cell
@@ -213,11 +214,11 @@ extension AddSessionViewController: ExerciseTableViewCellDelegate {
         
         switch textFieldType {
         case .reps:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].reps = Int(textField.text ?? "0")
+            workoutList[indexPath.section].workoutDetails?[indexPath.row].reps = textField.text ?? "0"
         case .weight:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].weight = Double(textField.text ?? "0")
+            workoutList[indexPath.section].workoutDetails?[indexPath.row].weight = textField.text ?? "0"
         case .time:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].time = Int(textField.text ?? "0")
+            workoutList[indexPath.section].workoutDetails?[indexPath.row].time = textField.text ?? "0"
         }
     }
     
@@ -270,7 +271,7 @@ extension AddSessionViewController: WorkoutListDelegate {
     func updateWorkoutList(_ list: [String]) {
         for workoutName in list {
             var workoutDetails = [WorkoutDetails]()
-            let workoutDetail = WorkoutDetails(reps: 0, weight: 0, time: 0, additionalInfo: "")
+            let workoutDetail = WorkoutDetails(reps: nil, weight: nil, time: nil, additionalInfo: nil)
             workoutDetails.append(workoutDetail)
             let newWorkout = Workout(name: workoutName, sets: 1, workoutDetails: workoutDetails)
             workoutList.append(newWorkout)

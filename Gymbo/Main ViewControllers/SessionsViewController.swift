@@ -27,7 +27,9 @@ class SessionsViewController: UIViewController {
         static let normalAlphe = CGFloat(1.0)
         static let darkenedAlpha = CGFloat(0.1)
         
-        static let sessionCellLineHeight = CGFloat(120)
+        static let sessionTitleHeight = CGFloat(24)
+        static let sessionCellLineHeight = CGFloat(22)
+        static let cellSeparatorHeight = CGFloat(14)
     }
     
     override func viewDidLoad() {
@@ -92,11 +94,10 @@ extension SessionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let count = sessionDataModel[indexPath.row].workouts?.count else {
-            return Constants.sessionCellLineHeight
+        guard let workoutsCount = sessionDataModel[indexPath.row].workouts?.count, workoutsCount > 0 else {
+            return Constants.sessionTitleHeight + Constants.sessionCellLineHeight + Constants.cellSeparatorHeight
         }
-        // Incrementing count by 1 to account for session name
-        return CGFloat(count + 1) * Constants.sessionCellLineHeight
+        return (Constants.sessionCellLineHeight * CGFloat(workoutsCount)) + Constants.sessionTitleHeight + Constants.cellSeparatorHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,16 +105,32 @@ extension SessionsViewController: UITableViewDataSource {
             fatalError("Could not dequeue cell with identifier `\(SessionsTableViewCell().reuseIdentifier)`.")
         }
         
-        var totalString = "\(sessionDataModel[indexPath.row].sessionName ?? "No Name")\n"
+        cell.clearLabels()
         if let workouts = sessionDataModel[indexPath.row].workouts, workouts.count > 0 {
             for i in 0..<workouts.count {
-                totalString += "\(workouts[i].sets ?? 0) x \(workouts[i].name ?? "No Name")"
-                if i != workouts.count - 1 {
-                    totalString += "\n"
+                var totalWorkoutString = ""
+                let name = workouts[i].name ?? "No name"
+                let sets = workouts[i].sets ?? 1
+                var reps = ""
+                var weight = ""
+                var time = ""
+                if let workoutDetails = workouts[i].workoutDetails {
+                    for detail in workoutDetails {
+                        reps = detail.reps ?? "-"
+                        weight = detail.weight ?? "-"
+                        time = detail.time ?? "-"
+                    }
                 }
+                totalWorkoutString = "\(name): \(sets) by \(reps) with \(weight)lbs for \(time)s"
+                if i != workouts.count - 1 {
+                    totalWorkoutString += "\n"
+                }
+                cell.workoutsInfoLabel.text?.append(totalWorkoutString)
             }
+        } else {
+            cell.workoutsInfoLabel.text = "No workouts selected for this session."
         }
-        cell.additionalInfoTextView.text = "text view"
+        cell.sessionTitleLabel.text = sessionDataModel[indexPath.row].sessionName ?? "No Name"
         return cell
     }
 }

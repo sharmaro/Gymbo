@@ -9,9 +9,9 @@
 import Foundation
 
 struct WorkoutDetails: Decodable {
-    var reps: Int?
-    var weight: Double?
-    var time: Int?
+    var reps: String?
+    var weight: String?
+    var time: String?
     var additionalInfo: String?
     
     init() {
@@ -21,7 +21,7 @@ struct WorkoutDetails: Decodable {
         additionalInfo = nil
     }
     
-    init(reps: Int?, weight: Double?, time: Int?, additionalInfo: String?) {
+    init(reps: String?, weight: String?, time: String?, additionalInfo: String?) {
         self.reps = reps
         self.weight = weight
         self.time = time
