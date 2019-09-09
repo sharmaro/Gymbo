@@ -12,6 +12,12 @@ class SessionDataModelManager: NSObject {
     
     static var shared = SessionDataModelManager()
     
+    var areRepsUnique: Bool {
+        // TODO:
+        // Find out if all the reps in a workout are the same or unique
+        return false
+    }
+    
     private var sessionDataModelArray: [SessionDataModel]? {
         get {
             // Initialize session data model here from stored data

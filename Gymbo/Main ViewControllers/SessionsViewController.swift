@@ -107,18 +107,15 @@ extension SessionsViewController: UITableViewDataSource {
             for i in 0..<workouts.count {
                 var totalWorkoutString = ""
                 let name = workouts[i].name ?? "No name"
-                let sets = workouts[i].sets ?? 1
+                let setsInt = workouts[i].sets ?? 1
+                let setsString = setsInt > 1 ? "\(setsInt) sets" : "\(setsInt) set"
                 var reps = ""
-                var weight = ""
-                var time = ""
-                if let workoutDetails = workouts[i].workoutDetails {
-                    for detail in workoutDetails {
-                        reps = detail.reps ?? "-"
-                        weight = detail.weight ?? "-"
-                        time = detail.time ?? "-"
-                    }
+                if workouts[i].areRepsUnique() {
+                    reps = "unique reps"
+                } else {
+                    reps = workouts[i].workoutDetails?[0].reps?.formattedValue(type: .reps) ?? ""
                 }
-                totalWorkoutString = "\(name): \(sets) by \(reps) with \(weight)lbs for \(time)s"
+                totalWorkoutString = "\(name) - \(setsString) x \(reps)"
                 if i != workouts.count - 1 {
                     totalWorkoutString += "\n"
                 }

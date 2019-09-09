@@ -68,6 +68,25 @@ struct Workout: Decodable {
     func getWorkoutText() -> String {
         return "\(name ?? "name") | \(sets ?? 0))"
     }
+    
+    func areRepsUnique() -> Bool {
+        var areUnique = false
+        if let workoutDetails = workoutDetails {
+            if workoutDetails.count == 1 {
+                return areUnique
+            }
+            
+            let reps = workoutDetails[0].reps
+            for workoutDetail in workoutDetails {
+                if workoutDetail.reps != reps {
+                    areUnique.toggle()
+                    return areUnique
+                }
+            }
+            return areUnique
+        }
+        return areUnique
+    }
 }
 
 struct SessionDataModel: Decodable {
@@ -87,7 +106,10 @@ struct SessionDataModel: Decodable {
     func printInfo() {
         print("---------------")
         print("session name: \(String(describing: sessionName))")
-        workouts?.forEach( {$0.printInfo()} )
+        workouts?.forEach({
+            $0.printInfo()
+            print()
+        })
         print("---------------")
         print()
     }
@@ -99,7 +121,6 @@ struct SessionDataModel: Decodable {
                 completeString.append("\(workout.getWorkoutText())\n")
             }
         }
-        
         return completeString
     }
 }

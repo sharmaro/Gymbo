@@ -38,7 +38,7 @@ class AddExerciseViewController: UIViewController {
         return button
     }()
     
-    private var textArray =
+    private let textArray =
         ["Exercise 0", "Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5", "Exercise 6", "Exercise 7",
          "Exercise 8", "Exercise 9", "Exercise 10", "Exercise 11", "Exercise 12", "Exercise 13", "Exercise 14", "Exercise 15",
          "Exercise 16", "Exercise 17", "Exercise 18", "Exercise 19", "Exercise 20", "Exercise 21", "Exercise 22", "Exercise 23"]
@@ -105,12 +105,12 @@ class AddExerciseViewController: UIViewController {
     private func updateAddButtonTitle() {
         var buttonText = ""
         if selectedExercises.count > 0 {
-            buttonText = selectedExercises.count > 0 ? "Add (\(selectedExercises.count))" : "Add"
+            buttonText = "Add (\(selectedExercises.count))"
             
             addButton.isUserInteractionEnabled = true
             addButton.alpha = 1
         } else {
-            buttonText = selectedExercises.count > 0 ? "Add (\(selectedExercises.count))" : "Add"
+            buttonText = "Add"
             
             addButton.isUserInteractionEnabled = false
             addButton.alpha = 0.3
@@ -125,7 +125,7 @@ class AddExerciseViewController: UIViewController {
         case 1: // Add button tapped
             workoutListDelegate?.updateWorkoutList(selectedExercises)
         default:
-            break
+            fatalError("Unrecognized navigation bar button pressed")
         }
         dimmingViewDelegate?.animateDimmingView(type: .brighten)
         dismiss(animated: true, completion: nil)
@@ -144,6 +144,8 @@ class AddExerciseViewController: UIViewController {
     
     @IBAction func createExerciseButtonTapped(_ sender: Any) {
         if sender is UIButton {
+            // TODO: Create VC for creating a new exercise
+            // Exercise name and category
             print(#function)
         }
     }

@@ -15,17 +15,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        setupNavigationBar()
-        
-        UITableView.appearance().showsHorizontalScrollIndicator = false
-        UITableView.appearance().showsVerticalScrollIndicator = false
+        setupUINavigationBarAppearance()
+        setupUITableViewAppearance()
         
         return true
     }
     
-    private func setupNavigationBar() {
+    private func setupUINavigationBarAppearance() {
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().shadowImage = UIImage()
+    }
+    
+    private func setupUITableViewAppearance() {
+        UITableView.appearance().showsHorizontalScrollIndicator = false
+        UITableView.appearance().showsVerticalScrollIndicator = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

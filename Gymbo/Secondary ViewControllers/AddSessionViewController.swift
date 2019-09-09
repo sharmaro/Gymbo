@@ -102,14 +102,18 @@ class AddSessionViewController: UIViewController {
     }
     
     @objc private func addSetButtonTapped(_ button: UIButton) {
-        guard var numberOfSets = workoutList[button.tag].sets else {
+        let section = button.tag
+        guard var numberOfSets = workoutList[section].sets else {
             return
         }
         numberOfSets += 1
-        workoutList[button.tag].sets = numberOfSets
-        let newWorkoutDetails = WorkoutDetails(reps: nil, weight: nil, time: nil, additionalInfo: nil)
-        workoutList[button.tag].workoutDetails?.append(newWorkoutDetails)
+        workoutList[section].sets = numberOfSets
+        let newWorkoutDetails = WorkoutDetails()
+        workoutList[section].workoutDetails?.append(newWorkoutDetails)
         tableView.reloadData()
+        if let sets = workoutList[section].sets {
+            tableView.scrollToRow(at: IndexPath(row: sets - 1, section: section), at: .none, animated: true)
+        }
     }
     
     @IBAction func addExerciseButtonTapped(_ sender: Any) {
@@ -162,6 +166,10 @@ extension AddSessionViewController: UITableViewDataSource {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell().reuseIdentifier)`.")
         }
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
+        cell.repsTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].reps ?? ""
+        cell.weightTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].weight ?? ""
+        cell.timeTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].time ?? ""
+        cell.additionalInfoTextView.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].additionalInfo ?? textViewPlaceholderText
         cell.indexPath = indexPath
         cell.exerciseCellDelegate = self
 
@@ -268,10 +276,12 @@ extension AddSessionViewController: DimmingViewDelegate {
 }
 
 extension AddSessionViewController: WorkoutListDelegate {
-    func updateWorkoutList(_ list: [String]) {
-        for workoutName in list {
+    func updateWorkoutList(_ workoutNameList: [String]) {
+        for workoutName in workoutNameList {
+            // Shouldn't append an empty workout here
+            // Need to figure out way around that
             var workoutDetails = [WorkoutDetails]()
-            let workoutDetail = WorkoutDetails(reps: nil, weight: nil, time: nil, additionalInfo: nil)
+            let workoutDetail = WorkoutDetails()
             workoutDetails.append(workoutDetail)
             let newWorkout = Workout(name: workoutName, sets: 1, workoutDetails: workoutDetails)
             workoutList.append(newWorkout)
