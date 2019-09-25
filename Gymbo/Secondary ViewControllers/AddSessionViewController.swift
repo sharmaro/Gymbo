@@ -20,6 +20,7 @@ enum AnimationType {
 }
 
 import UIKit
+import RealmSwift
 
 class AddSessionViewController: UIViewController {
     @IBOutlet weak var sessionNameTextField: UITextField!
@@ -31,7 +32,7 @@ class AddSessionViewController: UIViewController {
         button.setTitle("Save", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
-        button.addTarget(self, action: #selector(saveButton(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -39,7 +40,7 @@ class AddSessionViewController: UIViewController {
     
     private var defaultSessionNameLabelText = "Session name"
     
-    private var workoutList = [Workout]()
+    private var workoutList = List<Workout>()
     
     private let textViewPlaceholderText = "Add optional additional info here"
     
@@ -62,7 +63,7 @@ class AddSessionViewController: UIViewController {
         sessionNameTextField.borderStyle = .none
         sessionNameTextField.delegate = self
         sessionNameTextField.returnKeyType = .done
-        sessionNameTextField.tag = -1
+        sessionNameTextField.becomeFirstResponder()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -95,25 +96,27 @@ class AddSessionViewController: UIViewController {
         }
     }
     
-    @objc func saveButton(_ button: CustomButton) {
-        let text = (sessionNameTextField.text?.count ?? 0) > 0 ? sessionNameTextField.text : nil
-        sessionDataModelDelegate?.updateSessionDataModel(sessionName: text, workoutsList: workoutList)
+    @objc func saveButtonTapped(_ button: CustomButton) {
+        // Calls text field and text view didEndEditing() and sets data before realm object is saved
+        view.endEditing(true)
+
+        let sessionName = (sessionNameTextField.text?.count ?? 0) > 0 ? sessionNameTextField.text : "No session name"
+        sessionDataModelDelegate?.updateSessionDataModel(name: sessionName, workouts: workoutList)
         navigationController?.popViewController(animated: true)
     }
     
     @objc private func addSetButtonTapped(_ button: UIButton) {
         let section = button.tag
-        guard var numberOfSets = workoutList[section].sets else {
-            return
-        }
+        var numberOfSets = workoutList[section].sets
+        
         numberOfSets += 1
         workoutList[section].sets = numberOfSets
         let newWorkoutDetails = WorkoutDetails()
-        workoutList[section].workoutDetails?.append(newWorkoutDetails)
+        workoutList[section].workoutDetails.append(newWorkoutDetails)
         tableView.reloadData()
-        if let sets = workoutList[section].sets {
-            tableView.scrollToRow(at: IndexPath(row: sets - 1, section: section), at: .none, animated: true)
-        }
+
+        let sets = workoutList[section].sets
+        tableView.scrollToRow(at: IndexPath(row: sets - 1, section: section), at: .none, animated: true)
     }
     
     @IBAction func addExerciseButtonTapped(_ sender: Any) {
@@ -158,7 +161,7 @@ extension AddSessionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workoutList[section].sets ?? 1
+        return workoutList[section].sets
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -166,10 +169,10 @@ extension AddSessionViewController: UITableViewDataSource {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell().reuseIdentifier)`.")
         }
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
-        cell.repsTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].reps ?? ""
-        cell.weightTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].weight ?? ""
-        cell.timeTextField.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].time ?? ""
-        cell.additionalInfoTextView.text = workoutList[indexPath.section].workoutDetails?[indexPath.row].additionalInfo ?? textViewPlaceholderText
+        cell.repsTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].reps ?? ""
+        cell.weightTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].weight ?? ""
+        cell.timeTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].time ?? ""
+        cell.additionalInfoTextView.text = workoutList[indexPath.section].workoutDetails[indexPath.row].additionalInfo ?? textViewPlaceholderText
         cell.indexPath = indexPath
         cell.exerciseCellDelegate = self
 
@@ -219,14 +222,19 @@ extension AddSessionViewController: ExerciseTableViewCellDelegate {
         guard let indexPath = indexPath else {
             fatalError("Found nil index path for text field after it ended editing")
         }
-        
+
+        var textFieldText = "--"
+        if let text = textField.text, text.count > 0 {
+            textFieldText = text
+        }
+
         switch textFieldType {
         case .reps:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].reps = textField.text ?? "0"
+            workoutList[indexPath.section].workoutDetails[indexPath.row].reps = textFieldText
         case .weight:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].weight = textField.text ?? "0"
+            workoutList[indexPath.section].workoutDetails[indexPath.row].weight = textFieldText
         case .time:
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].time = textField.text ?? "0"
+            workoutList[indexPath.section].workoutDetails[indexPath.row].time = textFieldText
         }
     }
     
@@ -246,12 +254,16 @@ extension AddSessionViewController: ExerciseTableViewCellDelegate {
     }
     
     func didEndEditingTextView(textView: UITextView, atIndexPath indexPath: IndexPath?) {
+        guard let indexPath = indexPath else {
+            fatalError("Found nil index path for text view after it ended editing")
+        }
+
         if textView.text.isEmpty {
             textView.text = textViewPlaceholderText
             textView.textColor = UIColor.black.withAlphaComponent(0.2)
-        } else if let indexPath = indexPath {
-            workoutList[indexPath.section].workoutDetails?[indexPath.row].additionalInfo = textView.text
         }
+        
+        workoutList[indexPath.section].workoutDetails[indexPath.row].additionalInfo = textView.text
     }
 }
 
@@ -278,13 +290,7 @@ extension AddSessionViewController: DimmingViewDelegate {
 extension AddSessionViewController: WorkoutListDelegate {
     func updateWorkoutList(_ workoutNameList: [String]) {
         for workoutName in workoutNameList {
-            // Shouldn't append an empty workout here
-            // Need to figure out way around that
-            var workoutDetails = [WorkoutDetails]()
-            let workoutDetail = WorkoutDetails()
-            workoutDetails.append(workoutDetail)
-            let newWorkout = Workout(name: workoutName, sets: 1, workoutDetails: workoutDetails)
-            workoutList.append(newWorkout)
+            workoutList.append(Workout(name: workoutName, sets: 1, workoutDetails: List<WorkoutDetails>()))
         }
         
         tableView.isHidden = workoutList.count == 0

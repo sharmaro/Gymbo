@@ -9,7 +9,6 @@
 import UIKit
 
 class CustomButton: UIButton {
-    
     override var isHighlighted: Bool {
         didSet {
             if shouldHighlight {

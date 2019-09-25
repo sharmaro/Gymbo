@@ -7,21 +7,17 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct WorkoutDetails: Decodable {
-    var reps: String?
-    var weight: String?
-    var time: String?
-    var additionalInfo: String?
-    
-    init() {
-        reps = nil
-        weight = nil
-        time = nil
-        additionalInfo = nil
-    }
-    
-    init(reps: String?, weight: String?, time: String?, additionalInfo: String?) {
+@objcMembers class WorkoutDetails: Object {
+    dynamic var reps: String?
+    dynamic var weight: String?
+    dynamic var time: String?
+    dynamic var additionalInfo: String?
+
+    convenience init(reps: String? = nil, weight: String? = nil, time: String? = nil, additionalInfo: String? = nil) {
+        self.init()
+        
         self.reps = reps
         self.weight = weight
         self.time = time
@@ -29,97 +25,76 @@ struct WorkoutDetails: Decodable {
     }
     
     func printInfo() {
-        print("reps: \(String(describing: reps))")
-        print("weight: \(String(describing: weight))")
-        print("time: \(String(describing: time))")
-        print("additional info: \(String(describing: additionalInfo))")
+        print("reps: \(reps ?? "")")
+        print("weight: \(weight ?? "")")
+        print("time: \(time ?? "")")
+        print("additional info: \(additionalInfo ?? "")")
     }
 }
 
-struct Workout: Decodable {
-    var name: String?
-    var sets: Int?
-    var workoutDetails: [WorkoutDetails]?
+@objcMembers class Workout: Object {
+    dynamic var name: String?
+    dynamic var sets: Int = 1
+    let workoutDetails = List<WorkoutDetails>()
     
-    init() {
-        name = nil
-        sets = nil
-        workoutDetails = nil
-    }
-    
-    init(name: String? = nil, sets: Int? = nil, workoutDetails: [WorkoutDetails]?) {
+    convenience init(name: String? = nil, sets: Int = 1, workoutDetails: List<WorkoutDetails>) {
+        self.init()
+        
         self.name = name
         self.sets = sets
-        self.workoutDetails = workoutDetails
+
+        if workoutDetails.count == 0 {
+            let workoutDetail = WorkoutDetails()
+            self.workoutDetails.append(workoutDetail)
+        } else {
+            for workoutDetail in workoutDetails {
+                self.workoutDetails.append(workoutDetail)
+            }
+        }
     }
     
     func printInfo() {
-        print("name: \(String(describing: name))")
-        print("sets: \(String(describing: sets))")
-        if let sets = sets {
-            for i in 0..<sets {
-                if let details = workoutDetails {
-                    print("workoutDetails: \(details[i].printInfo())")
-                }
-            }
+        print("name: \(name ?? "")")
+        print("sets: \(sets)")
+        for i in 0..<sets {
+            print("workoutDetails: \(workoutDetails[i].printInfo())")
         }
     }
     
     func getWorkoutText() -> String {
-        return "\(name ?? "name") | \(sets ?? 0))"
-    }
-    
-    func areRepsUnique() -> Bool {
-        var areUnique = false
-        if let workoutDetails = workoutDetails {
-            if workoutDetails.count == 1 {
-                return areUnique
-            }
-            
-            let reps = workoutDetails[0].reps
-            for workoutDetail in workoutDetails {
-                if workoutDetail.reps != reps {
-                    areUnique.toggle()
-                    return areUnique
-                }
-            }
-            return areUnique
-        }
-        return areUnique
+        return "\(name ?? "name") | \(sets))"
     }
 }
 
-struct SessionDataModel: Decodable {
-    var sessionName: String?
-    var workouts: [Workout]?
+@objcMembers class Session: Object {
+    dynamic var name: String?
+    let workouts = List<Workout>()
     
-    init() {
-        sessionName = ""
-        workouts = nil
-    }
-    
-    init(sessionName: String?, workouts: [Workout]?) {
-        self.sessionName = sessionName
-        self.workouts = workouts
+    convenience init(name: String? = nil, workouts: List<Workout>) {
+        self.init()
+        
+        self.name = name
+
+        for workout in workouts {
+            self.workouts.append(workout)
+        }
     }
     
     func printInfo() {
         print("---------------")
-        print("session name: \(String(describing: sessionName))")
-        workouts?.forEach({
+        print("session name: \(name ?? "")")
+        workouts.forEach({
             $0.printInfo()
             print()
         })
         print("---------------")
         print()
     }
-    
+
     func getWorkoutText() -> String {
         var completeString = ""
-        if let workouts = self.workouts {
-            for workout in workouts {
-                completeString.append("\(workout.getWorkoutText())\n")
-            }
+        for workout in workouts {
+            completeString.append("\(workout.getWorkoutText())\n")
         }
         return completeString
     }

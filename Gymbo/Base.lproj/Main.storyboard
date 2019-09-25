@@ -263,6 +263,50 @@
             </objects>
             <point key="canvasLocation" x="115.94202898550725" y="-661.60714285714278"/>
         </scene>
+        <!--Data-->
+        <scene sceneID="SWW-8H-09T">
+            <objects>
+                <viewController restorationIdentifier="tempVC" storyboardIdentifier="tempVC" title="Data" id="DAR-lJ-dGS" customClass="TempViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Pi1-Ne-3ip">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="108" translatesAutoresizingMaskIntoConstraints="NO" id="mbJ-Zy-ZXb">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2A-sg-HRM">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="355"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Keep Data"/>
+                                        <connections>
+                                            <action selector="keepData:" destination="DAR-lJ-dGS" eventType="touchUpInside" id="gCq-yZ-uvy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c7-Qa-YGw">
+                                        <rect key="frame" x="0.0" y="463" width="414" height="355"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Delete Data"/>
+                                        <connections>
+                                            <action selector="deleteData:" destination="DAR-lJ-dGS" eventType="touchUpInside" id="zcB-vf-fRi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FGH-04-geg" firstAttribute="bottom" secondItem="mbJ-Zy-ZXb" secondAttribute="bottom" id="24p-cU-sn8"/>
+                            <constraint firstItem="FGH-04-geg" firstAttribute="trailing" secondItem="mbJ-Zy-ZXb" secondAttribute="trailing" id="Od0-yo-KnA"/>
+                            <constraint firstItem="mbJ-Zy-ZXb" firstAttribute="top" secondItem="FGH-04-geg" secondAttribute="top" id="PQV-Xu-lkR"/>
+                            <constraint firstItem="mbJ-Zy-ZXb" firstAttribute="leading" secondItem="FGH-04-geg" secondAttribute="leading" id="tO6-wU-lgV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FGH-04-geg"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ISx-IL-pCd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-802" y="784"/>
+        </scene>
         <!--Stopwatch-->
         <scene sceneID="O2W-V7-Uik">
             <objects>

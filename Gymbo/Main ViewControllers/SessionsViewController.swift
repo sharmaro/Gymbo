@@ -7,17 +7,18 @@
 //
 
 protocol SessionDataModelDelegate: class {
-    func updateSessionDataModel(sessionName: String?, workoutsList: [Workout])
+    func updateSessionDataModel(name: String?, workouts: List<Workout>)
 }
 
 import UIKit
+import RealmSwift
 
 class SessionsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addSessionButton: CustomButton!
     @IBOutlet weak var emptyExerciseLabel: UILabel!
     
-    private var sessionDataModel = [SessionDataModel]()
+    private let dataModelManager = SessionDataModelManager.shared
     
     private struct Constants {
         static let animationTime = CGFloat(0.2)
@@ -27,20 +28,26 @@ class SessionsViewController: UIViewController {
         static let sessionTitleHeight = CGFloat(24)
         static let sessionCellLineHeight = CGFloat(22)
         static let cellSeparatorHeight = CGFloat(14)
+        static let emptyWorkoutCellHeight = CGFloat(60)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupTableView()
-        fetchData()
+//        refreshMainView()
         setupAddSessionButton()
+
+        // Delete this
+        if let tempVC = storyboard?.instantiateViewController(withIdentifier: "tempVC") as? TempViewController {
+            present(tempVC, animated: true)
+        }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        fetchData()
+
+        refreshMainView()
     }
     
     // MARK: - Helper funcs
@@ -52,10 +59,9 @@ class SessionsViewController: UIViewController {
         tableView.register(UINib(nibName: "SessionsTableViewCell", bundle: nil), forCellReuseIdentifier: SessionsTableViewCell().reuseIdentifier)
         tableView.keyboardDismissMode = .interactive
     }
-    
-    private func fetchData() {
-        // Get session data model data from storage here
-        tableView.isHidden = sessionDataModel.count == 0
+
+    private func refreshMainView() {
+        tableView.isHidden = dataModelManager.sessionsCount == 0
         emptyExerciseLabel.isHidden = !tableView.isHidden
         tableView.reloadData()
     }
@@ -71,7 +77,6 @@ class SessionsViewController: UIViewController {
     @IBAction func addSessionButtonPressed(_ sender: Any) {
         if sender is UIButton,
             let sessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddSessionViewController") as? AddSessionViewController {
-            sessionViewController.modalPresentationStyle = .custom
             sessionViewController.sessionDataModelDelegate = self
             navigationController?.pushViewController(sessionViewController, animated: true)
         } else {
@@ -87,14 +92,16 @@ extension SessionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sessionDataModel.count
+        return dataModelManager.sessionsCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let workoutsCount = sessionDataModel[indexPath.row].workouts?.count, workoutsCount > 0 else {
-            return Constants.sessionTitleHeight + Constants.sessionCellLineHeight + Constants.cellSeparatorHeight
+        let workoutsCount = CGFloat(dataModelManager.workoutsCountForSession(index: indexPath.row))
+        guard workoutsCount > 0 else {
+            return Constants.emptyWorkoutCellHeight
         }
-        return (Constants.sessionCellLineHeight * CGFloat(workoutsCount)) + Constants.sessionTitleHeight + Constants.cellSeparatorHeight
+        
+        return (Constants.sessionCellLineHeight * workoutsCount) + Constants.sessionTitleHeight + Constants.cellSeparatorHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -103,28 +110,9 @@ extension SessionsViewController: UITableViewDataSource {
         }
         
         cell.clearLabels()
-        if let workouts = sessionDataModel[indexPath.row].workouts, workouts.count > 0 {
-            for i in 0..<workouts.count {
-                var totalWorkoutString = ""
-                let name = workouts[i].name ?? "No name"
-                let setsInt = workouts[i].sets ?? 1
-                let setsString = setsInt > 1 ? "\(setsInt) sets" : "\(setsInt) set"
-                var reps = ""
-                if workouts[i].areRepsUnique() {
-                    reps = "unique reps"
-                } else {
-                    reps = workouts[i].workoutDetails?[0].reps?.formattedValue(type: .reps) ?? ""
-                }
-                totalWorkoutString = "\(name) - \(setsString) x \(reps)"
-                if i != workouts.count - 1 {
-                    totalWorkoutString += "\n"
-                }
-                cell.workoutsInfoLabel.text?.append(totalWorkoutString)
-            }
-        } else {
-            cell.workoutsInfoLabel.text = "No workouts selected for this session."
-        }
-        cell.sessionTitleLabel.text = sessionDataModel[indexPath.row].sessionName ?? "No Name"
+        cell.sessionTitleLabel.text = dataModelManager.getSessionNameForIndex(index: indexPath.row)
+        cell.workoutsInfoLabel.text = dataModelManager.workoutsInfoTextForSession(index: indexPath.row)
+
         return cell
     }
 }
@@ -137,8 +125,22 @@ extension SessionsViewController: UITableViewDelegate {
 }
 
 extension SessionsViewController: SessionDataModelDelegate {
-    func updateSessionDataModel(sessionName: String?, workoutsList: [Workout]) {
-        sessionDataModel.append(SessionDataModel(sessionName: sessionName, workouts: workoutsList))
-        tableView.reloadData()
+    func updateSessionDataModel(name: String?, workouts: List<Workout>) {
+        let session = Session(name: name, workouts: workouts)
+        dataModelManager.saveSession(session: session)
+
+        refreshMainView()
+    }
+}
+
+class TempViewController: UIViewController {
+    @IBAction func keepData(_ sender: Any) {
+        dismiss(animated: true)
+    }
+
+
+    @IBAction func deleteData(_ sender: Any) {
+        SessionDataModelManager.shared.removeAllRealmData()
+        dismiss(animated: true)
     }
 }

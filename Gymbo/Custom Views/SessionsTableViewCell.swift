@@ -20,10 +20,17 @@ class SessionsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         setupLabel()
+        setupContentView()
     }
     
     private func setupLabel() {
         workoutsInfoLabel.numberOfLines = 0
+    }
+
+    private func setupContentView() {
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.black.cgColor
     }
     
     func clearLabels() {
