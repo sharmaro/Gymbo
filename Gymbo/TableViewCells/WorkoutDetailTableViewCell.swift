@@ -1,5 +1,5 @@
 //
-//  ExerciseTableViewCell.swift
+//  WorkoutDetailTableViewCell
 //  Gymbo
 //
 //  Created by Rohan Sharma on 8/9/19.
@@ -9,7 +9,7 @@
 import UIKit
 
 // Protocol for handling UITextField and UITextView interactions
-protocol ExerciseTableViewCellDelegate: class {
+protocol WorkoutDetailTableViewCellDelegate: class {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool
     func didEndEditingTextField(textField: UITextField, textFieldType: TextFieldType, atIndexPath indexPath: IndexPath?)
     
@@ -24,7 +24,7 @@ enum TextFieldType: String {
     case time = "time"
 }
 
-class ExerciseTableViewCell: UITableViewCell {
+class WorkoutDetailTableViewCell: UITableViewCell {
     // Workout title labels
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var repsLabel: UILabel!
@@ -39,14 +39,14 @@ class ExerciseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var additionalInfoTextView: UITextView!
     
-    weak var exerciseCellDelegate: ExerciseTableViewCellDelegate?
+    weak var workoutDetailCellDelegate: WorkoutDetailTableViewCellDelegate?
     
     private let textViewPlaceholderText = "Add optional additional info here"
     
     var indexPath: IndexPath?
     
     override var reuseIdentifier: String {
-        return "ExerciseTableViewCell"
+        return "WorkoutDetailTableViewCell"
     }
     
     override func awakeFromNib() {
@@ -93,9 +93,9 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 }
 
-extension ExerciseTableViewCell: UITextFieldDelegate {
+extension WorkoutDetailTableViewCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return exerciseCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
+        return workoutDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -110,20 +110,20 @@ extension ExerciseTableViewCell: UITextFieldDelegate {
         default:
             fatalError("Incorrect text field ended editing")
         }
-        exerciseCellDelegate?.didEndEditingTextField(textField: textField, textFieldType: type, atIndexPath: indexPath)
+        workoutDetailCellDelegate?.didEndEditingTextField(textField: textField, textFieldType: type, atIndexPath: indexPath)
     }
 }
 
-extension ExerciseTableViewCell: UITextViewDelegate {
+extension WorkoutDetailTableViewCell: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        exerciseCellDelegate?.didBeginEditingTextView(textView: textView)
+        workoutDetailCellDelegate?.didBeginEditingTextView(textView: textView)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return exerciseCellDelegate?.shouldChangeCharactersInTextView(textView: textView, replacementText: text) ?? true
+        return workoutDetailCellDelegate?.shouldChangeCharactersInTextView(textView: textView, replacementText: text) ?? true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        exerciseCellDelegate?.didEndEditingTextView(textView: textView, atIndexPath: indexPath)
+        workoutDetailCellDelegate?.didEndEditingTextView(textView: textView, atIndexPath: indexPath)
     }
 }

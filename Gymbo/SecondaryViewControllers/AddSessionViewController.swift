@@ -11,7 +11,7 @@ protocol DimmingViewDelegate: class {
 }
 
 protocol WorkoutListDelegate: class {
-    func updateWorkoutList(_ list: [String])
+    func updateWorkoutList(_ list: [ExerciseText])
 }
 
 enum AnimationType {
@@ -48,7 +48,7 @@ class AddSessionViewController: UIViewController {
         static let headerViewHeight = CGFloat(36)
         static let footerViewHeight = CGFloat(36)
         
-        static let exerciseTableViewCellHeight = CGFloat(120)
+        static let workoutDetailTableViewCellHeight = CGFloat(120)
     }
     
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
@@ -67,11 +67,10 @@ class AddSessionViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
         tableView.separatorStyle = .none
         tableView.isHidden = workoutList.count == 0
-        tableView.register(UINib(nibName: "ExerciseTableViewCell", bundle: nil), forCellReuseIdentifier: ExerciseTableViewCell().reuseIdentifier)
         tableView.keyboardDismissMode = .interactive
+        tableView.register(UINib(nibName: "WorkoutDetailTableViewCell", bundle: nil), forCellReuseIdentifier: WorkoutDetailTableViewCell().reuseIdentifier)
         
         addExerciseButton.setTitle("Add \nExercise", for: .normal)
         addExerciseButton.titleLabel?.textAlignment = .center
@@ -157,7 +156,7 @@ extension AddSessionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.exerciseTableViewCellHeight
+        return Constants.workoutDetailTableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -165,16 +164,18 @@ extension AddSessionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell().reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell().reuseIdentifier)`.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutDetailTableViewCell().reuseIdentifier, for: indexPath) as? WorkoutDetailTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(WorkoutDetailTableViewCell().reuseIdentifier)`.")
         }
+
+        cell.workoutDetailCellDelegate = self
+
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
         cell.repsTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].reps ?? ""
         cell.weightTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].weight ?? ""
         cell.timeTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].time ?? ""
         cell.additionalInfoTextView.text = workoutList[indexPath.section].workoutDetails[indexPath.row].additionalInfo ?? textViewPlaceholderText
         cell.indexPath = indexPath
-        cell.exerciseCellDelegate = self
 
         return cell
     }
@@ -211,7 +212,7 @@ extension AddSessionViewController: UITableViewDelegate {
     }
 }
 
-extension AddSessionViewController: ExerciseTableViewCellDelegate {
+extension AddSessionViewController: WorkoutDetailTableViewCellDelegate {
     // UITextFieldDelegate funcs
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
@@ -288,11 +289,11 @@ extension AddSessionViewController: DimmingViewDelegate {
 }
 
 extension AddSessionViewController: WorkoutListDelegate {
-    func updateWorkoutList(_ workoutNameList: [String]) {
-        for workoutName in workoutNameList {
-            workoutList.append(Workout(name: workoutName, sets: 1, workoutDetails: List<WorkoutDetails>()))
+    func updateWorkoutList(_ exerciseTextList: [ExerciseText]) {
+        for exerciseText in exerciseTextList {
+            workoutList.append(Workout(name: exerciseText.exerciseName, muscleGroups: exerciseText.muscleGroups, sets: 1, workoutDetails: List<WorkoutDetails>()))
         }
-        
+
         tableView.isHidden = workoutList.count == 0
         tableView.reloadData()
     }

@@ -55,15 +55,18 @@ class SessionsViewController: UIViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        
-        tableView.register(UINib(nibName: "SessionsTableViewCell", bundle: nil), forCellReuseIdentifier: SessionsTableViewCell().reuseIdentifier)
         tableView.keyboardDismissMode = .interactive
+        tableView.register(UINib(nibName: "SessionsTableViewCell", bundle: nil), forCellReuseIdentifier: SessionsTableViewCell().reuseIdentifier)
     }
 
     private func refreshMainView() {
         tableView.isHidden = dataModelManager.sessionsCount == 0
         emptyExerciseLabel.isHidden = !tableView.isHidden
-        tableView.reloadData()
+        if tableView.isHidden {
+            // Do nothing
+        } else {
+            tableView.reloadData()
+        }
     }
     
     private func setupAddSessionButton() {

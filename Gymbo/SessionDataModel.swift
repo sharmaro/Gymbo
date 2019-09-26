@@ -34,13 +34,15 @@ import RealmSwift
 
 @objcMembers class Workout: Object {
     dynamic var name: String?
+    dynamic var muscleGroups: String?
     dynamic var sets: Int = 1
     let workoutDetails = List<WorkoutDetails>()
     
-    convenience init(name: String? = nil, sets: Int = 1, workoutDetails: List<WorkoutDetails>) {
+    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, workoutDetails: List<WorkoutDetails>) {
         self.init()
         
         self.name = name
+        self.muscleGroups = muscleGroups
         self.sets = sets
 
         if workoutDetails.count == 0 {
