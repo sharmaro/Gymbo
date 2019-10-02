@@ -20,7 +20,7 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
-    
+
     private lazy var cancelButton: UIButton = {
         let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 20)))
         button.setTitle("Cancel", for: .normal)
@@ -52,14 +52,13 @@ class AddExerciseViewController: UIViewController {
          "abs, obliques, biceps", "triceps", "quads", "calves", "legs", "back", "triceps", "calves",
          "back, biceps", "chest, triceps, biceps", "quads, triceps", "calves, biceps", "back",
          "chest,quads", "abs, triceps", "quads"]
-    
+
     // For searching exercises
     private var searchedTextArray = [String]()
     private var sortedArray = [[String]]()
-    
+
     private var selectedExercises = [ExerciseText]()
-    
-    weak var dimmingViewDelegate: DimmingViewDelegate?
+
     weak var workoutListDelegate: WorkoutListDelegate?
 
     private struct Constants {
@@ -68,30 +67,30 @@ class AddExerciseViewController: UIViewController {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
         setupSearchTextField()
         setupTableView()
-        
+
         createExerciseButton.setTitle("Create New Exercise", for: .normal)
         createExerciseButton.titleLabel?.textAlignment = .center
         createExerciseButton.addCornerRadius()
-        
+
         searchedTextArray = exerciseNameArray
     }
-    
+
     private func setupView() {
         navigationBar.prefersLargeTitles = false
         customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
-        
+
         mainView.clipsToBounds = true
         mainView.layer.cornerRadius = 20
     }
-    
+
     private func setupSearchTextField() {
         searchTextField.layer.cornerRadius = 10
         searchTextField.layer.borderWidth = 1
@@ -99,7 +98,7 @@ class AddExerciseViewController: UIViewController {
         searchTextField.borderStyle = .none
         searchTextField.leftViewMode = .always
         searchTextField.addTarget(self, action: #selector(textFieldDidChange(_ :)), for: .editingChanged)
-        
+
         let searchImageContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 28, height: 16)))
         let searchImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 10, y: 0), size: CGSize(width: 16, height: 16)))
         searchImageView.contentMode = .scaleAspectFit
@@ -107,7 +106,7 @@ class AddExerciseViewController: UIViewController {
         searchImageContainerView.addSubview(searchImageView)
         searchTextField.leftView = searchImageContainerView
     }
-    
+
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -116,9 +115,9 @@ class AddExerciseViewController: UIViewController {
         tableView.layer.cornerRadius = 20
         tableView.allowsMultipleSelection = true
         tableView.keyboardDismissMode = .interactive
-        tableView.register(UINib(nibName: "WorkoutTableViewCell", bundle: nil), forCellReuseIdentifier: WorkoutTableViewCell().reuseIdentifier)
+        tableView.register(WorkoutTableViewCell.nib, forCellReuseIdentifier: WorkoutTableViewCell.reuseIdentifier)
     }
-    
+
     private func updateAddButtonTitle() {
         var buttonText = ""
         if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
@@ -134,7 +133,7 @@ class AddExerciseViewController: UIViewController {
         }
         addButton.setTitle(buttonText, for: .normal)
     }
-    
+
     @objc private func navBarButtonPressed(_ sender: UIButton) {
         switch sender.tag {
         case 0: // Cancel button tapped
@@ -142,13 +141,13 @@ class AddExerciseViewController: UIViewController {
         case 1: // Add button tapped
             // Get exercise info from the selected exercises
             if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
+                guard indexPaths.count <= tableView.numberOfRows(inSection: 0) else {
+                    break
+                }
                 var selectedExercises = [ExerciseText]()
                 for indexPath in indexPaths {
-                    guard let exerciseCell = tableView.cellForRow(at: indexPath) as? WorkoutTableViewCell else {
-                        break
-                    }
-                    let exerciseName = exerciseCell.exerciseNameLabel.text
-                    let muscleGroups = exerciseCell.muscleGroupsLabel.text
+                    let exerciseName = exerciseNameArray[indexPath.row]
+                    let muscleGroups = muscleGroupArray[indexPath.row]
                     let exerciseText = ExerciseText(exerciseName: exerciseName, muscleGroups: muscleGroups)
                     selectedExercises.append(exerciseText)
                 }
@@ -157,10 +156,9 @@ class AddExerciseViewController: UIViewController {
         default:
             fatalError("Unrecognized navigation bar button pressed")
         }
-        dimmingViewDelegate?.animateDimmingView(type: .brighten)
         dismiss(animated: true, completion: nil)
     }
-    
+
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let changedText = textField.text {
             if changedText.count == 0 {
@@ -171,7 +169,7 @@ class AddExerciseViewController: UIViewController {
             tableView.reloadData()
         }
     }
-    
+
     @IBAction func createExerciseButtonTapped(_ sender: Any) {
         if sender is UIButton {
             // TODO: Create VC for creating a new exercise
@@ -189,43 +187,30 @@ extension AddExerciseViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.workoutCellHeight
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchedTextArray.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutTableViewCell().reuseIdentifier, for: indexPath) as? WorkoutTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(WorkoutTableViewCell().reuseIdentifier)`.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutTableViewCell.reuseIdentifier, for: indexPath) as? WorkoutTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(WorkoutTableViewCell.reuseIdentifier)`.")
         }
         cell.exerciseNameLabel.text = searchedTextArray[indexPath.row]
         cell.muscleGroupsLabel.text = muscleGroupArray[indexPath.row]
 
         cell.backgroundColor = indexPath.row % 2 == 0 ? UIColor.darkGray : UIColor.lightGray
-        
+
         return cell
     }
 }
 
 extension AddExerciseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let exerciseName = exerciseNameArray[indexPath.row]
-//        let muscleGroups = muscleGroupArray[indexPath.row]
-//        let exerciseText = ExerciseText(exerciseName: exerciseName, muscleGroups: muscleGroups)
-//        selectedExercises.append(exerciseText)
-
         updateAddButtonTitle()
     }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        guard let cell = tableView.cellForRow(at: indexPath),
-//            let exerciseName = cell.textLabel?.text,
-//            exerciseName.count > 0,
-//            let index = selectedExercises.firstIndex(where: { $0.exerciseName == exerciseName }) else {
-//            return
-//        }
-//        selectedExercises.remove(at: index)
 
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         updateAddButtonTitle()
     }
 }

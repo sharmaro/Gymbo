@@ -19,12 +19,8 @@ enum SessionDetailType {
 
 class Util {
     static func formattedString(stringToFormat string: String?, type: SessionDetailType) -> String {
-        guard let string = string else {
-            return ""
-        }
-
-        if string.count == 0 {
-            return ""
+        guard let string = string, string.count > 0 else {
+            return "--"
         }
 
         var suffix = ""

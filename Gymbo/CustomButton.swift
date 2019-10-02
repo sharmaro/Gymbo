@@ -16,27 +16,27 @@ class CustomButton: UIButton {
             }
         }
     }
-    
+
     var shouldHighlight: Bool = true
-    
+
     var titleFontSize: CGFloat = 15 {
         didSet {
             titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         }
     }
-    
+
     var cornerRadius: CGFloat = 10 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
     }
-    
+
     var borderWidth: CGFloat = 1.5 {
         didSet {
             layer.borderWidth = borderWidth
         }
     }
-    
+
     var borderColor: UIColor = UIColor.black {
         didSet {
             layer.borderColor = borderColor.cgColor
@@ -47,18 +47,18 @@ class CustomButton: UIButton {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     private func setup() {
         setTitleColor(.black, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
     }
-    
+
     func addCornerRadius(_ radius: CGFloat? = nil) {
         layer.cornerRadius = radius ?? cornerRadius
         layer.borderWidth = borderWidth

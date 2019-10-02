@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
-    <device id="retina6_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,10 +32,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9l5-ZW-TUo">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s1x-lJ-ypg">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Nfd-UG-Zg9">
+                                    <size key="itemSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="C66-72-bj1" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
                                 <rect key="frame" x="166" y="628" width="82" height="82"/>
                                 <constraints>
@@ -60,22 +65,28 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="C66-72-bj1" firstAttribute="top" secondItem="9l5-ZW-TUo" secondAttribute="bottom" constant="20" id="6sY-Qa-OqO"/>
                             <constraint firstItem="5IV-gc-v7n" firstAttribute="centerY" secondItem="4Pg-XH-dBZ" secondAttribute="centerY" id="COb-gr-1eh"/>
                             <constraint firstItem="dun-DM-n6V" firstAttribute="bottom" secondItem="C66-72-bj1" secondAttribute="bottom" constant="15" id="Cj1-4Q-wbD"/>
-                            <constraint firstItem="9l5-ZW-TUo" firstAttribute="leading" secondItem="dun-DM-n6V" secondAttribute="leading" id="IMi-vK-rWa"/>
-                            <constraint firstItem="dun-DM-n6V" firstAttribute="trailing" secondItem="9l5-ZW-TUo" secondAttribute="trailing" id="fV0-hc-3kz"/>
+                            <constraint firstItem="s1x-lJ-ypg" firstAttribute="top" secondItem="dun-DM-n6V" secondAttribute="top" id="Q2d-Ee-uwg"/>
                             <constraint firstItem="C66-72-bj1" firstAttribute="centerX" secondItem="4Pg-XH-dBZ" secondAttribute="centerX" id="lnt-QI-2at"/>
-                            <constraint firstItem="9l5-ZW-TUo" firstAttribute="top" secondItem="dun-DM-n6V" secondAttribute="top" id="v9h-RQ-p9H"/>
+                            <constraint firstItem="s1x-lJ-ypg" firstAttribute="leading" secondItem="dun-DM-n6V" secondAttribute="leading" id="saz-uJ-13b"/>
+                            <constraint firstItem="dun-DM-n6V" firstAttribute="trailing" secondItem="s1x-lJ-ypg" secondAttribute="trailing" id="y1q-36-veu"/>
+                            <constraint firstItem="C66-72-bj1" firstAttribute="top" secondItem="s1x-lJ-ypg" secondAttribute="bottom" constant="20" id="zKA-9C-ibE"/>
                             <constraint firstItem="5IV-gc-v7n" firstAttribute="centerX" secondItem="4Pg-XH-dBZ" secondAttribute="centerX" id="zpr-CY-kly"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dun-DM-n6V"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sessions" id="OQU-S8-5KJ"/>
+                    <navigationItem key="navigationItem" title="Sessions" id="OQU-S8-5KJ">
+                        <barButtonItem key="leftBarButtonItem" title="Delete All" id="Pcl-LG-JtF">
+                            <connections>
+                                <action selector="deleteData:" destination="KdM-Vy-LJH" id="c2F-51-OJ5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addSessionButton" destination="C66-72-bj1" id="mNP-Oa-yJV"/>
+                        <outlet property="collectionView" destination="s1x-lJ-ypg" id="xVR-fN-j0F"/>
                         <outlet property="emptyExerciseLabel" destination="5IV-gc-v7n" id="B40-Wb-gyQ"/>
-                        <outlet property="tableView" destination="9l5-ZW-TUo" id="ciV-rp-8Cx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rXU-Lb-LdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -99,7 +110,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="SNl-Ga-gNJ"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="26"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -169,7 +179,6 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="aH2-jn-JyX"/>
                                         </constraints>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -262,50 +271,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="73l-1s-6g4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115.94202898550725" y="-661.60714285714278"/>
-        </scene>
-        <!--Data-->
-        <scene sceneID="SWW-8H-09T">
-            <objects>
-                <viewController restorationIdentifier="tempVC" storyboardIdentifier="tempVC" title="Data" id="DAR-lJ-dGS" customClass="TempViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Pi1-Ne-3ip">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="mbJ-Zy-ZXb">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2A-sg-HRM">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="409"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Keep Data"/>
-                                        <connections>
-                                            <action selector="keepData:" destination="DAR-lJ-dGS" eventType="touchUpInside" id="gCq-yZ-uvy"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c7-Qa-YGw">
-                                        <rect key="frame" x="0.0" y="409" width="414" height="409"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Delete Data"/>
-                                        <connections>
-                                            <action selector="deleteData:" destination="DAR-lJ-dGS" eventType="touchUpInside" id="zcB-vf-fRi"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="FGH-04-geg" firstAttribute="bottom" secondItem="mbJ-Zy-ZXb" secondAttribute="bottom" id="24p-cU-sn8"/>
-                            <constraint firstItem="FGH-04-geg" firstAttribute="trailing" secondItem="mbJ-Zy-ZXb" secondAttribute="trailing" id="Od0-yo-KnA"/>
-                            <constraint firstItem="mbJ-Zy-ZXb" firstAttribute="top" secondItem="FGH-04-geg" secondAttribute="top" id="PQV-Xu-lkR"/>
-                            <constraint firstItem="mbJ-Zy-ZXb" firstAttribute="leading" secondItem="FGH-04-geg" secondAttribute="leading" id="tO6-wU-lgV"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="FGH-04-geg"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ISx-IL-pCd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-802" y="784"/>
         </scene>
         <!--Stopwatch-->
         <scene sceneID="O2W-V7-Uik">

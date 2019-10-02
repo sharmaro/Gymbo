@@ -16,15 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
-        
+
         return true
     }
-    
+
     private func setupUINavigationBarAppearance() {
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().shadowImage = UIImage()
     }
-    
+
     private func setupUITableViewAppearance() {
         UITableView.appearance().showsHorizontalScrollIndicator = false
         UITableView.appearance().showsVerticalScrollIndicator = false

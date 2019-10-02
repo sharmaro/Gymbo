@@ -12,8 +12,11 @@ class WorkoutTableViewCell: UITableViewCell {
     @IBOutlet weak var exerciseNameLabel: UILabel!
     @IBOutlet weak var muscleGroupsLabel: UILabel!
 
+    class var nib: UINib {
+        return UINib(nibName: reuseIdentifier, bundle: nil)
+    }
 
-    override var reuseIdentifier: String {
+    class var reuseIdentifier: String {
         return "WorkoutTableViewCell"
     }
 

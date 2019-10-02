@@ -7,41 +7,31 @@
 //
 
 protocol SessionDataModelDelegate: class {
-    func updateSessionDataModel(name: String?, workouts: List<Workout>)
+    func saveSessionData(name: String?, workouts: List<Workout>)
 }
 
 import UIKit
 import RealmSwift
 
 class SessionsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addSessionButton: CustomButton!
     @IBOutlet weak var emptyExerciseLabel: UILabel!
-    
+
     private let dataModelManager = SessionDataModelManager.shared
-    
+
     private struct Constants {
-        static let animationTime = CGFloat(0.2)
-        static let normalAlphe = CGFloat(1.0)
-        static let darkenedAlpha = CGFloat(0.1)
-        
-        static let sessionTitleHeight = CGFloat(24)
-        static let sessionCellLineHeight = CGFloat(22)
-        static let cellSeparatorHeight = CGFloat(14)
-        static let emptyWorkoutCellHeight = CGFloat(60)
+        static let sessionTitleHeight = CGFloat(22)
+        static let sessionCellLineHeight = CGFloat(20)
+        static let sessionCellHeight = CGFloat(40)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupTableView()
+        setupCollectionView()
 //        refreshMainView()
         setupAddSessionButton()
-
-        // Delete this
-        if let tempVC = storyboard?.instantiateViewController(withIdentifier: "tempVC") as? TempViewController {
-            present(tempVC, animated: true)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -49,34 +39,34 @@ class SessionsViewController: UIViewController {
 
         refreshMainView()
     }
-    
+
     // MARK: - Helper funcs
-    
-    private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.keyboardDismissMode = .interactive
-        tableView.register(UINib(nibName: "SessionsTableViewCell", bundle: nil), forCellReuseIdentifier: SessionsTableViewCell().reuseIdentifier)
+
+    private func setupCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.keyboardDismissMode = .interactive
+        collectionView.register(SessionsCollectionViewCell.nib, forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
     private func refreshMainView() {
-        tableView.isHidden = dataModelManager.sessionsCount == 0
-        emptyExerciseLabel.isHidden = !tableView.isHidden
-        if tableView.isHidden {
+        collectionView.isHidden = dataModelManager.sessionsCount == 0
+        emptyExerciseLabel.isHidden = !collectionView.isHidden
+        if collectionView.isHidden {
             // Do nothing
         } else {
-            tableView.reloadData()
+            collectionView.reloadData()
         }
     }
-    
+
     private func setupAddSessionButton() {
         addSessionButton.setTitle("Add \nSession", for: .normal)
         addSessionButton.titleLabel?.textAlignment = .center
         addSessionButton.addCornerRadius(addSessionButton.bounds.width / 2)
     }
-    
-    // MARK: - IBAction methods
-    
+
+    // MARK: - IBAction funcs
+
     @IBAction func addSessionButtonPressed(_ sender: Any) {
         if sender is UIButton,
             let sessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddSessionViewController") as? AddSessionViewController {
@@ -84,34 +74,27 @@ class SessionsViewController: UIViewController {
             navigationController?.pushViewController(sessionViewController, animated: true)
         } else {
             fatalError("Could not instantiate AddSessionViewController.")
-            
+
         }
     }
 }
 
-extension SessionsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+// MARK: - UICollectionView funcs
+
+extension SessionsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataModelManager.sessionsCount ?? 0
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let workoutsCount = CGFloat(dataModelManager.workoutsCountForSession(index: indexPath.row))
-        guard workoutsCount > 0 else {
-            return Constants.emptyWorkoutCellHeight
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
+            fatalError("Could not dequeue cell with identifier `SessionsCollectionViewCell`")
         }
-        
-        return (Constants.sessionCellLineHeight * workoutsCount) + Constants.sessionTitleHeight + Constants.cellSeparatorHeight
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SessionsTableViewCell().reuseIdentifier, for: indexPath) as? SessionsTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(SessionsTableViewCell().reuseIdentifier)`.")
-        }
-        
+
         cell.clearLabels()
         cell.sessionTitleLabel.text = dataModelManager.getSessionNameForIndex(index: indexPath.row)
         cell.workoutsInfoLabel.text = dataModelManager.workoutsInfoTextForSession(index: indexPath.row)
@@ -120,15 +103,37 @@ extension SessionsViewController: UITableViewDataSource {
     }
 }
 
-extension SessionsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected row at indexPath: \(indexPath)")
-        // Give option to start session/cancel/edit
+extension SessionsViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let width = collectionView.frame.width - 40
+        var height = Constants.sessionCellHeight
+
+        let workoutsCount = CGFloat(dataModelManager.workoutsCountForSession(index: indexPath.row))
+
+        if workoutsCount > 0 {
+            height = (Constants.sessionCellLineHeight * workoutsCount) + Constants.sessionTitleHeight
+        }
+
+        return CGSize(width: width, height: height)
     }
 }
 
+extension SessionsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Selected item at index path: \(indexPath)")
+    }
+}
+
+// MARK: - Saving Session func
+
 extension SessionsViewController: SessionDataModelDelegate {
-    func updateSessionDataModel(name: String?, workouts: List<Workout>) {
+    func saveSessionData(name: String?, workouts: List<Workout>) {
         let session = Session(name: name, workouts: workouts)
         dataModelManager.saveSession(session: session)
 
@@ -136,12 +141,8 @@ extension SessionsViewController: SessionDataModelDelegate {
     }
 }
 
-class TempViewController: UIViewController {
-    @IBAction func keepData(_ sender: Any) {
-        dismiss(animated: true)
-    }
-
-
+// DELETE THIS
+extension SessionsViewController {
     @IBAction func deleteData(_ sender: Any) {
         SessionDataModelManager.shared.removeAllRealmData()
         dismiss(animated: true)

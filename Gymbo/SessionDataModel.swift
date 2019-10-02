@@ -13,22 +13,19 @@ import RealmSwift
     dynamic var reps: String?
     dynamic var weight: String?
     dynamic var time: String?
-    dynamic var additionalInfo: String?
 
-    convenience init(reps: String? = nil, weight: String? = nil, time: String? = nil, additionalInfo: String? = nil) {
+    convenience init(reps: String? = nil, weight: String? = nil, time: String? = nil) {
         self.init()
         
         self.reps = reps
         self.weight = weight
         self.time = time
-        self.additionalInfo = additionalInfo
     }
-    
+
     func printInfo() {
         print("reps: \(reps ?? "")")
         print("weight: \(weight ?? "")")
         print("time: \(time ?? "")")
-        print("additional info: \(additionalInfo ?? "")")
     }
 }
 
@@ -36,14 +33,16 @@ import RealmSwift
     dynamic var name: String?
     dynamic var muscleGroups: String?
     dynamic var sets: Int = 1
+    dynamic var additionalInfo: String?
     let workoutDetails = List<WorkoutDetails>()
-    
-    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, workoutDetails: List<WorkoutDetails>) {
+
+    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, additionalInfo: String? = nil, workoutDetails: List<WorkoutDetails>) {
         self.init()
-        
+
         self.name = name
         self.muscleGroups = muscleGroups
         self.sets = sets
+        self.additionalInfo = additionalInfo
 
         if workoutDetails.count == 0 {
             let workoutDetail = WorkoutDetails()
@@ -54,24 +53,12 @@ import RealmSwift
             }
         }
     }
-    
-    func printInfo() {
-        print("name: \(name ?? "")")
-        print("sets: \(sets)")
-        for i in 0..<sets {
-            print("workoutDetails: \(workoutDetails[i].printInfo())")
-        }
-    }
-    
-    func getWorkoutText() -> String {
-        return "\(name ?? "name") | \(sets))"
-    }
 }
 
 @objcMembers class Session: Object {
     dynamic var name: String?
     let workouts = List<Workout>()
-    
+
     convenience init(name: String? = nil, workouts: List<Workout>) {
         self.init()
         
@@ -80,24 +67,5 @@ import RealmSwift
         for workout in workouts {
             self.workouts.append(workout)
         }
-    }
-    
-    func printInfo() {
-        print("---------------")
-        print("session name: \(name ?? "")")
-        workouts.forEach({
-            $0.printInfo()
-            print()
-        })
-        print("---------------")
-        print()
-    }
-
-    func getWorkoutText() -> String {
-        var completeString = ""
-        for workout in workouts {
-            completeString.append("\(workout.getWorkoutText())\n")
-        }
-        return completeString
     }
 }

@@ -11,13 +11,13 @@ import RealmSwift
 
 class SessionDataModelManager: NSObject {
     static var shared = SessionDataModelManager()
-    
+
     private var realm = try? Realm()
-    
+
     var sessionsCount: Int? {
         return getSessionsCount()
     }
-    
+
     private var sessionDataModelArray: Results<Session>?
 
     override init() {
@@ -27,9 +27,10 @@ class SessionDataModelManager: NSObject {
 
         printConfigFileLocation()
     }
-    
+
     func printConfigFileLocation() {
         if let configFileURL = realm?.configuration.fileURL {
+            print("START FILE NAME")
             print("config file: \(configFileURL)")
             print("config file_path: \(configFileURL.path)")
             print("config file_relative_path: \(configFileURL.relativePath)")
@@ -37,6 +38,7 @@ class SessionDataModelManager: NSObject {
             print("config file_path_extension: \(configFileURL.pathExtension)")
             print("config file_absolute_url: \(configFileURL.absoluteURL)")
             print("config file_absolute_string: \(configFileURL.absoluteString)")
+            print("END FILE NAME")
         }
     }
 
@@ -49,21 +51,21 @@ class SessionDataModelManager: NSObject {
             realm?.deleteAll()
         }
     }
-    
+
     private func getSessionsCount() -> Int {
         return sessionDataModelArray?.count ?? 0
     }
-    
+
     func saveSession(session: Session) {
         try? realm?.write {
             realm?.add(session)
         }
     }
-    
+
     func getSessionNameForIndex(index: Int) -> String {
         return sessionDataModelArray?[index].name ?? "No name"
     }
-    
+
     func workoutsCountForSession(index: Int) -> Int {
         return sessionDataModelArray?[index].workouts.count ?? 0
     }
