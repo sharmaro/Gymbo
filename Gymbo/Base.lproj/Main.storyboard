@@ -161,69 +161,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBZ-oo-JaD">
-                                <rect key="frame" x="15" y="89.666666666666686" width="384" height="716.66666666666652"/>
-                                <subviews>
-                                    <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoM-13-vUM">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="44"/>
-                                        <items>
-                                            <navigationItem title="Add Exercise" id="Lmi-PP-pTH"/>
-                                        </items>
-                                    </navigationBar>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
-                                        <rect key="frame" x="20" y="114" width="344" height="538.66666666666663"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for exercises" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jD5-cl-Ujq">
-                                        <rect key="frame" x="20" y="63.999999999999986" width="344" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="aH2-jn-JyX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HH5-KY-t9x" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                        <rect key="frame" x="112" y="672.66666666666674" width="160" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="HWi-rD-bLV"/>
-                                        </constraints>
-                                        <state key="normal" title="Button">
-                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="createExerciseButtonTapped:" destination="Ucj-pt-22p" eventType="touchUpInside" id="WBh-0u-6jH"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoM-13-vUM">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Add Exercise" id="Lmi-PP-pTH"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
+                                <rect key="frame" x="20" y="158" width="374" height="644"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for exercises" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jD5-cl-Ujq">
+                                <rect key="frame" x="20" y="108" width="374" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="l3u-YC-PdZ" secondAttribute="trailing" constant="20" id="1l3-5g-fWO"/>
-                                    <constraint firstItem="EoM-13-vUM" firstAttribute="leading" secondItem="oBZ-oo-JaD" secondAttribute="leading" id="G5N-xv-1Ir"/>
-                                    <constraint firstAttribute="trailing" secondItem="jD5-cl-Ujq" secondAttribute="trailing" constant="20" id="Lec-jd-X9N"/>
-                                    <constraint firstAttribute="trailing" secondItem="EoM-13-vUM" secondAttribute="trailing" id="M0b-hs-VB0"/>
-                                    <constraint firstAttribute="bottom" secondItem="HH5-KY-t9x" secondAttribute="bottom" constant="10" id="N34-IW-6s8"/>
-                                    <constraint firstItem="l3u-YC-PdZ" firstAttribute="leading" secondItem="oBZ-oo-JaD" secondAttribute="leading" constant="20" id="OYk-Sa-I0E"/>
-                                    <constraint firstItem="EoM-13-vUM" firstAttribute="top" secondItem="oBZ-oo-JaD" secondAttribute="top" id="Oqd-FU-WLA"/>
-                                    <constraint firstItem="jD5-cl-Ujq" firstAttribute="top" secondItem="EoM-13-vUM" secondAttribute="bottom" constant="20" id="UuL-JV-q0O"/>
-                                    <constraint firstItem="jD5-cl-Ujq" firstAttribute="leading" secondItem="oBZ-oo-JaD" secondAttribute="leading" constant="20" id="m4e-Gk-zwM"/>
-                                    <constraint firstItem="l3u-YC-PdZ" firstAttribute="top" secondItem="jD5-cl-Ujq" secondAttribute="bottom" constant="20" id="nxm-64-1Hk"/>
-                                    <constraint firstItem="HH5-KY-t9x" firstAttribute="top" secondItem="l3u-YC-PdZ" secondAttribute="bottom" constant="20" id="vgK-81-rVu"/>
-                                    <constraint firstItem="HH5-KY-t9x" firstAttribute="centerX" secondItem="oBZ-oo-JaD" secondAttribute="centerX" id="zx0-Uq-DTS"/>
+                                    <constraint firstAttribute="height" constant="30" id="aH2-jn-JyX"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HH5-KY-t9x" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="822" width="374" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ERt-bo-Ani"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="createExerciseButtonTapped:" destination="Ucj-pt-22p" eventType="touchUpInside" id="WBh-0u-6jH"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="oBZ-oo-JaD" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="15" id="Gyw-ve-R3t"/>
-                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="oBZ-oo-JaD" secondAttribute="trailing" constant="15" id="VhR-zU-8nl"/>
-                            <constraint firstItem="oBZ-oo-JaD" firstAttribute="height" secondItem="drx-Rz-O4a" secondAttribute="height" multiplier="0.8" id="XMI-bV-pOq"/>
-                            <constraint firstItem="oBZ-oo-JaD" firstAttribute="centerY" secondItem="drx-Rz-O4a" secondAttribute="centerY" id="dZQ-qb-RE6"/>
+                            <constraint firstItem="l3u-YC-PdZ" firstAttribute="top" secondItem="jD5-cl-Ujq" secondAttribute="bottom" constant="20" id="3kO-lu-5nJ"/>
+                            <constraint firstItem="EoM-13-vUM" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" id="3qA-he-v9f"/>
+                            <constraint firstAttribute="bottom" secondItem="HH5-KY-t9x" secondAttribute="bottom" constant="34" id="6yN-CN-Fcm"/>
+                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="l3u-YC-PdZ" secondAttribute="trailing" constant="20" id="AFB-4l-1qZ"/>
+                            <constraint firstItem="l3u-YC-PdZ" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="20" id="Fqb-Op-eYJ"/>
+                            <constraint firstItem="EoM-13-vUM" firstAttribute="top" secondItem="Gum-bs-9xQ" secondAttribute="top" id="QEz-hz-IcV"/>
+                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="EoM-13-vUM" secondAttribute="trailing" id="UF7-16-aDn"/>
+                            <constraint firstItem="jD5-cl-Ujq" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="20" id="UP0-LP-Xp9"/>
+                            <constraint firstItem="jD5-cl-Ujq" firstAttribute="top" secondItem="EoM-13-vUM" secondAttribute="bottom" constant="20" id="WZn-N4-gd3"/>
+                            <constraint firstItem="HH5-KY-t9x" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="20" id="c8F-6n-aIt"/>
+                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="jD5-cl-Ujq" secondAttribute="trailing" constant="20" id="fjy-bt-t3M"/>
+                            <constraint firstItem="HH5-KY-t9x" firstAttribute="top" secondItem="l3u-YC-PdZ" secondAttribute="bottom" constant="20" id="hkA-y8-won"/>
+                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="HH5-KY-t9x" secondAttribute="trailing" constant="20" id="pty-nQ-XtB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Gum-bs-9xQ"/>
                     </view>
                     <connections>
                         <outlet property="createExerciseButton" destination="HH5-KY-t9x" id="CUo-gE-ztF"/>
                         <outlet property="customNavigationItem" destination="Lmi-PP-pTH" id="Tms-Yl-CdZ"/>
-                        <outlet property="mainView" destination="oBZ-oo-JaD" id="lCY-zY-rl0"/>
                         <outlet property="navigationBar" destination="EoM-13-vUM" id="b3V-lJ-Swe"/>
                         <outlet property="searchTextField" destination="jD5-cl-Ujq" id="aGj-3w-zMb"/>
                         <outlet property="tableView" destination="l3u-YC-PdZ" id="QSQ-Lw-JEx"/>

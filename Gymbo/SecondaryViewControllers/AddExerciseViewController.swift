@@ -16,7 +16,6 @@ struct ExerciseText {
 class AddExerciseViewController: UIViewController {
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
-    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
@@ -86,9 +85,6 @@ class AddExerciseViewController: UIViewController {
         navigationBar.prefersLargeTitles = false
         customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
-
-        mainView.clipsToBounds = true
-        mainView.layer.cornerRadius = 20
     }
 
     private func setupSearchTextField() {

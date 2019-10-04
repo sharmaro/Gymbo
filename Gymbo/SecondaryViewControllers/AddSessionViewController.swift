@@ -106,6 +106,7 @@ class AddSessionViewController: UIViewController {
 
             addExerciseViewController.modalPresentationStyle = .custom
             addExerciseViewController.workoutListDelegate = self
+            addExerciseViewController.transitioningDelegate = self
             present(addExerciseViewController, animated: true, completion: nil)
         } else {
             fatalError("Could not instantiate AddExerciseViewController.")
@@ -278,5 +279,12 @@ extension AddSessionViewController: WorkoutListDelegate {
 
         tableView.isHidden = workoutList.count == 0
         tableView.reloadData()
+    }
+}
+
+extension AddSessionViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
