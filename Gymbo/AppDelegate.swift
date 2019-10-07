@@ -21,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupUINavigationBarAppearance() {
-        UINavigationBar.appearance().prefersLargeTitles = true
+        if #available(iOS 13.0, *) {
+            UINavigationBar.appearance().prefersLargeTitles = false
+        } else {
+            UINavigationBar.appearance().prefersLargeTitles = true
+        }
         UINavigationBar.appearance().shadowImage = UIImage()
     }
 

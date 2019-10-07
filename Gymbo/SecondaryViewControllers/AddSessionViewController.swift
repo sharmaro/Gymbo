@@ -24,7 +24,7 @@ class AddSessionViewController: UIViewController {
         button.setTitle("Save", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
-        button.addTarget(self, action: #selector(saveButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -104,9 +104,13 @@ class AddSessionViewController: UIViewController {
         if sender is UIButton,
             let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: "AddExerciseViewController") as? AddExerciseViewController {
 
-            addExerciseViewController.modalPresentationStyle = .custom
+            if #available(iOS 13.0, *) {
+                // No op
+            } else {
+                addExerciseViewController.modalPresentationStyle = .custom
+                addExerciseViewController.transitioningDelegate = self
+            }
             addExerciseViewController.workoutListDelegate = self
-            addExerciseViewController.transitioningDelegate = self
             present(addExerciseViewController, animated: true, completion: nil)
         } else {
             fatalError("Could not instantiate AddExerciseViewController.")

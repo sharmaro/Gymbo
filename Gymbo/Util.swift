@@ -15,12 +15,31 @@ enum SessionDetailType {
     case weight
     case time
     case additionalInfo
+
+    func valueForType() -> String {
+        let value: String
+        switch self {
+        case .name:
+            value = "name"
+        case .sets:
+            value = "sets"
+        case .reps:
+            value = "reps"
+        case .weight:
+            value = "weight"
+        case .time:
+            value = "time"
+        case .additionalInfo:
+            value = "additional info"
+        }
+        return value
+    }
 }
 
 class Util {
     static func formattedString(stringToFormat string: String?, type: SessionDetailType) -> String {
         guard let string = string, string.count > 0 else {
-            return "--"
+            return "-- \(type.valueForType())"
         }
 
         var suffix = ""

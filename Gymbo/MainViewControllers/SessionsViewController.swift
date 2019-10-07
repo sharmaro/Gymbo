@@ -53,7 +53,7 @@ class SessionsViewController: UIViewController {
         collectionView.isHidden = dataModelManager.sessionsCount == 0
         emptyExerciseLabel.isHidden = !collectionView.isHidden
         if collectionView.isHidden {
-            // Do nothing
+            // No op
         } else {
             collectionView.reloadData()
         }
@@ -145,6 +145,6 @@ extension SessionsViewController: SessionDataModelDelegate {
 extension SessionsViewController {
     @IBAction func deleteData(_ sender: Any) {
         SessionDataModelManager.shared.removeAllRealmData()
-        dismiss(animated: true)
+        refreshMainView()
     }
 }

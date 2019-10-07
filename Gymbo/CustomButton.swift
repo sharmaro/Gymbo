@@ -11,13 +11,21 @@ import UIKit
 class CustomButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
-            if shouldHighlight {
-                alpha = isHighlighted ? 0.5 : 1.0
+            if isEnabled {
+                if shouldHighlight {
+                    alpha = isHighlighted ? 0.3 : 1.0
+                }
             }
         }
     }
 
     var shouldHighlight: Bool = true
+
+    var textColor: UIColor = .black {
+        didSet {
+            setTitleColor(textColor, for: .normal)
+        }
+    }
 
     var titleFontSize: CGFloat = 15 {
         didSet {
@@ -54,7 +62,7 @@ class CustomButton: UIButton {
     }
 
     private func setup() {
-        setTitleColor(.black, for: .normal)
+        setTitleColor(textColor, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
     }

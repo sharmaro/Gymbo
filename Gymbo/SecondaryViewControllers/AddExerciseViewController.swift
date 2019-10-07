@@ -21,7 +21,7 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var createExerciseButton: CustomButton!
 
     private lazy var cancelButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 20)))
+        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: Constants.navBarButtonSize))
         button.setTitle("Cancel", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
@@ -31,12 +31,11 @@ class AddExerciseViewController: UIViewController {
     }()
 
     private lazy var addButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 20)))
+        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: Constants.navBarButtonSize))
         button.setTitle("Add", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
-        button.isUserInteractionEnabled = false
-        button.alpha = 0.3
+        button.alpha = Constants.inactiveAlpha
         button.tag = 1
         button.addTarget(self, action: #selector(navBarButtonPressed(_:)), for: .touchUpInside)
         return button
@@ -61,10 +60,12 @@ class AddExerciseViewController: UIViewController {
     weak var workoutListDelegate: WorkoutListDelegate?
 
     private struct Constants {
-        static let workoutCellHeight = CGFloat(60)
+        static let navBarButtonSize: CGSize = CGSize(width: 60, height: 20)
 
-        static let activeAlpha = CGFloat(1.0)
-        static let inactiveAlpha = CGFloat(0.3)
+        static let workoutCellHeight: CGFloat = 60
+
+        static let activeAlpha: CGFloat = 1.0
+        static let inactiveAlpha: CGFloat = 0.3
     }
 
     override func viewDidLoad() {
@@ -85,6 +86,7 @@ class AddExerciseViewController: UIViewController {
         navigationBar.prefersLargeTitles = false
         customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
+        addButton.isEnabled = false // Doesn't work if you disable it in the lazy variable
     }
 
     private func setupSearchTextField() {
@@ -119,12 +121,12 @@ class AddExerciseViewController: UIViewController {
         if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
             buttonText = "Add (\(indexPaths.count))"
 
-            addButton.isUserInteractionEnabled = true
+            addButton.isEnabled = true
             addButton.alpha = Constants.activeAlpha
         } else {
             buttonText = "Add"
 
-            addButton.isUserInteractionEnabled = false
+            addButton.isEnabled = false
             addButton.alpha = Constants.inactiveAlpha
         }
         addButton.setTitle(buttonText, for: .normal)

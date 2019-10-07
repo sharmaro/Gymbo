@@ -9,7 +9,7 @@
 import UIKit
 
 final class ModalPresentationController: UIPresentationController {
-    private let modalYOffset: CGFloat = 80
+    private let modalYOffset: CGFloat = 60
 
     private lazy var dimmingView: UIView = {
         guard let containerView = containerView else {
@@ -17,7 +17,7 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         let dimmingView = UIView(frame: containerView.bounds)
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         dimmingView.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(dismiss))
         )

@@ -22,6 +22,6 @@ class WorkoutTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Do nothing
+        // No op
     }
 }
