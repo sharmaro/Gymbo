@@ -93,7 +93,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RuJ-9t-NpS" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
                                                 <rect key="frame" x="132.66666666666666" y="0.0" width="90" height="90"/>
-                                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Stop">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -153,8 +153,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Stopwatch" id="g3P-ra-bcb"/>
                     <connections>
+                        <outlet property="centiSecondLabel" destination="aQs-wU-k9x" id="JLD-tL-20P"/>
                         <outlet property="containerView" destination="zWx-5m-vSU" id="YH1-6s-zet"/>
-                        <outlet property="millisecondLabel" destination="aQs-wU-k9x" id="JLD-tL-20P"/>
                         <outlet property="minuteLabel" destination="sKF-EO-qph" id="NPU-36-C09"/>
                         <outlet property="resetButton" destination="dM4-TI-aMZ" id="Y5W-sF-cGu"/>
                         <outlet property="secondLabel" destination="A9Y-JB-BL3" id="9bM-at-9bb"/>

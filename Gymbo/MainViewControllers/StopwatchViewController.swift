@@ -12,17 +12,17 @@ class StopwatchViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var minuteLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
-    @IBOutlet weak var millisecondLabel: UILabel!
+    @IBOutlet weak var centiSecondLabel: UILabel!
     @IBOutlet weak var startButton: CustomButton!
     @IBOutlet weak var stopButton: CustomButton!
     @IBOutlet weak var resetButton: CustomButton!
 
-    private var stopWatchStatus = StopWatchStatus.stopped
+    private var stopwatchState = StopwatchState.stopped
     private var timer: Timer?
 
-    private var msInt: Int = 0 {
+    private var centiSecInt: Int = 0 {
         didSet {
-            millisecondLabel.text = String(format: "%02d", msInt)
+            centiSecondLabel.text = String(format: "%02d", centiSecInt)
         }
     }
 
@@ -38,15 +38,25 @@ class StopwatchViewController: UIViewController {
         }
     }
 
-    private enum StopWatchStatus {
-        case started
-        case stopped
-        case reset
+    private enum StopwatchState: Int {
+        case started = 0
+        case stopped = 1
+        case reset = 2
     }
 
     private struct Constants {
         static let activeAlpha: CGFloat = 1.0
         static let inactiveAlpha: CGFloat = 0.3
+
+        static let timeInterval: TimeInterval = 0.01
+
+        static let STOPWATCH_STATE_KEY: String = "stopwatchStateKey"
+        static let DATE_KEY: String = "dateKey"
+
+        static let TIME_DICT_KEY: String = "timeDictKey"
+        static let CS_INT_KEY: String = "csIntKey"
+        static let S_INT_KEY: String = "sIntKey"
+        static let MIN_INT_KEY: String = "minIntKey"
     }
 
     override func viewDidLoad() {
@@ -67,7 +77,19 @@ class StopwatchViewController: UIViewController {
             $0?.addCornerRadius(resetButton.bounds.width / 2)
         }
 
-        stopWatchInitialState()
+        let userDefault = UserDefaults.standard
+        if let stopwatchStateInt = userDefault.object(forKey: Constants.STOPWATCH_STATE_KEY) as? Int,
+            let oldState = StopwatchState(rawValue: stopwatchStateInt) {
+            stopwatchState = oldState
+            updateFromOldValues()
+            updateFromOldState()
+        } else {
+            stopWatchInitialState()
+        }
+
+        let notifCenter = NotificationCenter.default
+        notifCenter.addObserver(self, selector: #selector(didEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        notifCenter.addObserver(self, selector: #selector(willEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     private func stopWatchInitialState() {
@@ -82,7 +104,7 @@ class StopwatchViewController: UIViewController {
     }
 
     private func updateStopWatchButtons() {
-        switch stopWatchStatus {
+        switch stopwatchState {
         case .started:
             startButton.isEnabled = false
             startButton.alpha = Constants.inactiveAlpha
@@ -115,26 +137,46 @@ class StopwatchViewController: UIViewController {
     }
 
     private func updateStopWatchContent() {
-        switch stopWatchStatus {
+        switch stopwatchState {
         case .started:
-            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimeLabels), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateTimeLabels), userInfo: nil, repeats: true)
         case .stopped:
             timer?.invalidate()
         case .reset:
             minInt = 0
             secInt = 0
-            msInt = 0
+            centiSecInt = 0
         }
     }
 
+    private func updateFromOldValues() {
+        if let timeDict = UserDefaults.standard.object(forKey: Constants.TIME_DICT_KEY) as? [String: Int] {
+            centiSecInt = timeDict[Constants.CS_INT_KEY] ?? 0
+            secInt = timeDict[Constants.S_INT_KEY] ?? 0
+            minInt = timeDict[Constants.MIN_INT_KEY] ?? 0
+        }
+    }
+
+    private func updateFromOldState() {
+        if stopwatchState == .started,
+            let date = UserDefaults.standard.object(forKey: Constants.DATE_KEY) as? Date {
+            let deciSecElapsed = Int(Date().timeIntervalSince(date) * 100)
+            centiSecInt += deciSecElapsed % 100
+            let totalSeconds = deciSecElapsed / 100
+            secInt += totalSeconds % 60
+            minInt += totalSeconds / 60
+        }
+        updateStopWatchButtons()
+    }
+
     @objc private func updateTimeLabels() {
-        if msInt + 1 < 100 {
-            msInt += 1
+        if centiSecInt + 1 < 100 {
+            centiSecInt += 1
         } else if secInt + 1 < 60 {
-            msInt = 0
+            centiSecInt = 0
             secInt += 1
         } else {
-            msInt = 0
+            centiSecInt = 0
             secInt = 0
             minInt += 1
         }
@@ -144,15 +186,39 @@ class StopwatchViewController: UIViewController {
         if let button = sender as? UIButton {
             switch button.tag {
             case 0: // Start button pressed
-                stopWatchStatus = .started
+                stopwatchState = .started
             case 1: // Stop button pressed
-                stopWatchStatus = .stopped
+                stopwatchState = .stopped
             case 2: // Reset button pressed
-                stopWatchStatus = .reset
+                stopwatchState = .reset
             default:
                 fatalError("Unrecognized tag in stopWatchButtonPressed")
             }
             updateStopWatchButtons()
         }
+    }
+}
+
+// MARK: - Notification Center funcs
+
+extension StopwatchViewController {
+    @objc private func didEnterBackgroundNotification() {
+        timer?.invalidate()
+        let userStandard = UserDefaults.standard
+        let timeDict: [String: Int] = [
+            Constants.CS_INT_KEY: centiSecInt,
+            Constants.S_INT_KEY: secInt,
+            Constants.MIN_INT_KEY: minInt
+        ]
+
+        if stopwatchState == .started {
+            userStandard.set(Date(), forKey: Constants.DATE_KEY)
+        }
+        userStandard.set(stopwatchState.rawValue, forKey: Constants.STOPWATCH_STATE_KEY)
+        userStandard.set(timeDict, forKey: Constants.TIME_DICT_KEY)
+    }
+
+    @objc private func willEnterForegroundNotification() {
+        updateFromOldState()
     }
 }
