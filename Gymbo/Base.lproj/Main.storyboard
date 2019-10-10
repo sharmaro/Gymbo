@@ -29,7 +29,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLe-Xq-Rg9">
-                                                <rect key="frame" x="20" y="169.66666666666669" width="315" height="1"/>
+                                                <rect key="frame" x="20" y="169.66666666666666" width="315" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="i4P-rT-aMz"/>
@@ -151,6 +151,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Y4L-nQ-dzE"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Stopwatch" id="psf-o3-EGg"/>
                     <navigationItem key="navigationItem" title="Stopwatch" id="g3P-ra-bcb"/>
                     <connections>
                         <outlet property="centiSecondLabel" destination="aQs-wU-k9x" id="JLD-tL-20P"/>
@@ -164,7 +165,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EPe-1L-zeT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1026.0869565217392" y="4.6875"/>
+            <point key="canvasLocation" x="114" y="41"/>
         </scene>
         <!--Sessions-->
         <scene sceneID="NUW-ZT-aBE">
@@ -376,7 +377,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Cum-i8-bJz" kind="relationship" relationship="viewControllers" id="LOI-SD-bMj"/>
-                        <segue destination="Jdf-6D-kb6" kind="relationship" relationship="viewControllers" id="k15-2V-8Me"/>
+                        <segue destination="ZkM-Oh-f1Y" kind="relationship" relationship="viewControllers" id="fsg-2b-gF9"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xj1-Lt-xtF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -402,26 +403,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="73l-1s-6g4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115.94202898550725" y="-661.60714285714278"/>
-        </scene>
-        <!--Stopwatch-->
-        <scene sceneID="8j8-hz-gzp">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jdf-6D-kb6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Stopwatch" id="ufl-lB-6pg"/>
-                    <toolbarItems/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="M1m-xa-a5L">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="ZkM-Oh-f1Y" kind="relationship" relationship="rootViewController" id="ZTJ-n5-yV2"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uPm-qw-KFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="115.94202898550725" y="4.6875"/>
         </scene>
     </scenes>
 </document>

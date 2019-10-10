@@ -38,8 +38,6 @@ class StopwatchViewController: UIViewController {
         }
     }
 
-    private var oldTimeInCentiSecs: Int = 0
-
     private enum StopwatchState: Int {
         case started = 0
         case stopped = 1
@@ -156,21 +154,24 @@ class StopwatchViewController: UIViewController {
             centiSecInt = timeDict[Constants.CS_INT_KEY] ?? 0
             secInt = timeDict[Constants.S_INT_KEY] ?? 0
             minInt = timeDict[Constants.MIN_INT_KEY] ?? 0
-
-            oldTimeInCentiSecs += centiSecInt
-            oldTimeInCentiSecs += (secInt * 100)
-            oldTimeInCentiSecs += (minInt * 6000)
         }
     }
 
     private func updateFromOldState() {
         if stopwatchState == .started,
             let date = UserDefaults.standard.object(forKey: Constants.DATE_KEY) as? Date {
+
+            var oldTimeInCentiSecs: Int = 0
+            oldTimeInCentiSecs += centiSecInt
+            oldTimeInCentiSecs += (secInt * 100)
+            oldTimeInCentiSecs += (minInt * 6000)
+
             let centiSecElapsed = Int(Date().timeIntervalSince(date) * 100) + oldTimeInCentiSecs
-            centiSecInt += centiSecElapsed % 100
+            centiSecInt = centiSecElapsed % 100
+
             let totalSeconds = centiSecElapsed / 100
-            secInt += totalSeconds % 60
-            minInt += totalSeconds / 60
+            secInt = totalSeconds % 60
+            minInt = totalSeconds / 60
         }
         updateStopWatchButtons()
     }
