@@ -9,7 +9,8 @@
 import UIKit
 
 final class ModalPresentationController: UIPresentationController {
-    private let modalYOffset: CGFloat = 60
+    private var modalYOffset: CGFloat = 60
+    var customHeight: CGFloat?
 
     private lazy var dimmingView: UIView = {
         guard let containerView = containerView else {
@@ -39,7 +40,14 @@ final class ModalPresentationController: UIPresentationController {
             return CGRect.zero
         }
 
-        let modalHeight = containerView.bounds.height - modalYOffset
+        let modalHeight: CGFloat
+        if let height = customHeight {
+            modalHeight = height
+            modalYOffset = containerView.bounds.height - height
+        } else {
+            modalHeight = containerView.bounds.height - modalYOffset
+        }
+
         return CGRect(origin: CGPoint(x: 0, y: modalYOffset), size: CGSize(width: containerView.bounds.width, height: modalHeight))
     }
 

@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
+        savePremadeExercises()
 
         return true
     }
@@ -32,6 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupUITableViewAppearance() {
         UITableView.appearance().showsHorizontalScrollIndicator = false
         UITableView.appearance().showsVerticalScrollIndicator = false
+    }
+
+    private func savePremadeExercises() {
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

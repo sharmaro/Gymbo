@@ -30,7 +30,6 @@ class SessionsViewController: UIViewController {
         super.viewDidLoad()
 
         setupCollectionView()
-//        refreshMainView()
         setupAddSessionButton()
     }
 
@@ -52,17 +51,15 @@ class SessionsViewController: UIViewController {
     private func refreshMainView() {
         collectionView.isHidden = dataModelManager.sessionsCount == 0
         emptyExerciseLabel.isHidden = !collectionView.isHidden
-        if collectionView.isHidden {
-            // No op
-        } else {
+        if !collectionView.isHidden {
             collectionView.reloadData()
         }
     }
 
     private func setupAddSessionButton() {
-        addSessionButton.setTitle("Add \nSession", for: .normal)
+        addSessionButton.setTitle("+ Add Session", for: .normal)
         addSessionButton.titleLabel?.textAlignment = .center
-        addSessionButton.addCornerRadius(addSessionButton.bounds.width / 2)
+        addSessionButton.addCornerRadius()
     }
 
     // MARK: - IBAction funcs
@@ -96,8 +93,8 @@ extension SessionsViewController: UICollectionViewDataSource {
         }
 
         cell.clearLabels()
-        cell.sessionTitleLabel.text = dataModelManager.getSessionNameForIndex(index: indexPath.row)
-        cell.workoutsInfoLabel.text = dataModelManager.workoutsInfoTextForSession(index: indexPath.row)
+        cell.sessionTitleLabel.text = dataModelManager.getSessionName(for: indexPath.row)
+        cell.workoutsInfoLabel.text = dataModelManager.workoutsInfoText(for: indexPath.row)
 
         return cell
     }
@@ -114,7 +111,7 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.frame.width - 40
         var height = Constants.sessionCellHeight
 
-        let workoutsCount = CGFloat(dataModelManager.workoutsCountForSession(index: indexPath.row))
+        let workoutsCount = CGFloat(dataModelManager.workoutsCount(for: indexPath.row))
 
         if workoutsCount > 0 {
             height = (Constants.sessionCellLineHeight * workoutsCount) + Constants.sessionTitleHeight

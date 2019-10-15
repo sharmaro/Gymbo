@@ -18,19 +18,19 @@ class SessionDataModelManager: NSObject {
         return getSessionsCount()
     }
 
-    private var sessionDataModelArray: Results<Session>?
+    private var sessionsArray: Results<Session>?
 
     override init() {
         super.init()
 
-        sessionDataModelArray = fetchSessions()
+        sessionsArray = fetchSessions()
 
         printConfigFileLocation()
     }
 
     func printConfigFileLocation() {
         if let configFileURL = realm?.configuration.fileURL {
-            print("START FILE NAME")
+            print("START SESSION FILE NAME")
             print("config file: \(configFileURL)")
             print("config file_path: \(configFileURL.path)")
             print("config file_relative_path: \(configFileURL.relativePath)")
@@ -38,7 +38,7 @@ class SessionDataModelManager: NSObject {
             print("config file_path_extension: \(configFileURL.pathExtension)")
             print("config file_absolute_url: \(configFileURL.absoluteURL)")
             print("config file_absolute_string: \(configFileURL.absoluteString)")
-            print("END FILE NAME")
+            print("END SESSION FILE NAME")
         }
     }
 
@@ -53,7 +53,7 @@ class SessionDataModelManager: NSObject {
     }
 
     private func getSessionsCount() -> Int {
-        return sessionDataModelArray?.count ?? 0
+        return sessionsArray?.count ?? 0
     }
 
     func saveSession(session: Session) {
@@ -62,23 +62,23 @@ class SessionDataModelManager: NSObject {
         }
     }
 
-    func getSessionNameForIndex(index: Int) -> String {
-        return sessionDataModelArray?[index].name ?? "No name"
+    func getSessionName(for index: Int) -> String {
+        return sessionsArray?[index].name ?? "No name"
     }
 
-    func workoutsCountForSession(index: Int) -> Int {
-        return sessionDataModelArray?[index].workouts.count ?? 0
+    func workoutsCount(for index: Int) -> Int {
+        return sessionsArray?[index].workouts.count ?? 0
     }
 
-    func workoutsInfoTextForSession(index: Int) -> String {
+    func workoutsInfoText(for index: Int) -> String {
         var workoutsInfoText = "No workouts selected for this session."
-        if let workouts = sessionDataModelArray?[index].workouts, workouts.count > 0 {
+        if let workouts = sessionsArray?[index].workouts, workouts.count > 0 {
             workoutsInfoText = ""
             for i in 0..<workouts.count {
                 var totalWorkoutString = ""
                 let name = Util.formattedString(stringToFormat: workouts[i].name, type: .name)
                 let sets = Util.formattedString(stringToFormat: String(workouts[i].sets), type: .sets)
-                let areRepsUnique = isRepsStringUnique(workout: workouts[i])
+                let areRepsUnique = isRepsStringUnique(for: workouts[i])
                 let reps = Util.formattedString(stringToFormat: workouts[i].workoutDetails[0].reps, type: .reps(areUnique: areRepsUnique))
 
                 totalWorkoutString = "\(name) - \(sets) x \(reps)"
@@ -91,7 +91,7 @@ class SessionDataModelManager: NSObject {
         return workoutsInfoText
     }
 
-    private func isRepsStringUnique(workout: Workout) -> Bool {
+    private func isRepsStringUnique(for workout: Workout) -> Bool {
         var areUnique = false
         let workoutDetails = workout.workoutDetails
         if workoutDetails.count == 1 {

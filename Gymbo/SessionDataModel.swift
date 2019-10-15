@@ -21,12 +21,6 @@ import RealmSwift
         self.weight = weight
         self.time = time
     }
-
-    func printInfo() {
-        print("reps: \(reps ?? "")")
-        print("weight: \(weight ?? "")")
-        print("time: \(time ?? "")")
-    }
 }
 
 @objcMembers class Workout: Object {
@@ -44,7 +38,7 @@ import RealmSwift
         self.sets = sets
         self.additionalInfo = additionalInfo
 
-        if workoutDetails.count == 0 {
+        if workoutDetails.isEmpty {
             let workoutDetail = WorkoutDetails()
             self.workoutDetails.append(workoutDetail)
         } else {

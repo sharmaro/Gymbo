@@ -26,7 +26,7 @@ class AddExerciseViewController: UIViewController {
         button.titleFontSize = 12
         button.addCornerRadius()
         button.tag = 0
-        button.addTarget(self, action: #selector(navBarButtonPressed(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -37,15 +37,15 @@ class AddExerciseViewController: UIViewController {
         button.addCornerRadius()
         button.alpha = Constants.inactiveAlpha
         button.tag = 1
-        button.addTarget(self, action: #selector(navBarButtonPressed(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
         return button
     }()
 
-    private let exerciseNameArray =
+    private var exerciseNameArray =
         ["Exercise 0", "Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5", "Exercise 6", "Exercise 7",
          "Exercise 8", "Exercise 9", "Exercise 10", "Exercise 11", "Exercise 12", "Exercise 13", "Exercise 14", "Exercise 15",
          "Exercise 16", "Exercise 17", "Exercise 18", "Exercise 19", "Exercise 20", "Exercise 21", "Exercise 22", "Exercise 23"]
-    private let muscleGroupArray =
+    private var muscleGroupArray =
         ["shoulders, traps", "biceps", "triceps", "quads", "back", "triceps", "legs", "back",
          "abs, obliques, biceps", "triceps", "quads", "calves", "legs", "back", "triceps", "calves",
          "back, biceps", "chest, triceps, biceps", "quads, triceps", "calves, biceps", "back",
@@ -53,7 +53,6 @@ class AddExerciseViewController: UIViewController {
 
     // For searching exercises
     private var searchedTextArray = [String]()
-    private var sortedArray = [[String]]()
 
     private var selectedExercises = [ExerciseText]()
 
@@ -71,7 +70,7 @@ class AddExerciseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupView()
+        setupNavigationBar()
         setupSearchTextField()
         setupTableView()
 
@@ -82,7 +81,7 @@ class AddExerciseViewController: UIViewController {
         searchedTextArray = exerciseNameArray
     }
 
-    private func setupView() {
+    private func setupNavigationBar() {
         navigationBar.prefersLargeTitles = false
         customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
@@ -95,7 +94,7 @@ class AddExerciseViewController: UIViewController {
         searchTextField.layer.borderColor = UIColor.black.cgColor
         searchTextField.borderStyle = .none
         searchTextField.leftViewMode = .always
-        searchTextField.addTarget(self, action: #selector(textFieldDidChange(_ :)), for: .editingChanged)
+        searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         let searchImageContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 28, height: 16)))
         let searchImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 10, y: 0), size: CGSize(width: 16, height: 16)))
@@ -170,9 +169,16 @@ class AddExerciseViewController: UIViewController {
 
     @IBAction func createExerciseButtonTapped(_ sender: Any) {
         if sender is UIButton {
-            // TODO: Create VC for creating a new exercise
-            // Exercise name and category
-            print(#function)
+            if let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: "CreateExerciseViewController") as? CreateExerciseViewController {
+                if #available(iOS 13.0, *) {
+                    // No op
+                } else {
+                    createExerciseVC.modalPresentationStyle = .custom
+                    createExerciseVC.transitioningDelegate = self
+                    createExerciseVC.createExerciseDelegate = self
+                }
+                present(createExerciseVC, animated: true, completion: nil)
+            }
         }
     }
 }
@@ -210,5 +216,20 @@ extension AddExerciseViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         updateAddButtonTitle()
+    }
+}
+
+extension AddExerciseViewController: CreateExerciseDelegate {
+    func addExercise(exercise: String, muscleGroups: String) {
+        exerciseNameArray.append(exercise)
+        muscleGroupArray.append(muscleGroups)
+        searchedTextArray = exerciseNameArray
+        tableView.reloadData()
+    }
+}
+
+extension AddExerciseViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

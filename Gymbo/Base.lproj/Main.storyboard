@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,40 +13,40 @@
             <objects>
                 <viewController restorationIdentifier="StopwatchViewController" storyboardIdentifier="StopwatchViewController" id="ZkM-Oh-f1Y" customClass="StopwatchViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f5x-eH-JBF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zWx-5m-vSU">
-                                <rect key="frame" x="10" y="0.0" width="355" height="631"/>
+                                <rect key="frame" x="10" y="0.0" width="394" height="715"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TkC-kj-7hX">
-                                        <rect key="frame" x="0.0" y="0.0" width="355" height="511"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="595"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKF-EO-qph">
-                                                <rect key="frame" x="0.0" y="0.0" width="355" height="169.66666666666666"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="197.66666666666666"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="100"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLe-Xq-Rg9">
-                                                <rect key="frame" x="20" y="169.66666666666666" width="315" height="1"/>
+                                                <rect key="frame" x="20" y="197.66666666666666" width="354" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="i4P-rT-aMz"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A9Y-JB-BL3">
-                                                <rect key="frame" x="0.0" y="170.66666666666669" width="355" height="169.66666666666669"/>
+                                                <rect key="frame" x="0.0" y="198.66666666666669" width="394" height="197.66666666666669"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="85"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8w-Lk-OdT">
-                                                <rect key="frame" x="20" y="340.33333333333331" width="315" height="1"/>
+                                                <rect key="frame" x="20" y="396.33333333333331" width="354" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aQs-wU-k9x">
-                                                <rect key="frame" x="0.0" y="341.33333333333331" width="355" height="169.66666666666669"/>
+                                                <rect key="frame" x="0.0" y="397.33333333333331" width="394" height="197.66666666666669"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="70"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -75,10 +75,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-44-nKw">
-                                        <rect key="frame" x="0.0" y="521" width="355" height="90"/>
+                                        <rect key="frame" x="0.0" y="605" width="394" height="90"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OrD-zG-Wpu" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="0.0" width="90" height="90"/>
+                                                <rect key="frame" x="24" y="0.0" width="90" height="90"/>
                                                 <color key="backgroundColor" red="0.23484207840802768" green="0.45536564086294418" blue="0.24130885868088428" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="2aM-8N-kGt"/>
@@ -92,7 +92,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RuJ-9t-NpS" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                                <rect key="frame" x="132.66666666666666" y="0.0" width="90" height="90"/>
+                                                <rect key="frame" x="152" y="0.0" width="90" height="90"/>
                                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Stop">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -102,7 +102,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dM4-TI-aMZ" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                                <rect key="frame" x="248" y="0.0" width="90" height="90"/>
+                                                <rect key="frame" x="280" y="0.0" width="90" height="90"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Reset">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -172,11 +172,11 @@
             <objects>
                 <viewController id="KdM-Vy-LJH" customClass="SessionsViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Pg-XH-dBZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s1x-lJ-ypg">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="524"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="645"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Nfd-UG-Zg9">
                                     <size key="itemSize" width="0.0" height="0.0"/>
@@ -187,10 +187,9 @@
                                 <cells/>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="C66-72-bj1" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="146.66666666666666" y="544" width="82" height="82"/>
+                                <rect key="frame" x="30" y="665" width="354" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="C66-72-bj1" secondAttribute="height" multiplier="1:1" id="Plr-eV-s2x"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="yQe-7u-Na6"/>
+                                    <constraint firstAttribute="height" constant="45" id="BId-IB-DUG"/>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -200,7 +199,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add sessions to get started" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5IV-gc-v7n">
-                                <rect key="frame" x="82.666666666666686" y="310" width="210" height="21"/>
+                                <rect key="frame" x="102" y="352" width="210" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -211,7 +210,8 @@
                             <constraint firstItem="5IV-gc-v7n" firstAttribute="centerY" secondItem="4Pg-XH-dBZ" secondAttribute="centerY" id="COb-gr-1eh"/>
                             <constraint firstItem="dun-DM-n6V" firstAttribute="bottom" secondItem="C66-72-bj1" secondAttribute="bottom" constant="15" id="Cj1-4Q-wbD"/>
                             <constraint firstItem="s1x-lJ-ypg" firstAttribute="top" secondItem="dun-DM-n6V" secondAttribute="top" id="Q2d-Ee-uwg"/>
-                            <constraint firstItem="C66-72-bj1" firstAttribute="centerX" secondItem="4Pg-XH-dBZ" secondAttribute="centerX" id="lnt-QI-2at"/>
+                            <constraint firstItem="dun-DM-n6V" firstAttribute="trailing" secondItem="C66-72-bj1" secondAttribute="trailing" constant="30" id="S7b-qz-8Sk"/>
+                            <constraint firstItem="C66-72-bj1" firstAttribute="leading" secondItem="dun-DM-n6V" secondAttribute="leading" constant="30" id="e11-LF-2Cm"/>
                             <constraint firstItem="s1x-lJ-ypg" firstAttribute="leading" secondItem="dun-DM-n6V" secondAttribute="leading" id="saz-uJ-13b"/>
                             <constraint firstItem="dun-DM-n6V" firstAttribute="trailing" secondItem="s1x-lJ-ypg" secondAttribute="trailing" id="y1q-36-veu"/>
                             <constraint firstItem="C66-72-bj1" firstAttribute="top" secondItem="s1x-lJ-ypg" secondAttribute="bottom" constant="20" id="zKA-9C-ibE"/>
@@ -241,15 +241,15 @@
             <objects>
                 <viewController restorationIdentifier="AddSessionViewController" storyboardIdentifier="AddSessionViewController" id="fFC-dC-9Se" customClass="AddSessionViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MAp-Ss-KAS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iXc-WH-Dh4">
-                                <rect key="frame" x="0.0" y="76" width="375" height="448"/>
+                                <rect key="frame" x="0.0" y="76" width="414" height="569"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Session name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J1L-xT-oha">
-                                <rect key="frame" x="20" y="20" width="335" height="36"/>
+                                <rect key="frame" x="20" y="20" width="374" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="SNl-Ga-gNJ"/>
                                 </constraints>
@@ -257,10 +257,9 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="EHg-Z5-Dxe" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="146.66666666666666" y="544" width="82" height="82"/>
+                                <rect key="frame" x="30" y="665" width="354" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="O1T-n3-TDe"/>
-                                    <constraint firstAttribute="width" secondItem="EHg-Z5-Dxe" secondAttribute="height" multiplier="1:1" id="tDG-PM-3PB"/>
+                                    <constraint firstAttribute="height" constant="45" id="dJ3-7u-UQD"/>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -273,12 +272,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iXc-WH-Dh4" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" id="7wq-fL-zKt"/>
+                            <constraint firstItem="EHg-Z5-Dxe" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" constant="30" id="8Ko-MK-O62"/>
                             <constraint firstItem="EHg-Z5-Dxe" firstAttribute="top" secondItem="iXc-WH-Dh4" secondAttribute="bottom" constant="20" id="K4N-UT-Dc9"/>
+                            <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="EHg-Z5-Dxe" secondAttribute="trailing" constant="30" id="Owh-mQ-ppE"/>
                             <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="J1L-xT-oha" secondAttribute="trailing" constant="20" id="Vrz-TI-7Ef"/>
                             <constraint firstItem="J1L-xT-oha" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" constant="20" id="ZLW-3L-ZSY"/>
                             <constraint firstItem="LbN-Kh-bkH" firstAttribute="bottom" secondItem="EHg-Z5-Dxe" secondAttribute="bottom" constant="15" id="dGw-R8-Aks"/>
                             <constraint firstItem="iXc-WH-Dh4" firstAttribute="top" secondItem="J1L-xT-oha" secondAttribute="bottom" constant="20" id="gsI-z3-dua"/>
-                            <constraint firstItem="EHg-Z5-Dxe" firstAttribute="centerX" secondItem="MAp-Ss-KAS" secondAttribute="centerX" id="i1K-rD-kta"/>
                             <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="iXc-WH-Dh4" secondAttribute="trailing" id="vwf-Vl-5PJ"/>
                             <constraint firstItem="J1L-xT-oha" firstAttribute="top" secondItem="LbN-Kh-bkH" secondAttribute="top" constant="20" id="xIu-AK-O9z"/>
                         </constraints>
@@ -301,21 +301,21 @@
             <objects>
                 <viewController restorationIdentifier="AddExerciseViewController" storyboardIdentifier="AddExerciseViewController" id="Ucj-pt-22p" customClass="AddExerciseViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="drx-Rz-O4a">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoM-13-vUM">
-                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="Add Exercise" id="Lmi-PP-pTH"/>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
-                                <rect key="frame" x="20" y="158" width="335" height="560"/>
+                                <rect key="frame" x="20" y="158" width="374" height="639"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for exercises" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jD5-cl-Ujq">
-                                <rect key="frame" x="20" y="108" width="335" height="30"/>
+                                <rect key="frame" x="20" y="108" width="374" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="aH2-jn-JyX"/>
                                 </constraints>
@@ -323,9 +323,9 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HH5-KY-t9x" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="20" y="738" width="335" height="40"/>
+                                <rect key="frame" x="30" y="817" width="354" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="ERt-bo-Ani"/>
+                                    <constraint firstAttribute="height" constant="45" id="ERt-bo-Ani"/>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -346,10 +346,10 @@
                             <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="EoM-13-vUM" secondAttribute="trailing" id="UF7-16-aDn"/>
                             <constraint firstItem="jD5-cl-Ujq" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="20" id="UP0-LP-Xp9"/>
                             <constraint firstItem="jD5-cl-Ujq" firstAttribute="top" secondItem="EoM-13-vUM" secondAttribute="bottom" constant="20" id="WZn-N4-gd3"/>
-                            <constraint firstItem="HH5-KY-t9x" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="20" id="c8F-6n-aIt"/>
+                            <constraint firstItem="HH5-KY-t9x" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" constant="30" id="c8F-6n-aIt"/>
                             <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="jD5-cl-Ujq" secondAttribute="trailing" constant="20" id="fjy-bt-t3M"/>
                             <constraint firstItem="HH5-KY-t9x" firstAttribute="top" secondItem="l3u-YC-PdZ" secondAttribute="bottom" constant="20" id="hkA-y8-won"/>
-                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="HH5-KY-t9x" secondAttribute="trailing" constant="20" id="pty-nQ-XtB"/>
+                            <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="HH5-KY-t9x" secondAttribute="trailing" constant="30" id="pty-nQ-XtB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Gum-bs-9xQ"/>
                     </view>
@@ -364,6 +364,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aS9-CA-Ybi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2645" y="-662"/>
+        </scene>
+        <!--Create Exercise View Controller-->
+        <scene sceneID="bT9-YH-IPi">
+            <objects>
+                <viewController restorationIdentifier="CreateExerciseViewController" storyboardIdentifier="CreateExerciseViewController" id="h0z-iw-mly" customClass="CreateExerciseViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rza-82-F5R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwA-sl-eoV">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Create Exercise" id="HmC-Cs-kX4"/>
+                                </items>
+                            </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zZv-Cr-5zC">
+                                <rect key="frame" x="15" y="108" width="384" height="90"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DLT-vM-tRq">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="pgJ-6l-ngd"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Muscle groups..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mZW-Ei-NZk">
+                                        <rect key="frame" x="0.0" y="50" width="384" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="mZW-Ei-NZk" firstAttribute="height" secondItem="DLT-vM-tRq" secondAttribute="height" id="9Uv-zT-2BH"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="zZv-Cr-5zC" firstAttribute="leading" secondItem="Ab0-gE-vID" secondAttribute="leading" constant="15" id="4jL-Ez-A5g"/>
+                            <constraint firstItem="uwA-sl-eoV" firstAttribute="trailing" secondItem="Ab0-gE-vID" secondAttribute="trailing" id="Br5-pF-hCc"/>
+                            <constraint firstItem="uwA-sl-eoV" firstAttribute="leading" secondItem="Ab0-gE-vID" secondAttribute="leading" id="MKw-rn-VsR"/>
+                            <constraint firstItem="uwA-sl-eoV" firstAttribute="top" secondItem="Ab0-gE-vID" secondAttribute="top" id="bO4-SH-hml"/>
+                            <constraint firstItem="zZv-Cr-5zC" firstAttribute="top" secondItem="uwA-sl-eoV" secondAttribute="bottom" constant="20" id="eD3-zf-g16"/>
+                            <constraint firstItem="Ab0-gE-vID" firstAttribute="trailing" secondItem="zZv-Cr-5zC" secondAttribute="trailing" constant="15" id="fF6-CB-qKy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ab0-gE-vID"/>
+                    </view>
+                    <connections>
+                        <outlet property="customNavigationItem" destination="HmC-Cs-kX4" id="4nR-z9-5jS"/>
+                        <outlet property="exerciseNameTextField" destination="DLT-vM-tRq" id="yia-s4-0vC"/>
+                        <outlet property="muscleGroupsTextField" destination="mZW-Ei-NZk" id="3p1-se-4VU"/>
+                        <outlet property="navigationBar" destination="uwA-sl-eoV" id="ses-C5-ugh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JJp-Qr-cw3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3418" y="-662"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="GTo-l9-EN5">
@@ -392,7 +450,7 @@
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="fQm-1i-yk6">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

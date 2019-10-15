@@ -65,9 +65,9 @@ class AddSessionViewController: UIViewController {
         tableView.keyboardDismissMode = .interactive
         tableView.register(WorkoutDetailTableViewCell.nib, forCellReuseIdentifier: WorkoutDetailTableViewCell.reuseIdentifier)
 
-        addExerciseButton.setTitle("Add \nExercise", for: .normal)
+        addExerciseButton.setTitle("+ Add Exercise", for: .normal)
         addExerciseButton.titleLabel?.textAlignment = .center
-        addExerciseButton.addCornerRadius(addExerciseButton.bounds.width / 2)
+        addExerciseButton.addCornerRadius()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -112,8 +112,6 @@ class AddSessionViewController: UIViewController {
             }
             addExerciseViewController.workoutListDelegate = self
             present(addExerciseViewController, animated: true, completion: nil)
-        } else {
-            fatalError("Could not instantiate AddExerciseViewController.")
         }
     }
 }
@@ -190,7 +188,7 @@ extension AddSessionViewController: UITableViewDataSource {
         addSetButton.setTitle("Add Set", for: .normal)
         addSetButton.addCornerRadius()
         addSetButton.tag = section
-        addSetButton.addTarget(self, action: #selector(addSetButtonTapped(_ :)), for: .touchUpInside)
+        addSetButton.addTarget(self, action: #selector(addSetButtonTapped), for: .touchUpInside)
         footerContainerView.addSubview(addSetButton)
 
         return footerContainerView
