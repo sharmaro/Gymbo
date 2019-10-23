@@ -10,7 +10,7 @@ import UIKit
 
 class WorkoutTableViewCell: UITableViewCell {
     @IBOutlet weak var exerciseNameLabel: UILabel!
-    @IBOutlet weak var muscleGroupsLabel: UILabel!
+    @IBOutlet weak var exerciseMusclesLabel: UILabel!
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -22,6 +22,8 @@ class WorkoutTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // No op
+
+        exerciseNameLabel.textColor = .black
+        exerciseMusclesLabel.textColor = .darkGray
     }
 }

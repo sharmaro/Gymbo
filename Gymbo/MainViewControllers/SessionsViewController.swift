@@ -94,30 +94,31 @@ extension SessionsViewController: UICollectionViewDataSource {
 
         cell.clearLabels()
         cell.sessionTitleLabel.text = dataModelManager.getSessionName(for: indexPath.row)
-        cell.workoutsInfoLabel.text = dataModelManager.workoutsInfoText(for: indexPath.row)
+        cell.workoutsInfoTextView.text = dataModelManager.workoutsInfoText(for: indexPath.row)
 
         return cell
     }
 }
 
 extension SessionsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = collectionView.frame.width - 40
-        var height = Constants.sessionCellHeight
+        let totalWidth = collectionView.bounds.width
+        let itemWidth = (totalWidth - 30) / 2
 
-        let workoutsCount = CGFloat(dataModelManager.workoutsCount(for: indexPath.row))
-
-        if workoutsCount > 0 {
-            height = (Constants.sessionCellLineHeight * workoutsCount) + Constants.sessionTitleHeight
-        }
-
-        return CGSize(width: width, height: height)
+        return CGSize(width: itemWidth, height: 120)
     }
 }
 

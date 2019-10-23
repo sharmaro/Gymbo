@@ -1,0 +1,59 @@
+Ball Standing Biceps Curls:biceps, forearms
+Ball Preacher Dumbbell Curls:biceps, forearms
+Ball Triceps Extensions:triceps, delts, chest
+Ball Triceps Extensions Standing:triceps, delts, chest
+Ball Wrist Curls:forearms, biceps
+Ball Concentration Curls:biceps, forearms
+Ball Double Arm Inclined Dumbbell Curl:biceps, forearms
+Ball Double Arm Tricep Kickback:triceps, delts
+Ball Seated Bicep Curls:biceps, forearms
+Ball Single Arm Inclined Dumbbell Curl:biceps, forearms
+Ball Single Arm Tricep Extension:triceps
+Ball Single Arm Tricep Kickback:triceps, delts
+Ball Standing Tricep Kickback:triceps
+Bands Double Arm Bicep Curl:biceps, forearms
+Bands Tricep Extension:triceps
+Bands Tricep Kickback:triceps, delts
+Barbell Preacher Curls:biceps, forearms
+Behind the Back Barbell Wrist Curls:forearms
+Cable Curls with Preacher Bench:biceps
+Close Grip Presses:triceps, chest, delts
+Close Grip Pushups:triceps, chest, delts
+Concentration Curls:biceps, forearms
+Declined Bench Triceps Extensions:triceps
+Dips Behind the Back:triceps, chest, delts
+Double Arm Can Curls:biceps, forearms
+Dumbbell Kickbacks:triceps
+Dumbbell Preacher Curls:biceps, forearms
+Incline Dumbbell Curls:biceps, forearms
+Lying Cross Face Triceps Extensions:triceps
+Lying Dumbbell Curls:biceps, forearms
+Lying Triceps Dumbbell Extensions:triceps, forearms
+Lying Triceps Extensions:triceps
+Machine Bicep Curls:biceps, forearms
+Machine Tricep Extensions:triceps
+One Arm Cable Reverse Pushdowns:triceps
+Reverse Barbell Curls:forearms, biceps
+Reverse Grip Triceps Cable Pushdowns:triceps, abs
+Seated Barbell Wrist Curls:forearms
+Seated Dumbbell 21s:biceps, forearms
+Seated Dumbbell Curls:biceps
+Seated Dumbbell Wrist Curls:forearms
+Seated Overhead Barbell Extensions:triceps
+Seated Overhead Dumbbell Extensions:triceps
+Seated Reverse Barbell Wrist Curls:forearms
+Seated Reverse Dumbbell Wrist Curls:forearms
+Single Arm Can Curls:biceps
+Single Arm Overhead Extensions With Cans:triceps
+Single Arm Overhead Tricep Extensions:triceps
+Standing Barbell 21s:biceps
+Standing Barbell Curl:biceps
+Standing Dumbbell Curls:biceps
+Standing Dumbbell Hammer Curls:biceps
+Standing E-Z Bar Curl:biceps, forearms
+Standing Overhead Cable Extensions:triceps, lateral delts
+Standing Two Hand Cable Curls:biceps, forearms
+Tricep Kickbacks with Cans:triceps, delts
+Triceps Cable Pushdowns:triceps
+Triceps Cable Pushdowns with Rope:triceps
+Bent Knee Push Ups:triceps, delts

@@ -20,7 +20,7 @@ class AddSessionViewController: UIViewController {
     @IBOutlet weak var addExerciseButton: CustomButton!
 
     private lazy var saveButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 45, height: 20)))
+        let button = CustomButton(frame: CGRect(origin: .zero, size: CGSize(width: 45, height: 20)))
         button.setTitle("Save", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
@@ -126,7 +126,7 @@ extension AddSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: tableView.bounds.width, height: Constants.headerViewHeight)))
+        let headerContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.headerViewHeight)))
         headerContainerView.backgroundColor = .white
 
         let exerciseLabel = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 0), size: CGSize(width: tableView.bounds.width - 40, height: Constants.headerViewHeight)))
@@ -166,7 +166,7 @@ extension AddSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerContainerView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: tableView.bounds.width, height: Constants.footerViewHeight)))
+        let footerContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.footerViewHeight)))
         footerContainerView.backgroundColor = .white
 
         let subviewWidth = tableView.bounds.width - 40
@@ -276,7 +276,7 @@ extension AddSessionViewController: UITextFieldDelegate {
 extension AddSessionViewController: WorkoutListDelegate {
     func updateWorkoutList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
-            workoutList.append(Workout(name: exerciseText.exerciseName, muscleGroups: exerciseText.muscleGroups, sets: 1, workoutDetails: List<WorkoutDetails>()))
+            workoutList.append(Workout(name: exerciseText.exerciseName, muscleGroups: exerciseText.exerciseMuscles, sets: 1, workoutDetails: List<WorkoutDetails>()))
         }
 
         tableView.isHidden = workoutList.count == 0

@@ -379,49 +379,89 @@
                                     <navigationItem title="Create Exercise" id="HmC-Cs-kX4"/>
                                 </items>
                             </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zZv-Cr-5zC">
-                                <rect key="frame" x="15" y="108" width="384" height="90"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnZ-co-vtn">
+                                <rect key="frame" x="15" y="108" width="384" height="192"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DLT-vM-tRq">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9M-fw-gX7">
+                                        <rect key="frame" x="5" y="5" width="374" height="100"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="pgJ-6l-ngd"/>
+                                            <constraint firstAttribute="height" constant="100" id="WEO-sg-Wn0"/>
+                                        </constraints>
+                                    </pickerView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DLT-vM-tRq">
+                                        <rect key="frame" x="5" y="106" width="374" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="VYf-ty-48c"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SNH-Ds-cF8">
+                                        <rect key="frame" x="0.0" y="146" width="384" height="1"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="9Cu-ha-6sg"/>
+                                        </constraints>
+                                    </view>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Muscle groups..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mZW-Ei-NZk">
-                                        <rect key="frame" x="0.0" y="50" width="384" height="40"/>
+                                        <rect key="frame" x="5" y="147" width="374" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oht-Qt-kK5">
+                                        <rect key="frame" x="0.0" y="105" width="384" height="1"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="tRQ-CX-7CX"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="mZW-Ei-NZk" firstAttribute="height" secondItem="DLT-vM-tRq" secondAttribute="height" id="9Uv-zT-2BH"/>
+                                    <constraint firstItem="DLT-vM-tRq" firstAttribute="top" secondItem="oht-Qt-kK5" secondAttribute="bottom" id="4gR-LB-1tV"/>
+                                    <constraint firstItem="DLT-vM-tRq" firstAttribute="height" secondItem="mZW-Ei-NZk" secondAttribute="height" id="9x8-bm-dvR"/>
+                                    <constraint firstItem="SNH-Ds-cF8" firstAttribute="leading" secondItem="gnZ-co-vtn" secondAttribute="leading" id="A06-Fs-OdF"/>
+                                    <constraint firstItem="oht-Qt-kK5" firstAttribute="leading" secondItem="gnZ-co-vtn" secondAttribute="leading" id="EoT-yf-VqF"/>
+                                    <constraint firstItem="mZW-Ei-NZk" firstAttribute="leading" secondItem="gnZ-co-vtn" secondAttribute="leading" constant="5" id="FDs-YU-Ewo"/>
+                                    <constraint firstItem="u9M-fw-gX7" firstAttribute="bottom" secondItem="oht-Qt-kK5" secondAttribute="top" id="Mby-P7-doQ"/>
+                                    <constraint firstItem="DLT-vM-tRq" firstAttribute="leading" secondItem="gnZ-co-vtn" secondAttribute="leading" constant="5" id="T9w-JG-vDR"/>
+                                    <constraint firstItem="u9M-fw-gX7" firstAttribute="leading" secondItem="gnZ-co-vtn" secondAttribute="leading" constant="5" id="Vof-xr-sc0"/>
+                                    <constraint firstAttribute="bottom" secondItem="mZW-Ei-NZk" secondAttribute="bottom" constant="5" id="bxs-YX-i8v"/>
+                                    <constraint firstAttribute="trailing" secondItem="u9M-fw-gX7" secondAttribute="trailing" constant="5" id="ddv-x2-9XU"/>
+                                    <constraint firstItem="DLT-vM-tRq" firstAttribute="bottom" secondItem="SNH-Ds-cF8" secondAttribute="top" id="iTa-Qy-1Xc"/>
+                                    <constraint firstItem="SNH-Ds-cF8" firstAttribute="bottom" secondItem="mZW-Ei-NZk" secondAttribute="top" id="ijK-RM-WY0"/>
+                                    <constraint firstAttribute="trailing" secondItem="mZW-Ei-NZk" secondAttribute="trailing" constant="5" id="keb-ZC-gnG"/>
+                                    <constraint firstAttribute="trailing" secondItem="DLT-vM-tRq" secondAttribute="trailing" constant="5" id="m8I-oT-i1t"/>
+                                    <constraint firstAttribute="trailing" secondItem="oht-Qt-kK5" secondAttribute="trailing" id="oXe-9M-sEq"/>
+                                    <constraint firstAttribute="trailing" secondItem="SNH-Ds-cF8" secondAttribute="trailing" id="rpg-Dc-gWe"/>
+                                    <constraint firstAttribute="height" constant="192" id="sgj-it-0As"/>
+                                    <constraint firstItem="u9M-fw-gX7" firstAttribute="top" secondItem="gnZ-co-vtn" secondAttribute="top" constant="5" id="wAX-fn-s8F"/>
                                 </constraints>
-                            </stackView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="zZv-Cr-5zC" firstAttribute="leading" secondItem="Ab0-gE-vID" secondAttribute="leading" constant="15" id="4jL-Ez-A5g"/>
+                            <constraint firstItem="gnZ-co-vtn" firstAttribute="leading" secondItem="Rza-82-F5R" secondAttribute="leading" constant="15" id="1SR-8M-pcf"/>
+                            <constraint firstItem="gnZ-co-vtn" firstAttribute="top" secondItem="uwA-sl-eoV" secondAttribute="bottom" constant="20" id="9lA-Fn-hFw"/>
                             <constraint firstItem="uwA-sl-eoV" firstAttribute="trailing" secondItem="Ab0-gE-vID" secondAttribute="trailing" id="Br5-pF-hCc"/>
                             <constraint firstItem="uwA-sl-eoV" firstAttribute="leading" secondItem="Ab0-gE-vID" secondAttribute="leading" id="MKw-rn-VsR"/>
+                            <constraint firstAttribute="trailing" secondItem="gnZ-co-vtn" secondAttribute="trailing" constant="15" id="WyL-No-oTS"/>
                             <constraint firstItem="uwA-sl-eoV" firstAttribute="top" secondItem="Ab0-gE-vID" secondAttribute="top" id="bO4-SH-hml"/>
-                            <constraint firstItem="zZv-Cr-5zC" firstAttribute="top" secondItem="uwA-sl-eoV" secondAttribute="bottom" constant="20" id="eD3-zf-g16"/>
-                            <constraint firstItem="Ab0-gE-vID" firstAttribute="trailing" secondItem="zZv-Cr-5zC" secondAttribute="trailing" constant="15" id="fF6-CB-qKy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ab0-gE-vID"/>
                     </view>
                     <connections>
                         <outlet property="customNavigationItem" destination="HmC-Cs-kX4" id="4nR-z9-5jS"/>
-                        <outlet property="exerciseNameTextField" destination="DLT-vM-tRq" id="yia-s4-0vC"/>
-                        <outlet property="muscleGroupsTextField" destination="mZW-Ei-NZk" id="3p1-se-4VU"/>
+                        <outlet property="exerciseGroupPickerView" destination="u9M-fw-gX7" id="x0p-Uc-YOn"/>
+                        <outlet property="exerciseMusclesTextField" destination="mZW-Ei-NZk" id="B1k-fY-4Un"/>
+                        <outlet property="exerciseNameTextField" destination="DLT-vM-tRq" id="9A2-if-Y3v"/>
+                        <outlet property="infoContainerView" destination="gnZ-co-vtn" id="yaV-TA-LfX"/>
                         <outlet property="navigationBar" destination="uwA-sl-eoV" id="ses-C5-ugh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JJp-Qr-cw3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3418" y="-662"/>
+            <point key="canvasLocation" x="3417.3913043478265" y="-662.27678571428567"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="GTo-l9-EN5">

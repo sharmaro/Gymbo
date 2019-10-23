@@ -11,7 +11,7 @@ import UIKit
 class SessionsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var sessionTitleLabel: UILabel!
-    @IBOutlet weak var workoutsInfoLabel: UILabel!
+    @IBOutlet weak var workoutsInfoTextView: UITextView!
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -24,12 +24,8 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        setupLabel()
         setupRoundedContainerView()
-    }
-
-    private func setupLabel() {
-        workoutsInfoLabel.numberOfLines = 0
+        setupTextView()
     }
 
     private func setupRoundedContainerView() {
@@ -38,8 +34,15 @@ class SessionsCollectionViewCell: UICollectionViewCell {
         containerView.layer.borderColor = UIColor.black.cgColor
     }
 
+    private func setupTextView() {
+        workoutsInfoTextView.textColor = .darkGray
+        workoutsInfoTextView.textContainerInset = .zero
+        workoutsInfoTextView.textContainer.lineFragmentPadding = 0
+        workoutsInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
+    }
+
     func clearLabels() {
         sessionTitleLabel.text?.removeAll()
-        workoutsInfoLabel.text?.removeAll()
+        workoutsInfoTextView.text?.removeAll()
     }
 }

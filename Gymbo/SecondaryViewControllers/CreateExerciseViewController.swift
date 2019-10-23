@@ -7,7 +7,7 @@
 //
 
 protocol CreateExerciseDelegate: class {
-    func addExercise(exercise: String, muscleGroups: String)
+    func addExercise(exerciseGroup: String, exerciseText: ExerciseText)
 }
 
 import UIKit
@@ -15,11 +15,13 @@ import UIKit
 class CreateExerciseViewController: UIViewController {
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
+    @IBOutlet weak var infoContainerView: UIView!
+    @IBOutlet weak var exerciseGroupPickerView: UIPickerView!
     @IBOutlet weak var exerciseNameTextField: UITextField!
-    @IBOutlet weak var muscleGroupsTextField: UITextField!
+    @IBOutlet weak var exerciseMusclesTextField: UITextField!
 
     private lazy var closeButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: Constants.navBarButtonSize))
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Close", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
@@ -29,7 +31,7 @@ class CreateExerciseViewController: UIViewController {
     }()
 
     private lazy var addButton: UIButton = {
-        let button = CustomButton(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: Constants.navBarButtonSize))
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Add", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
@@ -40,6 +42,9 @@ class CreateExerciseViewController: UIViewController {
     }()
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
+
+    private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
+    "Hips", "Legs", "Shoulders", "Extra Workouts"]
 
     private struct Constants {
         static let navBarButtonSize: CGSize = CGSize(width: 60, height: 20)
@@ -52,11 +57,9 @@ class CreateExerciseViewController: UIViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
-
-        [exerciseNameTextField, muscleGroupsTextField].forEach {
-            setupTextField($0)
-        }
-
+        setupContainerView()
+        setupPickerView()
+        setupTextFields()
     }
 
     private func setupNavigationBar() {
@@ -66,11 +69,24 @@ class CreateExerciseViewController: UIViewController {
         addButton.isEnabled = false
     }
 
-    private func setupTextField(_ textField: UITextField) {
-        textField.layer.cornerRadius = 10
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.black.cgColor
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    private func setupContainerView() {
+        infoContainerView.layer.cornerRadius = 10
+        infoContainerView.layer.borderWidth = 1
+        infoContainerView.layer.borderColor = UIColor.black.cgColor
+    }
+
+    private func setupPickerView() {
+        exerciseGroupPickerView.dataSource = self
+        exerciseGroupPickerView.delegate = self
+    }
+
+    private func setupTextFields() {
+        exerciseNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        exerciseNameTextField.borderStyle = .none
+        exerciseNameTextField.becomeFirstResponder()
+
+        exerciseMusclesTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        exerciseMusclesTextField.borderStyle = .none
     }
 
     @objc private func navBarButtonPressed(_ sender: UIButton) {
@@ -78,7 +94,11 @@ class CreateExerciseViewController: UIViewController {
         case 0: // Cancel button tapped
             break
         case 1: // Add button tapped
-            createExerciseDelegate?.addExercise(exercise: exerciseNameTextField.text ?? "", muscleGroups: muscleGroupsTextField.text ?? "")
+            let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
+            let exerciseGroup = exerciseGroups[selectedPickerRow]
+            let exerciseText = ExerciseText(exerciseName: exerciseNameTextField.text, exerciseMuscles: exerciseMusclesTextField.text, isUserMade: true)
+            createExerciseDelegate?.addExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
+            break
         default:
             fatalError("Unrecognized navigation bar button pressed")
         }
@@ -86,11 +106,36 @@ class CreateExerciseViewController: UIViewController {
     }
 
     @objc private func textFieldDidChange() {
-        guard let exerciseText = exerciseNameTextField.text, let muscleGroupsText = muscleGroupsTextField.text else {
+        guard let exerciseText = exerciseNameTextField.text, let muscleGroupsText = exerciseMusclesTextField.text else {
             return
         }
         let isTextFilled = (exerciseText.count > 0) && (muscleGroupsText.count > 0)
         addButton.isEnabled = isTextFilled
         addButton.alpha = isTextFilled ? Constants.activeAlpha : Constants.inactiveAlpha
+    }
+}
+
+extension CreateExerciseViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        exerciseGroups.count
+    }
+}
+
+extension CreateExerciseViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: 25)))
+        pickerLabel.text = exerciseGroups[row]
+        pickerLabel.textColor = .black
+        pickerLabel.textAlignment = .left
+        pickerLabel.font = UIFont.systemFont(ofSize: 18)
+        return pickerLabel
+    }
+
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 25
     }
 }

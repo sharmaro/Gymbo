@@ -39,6 +39,7 @@ class SessionDataModelManager: NSObject {
             print("config file_absolute_url: \(configFileURL.absoluteURL)")
             print("config file_absolute_string: \(configFileURL.absoluteString)")
             print("END SESSION FILE NAME")
+            print("\n\n\n")
         }
     }
 
@@ -77,13 +78,15 @@ class SessionDataModelManager: NSObject {
             for i in 0..<workouts.count {
                 var totalWorkoutString = ""
                 let name = Util.formattedString(stringToFormat: workouts[i].name, type: .name)
-                let sets = Util.formattedString(stringToFormat: String(workouts[i].sets), type: .sets)
-                let areRepsUnique = isRepsStringUnique(for: workouts[i])
-                let reps = Util.formattedString(stringToFormat: workouts[i].workoutDetails[0].reps, type: .reps(areUnique: areRepsUnique))
+//                let sets = Util.formattedString(stringToFormat: String(workouts[i].sets), type: .sets)
+//                let areRepsUnique = isRepsStringUnique(for: workouts[i])
+//                let reps = Util.formattedString(stringToFormat: workouts[i].workoutDetails[0].reps, type: .reps(areUnique: areRepsUnique))
 
-                totalWorkoutString = "\(name) - \(sets) x \(reps)"
+//                totalWorkoutString = "\(name) - \(sets) x \(reps)"
+                totalWorkoutString = "\(name)"
                 if i != workouts.count - 1 {
-                    totalWorkoutString += "\n"
+//                    totalWorkoutString += "\n"
+                    totalWorkoutString += ", "
                 }
                 workoutsInfoText.append(totalWorkoutString)
             }
