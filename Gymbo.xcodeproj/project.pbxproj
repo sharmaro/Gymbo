@@ -30,6 +30,15 @@
 		695D4C0122D30B1D00E3FB1F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */; };
 		695D4C0322D30CA300E3FB1F /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0222D30CA300E3FB1F /* Layout.swift */; };
 		695D4C0522D4508C00E3FB1F /* SessionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */; };
+		69629461235D592000E681C7 /* Abs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629460235D592000E681C7 /* Abs.txt */; };
+		6962946A235D594000E681C7 /* Back.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629462235D593F00E681C7 /* Back.txt */; };
+		6962946B235D594000E681C7 /* Arms.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629463235D593F00E681C7 /* Arms.txt */; };
+		6962946C235D594000E681C7 /* Shoulders.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629464235D593F00E681C7 /* Shoulders.txt */; };
+		6962946D235D594000E681C7 /* Extra Workouts.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629465235D593F00E681C7 /* Extra Workouts.txt */; };
+		6962946E235D594000E681C7 /* Legs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629466235D593F00E681C7 /* Legs.txt */; };
+		6962946F235D594000E681C7 /* Chest.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629467235D593F00E681C7 /* Chest.txt */; };
+		69629470235D594000E681C7 /* Buttocks.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Buttocks.txt */; };
+		69629471235D594000E681C7 /* Hips.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629469235D594000E681C7 /* Hips.txt */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +71,15 @@
 		695D4C0022D30B1D00E3FB1F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		695D4C0222D30CA300E3FB1F /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModel.swift; sourceTree = "<group>"; };
+		69629460235D592000E681C7 /* Abs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Abs.txt; sourceTree = "<group>"; };
+		69629462235D593F00E681C7 /* Back.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Back.txt; sourceTree = "<group>"; };
+		69629463235D593F00E681C7 /* Arms.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Arms.txt; sourceTree = "<group>"; };
+		69629464235D593F00E681C7 /* Shoulders.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Shoulders.txt; sourceTree = "<group>"; };
+		69629465235D593F00E681C7 /* Extra Workouts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Extra Workouts.txt"; sourceTree = "<group>"; };
+		69629466235D593F00E681C7 /* Legs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Legs.txt; sourceTree = "<group>"; };
+		69629467235D593F00E681C7 /* Chest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chest.txt; sourceTree = "<group>"; };
+		69629468235D594000E681C7 /* Buttocks.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Buttocks.txt; sourceTree = "<group>"; };
+		69629469235D594000E681C7 /* Hips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hips.txt; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,12 +150,13 @@
 			isa = PBXGroup;
 			children = (
 				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
+				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
+				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
 				695D4C0722D450A800E3FB1F /* MainViewControllers */,
 				6929674022F9E0F800832C68 /* SecondaryViewControllers */,
 				692D981F22FE9E640032514D /* CustomCells */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
-				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
-				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
+				6962945F235D58D400E681C7 /* WorkoutTextFiles */,
 				695D4BE922CB28B800E3FB1F /* Assets.xcassets */,
 				695D4BEE22CB28B800E3FB1F /* Info.plist */,
 			);
@@ -167,6 +186,22 @@
 				6942B211232B621600FCEECE /* Util.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		6962945F235D58D400E681C7 /* WorkoutTextFiles */ = {
+			isa = PBXGroup;
+			children = (
+				69629460235D592000E681C7 /* Abs.txt */,
+				69629463235D593F00E681C7 /* Arms.txt */,
+				69629462235D593F00E681C7 /* Back.txt */,
+				69629468235D594000E681C7 /* Buttocks.txt */,
+				69629467235D593F00E681C7 /* Chest.txt */,
+				69629469235D594000E681C7 /* Hips.txt */,
+				69629466235D593F00E681C7 /* Legs.txt */,
+				69629464235D593F00E681C7 /* Shoulders.txt */,
+				69629465235D593F00E681C7 /* Extra Workouts.txt */,
+			);
+			name = WorkoutTextFiles;
 			sourceTree = "<group>";
 		};
 		F10FA9A541B75089E75BAEE2 /* Frameworks */ = {
@@ -240,9 +275,18 @@
 				695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */,
 				692D982322FE9E890032514D /* WorkoutDetailTableViewCell.xib in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
+				69629461235D592000E681C7 /* Abs.txt in Resources */,
 				695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */,
+				69629471235D594000E681C7 /* Hips.txt in Resources */,
+				6962946E235D594000E681C7 /* Legs.txt in Resources */,
+				6962946B235D594000E681C7 /* Arms.txt in Resources */,
+				69629470235D594000E681C7 /* Buttocks.txt in Resources */,
+				6962946F235D594000E681C7 /* Chest.txt in Resources */,
+				6962946C235D594000E681C7 /* Shoulders.txt in Resources */,
 				6942B216233C7DBA00FCEECE /* WorkoutTableViewCell.xib in Resources */,
 				691054E9234301DD00E306F1 /* SessionsCollectionViewCell.xib in Resources */,
+				6962946A235D594000E681C7 /* Back.txt in Resources */,
+				6962946D235D594000E681C7 /* Extra Workouts.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
