@@ -7,7 +7,10 @@
 //
 
 protocol SessionDataModelDelegate: class {
-    func saveSessionData(name: String?, workouts: List<Workout>)
+    func addSessionData(name: String?, workouts: List<Workout>)
+    func editSelectedSession()
+    func saveSelectedSession(_ session: Session)
+    func clearSelectedSessionIndex()
 }
 
 import UIKit
@@ -19,6 +22,8 @@ class SessionsViewController: UIViewController {
     @IBOutlet weak var emptyExerciseLabel: UILabel!
 
     private let dataModelManager = SessionDataModelManager.shared
+
+    private var selectedIndex: Int?
 
     private struct Constants {
         static let sessionTitleHeight = CGFloat(22)
@@ -45,7 +50,8 @@ class SessionsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.keyboardDismissMode = .interactive
-        collectionView.register(SessionsCollectionViewCell.nib, forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
+        collectionView.register(SessionsCollectionViewCell.nib,
+                                forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
     private func refreshMainView() {
@@ -65,14 +71,21 @@ class SessionsViewController: UIViewController {
     // MARK: - IBAction funcs
 
     @IBAction func addSessionButtonPressed(_ sender: Any) {
-        if sender is UIButton,
-            let sessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddSessionViewController") as? AddSessionViewController {
-            sessionViewController.sessionDataModelDelegate = self
-            navigationController?.pushViewController(sessionViewController, animated: true)
-        } else {
-            fatalError("Could not instantiate AddSessionViewController.")
-
+//        if sender is UIButton,
+//            let sessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddSessionViewController") as? AddSessionViewController {
+//            sessionViewController.sessionDataModelDelegate = self
+//            navigationController?.pushViewController(sessionViewController, animated: true)
+//        } else {
+//            fatalError("Could not instantiate AddSessionViewController.")
+//        }
+        guard sender is UIButton,
+            let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddEditSessionViewController") as? AddEditSessionViewController else {
+                NSLog("Could not instantiate AddEditSessionViewController.")
+                return
         }
+        addEditSessionViewController.sessionState = .add
+        addEditSessionViewController.sessionDataModelDelegate = self
+        navigationController?.pushViewController(addEditSessionViewController, animated: true)
     }
 }
 
@@ -93,8 +106,8 @@ extension SessionsViewController: UICollectionViewDataSource {
         }
 
         cell.clearLabels()
-        cell.sessionTitleLabel.text = dataModelManager.getSessionName(for: indexPath.row)
-        cell.workoutsInfoTextView.text = dataModelManager.workoutsInfoText(for: indexPath.row)
+        cell.sessionTitleLabel.text = dataModelManager.getSessionName(forIndex: indexPath.row)
+        cell.workoutsInfoTextView.text = dataModelManager.workoutsInfoText(forIndex: indexPath.row)
 
         return cell
     }
@@ -124,18 +137,62 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
 
 extension SessionsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected item at index path: \(indexPath)")
+        guard indexPath.row < collectionView.numberOfItems(inSection: indexPath.section),
+        let sessionCell = collectionView.cellForItem(at: indexPath) as? SessionsCollectionViewCell,
+        let sessionPreviewViewController = storyboard?.instantiateViewController(withIdentifier: "SessionPreviewViewController") as? SessionPreviewViewController else {
+            return
+        }
+
+        selectedIndex = indexPath.row
+        if #available(iOS 13.0, *) {
+            // No op
+        } else {
+            sessionPreviewViewController.modalPresentationStyle = .custom
+            sessionPreviewViewController.transitioningDelegate = self
+        }
+        sessionPreviewViewController.title = sessionCell.sessionTitleLabel.text
+        sessionPreviewViewController.sessionDataModelDelegate = self
+        sessionPreviewViewController.sessionPreviewInfo = dataModelManager.getSessionPreviewInfo(forIndex: indexPath.row)
+        present(sessionPreviewViewController, animated: true, completion: nil)
     }
 }
 
 // MARK: - Saving Session func
 
 extension SessionsViewController: SessionDataModelDelegate {
-    func saveSessionData(name: String?, workouts: List<Workout>) {
+    func addSessionData(name: String?, workouts: List<Workout>) {
         let session = Session(name: name, workouts: workouts)
-        dataModelManager.saveSession(session: session)
+        dataModelManager.addSession(session: session)
 
         refreshMainView()
+    }
+
+    func editSelectedSession() {
+//        guard let sessionIndex = selectedIndex,
+//            let selectedSession = dataModelManager.getSession(forIndex: sessionIndex),
+//            let editSessionViewController = storyboard?.instantiateViewController(withIdentifier: "EditSessionViewController") as? EditSessionViewController else {
+//                return
+//        }
+//        editSessionViewController.selectedSession = selectedSession
+//        navigationController?.pushViewController(editSessionViewController, animated: true)
+        guard let sessionIndex = selectedIndex,
+            let selectedSession = dataModelManager.getSession(forIndex: sessionIndex),
+            let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddEditSessionViewController") as? AddEditSessionViewController else {
+                NSLog("Could not instantiate AddEditSessionViewController.")
+                return
+        }
+        addEditSessionViewController.sessionState = .edit
+        addEditSessionViewController.sessionDataModelDelegate = self
+        addEditSessionViewController.addEditSession = selectedSession
+        navigationController?.pushViewController(addEditSessionViewController, animated: true)
+    }
+
+    func saveSelectedSession(_ editedSession: Session) {
+        refreshMainView()
+    }
+
+    func clearSelectedSessionIndex() {
+        selectedIndex = nil
     }
 }
 
@@ -144,5 +201,12 @@ extension SessionsViewController {
     @IBAction func deleteData(_ sender: Any) {
         SessionDataModelManager.shared.removeAllRealmData()
         refreshMainView()
+    }
+}
+// DELETE THIS
+
+extension SessionsViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

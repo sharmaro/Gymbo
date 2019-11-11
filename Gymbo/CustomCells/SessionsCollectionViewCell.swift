@@ -31,7 +31,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     private func setupRoundedContainerView() {
         containerView.layer.cornerRadius = 10
         containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.black.cgColor
+        containerView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     private func setupTextView() {

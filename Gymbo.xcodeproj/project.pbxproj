@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,6 @@
 		6929673522F3F51100832C68 /* AddExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673422F3F51100832C68 /* AddExerciseViewController.swift */; };
 		6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673A22F77A2900832C68 /* UIExtensions.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
-		6929673F22F9E0DD00832C68 /* AddSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673E22F9E0DD00832C68 /* AddSessionViewController.swift */; };
 		692D982222FE9E890032514D /* WorkoutDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* WorkoutDetailTableViewCell.swift */; };
 		692D982322FE9E890032514D /* WorkoutDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 692D982122FE9E890032514D /* WorkoutDetailTableViewCell.xib */; };
 		692D982523027B0F0032514D /* SessionDataModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982423027B0F0032514D /* SessionDataModelManager.swift */; };
@@ -20,6 +19,9 @@
 		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
 		6942B215233C7DBA00FCEECE /* WorkoutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B213233C7DBA00FCEECE /* WorkoutTableViewCell.swift */; };
 		6942B216233C7DBA00FCEECE /* WorkoutTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6942B214233C7DBA00FCEECE /* WorkoutTableViewCell.xib */; };
+		69488E132362A64900C3A04C /* SessionPreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E112362A64900C3A04C /* SessionPreviewTableViewCell.swift */; };
+		69488E142362A64900C3A04C /* SessionPreviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69488E122362A64900C3A04C /* SessionPreviewTableViewCell.xib */; };
+		69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
 		695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE622CB28B800E3FB1F /* Main.storyboard */; };
@@ -40,6 +42,7 @@
 		69629470235D594000E681C7 /* Buttocks.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Buttocks.txt */; };
 		69629471235D594000E681C7 /* Hips.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629469235D594000E681C7 /* Hips.txt */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
+		696A751E23615F4C00FA605F /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696A751D23615F4C00FA605F /* SessionPreviewViewController.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +54,6 @@
 		6929673422F3F51100832C68 /* AddExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewController.swift; sourceTree = "<group>"; };
 		6929673A22F77A2900832C68 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		6929673E22F9E0DD00832C68 /* AddSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSessionViewController.swift; sourceTree = "<group>"; };
 		692D982022FE9E890032514D /* WorkoutDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailTableViewCell.swift; sourceTree = "<group>"; };
 		692D982122FE9E890032514D /* WorkoutDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkoutDetailTableViewCell.xib; sourceTree = "<group>"; };
 		692D982423027B0F0032514D /* SessionDataModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModelManager.swift; sourceTree = "<group>"; };
@@ -59,6 +61,9 @@
 		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		6942B213233C7DBA00FCEECE /* WorkoutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTableViewCell.swift; sourceTree = "<group>"; };
 		6942B214233C7DBA00FCEECE /* WorkoutTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkoutTableViewCell.xib; sourceTree = "<group>"; };
+		69488E112362A64900C3A04C /* SessionPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTableViewCell.swift; sourceTree = "<group>"; };
+		69488E122362A64900C3A04C /* SessionPreviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionPreviewTableViewCell.xib; sourceTree = "<group>"; };
+		69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditSessionViewController.swift; sourceTree = "<group>"; };
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +86,7 @@
 		69629468235D594000E681C7 /* Buttocks.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Buttocks.txt; sourceTree = "<group>"; };
 		69629469235D594000E681C7 /* Hips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hips.txt; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
+		696A751D23615F4C00FA605F /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,9 +114,10 @@
 		6929674022F9E0F800832C68 /* SecondaryViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6929673E22F9E0DD00832C68 /* AddSessionViewController.swift */,
+				69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */,
 				6929673422F3F51100832C68 /* AddExerciseViewController.swift */,
 				69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */,
+				696A751D23615F4C00FA605F /* SessionPreviewViewController.swift */,
 			);
 			path = SecondaryViewControllers;
 			sourceTree = "<group>";
@@ -120,6 +127,8 @@
 			children = (
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
 				691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */,
+				69488E112362A64900C3A04C /* SessionPreviewTableViewCell.swift */,
+				69488E122362A64900C3A04C /* SessionPreviewTableViewCell.xib */,
 				6942B213233C7DBA00FCEECE /* WorkoutTableViewCell.swift */,
 				6942B214233C7DBA00FCEECE /* WorkoutTableViewCell.xib */,
 				692D982022FE9E890032514D /* WorkoutDetailTableViewCell.swift */,
@@ -149,12 +158,13 @@
 		695D4BE122CB28B800E3FB1F /* Gymbo */ = {
 			isa = PBXGroup;
 			children = (
-				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
-				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
 				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
+				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
+				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
 				695D4C0722D450A800E3FB1F /* MainViewControllers */,
 				6929674022F9E0F800832C68 /* SecondaryViewControllers */,
 				692D981F22FE9E640032514D /* CustomCells */,
+				696A751F2361630300FA605F /* Data */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
 				6962945F235D58D400E681C7 /* WorkoutTextFiles */,
 				695D4BE922CB28B800E3FB1F /* Assets.xcassets */,
@@ -179,8 +189,6 @@
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
 				695D4C0222D30CA300E3FB1F /* Layout.swift */,
 				6956292C234463EF00E0AA96 /* ModalPresentationController.swift */,
-				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
-				692D982423027B0F0032514D /* SessionDataModelManager.swift */,
 				69346A922320189300060E4C /* TypeExtensions.swift */,
 				6929673A22F77A2900832C68 /* UIExtensions.swift */,
 				6942B211232B621600FCEECE /* Util.swift */,
@@ -202,6 +210,15 @@
 				69629465235D593F00E681C7 /* Extra Workouts.txt */,
 			);
 			name = WorkoutTextFiles;
+			sourceTree = "<group>";
+		};
+		696A751F2361630300FA605F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
+				692D982423027B0F0032514D /* SessionDataModelManager.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		F10FA9A541B75089E75BAEE2 /* Frameworks */ = {
@@ -281,6 +298,7 @@
 				6962946E235D594000E681C7 /* Legs.txt in Resources */,
 				6962946B235D594000E681C7 /* Arms.txt in Resources */,
 				69629470235D594000E681C7 /* Buttocks.txt in Resources */,
+				69488E142362A64900C3A04C /* SessionPreviewTableViewCell.xib in Resources */,
 				6962946F235D594000E681C7 /* Chest.txt in Resources */,
 				6962946C235D594000E681C7 /* Shoulders.txt in Resources */,
 				6942B216233C7DBA00FCEECE /* WorkoutTableViewCell.xib in Resources */,
@@ -321,22 +339,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Gymbo/Pods-Gymbo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Gymbo/Pods-Gymbo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Gymbo/Pods-Gymbo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -347,14 +358,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				695D4C0122D30B1D00E3FB1F /* TabBarViewController.swift in Sources */,
-				6929673F22F9E0DD00832C68 /* AddSessionViewController.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
+				69488E132362A64900C3A04C /* SessionPreviewTableViewCell.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
 				692D982523027B0F0032514D /* SessionDataModelManager.swift in Sources */,
 				6942B215233C7DBA00FCEECE /* WorkoutTableViewCell.swift in Sources */,
 				692D982222FE9E890032514D /* WorkoutDetailTableViewCell.swift in Sources */,
+				696A751E23615F4C00FA605F /* SessionPreviewViewController.swift in Sources */,
 				695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */,
 				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
+				69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */,
 				6942B212232B621600FCEECE /* Util.swift in Sources */,
@@ -513,7 +526,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W3TQD9VLAQ;
 				INFOPLIST_FILE = Gymbo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -533,7 +546,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W3TQD9VLAQ;
 				INFOPLIST_FILE = Gymbo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

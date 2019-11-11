@@ -18,12 +18,12 @@ class SessionDataModelManager: NSObject {
         return getSessionsCount()
     }
 
-    private var sessionsArray: Results<Session>?
+    private var sessionsList: Results<Session>?
 
     override init() {
         super.init()
 
-        sessionsArray = fetchSessions()
+        sessionsList = fetchSessions()
 
         printConfigFileLocation()
     }
@@ -53,33 +53,51 @@ class SessionDataModelManager: NSObject {
         }
     }
 
-    private func getSessionsCount() -> Int {
-        return sessionsArray?.count ?? 0
-    }
-
-    func saveSession(session: Session) {
+    func addSession(session: Session) {
         try? realm?.write {
             realm?.add(session)
         }
     }
 
-    func getSessionName(for index: Int) -> String {
-        return sessionsArray?[index].name ?? "No name"
+    func getSession(forIndex index: Int) -> Session? {
+        return sessionsList?[index]
     }
 
-    func workoutsCount(for index: Int) -> Int {
-        return sessionsArray?[index].workouts.count ?? 0
+    private func getSessionsCount() -> Int {
+        return sessionsList?.count ?? 0
     }
 
-    func workoutsInfoText(for index: Int) -> String {
+    func getSessionName(forIndex index: Int) -> String {
+        return sessionsList?[index].name ?? "No name"
+    }
+
+    func getWorkoutsCount(forIndex index: Int) -> Int {
+        return sessionsList?[index].workouts.count ?? 0
+    }
+
+    func getSessionPreviewInfo(forIndex index: Int) -> [SessionPreviewInfo]? {
+        var sessionPreviewInfoList = [SessionPreviewInfo]()
+        guard let workouts = sessionsList?[index].workouts,
+            workouts.count > 0 else {
+                return nil
+        }
+        for workout in workouts {
+            if let workoutName = workout.name, let workoutMuscles = workout.muscleGroups {
+                sessionPreviewInfoList.append(SessionPreviewInfo(exerciseName: "\(workout.sets) x \(workoutName)", exerciseMuscles: workoutMuscles))
+            }
+        }
+        return sessionPreviewInfoList
+    }
+
+    func workoutsInfoText(forIndex index: Int) -> String {
         var workoutsInfoText = "No workouts selected for this session."
-        if let workouts = sessionsArray?[index].workouts, workouts.count > 0 {
+        if let workouts = sessionsList?[index].workouts, workouts.count > 0 {
             workoutsInfoText = ""
             for i in 0..<workouts.count {
                 var totalWorkoutString = ""
                 let name = Util.formattedString(stringToFormat: workouts[i].name, type: .name)
 //                let sets = Util.formattedString(stringToFormat: String(workouts[i].sets), type: .sets)
-//                let areRepsUnique = isRepsStringUnique(for: workouts[i])
+//                let areRepsUnique = isRepsStringUnique(forWorkout: workouts[i])
 //                let reps = Util.formattedString(stringToFormat: workouts[i].workoutDetails[0].reps, type: .reps(areUnique: areRepsUnique))
 
 //                totalWorkoutString = "\(name) - \(sets) x \(reps)"
@@ -94,7 +112,7 @@ class SessionDataModelManager: NSObject {
         return workoutsInfoText
     }
 
-    private func isRepsStringUnique(for workout: Workout) -> Bool {
+    private func isRepsStringUnique(forWorkout workout: Workout) -> Bool {
         var areUnique = false
         let workoutDetails = workout.workoutDetails
         if workoutDetails.count == 1 {
@@ -120,18 +138,6 @@ class SessionDataModelManager: NSObject {
 //
 //    func getWorkoutCountForIndex(_ index: Int) -> Int {
 //        return sessionDataModelArray?[index].workouts?.count ?? 0
-//    }
-//
-//    func addSession(_ session: Session) {
-//        sessionDataModelArray?.append(session)
-//    }
-//
-//    func replaceSessionAtIndex(_ index: Int, _ session: Session) {
-//        guard sessionDataModelArray != nil,
-//        index > -1, index < sessionDataModelArray!.count else {
-//            return
-//        }
-//        sessionDataModelArray![index] = session
 //    }
 //
 //    func removeSessionAtIndex(_ index: Int) {

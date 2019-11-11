@@ -15,7 +15,6 @@ struct ExerciseText: Codable {
 }
 
 class AddExerciseViewController: UIViewController {
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -66,7 +65,7 @@ class AddExerciseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
+        setupNavigationItem()
         setupExerciseInfo()
         setupSearchTextField()
         setupTableView()
@@ -78,8 +77,7 @@ class AddExerciseViewController: UIViewController {
         saveExerciseInfo()
     }
 
-    private func setupNavigationBar() {
-        navigationBar.prefersLargeTitles = false
+    private func setupNavigationItem() {
         customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         addButton.isEnabled = false // Doesn't work if you disable it in the lazy variable
@@ -145,7 +143,8 @@ class AddExerciseViewController: UIViewController {
         tableView.layer.borderColor = UIColor.black.cgColor
         tableView.allowsMultipleSelection = true
         tableView.keyboardDismissMode = .interactive
-        tableView.register(WorkoutTableViewCell.nib, forCellReuseIdentifier: WorkoutTableViewCell.reuseIdentifier)
+        tableView.register(WorkoutTableViewCell.nib,
+                           forCellReuseIdentifier: WorkoutTableViewCell.reuseIdentifier)
     }
 
     private func setupExerciseButton() {
@@ -239,8 +238,8 @@ class AddExerciseViewController: UIViewController {
                 } else {
                     createExerciseVC.modalPresentationStyle = .custom
                     createExerciseVC.transitioningDelegate = self
-                    createExerciseVC.createExerciseDelegate = self
                 }
+                createExerciseVC.createExerciseDelegate = self
                 present(createExerciseVC, animated: true, completion: nil)
             }
         }

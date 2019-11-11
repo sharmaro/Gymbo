@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gLJ-6i-PBZ">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -175,7 +175,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s1x-lJ-ypg">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="s1x-lJ-ypg">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="645"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Nfd-UG-Zg9">
@@ -234,67 +234,121 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rXU-Lb-LdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1026.0869565217392" y="-661.60714285714278"/>
+            <point key="canvasLocation" x="1057" y="-1394"/>
         </scene>
-        <!--Add Session View Controller-->
-        <scene sceneID="DgR-UW-PQL">
+        <!--Session Preview View Controller-->
+        <scene sceneID="Ng8-gh-SfG">
             <objects>
-                <viewController restorationIdentifier="AddSessionViewController" storyboardIdentifier="AddSessionViewController" id="fFC-dC-9Se" customClass="AddSessionViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MAp-Ss-KAS">
+                <viewController restorationIdentifier="SessionPreviewViewController" storyboardIdentifier="SessionPreviewViewController" id="H2j-gs-qyL" customClass="SessionPreviewViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fcf-Kf-SHH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pE7-dJ-KYq">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Session Name" id="ddK-4u-Bpg"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7kh-dB-Tx4">
+                                <rect key="frame" x="0.0" y="88" width="414" height="694"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxO-YH-upv" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
+                                <rect key="frame" x="30" y="802" width="354" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="Yui-o2-9cu"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="startSessionButtonTapped:" destination="H2j-gs-qyL" eventType="touchUpInside" id="fnY-Mc-3f6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="pE7-dJ-KYq" firstAttribute="leading" secondItem="fcf-Kf-SHH" secondAttribute="leading" id="46y-1H-jZ6"/>
+                            <constraint firstItem="oxO-YH-upv" firstAttribute="top" secondItem="7kh-dB-Tx4" secondAttribute="bottom" constant="20" id="5Bf-RO-oQl"/>
+                            <constraint firstItem="yAG-3l-ewL" firstAttribute="trailing" secondItem="7kh-dB-Tx4" secondAttribute="trailing" id="7oz-yq-6GY"/>
+                            <constraint firstItem="7kh-dB-Tx4" firstAttribute="top" secondItem="pE7-dJ-KYq" secondAttribute="bottom" id="KOQ-Ka-PPI"/>
+                            <constraint firstItem="yAG-3l-ewL" firstAttribute="trailing" secondItem="pE7-dJ-KYq" secondAttribute="trailing" id="Ou3-Ie-jtx"/>
+                            <constraint firstItem="yAG-3l-ewL" firstAttribute="trailing" secondItem="oxO-YH-upv" secondAttribute="trailing" constant="30" id="Ss1-xX-wsB"/>
+                            <constraint firstItem="7kh-dB-Tx4" firstAttribute="leading" secondItem="yAG-3l-ewL" secondAttribute="leading" id="VQr-fp-dZb"/>
+                            <constraint firstItem="oxO-YH-upv" firstAttribute="leading" secondItem="yAG-3l-ewL" secondAttribute="leading" constant="30" id="k2N-2N-Ep2"/>
+                            <constraint firstItem="pE7-dJ-KYq" firstAttribute="top" secondItem="yAG-3l-ewL" secondAttribute="top" id="lMk-DI-38L"/>
+                            <constraint firstItem="yAG-3l-ewL" firstAttribute="bottom" secondItem="oxO-YH-upv" secondAttribute="bottom" constant="15" id="tvk-MV-mDw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yAG-3l-ewL"/>
+                    </view>
+                    <connections>
+                        <outlet property="customNavigationItem" destination="ddK-4u-Bpg" id="VNf-nX-HVz"/>
+                        <outlet property="startSessionButton" destination="oxO-YH-upv" id="F1B-lE-57g"/>
+                        <outlet property="tableView" destination="7kh-dB-Tx4" id="tW9-fb-65G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FBo-lb-Hzk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1831.8840579710147" y="-1394.1964285714284"/>
+        </scene>
+        <!--Add Edit Session View Controller-->
+        <scene sceneID="23Y-po-bng">
+            <objects>
+                <viewController restorationIdentifier="AddEditSessionViewController" storyboardIdentifier="AddEditSessionViewController" id="v2g-N5-dtu" customClass="AddEditSessionViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HRe-BR-S8C">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iXc-WH-Dh4">
-                                <rect key="frame" x="0.0" y="76" width="414" height="569"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3OG-69-cuq">
+                                <rect key="frame" x="0.0" y="66" width="414" height="579"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Session name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J1L-xT-oha">
-                                <rect key="frame" x="20" y="20" width="374" height="36"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Session name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h71-c4-LsC">
+                                <rect key="frame" x="20" y="10" width="374" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="SNl-Ga-gNJ"/>
+                                    <constraint firstAttribute="height" constant="36" id="Kjf-GB-aji"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="26"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="EHg-Z5-Dxe" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jo9-LI-CUQ" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
                                 <rect key="frame" x="30" y="665" width="354" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="dJ3-7u-UQD"/>
+                                    <constraint firstAttribute="height" constant="45" id="B0F-Kg-cUt"/>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="addExerciseButtonTapped:" destination="fFC-dC-9Se" eventType="touchUpInside" id="5pR-rK-LfO"/>
+                                    <action selector="addExerciseButtonTapped:" destination="v2g-N5-dtu" eventType="touchUpInside" id="9m9-ZY-dgR"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="iXc-WH-Dh4" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" id="7wq-fL-zKt"/>
-                            <constraint firstItem="EHg-Z5-Dxe" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" constant="30" id="8Ko-MK-O62"/>
-                            <constraint firstItem="EHg-Z5-Dxe" firstAttribute="top" secondItem="iXc-WH-Dh4" secondAttribute="bottom" constant="20" id="K4N-UT-Dc9"/>
-                            <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="EHg-Z5-Dxe" secondAttribute="trailing" constant="30" id="Owh-mQ-ppE"/>
-                            <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="J1L-xT-oha" secondAttribute="trailing" constant="20" id="Vrz-TI-7Ef"/>
-                            <constraint firstItem="J1L-xT-oha" firstAttribute="leading" secondItem="LbN-Kh-bkH" secondAttribute="leading" constant="20" id="ZLW-3L-ZSY"/>
-                            <constraint firstItem="LbN-Kh-bkH" firstAttribute="bottom" secondItem="EHg-Z5-Dxe" secondAttribute="bottom" constant="15" id="dGw-R8-Aks"/>
-                            <constraint firstItem="iXc-WH-Dh4" firstAttribute="top" secondItem="J1L-xT-oha" secondAttribute="bottom" constant="20" id="gsI-z3-dua"/>
-                            <constraint firstItem="LbN-Kh-bkH" firstAttribute="trailing" secondItem="iXc-WH-Dh4" secondAttribute="trailing" id="vwf-Vl-5PJ"/>
-                            <constraint firstItem="J1L-xT-oha" firstAttribute="top" secondItem="LbN-Kh-bkH" secondAttribute="top" constant="20" id="xIu-AK-O9z"/>
+                            <constraint firstItem="3OG-69-cuq" firstAttribute="leading" secondItem="tK5-IW-GkP" secondAttribute="leading" id="04F-ML-bLX"/>
+                            <constraint firstItem="Jo9-LI-CUQ" firstAttribute="top" secondItem="3OG-69-cuq" secondAttribute="bottom" constant="20" id="9Cf-qa-mSX"/>
+                            <constraint firstItem="tK5-IW-GkP" firstAttribute="bottom" secondItem="Jo9-LI-CUQ" secondAttribute="bottom" constant="15" id="CBq-IG-znp"/>
+                            <constraint firstItem="h71-c4-LsC" firstAttribute="leading" secondItem="HRe-BR-S8C" secondAttribute="leading" constant="20" id="FQu-Jj-7qD"/>
+                            <constraint firstItem="tK5-IW-GkP" firstAttribute="trailing" secondItem="Jo9-LI-CUQ" secondAttribute="trailing" constant="30" id="HMT-dz-cSP"/>
+                            <constraint firstItem="Jo9-LI-CUQ" firstAttribute="leading" secondItem="tK5-IW-GkP" secondAttribute="leading" constant="30" id="TDf-YV-nl6"/>
+                            <constraint firstItem="h71-c4-LsC" firstAttribute="top" secondItem="tK5-IW-GkP" secondAttribute="top" constant="10" id="W0S-7d-Gdq"/>
+                            <constraint firstItem="tK5-IW-GkP" firstAttribute="trailing" secondItem="3OG-69-cuq" secondAttribute="trailing" id="WCg-Qj-hgZ"/>
+                            <constraint firstItem="tK5-IW-GkP" firstAttribute="trailing" secondItem="h71-c4-LsC" secondAttribute="trailing" constant="20" id="b3f-tf-57s"/>
+                            <constraint firstItem="3OG-69-cuq" firstAttribute="top" secondItem="h71-c4-LsC" secondAttribute="bottom" constant="20" id="twP-8E-Zmg"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="LbN-Kh-bkH"/>
+                        <viewLayoutGuide key="safeArea" id="tK5-IW-GkP"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="addExerciseButton" destination="EHg-Z5-Dxe" id="9b5-nN-xMJ"/>
-                        <outlet property="sessionNameTextField" destination="J1L-xT-oha" id="LEM-RU-Re8"/>
-                        <outlet property="tableView" destination="iXc-WH-Dh4" id="KTo-Ly-ezz"/>
+                        <outlet property="addExerciseButton" destination="Jo9-LI-CUQ" id="VDf-w6-Q5E"/>
+                        <outlet property="sessionNameTextField" destination="h71-c4-LsC" id="iM8-wV-KBQ"/>
+                        <outlet property="tableView" destination="3OG-69-cuq" id="JAi-Td-PO7"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xT8-Lv-85K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GVk-Wq-eQP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1833" y="-662"/>
+            <point key="canvasLocation" x="1832" y="-662"/>
         </scene>
         <!--Add Exercise View Controller-->
         <scene sceneID="gXz-VB-uvG">
@@ -310,7 +364,7 @@
                                     <navigationItem title="Add Exercise" id="Lmi-PP-pTH"/>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
                                 <rect key="frame" x="20" y="158" width="374" height="639"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
@@ -356,7 +410,6 @@
                     <connections>
                         <outlet property="createExerciseButton" destination="HH5-KY-t9x" id="CUo-gE-ztF"/>
                         <outlet property="customNavigationItem" destination="Lmi-PP-pTH" id="Tms-Yl-CdZ"/>
-                        <outlet property="navigationBar" destination="EoM-13-vUM" id="b3V-lJ-Swe"/>
                         <outlet property="searchTextField" destination="jD5-cl-Ujq" id="aGj-3w-zMb"/>
                         <outlet property="tableView" destination="l3u-YC-PdZ" id="QSQ-Lw-JEx"/>
                     </connections>

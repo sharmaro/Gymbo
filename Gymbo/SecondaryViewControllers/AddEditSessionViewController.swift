@@ -1,20 +1,24 @@
 //
-//  AddSessionViewController.swift
+//  AddEditSessionViewController.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 8/6/19.
+//  Created by Rohan Sharma on 11/3/19.
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
+import UIKit
+import RealmSwift
 
 protocol WorkoutListDelegate: class {
     func updateWorkoutList(_ list: [ExerciseText])
 }
 
-import UIKit
-import RealmSwift
+enum SessionState: String {
+    case add = "Add Session"
+    case edit = "Edit Session"
+}
 
-class AddSessionViewController: UIViewController {
+class AddEditSessionViewController: UIViewController {
     @IBOutlet weak var sessionNameTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addExerciseButton: CustomButton!
@@ -28,9 +32,14 @@ class AddSessionViewController: UIViewController {
         return button
     }()
 
+    private let realm = try? Realm()
+
     private var sessionNameTextFieldOriginY: CGFloat!
 
-    private var workoutList = List<Workout>()
+    var addEditSession = Session()
+    var sessionState = SessionState.add
+
+    weak var sessionDataModelDelegate: SessionDataModelDelegate?
 
     private struct Constants {
         static let headerViewHeight: CGFloat = 36
@@ -44,30 +53,24 @@ class AddSessionViewController: UIViewController {
         static let textViewPlaceholderText = "Optional additional info"
     }
 
-    weak var sessionDataModelDelegate: SessionDataModelDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Add Session"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+        setupNavigationBar()
+        setupSessionNameTextField()
+        setupTableView()
+        setupAddExerciseButton()
+    }
 
-        sessionNameTextFieldOriginY = sessionNameTextField.frame.origin.y
-        sessionNameTextField.borderStyle = .none
-        sessionNameTextField.delegate = self
-        sessionNameTextField.returnKeyType = .done
-        sessionNameTextField.becomeFirstResponder()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.isHidden = workoutList.count == 0
-        tableView.keyboardDismissMode = .interactive
-        tableView.register(WorkoutDetailTableViewCell.nib, forCellReuseIdentifier: WorkoutDetailTableViewCell.reuseIdentifier)
-
-        addExerciseButton.setTitle("+ Add Exercise", for: .normal)
-        addExerciseButton.titleLabel?.textAlignment = .center
-        addExerciseButton.addCornerRadius()
+        if sessionState == .edit {
+            try? realm?.write {
+                let sessionName = (sessionNameTextField.text?.count ?? 0) > 0 ? sessionNameTextField.text : "No session name"
+                addEditSession.name = sessionName
+            }
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -76,27 +79,65 @@ class AddSessionViewController: UIViewController {
         view.endEditing(true)
     }
 
-    @objc func saveButtonTapped(_ button: CustomButton) {
-        // Calls text field and text view didEndEditing() and sets data before realm object is saved
+    private func setupNavigationBar() {
+        title = sessionState.rawValue
+        if sessionState == .add {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+        }
+    }
+
+    private func setupSessionNameTextField() {
+        sessionNameTextField.text = addEditSession.name
+        sessionNameTextField.borderStyle = .none
+        sessionNameTextField.delegate = self
+        sessionNameTextField.returnKeyType = .done
+        sessionNameTextField.becomeFirstResponder()
+
+        sessionNameTextFieldOriginY = sessionNameTextField.frame.origin.y
+    }
+
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.isHidden = addEditSession.workouts.count == 0
+        tableView.keyboardDismissMode = .interactive
+        tableView.register(WorkoutDetailTableViewCell.nib, forCellReuseIdentifier: WorkoutDetailTableViewCell.reuseIdentifier)
+    }
+
+    private func setupAddExerciseButton() {
+        addExerciseButton.setTitle("+ Add Exercise", for: .normal)
+        addExerciseButton.titleLabel?.textAlignment = .center
+        addExerciseButton.addCornerRadius()
+    }
+
+    @objc private func saveButtonTapped(_ button: CustomButton) {
+        // Calls text field and text view didEndEditing() and saves data before realm object is saved
         view.endEditing(true)
 
         let sessionName = (sessionNameTextField.text?.count ?? 0) > 0 ? sessionNameTextField.text : "No session name"
-        sessionDataModelDelegate?.saveSessionData(name: sessionName, workouts: workoutList)
+        sessionDataModelDelegate?.addSessionData(name: sessionName, workouts: addEditSession.workouts)
+
         navigationController?.popViewController(animated: true)
     }
 
     @objc private func addSetButtonTapped(_ button: UIButton) {
         let section = button.tag
-
-        var numberOfSets = workoutList[section].sets
+        var numberOfSets = addEditSession.workouts[section].sets
         numberOfSets += 1
-        workoutList[section].sets = numberOfSets
 
-        let newWorkoutDetails = WorkoutDetails()
-        workoutList[section].workoutDetails.append(newWorkoutDetails)
+        if sessionState == .add {
+            addEditSession.workouts[section].sets = numberOfSets
+            addEditSession.workouts[section].workoutDetails.append(WorkoutDetails())
+        } else {
+            try? realm?.write {
+                addEditSession.workouts[section].sets = numberOfSets
+                addEditSession.workouts[section].workoutDetails.append(WorkoutDetails())
+            }
+        }
+
         tableView.reloadData()
-
-        let sets = workoutList[section].sets
+        let sets = addEditSession.workouts[section].sets
         tableView.scrollToRow(at: IndexPath(row: sets - 1, section: section), at: .none, animated: true)
     }
 
@@ -116,9 +157,11 @@ class AddSessionViewController: UIViewController {
     }
 }
 
-extension AddSessionViewController: UITableViewDataSource {
+// MARK: - UITableViewDataSource Funcs
+
+extension AddEditSessionViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return workoutList.count
+        return addEditSession.workouts.count
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -130,7 +173,7 @@ extension AddSessionViewController: UITableViewDataSource {
         headerContainerView.backgroundColor = .white
 
         let exerciseLabel = UILabel(frame: CGRect(origin: CGPoint(x: 20, y: 0), size: CGSize(width: tableView.bounds.width - 40, height: Constants.headerViewHeight)))
-        exerciseLabel.text = workoutList[section].name
+        exerciseLabel.text = addEditSession.workouts[section].name
         exerciseLabel.textColor = .blue
 
         headerContainerView.addSubview(exerciseLabel)
@@ -142,7 +185,7 @@ extension AddSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workoutList[section].sets
+        return addEditSession.workouts[section].sets
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,9 +196,9 @@ extension AddSessionViewController: UITableViewDataSource {
         cell.workoutDetailCellDelegate = self
 
         cell.setsValueLabel.text = "\(indexPath.row + 1)"
-        cell.repsTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].reps ?? ""
-        cell.weightTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].weight ?? ""
-        cell.timeTextField.text = workoutList[indexPath.section].workoutDetails[indexPath.row].time ?? ""
+        cell.repsTextField.text = addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].reps ?? ""
+        cell.weightTextField.text = addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].weight ?? ""
+        cell.timeTextField.text = addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].time ?? ""
         cell.indexPath = indexPath
 
         return cell
@@ -175,7 +218,7 @@ extension AddSessionViewController: UITableViewDataSource {
         additionalInfoTextView.layer.cornerRadius = 5
         additionalInfoTextView.layer.borderWidth = 1
         additionalInfoTextView.layer.borderColor = UIColor.black.cgColor
-        additionalInfoTextView.text = workoutList[section].additionalInfo ?? Constants.textViewPlaceholderText
+        additionalInfoTextView.text = addEditSession.workouts[section].additionalInfo ?? Constants.textViewPlaceholderText
         if additionalInfoTextView.text == Constants.textViewPlaceholderText {
             additionalInfoTextView.textColor = UIColor.black.withAlphaComponent(0.2)
         }
@@ -195,11 +238,9 @@ extension AddSessionViewController: UITableViewDataSource {
     }
 }
 
-extension AddSessionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected cell at index path: \(indexPath).")
-    }
+// MARK: - UITableViewDelegate Funcs
 
+extension AddEditSessionViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = -scrollView.contentOffset.y
         if yOffset > 0 {
@@ -210,36 +251,43 @@ extension AddSessionViewController: UITableViewDelegate {
 
 // MARK: - WorkoutDetailTableViewCellDelegate funcs
 
-extension AddSessionViewController: WorkoutDetailTableViewCellDelegate {
+extension AddEditSessionViewController: WorkoutDetailTableViewCellDelegate {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
         return totalString.count < 6
     }
 
-    func didEndEditingTextField(textField: UITextField, textFieldType: TextFieldType, atIndexPath indexPath: IndexPath?) {
-        guard let indexPath = indexPath else {
-            fatalError("Found nil index path for text field after it ended editing")
-        }
-
-        var textFieldText = "--"
-        if let text = textField.text, text.count > 0 {
-            textFieldText = text
-        }
-
+    private func saveTextFieldData(_ text: String, textFieldType: TextFieldType, indexPath: IndexPath) {
         switch textFieldType {
         case .reps:
-            workoutList[indexPath.section].workoutDetails[indexPath.row].reps = textFieldText
+            addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].reps = text
         case .weight:
-            workoutList[indexPath.section].workoutDetails[indexPath.row].weight = textFieldText
+            addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].weight = text
         case .time:
-            workoutList[indexPath.section].workoutDetails[indexPath.row].time = textFieldText
+            addEditSession.workouts[indexPath.section].workoutDetails[indexPath.row].time = text
+        }
+    }
+
+    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, atIndexPath indexPath: IndexPath?) {
+        guard let indexPath = indexPath else {
+            NSLog("Found nil index path for text field after it ended editing.")
+            return
+        }
+
+        let text = textField.text ?? "--"
+        if sessionState == .add {
+            saveTextFieldData(text, textFieldType: textFieldType, indexPath: indexPath)
+        } else {
+            try? realm?.write {
+                saveTextFieldData(text, textFieldType: textFieldType, indexPath: indexPath)
+            }
         }
     }
 }
 
 // MARK: - UITextViewDelegate funcs
 
-extension AddSessionViewController: UITextViewDelegate {
+extension AddEditSessionViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == Constants.textViewPlaceholderText {
             textView.text.removeAll()
@@ -260,11 +308,17 @@ extension AddSessionViewController: UITextViewDelegate {
             textView.textColor = UIColor.black.withAlphaComponent(0.2)
         }
 
-        workoutList[textView.tag].additionalInfo = textView.text
+        if sessionState == .add {
+            addEditSession.workouts[textView.tag].additionalInfo = textView.text
+        } else {
+            try? realm?.write {
+                addEditSession.workouts[textView.tag].additionalInfo = textView.text
+            }
+        }
     }
 }
 
-extension AddSessionViewController: UITextFieldDelegate {
+extension AddEditSessionViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string == "\n" {
             textField.resignFirstResponder()
@@ -273,20 +327,26 @@ extension AddSessionViewController: UITextFieldDelegate {
     }
 }
 
-extension AddSessionViewController: WorkoutListDelegate {
+extension AddEditSessionViewController: WorkoutListDelegate {
     func updateWorkoutList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
-            workoutList.append(Workout(name: exerciseText.exerciseName, muscleGroups: exerciseText.exerciseMuscles, sets: 1, workoutDetails: List<WorkoutDetails>()))
+            let newWorkout = Workout(name: exerciseText.exerciseName, muscleGroups: exerciseText.exerciseMuscles, sets: 1, workoutDetails: List<WorkoutDetails>())
+            if sessionState == .add {
+                addEditSession.workouts.append(newWorkout)
+            } else {
+                try? realm?.write {
+                    addEditSession.workouts.append(newWorkout)
+                }
+            }
         }
 
-        tableView.isHidden = workoutList.count == 0
+        tableView.isHidden = addEditSession.workouts.count == 0
         tableView.reloadData()
     }
 }
 
-extension AddSessionViewController: UIViewControllerTransitioningDelegate {
+extension AddEditSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
