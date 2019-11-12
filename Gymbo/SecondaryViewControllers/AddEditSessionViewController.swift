@@ -111,6 +111,16 @@ class AddEditSessionViewController: UIViewController {
         addExerciseButton.addCornerRadius()
     }
 
+    private func addSet(section: Int) {
+        addEditSession.workouts[section].sets += 1
+        addEditSession.workouts[section].workoutDetails.append(WorkoutDetails())
+    }
+
+    private func removeSet(section: Int) {
+        addEditSession.workouts[section].sets -= 1
+        addEditSession.workouts[section].workoutDetails.remove(at: section)
+    }
+
     @objc private func saveButtonTapped(_ button: CustomButton) {
         // Calls text field and text view didEndEditing() and saves data before realm object is saved
         view.endEditing(true)
@@ -123,16 +133,11 @@ class AddEditSessionViewController: UIViewController {
 
     @objc private func addSetButtonTapped(_ button: UIButton) {
         let section = button.tag
-        var numberOfSets = addEditSession.workouts[section].sets
-        numberOfSets += 1
-
         if sessionState == .add {
-            addEditSession.workouts[section].sets = numberOfSets
-            addEditSession.workouts[section].workoutDetails.append(WorkoutDetails())
+            addSet(section: section)
         } else {
             try? realm?.write {
-                addEditSession.workouts[section].sets = numberOfSets
-                addEditSession.workouts[section].workoutDetails.append(WorkoutDetails())
+                addSet(section: section)
             }
         }
 
@@ -235,6 +240,23 @@ extension AddEditSessionViewController: UITableViewDataSource {
         footerContainerView.addSubview(addSetButton)
 
         return footerContainerView
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.row != 0
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if sessionState == .add {
+                removeSet(section: indexPath.section)
+            } else {
+                try? realm?.write {
+                    removeSet(section: indexPath.section)
+                }
+            }
+            tableView.reloadData()
+        }
     }
 }
 

@@ -17,6 +17,7 @@ import UIKit
 import RealmSwift
 
 class SessionsViewController: UIViewController {
+    @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addSessionButton: CustomButton!
     @IBOutlet weak var emptyExerciseLabel: UILabel!
@@ -25,10 +26,10 @@ class SessionsViewController: UIViewController {
 
     private var selectedIndex: Int?
 
+    private var isEditingMode = false
+
     private struct Constants {
-        static let sessionTitleHeight = CGFloat(22)
-        static let sessionCellLineHeight = CGFloat(20)
-        static let sessionCellHeight = CGFloat(40)
+        static let sessionCellHeight: CGFloat = 120
     }
 
     override func viewDidLoad() {
@@ -70,14 +71,17 @@ class SessionsViewController: UIViewController {
 
     // MARK: - IBAction funcs
 
+
+    @IBAction func editButtonTapped(_ sender: Any) {
+        UIView.performWithoutAnimation {
+            collectionView.reloadData()
+        }
+
+        editButton.title = isEditingMode ? "Edit" : "Done"
+        isEditingMode.toggle()
+    }
+
     @IBAction func addSessionButtonPressed(_ sender: Any) {
-//        if sender is UIButton,
-//            let sessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddSessionViewController") as? AddSessionViewController {
-//            sessionViewController.sessionDataModelDelegate = self
-//            navigationController?.pushViewController(sessionViewController, animated: true)
-//        } else {
-//            fatalError("Could not instantiate AddSessionViewController.")
-//        }
         guard sender is UIButton,
             let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddEditSessionViewController") as? AddEditSessionViewController else {
                 NSLog("Could not instantiate AddEditSessionViewController.")
@@ -108,6 +112,9 @@ extension SessionsViewController: UICollectionViewDataSource {
         cell.clearLabels()
         cell.sessionTitleLabel.text = dataModelManager.getSessionName(forIndex: indexPath.row)
         cell.workoutsInfoTextView.text = dataModelManager.workoutsInfoText(forIndex: indexPath.row)
+        cell.isEditing = isEditingMode
+        cell.sessionsCollectionViewCellDelegate = self
+        cell.contentView.alpha = 1
 
         return cell
     }
@@ -115,7 +122,7 @@ extension SessionsViewController: UICollectionViewDataSource {
 
 extension SessionsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -131,13 +138,13 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
         let totalWidth = collectionView.bounds.width
         let itemWidth = (totalWidth - 30) / 2
 
-        return CGSize(width: itemWidth, height: 120)
+        return CGSize(width: itemWidth, height: Constants.sessionCellHeight)
     }
 }
 
 extension SessionsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.row < collectionView.numberOfItems(inSection: indexPath.section),
+        guard !isEditingMode, indexPath.row < collectionView.numberOfItems(inSection: indexPath.section),
         let sessionCell = collectionView.cellForItem(at: indexPath) as? SessionsCollectionViewCell,
         let sessionPreviewViewController = storyboard?.instantiateViewController(withIdentifier: "SessionPreviewViewController") as? SessionPreviewViewController else {
             return
@@ -168,13 +175,6 @@ extension SessionsViewController: SessionDataModelDelegate {
     }
 
     func editSelectedSession() {
-//        guard let sessionIndex = selectedIndex,
-//            let selectedSession = dataModelManager.getSession(forIndex: sessionIndex),
-//            let editSessionViewController = storyboard?.instantiateViewController(withIdentifier: "EditSessionViewController") as? EditSessionViewController else {
-//                return
-//        }
-//        editSessionViewController.selectedSession = selectedSession
-//        navigationController?.pushViewController(editSessionViewController, animated: true)
         guard let sessionIndex = selectedIndex,
             let selectedSession = dataModelManager.getSession(forIndex: sessionIndex),
             let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddEditSessionViewController") as? AddEditSessionViewController else {
@@ -196,14 +196,22 @@ extension SessionsViewController: SessionDataModelDelegate {
     }
 }
 
-// DELETE THIS
-extension SessionsViewController {
-    @IBAction func deleteData(_ sender: Any) {
-        SessionDataModelManager.shared.removeAllRealmData()
-        refreshMainView()
+extension SessionsViewController: SessionsCollectionViewCellDelegate {
+    func delete(cell: SessionsCollectionViewCell) {
+        guard let index = collectionView.indexPath(for: cell)?.row else {
+            return
+        }
+
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
+            cell.contentView.alpha = 0
+        }) { [weak self] (finished) in
+            if finished {
+                self?.dataModelManager.removeSessionAtIndex(index)
+                self?.refreshMainView()
+            }
+        }
     }
 }
-// DELETE THIS
 
 extension SessionsViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {

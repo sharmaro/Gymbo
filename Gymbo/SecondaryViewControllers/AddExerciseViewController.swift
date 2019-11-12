@@ -129,7 +129,7 @@ class AddExerciseViewController: UIViewController {
         let searchImageContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 28, height: 16)))
         let searchImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 10, y: 0), size: CGSize(width: 16, height: 16)))
         searchImageView.contentMode = .scaleAspectFit
-        searchImageView.image = UIImage(named: "searchImage")
+        searchImageView.image = UIImage(named: "search")
         searchImageContainerView.addSubview(searchImageView)
         searchTextField.leftView = searchImageContainerView
     }

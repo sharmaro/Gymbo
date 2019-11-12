@@ -220,15 +220,16 @@
                         <viewLayoutGuide key="safeArea" id="dun-DM-n6V"/>
                     </view>
                     <navigationItem key="navigationItem" title="Sessions" id="OQU-S8-5KJ">
-                        <barButtonItem key="leftBarButtonItem" title="Delete All" id="Pcl-LG-JtF">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Pcl-LG-JtF">
                             <connections>
-                                <action selector="deleteData:" destination="KdM-Vy-LJH" id="c2F-51-OJ5"/>
+                                <action selector="editButtonTapped:" destination="KdM-Vy-LJH" id="dLI-li-8x8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addSessionButton" destination="C66-72-bj1" id="mNP-Oa-yJV"/>
                         <outlet property="collectionView" destination="s1x-lJ-ypg" id="xVR-fN-j0F"/>
+                        <outlet property="editButton" destination="Pcl-LG-JtF" id="I1e-C6-9jQ"/>
                         <outlet property="emptyExerciseLabel" destination="5IV-gc-v7n" id="B40-Wb-gyQ"/>
                     </connections>
                 </viewController>
