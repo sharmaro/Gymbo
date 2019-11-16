@@ -102,7 +102,6 @@ class AddEditSessionViewController: UIViewController {
     private func setupInfoTextView() {
         infoTextView.textContainerInset = .zero
         infoTextView.textContainer.lineFragmentPadding = 0
-        infoTextView.textContainer.lineBreakMode = .byTruncatingTail
         infoTextView.text = addEditSession.info ?? Constants.textViewPlaceholderText
         if infoTextView.text == Constants.textViewPlaceholderText {
             infoTextView.textColor = UIColor.black.withAlphaComponent(0.2)

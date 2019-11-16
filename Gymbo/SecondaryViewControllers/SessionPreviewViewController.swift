@@ -92,7 +92,6 @@ class SessionPreviewViewController: UIViewController {
     private func setupInfoTextView() {
         infoTextView.textContainerInset = .zero
         infoTextView.textContainer.lineFragmentPadding = 0
-        infoTextView.textContainer.lineBreakMode = .byTruncatingTail
         infoTextView.isUserInteractionEnabled = false
     }
 
