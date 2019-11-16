@@ -17,7 +17,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var deleteButton: CustomButton!
     @IBOutlet weak var sessionTitleLabel: UILabel!
-    @IBOutlet weak var workoutsInfoTextView: UITextView!
+    @IBOutlet weak var exercisesInfoTextView: UITextView!
 
     weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
 
@@ -68,15 +68,15 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupTextView() {
-        workoutsInfoTextView.textColor = .darkGray
-        workoutsInfoTextView.textContainerInset = .zero
-        workoutsInfoTextView.textContainer.lineFragmentPadding = 0
-        workoutsInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
+        exercisesInfoTextView.textColor = .darkGray
+        exercisesInfoTextView.textContainerInset = .zero
+        exercisesInfoTextView.textContainer.lineFragmentPadding = 0
+        exercisesInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
     }
 
     func clearLabels() {
         sessionTitleLabel.text?.removeAll()
-        workoutsInfoTextView.text?.removeAll()
+        exercisesInfoTextView.text?.removeAll()
     }
 
     @IBAction func deleteButtonTapped(_ sender: Any) {

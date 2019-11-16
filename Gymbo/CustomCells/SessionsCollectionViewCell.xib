@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -88,9 +86,9 @@
             <connections>
                 <outlet property="containerView" destination="sIB-Hc-KIe" id="nTJ-g8-l60"/>
                 <outlet property="deleteButton" destination="qQv-jA-WlS" id="A5M-nt-EGu"/>
+                <outlet property="exercisesInfoTextView" destination="fwQ-fg-0dm" id="25l-2q-MKE"/>
                 <outlet property="sessionTitleLabel" destination="1k8-uB-lSr" id="Ya6-CW-lEI"/>
                 <outlet property="visualEffectView" destination="chh-xV-9TS" id="dY3-vb-Lwo"/>
-                <outlet property="workoutsInfoTextView" destination="fwQ-fg-0dm" id="25l-2q-MKE"/>
             </connections>
             <point key="canvasLocation" x="244.92753623188409" y="135.9375"/>
         </collectionViewCell>

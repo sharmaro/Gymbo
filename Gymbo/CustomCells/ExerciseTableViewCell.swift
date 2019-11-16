@@ -1,5 +1,5 @@
 //
-//  WorkoutTableViewCell.swift
+//  ExerciseTableViewCell.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 9/25/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WorkoutTableViewCell: UITableViewCell {
+class ExerciseTableViewCell: UITableViewCell {
     @IBOutlet weak var exerciseNameLabel: UILabel!
     @IBOutlet weak var exerciseMusclesLabel: UILabel!
 
@@ -17,7 +17,7 @@ class WorkoutTableViewCell: UITableViewCell {
     }
 
     class var reuseIdentifier: String {
-        return "WorkoutTableViewCell"
+        return "ExerciseTableViewCell"
     }
 
     override func awakeFromNib() {

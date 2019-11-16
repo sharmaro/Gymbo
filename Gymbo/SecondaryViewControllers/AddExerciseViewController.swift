@@ -20,42 +20,41 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
 
-    private lazy var cancelButton: UIButton = {
+    private lazy var cancelButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Cancel", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
         button.tag = 0
-        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var addButton: UIButton = {
+    private lazy var addButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Add", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
         button.alpha = Constants.inactiveAlpha
         button.tag = 1
-        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(rightBarButtonTapped), for: .touchUpInside)
         return button
     }()
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
-                                 "Hips", "Legs", "Shoulders", "Extra Workouts"]
+                                 "Hips", "Legs", "Shoulders", "Extra Exercises"]
     private var exerciseInfoDict = [String: [ExerciseText]]()
     // Used to store the filtered results based on user search
     private var searchResultsExerciseInfoDict = [String: [ExerciseText]]()
 
     private var selectedExercises = [ExerciseText]()
 
-    weak var workoutListDelegate: WorkoutListDelegate?
+    weak var exerciseListDelegate: ExerciseListDelegate?
 
     private struct Constants {
-        static let navBarButtonSize: CGSize = CGSize(width: 60, height: 20)
+        static let navBarButtonSize: CGSize = CGSize(width: 80, height: 30)
 
-        static let workoutCellHeight: CGFloat = 60
-
+        static let exerciseCellHeight: CGFloat = 60
         static let activeAlpha: CGFloat = 1.0
         static let inactiveAlpha: CGFloat = 0.3
 
@@ -94,13 +93,13 @@ class AddExerciseViewController: UIViewController {
                             print("Error while opening file: \(group).txt.")
                             return
                     }
-                    let workouts = content.components(separatedBy: "\n")
-                    for workout in workouts {
+                    let exercises = content.components(separatedBy: "\n")
+                    for exercise in exercises {
                         // Prevents reading the empty line at EOF
-                        if workout.count > 0 {
-                            let workoutSplitList = workout.split(separator: ":")
-                            let exerciseName = String(workoutSplitList[0])
-                            let exerciseMuscles =  String(workoutSplitList[1])
+                        if exercise.count > 0 {
+                            let exerciseSplitList = exercise.split(separator: ":")
+                            let exerciseName = String(exerciseSplitList[0])
+                            let exerciseMuscles =  String(exerciseSplitList[1])
                             let exerciseText = ExerciseText(exerciseName: exerciseName,
                                                             exerciseMuscles: exerciseMuscles,
                                                             isUserMade: false)
@@ -143,8 +142,8 @@ class AddExerciseViewController: UIViewController {
         tableView.layer.borderColor = UIColor.black.cgColor
         tableView.allowsMultipleSelection = true
         tableView.keyboardDismissMode = .interactive
-        tableView.register(WorkoutTableViewCell.nib,
-                           forCellReuseIdentifier: WorkoutTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseTableViewCell.nib,
+                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
     private func setupExerciseButton() {
@@ -189,27 +188,24 @@ class AddExerciseViewController: UIViewController {
         addButton.setTitle(buttonText, for: .normal)
     }
 
-    @objc private func navBarButtonPressed(_ sender: UIButton) {
-        switch sender.tag {
-        case 0: // Cancel button tapped
-            break
-        case 1: // Add button tapped
-            // Get exercise info from the selected exercises
-            if let indexPaths = tableView.indexPathsForSelectedRows {
-                var selectedExercises = [ExerciseText]()
-                for indexPath in indexPaths {
-                    guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section) else {
-                        break
-                    }
-                    let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
-                    if let exerciseText = dictToUse[exerciseGroups[indexPath.section]]?[indexPath.row] {
-                        selectedExercises.append(exerciseText)
-                    }
+    @objc private func leftBarButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func rightBarButtonTapped() {
+        // Get exercise info from the selected exercises
+        if let indexPaths = tableView.indexPathsForSelectedRows {
+            var selectedExercises = [ExerciseText]()
+            for indexPath in indexPaths {
+                guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section) else {
+                    break
                 }
-                workoutListDelegate?.updateWorkoutList(selectedExercises)
+                let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
+                if let exerciseText = dictToUse[exerciseGroups[indexPath.section]]?[indexPath.row] {
+                    selectedExercises.append(exerciseText)
+                }
             }
-        default:
-            fatalError("Unrecognized navigation bar button pressed")
+            exerciseListDelegate?.updateExerciseList(selectedExercises)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -277,12 +273,12 @@ extension AddExerciseViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.workoutCellHeight
+        return Constants.exerciseCellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutTableViewCell.reuseIdentifier, for: indexPath) as? WorkoutTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(WorkoutTableViewCell.reuseIdentifier)`.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
         }
         let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
         let exerciseGroup = exerciseGroups[indexPath.section]

@@ -14,7 +14,7 @@ enum SessionDetailType {
     case reps(areUnique: Bool)
     case weight
     case time
-    case additionalInfo
+    case info
 
     func valueForType() -> String {
         let value: String
@@ -29,7 +29,7 @@ enum SessionDetailType {
             value = "weight"
         case .time:
             value = "time"
-        case .additionalInfo:
+        case .info:
             value = "additional info"
         }
         return value
@@ -58,7 +58,7 @@ class Util {
             suffix = Util.formatPluralString(inputString: string, suffixBase: "lb")
         case .time:
             suffix = Util.formatPluralString(inputString: string, suffixBase: "sec")
-        case .additionalInfo:
+        case .info:
             suffix = ""
         }
         return "\(string) \(suffix)"

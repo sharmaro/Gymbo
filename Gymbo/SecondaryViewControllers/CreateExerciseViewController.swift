@@ -20,34 +20,34 @@ class CreateExerciseViewController: UIViewController {
     @IBOutlet weak var exerciseNameTextField: UITextField!
     @IBOutlet weak var exerciseMusclesTextField: UITextField!
 
-    private lazy var closeButton: UIButton = {
+    private lazy var closeButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Close", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
         button.tag = 0
-        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var addButton: UIButton = {
+    private lazy var addButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
         button.setTitle("Add", for: .normal)
         button.titleFontSize = 12
         button.addCornerRadius()
         button.alpha = Constants.inactiveAlpha
         button.tag = 1
-        button.addTarget(self, action: #selector(navBarButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(rightBarButtonTapped), for: .touchUpInside)
         return button
     }()
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
-    "Hips", "Legs", "Shoulders", "Extra Workouts"]
+    "Hips", "Legs", "Shoulders", "Extra Exercises"]
 
     private struct Constants {
-        static let navBarButtonSize: CGSize = CGSize(width: 60, height: 20)
+        static let navBarButtonSize: CGSize = CGSize(width: 80, height: 30)
 
         static let activeAlpha: CGFloat = 1.0
         static let inactiveAlpha: CGFloat = 0.3
@@ -89,19 +89,16 @@ class CreateExerciseViewController: UIViewController {
         exerciseMusclesTextField.borderStyle = .none
     }
 
-    @objc private func navBarButtonPressed(_ sender: UIButton) {
-        switch sender.tag {
-        case 0: // Cancel button tapped
-            break
-        case 1: // Add button tapped
-            let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
-            let exerciseGroup = exerciseGroups[selectedPickerRow]
-            let exerciseText = ExerciseText(exerciseName: exerciseNameTextField.text, exerciseMuscles: exerciseMusclesTextField.text, isUserMade: true)
-            createExerciseDelegate?.addExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
-            break
-        default:
-            fatalError("Unrecognized navigation bar button pressed")
-        }
+    @objc private func leftBarButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func rightBarButtonTapped() {
+        let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
+        let exerciseGroup = exerciseGroups[selectedPickerRow]
+        let exerciseText = ExerciseText(exerciseName: exerciseNameTextField.text, exerciseMuscles: exerciseMusclesTextField.text, isUserMade: true)
+        createExerciseDelegate?.addExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
+
         dismiss(animated: true, completion: nil)
     }
 

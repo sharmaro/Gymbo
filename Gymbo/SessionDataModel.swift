@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-@objcMembers class WorkoutDetails: Object {
+@objcMembers class ExerciseDetails: Object {
     dynamic var reps: String?
     dynamic var weight: String?
     dynamic var time: String?
@@ -23,27 +23,25 @@ import RealmSwift
     }
 }
 
-@objcMembers class Workout: Object {
+@objcMembers class Exercise: Object {
     dynamic var name: String?
     dynamic var muscleGroups: String?
     dynamic var sets: Int = 1
-    dynamic var additionalInfo: String?
-    let workoutDetails = List<WorkoutDetails>()
+    let exerciseDetails = List<ExerciseDetails>()
 
-    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, additionalInfo: String? = nil, workoutDetails: List<WorkoutDetails>) {
+    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, exerciseDetails: List<ExerciseDetails>) {
         self.init()
 
         self.name = name
         self.muscleGroups = muscleGroups
         self.sets = sets
-        self.additionalInfo = additionalInfo
 
-        if workoutDetails.isEmpty {
-            let workoutDetail = WorkoutDetails()
-            self.workoutDetails.append(workoutDetail)
+        if exerciseDetails.isEmpty {
+            let exerciseDetails = ExerciseDetails()
+            self.exerciseDetails.append(exerciseDetails)
         } else {
-            for workoutDetail in workoutDetails {
-                self.workoutDetails.append(workoutDetail)
+            for exerciseDetail in exerciseDetails {
+                self.exerciseDetails.append(exerciseDetail)
             }
         }
     }
@@ -51,15 +49,17 @@ import RealmSwift
 
 @objcMembers class Session: Object {
     dynamic var name: String?
-    let workouts = List<Workout>()
+    dynamic var info: String?
+    let exercises = List<Exercise>()
 
-    convenience init(name: String? = nil, workouts: List<Workout>) {
+    convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {
         self.init()
-        
-        self.name = name
 
-        for workout in workouts {
-            self.workouts.append(workout)
+        self.name = name
+        self.info = info
+
+        for exercise in exercises {
+            self.exercises.append(exercise)
         }
     }
 }

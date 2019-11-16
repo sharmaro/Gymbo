@@ -81,57 +81,58 @@ class SessionDataModelManager: NSObject {
         return sessionsList?[index].name ?? "No name"
     }
 
-    func getWorkoutsCount(forIndex index: Int) -> Int {
-        return sessionsList?[index].workouts.count ?? 0
+    func getExercisesCount(forIndex index: Int) -> Int {
+        return sessionsList?[index].exercises.count ?? 0
     }
 
-    func getSessionPreviewInfo(forIndex index: Int) -> [SessionPreviewInfo]? {
-        var sessionPreviewInfoList = [SessionPreviewInfo]()
-        guard let workouts = sessionsList?[index].workouts,
-            workouts.count > 0 else {
+    func getExerciseInfoList(forSession session: Session) -> [ExerciseInfo]? {
+        var exerciseInfoList = [ExerciseInfo]()
+        let exercises = session.exercises
+        guard exercises.count > 0 else {
                 return nil
         }
-        for workout in workouts {
-            if let workoutName = workout.name, let workoutMuscles = workout.muscleGroups {
-                sessionPreviewInfoList.append(SessionPreviewInfo(exerciseName: "\(workout.sets) x \(workoutName)", exerciseMuscles: workoutMuscles))
+
+        for exercise in exercises {
+            if let exerciseName = exercise.name, let exerciseMuscles = exercise.muscleGroups {
+                exerciseInfoList.append(ExerciseInfo(exerciseName: "\(exercise.sets) x \(exerciseName)", exerciseMuscles: exerciseMuscles))
             }
         }
-        return sessionPreviewInfoList
+        return exerciseInfoList
     }
 
-    func workoutsInfoText(forIndex index: Int) -> String {
-        var workoutsInfoText = "No workouts selected for this session."
-        if let workouts = sessionsList?[index].workouts, workouts.count > 0 {
-            workoutsInfoText = ""
-            for i in 0..<workouts.count {
-                var totalWorkoutString = ""
-                let name = Util.formattedString(stringToFormat: workouts[i].name, type: .name)
-//                let sets = Util.formattedString(stringToFormat: String(workouts[i].sets), type: .sets)
-//                let areRepsUnique = isRepsStringUnique(forWorkout: workouts[i])
-//                let reps = Util.formattedString(stringToFormat: workouts[i].workoutDetails[0].reps, type: .reps(areUnique: areRepsUnique))
+    func sessionInfoText(forIndex index: Int) -> String {
+        var sessionInfoText = "No exercises selected for this session."
+        if let exercises = sessionsList?[index].exercises, exercises.count > 0 {
+            sessionInfoText = ""
+            for i in 0..<exercises.count {
+                var sessionString = ""
+                let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
+//                let sets = Util.formattedString(stringToFormat: String(exercises[i].sets), type: .sets)
+//                let areRepsUnique = isRepsStringUnique(forExercise: exercises[i])
+//                let reps = Util.formattedString(stringToFormat: exercises[i].exerciseDetails[0].reps, type: .reps(areUnique: areRepsUnique))
 
-//                totalWorkoutString = "\(name) - \(sets) x \(reps)"
-                totalWorkoutString = "\(name)"
-                if i != workouts.count - 1 {
-//                    totalWorkoutString += "\n"
-                    totalWorkoutString += ", "
+//                totalSessionString = "\(name) - \(sets) x \(reps)"
+                sessionString = "\(name)"
+                if i != exercises.count - 1 {
+//                    totalSessionString += "\n"
+                    sessionString += ", "
                 }
-                workoutsInfoText.append(totalWorkoutString)
+                sessionInfoText.append(sessionString)
             }
         }
-        return workoutsInfoText
+        return sessionInfoText
     }
 
-    private func isRepsStringUnique(forWorkout workout: Workout) -> Bool {
+    private func isRepsStringUnique(forExercise exercise: Exercise) -> Bool {
         var areUnique = false
-        let workoutDetails = workout.workoutDetails
-        if workoutDetails.count == 1 {
+        let exerciseDetails = exercise.exerciseDetails
+        if exerciseDetails.count == 1 {
             return areUnique
         }
 
-        let reps = workoutDetails[0].reps
-        for workoutDetail in workoutDetails {
-            if workoutDetail.reps != reps {
+        let reps = exerciseDetails[0].reps
+        for exerciseDetail in exerciseDetails {
+            if exerciseDetail.reps != reps {
                 areUnique.toggle()
                 return areUnique
             }
