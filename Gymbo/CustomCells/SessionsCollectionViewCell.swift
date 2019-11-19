@@ -26,7 +26,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     }
 
     class var reuseIdentifier: String {
-        return "SessionsCollectionViewCell"
+        return String(describing: self)
     }
 
     var isEditing: Bool = false {
@@ -80,8 +80,6 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        if sender is CustomButton {
-            sessionsCollectionViewCellDelegate?.delete(cell: self)
-        }
+        sessionsCollectionViewCellDelegate?.delete(cell: self)
     }
 }

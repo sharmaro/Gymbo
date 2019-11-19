@@ -17,7 +17,7 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 
     class var reuseIdentifier: String {
-        return "ExerciseTableViewCell"
+        return String(describing: self)
     }
 
     override func awakeFromNib() {

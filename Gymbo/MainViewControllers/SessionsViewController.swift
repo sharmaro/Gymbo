@@ -171,17 +171,17 @@ extension SessionsViewController: UICollectionViewDelegate {
             return
         }
 
-        let navController = UINavigationController(rootViewController: sessionPreviewViewController)
+        let navigationController = UINavigationController(rootViewController: sessionPreviewViewController)
         if #available(iOS 13.0, *) {
             // No op
         } else {
-            navController.modalPresentationStyle = .custom
-            navController.transitioningDelegate = self
+            navigationController.modalPresentationStyle = .custom
+            navigationController.transitioningDelegate = self
         }
         sessionPreviewViewController.selectedSession = selectedSession
         sessionPreviewViewController.sessionDataModelDelegate = self
 
-        present(navController, animated: true, completion: nil)
+        present(navigationController, animated: true, completion: nil)
     }
 }
 

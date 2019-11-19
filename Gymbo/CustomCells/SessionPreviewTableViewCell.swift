@@ -17,7 +17,7 @@ class SessionPreviewTableViewCell: UITableViewCell {
     }
 
     class var reuseIdentifier: String {
-        return "SessionPreviewTableViewCell"
+        return String(describing: self)
     }
 
     override func awakeFromNib() {

@@ -88,7 +88,6 @@
                             <constraint firstItem="ki9-KO-0X7" firstAttribute="width" secondItem="VMP-nF-7Ym" secondAttribute="width" id="er5-Y1-YTU"/>
                             <constraint firstItem="OFl-au-pwh" firstAttribute="width" secondItem="7j7-wZ-og2" secondAttribute="width" id="nql-Ix-odn"/>
                             <constraint firstItem="7j7-wZ-og2" firstAttribute="width" secondItem="ki9-KO-0X7" secondAttribute="width" id="oJZ-m8-HAW"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="rQM-B3-dLA"/>
                         </constraints>
                     </stackView>
                 </subviews>
@@ -99,7 +98,6 @@
                     <constraint firstAttribute="trailing" secondItem="yXx-Be-TbZ" secondAttribute="trailing" constant="20" id="PSE-Xu-ckB"/>
                     <constraint firstItem="pMU-Oc-nGd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="YWQ-hf-aB7"/>
                     <constraint firstItem="yXx-Be-TbZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="uGX-61-E7R"/>
-                    <constraint firstAttribute="bottom" secondItem="yXx-Be-TbZ" secondAttribute="bottom" constant="10" id="z89-8F-scR"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

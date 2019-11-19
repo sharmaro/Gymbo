@@ -101,7 +101,7 @@ class SessionDataModelManager: NSObject {
     }
 
     func sessionInfoText(forIndex index: Int) -> String {
-        var sessionInfoText = "No exercises selected for this session."
+        var sessionInfoText = "No exercises in this session."
         if let exercises = sessionsList?[index].exercises, exercises.count > 0 {
             sessionInfoText = ""
             for i in 0..<exercises.count {

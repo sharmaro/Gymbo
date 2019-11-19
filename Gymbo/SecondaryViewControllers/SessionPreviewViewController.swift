@@ -112,6 +112,8 @@ class SessionPreviewViewController: UIViewController {
         infoTextView.text = infoText
         if infoTextView.text == Constants.textViewPlaceholderText {
             infoTextView.textColor = UIColor.black.withAlphaComponent(0.2)
+        } else {
+            infoTextView.textColor = .black
         }
     }
 

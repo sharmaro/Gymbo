@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddSetTableViewCellDelegate: class {
-    func addSetButtonTapped(section: Int)
+    func addSetButtonTapped(cell: AddSetTableViewCell)
 }
 
 class AddSetTableViewCell: UITableViewCell {
@@ -20,10 +20,8 @@ class AddSetTableViewCell: UITableViewCell {
     }
 
     class var reuseIdentifier: String {
-        return "AddSetTableViewCell"
+        return String(describing: self)
     }
-
-    var section: Int?
 
     weak var addSetTableViewCellDelegate: AddSetTableViewCellDelegate?
 
@@ -37,14 +35,9 @@ class AddSetTableViewCell: UITableViewCell {
 
     private func setupAddSetButton() {
         addSetButton.addCornerRadius()
-        addSetButton.tag = section ?? -1
     }
 
     @IBAction func addSetButtonTapped(_ sender: Any) {
-        guard sender is CustomButton else {
-            return
-        }
-
-        addSetTableViewCellDelegate?.addSetButtonTapped(section: section ?? -1)
+        addSetTableViewCellDelegate?.addSetButtonTapped(cell: self)
     }
 }

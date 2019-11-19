@@ -45,6 +45,8 @@
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
 		69F012D1237DB0E5008B4225 /* AddSetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */; };
 		69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */; };
+		69F012E22383A1BD008B4225 /* ExerciseNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseNameTableViewCell.swift */; };
+		69F012E32383A1BD008B4225 /* ExerciseNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69F012E12383A1BD008B4225 /* ExerciseNameTableViewCell.xib */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +93,8 @@
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
 		69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetTableViewCell.swift; sourceTree = "<group>"; };
 		69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddSetTableViewCell.xib; sourceTree = "<group>"; };
+		69F012E02383A1BD008B4225 /* ExerciseNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseNameTableViewCell.swift; sourceTree = "<group>"; };
+		69F012E12383A1BD008B4225 /* ExerciseNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseNameTableViewCell.xib; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,6 +137,8 @@
 				69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */,
 				692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */,
 				692D982122FE9E890032514D /* ExerciseDetailTableViewCell.xib */,
+				69F012E02383A1BD008B4225 /* ExerciseNameTableViewCell.swift */,
+				69F012E12383A1BD008B4225 /* ExerciseNameTableViewCell.xib */,
 				6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */,
 				6942B214233C7DBA00FCEECE /* ExerciseTableViewCell.xib */,
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
@@ -297,6 +303,7 @@
 			files = (
 				695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */,
 				692D982322FE9E890032514D /* ExerciseDetailTableViewCell.xib in Resources */,
+				69F012E32383A1BD008B4225 /* ExerciseNameTableViewCell.xib in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				69629461235D592000E681C7 /* Abs.txt in Resources */,
 				69F012D1237DB0E5008B4225 /* AddSetTableViewCell.xib in Resources */,
@@ -366,6 +373,7 @@
 			files = (
 				69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* TabBarViewController.swift in Sources */,
+				69F012E22383A1BD008B4225 /* ExerciseNameTableViewCell.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
 				69488E132362A64900C3A04C /* SessionPreviewTableViewCell.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,

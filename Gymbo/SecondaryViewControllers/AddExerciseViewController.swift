@@ -15,7 +15,6 @@ struct ExerciseText: Codable {
 }
 
 class AddExerciseViewController: UIViewController {
-    @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
@@ -64,7 +63,7 @@ class AddExerciseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationItem()
+        setupNavigationItems()
         setupExerciseInfo()
         setupSearchTextField()
         setupTableView()
@@ -76,9 +75,10 @@ class AddExerciseViewController: UIViewController {
         saveExerciseInfo()
     }
 
-    private func setupNavigationItem() {
-        customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
-        customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
+    private func setupNavigationItems() {
+        title = "Add Exercise"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         addButton.isEnabled = false // Doesn't work if you disable it in the lazy variable
     }
 
@@ -227,17 +227,15 @@ class AddExerciseViewController: UIViewController {
     }
 
     @IBAction func createExerciseButtonTapped(_ sender: Any) {
-        if sender is UIButton {
-            if let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: "CreateExerciseViewController") as? CreateExerciseViewController {
-                if #available(iOS 13.0, *) {
-                    // No op
-                } else {
-                    createExerciseVC.modalPresentationStyle = .custom
-                    createExerciseVC.transitioningDelegate = self
-                }
-                createExerciseVC.createExerciseDelegate = self
-                present(createExerciseVC, animated: true, completion: nil)
+        if let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: "CreateExerciseViewController") as? CreateExerciseViewController {
+            if #available(iOS 13.0, *) {
+                // No op
+            } else {
+                createExerciseVC.modalPresentationStyle = .custom
+                createExerciseVC.transitioningDelegate = self
             }
+            createExerciseVC.createExerciseDelegate = self
+            present(createExerciseVC, animated: true, completion: nil)
         }
     }
 }

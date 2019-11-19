@@ -11,7 +11,7 @@ import UIKit
 // Protocol for handling UITextField and UITextView interactions
 protocol ExerciseDetailTableViewCellDelegate: class {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool
-    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, atIndexPath indexPath: IndexPath?)
+    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell)
 }
 
 enum TextFieldType: String {
@@ -35,14 +35,12 @@ class ExerciseDetailTableViewCell: UITableViewCell {
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
-    var indexPath: IndexPath?
-
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
     }
 
     class var reuseIdentifier: String {
-        return "ExerciseDetailTableViewCell"
+        return String(describing: self)
     }
 
     override func awakeFromNib() {
@@ -95,7 +93,7 @@ extension ExerciseDetailTableViewCell: UITextFieldDelegate {
         default:
             fatalError("Incorrect text field ended editing")
         }
-        exerciseDetailCellDelegate?.textFieldDidEndEditing(textField: textField, textFieldType: type, atIndexPath: indexPath)
+        exerciseDetailCellDelegate?.textFieldDidEndEditing(textField: textField, textFieldType: type, cell: self)
     }
 }
 

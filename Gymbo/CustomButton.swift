@@ -12,14 +12,10 @@ class CustomButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
             if isEnabled {
-                if shouldHighlight {
-                    alpha = isHighlighted ? 0.3 : 1.0
-                }
+                alpha = isHighlighted ? 0.3 : 1.0
             }
         }
     }
-
-    var shouldHighlight: Bool = true
 
     var textColor: UIColor = .black {
         didSet {
