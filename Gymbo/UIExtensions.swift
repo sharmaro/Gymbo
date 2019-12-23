@@ -9,3 +9,14 @@
 import UIKit
 
 // Add UI extensions here
+
+extension UIView {
+    func addShadow() {
+        clipsToBounds = true
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 1.0
+    }
+}

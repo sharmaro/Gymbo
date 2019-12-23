@@ -10,16 +10,16 @@ import Foundation
 import RealmSwift
 
 @objcMembers class ExerciseDetails: Object {
+    dynamic var last: String?
     dynamic var reps: String?
     dynamic var weight: String?
-    dynamic var time: String?
 
-    convenience init(reps: String? = nil, weight: String? = nil, time: String? = nil) {
+    convenience init(last: String? = nil, reps: String? = nil, weight: String? = nil) {
         self.init()
-        
+
+        self.last = last
         self.reps = reps
         self.weight = weight
-        self.time = time
     }
 }
 

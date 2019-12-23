@@ -29,18 +29,13 @@ class SessionDataModelManager: NSObject {
     }
 
     func printConfigFileLocation() {
-        if let configFileURL = realm?.configuration.fileURL {
-            print("START SESSION FILE NAME")
-            print("config file: \(configFileURL)")
-            print("config file_path: \(configFileURL.path)")
-            print("config file_relative_path: \(configFileURL.relativePath)")
-            print("config file_relative_string: \(configFileURL.relativeString)")
-            print("config file_path_extension: \(configFileURL.pathExtension)")
-            print("config file_absolute_url: \(configFileURL.absoluteURL)")
-            print("config file_absolute_string: \(configFileURL.absoluteString)")
-            print("END SESSION FILE NAME")
-            print("\n\n\n")
+        print()
+        if realm?.configuration.fileURL != nil {
+            NSLog("SUCCESS: Realm location exists.")
+        } else {
+            NSLog("FAILURE: Realm location does not exist.")
         }
+        print()
     }
 
     private func fetchSessions() -> Results<Session>? {
@@ -104,7 +99,7 @@ class SessionDataModelManager: NSObject {
         var sessionInfoText = "No exercises in this session."
         if let exercises = sessionsList?[index].exercises, exercises.count > 0 {
             sessionInfoText = ""
-            for i in 0..<exercises.count {
+            for i in 0 ..< exercises.count {
                 var sessionString = ""
                 let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
 //                let sets = Util.formattedString(stringToFormat: String(exercises[i].sets), type: .sets)

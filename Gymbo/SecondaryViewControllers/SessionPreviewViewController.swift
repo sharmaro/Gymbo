@@ -8,73 +8,82 @@
 
 import UIKit
 
+protocol StartSessionDelegate: class {
+    func sessionStarted(session: Session?)
+}
+
 struct ExerciseInfo {
     var exerciseName: String?
     var exerciseMuscles: String?
 }
 
 class SessionPreviewViewController: UIViewController {
-    @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startSessionButton: CustomButton!
 
-    private lazy var closeButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Close", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.tag = 0
-        button.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
-        return button
+    class var id: String {
+        return String(describing: self)
+    }
+
+    private lazy var sessionTableHeaderView: SessionTableHeaderView = {
+        let sessionTableHeaderView = SessionTableHeaderView()
+        sessionTableHeaderView.nameTextView.text = session?.name ?? Constants.sessionNamePlaceholderText
+        sessionTableHeaderView.infoTextView.text = session?.info ?? Constants.sessionInfoPlaceholderText
+
+        sessionTableHeaderView.isContentEditable = false
+        sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+
+        return sessionTableHeaderView
     }()
 
-    private lazy var editButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Edit", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.tag = 1
-        button.addTarget(self, action: #selector(rightBarButtonTapped), for: .touchUpInside)
-        return button
-    }()
-
-    var selectedSession: Session?
+    var session: Session?
     var exerciseInfoList: [ExerciseInfo]?
-
-    private var infoTextViewOriginY: CGFloat = 0
 
     private let dataModelManager = SessionDataModelManager.shared
 
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
+    weak var startSessionDelegate: StartSessionDelegate?
 
     private struct Constants {
-        static let navBarButtonSize: CGSize = CGSize(width: 80, height: 30)
+        static let sessionPreviewCellHeight = CGFloat(55)
 
-        static let textViewPlaceholderText = "Info"
+        static let navBarButtonSize = CGSize(width: 80, height: 30)
+
+        static let title = "Preview"
+        static let sessionNamePlaceholderText = "Session name"
+        static let sessionInfoPlaceholderText = "No Info"
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         guard isViewLoaded,
-            let session = selectedSession else {
+            let session = session else {
                 return
         }
 
-        title = session.name
+        title = Constants.title
         exerciseInfoList = dataModelManager.getExerciseInfoList(forSession: session)
 
-        updateInfoTextView(infoText: session.info)
+        updateSessionTextViews(name: session.name, info: session.info)
         updateTableView()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationItem()
-        setupInfoTextView()
+        setupNavigationBar()
         setupTableView()
+        setupTableHeaderView()
         setupStartSessionButton()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Used for resizing the tableView.headerView when the info text view becomes large enough
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,65 +92,71 @@ class SessionPreviewViewController: UIViewController {
         sessionDataModelDelegate?.updateSessionCells()
     }
 
-     private func setupNavigationItem() {
+     private func setupNavigationBar() {
         navigationController?.navigationBar.isTranslucent = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
-    }
-
-    private func setupInfoTextView() {
-        infoTextView.textContainerInset = .zero
-        infoTextView.textContainer.lineFragmentPadding = 0
-        infoTextView.isUserInteractionEnabled = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
     }
 
     private func setupTableView() {
-        tableView.dataSource = self
         tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(SessionPreviewTableViewCell.nib,
                            forCellReuseIdentifier: SessionPreviewTableViewCell.reuseIdentifier)
+    }
+
+    private func setupTableHeaderView() {
+        tableView.tableHeaderView = sessionTableHeaderView
+
+        NSLayoutConstraint.activate([
+            sessionTableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            sessionTableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            sessionTableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            sessionTableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+        ])
+        sessionTableHeaderView.backgroundColor = .red
+
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
     }
 
     private func setupStartSessionButton() {
         startSessionButton.setTitle("Start Session", for: .normal)
         startSessionButton.titleLabel?.textAlignment = .center
+        startSessionButton.addColor(backgroundColor: .systemBlue)
         startSessionButton.addCornerRadius()
     }
 
-    private func updateInfoTextView(infoText: String? = Constants.textViewPlaceholderText) {
-        infoTextView.text = infoText
-        if infoTextView.text == Constants.textViewPlaceholderText {
-            infoTextView.textColor = UIColor.black.withAlphaComponent(0.2)
-        } else {
-            infoTextView.textColor = .black
-        }
+    private func updateSessionTextViews(name: String?, info: String?) {
+        sessionTableHeaderView.nameTextView.text = name
+        sessionTableHeaderView.infoTextView.text = info
     }
 
     private func updateTableView() {
-        tableView.isHidden = exerciseInfoList == nil
         UIView.performWithoutAnimation {
             tableView.reloadData()
         }
     }
 
-    @objc private func leftBarButtonTapped() {
+    @objc private func cancelButtonTapped() {
         dismiss(animated: true)
     }
 
-    @objc private func rightBarButtonTapped() {
-        guard let session = selectedSession,
-            let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: "AddEditSessionViewController") as? AddEditSessionViewController else {
+    @objc private func editButtonTapped() {
+        guard let session = session,
+            let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: AddEditSessionViewController.id) as? AddEditSessionViewController else {
                 NSLog("Could not instantiate AddEditSessionViewController.")
                 return
         }
+
         addEditSessionViewController.sessionState = .edit
-        addEditSessionViewController.addEditSession = session
+        addEditSessionViewController.session = session
         navigationController?.pushViewController(addEditSessionViewController, animated: true)
     }
 
     @IBAction func startSessionButtonTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-        // Call some delegate function that presents a new screen where the session has started
+        startSessionDelegate?.sessionStarted(session: session)
     }
 }
 
@@ -154,13 +169,9 @@ extension SessionPreviewViewController: UITableViewDataSource {
         return exerciseInfoList?.count ?? 0
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let sessionPreviewCell = tableView.dequeueReusableCell(withIdentifier: SessionPreviewTableViewCell.reuseIdentifier, for: indexPath) as? SessionPreviewTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(ExerciseDetailTableViewCell.reuseIdentifier)`.")
+            fatalError("Could not dequeue cell with identifier `\(SessionPreviewTableViewCell.reuseIdentifier)`.")
         }
 
         sessionPreviewCell.clearLabels()
@@ -171,13 +182,8 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate Funcs
-
 extension SessionPreviewViewController: UITableViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yOffset = -scrollView.contentOffset.y
-        if yOffset > 0 {
-            infoTextView.frame.origin.y = yOffset + infoTextViewOriginY
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.sessionPreviewCellHeight
     }
 }

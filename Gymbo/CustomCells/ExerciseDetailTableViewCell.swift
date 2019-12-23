@@ -17,21 +17,15 @@ protocol ExerciseDetailTableViewCellDelegate: class {
 enum TextFieldType: String {
     case reps = "reps"
     case weight = "weight"
-    case time = "time"
 }
 
 class ExerciseDetailTableViewCell: UITableViewCell {
-    // Exercise title labels
-    @IBOutlet private weak var setsLabel: UILabel!
-    @IBOutlet private weak var repsLabel: UILabel!
-    @IBOutlet private weak var weightLabel: UILabel!
-    @IBOutlet private weak var timeLabel: UILabel!
-
     // Exercise value labels
-    @IBOutlet weak var setsValueLabel: UILabel!
+    @IBOutlet weak var setsLabel: UILabel!
+    @IBOutlet weak var lastLabel: UILabel!
     @IBOutlet weak var repsTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
-    @IBOutlet weak var timeTextField: UITextField!
+    @IBOutlet weak var doneButton: UIButton!
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
@@ -43,6 +37,12 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
+    var isExerciseDone: Bool = false {
+        didSet {
+            backgroundColor = isExerciseDone ? .systemGreen : .clear
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -52,27 +52,26 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 
     private func setupTextFields() {
-        setsLabel.text = "Set"
-        repsLabel.text = "Reps"
-        weightLabel.text = "Weight"
-        timeLabel.text = "Time"
-
         repsTextField.tag = 0
         weightTextField.tag = 1
-        timeTextField.tag = 2
 
         repsTextField.keyboardType = .numberPad
         weightTextField.keyboardType = .decimalPad
-        timeTextField.keyboardType = .numberPad
 
-        [repsTextField, weightTextField, timeTextField].forEach {
+        [repsTextField, weightTextField].forEach {
             $0?.layer.cornerRadius = 5
             $0?.layer.borderWidth = 1
             $0?.layer.borderColor = UIColor.black.cgColor
             $0?.borderStyle = .none
-
             $0?.delegate = self
         }
+    }
+
+    @IBAction func doneButtonPressed( _ sender: Any) {
+        guard sender is UIButton else {
+            return
+        }
+        isExerciseDone.toggle()
     }
 }
 
@@ -88,12 +87,9 @@ extension ExerciseDetailTableViewCell: UITextFieldDelegate {
             type = .reps
         case 1:
             type = .weight
-        case 2:
-            type = .time
         default:
             fatalError("Incorrect text field ended editing")
         }
         exerciseDetailCellDelegate?.textFieldDidEndEditing(textField: textField, textFieldType: type, cell: self)
     }
 }
-

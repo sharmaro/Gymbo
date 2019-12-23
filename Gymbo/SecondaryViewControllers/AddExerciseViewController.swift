@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ExerciseListDelegate: class {
+    func updateExerciseList(_ exerciseTextList: [ExerciseText])
+}
+
 struct ExerciseText: Codable {
     var exerciseName: String?
     var exerciseMuscles: String?
@@ -19,26 +23,9 @@ class AddExerciseViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createExerciseButton: CustomButton!
 
-    private lazy var cancelButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Cancel", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.tag = 0
-        button.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
-        return button
-    }()
-
-    private lazy var addButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Add", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.alpha = Constants.inactiveAlpha
-        button.tag = 1
-        button.addTarget(self, action: #selector(rightBarButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    class var id: String {
+        return String(describing: self)
+    }
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
                                  "Hips", "Legs", "Shoulders", "Extra Exercises"]
@@ -48,38 +35,46 @@ class AddExerciseViewController: UIViewController {
 
     private var selectedExercises = [ExerciseText]()
 
+    var hideBarButtonItems = false
+
     weak var exerciseListDelegate: ExerciseListDelegate?
 
     private struct Constants {
-        static let navBarButtonSize: CGSize = CGSize(width: 80, height: 30)
+        static let navBarButtonSize = CGSize(width: 80, height: 30)
 
-        static let exerciseCellHeight: CGFloat = 60
-        static let activeAlpha: CGFloat = 1.0
-        static let inactiveAlpha: CGFloat = 0.3
+        static let exerciseCellHeight = CGFloat(62)
+        static let activeAlpha = CGFloat(1.0)
+        static let inactiveAlpha = CGFloat(0.3)
 
         static let EXERCISE_INFO_KEY = "exerciseInfoKey"
+        static let title = "Add Exercise"
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationItems()
+        setupNavigationBar()
         setupExerciseInfo()
         setupSearchTextField()
         setupTableView()
-        setupExerciseButton()
+        setupCreatExerciseButton()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        saveExerciseInfo()
+
+        if hideBarButtonItems {
+            saveExerciseInfo()
+        }
     }
 
-    private func setupNavigationItems() {
-        title = "Add Exercise"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
-        addButton.isEnabled = false // Doesn't work if you disable it in the lazy variable
+    private func setupNavigationBar() {
+        title = Constants.title
+        if !hideBarButtonItems {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonTapped))
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
     }
 
     private func setupExerciseInfo() {
@@ -146,9 +141,10 @@ class AddExerciseViewController: UIViewController {
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
-    private func setupExerciseButton() {
-        createExerciseButton.setTitle("+ Create New Exercise", for: .normal)
+    private func setupCreatExerciseButton() {
+        createExerciseButton.setTitle("Create New Exercise", for: .normal)
         createExerciseButton.titleLabel?.textAlignment = .center
+        createExerciseButton.addColor(backgroundColor: .systemBlue)
         createExerciseButton.addCornerRadius()
     }
 
@@ -164,6 +160,23 @@ class AddExerciseViewController: UIViewController {
     }
 
     private func saveExerciseInfo() {
+        // Get exercise info from the selected exercises
+        guard let indexPaths = tableView.indexPathsForSelectedRows else {
+            return
+        }
+
+        var selectedExercises = [ExerciseText]()
+        for indexPath in indexPaths {
+            guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section) else {
+                break
+            }
+            let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
+            if let exerciseText = dictToUse[exerciseGroups[indexPath.section]]?[indexPath.row] {
+                selectedExercises.append(exerciseText)
+            }
+        }
+        exerciseListDelegate?.updateExerciseList(selectedExercises)
+
         let defaults = UserDefaults.standard
         let encoder = JSONEncoder()
 
@@ -173,40 +186,33 @@ class AddExerciseViewController: UIViewController {
     }
 
     private func updateAddButtonTitle() {
-        var buttonText = ""
-        if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
-            buttonText = "Add (\(indexPaths.count))"
-
-            addButton.isEnabled = true
-            addButton.alpha = Constants.activeAlpha
-        } else {
-            buttonText = "Add"
-
-            addButton.isEnabled = false
-            addButton.alpha = Constants.inactiveAlpha
+        guard !hideBarButtonItems else {
+            return
         }
-        addButton.setTitle(buttonText, for: .normal)
+
+        var title = ""
+        let isEnabled: Bool
+        let alpha: CGFloat
+        if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
+            title = "Add (\(indexPaths.count))"
+            isEnabled = true
+            alpha = Constants.activeAlpha
+        } else {
+            title = "Add"
+            isEnabled = false
+            alpha = Constants.inactiveAlpha
+        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem?.isEnabled = isEnabled
+        navigationItem.rightBarButtonItem?.customView?.alpha = alpha
     }
 
-    @objc private func leftBarButtonTapped() {
+    @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func rightBarButtonTapped() {
-        // Get exercise info from the selected exercises
-        if let indexPaths = tableView.indexPathsForSelectedRows {
-            var selectedExercises = [ExerciseText]()
-            for indexPath in indexPaths {
-                guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section) else {
-                    break
-                }
-                let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
-                if let exerciseText = dictToUse[exerciseGroups[indexPath.section]]?[indexPath.row] {
-                    selectedExercises.append(exerciseText)
-                }
-            }
-            exerciseListDelegate?.updateExerciseList(selectedExercises)
-        }
+    @objc private func addButtonTapped() {
+        saveExerciseInfo()
         dismiss(animated: true, completion: nil)
     }
 
@@ -227,16 +233,19 @@ class AddExerciseViewController: UIViewController {
     }
 
     @IBAction func createExerciseButtonTapped(_ sender: Any) {
-        if let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: "CreateExerciseViewController") as? CreateExerciseViewController {
-            if #available(iOS 13.0, *) {
-                // No op
-            } else {
-                createExerciseVC.modalPresentationStyle = .custom
-                createExerciseVC.transitioningDelegate = self
-            }
-            createExerciseVC.createExerciseDelegate = self
-            present(createExerciseVC, animated: true, completion: nil)
+        guard let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: CreateExerciseViewController.id) as? CreateExerciseViewController else {
+            return
         }
+
+        if #available(iOS 13.0, *) {
+            // No op
+        } else {
+            createExerciseVC.modalPresentationStyle = .custom
+            createExerciseVC.transitioningDelegate = self
+        }
+        createExerciseVC.hideBarButtonItems = hideBarButtonItems
+        createExerciseVC.createExerciseDelegate = self
+        navigationController?.pushViewController(createExerciseVC, animated: true)
     }
 }
 
@@ -270,10 +279,6 @@ extension AddExerciseViewController: UITableViewDataSource {
         return titleLabel
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.exerciseCellHeight
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
@@ -289,6 +294,10 @@ extension AddExerciseViewController: UITableViewDataSource {
 }
 
 extension AddExerciseViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.exerciseCellHeight
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         updateAddButtonTitle()
     }

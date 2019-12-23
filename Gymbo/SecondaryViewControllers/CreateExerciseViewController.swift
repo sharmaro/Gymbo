@@ -13,33 +13,16 @@ protocol CreateExerciseDelegate: class {
 import UIKit
 
 class CreateExerciseViewController: UIViewController {
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var infoContainerView: UIView!
     @IBOutlet weak var exerciseGroupPickerView: UIPickerView!
     @IBOutlet weak var exerciseNameTextField: UITextField!
     @IBOutlet weak var exerciseMusclesTextField: UITextField!
 
-    private lazy var closeButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Close", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.tag = 0
-        button.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    class var id: String {
+        return String(describing: self)
+    }
 
-    private lazy var addButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
-        button.setTitle("Add", for: .normal)
-        button.titleFontSize = 12
-        button.addCornerRadius()
-        button.alpha = Constants.inactiveAlpha
-        button.tag = 1
-        button.addTarget(self, action: #selector(rightBarButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    var hideBarButtonItems = false
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
 
@@ -47,10 +30,12 @@ class CreateExerciseViewController: UIViewController {
     "Hips", "Legs", "Shoulders", "Extra Exercises"]
 
     private struct Constants {
-        static let navBarButtonSize: CGSize = CGSize(width: 80, height: 30)
+        static let navBarButtonSize = CGSize(width: 80, height: 30)
 
-        static let activeAlpha: CGFloat = 1.0
-        static let inactiveAlpha: CGFloat = 0.3
+        static let activeAlpha = CGFloat(1.0)
+        static let inactiveAlpha = CGFloat(0.3)
+
+        static let title = "Create Exercise"
     }
 
     override func viewDidLoad() {
@@ -62,11 +47,21 @@ class CreateExerciseViewController: UIViewController {
         setupTextFields()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if hideBarButtonItems {
+            addButtonTapped()
+        }
+    }
+
     private func setupNavigationBar() {
-        navigationBar.prefersLargeTitles = false
-        customNavigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
-        customNavigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
-        addButton.isEnabled = false
+        title = Constants.title
+        navigationController?.navigationBar.isTranslucent = false
+        if !hideBarButtonItems {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
     }
 
     private func setupContainerView() {
@@ -89,11 +84,12 @@ class CreateExerciseViewController: UIViewController {
         exerciseMusclesTextField.borderStyle = .none
     }
 
-    @objc private func leftBarButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
+    @objc private func addButtonTapped() {
+        guard let exercise = exerciseNameTextField.text, !exercise.isEmpty,
+              let muscles = exerciseMusclesTextField.text, !muscles.isEmpty else {
+            return
+        }
 
-    @objc private func rightBarButtonTapped() {
         let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
         let exerciseGroup = exerciseGroups[selectedPickerRow]
         let exerciseText = ExerciseText(exerciseName: exerciseNameTextField.text, exerciseMuscles: exerciseMusclesTextField.text, isUserMade: true)
@@ -107,8 +103,9 @@ class CreateExerciseViewController: UIViewController {
             return
         }
         let isTextFilled = (exerciseText.count > 0) && (muscleGroupsText.count > 0)
-        addButton.isEnabled = isTextFilled
-        addButton.alpha = isTextFilled ? Constants.activeAlpha : Constants.inactiveAlpha
+
+        navigationItem.rightBarButtonItem?.isEnabled = isTextFilled
+        navigationItem.rightBarButtonItem?.customView?.alpha = isTextFilled ? Constants.activeAlpha : Constants.inactiveAlpha
     }
 }
 

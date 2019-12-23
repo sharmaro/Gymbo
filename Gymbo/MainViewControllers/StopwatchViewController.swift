@@ -17,6 +17,10 @@ class StopwatchViewController: UIViewController {
     @IBOutlet weak var stopButton: CustomButton!
     @IBOutlet weak var resetButton: CustomButton!
 
+    class var id: String {
+        return String(describing: self)
+    }
+
     private var stopwatchState = StopwatchState.stopped
     private var timer: Timer?
 
@@ -45,24 +49,21 @@ class StopwatchViewController: UIViewController {
     }
 
     private struct Constants {
-        static let activeAlpha: CGFloat = 1.0
-        static let inactiveAlpha: CGFloat = 0.3
+        static let activeAlpha = CGFloat(1.0)
+        static let inactiveAlpha = CGFloat(0.3)
 
-        static let timeInterval: TimeInterval = 0.01
+        static let timeInterval = TimeInterval(0.01)
 
-        static let STOPWATCH_STATE_KEY: String = "stopwatchStateKey"
-        static let DATE_KEY: String = "dateKey"
-
-        static let TIME_DICT_KEY: String = "timeDictKey"
-        static let CS_INT_KEY: String = "csIntKey"
-        static let S_INT_KEY: String = "sIntKey"
-        static let MIN_INT_KEY: String = "minIntKey"
+        static let STOPWATCH_STATE_KEY = "stopwatchStateKey"
+        static let DATE_KEY = "dateKey"
+        static let TIME_DICT_KEY = "timeDictKey"
+        static let CS_INT_KEY = "csIntKey"
+        static let S_INT_KEY = "sIntKey"
+        static let MIN_INT_KEY = "minIntKey"
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationController?.navigationBar.prefersLargeTitles = false
 
         containerView.clipsToBounds = true
         containerView.layer.cornerRadius = 20
@@ -71,9 +72,7 @@ class StopwatchViewController: UIViewController {
         stopButton.tag = 1
         resetButton.tag = 2
         [startButton, stopButton, resetButton].forEach {
-            $0?.textColor = .white
-            $0?.borderColor = .white
-            $0?.borderWidth = 0
+            $0?.titleColor = .white
             $0?.addCornerRadius(resetButton.bounds.width / 2)
         }
 

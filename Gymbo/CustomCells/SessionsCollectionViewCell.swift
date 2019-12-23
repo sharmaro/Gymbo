@@ -35,7 +35,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
             deleteButton.isHidden = !isEditing
 
             if isEditing {
-                let oddOrEven = Int.random(in: 1...2)
+                let oddOrEven = Int.random(in: 1 ... 2)
                 let transformAnim = CAKeyframeAnimation(keyPath:"transform")
                 transformAnim.values = [NSValue(caTransform3D: CATransform3DMakeRotation(0.02, 0.0, 0.0, 1.0)), NSValue(caTransform3D: CATransform3DMakeRotation(-0.02, 0.0, 0.0, 1))]
                 transformAnim.autoreverses = true

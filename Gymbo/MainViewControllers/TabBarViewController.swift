@@ -9,6 +9,10 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+    class var id: String {
+        return String(describing: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,12 +21,12 @@ class TabBarController: UITabBarController {
     }
 
     func setupTabBar() {
-        tabBar.backgroundColor = Layout.Colors.darkGray
-        tabBar.barTintColor = Layout.Colors.darkGray
+        tabBar.backgroundColor = .black
+        tabBar.barTintColor = .black
     }
 
     func setupTabBarItems() {
-        tabBar.tintColor = Layout.Colors.mainOrange // Color for selected item
-        tabBar.unselectedItemTintColor = Layout.Colors.white // Color for unselected item
+//        tabBar.tintColor = Layout.Colors.mainOrange // Color for selected item
+//        tabBar.unselectedItemTintColor = Layout.Colors.white // Color for unselected item
     }
 }

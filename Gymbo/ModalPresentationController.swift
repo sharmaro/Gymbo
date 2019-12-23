@@ -82,7 +82,7 @@ final class ModalPresentationController: UIPresentationController {
                 presentedViewController.dismiss(animated: true, completion: nil)
             } else {
                 switch presented.frame.origin.y {
-                case 0...maxPresentedY:
+                case 0 ... maxPresentedY:
                     resizeToFull()
                 default:
                     presentedViewController.dismiss(animated: true, completion: nil)

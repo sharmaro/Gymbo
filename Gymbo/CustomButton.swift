@@ -9,17 +9,28 @@
 import UIKit
 
 class CustomButton: UIButton {
+    private struct Constants {
+        static let dimmedAlpha = CGFloat(0.3)
+        static let normalAlpha = CGFloat(1)
+    }
+
     override var isHighlighted: Bool {
         didSet {
             if isEnabled {
-                alpha = isHighlighted ? 0.3 : 1.0
+                alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
             }
         }
     }
 
-    var textColor: UIColor = .black {
+    var title: String = "" {
         didSet {
-            setTitleColor(textColor, for: .normal)
+            setTitle(title, for: .normal)
+        }
+    }
+
+    var titleColor: UIColor = .black {
+        didSet {
+            setTitleColor(titleColor, for: .normal)
         }
     }
 
@@ -35,18 +46,6 @@ class CustomButton: UIButton {
         }
     }
 
-    var borderWidth: CGFloat = 1.5 {
-        didSet {
-            layer.borderWidth = borderWidth
-        }
-    }
-
-    var borderColor: UIColor = UIColor.black {
-        didSet {
-            layer.borderColor = borderColor.cgColor
-        }
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -58,16 +57,19 @@ class CustomButton: UIButton {
     }
 
     private func setup() {
-        setTitleColor(textColor, for: .normal)
+        setTitleColor(titleColor, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
     }
 
     func addCornerRadius(_ radius: CGFloat? = nil) {
         layer.cornerRadius = radius ?? cornerRadius
-        layer.borderWidth = borderWidth
-        layer.borderColor = borderColor.cgColor
         layer.masksToBounds = false
         clipsToBounds = true
+    }
+
+    func addColor(backgroundColor: UIColor, textColor: UIColor = .white) {
+        self.backgroundColor = backgroundColor
+        self.titleColor = textColor
     }
 }

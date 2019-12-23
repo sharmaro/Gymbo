@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WHN-aa-qFP" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="0.0" width="280" height="44"/>
+                        <rect key="frame" x="20" y="5" width="280" height="24"/>
                         <state key="normal" title="+ Set">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
@@ -30,8 +30,8 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="WHN-aa-qFP" secondAttribute="trailing" constant="20" id="1TX-2K-A24"/>
                     <constraint firstItem="WHN-aa-qFP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="8Bg-QA-DlR"/>
-                    <constraint firstItem="WHN-aa-qFP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ARC-L6-6yF"/>
-                    <constraint firstAttribute="bottom" secondItem="WHN-aa-qFP" secondAttribute="bottom" id="wZr-8O-uV8"/>
+                    <constraint firstItem="WHN-aa-qFP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="ARC-L6-6yF"/>
+                    <constraint firstAttribute="bottom" secondItem="WHN-aa-qFP" secondAttribute="bottom" constant="15" id="wZr-8O-uV8"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

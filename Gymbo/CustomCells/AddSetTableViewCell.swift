@@ -34,6 +34,7 @@ class AddSetTableViewCell: UITableViewCell {
     }
 
     private func setupAddSetButton() {
+        addSetButton.addColor(backgroundColor: .lightGray)
         addSetButton.addCornerRadius()
     }
 
