@@ -13,16 +13,14 @@ protocol CreateExerciseDelegate: class {
 import UIKit
 
 class CreateExerciseViewController: UIViewController {
-    @IBOutlet weak var infoContainerView: UIView!
-    @IBOutlet weak var exerciseGroupPickerView: UIPickerView!
-    @IBOutlet weak var exerciseNameTextField: UITextField!
-    @IBOutlet weak var exerciseMusclesTextField: UITextField!
+    @IBOutlet private weak var infoContainerView: UIView!
+    @IBOutlet private weak var exerciseGroupPickerView: UIPickerView!
+    @IBOutlet private weak var exerciseNameTextField: UITextField!
+    @IBOutlet private weak var exerciseMusclesTextField: UITextField!
 
     class var id: String {
         return String(describing: self)
     }
-
-    var hideBarButtonItems = false
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
 
@@ -49,19 +47,16 @@ class CreateExerciseViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        if hideBarButtonItems {
-            addButtonTapped()
-        }
+        view.endEditing(true)
     }
 
     private func setupNavigationBar() {
         title = Constants.title
-        navigationController?.navigationBar.isTranslucent = false
-        if !hideBarButtonItems {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-            navigationItem.rightBarButtonItem?.isEnabled = false
-        }
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        /// Only allow adding if both text fields are filled
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     private func setupContainerView() {
@@ -82,6 +77,10 @@ class CreateExerciseViewController: UIViewController {
 
         exerciseMusclesTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         exerciseMusclesTextField.borderStyle = .none
+    }
+
+    @objc private func cancelButtonTapped() {
+        dismiss(animated: true)
     }
 
     @objc private func addButtonTapped() {

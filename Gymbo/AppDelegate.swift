@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().prefersLargeTitles = true
         }
         UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().isTranslucent = false
     }
 
     private func setupUITableViewAppearance() {

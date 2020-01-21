@@ -107,7 +107,6 @@
                                                 <state key="normal" image="checkmark"/>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="OyA-gc-NbF" firstAttribute="centerX" secondItem="RTt-Th-lCP" secondAttribute="centerX" id="BiZ-OY-bmc"/>
                                             <constraint firstItem="OyA-gc-NbF" firstAttribute="centerY" secondItem="RTt-Th-lCP" secondAttribute="centerY" id="dB4-9O-Kph"/>

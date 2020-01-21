@@ -1,5 +1,5 @@
 //
-//  SessionTableHeaderView.swift
+//  SessionHeaderView.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 11/21/19.
@@ -14,10 +14,16 @@ protocol SessionHeaderTextViewsDelegate: class {
     func textViewDidEndEditing(_ textView: UITextView)
 }
 
-class SessionTableHeaderView: UIView {
-    @IBOutlet var contentView: UIView!
-    @IBOutlet weak var nameTextView: UITextView!
-    @IBOutlet weak var infoTextView: UITextView!
+struct SessionHeaderViewModel {
+    var name: String? = nil
+    var info: String? = nil
+    var textColor = UIColor.black
+}
+
+class SessionHeaderView: UIView {
+    @IBOutlet private var contentView: UIView!
+    @IBOutlet private weak var nameTextView: UITextView!
+    @IBOutlet private weak var infoTextView: UITextView!
 
     var isContentEditable = true {
         didSet {
@@ -26,9 +32,25 @@ class SessionTableHeaderView: UIView {
         }
     }
 
-    var textViews = [UITextView]()
+    private var textViews = [UITextView]()
+
+    var sessionName: String? {
+        return nameTextView.text
+    }
+
+    var info: String {
+        return infoTextView.text
+    }
+
+    var shouldSaveName: Bool {
+        return nameTextView.textColor != Colors.dimmedBlack && nameTextView.text.count > 0
+    }
 
     weak var sessionHeaderTextViewsDelegate: SessionHeaderTextViewsDelegate?
+
+    private struct Colors {
+        static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +63,7 @@ class SessionTableHeaderView: UIView {
     }
 
     private func setup() {
-        Bundle.main.loadNibNamed(String(describing: SessionTableHeaderView.self), owner: self, options: nil)
+        Bundle.main.loadNibNamed(String(describing: SessionHeaderView.self), owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -68,10 +90,18 @@ class SessionTableHeaderView: UIView {
             textView.autocorrectionType = .no
             textView.delegate = self
         }
+        nameTextView.becomeFirstResponder()
+    }
+
+    func configure(dataModel: SessionHeaderViewModel) {
+        nameTextView.text = dataModel.name
+        infoTextView.text = dataModel.info
+        nameTextView.textColor = dataModel.textColor
+        infoTextView.textColor = dataModel.textColor
     }
 }
 
-extension SessionTableHeaderView: UITextViewDelegate {
+extension SessionHeaderView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         sessionHeaderTextViewsDelegate?.textViewDidBeginEditing(textViews[textView.tag])
     }

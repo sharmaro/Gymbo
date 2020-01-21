@@ -18,21 +18,23 @@ struct ExerciseInfo {
 }
 
 class SessionPreviewViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var startSessionButton: CustomButton!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var startSessionButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
     }
 
-    private lazy var sessionTableHeaderView: SessionTableHeaderView = {
-        let sessionTableHeaderView = SessionTableHeaderView()
-        sessionTableHeaderView.nameTextView.text = session?.name ?? Constants.sessionNamePlaceholderText
-        sessionTableHeaderView.infoTextView.text = session?.info ?? Constants.sessionInfoPlaceholderText
+    private lazy var tableHeaderView: SessionHeaderView = {
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session?.name ?? Constants.namePlaceholderText
+        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .black
 
+        let sessionTableHeaderView = SessionHeaderView()
+        sessionTableHeaderView.configure(dataModel: dataModel)
         sessionTableHeaderView.isContentEditable = false
         sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-
         return sessionTableHeaderView
     }()
 
@@ -50,8 +52,8 @@ class SessionPreviewViewController: UIViewController {
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let title = "Preview"
-        static let sessionNamePlaceholderText = "Session name"
-        static let sessionInfoPlaceholderText = "No Info"
+        static let namePlaceholderText = "Session name"
+        static let infoPlaceholderText = "No Info"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +67,12 @@ class SessionPreviewViewController: UIViewController {
         title = Constants.title
         exerciseInfoList = dataModelManager.getExerciseInfoList(forSession: session)
 
-        updateSessionTextViews(name: session.name, info: session.info)
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session.name
+        dataModel.info = session.info
+        dataModel.textColor = .black
+        tableHeaderView.configure(dataModel: dataModel)
+
         updateTableView()
     }
 
@@ -93,7 +100,6 @@ class SessionPreviewViewController: UIViewController {
     }
 
      private func setupNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
     }
@@ -106,30 +112,25 @@ class SessionPreviewViewController: UIViewController {
     }
 
     private func setupTableHeaderView() {
-        tableView.tableHeaderView = sessionTableHeaderView
+        tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            sessionTableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            sessionTableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            sessionTableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            sessionTableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
-        sessionTableHeaderView.backgroundColor = .red
+        tableHeaderView.backgroundColor = .red
 
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
     }
 
     private func setupStartSessionButton() {
-        startSessionButton.setTitle("Start Session", for: .normal)
+        startSessionButton.title = "Start Session"
         startSessionButton.titleLabel?.textAlignment = .center
-        startSessionButton.addColor(backgroundColor: .systemBlue)
+        startSessionButton.add(backgroundColor: .systemBlue)
         startSessionButton.addCornerRadius()
-    }
-
-    private func updateSessionTextViews(name: String?, info: String?) {
-        sessionTableHeaderView.nameTextView.text = name
-        sessionTableHeaderView.infoTextView.text = info
     }
 
     private func updateTableView() {
@@ -173,11 +174,11 @@ extension SessionPreviewViewController: UITableViewDataSource {
         guard let sessionPreviewCell = tableView.dequeueReusableCell(withIdentifier: SessionPreviewTableViewCell.reuseIdentifier, for: indexPath) as? SessionPreviewTableViewCell else {
             fatalError("Could not dequeue cell with identifier `\(SessionPreviewTableViewCell.reuseIdentifier)`.")
         }
+        var dataModel = SessionPreviewTableViewCellModel()
+        dataModel.name = exerciseInfoList?[indexPath.row].exerciseName
+        dataModel.muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
 
-        sessionPreviewCell.clearLabels()
-        sessionPreviewCell.exerciseNameLabel.text = exerciseInfoList?[indexPath.row].exerciseName
-        sessionPreviewCell.exerciseMusclesLabel.text = exerciseInfoList?[indexPath.row].exerciseMuscles
-
+        sessionPreviewCell.configure(dataModel: dataModel)
         return sessionPreviewCell
     }
 }

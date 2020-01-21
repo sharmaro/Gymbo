@@ -16,8 +16,8 @@ import UIKit
 import RealmSwift
 
 class SessionsViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var emptyExerciseLabel: UILabel!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var emptyExerciseLabel: UILabel!
 
     class var id: String {
         return String(describing: self)
@@ -45,6 +45,8 @@ class SessionsViewController: UIViewController {
 
         refreshMainView()
     }
+
+
 
     // MARK: - Helper funcs
 
@@ -85,6 +87,7 @@ class SessionsViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType, target: self, action: #selector(editButtonTapped))
         isEditingMode.toggle()
 
+        /// Reloading data so it can toggle the shaking animation.
         UIView.performWithoutAnimation {
             collectionView.reloadData()
         }
@@ -116,15 +119,13 @@ extension SessionsViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
             fatalError("Could not dequeue cell with identifier `SessionsCollectionViewCell`")
         }
+        var dataModel = SessionsCollectionViewCellModel()
+        dataModel.title = dataModelManager.getSessionName(forIndex: indexPath.row)
+        dataModel.info = dataModelManager.sessionInfoText(forIndex: indexPath.row)
 
-        cell.clearLabels()
-        cell.sessionTitleLabel.text = dataModelManager.getSessionName(forIndex: indexPath.row)
-        cell.exercisesInfoTextView.text = dataModelManager.sessionInfoText(forIndex: indexPath.row)
+        cell.configure(dataModel: dataModel)
         cell.isEditing = isEditingMode
         cell.sessionsCollectionViewCellDelegate = self
-        cell.addShadow()
-        cell.contentView.alpha = 1
-
         return cell
     }
 }

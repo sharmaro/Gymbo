@@ -57,7 +57,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eaj-fN-d7e">
                                 <rect key="frame" x="285" y="0.0" width="15" height="22"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7QB-69-vXb">
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7QB-69-vXb">
                                         <rect key="frame" x="0.0" y="3.6666666666666661" width="15" height="14.999999999999998"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="Iew-dq-Yca"/>
@@ -69,7 +69,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="7QB-69-vXb" firstAttribute="centerY" secondItem="Eaj-fN-d7e" secondAttribute="centerY" id="GtB-pa-ZFE"/>
                                     <constraint firstItem="7QB-69-vXb" firstAttribute="centerX" secondItem="Eaj-fN-d7e" secondAttribute="centerX" id="UiM-0P-aES"/>

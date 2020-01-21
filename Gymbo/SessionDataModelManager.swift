@@ -125,7 +125,7 @@ class SessionDataModelManager: NSObject {
             return areUnique
         }
 
-        let reps = exerciseDetails[0].reps
+        let reps = exerciseDetails.first?.reps
         for exerciseDetail in exerciseDetails {
             if exerciseDetail.reps != reps {
                 areUnique.toggle()

@@ -68,8 +68,18 @@ class CustomButton: UIButton {
         clipsToBounds = true
     }
 
-    func addColor(backgroundColor: UIColor, textColor: UIColor = .white) {
+    func add(backgroundColor: UIColor, textColor: UIColor = .white) {
         self.backgroundColor = backgroundColor
         self.titleColor = textColor
+    }
+
+    func makeUninteractable() {
+        isEnabled = false
+        alpha = Constants.dimmedAlpha
+    }
+
+    func makeInteractable() {
+        isEnabled = true
+        alpha = Constants.normalAlpha
     }
 }

@@ -9,8 +9,13 @@
 import UIKit
 import RealmSwift
 
+protocol DimmedViewDelegate: class {
+    func addDimmedView(animated: Bool)
+    func removeDimmedView(animated: Bool)
+}
+
 class StartSessionViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
         return String(describing: self)
@@ -18,66 +23,54 @@ class StartSessionViewController: UIViewController {
 
     var session: Session?
 
-    private var seconds = 0
-    private var minutes = 0
-    private var timer: Timer?
+    private var sessionSeconds = 0
+    private var sessionTimer: Timer?
+
+    private var restTimer: Timer?
+    private var totalRestTime = 0
+    private var restTimeRemaining = 0 {
+        didSet {
+            timerButton.title = restTimeRemaining > 0 ?
+            restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
+        }
+    }
 
     private let realm = try? Realm()
 
     private lazy var finishButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.navBarButtonSize))
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.title = "Finish"
-        button.addColor(backgroundColor: .systemGreen)
+        button.add(backgroundColor: .systemGreen)
         button.addCornerRadius()
         button.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var tableFooterView: UIView = {
-        let tableFooterViewSize = CGSize(width: tableView.bounds.width, height: 105)
-        let containerView = UIView(frame: CGRect(origin: .zero, size: tableFooterViewSize))
-
-        let addExerciseButton = CustomButton()
-        addExerciseButton.setTitle("+ Exercise", for: .normal)
-        addExerciseButton.addColor(backgroundColor: .systemBlue)
-        addExerciseButton.addCornerRadius()
-        addExerciseButton.translatesAutoresizingMaskIntoConstraints = false
-        addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
-        containerView.addSubview(addExerciseButton)
-
-        NSLayoutConstraint.activate([
-            addExerciseButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            addExerciseButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            addExerciseButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.navBarButtonSize.height)
-        ])
-
-        let cancelButton = CustomButton()
-        cancelButton.setTitle("Cancel", for: .normal)
-        cancelButton.addColor(backgroundColor: .systemRed)
-        cancelButton.addCornerRadius()
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-        containerView.addSubview(cancelButton)
-
-        NSLayoutConstraint.activate([
-            cancelButton.topAnchor.constraint(equalTo: addExerciseButton.bottomAnchor, constant: 30),
-            cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            cancelButton.heightAnchor.constraint(equalToConstant: Constants.navBarButtonSize.height)
-        ])
-
-        return containerView
+    private lazy var timerButton: CustomButton = {
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+        button.add(backgroundColor: .systemBlue)
+        button.addCornerRadius()
+        button.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
+        return button
     }()
 
-    private lazy var sessionTableHeaderView: SessionTableHeaderView = {
-        let sessionTableHeaderView = SessionTableHeaderView()
-        sessionTableHeaderView.nameTextView.text = session?.name ?? Constants.sessionNamePlaceholderText
-        sessionTableHeaderView.infoTextView.text = session?.info ?? Constants.sessionInfoPlaceholderText
+    private lazy var tableHeaderView: SessionHeaderView = {
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session?.name ?? Constants.namePlaceholderText
+        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .black
+
+        let sessionTableHeaderView = SessionHeaderView()
+        sessionTableHeaderView.configure(dataModel: dataModel)
         sessionTableHeaderView.isContentEditable = false
         sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         return sessionTableHeaderView
+    }()
+
+    private lazy var tableFooterView: StartSessionFooterView = {
+        let startSessionFooterView = StartSessionFooterView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: 105)))
+        startSessionFooterView.startSessionButtonDelegate = self
+        return startSessionFooterView
     }()
 
     private struct Constants {
@@ -88,43 +81,43 @@ class StartSessionViewController: UIViewController {
         static let exerciseDetailCellHeight = CGFloat(32)
         static let addSetButtonCellHeight = CGFloat(50)
 
-        static let navBarButtonSize = CGSize(width: 80, height: 30)
+        static let barButtonSize = CGSize(width: 80, height: 30)
 
-        static let sessionNamePlaceholderText = "Session name"
-        static let sessionInfoPlaceholderText = "No Info"
+        static let namePlaceholderText = "Session name"
+        static let infoPlaceholderText = "No Info"
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = "00:00"
-        navigationItem.hidesBackButton = true
-        navigationController?.navigationBar.prefersLargeTitles = false
-
-
         setupNavigationBar()
         setupTableView()
         setupTableHeaderView()
         setupTableFooterView()
-//        startTimer()
+        startTimer()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // Used for resizing the tableView.headerView when the info text view becomes large enough
+        // Used for laying out table header and footer views
         tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+
+        tableView.tableFooterView = tableView.tableFooterView
         tableView.tableFooterView?.layoutIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        timer?.invalidate()
+        sessionTimer?.invalidate()
+        restTimer?.invalidate()
     }
 
     private func setupNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = false
+        title = 0.getMinutesAndSecondsString()
+        navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.prefersLargeTitles = false
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
     }
@@ -139,33 +132,46 @@ class StartSessionViewController: UIViewController {
         tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
     }
 
-    private func setupTableFooterView() {
-        tableView.tableFooterView = tableFooterView
-    }
-
     private func setupTableHeaderView() {
-        tableView.tableHeaderView = sessionTableHeaderView
+        tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            sessionTableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            sessionTableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            sessionTableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            sessionTableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
     }
 
+    private func setupTableFooterView() {
+        tableView.tableFooterView = tableFooterView
+        tableView.tableFooterView = tableView.tableFooterView
+        tableView.tableFooterView?.layoutIfNeeded()
+    }
+
     private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        if let timer = timer {
+        sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateSessionTime), userInfo: nil, repeats: true)
+        if let timer = sessionTimer {
+            /// Allows it to update the navigation bar title.
             RunLoop.main.add(timer, forMode: .common)
         }
     }
 
     @objc func restButtonTapped() {
-        // TO DO
-        // Create a rest modal vc that shows a rest timer
+        guard let restViewController = storyboard?.instantiateViewController(withIdentifier: RestViewController.id) as? RestViewController else {
+            return
+        }
+
+        restViewController.isTimerActive = restTimer?.isValid ?? false
+        restViewController.startSessionTotalRestTime = totalRestTime
+        restViewController.startSessionRestTimeRemaining = restTimeRemaining
+        restViewController.dimmedViewDelegate = self
+        restViewController.restTimerDelegate = self
+        restViewController.dimmedViewDelegate?.addDimmedView(animated: true)
+        restViewController.modalPresentationStyle = .overCurrentContext
+        present(restViewController, animated: true)
     }
 
     @objc private func finishButtonTapped() {
@@ -189,31 +195,16 @@ class StartSessionViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func addExerciseButtonTapped() {
-        guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
-            return
-        }
-
-        addExerciseViewController.exerciseListDelegate = self
-        addExerciseViewController.hideBarButtonItems = true
-        navigationController?.pushViewController(addExerciseViewController, animated: true)
+    @objc private func updateSessionTime() {
+        sessionSeconds += 1
+        title = sessionSeconds.getMinutesAndSecondsString()
     }
 
-    @objc private func cancelButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func updateTime() {
-        seconds += 1
-
-        if seconds == 60 {
-            seconds = 0
-            minutes += 1
+    @objc private func updateRestTime() {
+        restTimeRemaining -= 1
+        if restTimeRemaining == 0 {
+            ended()
         }
-
-        let secondsString = String(format: "%02d", seconds)
-        let minutesString = String(format: "%02d", minutes)
-        title = "\(minutesString):\(secondsString)"
     }
 }
 
@@ -243,9 +234,12 @@ extension StartSessionViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0: // Exercise header cell
             if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
-                exerciseHeaderCell.exerciseNameLabel.text = session.exercises[indexPath.section].name
-                exerciseHeaderCell.exerciseHeaderCellDelegate = self
+                var dataModel = ExerciseHeaderTableViewCellModel()
+                dataModel.name = session.exercises[indexPath.section].name
 
+                exerciseHeaderCell.configure(dataModel: dataModel)
+                exerciseHeaderCell.isDoneButtonImageHidden = false
+                exerciseHeaderCell.exerciseHeaderCellDelegate = self
                 return exerciseHeaderCell
             }
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
@@ -256,13 +250,15 @@ extension StartSessionViewController: UITableViewDataSource {
             }
         default: // Exercise detail cell
             if let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell {
+                var dataModel = ExerciseDetailTableViewCellModel()
+                dataModel.sets = "\(indexPath.row)"
+                dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
+                dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
+                dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
 
-                exerciseDetailCell.setsLabel.text = "\(indexPath.row)"
-                exerciseDetailCell.lastLabel.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-                exerciseDetailCell.repsTextField.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps ?? ""
-                exerciseDetailCell.weightTextField.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight ?? ""
+                exerciseDetailCell.configure(dataModel: dataModel)
+                exerciseDetailCell.isDoneButtonEnabled = true
                 exerciseDetailCell.exerciseDetailCellDelegate = self
-
                 return exerciseDetailCell
             }
         }
@@ -272,8 +268,10 @@ extension StartSessionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch indexPath.row {
         // Protecting the first, second, and last rows because they shouldn't be swipe to delete
-        case 0, 1, tableView.numberOfRows(inSection: indexPath.section) - 1:
+        case 0, tableView.numberOfRows(inSection: indexPath.section) - 1:
             return false
+        case 1:
+            return (session?.exercises[indexPath.section].sets ?? 0) > 1
         default:
             return true
         }
@@ -282,19 +280,20 @@ extension StartSessionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             try? realm?.write {
-                removeSet(section: indexPath.section)
+                removeSet(indexPath: indexPath)
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadSections([indexPath.section], with: .automatic)
         }
     }
 
-    private func removeSet(section: Int) {
+    private func removeSet(indexPath: IndexPath) {
         guard let session = session else {
             return
         }
 
-        session.exercises[section].sets -= 1
-        session.exercises[section].exerciseDetails.remove(at: section)
+        session.exercises[indexPath.section].sets -= 1
+        session.exercises[indexPath.section].exerciseDetails.remove(at: indexPath.row - 1)
     }
 }
 
@@ -396,5 +395,63 @@ extension StartSessionViewController: ExerciseListDelegate {
         UIView.performWithoutAnimation {
             tableView.reloadData()
         }
+    }
+}
+
+extension StartSessionViewController: StartSessionButtonDelegate {
+    func addExercise() {
+        guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
+            return
+        }
+
+        addExerciseViewController.exerciseListDelegate = self
+        addExerciseViewController.hideBarButtonItems = true
+        navigationController?.pushViewController(addExerciseViewController, animated: true)
+    }
+
+    func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension StartSessionViewController: DimmedViewDelegate {
+    func addDimmedView(animated: Bool) {
+        navigationController?.view.addDimmedView(animated: animated)
+    }
+
+    func removeDimmedView(animated: Bool) {
+        navigationController?.view.removeDimmedView(animated: animated)
+    }
+}
+
+extension StartSessionViewController: RestTimerDelegate {
+    func started(totalTime: Int) {
+        totalRestTime = totalTime
+        restTimeRemaining = totalRestTime
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
+        timerButton.addMovingLayerAnimation(duration: restTimeRemaining)
+
+        restTimer?.invalidate()
+        restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateRestTime), userInfo: nil, repeats: true)
+        if let timer = sessionTimer {
+            /// Allows it to update the navigation bar title.
+            RunLoop.main.add(timer, forMode: .common)
+        }
+    }
+
+    func timeUpdated(totalTime: Int, timeRemaining: Int) {
+        totalRestTime = totalTime
+        restTimeRemaining = timeRemaining
+
+        timerButton.addMovingLayerAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+    }
+
+    func ended() {
+        restTimer?.invalidate()
+        timerButton.removeMovingLayerAnimation()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+
+        /// In case this timer finishes first.
+        presentedViewController?.dismiss(animated: true)
     }
 }

@@ -12,12 +12,17 @@ protocol SessionsCollectionViewCellDelegate: class {
     func delete(cell: SessionsCollectionViewCell)
 }
 
+struct SessionsCollectionViewCellModel {
+    var title: String? = nil
+    var info: String? = nil
+}
+
 class SessionsCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var visualEffectView: UIVisualEffectView!
-    @IBOutlet weak var deleteButton: CustomButton!
-    @IBOutlet weak var sessionTitleLabel: UILabel!
-    @IBOutlet weak var exercisesInfoTextView: UITextView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var visualEffectView: UIVisualEffectView!
+    @IBOutlet private weak var deleteButton: CustomButton!
+    @IBOutlet private weak var sessionTitleLabel: UILabel!
+    @IBOutlet private weak var exercisesInfoTextView: UITextView!
 
     weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
 
@@ -51,6 +56,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        addShadow()
         setupVisualEffectView()
         setupRoundedContainerView()
         setupTextView()
@@ -74,9 +80,9 @@ class SessionsCollectionViewCell: UICollectionViewCell {
         exercisesInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
     }
 
-    func clearLabels() {
-        sessionTitleLabel.text?.removeAll()
-        exercisesInfoTextView.text?.removeAll()
+    func configure(dataModel: SessionsCollectionViewCellModel) {
+        sessionTitleLabel.text = dataModel.title
+        exercisesInfoTextView.text = dataModel.info
     }
 
     @IBAction func deleteButtonTapped(_ sender: Any) {

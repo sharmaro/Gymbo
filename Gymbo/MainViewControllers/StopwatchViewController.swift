@@ -9,13 +9,13 @@
 import UIKit
 
 class StopwatchViewController: UIViewController {
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var minuteLabel: UILabel!
-    @IBOutlet weak var secondLabel: UILabel!
-    @IBOutlet weak var centiSecondLabel: UILabel!
-    @IBOutlet weak var startButton: CustomButton!
-    @IBOutlet weak var stopButton: CustomButton!
-    @IBOutlet weak var resetButton: CustomButton!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var minuteLabel: UILabel!
+    @IBOutlet private weak var secondLabel: UILabel!
+    @IBOutlet private weak var centiSecondLabel: UILabel!
+    @IBOutlet private weak var startButton: CustomButton!
+    @IBOutlet private weak var stopButton: CustomButton!
+    @IBOutlet private weak var resetButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
@@ -48,18 +48,13 @@ class StopwatchViewController: UIViewController {
         case reset = 2
     }
 
-    private struct Constants {
-        static let activeAlpha = CGFloat(1.0)
-        static let inactiveAlpha = CGFloat(0.3)
-
-        static let timeInterval = TimeInterval(0.01)
-
-        static let STOPWATCH_STATE_KEY = "stopwatchStateKey"
-        static let DATE_KEY = "dateKey"
-        static let TIME_DICT_KEY = "timeDictKey"
-        static let CS_INT_KEY = "csIntKey"
-        static let S_INT_KEY = "sIntKey"
-        static let MIN_INT_KEY = "minIntKey"
+    private struct Keys {
+        static let STOPWATCH_STATE = "stopwatchStateKey"
+        static let DATE = "dateKey"
+        static let TIME_DICT = "timeDictKey"
+        static let CS_INT = "csIntKey"
+        static let S_INT = "sIntKey"
+        static let MIN_INT = "minIntKey"
     }
 
     override func viewDidLoad() {
@@ -77,7 +72,7 @@ class StopwatchViewController: UIViewController {
         }
 
         let userDefault = UserDefaults.standard
-        if let stopwatchStateInt = userDefault.object(forKey: Constants.STOPWATCH_STATE_KEY) as? Int,
+        if let stopwatchStateInt = userDefault.object(forKey: Keys.STOPWATCH_STATE) as? Int,
             let oldState = StopwatchState(rawValue: stopwatchStateInt) {
             stopwatchState = oldState
             updateFromOldValues()
@@ -92,45 +87,25 @@ class StopwatchViewController: UIViewController {
     }
 
     private func stopWatchInitialState() {
-        startButton.isEnabled = true
-        startButton.alpha = Constants.activeAlpha
-
-        stopButton.isEnabled = false
-        stopButton.alpha = Constants.inactiveAlpha
-
-        resetButton.isEnabled = false
-        resetButton.alpha = Constants.inactiveAlpha
+        startButton.makeInteractable()
+        stopButton.makeUninteractable()
+        resetButton.makeUninteractable()
     }
 
     private func updateStopWatchButtons() {
         switch stopwatchState {
         case .started:
-            startButton.isEnabled = false
-            startButton.alpha = Constants.inactiveAlpha
-
-            stopButton.isEnabled = true
-            stopButton.alpha = Constants.activeAlpha
-
-            resetButton.isEnabled = false
-            resetButton.alpha = Constants.inactiveAlpha
+            startButton.makeUninteractable()
+            stopButton.makeInteractable()
+            resetButton.makeUninteractable()
         case .stopped:
-            startButton.isEnabled = true
-            startButton.alpha = Constants.activeAlpha
-
-            stopButton.isEnabled = false
-            stopButton.alpha = Constants.inactiveAlpha
-
-            resetButton.isEnabled = true
-            resetButton.alpha = Constants.activeAlpha
+            startButton.makeInteractable()
+            stopButton.makeUninteractable()
+            resetButton.makeInteractable()
         case .reset:
-            startButton.isEnabled = true
-            startButton.alpha = Constants.activeAlpha
-
-            stopButton.isEnabled = false
-            stopButton.alpha = Constants.inactiveAlpha
-
-            resetButton.isEnabled = false
-            resetButton.alpha = Constants.inactiveAlpha
+            startButton.makeInteractable()
+            stopButton.makeUninteractable()
+            resetButton.makeUninteractable()
         }
         updateStopWatchContent()
     }
@@ -138,7 +113,7 @@ class StopwatchViewController: UIViewController {
     private func updateStopWatchContent() {
         switch stopwatchState {
         case .started:
-            timer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateTimeLabels), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimeLabels), userInfo: nil, repeats: true)
         case .stopped:
             timer?.invalidate()
         case .reset:
@@ -149,16 +124,16 @@ class StopwatchViewController: UIViewController {
     }
 
     private func updateFromOldValues() {
-        if let timeDict = UserDefaults.standard.object(forKey: Constants.TIME_DICT_KEY) as? [String: Int] {
-            centiSecInt = timeDict[Constants.CS_INT_KEY] ?? 0
-            secInt = timeDict[Constants.S_INT_KEY] ?? 0
-            minInt = timeDict[Constants.MIN_INT_KEY] ?? 0
+        if let timeDict = UserDefaults.standard.object(forKey: Keys.TIME_DICT) as? [String: Int] {
+            centiSecInt = timeDict[Keys.CS_INT] ?? 0
+            secInt = timeDict[Keys.S_INT] ?? 0
+            minInt = timeDict[Keys.MIN_INT] ?? 0
         }
     }
 
     private func updateFromOldState() {
         if stopwatchState == .started,
-            let date = UserDefaults.standard.object(forKey: Constants.DATE_KEY) as? Date {
+            let date = UserDefaults.standard.object(forKey: Keys.DATE) as? Date {
 
             var oldTimeInCentiSecs: Int = 0
             oldTimeInCentiSecs += centiSecInt
@@ -212,16 +187,16 @@ extension StopwatchViewController {
         timer?.invalidate()
         let userStandard = UserDefaults.standard
         let timeDict: [String: Int] = [
-            Constants.CS_INT_KEY: centiSecInt,
-            Constants.S_INT_KEY: secInt,
-            Constants.MIN_INT_KEY: minInt
+            Keys.CS_INT: centiSecInt,
+            Keys.S_INT: secInt,
+            Keys.MIN_INT: minInt
         ]
 
         if stopwatchState == .started {
-            userStandard.set(Date(), forKey: Constants.DATE_KEY)
+            userStandard.set(Date(), forKey: Keys.DATE)
         }
-        userStandard.set(stopwatchState.rawValue, forKey: Constants.STOPWATCH_STATE_KEY)
-        userStandard.set(timeDict, forKey: Constants.TIME_DICT_KEY)
+        userStandard.set(stopwatchState.rawValue, forKey: Keys.STOPWATCH_STATE)
+        userStandard.set(timeDict, forKey: Keys.TIME_DICT)
     }
 
     @objc private func willEnterForegroundNotification() {

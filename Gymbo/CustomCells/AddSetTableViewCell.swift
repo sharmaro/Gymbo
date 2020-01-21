@@ -13,7 +13,7 @@ protocol AddSetTableViewCellDelegate: class {
 }
 
 class AddSetTableViewCell: UITableViewCell {
-    @IBOutlet weak var addSetButton: CustomButton!
+    @IBOutlet private weak var addSetButton: CustomButton!
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -34,7 +34,7 @@ class AddSetTableViewCell: UITableViewCell {
     }
 
     private func setupAddSetButton() {
-        addSetButton.addColor(backgroundColor: .lightGray)
+        addSetButton.add(backgroundColor: .lightGray)
         addSetButton.addCornerRadius()
     }
 

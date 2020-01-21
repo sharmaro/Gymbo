@@ -8,9 +8,14 @@
 
 import UIKit
 
+struct SessionPreviewTableViewCellModel {
+    var name: String? = nil
+    var muscles: String? = nil
+}
+
 class SessionPreviewTableViewCell: UITableViewCell {
-    @IBOutlet weak var exerciseNameLabel: UILabel!
-    @IBOutlet weak var exerciseMusclesLabel: UILabel!
+    @IBOutlet private weak var exerciseNameLabel: UILabel!
+    @IBOutlet private weak var exerciseMusclesLabel: UILabel!
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -29,8 +34,8 @@ class SessionPreviewTableViewCell: UITableViewCell {
         exerciseMusclesLabel.textColor = .darkGray
     }
 
-    func clearLabels() {
-        exerciseNameLabel.text?.removeAll()
-        exerciseMusclesLabel.text?.removeAll()
+    func configure(dataModel: SessionPreviewTableViewCellModel) {
+        exerciseNameLabel.text = dataModel.name
+        exerciseMusclesLabel.text = dataModel.muscles
     }
 }

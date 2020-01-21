@@ -19,13 +19,20 @@ enum TextFieldType: String {
     case weight = "weight"
 }
 
+struct ExerciseDetailTableViewCellModel {
+    var sets: String? = nil
+    var last: String? = nil
+    var reps: String? = nil
+    var weight: String? = nil
+}
+
 class ExerciseDetailTableViewCell: UITableViewCell {
     // Exercise value labels
-    @IBOutlet weak var setsLabel: UILabel!
-    @IBOutlet weak var lastLabel: UILabel!
-    @IBOutlet weak var repsTextField: UITextField!
-    @IBOutlet weak var weightTextField: UITextField!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet private weak var setsLabel: UILabel!
+    @IBOutlet private weak var lastLabel: UILabel!
+    @IBOutlet private weak var repsTextField: UITextField!
+    @IBOutlet private weak var weightTextField: UITextField!
+    @IBOutlet private weak var doneButton: UIButton!
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
@@ -37,9 +44,17 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    var isExerciseDone: Bool = false {
+    var isExerciseDone = false {
         didSet {
-            backgroundColor = isExerciseDone ? .systemGreen : .clear
+            backgroundColor = isExerciseDone ? .systemGreen : .white
+        }
+    }
+
+    var isDoneButtonEnabled = false {
+        didSet {
+            let image = isDoneButtonEnabled ? UIImage(named: "checkmark") : nil
+            doneButton.setImage(image, for: .normal)
+            doneButton.isUserInteractionEnabled = isDoneButtonEnabled
         }
     }
 
@@ -49,6 +64,7 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         selectionStyle = .none
 
         setupTextFields()
+        setupDoneButton()
     }
 
     private func setupTextFields() {
@@ -65,6 +81,17 @@ class ExerciseDetailTableViewCell: UITableViewCell {
             $0?.borderStyle = .none
             $0?.delegate = self
         }
+    }
+
+    private func setupDoneButton() {
+        doneButton.setTitleColor(.black, for: .normal)
+    }
+
+    func configure(dataModel: ExerciseDetailTableViewCellModel) {
+        setsLabel.text = dataModel.sets
+        lastLabel.text = dataModel.last
+        repsTextField.text = dataModel.reps
+        weightTextField.text = dataModel.weight
     }
 
     @IBAction func doneButtonPressed( _ sender: Any) {

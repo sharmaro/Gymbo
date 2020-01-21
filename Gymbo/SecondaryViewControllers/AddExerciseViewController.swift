@@ -19,9 +19,9 @@ struct ExerciseText: Codable {
 }
 
 class AddExerciseViewController: UIViewController {
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var createExerciseButton: CustomButton!
+    @IBOutlet private weak var searchTextField: UITextField!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var createExerciseButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
@@ -43,6 +43,8 @@ class AddExerciseViewController: UIViewController {
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let exerciseCellHeight = CGFloat(62)
+        static let headerHeight = CGFloat(30)
+        static let headerFontSize = CGFloat(20)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
 
@@ -70,6 +72,7 @@ class AddExerciseViewController: UIViewController {
 
     private func setupNavigationBar() {
         title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = false
         if !hideBarButtonItems {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonTapped))
@@ -132,9 +135,6 @@ class AddExerciseViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.clipsToBounds = true
-        tableView.layer.cornerRadius = 20
-        tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = UIColor.black.cgColor
         tableView.allowsMultipleSelection = true
         tableView.keyboardDismissMode = .interactive
         tableView.register(ExerciseTableViewCell.nib,
@@ -142,9 +142,9 @@ class AddExerciseViewController: UIViewController {
     }
 
     private func setupCreatExerciseButton() {
-        createExerciseButton.setTitle("Create New Exercise", for: .normal)
+        createExerciseButton.title = "Create New Exercise"
         createExerciseButton.titleLabel?.textAlignment = .center
-        createExerciseButton.addColor(backgroundColor: .systemBlue)
+        createExerciseButton.add(backgroundColor: .systemBlue)
         createExerciseButton.addCornerRadius()
     }
 
@@ -217,7 +217,7 @@ class AddExerciseViewController: UIViewController {
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let changedText = textField.text,
+        guard let changedText = textField.text?.lowercased(),
             changedText.count > 0 else {
                 searchResultsExerciseInfoDict.removeAll()
                 tableView.reloadData()
@@ -226,7 +226,7 @@ class AddExerciseViewController: UIViewController {
 
         exerciseInfoDict.forEach {
             searchResultsExerciseInfoDict[$0.key] = $0.value.filter {
-                ($0.exerciseName ?? "").lowercased().contains(changedText.lowercased())
+                ($0.exerciseName ?? "").lowercased().contains(changedText)
             }
         }
         tableView.reloadData()
@@ -237,15 +237,16 @@ class AddExerciseViewController: UIViewController {
             return
         }
 
+        let modalNavigationController = UINavigationController(rootViewController: createExerciseVC)
         if #available(iOS 13.0, *) {
             // No op
         } else {
-            createExerciseVC.modalPresentationStyle = .custom
-            createExerciseVC.transitioningDelegate = self
+            modalNavigationController.modalPresentationStyle = .custom
+            modalNavigationController.transitioningDelegate = self
         }
-        createExerciseVC.hideBarButtonItems = hideBarButtonItems
+
         createExerciseVC.createExerciseDelegate = self
-        navigationController?.pushViewController(createExerciseVC, animated: true)
+        present(modalNavigationController, animated: true, completion: nil)
     }
 }
 
@@ -267,16 +268,24 @@ extension AddExerciseViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return Constants.headerHeight
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let titleLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: 40)))
+        let containerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.headerHeight)))
+        containerView.backgroundColor = tableView.numberOfRows(inSection: section) > 0 ? .black : .darkGray
+
+        let titleLabel = UILabel()
         titleLabel.text = exerciseGroups[section]
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
         titleLabel.textColor = .white
-        titleLabel.backgroundColor = tableView.numberOfRows(inSection: section) > 0 ? .black : .darkGray
-        return titleLabel
+        titleLabel.font = UIFont.systemFont(ofSize: Constants.headerFontSize)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        containerView.addSubview(titleLabel)
+        titleLabel.leadingAndTrailingTo(superView: containerView, leading: 10, trailing: 0)
+
+        return containerView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -286,9 +295,11 @@ extension AddExerciseViewController: UITableViewDataSource {
         let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
         let exerciseGroup = exerciseGroups[indexPath.section]
 
-        cell.exerciseNameLabel.text = dictToUse[exerciseGroup]?[indexPath.row].exerciseName
-        cell.exerciseMusclesLabel.text = dictToUse[exerciseGroup]?[indexPath.row].exerciseMuscles
+        var dataModel = ExerciseTableViewCellModel()
+        dataModel.name = dictToUse[exerciseGroup]?[indexPath.row].exerciseName
+        dataModel.muscles = dictToUse[exerciseGroup]?[indexPath.row].exerciseMuscles
 
+        cell.configure(dataModel: dataModel)
         return cell
     }
 }

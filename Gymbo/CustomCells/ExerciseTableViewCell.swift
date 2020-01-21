@@ -8,9 +8,14 @@
 
 import UIKit
 
+struct ExerciseTableViewCellModel {
+    var name: String? = nil
+    var muscles: String? = nil
+}
+
 class ExerciseTableViewCell: UITableViewCell {
-    @IBOutlet weak var exerciseNameLabel: UILabel!
-    @IBOutlet weak var exerciseMusclesLabel: UILabel!
+    @IBOutlet private weak var exerciseNameLabel: UILabel!
+    @IBOutlet private weak var exerciseMusclesLabel: UILabel!
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -25,5 +30,10 @@ class ExerciseTableViewCell: UITableViewCell {
 
         exerciseNameLabel.textColor = .black
         exerciseMusclesLabel.textColor = .darkGray
+    }
+
+    func configure(dataModel: ExerciseTableViewCellModel) {
+        exerciseNameLabel.text = dataModel.name
+        exerciseMusclesLabel.text = dataModel.muscles
     }
 }

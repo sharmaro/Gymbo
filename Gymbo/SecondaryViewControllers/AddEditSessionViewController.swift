@@ -15,23 +15,23 @@ enum SessionState: String {
 }
 
 class AddEditSessionViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
         return String(describing: self)
     }
 
-    private lazy var sessionTableHeaderView: SessionTableHeaderView = {
-        let sessionTableHeaderView = SessionTableHeaderView()
-        sessionTableHeaderView.nameTextView.text = session.name ?? Constants.sessionNamePlaceholderText
-        sessionTableHeaderView.infoTextView.text = session.info ?? Constants.sessionInfoPlaceholderText
+    private lazy var tableHeaderView: SessionHeaderView = {
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session.name ?? Constants.namePlaceholderText
+        dataModel.info = session.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = sessionState == .add ? Colors.dimmedBlack : .black
 
+        let sessionTableHeaderView = SessionHeaderView()
+        sessionTableHeaderView.configure(dataModel: dataModel)
+        sessionTableHeaderView.isContentEditable = true
         sessionTableHeaderView.sessionHeaderTextViewsDelegate = self
         sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-
-        [sessionTableHeaderView.nameTextView, sessionTableHeaderView.infoTextView].forEach {
-            $0?.textColor = sessionState == .add ? Colors.dimmedBlack : .black
-        }
         return sessionTableHeaderView
     }()
 
@@ -49,8 +49,8 @@ class AddEditSessionViewController: UIViewController {
         static let exerciseDetailCellHeight = CGFloat(32)
         static let addSetButtonCellHeight = CGFloat(50)
 
-        static let sessionNamePlaceholderText = "Session name"
-        static let sessionInfoPlaceholderText = "Info"
+        static let namePlaceholderText = "Session name"
+        static let infoPlaceholderText = "Info"
     }
 
     private struct Colors {
@@ -68,7 +68,7 @@ class AddEditSessionViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        guard sessionTableHeaderView.nameTextView.textColor != Colors.dimmedBlack, let sessionName = sessionTableHeaderView.nameTextView.text, sessionName.count > 0  else {
+        guard tableHeaderView.shouldSaveName, let sessionName = tableHeaderView.sessionName else {
             return
         }
 
@@ -76,11 +76,11 @@ class AddEditSessionViewController: UIViewController {
         view.endEditing(true)
 
         if sessionState == .add {
-            sessionDataModelDelegate?.addSessionData(name: sessionName, info: sessionTableHeaderView.infoTextView.text, exercises: session.exercises)
+            sessionDataModelDelegate?.addSessionData(name: sessionName, info: tableHeaderView.info, exercises: session.exercises)
         } else {
             try? realm?.write {
                 session.name = sessionName
-                session.info = sessionTableHeaderView.infoTextView.text
+                session.info = tableHeaderView.info
             }
         }
     }
@@ -115,15 +115,15 @@ class AddEditSessionViewController: UIViewController {
     }
 
     private func setupTableHeaderView() {
-        tableView.tableHeaderView = sessionTableHeaderView
+        tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            sessionTableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            sessionTableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            sessionTableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            sessionTableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
-        sessionTableHeaderView.backgroundColor = .red
+        tableHeaderView.backgroundColor = .red
 
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
@@ -168,10 +168,12 @@ extension AddEditSessionViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0: // Exercise header cell
             if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
-                exerciseHeaderCell.exerciseNameLabel.text = session.exercises[indexPath.section].name
-                exerciseHeaderCell.doneButton.alpha = Constants.dimmedAlpha
-                exerciseHeaderCell.exerciseHeaderCellDelegate = self
+                var dataModel = ExerciseHeaderTableViewCellModel()
+                dataModel.name = session.exercises[indexPath.section].name
 
+                exerciseHeaderCell.configure(dataModel: dataModel)
+                exerciseHeaderCell.isDoneButtonImageHidden = true
+                exerciseHeaderCell.exerciseHeaderCellDelegate = self
                 return exerciseHeaderCell
             }
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
@@ -182,18 +184,19 @@ extension AddEditSessionViewController: UITableViewDataSource {
             }
         default: // Exercise detail cell
             if let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell {
+                var dataModel = ExerciseDetailTableViewCellModel()
+                dataModel.sets = "\(indexPath.row)"
+//                if sessionState == .add {
+//                    dataModel.last = "--"
+//                } else {
+                    dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
+//                }
+                dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
+                dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
 
-                exerciseDetailCell.setsLabel.text = "\(indexPath.row)"
-                if sessionState == .add {
-                    exerciseDetailCell.lastLabel.text = "--"
-                } else {
-                    exerciseDetailCell.lastLabel.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-                }
-                exerciseDetailCell.repsTextField.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps ?? ""
-                exerciseDetailCell.weightTextField.text = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight ?? ""
-                exerciseDetailCell.doneButton.alpha = Constants.dimmedAlpha
+                exerciseDetailCell.configure(dataModel: dataModel)
+                exerciseDetailCell.isDoneButtonEnabled = false
                 exerciseDetailCell.exerciseDetailCellDelegate = self
-
                 return exerciseDetailCell
             }
         }
@@ -203,8 +206,10 @@ extension AddEditSessionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch indexPath.row {
         // Protecting the first, second, and last rows because they shouldn't be swipe to delete
-        case 0, 1, tableView.numberOfRows(inSection: indexPath.section) - 1:
+        case 0, tableView.numberOfRows(inSection: indexPath.section) - 1:
             return false
+        case 1:
+            return session.exercises[indexPath.section].sets > 1
         default:
             return true
         }
@@ -213,19 +218,20 @@ extension AddEditSessionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if sessionState == .add {
-                removeSet(section: indexPath.section)
+                removeSet(indexPath: indexPath)
             } else {
                 try? realm?.write {
-                    removeSet(section: indexPath.section)
+                    removeSet(indexPath: indexPath)
                 }
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadSections([indexPath.section], with: .automatic)
         }
     }
 
-    private func removeSet(section: Int) {
-        session.exercises[section].sets -= 1
-        session.exercises[section].exerciseDetails.remove(at: section)
+    private func removeSet(indexPath: IndexPath) {
+        session.exercises[indexPath.section].sets -= 1
+        session.exercises[indexPath.section].exerciseDetails.remove(at: indexPath.row - 1)
     }
 }
 
@@ -366,8 +372,18 @@ extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = textView.tag == 0 ? Constants.sessionNamePlaceholderText : Constants.sessionInfoPlaceholderText
-            textView.textColor = Colors.dimmedBlack
+            let name: String? = session.name
+            let info: String? = session.info
+            let textInfo = [name, info]
+
+            if let text = textInfo[textView.tag] {
+                textView.text = text
+                textView.textColor = .black
+            } else {
+                textView.text = textView.tag == 0 ? Constants.namePlaceholderText : Constants.infoPlaceholderText
+                textView.textColor = Colors.dimmedBlack
+            }
+            return
         }
 
         if sessionState == .add {
