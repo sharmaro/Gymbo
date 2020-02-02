@@ -21,18 +21,10 @@ struct SessionHeaderViewModel {
 }
 
 class SessionHeaderView: UIView {
+    // MARK: - Properties
     @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var nameTextView: UITextView!
     @IBOutlet private weak var infoTextView: UITextView!
-
-    var isContentEditable = true {
-        didSet {
-            nameTextView.isEditable = isContentEditable
-            infoTextView.isEditable = isContentEditable
-        }
-    }
-
-    private var textViews = [UITextView]()
 
     var sessionName: String? {
         return nameTextView.text
@@ -46,12 +38,18 @@ class SessionHeaderView: UIView {
         return nameTextView.textColor != Colors.dimmedBlack && nameTextView.text.count > 0
     }
 
-    weak var sessionHeaderTextViewsDelegate: SessionHeaderTextViewsDelegate?
-
-    private struct Colors {
-        static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
+    var isContentEditable = true {
+        didSet {
+            nameTextView.isEditable = isContentEditable
+            infoTextView.isEditable = isContentEditable
+        }
     }
 
+    private var textViews = [UITextView]()
+
+    weak var sessionHeaderTextViewsDelegate: SessionHeaderTextViewsDelegate?
+
+    // MARK: - UIView Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -61,7 +59,17 @@ class SessionHeaderView: UIView {
         super.init(coder: coder)
         setup()
     }
+}
 
+// MARK: - Structs/Enums
+private extension SessionHeaderView {
+    struct Colors {
+        static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
+    }
+}
+
+// MARK: - Funcs
+extension SessionHeaderView {
     private func setup() {
         Bundle.main.loadNibNamed(String(describing: SessionHeaderView.self), owner: self, options: nil)
         addSubview(contentView)
@@ -101,6 +109,7 @@ class SessionHeaderView: UIView {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension SessionHeaderView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         sessionHeaderTextViewsDelegate?.textViewDidBeginEditing(textViews[textView.tag])

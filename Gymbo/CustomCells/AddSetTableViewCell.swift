@@ -13,6 +13,7 @@ protocol AddSetTableViewCellDelegate: class {
 }
 
 class AddSetTableViewCell: UITableViewCell {
+    // MARK: - Properties
     @IBOutlet private weak var addSetButton: CustomButton!
 
     class var nib: UINib {
@@ -24,7 +25,10 @@ class AddSetTableViewCell: UITableViewCell {
     }
 
     weak var addSetTableViewCellDelegate: AddSetTableViewCellDelegate?
+}
 
+// MARK: - UITableViewCell Funcs
+extension AddSetTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -32,7 +36,10 @@ class AddSetTableViewCell: UITableViewCell {
 
         setupAddSetButton()
     }
+}
 
+// MARK: - Funcs
+extension AddSetTableViewCell {
     private func setupAddSetButton() {
         addSetButton.add(backgroundColor: .lightGray)
         addSetButton.addCornerRadius()

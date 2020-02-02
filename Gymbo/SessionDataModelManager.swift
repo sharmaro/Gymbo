@@ -10,16 +10,18 @@ import Foundation
 import RealmSwift
 
 class SessionDataModelManager: NSObject {
+    // MARK: - Properties
     static var shared = SessionDataModelManager()
-
-    private var realm = try? Realm()
 
     var sessionsCount: Int? {
         return getSessionsCount()
     }
 
+    private var realm = try? Realm()
+
     private var sessionsList: Results<Session>?
 
+    // MARK: - NSObject Funcs
     override init() {
         super.init()
 
@@ -27,7 +29,10 @@ class SessionDataModelManager: NSObject {
 
         printConfigFileLocation()
     }
+}
 
+// MARK: - Funcs
+extension SessionDataModelManager {
     func printConfigFileLocation() {
         print()
         if realm?.configuration.fileURL != nil {
@@ -102,14 +107,8 @@ class SessionDataModelManager: NSObject {
             for i in 0 ..< exercises.count {
                 var sessionString = ""
                 let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
-//                let sets = Util.formattedString(stringToFormat: String(exercises[i].sets), type: .sets)
-//                let areRepsUnique = isRepsStringUnique(forExercise: exercises[i])
-//                let reps = Util.formattedString(stringToFormat: exercises[i].exerciseDetails[0].reps, type: .reps(areUnique: areRepsUnique))
-
-//                totalSessionString = "\(name) - \(sets) x \(reps)"
                 sessionString = "\(name)"
                 if i != exercises.count - 1 {
-//                    totalSessionString += "\n"
                     sessionString += ", "
                 }
                 sessionInfoText.append(sessionString)

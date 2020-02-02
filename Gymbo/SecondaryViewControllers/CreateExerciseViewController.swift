@@ -13,6 +13,7 @@ protocol CreateExerciseDelegate: class {
 import UIKit
 
 class CreateExerciseViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var infoContainerView: UIView!
     @IBOutlet private weak var exerciseGroupPickerView: UIPickerView!
     @IBOutlet private weak var exerciseNameTextField: UITextField!
@@ -26,8 +27,11 @@ class CreateExerciseViewController: UIViewController {
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
     "Hips", "Legs", "Shoulders", "Extra Exercises"]
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension CreateExerciseViewController {
+    struct Constants {
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let activeAlpha = CGFloat(1.0)
@@ -35,7 +39,10 @@ class CreateExerciseViewController: UIViewController {
 
         static let title = "Create Exercise"
     }
+}
 
+// MARK: - UIViewController Funcs
+extension CreateExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,7 +56,10 @@ class CreateExerciseViewController: UIViewController {
         super.viewWillDisappear(animated)
         view.endEditing(true)
     }
+}
 
+// MARK: - Funcs
+extension CreateExerciseViewController {
     private func setupNavigationBar() {
         title = Constants.title
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -108,6 +118,7 @@ class CreateExerciseViewController: UIViewController {
     }
 }
 
+// MARK: - UIPickerViewDataSource
 extension CreateExerciseViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
@@ -118,6 +129,7 @@ extension CreateExerciseViewController: UIPickerViewDataSource {
     }
 }
 
+// MARK: - UIPickerViewDelegate
 extension CreateExerciseViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: 25)))

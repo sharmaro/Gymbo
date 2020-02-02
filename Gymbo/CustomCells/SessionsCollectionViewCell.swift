@@ -18,13 +18,12 @@ struct SessionsCollectionViewCellModel {
 }
 
 class SessionsCollectionViewCell: UICollectionViewCell {
+    // MARK: - Properties
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var visualEffectView: UIVisualEffectView!
     @IBOutlet private weak var deleteButton: CustomButton!
     @IBOutlet private weak var sessionTitleLabel: UILabel!
     @IBOutlet private weak var exercisesInfoTextView: UITextView!
-
-    weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
 
     class var nib: UINib {
         return UINib(nibName: reuseIdentifier, bundle: nil)
@@ -33,6 +32,8 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     class var reuseIdentifier: String {
         return String(describing: self)
     }
+
+    weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
 
     var isEditing: Bool = false {
         didSet {
@@ -52,7 +53,10 @@ class SessionsCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+}
 
+// MARK: - UICollectionViewCell Funcs
+extension SessionsCollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -61,7 +65,10 @@ class SessionsCollectionViewCell: UICollectionViewCell {
         setupRoundedContainerView()
         setupTextView()
     }
+}
 
+// MARK: - Funcs
+extension SessionsCollectionViewCell {
     private func setupVisualEffectView() {
         visualEffectView.layer.cornerRadius = visualEffectView.bounds.width / 2
         visualEffectView.layer.masksToBounds = true

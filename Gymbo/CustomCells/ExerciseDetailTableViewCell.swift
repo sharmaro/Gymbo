@@ -27,7 +27,8 @@ struct ExerciseDetailTableViewCellModel {
 }
 
 class ExerciseDetailTableViewCell: UITableViewCell {
-    // Exercise value labels
+    // MARK: - Properties
+    /// Exercise value labels
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var lastLabel: UILabel!
     @IBOutlet private weak var repsTextField: UITextField!
@@ -57,7 +58,10 @@ class ExerciseDetailTableViewCell: UITableViewCell {
             doneButton.isUserInteractionEnabled = isDoneButtonEnabled
         }
     }
+}
 
+// MARK: - UITableViewCell Funcs
+extension ExerciseDetailTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -66,7 +70,10 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         setupTextFields()
         setupDoneButton()
     }
+}
 
+// MARK: - Funcs
+extension ExerciseDetailTableViewCell {
     private func setupTextFields() {
         repsTextField.tag = 0
         weightTextField.tag = 1
@@ -102,6 +109,7 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension ExerciseDetailTableViewCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true

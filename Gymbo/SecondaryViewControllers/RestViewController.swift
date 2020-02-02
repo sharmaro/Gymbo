@@ -15,6 +15,7 @@ protocol RestTimerDelegate: class {
 }
 
 class RestViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var topContainerView: UIView!
@@ -22,24 +23,6 @@ class RestViewController: UIViewController {
     @IBOutlet weak var restTimesPickerView: UIPickerView!
     @IBOutlet weak var animationProgressContainerView: UIView!
     @IBOutlet weak var mainButton: CustomButton!
-
-    private enum MainButtonState: String {
-        case startTimer = "Start Timer"
-        case done = "Done!"
-
-        func backgroundColor() -> UIColor {
-            switch self {
-            case .startTimer:
-                return .systemBlue
-            case .done:
-                return .systemGreen
-            }
-        }
-
-        mutating func toggle() {
-            self = self == .startTimer ? .done : .startTimer
-        }
-    }
 
     class var id: String {
         return String(describing: self)
@@ -119,11 +102,35 @@ class RestViewController: UIViewController {
 
     weak var dimmedViewDelegate: DimmedViewDelegate?
     weak var restTimerDelegate: RestTimerDelegate?
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension RestViewController {
+    struct Constants {
         static let timeDelta = 5
     }
 
+    enum MainButtonState: String {
+        case startTimer = "Start Timer"
+        case done = "Done!"
+
+        func backgroundColor() -> UIColor {
+            switch self {
+            case .startTimer:
+                return .systemBlue
+            case .done:
+                return .systemGreen
+            }
+        }
+
+        mutating func toggle() {
+            self = self == .startTimer ? .done : .startTimer
+        }
+    }
+}
+
+// MARK: - UIViewController Funcs
+extension RestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -145,7 +152,10 @@ class RestViewController: UIViewController {
         timer?.invalidate()
         dimmedViewDelegate?.removeDimmedView(animated: true)
     }
+}
 
+// MARK: - Funcs
+extension RestViewController {
     private func setupContainerView() {
         containerView.layer.cornerRadius = 20
         containerView.clipsToBounds = true
@@ -250,6 +260,7 @@ class RestViewController: UIViewController {
     }
 }
 
+// MARK: - UIPickerViewDataSource
 extension RestViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         hideSelectorLines()
@@ -267,6 +278,7 @@ extension RestViewController: UIPickerViewDataSource {
     }
 }
 
+// MARK: - UIPickerViewDelegate
 extension RestViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: 25)))

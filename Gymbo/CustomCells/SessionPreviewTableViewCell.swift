@@ -14,6 +14,7 @@ struct SessionPreviewTableViewCellModel {
 }
 
 class SessionPreviewTableViewCell: UITableViewCell {
+    // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
     @IBOutlet private weak var exerciseMusclesLabel: UILabel!
 
@@ -24,7 +25,10 @@ class SessionPreviewTableViewCell: UITableViewCell {
     class var reuseIdentifier: String {
         return String(describing: self)
     }
+}
 
+// MARK: - UITableViewCell Funcs
+extension SessionPreviewTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -33,7 +37,10 @@ class SessionPreviewTableViewCell: UITableViewCell {
         exerciseNameLabel.textColor = .black
         exerciseMusclesLabel.textColor = .darkGray
     }
+}
 
+// MARK: - Funcs
+extension SessionPreviewTableViewCell {
     func configure(dataModel: SessionPreviewTableViewCellModel) {
         exerciseNameLabel.text = dataModel.name
         exerciseMusclesLabel.text = dataModel.muscles

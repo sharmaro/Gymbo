@@ -15,27 +15,12 @@ protocol DimmedViewDelegate: class {
 }
 
 class StartSessionViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
         return String(describing: self)
     }
-
-    var session: Session?
-
-    private var sessionSeconds = 0
-    private var sessionTimer: Timer?
-
-    private var restTimer: Timer?
-    private var totalRestTime = 0
-    private var restTimeRemaining = 0 {
-        didSet {
-            timerButton.title = restTimeRemaining > 0 ?
-            restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
-        }
-    }
-
-    private let realm = try? Realm()
 
     private lazy var finishButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
@@ -73,7 +58,26 @@ class StartSessionViewController: UIViewController {
         return startSessionFooterView
     }()
 
-    private struct Constants {
+    var session: Session?
+
+    private var sessionSeconds = 0
+    private var sessionTimer: Timer?
+
+    private var restTimer: Timer?
+    private var totalRestTime = 0
+    private var restTimeRemaining = 0 {
+        didSet {
+            timerButton.title = restTimeRemaining > 0 ?
+            restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
+        }
+    }
+
+    private let realm = try? Realm()
+}
+
+// MARK: - Structs/Enums
+private extension StartSessionViewController {
+    struct Constants {
         static let timeInterval = TimeInterval(1)
 
         static let verticalStackSpacing = CGFloat(30)
@@ -86,7 +90,10 @@ class StartSessionViewController: UIViewController {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
     }
+}
 
+// MARK: - UIViewController Funcs
+extension StartSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -112,7 +119,10 @@ class StartSessionViewController: UIViewController {
         sessionTimer?.invalidate()
         restTimer?.invalidate()
     }
+}
 
+// MARK: - Funcs
+extension StartSessionViewController {
     private func setupNavigationBar() {
         title = 0.getMinutesAndSecondsString()
         navigationItem.hidesBackButton = true
@@ -208,6 +218,7 @@ class StartSessionViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension StartSessionViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
@@ -298,7 +309,6 @@ extension StartSessionViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-
 extension StartSessionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
@@ -313,7 +323,6 @@ extension StartSessionViewController: UITableViewDelegate {
 }
 
 // MARK: - ExerciseHeaderCellDelegate
-
 extension StartSessionViewController: ExerciseHeaderCellDelegate {
     func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
@@ -328,7 +337,6 @@ extension StartSessionViewController: ExerciseHeaderCellDelegate {
 }
 
 // MARK: - ExerciseDetailTableViewCellDelegate
-
 extension StartSessionViewController: ExerciseDetailTableViewCellDelegate {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
@@ -359,7 +367,6 @@ extension StartSessionViewController: ExerciseDetailTableViewCellDelegate {
 }
 
 // MARK: - AddSetTableViewCellDelegate
-
 extension StartSessionViewController: AddSetTableViewCellDelegate {
     func addSetButtonTapped(cell: AddSetTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section,
@@ -384,6 +391,7 @@ extension StartSessionViewController: AddSetTableViewCellDelegate {
     }
 }
 
+// MARK: - ExerciseListDelegate
 extension StartSessionViewController: ExerciseListDelegate {
     func updateExerciseList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
@@ -398,6 +406,7 @@ extension StartSessionViewController: ExerciseListDelegate {
     }
 }
 
+// MARK: - StartSessionButtonDelegate
 extension StartSessionViewController: StartSessionButtonDelegate {
     func addExercise() {
         guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
@@ -414,6 +423,7 @@ extension StartSessionViewController: StartSessionButtonDelegate {
     }
 }
 
+// MARK: - DimmedViewDelegate
 extension StartSessionViewController: DimmedViewDelegate {
     func addDimmedView(animated: Bool) {
         navigationController?.view.addDimmedView(animated: animated)
@@ -424,6 +434,7 @@ extension StartSessionViewController: DimmedViewDelegate {
     }
 }
 
+// MARK: - RestTimerDelegate
 extension StartSessionViewController: RestTimerDelegate {
     func started(totalTime: Int) {
         totalRestTime = totalTime

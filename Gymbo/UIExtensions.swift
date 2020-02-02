@@ -8,18 +8,16 @@
 
 import UIKit
 
-// Add UI extensions here
+fileprivate struct Constants {
+    static let dimmedViewColor = UIColor.black.withAlphaComponent(0.5)
+
+    static let animationTime = TimeInterval(0.2)
+
+    static let locations = "locations"
+    static let locationAnimation = "loc"
+}
 
 extension UIView {
-    private struct Constants {
-        static let dimmedViewColor = UIColor.black.withAlphaComponent(0.5)
-
-        static let animationTime = TimeInterval(0.2)
-
-        static let locations = "locations"
-        static let locationAnimation = "loc"
-    }
-
     func addSubviews(views: [UIView]) {
         for view in views {
             addSubview(view)

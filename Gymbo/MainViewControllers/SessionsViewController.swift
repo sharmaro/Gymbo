@@ -16,6 +16,7 @@ import UIKit
 import RealmSwift
 
 class SessionsViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var emptyExerciseLabel: UILabel!
 
@@ -24,15 +25,20 @@ class SessionsViewController: UIViewController {
     }
 
     private let dataModelManager = SessionDataModelManager.shared
-
     private var isEditingMode = false
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension SessionsViewController {
+    struct Constants {
         static let sessionCellHeight = CGFloat(120)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
     }
+}
 
+// MARK: - UIViewController Funcs
+extension SessionsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,11 +51,10 @@ class SessionsViewController: UIViewController {
 
         refreshMainView()
     }
+}
 
-
-
-    // MARK: - Helper funcs
-
+// MARK: - Funcs
+extension SessionsViewController {
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session", style: .plain, target: self, action: #selector(addSessionButtonTapped))
@@ -80,8 +85,6 @@ class SessionsViewController: UIViewController {
         }
     }
 
-    // MARK: - @objc Funcs
-
     @objc private func editButtonTapped() {
         let itemType: UIBarButtonItem.SystemItem = isEditingMode ? .edit : .done
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType, target: self, action: #selector(editButtonTapped))
@@ -104,8 +107,7 @@ class SessionsViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView funcs
-
+// MARK: - UICollectionViewDataSource
 extension SessionsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -130,6 +132,7 @@ extension SessionsViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension SessionsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
@@ -152,6 +155,7 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension SessionsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !isEditingMode,
@@ -175,8 +179,7 @@ extension SessionsViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Saving Session func
-
+// MARK: - SessionDataModelDelegate
 extension SessionsViewController: SessionDataModelDelegate {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>) {
         let session = Session(name: name, info: info, exercises: exercises)
@@ -196,6 +199,7 @@ extension SessionsViewController: SessionDataModelDelegate {
     }
 }
 
+// MARK: - StartSessionDelegate
 extension SessionsViewController: StartSessionDelegate {
     func sessionStarted(session: Session?) {
         guard let startSessionViewController = storyboard?.instantiateViewController(withIdentifier: StartSessionViewController.id) as? StartSessionViewController else {
@@ -216,6 +220,7 @@ extension SessionsViewController: StartSessionDelegate {
     }
 }
 
+// MARK: - SessionsCollectionViewCellDelegate
 extension SessionsViewController: SessionsCollectionViewCellDelegate {
     func delete(cell: SessionsCollectionViewCell) {
         guard let index = collectionView.indexPath(for: cell)?.row else {
@@ -233,6 +238,7 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
 extension SessionsViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)

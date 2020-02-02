@@ -9,6 +9,7 @@
 import UIKit
 
 class CircleProgressView: UIView {
+    // MARK: - Properties
     private var circleView = UIView()
     private var totalTimeLabel = UILabel()
     private var restTimeRemainingLabel = UILabel()
@@ -16,16 +17,6 @@ class CircleProgressView: UIView {
     private let staticLayer = CAShapeLayer()
     private let animatedLayer = CAShapeLayer()
     private let basicAnimation = CABasicAnimation(keyPath: Constants.strokeKey)
-
-    private struct Constants {
-        static let strokeKey = "strokeEnd"
-        static let animationKey = "progress"
-
-        static let labelHeight = CGFloat(42)
-        static let lineWidth = CGFloat(8)
-        static let timeDelta = CGFloat(5)
-        static let fontSize = CGFloat(40)
-    }
 
     var totalTimeText = "" {
         didSet {
@@ -46,6 +37,7 @@ class CircleProgressView: UIView {
         }
     }
 
+    // MARK: - UIView Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -59,7 +51,23 @@ class CircleProgressView: UIView {
         super.init(coder: coder)
         setup()
     }
+}
 
+// MARK: - Structs/Enums
+private extension CircleProgressView {
+    struct Constants {
+        static let strokeKey = "strokeEnd"
+        static let animationKey = "progress"
+
+        static let labelHeight = CGFloat(42)
+        static let lineWidth = CGFloat(8)
+        static let timeDelta = CGFloat(5)
+        static let fontSize = CGFloat(40)
+    }
+}
+
+// MARK: - Funcs
+extension CircleProgressView {
     private func setup() {
         backgroundColor = .clear
 

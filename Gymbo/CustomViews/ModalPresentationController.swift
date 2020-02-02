@@ -9,9 +9,7 @@
 import UIKit
 
 final class ModalPresentationController: UIPresentationController {
-    private var modalYOffset: CGFloat = 60
-    var customHeight: CGFloat?
-
+    // MARK: - Properties
     private lazy var dimmingView: UIView = {
         guard let containerView = containerView else {
             return UIView()
@@ -26,15 +24,10 @@ final class ModalPresentationController: UIPresentationController {
         return dimmingView
     }()
 
-    private struct Constants {
-        static let animationDuration: TimeInterval = 0.4
-        static let delayDuration: TimeInterval = 0
-        static let dampingDuration: CGFloat = 1
-        static let velocity: CGFloat = 0.7
+    private var modalYOffset: CGFloat = 60
+    var customHeight: CGFloat?
 
-        static let cornerRadius: CGFloat = 20
-    }
-
+    // MARK: - UIPresentationController Funcs
     override var frameOfPresentedViewInContainerView: CGRect {
         guard let containerView = containerView else {
             return CGRect.zero
@@ -57,53 +50,6 @@ final class ModalPresentationController: UIPresentationController {
         presentedViewController.view.addGestureRecognizer(
             UIPanGestureRecognizer(target: self, action: #selector(didPan))
         )
-    }
-
-    @objc func didPan(gestureRecognizer: UIPanGestureRecognizer) {
-        guard let view = gestureRecognizer.view,
-            let presented = presentedView, let container = containerView else {
-                return
-        }
-
-        let location = gestureRecognizer.translation(in: view)
-
-        switch gestureRecognizer.state {
-        case .changed:
-            let offset = location.y + modalYOffset
-
-            if offset > frameOfPresentedViewInContainerView.origin.y {
-                presented.frame.origin.y = location.y + modalYOffset
-            }
-        case .ended, .cancelled:
-            let velocity = gestureRecognizer.velocity(in: view)
-            let maxPresentedY = (container.frame.height - modalYOffset) / 2
-
-            if velocity.y > 600 {
-                presentedViewController.dismiss(animated: true, completion: nil)
-            } else {
-                switch presented.frame.origin.y {
-                case 0 ... maxPresentedY:
-                    resizeToFull()
-                default:
-                    presentedViewController.dismiss(animated: true, completion: nil)
-                }
-            }
-        default:
-            break
-        }
-    }
-
-    private func resizeToFull() {
-        guard let presentedView = presentedView else {
-            return
-        }
-
-        UIView.animate(withDuration: Constants.animationDuration, delay: Constants.delayDuration, usingSpringWithDamping: Constants.dampingDuration, initialSpringVelocity: Constants.velocity, options: .curveEaseInOut, animations: { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin
-        }, completion: nil)
     }
 
     override func containerViewWillLayoutSubviews() {
@@ -151,6 +97,68 @@ final class ModalPresentationController: UIPresentationController {
         if completed {
             dimmingView.removeFromSuperview()
         }
+    }
+}
+
+// MARK: - Structs/Enums
+private extension ModalPresentationController {
+    struct Constants {
+        static let animationDuration: TimeInterval = 0.4
+        static let delayDuration: TimeInterval = 0
+        static let dampingDuration: CGFloat = 1
+        static let velocity: CGFloat = 0.7
+
+        static let cornerRadius: CGFloat = 20
+    }
+}
+
+// MARK: - Funcs
+extension ModalPresentationController {
+    @objc func didPan(gestureRecognizer: UIPanGestureRecognizer) {
+        guard let view = gestureRecognizer.view,
+            let presented = presentedView, let container = containerView else {
+                return
+        }
+
+        let location = gestureRecognizer.translation(in: view)
+
+        switch gestureRecognizer.state {
+        case .changed:
+            let offset = location.y + modalYOffset
+
+            if offset > frameOfPresentedViewInContainerView.origin.y {
+                presented.frame.origin.y = location.y + modalYOffset
+            }
+        case .ended, .cancelled:
+            let velocity = gestureRecognizer.velocity(in: view)
+            let maxPresentedY = (container.frame.height - modalYOffset) / 2
+
+            if velocity.y > 600 {
+                presentedViewController.dismiss(animated: true, completion: nil)
+            } else {
+                switch presented.frame.origin.y {
+                case 0 ... maxPresentedY:
+                    resizeToFull()
+                default:
+                    presentedViewController.dismiss(animated: true, completion: nil)
+                }
+            }
+        default:
+            break
+        }
+    }
+
+    private func resizeToFull() {
+        guard let presentedView = presentedView else {
+            return
+        }
+
+        UIView.animate(withDuration: Constants.animationDuration, delay: Constants.delayDuration, usingSpringWithDamping: Constants.dampingDuration, initialSpringVelocity: Constants.velocity, options: .curveEaseInOut, animations: { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin
+        }, completion: nil)
     }
 
     @objc private func dismiss() {

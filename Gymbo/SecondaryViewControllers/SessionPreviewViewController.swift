@@ -18,6 +18,7 @@ struct ExerciseInfo {
 }
 
 class SessionPreviewViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var startSessionButton: CustomButton!
 
@@ -45,8 +46,11 @@ class SessionPreviewViewController: UIViewController {
 
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
     weak var startSessionDelegate: StartSessionDelegate?
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension SessionPreviewViewController {
+    struct Constants {
         static let sessionPreviewCellHeight = CGFloat(55)
 
         static let navBarButtonSize = CGSize(width: 80, height: 30)
@@ -55,7 +59,10 @@ class SessionPreviewViewController: UIViewController {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
     }
+}
 
+// MARK: - UIViewController Funcs
+extension SessionPreviewViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -98,7 +105,10 @@ class SessionPreviewViewController: UIViewController {
 
         sessionDataModelDelegate?.updateSessionCells()
     }
+}
 
+// MARK: - Funcs
+extension SessionPreviewViewController {
      private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
@@ -161,6 +171,7 @@ class SessionPreviewViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension SessionPreviewViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -183,6 +194,7 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension SessionPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.sessionPreviewCellHeight

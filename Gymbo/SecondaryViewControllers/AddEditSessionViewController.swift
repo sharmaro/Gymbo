@@ -15,6 +15,7 @@ enum SessionState: String {
 }
 
 class AddEditSessionViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
@@ -25,7 +26,7 @@ class AddEditSessionViewController: UIViewController {
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session.name ?? Constants.namePlaceholderText
         dataModel.info = session.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = sessionState == .add ? Colors.dimmedBlack : .black
+        dataModel.textColor = sessionState == .add ? Constants.dimmedBlack : .black
 
         let sessionTableHeaderView = SessionHeaderView()
         sessionTableHeaderView.configure(dataModel: dataModel)
@@ -41,8 +42,11 @@ class AddEditSessionViewController: UIViewController {
     var sessionState = SessionState.add
 
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension AddEditSessionViewController {
+    struct Constants {
         static let dimmedAlpha = CGFloat(0.3)
         static let normalAlpha = CGFloat(1)
         static let exerciseHeaderCellHeight = CGFloat(59)
@@ -51,12 +55,13 @@ class AddEditSessionViewController: UIViewController {
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
-    }
 
-    private struct Colors {
         static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
     }
+}
 
+// MARK: - UIViewController Funcs
+extension AddEditSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -98,7 +103,10 @@ class AddEditSessionViewController: UIViewController {
 
         view.endEditing(true)
     }
+}
 
+// MARK: - Funcs
+extension AddEditSessionViewController {
     private func setupNavigationBar() {
         title = sessionState.rawValue
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise", style: .plain, target: self, action: #selector(addExerciseButtonTapped))
@@ -129,7 +137,7 @@ class AddEditSessionViewController: UIViewController {
         tableView.tableHeaderView?.layoutIfNeeded()
     }
 
-    @objc private func addExerciseButtonTapped(_ sender: Any) {
+    @objc func addExerciseButtonTapped(_ sender: Any) {
         guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
             return
         }
@@ -151,8 +159,7 @@ class AddEditSessionViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource Funcs
-
+// MARK: - UITableViewDataSource
 extension AddEditSessionViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return session.exercises.count
@@ -186,11 +193,7 @@ extension AddEditSessionViewController: UITableViewDataSource {
             if let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell {
                 var dataModel = ExerciseDetailTableViewCellModel()
                 dataModel.sets = "\(indexPath.row)"
-//                if sessionState == .add {
-//                    dataModel.last = "--"
-//                } else {
-                    dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-//                }
+                dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
                 dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
                 dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
 
@@ -236,7 +239,6 @@ extension AddEditSessionViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-
 extension AddEditSessionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
@@ -250,8 +252,7 @@ extension AddEditSessionViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - DeleteExerciseButtonDelegate
-
+// MARK: - ExerciseHeaderCellDelegate
 extension AddEditSessionViewController: ExerciseHeaderCellDelegate {
     func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
@@ -270,7 +271,6 @@ extension AddEditSessionViewController: ExerciseHeaderCellDelegate {
 }
 
 // MARK: - ExerciseDetailTableViewCellDelegate
-
 extension AddEditSessionViewController: ExerciseDetailTableViewCellDelegate {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
@@ -305,7 +305,6 @@ extension AddEditSessionViewController: ExerciseDetailTableViewCellDelegate {
 }
 
 // MARK: - AddSetTableViewCellDelegate
-
 extension AddEditSessionViewController: AddSetTableViewCellDelegate {
     func addSetButtonTapped(cell: AddSetTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
@@ -333,6 +332,7 @@ extension AddEditSessionViewController: AddSetTableViewCellDelegate {
     }
 }
 
+// MARK: - ExerciseListDelegate
 extension AddEditSessionViewController: ExerciseListDelegate {
     func updateExerciseList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
@@ -349,15 +349,17 @@ extension AddEditSessionViewController: ExerciseListDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
 extension AddEditSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 
+// MARK: - SessionHeaderTextViewsDelegate
 extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == Colors.dimmedBlack {
+        if textView.textColor == Constants.dimmedBlack {
             textView.text.removeAll()
             textView.textColor = .black
         }
@@ -381,7 +383,7 @@ extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
                 textView.textColor = .black
             } else {
                 textView.text = textView.tag == 0 ? Constants.namePlaceholderText : Constants.infoPlaceholderText
-                textView.textColor = Colors.dimmedBlack
+                textView.textColor = Constants.dimmedBlack
             }
             return
         }

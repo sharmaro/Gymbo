@@ -17,10 +17,10 @@ struct ExerciseHeaderTableViewCellModel {
 }
 
 class ExerciseHeaderTableViewCell: UITableViewCell {
+    // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
     @IBOutlet private weak var deleteExerciseButton: CustomButton!
-
-    // Exercise title views
+    /// Exercise title views
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var lastLabel: UILabel!
     @IBOutlet private weak var repsLabel: UILabel!
@@ -47,14 +47,20 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     }
 
     weak var exerciseHeaderCellDelegate: ExerciseHeaderCellDelegate?
+}
 
+// MARK: - UITableViewCell Funcs
+extension ExerciseHeaderTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
         setup()
         setupTextFields()
     }
+}
 
+// MARK: - Funcs
+extension ExerciseHeaderTableViewCell {
     private func setup() {
         selectionStyle = .none
 

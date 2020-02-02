@@ -14,12 +14,14 @@ protocol StartSessionButtonDelegate: class {
 }
 
 class StartSessionFooterView: UIView {
+    // MARK: - Properties
     @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var addExerciseButton: CustomButton!
     @IBOutlet private weak var cancelButton: CustomButton!
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
+    // MARK: - UIView Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -29,7 +31,10 @@ class StartSessionFooterView: UIView {
         super.init(coder: coder)
         setup()
     }
+}
 
+// MARK: - Funcs
+extension StartSessionFooterView {
     private func setup() {
         Bundle.main.loadNibNamed(String(describing: StartSessionFooterView.self), owner: self, options: nil)
         addSubview(contentView)

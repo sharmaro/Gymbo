@@ -9,11 +9,7 @@
 import UIKit
 
 class CustomButton: UIButton {
-    private struct Constants {
-        static let dimmedAlpha = CGFloat(0.3)
-        static let normalAlpha = CGFloat(1)
-    }
-
+    // MARK: - Properties
     override var isHighlighted: Bool {
         didSet {
             if isEnabled {
@@ -46,6 +42,8 @@ class CustomButton: UIButton {
         }
     }
 
+
+    // MARK: - UIButton Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -55,7 +53,18 @@ class CustomButton: UIButton {
         super.init(coder: aDecoder)
         setup()
     }
+}
 
+// MARK: - Structs/Enums
+private extension CustomButton {
+    struct Constants {
+        static let dimmedAlpha = CGFloat(0.3)
+        static let normalAlpha = CGFloat(1)
+    }
+}
+
+// MARK: - Funcs
+extension CustomButton {
     private func setup() {
         setTitleColor(titleColor, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)

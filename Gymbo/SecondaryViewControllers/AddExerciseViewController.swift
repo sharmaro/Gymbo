@@ -19,6 +19,7 @@ struct ExerciseText: Codable {
 }
 
 class AddExerciseViewController: UIViewController {
+    // MARK: - Properties
     @IBOutlet private weak var searchTextField: UITextField!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var createExerciseButton: CustomButton!
@@ -38,8 +39,11 @@ class AddExerciseViewController: UIViewController {
     var hideBarButtonItems = false
 
     weak var exerciseListDelegate: ExerciseListDelegate?
+}
 
-    private struct Constants {
+// MARK: - Structs/Enums
+private extension AddExerciseViewController {
+    struct Constants {
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let exerciseCellHeight = CGFloat(62)
@@ -51,7 +55,10 @@ class AddExerciseViewController: UIViewController {
         static let EXERCISE_INFO_KEY = "exerciseInfoKey"
         static let title = "Add Exercise"
     }
+}
 
+// MARK: - UIViewController Funcs
+extension AddExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,7 +76,10 @@ class AddExerciseViewController: UIViewController {
             saveExerciseInfo()
         }
     }
+}
 
+// MARK: - Funcs
+extension AddExerciseViewController {
     private func setupNavigationBar() {
         title = Constants.title
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -250,6 +260,7 @@ class AddExerciseViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension AddExerciseViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if searchResultsExerciseInfoDict.count > 0 {
@@ -267,6 +278,24 @@ extension AddExerciseViewController: UITableViewDataSource {
         return exerciseInfoDict[exerciseGroup]?.count ?? 0
     }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
+        }
+        let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
+        let exerciseGroup = exerciseGroups[indexPath.section]
+
+        var dataModel = ExerciseTableViewCellModel()
+        dataModel.name = dictToUse[exerciseGroup]?[indexPath.row].exerciseName
+        dataModel.muscles = dictToUse[exerciseGroup]?[indexPath.row].exerciseMuscles
+
+        cell.configure(dataModel: dataModel)
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension AddExerciseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Constants.headerHeight
     }
@@ -288,23 +317,6 @@ extension AddExerciseViewController: UITableViewDataSource {
         return containerView
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
-        }
-        let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
-        let exerciseGroup = exerciseGroups[indexPath.section]
-
-        var dataModel = ExerciseTableViewCellModel()
-        dataModel.name = dictToUse[exerciseGroup]?[indexPath.row].exerciseName
-        dataModel.muscles = dictToUse[exerciseGroup]?[indexPath.row].exerciseMuscles
-
-        cell.configure(dataModel: dataModel)
-        return cell
-    }
-}
-
-extension AddExerciseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.exerciseCellHeight
     }
@@ -318,6 +330,7 @@ extension AddExerciseViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - CreateExerciseDelegate
 extension AddExerciseViewController: CreateExerciseDelegate {
     func addExercise(exerciseGroup: String, exerciseText: ExerciseText) {
         if exerciseInfoDict[exerciseGroup] == nil {
@@ -332,6 +345,7 @@ extension AddExerciseViewController: CreateExerciseDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
 extension AddExerciseViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
