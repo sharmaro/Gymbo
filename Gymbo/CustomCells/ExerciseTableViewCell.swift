@@ -9,8 +9,8 @@
 import UIKit
 
 struct ExerciseTableViewCellModel {
-    var name: String? = nil
-    var muscles: String? = nil
+    var name: String?
+    var muscles: String?
 }
 
 class ExerciseTableViewCell: UITableViewCell {
@@ -27,7 +27,7 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - UITableViewCell Funcs
+// MARK: - UITableViewCell Var/Funcs
 extension ExerciseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()

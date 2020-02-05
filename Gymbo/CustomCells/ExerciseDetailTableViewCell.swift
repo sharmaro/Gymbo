@@ -20,15 +20,16 @@ enum TextFieldType: String {
 }
 
 struct ExerciseDetailTableViewCellModel {
-    var sets: String? = nil
-    var last: String? = nil
-    var reps: String? = nil
-    var weight: String? = nil
+    var sets: String?
+    var last: String?
+    var reps: String?
+    var weight: String?
+    var isDoneButtonEnabled = false
 }
 
 class ExerciseDetailTableViewCell: UITableViewCell {
     // MARK: - Properties
-    /// Exercise value labels
+    // Exercise value labels
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var lastLabel: UILabel!
     @IBOutlet private weak var repsTextField: UITextField!
@@ -45,13 +46,13 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    var isExerciseDone = false {
+    private var isExerciseDone = false {
         didSet {
             backgroundColor = isExerciseDone ? .systemGreen : .white
         }
     }
 
-    var isDoneButtonEnabled = false {
+    private var isDoneButtonEnabled = false {
         didSet {
             let image = isDoneButtonEnabled ? UIImage(named: "checkmark") : nil
             doneButton.setImage(image, for: .normal)
@@ -60,7 +61,7 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - UITableViewCell Funcs
+// MARK: - UITableViewCell Var/Funcs
 extension ExerciseDetailTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -99,6 +100,7 @@ extension ExerciseDetailTableViewCell {
         lastLabel.text = dataModel.last
         repsTextField.text = dataModel.reps
         weightTextField.text = dataModel.weight
+        isDoneButtonEnabled = dataModel.isDoneButtonEnabled
     }
 
     @IBAction func doneButtonPressed( _ sender: Any) {

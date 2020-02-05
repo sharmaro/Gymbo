@@ -16,32 +16,39 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         let dimmingView = UIView(frame: containerView.bounds)
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        dimmingView.addGestureRecognizer(
-            UITapGestureRecognizer(target: self, action: #selector(dismiss))
-        )
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(Constants.dimmedAlpha)
+        if !center {
+            dimmingView.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(dismiss))
+            )
+        }
 
         return dimmingView
     }()
 
-    private var modalYOffset: CGFloat = 60
-    var customHeight: CGFloat?
+    private var defaultYOffset = CGFloat(60)
+    var center = false
 
-    // MARK: - UIPresentationController Funcs
+    // MARK: - UIPresentationController Var/Funcs
     override var frameOfPresentedViewInContainerView: CGRect {
         guard let containerView = containerView else {
             return CGRect.zero
         }
 
-        let modalHeight: CGFloat
-        if let height = customHeight {
-            modalHeight = height
-            modalYOffset = containerView.bounds.height - height
-        } else {
-            modalHeight = containerView.bounds.height - modalYOffset
+        if center {
+            let width = containerView.bounds.width - Constants.centerWidthPadding
+            let height = containerView.bounds.height * Constants.centerHeightPadding
+            let size = CGSize(width: width, height: height)
+
+            let x = Constants.centerWidthPadding / 2
+            let y = (containerView.bounds.height - height) / 2
+            let origin = CGPoint(x: x, y: y)
+
+            return CGRect(origin: origin, size: size)
         }
 
-        return CGRect(origin: CGPoint(x: 0, y: modalYOffset), size: CGSize(width: containerView.bounds.width, height: modalHeight))
+        let defaultHeight = containerView.bounds.height - defaultYOffset
+        return CGRect(origin: CGPoint(x: 0, y: defaultYOffset), size: CGSize(width: containerView.bounds.width, height: defaultHeight))
     }
 
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
@@ -57,7 +64,8 @@ final class ModalPresentationController: UIPresentationController {
 
         presentedView?.layer.masksToBounds = true
         presentedView?.layer.cornerRadius = Constants.cornerRadius
-        presentedView?.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        let maskedCorners: CACornerMask = center ? [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        presentedView?.layer.maskedCorners = maskedCorners
     }
 
     override func presentationTransitionWillBegin() {
@@ -71,7 +79,7 @@ final class ModalPresentationController: UIPresentationController {
         container.addSubview(dimmingView)
 
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             self.dimmingView.alpha = 1
@@ -85,7 +93,7 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         coordinator.animate(alongsideTransition: { [weak self] _ -> Void in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             self.dimmingView.alpha = 0
@@ -103,12 +111,15 @@ final class ModalPresentationController: UIPresentationController {
 // MARK: - Structs/Enums
 private extension ModalPresentationController {
     struct Constants {
-        static let animationDuration: TimeInterval = 0.4
-        static let delayDuration: TimeInterval = 0
-        static let dampingDuration: CGFloat = 1
-        static let velocity: CGFloat = 0.7
+        static let animationDuration = TimeInterval(0.4)
+        static let delayDuration = TimeInterval(0)
 
-        static let cornerRadius: CGFloat = 20
+        static let dimmedAlpha = CGFloat(0.8)
+        static let dampingDuration = CGFloat(1)
+        static let velocity = CGFloat(0.7)
+        static let cornerRadius = CGFloat(20)
+        static let centerWidthPadding = CGFloat(80)
+        static let centerHeightPadding = CGFloat(0.7)
     }
 }
 
@@ -124,14 +135,14 @@ extension ModalPresentationController {
 
         switch gestureRecognizer.state {
         case .changed:
-            let offset = location.y + modalYOffset
+            let offset = location.y + defaultYOffset
 
             if offset > frameOfPresentedViewInContainerView.origin.y {
-                presented.frame.origin.y = location.y + modalYOffset
+                presented.frame.origin.y = location.y + defaultYOffset
             }
         case .ended, .cancelled:
             let velocity = gestureRecognizer.velocity(in: view)
-            let maxPresentedY = (container.frame.height - modalYOffset) / 2
+            let maxPresentedY = (container.frame.height - defaultYOffset) / 2
 
             if velocity.y > 600 {
                 presentedViewController.dismiss(animated: true, completion: nil)
@@ -154,7 +165,7 @@ extension ModalPresentationController {
         }
 
         UIView.animate(withDuration: Constants.animationDuration, delay: Constants.delayDuration, usingSpringWithDamping: Constants.dampingDuration, initialSpringVelocity: Constants.velocity, options: .curveEaseInOut, animations: { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin

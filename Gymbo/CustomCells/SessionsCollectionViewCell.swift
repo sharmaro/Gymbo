@@ -13,8 +13,9 @@ protocol SessionsCollectionViewCellDelegate: class {
 }
 
 struct SessionsCollectionViewCellModel {
-    var title: String? = nil
-    var info: String? = nil
+    var title: String?
+    var info: String?
+    var isEditing = false
 }
 
 class SessionsCollectionViewCell: UICollectionViewCell {
@@ -35,7 +36,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
 
     weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
 
-    var isEditing: Bool = false {
+    private var isEditing = false {
         didSet {
             visualEffectView.isHidden = !isEditing
             deleteButton.isHidden = !isEditing
@@ -55,8 +56,31 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - UICollectionViewCell Funcs
+private extension SessionsCollectionViewCell {
+    struct Constants {
+        static let animationTime = TimeInterval(0.2)
+
+        static let transformScale = CGFloat(0.95)
+    }
+
+    enum Transform {
+        case shrink
+        case inflate
+
+        static func caseFromBool(bool: Bool) -> Transform {
+            return bool ? .shrink : .inflate
+        }
+    }
+}
+
+// MARK: - UICollectionViewCell Var/Funcs
 extension SessionsCollectionViewCell {
+    override var isHighlighted: Bool {
+        didSet {
+            transform(condition: Transform.caseFromBool(bool: isHighlighted))
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -87,9 +111,25 @@ extension SessionsCollectionViewCell {
         exercisesInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
     }
 
+    private func transform(condition: Transform) {
+        UIView.animate(withDuration: Constants.animationTime,
+                       delay: 0,
+                       options: [.allowUserInteraction],
+                       animations: { [weak self] in
+            switch condition {
+            case .shrink:
+                self?.transform = CGAffineTransform(scaleX: Constants.transformScale,
+                                                    y: Constants.transformScale)
+            case .inflate:
+                self?.transform = CGAffineTransform.identity
+            }
+        }, completion: nil)
+    }
+
     func configure(dataModel: SessionsCollectionViewCellModel) {
         sessionTitleLabel.text = dataModel.title
         exercisesInfoTextView.text = dataModel.info
+        isEditing = dataModel.isEditing
     }
 
     @IBAction func deleteButtonTapped(_ sender: Any) {

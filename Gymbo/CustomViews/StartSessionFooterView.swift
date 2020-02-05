@@ -21,7 +21,7 @@ class StartSessionFooterView: UIView {
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
-    // MARK: - UIView Funcs
+    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -46,10 +46,12 @@ extension StartSessionFooterView {
 
     private func setupButtons() {
         addExerciseButton.title = "+ Exercise"
+        addExerciseButton.titleFontSize = 15
         addExerciseButton.add(backgroundColor: .systemBlue)
         addExerciseButton.addCornerRadius()
 
         cancelButton.title = "Cancel"
+        cancelButton.titleFontSize = 15
         cancelButton.add(backgroundColor: .systemRed)
         cancelButton.addCornerRadius()
     }

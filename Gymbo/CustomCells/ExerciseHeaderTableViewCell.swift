@@ -13,14 +13,15 @@ protocol ExerciseHeaderCellDelegate: class {
 }
 
 struct ExerciseHeaderTableViewCellModel {
-    var name: String? = nil
+    var name: String?
+    var isDoneButtonImageHidden = false
 }
 
 class ExerciseHeaderTableViewCell: UITableViewCell {
     // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
     @IBOutlet private weak var deleteExerciseButton: CustomButton!
-    /// Exercise title views
+    // Exercise title views
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var lastLabel: UILabel!
     @IBOutlet private weak var repsLabel: UILabel!
@@ -35,7 +36,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    var isDoneButtonImageHidden = false {
+    private var isDoneButtonImageHidden = false {
         didSet {
             let image = isDoneButtonImageHidden ? nil : UIImage(named: "checkmark")
             let text = isDoneButtonImageHidden ? "-" : nil
@@ -49,7 +50,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     weak var exerciseHeaderCellDelegate: ExerciseHeaderCellDelegate?
 }
 
-// MARK: - UITableViewCell Funcs
+// MARK: - UITableViewCell Var/Funcs
 extension ExerciseHeaderTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -81,6 +82,7 @@ extension ExerciseHeaderTableViewCell {
 
     func configure(dataModel: ExerciseHeaderTableViewCellModel) {
         exerciseNameLabel.text = dataModel.name
+        isDoneButtonImageHidden = dataModel.isDoneButtonImageHidden
     }
 
     @IBAction func deleteExerciseButtonTapped(_ sender: Any) {

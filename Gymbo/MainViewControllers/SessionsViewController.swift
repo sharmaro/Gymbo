@@ -6,6 +6,10 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
+protocol SessionFinishedDelegate: class {
+    func reloadData()
+}
+
 protocol SessionDataModelDelegate: class {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>)
     func saveSelectedSession(_ session: Session)
@@ -24,7 +28,7 @@ class SessionsViewController: UIViewController {
         return String(describing: self)
     }
 
-    private let dataModelManager = SessionDataModelManager.shared
+    private let dataModelManager = SessionDataModel.shared
     private var isEditingMode = false
 }
 
@@ -37,7 +41,7 @@ private extension SessionsViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension SessionsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +68,7 @@ extension SessionsViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.keyboardDismissMode = .interactive
+        collectionView.delaysContentTouches = false
         collectionView.register(SessionsCollectionViewCell.nib,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
@@ -77,7 +82,9 @@ extension SessionsViewController {
         navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
 
         if isDataEmpty {
-            navigationItem.leftBarButtonItem?.title = "Edit"
+            isEditingMode = false
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+            navigationItem.leftBarButtonItem?.isEnabled = false
         }
 
         if !isDataEmpty {
@@ -90,7 +97,7 @@ extension SessionsViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType, target: self, action: #selector(editButtonTapped))
         isEditingMode.toggle()
 
-        /// Reloading data so it can toggle the shaking animation.
+        // Reloading data so it can toggle the shaking animation.
         UIView.performWithoutAnimation {
             collectionView.reloadData()
         }
@@ -124,9 +131,10 @@ extension SessionsViewController: UICollectionViewDataSource {
         var dataModel = SessionsCollectionViewCellModel()
         dataModel.title = dataModelManager.getSessionName(forIndex: indexPath.row)
         dataModel.info = dataModelManager.sessionInfoText(forIndex: indexPath.row)
+        dataModel.isEditing = isEditingMode
 
+        cell.contentView.alpha = 1
         cell.configure(dataModel: dataModel)
-        cell.isEditing = isEditingMode
         cell.sessionsCollectionViewCellDelegate = self
         return cell
     }
@@ -208,6 +216,7 @@ extension SessionsViewController: StartSessionDelegate {
         }
 
         startSessionViewController.session = session
+        startSessionViewController.sessionFinishedDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: startSessionViewController)
         if #available(iOS 13.0, *) {
@@ -235,6 +244,13 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
                 self?.refreshMainView()
             }
         }
+    }
+}
+
+// MARK: -
+extension SessionsViewController: SessionFinishedDelegate {
+    func reloadData() {
+        refreshMainView()
     }
 }
 

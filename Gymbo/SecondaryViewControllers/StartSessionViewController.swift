@@ -9,9 +9,8 @@
 import UIKit
 import RealmSwift
 
-protocol DimmedViewDelegate: class {
-    func addDimmedView(animated: Bool)
-    func removeDimmedView(animated: Bool)
+protocol TimeLabelDelegate: class {
+    func updateTimeLabel()
 }
 
 class StartSessionViewController: UIViewController {
@@ -25,6 +24,7 @@ class StartSessionViewController: UIViewController {
     private lazy var finishButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.title = "Finish"
+        button.titleFontSize = 15
         button.add(backgroundColor: .systemGreen)
         button.addCornerRadius()
         button.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
@@ -33,6 +33,7 @@ class StartSessionViewController: UIViewController {
 
     private lazy var timerButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+        button.titleFontSize = 15
         button.add(backgroundColor: .systemBlue)
         button.addCornerRadius()
         button.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
@@ -73,6 +74,10 @@ class StartSessionViewController: UIViewController {
     }
 
     private let realm = try? Realm()
+
+    weak var timeLabelDelegate: TimeLabelDelegate?
+    weak var sessionFinishedDelegate: SessionFinishedDelegate?
+
 }
 
 // MARK: - Structs/Enums
@@ -92,7 +97,7 @@ private extension StartSessionViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension StartSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,7 +169,7 @@ extension StartSessionViewController {
     private func startTimer() {
         sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateSessionTime), userInfo: nil, repeats: true)
         if let timer = sessionTimer {
-            /// Allows it to update the navigation bar title.
+            // Allows it to update the navigation bar title.
             RunLoop.main.add(timer, forMode: .common)
         }
     }
@@ -174,14 +179,21 @@ extension StartSessionViewController {
             return
         }
 
+        timeLabelDelegate = restViewController
+
         restViewController.isTimerActive = restTimer?.isValid ?? false
         restViewController.startSessionTotalRestTime = totalRestTime
         restViewController.startSessionRestTimeRemaining = restTimeRemaining
-        restViewController.dimmedViewDelegate = self
         restViewController.restTimerDelegate = self
-        restViewController.dimmedViewDelegate?.addDimmedView(animated: true)
-        restViewController.modalPresentationStyle = .overCurrentContext
-        present(restViewController, animated: true)
+
+        let modalNavigationController = UINavigationController(rootViewController: restViewController)
+        if #available(iOS 13.0, *) {
+            // No op
+        } else {
+            modalNavigationController.modalPresentationStyle = .custom
+            modalNavigationController.transitioningDelegate = self
+        }
+        present(modalNavigationController, animated: true)
     }
 
     @objc private func finishButtonTapped() {
@@ -202,6 +214,7 @@ extension StartSessionViewController {
                 }
             }
         }
+        sessionFinishedDelegate?.reloadData()
         dismiss(animated: true, completion: nil)
     }
 
@@ -212,6 +225,8 @@ extension StartSessionViewController {
 
     @objc private func updateRestTime() {
         restTimeRemaining -= 1
+        timeLabelDelegate?.updateTimeLabel()
+
         if restTimeRemaining == 0 {
             ended()
         }
@@ -247,9 +262,9 @@ extension StartSessionViewController: UITableViewDataSource {
             if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
                 var dataModel = ExerciseHeaderTableViewCellModel()
                 dataModel.name = session.exercises[indexPath.section].name
+                dataModel.isDoneButtonImageHidden = false
 
                 exerciseHeaderCell.configure(dataModel: dataModel)
-                exerciseHeaderCell.isDoneButtonImageHidden = false
                 exerciseHeaderCell.exerciseHeaderCellDelegate = self
                 return exerciseHeaderCell
             }
@@ -266,9 +281,9 @@ extension StartSessionViewController: UITableViewDataSource {
                 dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
                 dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
                 dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
+                dataModel.isDoneButtonEnabled = true
 
                 exerciseDetailCell.configure(dataModel: dataModel)
-                exerciseDetailCell.isDoneButtonEnabled = true
                 exerciseDetailCell.exerciseDetailCellDelegate = self
                 return exerciseDetailCell
             }
@@ -423,17 +438,6 @@ extension StartSessionViewController: StartSessionButtonDelegate {
     }
 }
 
-// MARK: - DimmedViewDelegate
-extension StartSessionViewController: DimmedViewDelegate {
-    func addDimmedView(animated: Bool) {
-        navigationController?.view.addDimmedView(animated: animated)
-    }
-
-    func removeDimmedView(animated: Bool) {
-        navigationController?.view.removeDimmedView(animated: animated)
-    }
-}
-
 // MARK: - RestTimerDelegate
 extension StartSessionViewController: RestTimerDelegate {
     func started(totalTime: Int) {
@@ -445,7 +449,7 @@ extension StartSessionViewController: RestTimerDelegate {
         restTimer?.invalidate()
         restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateRestTime), userInfo: nil, repeats: true)
         if let timer = sessionTimer {
-            /// Allows it to update the navigation bar title.
+            // Allows it to update the navigation bar title.
             RunLoop.main.add(timer, forMode: .common)
         }
     }
@@ -462,7 +466,16 @@ extension StartSessionViewController: RestTimerDelegate {
         timerButton.removeMovingLayerAnimation()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
 
-        /// In case this timer finishes first.
+        // In case this timer finishes first.
         presentedViewController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+extension StartSessionViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        modalPresentationController.center = true
+        return modalPresentationController
     }
 }

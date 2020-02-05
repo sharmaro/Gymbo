@@ -27,7 +27,7 @@ class AddSetTableViewCell: UITableViewCell {
     weak var addSetTableViewCellDelegate: AddSetTableViewCellDelegate?
 }
 
-// MARK: - UITableViewCell Funcs
+// MARK: - UITableViewCell Var/Funcs
 extension AddSetTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +41,7 @@ extension AddSetTableViewCell {
 // MARK: - Funcs
 extension AddSetTableViewCell {
     private func setupAddSetButton() {
+        addSetButton.titleFontSize = 15
         addSetButton.add(backgroundColor: .lightGray)
         addSetButton.addCornerRadius()
     }

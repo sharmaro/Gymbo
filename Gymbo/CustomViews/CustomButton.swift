@@ -10,27 +10,19 @@ import UIKit
 
 class CustomButton: UIButton {
     // MARK: - Properties
-    override var isHighlighted: Bool {
-        didSet {
-            if isEnabled {
-                alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
-            }
-        }
-    }
-
-    var title: String = "" {
+    var title = "" {
         didSet {
             setTitle(title, for: .normal)
         }
     }
 
-    var titleColor: UIColor = .black {
+    var titleColor = UIColor.black {
         didSet {
             setTitleColor(titleColor, for: .normal)
         }
     }
 
-    var titleFontSize: CGFloat = 15 {
+    var titleFontSize: CGFloat = 18 {
         didSet {
             titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         }
@@ -43,7 +35,15 @@ class CustomButton: UIButton {
     }
 
 
-    // MARK: - UIButton Funcs
+    // MARK: - UIButton Var/Funcs
+    override var isHighlighted: Bool {
+        didSet {
+            if isEnabled {
+                alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
+            }
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -69,6 +69,21 @@ extension CustomButton {
         setTitleColor(titleColor, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
+
+        addTarget(self, action: #selector(shrink), for: [.touchDown, .touchDragEnter, .touchDragInside])
+        addTarget(self, action: #selector(inflate), for: [.touchUpInside, .touchUpOutside, .touchDragExit, .touchCancel])
+    }
+
+    @objc private func shrink() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }
+    }
+
+    @objc private func inflate() {
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            self?.transform = CGAffineTransform.identity
+        }
     }
 
     func addCornerRadius(_ radius: CGFloat? = nil) {
@@ -82,13 +97,25 @@ extension CustomButton {
         self.titleColor = textColor
     }
 
-    func makeUninteractable() {
+    func makeUninteractable(animated: Bool = false) {
+        if animated {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.alpha = Constants.dimmedAlpha
+            }
+        } else {
+            alpha = Constants.dimmedAlpha
+        }
         isEnabled = false
-        alpha = Constants.dimmedAlpha
     }
 
-    func makeInteractable() {
+    func makeInteractable(animated: Bool = false) {
+        if animated {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.alpha = Constants.normalAlpha
+            }
+        } else {
+            alpha = Constants.normalAlpha
+        }
         isEnabled = true
-        alpha = Constants.normalAlpha
     }
 }

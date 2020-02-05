@@ -16,13 +16,11 @@ protocol RestTimerDelegate: class {
 
 class RestViewController: UIViewController {
     // MARK: - Properties
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var topContainerView: UIView!
-    @IBOutlet weak var restLabel: UILabel!
-    @IBOutlet weak var restTimesPickerView: UIPickerView!
-    @IBOutlet weak var animationProgressContainerView: UIView!
-    @IBOutlet weak var mainButton: CustomButton!
+    @IBOutlet private weak var topContainerView: UIView!
+    @IBOutlet private weak var restLabel: UILabel!
+    @IBOutlet private weak var restTimesPickerView: UIPickerView!
+    @IBOutlet private weak var animationProgressContainerView: UIView!
+    @IBOutlet private weak var mainButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
@@ -37,6 +35,7 @@ class RestViewController: UIViewController {
 
         let button = CustomButton(frame: .zero)
         button.title = "+ 5s"
+        button.titleFontSize = 15
         button.add(backgroundColor: .systemGray)
         button.addCornerRadius()
         button.isHidden = true
@@ -58,6 +57,7 @@ class RestViewController: UIViewController {
 
         let button = CustomButton(frame: .zero)
         button.title = "- 5s"
+        button.titleFontSize = 15
         button.add(backgroundColor: .systemGray)
         button.addCornerRadius()
         button.isHidden = true
@@ -81,7 +81,6 @@ class RestViewController: UIViewController {
         }
     }
 
-    private var timer: Timer?
     private var restTimes = [String]()
 
     var isTimerActive = false
@@ -100,7 +99,6 @@ class RestViewController: UIViewController {
         }
     }
 
-    weak var dimmedViewDelegate: DimmedViewDelegate?
     weak var restTimerDelegate: RestTimerDelegate?
 }
 
@@ -108,6 +106,8 @@ class RestViewController: UIViewController {
 private extension RestViewController {
     struct Constants {
         static let timeDelta = 5
+
+        static let title = "Rest"
     }
 
     enum MainButtonState: String {
@@ -129,36 +129,29 @@ private extension RestViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension RestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationBar.prefersLargeTitles = false
-
-        setupContainerView()
+        setupNavigationBar()
         createPickerViewData()
         setupPickerView()
         setupMainButton()
         animationProgressContainerView.insertSubview(circleProgressView, belowSubview: restTimesPickerView)
 
         if isTimerActive {
-            mainButton.sendActions(for: .touchUpInside)
+            mainButtonInteraction()
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        timer?.invalidate()
-        dimmedViewDelegate?.removeDimmedView(animated: true)
     }
 }
 
 // MARK: - Funcs
 extension RestViewController {
-    private func setupContainerView() {
-        containerView.layer.cornerRadius = 20
-        containerView.clipsToBounds = true
+    private func setupNavigationBar() {
+        title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
     }
 
     private func createPickerViewData() {
@@ -188,24 +181,7 @@ extension RestViewController {
         removeTimeButton.isHidden.toggle()
     }
 
-    @objc private func updateTimeLabel() {
-        restTimeRemaining -= 1
-
-        if restTimeRemaining <= 0 {
-            /// Do other clean up here
-            /// Special alert for finishing
-            timer?.invalidate()
-            restTimerDelegate?.ended()
-            circleProgressView.stopAnimation()
-            dismiss(animated: true)
-        }
-    }
-
-    @IBAction func dismissButtonTapped(_ sender: Any) {
-        dismiss(animated: true)
-    }
-
-    @IBAction func mainButtonTapped(_ sender: Any) {
+    private func mainButtonInteraction() {
         switch mainButtonState {
         case .startTimer:
             showHideCustomViews()
@@ -223,16 +199,16 @@ extension RestViewController {
                 circleProgressView.startAnimation(duration: restTimeRemaining)
                 restTimerDelegate?.started(totalTime: restTimeRemaining)
             }
-
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
-
             mainButtonState = .done
         case .done:
             circleProgressView.stopAnimation()
             restTimerDelegate?.ended()
             dismiss(animated: true)
         }
+    }
+
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true)
     }
 
     @objc private func addTimeButtonTapped() {
@@ -252,11 +228,14 @@ extension RestViewController {
         restTimerDelegate?.timeUpdated(totalTime: totalRestTime, timeRemaining: restTimeRemaining)
 
         if restTimeRemaining <= 0 {
-            timer?.invalidate()
             restTimerDelegate?.ended()
             circleProgressView.stopAnimation()
             dismiss(animated: true)
         }
+    }
+
+    @IBAction func mainButtonTapped(_ sender: Any) {
+        mainButtonInteraction()
     }
 }
 
@@ -285,11 +264,26 @@ extension RestViewController: UIPickerViewDelegate {
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center
-        pickerLabel.font = UIFont.systemFont(ofSize: 18)
+        pickerLabel.font = UIFont.systemFont(ofSize: 30)
         return pickerLabel
     }
 
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 25
+        return 40
+    }
+}
+
+// MARK: - TempDelegate
+extension RestViewController: TimeLabelDelegate {
+    // Using StartSessionViewController's timer to update the time in this presented view controller
+    func updateTimeLabel() {
+        restTimeRemaining -= 1
+        if restTimeRemaining <= 0 {
+            // Do other clean up here
+            // Special alert for finishing
+            restTimerDelegate?.ended()
+            circleProgressView.stopAnimation()
+            dismiss(animated: true)
+        }
     }
 }

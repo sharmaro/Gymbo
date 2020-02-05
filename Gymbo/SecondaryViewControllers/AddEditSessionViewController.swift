@@ -60,7 +60,7 @@ private extension AddEditSessionViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension AddEditSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -177,9 +177,9 @@ extension AddEditSessionViewController: UITableViewDataSource {
             if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
                 var dataModel = ExerciseHeaderTableViewCellModel()
                 dataModel.name = session.exercises[indexPath.section].name
+                dataModel.isDoneButtonImageHidden = true
 
                 exerciseHeaderCell.configure(dataModel: dataModel)
-                exerciseHeaderCell.isDoneButtonImageHidden = true
                 exerciseHeaderCell.exerciseHeaderCellDelegate = self
                 return exerciseHeaderCell
             }
@@ -196,9 +196,9 @@ extension AddEditSessionViewController: UITableViewDataSource {
                 dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
                 dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
                 dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
+                dataModel.isDoneButtonEnabled = false
 
                 exerciseDetailCell.configure(dataModel: dataModel)
-                exerciseDetailCell.isDoneButtonEnabled = false
                 exerciseDetailCell.exerciseDetailCellDelegate = self
                 return exerciseDetailCell
             }
@@ -374,8 +374,8 @@ extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            let name: String? = session.name
-            let info: String? = session.info
+            let name = session.name
+            let info = session.info
             let textInfo = [name, info]
 
             if let text = textInfo[textView.tag] {

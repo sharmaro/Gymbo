@@ -22,19 +22,14 @@ class AddExerciseViewController: UIViewController {
     // MARK: - Properties
     @IBOutlet private weak var searchTextField: UITextField!
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var createExerciseButton: CustomButton!
+    @IBOutlet private weak var addExerciseButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
     }
 
-    private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
-                                 "Hips", "Legs", "Shoulders", "Extra Exercises"]
-    private var exerciseInfoDict = [String: [ExerciseText]]()
-    // Used to store the filtered results based on user search
-    private var searchResultsExerciseInfoDict = [String: [ExerciseText]]()
-
     private var selectedExercises = [ExerciseText]()
+    private var exerciseDataModel = ExerciseDataModel.shared
 
     var hideBarButtonItems = false
 
@@ -49,24 +44,20 @@ private extension AddExerciseViewController {
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
         static let headerFontSize = CGFloat(20)
-        static let activeAlpha = CGFloat(1.0)
-        static let inactiveAlpha = CGFloat(0.3)
 
-        static let EXERCISE_INFO_KEY = "exerciseInfoKey"
         static let title = "Add Exercise"
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension AddExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
-        setupExerciseInfo()
         setupSearchTextField()
         setupTableView()
-        setupCreatExerciseButton()
+        setupAddExerciseButton()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,44 +76,8 @@ extension AddExerciseViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         if !hideBarButtonItems {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonTapped))
-            navigationItem.rightBarButtonItem?.isEnabled = false
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
         }
-    }
-
-    private func setupExerciseInfo() {
-        if let exerciseDict = loadExerciseInfo() {
-            exerciseInfoDict = exerciseDict
-        } else {
-            for group in exerciseGroups {
-                do {
-                    guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
-                        let content = try? String(contentsOfFile: filePath) else {
-                            print("Error while opening file: \(group).txt.")
-                            return
-                    }
-                    let exercises = content.components(separatedBy: "\n")
-                    for exercise in exercises {
-                        // Prevents reading the empty line at EOF
-                        if exercise.count > 0 {
-                            let exerciseSplitList = exercise.split(separator: ":")
-                            let exerciseName = String(exerciseSplitList[0])
-                            let exerciseMuscles =  String(exerciseSplitList[1])
-                            let exerciseText = ExerciseText(exerciseName: exerciseName,
-                                                            exerciseMuscles: exerciseMuscles,
-                                                            isUserMade: false)
-                            if exerciseInfoDict[group] == nil {
-                                exerciseInfoDict[group] = [exerciseText]
-                            } else {
-                                exerciseInfoDict[group]?.append(exerciseText)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        saveExerciseInfo()
-        tableView.reloadData()
     }
 
     private func setupSearchTextField() {
@@ -131,6 +86,7 @@ extension AddExerciseViewController {
         searchTextField.layer.borderColor = UIColor.black.cgColor
         searchTextField.borderStyle = .none
         searchTextField.leftViewMode = .always
+        searchTextField.returnKeyType = .done
         searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         let searchImageContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 28, height: 16)))
@@ -151,22 +107,12 @@ extension AddExerciseViewController {
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
-    private func setupCreatExerciseButton() {
-        createExerciseButton.title = "Create New Exercise"
-        createExerciseButton.titleLabel?.textAlignment = .center
-        createExerciseButton.add(backgroundColor: .systemBlue)
-        createExerciseButton.addCornerRadius()
-    }
-
-    private func loadExerciseInfo() -> [String: [ExerciseText]]? {
-        let defaults = UserDefaults.standard
-        let decoder = JSONDecoder()
-
-        guard let data = defaults.data(forKey: Constants.EXERCISE_INFO_KEY),
-            let exerciseDict = try? decoder.decode(Dictionary<String, [ExerciseText]>.self, from: data) else {
-            return nil
-        }
-        return exerciseDict
+    private func setupAddExerciseButton() {
+        addExerciseButton.title = "Add"
+        addExerciseButton.titleLabel?.textAlignment = .center
+        addExerciseButton.add(backgroundColor: .systemBlue)
+        addExerciseButton.addCornerRadius()
+        addExerciseButton.makeUninteractable()
     }
 
     private func saveExerciseInfo() {
@@ -177,72 +123,36 @@ extension AddExerciseViewController {
 
         var selectedExercises = [ExerciseText]()
         for indexPath in indexPaths {
-            guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section) else {
+            guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section),
+                let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
                 break
             }
-            let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
-            if let exerciseText = dictToUse[exerciseGroups[indexPath.section]]?[indexPath.row] {
-                selectedExercises.append(exerciseText)
-            }
+            let exerciseText = exerciseDataModel.exerciseText(for: group, for: indexPath.row)
+            selectedExercises.append(exerciseText)
         }
         exerciseListDelegate?.updateExerciseList(selectedExercises)
-
-        let defaults = UserDefaults.standard
-        let encoder = JSONEncoder()
-
-        if let encodedData = try? encoder.encode(exerciseInfoDict) {
-            defaults.set(encodedData, forKey: Constants.EXERCISE_INFO_KEY)
-        }
     }
 
     private func updateAddButtonTitle() {
-        guard !hideBarButtonItems else {
-            return
-        }
-
         var title = ""
         let isEnabled: Bool
-        let alpha: CGFloat
+
         if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
             title = "Add (\(indexPaths.count))"
             isEnabled = true
-            alpha = Constants.activeAlpha
         } else {
             title = "Add"
             isEnabled = false
-            alpha = Constants.inactiveAlpha
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem?.isEnabled = isEnabled
-        navigationItem.rightBarButtonItem?.customView?.alpha = alpha
+        isEnabled ? addExerciseButton.makeInteractable() : addExerciseButton.makeUninteractable()
+        addExerciseButton.title = title
     }
 
     @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func addButtonTapped() {
-        saveExerciseInfo()
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let changedText = textField.text?.lowercased(),
-            changedText.count > 0 else {
-                searchResultsExerciseInfoDict.removeAll()
-                tableView.reloadData()
-                return
-        }
-
-        exerciseInfoDict.forEach {
-            searchResultsExerciseInfoDict[$0.key] = $0.value.filter {
-                ($0.exerciseName ?? "").lowercased().contains(changedText)
-            }
-        }
-        tableView.reloadData()
-    }
-
-    @IBAction func createExerciseButtonTapped(_ sender: Any) {
+    @objc private func createExerciseButtonTapped() {
         guard let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: CreateExerciseViewController.id) as? CreateExerciseViewController else {
             return
         }
@@ -258,38 +168,47 @@ extension AddExerciseViewController {
         createExerciseVC.createExerciseDelegate = self
         present(modalNavigationController, animated: true, completion: nil)
     }
+
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if textField.text == "\n" {
+            textField.resignFirstResponder()
+        }
+
+        guard let filter = textField.text?.lowercased(),
+            filter.count > 0 else {
+                exerciseDataModel.removeSearchedResults()
+                tableView.reloadData()
+                return
+        }
+
+        exerciseDataModel.filterResults(filter: filter)
+        tableView.reloadData()
+    }
+
+    @IBAction func addButtonTapped(_ sender: Any) {
+        saveExerciseInfo()
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension AddExerciseViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if searchResultsExerciseInfoDict.count > 0 {
-            return searchResultsExerciseInfoDict.count
-        }
-        return exerciseInfoDict.count
+        return exerciseDataModel.numberOfSections()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let exerciseGroup = exerciseGroups[section]
-        if searchResultsExerciseInfoDict.count > 0 {
-            return searchResultsExerciseInfoDict[exerciseGroup]?.count ?? 0
-        }
-
-        return exerciseInfoDict[exerciseGroup]?.count ?? 0
+        return exerciseDataModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell,
+            let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
         }
-        let dictToUse = searchResultsExerciseInfoDict.count > 0 ? searchResultsExerciseInfoDict : exerciseInfoDict
-        let exerciseGroup = exerciseGroups[indexPath.section]
 
-        var dataModel = ExerciseTableViewCellModel()
-        dataModel.name = dictToUse[exerciseGroup]?[indexPath.row].exerciseName
-        dataModel.muscles = dictToUse[exerciseGroup]?[indexPath.row].exerciseMuscles
-
-        cell.configure(dataModel: dataModel)
+        let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
+        cell.configure(dataModel: exerciseTableViewCellModel)
         return cell
     }
 }
@@ -301,11 +220,14 @@ extension AddExerciseViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let exerciseGroup = exerciseDataModel.exerciseGroup(for: section) else {
+            fatalError("exerciseDataModel.exerciseGroup is nil ")
+        }
         let containerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.headerHeight)))
         containerView.backgroundColor = tableView.numberOfRows(inSection: section) > 0 ? .black : .darkGray
 
         let titleLabel = UILabel()
-        titleLabel.text = exerciseGroups[section]
+        titleLabel.text = exerciseGroup
         titleLabel.textAlignment = .left
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: Constants.headerFontSize)
@@ -332,15 +254,8 @@ extension AddExerciseViewController: UITableViewDelegate {
 
 // MARK: - CreateExerciseDelegate
 extension AddExerciseViewController: CreateExerciseDelegate {
-    func addExercise(exerciseGroup: String, exerciseText: ExerciseText) {
-        if exerciseInfoDict[exerciseGroup] == nil {
-            exerciseInfoDict[exerciseGroup] = [exerciseText]
-        } else {
-            exerciseInfoDict[exerciseGroup]?.append(exerciseText)
-            exerciseInfoDict[exerciseGroup]?.sort {
-                return ($0.exerciseName ?? "").lowercased() < ($1.exerciseName ?? "").lowercased()
-            }
-        }
+    func addCreatedExercise(exerciseGroup: String, exerciseText: ExerciseText) {
+        exerciseDataModel.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
         tableView.reloadData()
     }
 }

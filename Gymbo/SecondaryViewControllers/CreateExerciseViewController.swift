@@ -7,7 +7,7 @@
 //
 
 protocol CreateExerciseDelegate: class {
-    func addExercise(exerciseGroup: String, exerciseText: ExerciseText)
+    func addCreatedExercise(exerciseGroup: String, exerciseText: ExerciseText)
 }
 
 import UIKit
@@ -41,7 +41,7 @@ private extension CreateExerciseViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension CreateExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,7 @@ extension CreateExerciseViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        /// Only allow adding if both text fields are filled
+        // Only allow adding if both text fields are filled
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
@@ -102,7 +102,7 @@ extension CreateExerciseViewController {
         let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
         let exerciseGroup = exerciseGroups[selectedPickerRow]
         let exerciseText = ExerciseText(exerciseName: exerciseNameTextField.text, exerciseMuscles: exerciseMusclesTextField.text, isUserMade: true)
-        createExerciseDelegate?.addExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
+        createExerciseDelegate?.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
 
         dismiss(animated: true, completion: nil)
     }

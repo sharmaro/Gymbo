@@ -15,8 +15,8 @@ protocol SessionHeaderTextViewsDelegate: class {
 }
 
 struct SessionHeaderViewModel {
-    var name: String? = nil
-    var info: String? = nil
+    var name: String?
+    var info: String?
     var textColor = UIColor.black
 }
 
@@ -49,7 +49,7 @@ class SessionHeaderView: UIView {
 
     weak var sessionHeaderTextViewsDelegate: SessionHeaderTextViewsDelegate?
 
-    // MARK: - UIView Funcs
+    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()

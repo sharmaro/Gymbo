@@ -42,7 +42,7 @@ class SessionPreviewViewController: UIViewController {
     var session: Session?
     var exerciseInfoList: [ExerciseInfo]?
 
-    private let dataModelManager = SessionDataModelManager.shared
+    private let dataModelManager = SessionDataModel.shared
 
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
     weak var startSessionDelegate: StartSessionDelegate?
@@ -61,7 +61,7 @@ private extension SessionPreviewViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension SessionPreviewViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

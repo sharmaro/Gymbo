@@ -37,7 +37,7 @@ class CircleProgressView: UIView {
         }
     }
 
-    // MARK: - UIView Funcs
+    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -78,10 +78,8 @@ extension CircleProgressView {
 
     private func createCircleProgressBar() {
         let circleSize = CGSize(width: bounds.width, height: bounds.height)
-        let halfCenter = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-        let viewCenter = CGPoint(x: halfCenter.x - circleSize.width / 2, y: halfCenter.y - circleSize.height / 2)
 
-        circleView = UIView(frame: CGRect(origin: viewCenter, size: circleSize))
+        circleView = UIView(frame: CGRect(origin: .zero, size: circleSize))
         circleView.backgroundColor = .clear
         addSubview(circleView)
 

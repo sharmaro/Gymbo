@@ -25,19 +25,19 @@ class StopwatchViewController: UIViewController {
     private var stopwatchState = StopwatchState.stopped
     private var timer: Timer?
 
-    private var centiSecInt: Int = 0 {
+    private var centiSecInt = 0 {
         didSet {
             centiSecondLabel.text = String(format: "%02d", centiSecInt)
         }
     }
 
-    private var secInt: Int = 0 {
+    private var secInt = 0 {
         didSet {
             secondLabel.text = String(format: "%02d", secInt)
         }
     }
 
-    private var minInt: Int = 0 {
+    private var minInt = 0 {
         didSet {
             minuteLabel.text = String(format: "%02d", minInt)
         }
@@ -62,7 +62,7 @@ private extension StopwatchViewController {
     }
 }
 
-// MARK: - UIViewController Funcs
+// MARK: - UIViewController Var/Funcs
 extension StopwatchViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,20 +102,20 @@ extension StopwatchViewController {
         resetButton.makeUninteractable()
     }
 
-    private func updateStopWatchButtons() {
+    private func updateStopWatchButtons(animated: Bool) {
         switch stopwatchState {
         case .started:
-            startButton.makeUninteractable()
-            stopButton.makeInteractable()
-            resetButton.makeUninteractable()
+            startButton.makeUninteractable(animated: animated)
+            stopButton.makeInteractable(animated: animated)
+            resetButton.makeUninteractable(animated: animated)
         case .stopped:
-            startButton.makeInteractable()
-            stopButton.makeUninteractable()
-            resetButton.makeInteractable()
+            startButton.makeInteractable(animated: animated)
+            stopButton.makeUninteractable(animated: animated)
+            resetButton.makeInteractable(animated: animated)
         case .reset:
-            startButton.makeInteractable()
-            stopButton.makeUninteractable()
-            resetButton.makeUninteractable()
+            startButton.makeInteractable(animated: animated)
+            stopButton.makeUninteractable(animated: animated)
+            resetButton.makeUninteractable(animated: animated)
         }
         updateStopWatchContent()
     }
@@ -157,7 +157,7 @@ extension StopwatchViewController {
             secInt = totalSeconds % 60
             minInt = totalSeconds / 60
         }
-        updateStopWatchButtons()
+        updateStopWatchButtons(animated: false)
     }
 
     @objc private func updateTimeLabels() {
@@ -205,7 +205,7 @@ extension StopwatchViewController {
             default:
                 fatalError("Unrecognized tag in stopWatchButtonPressed")
             }
-            updateStopWatchButtons()
+            updateStopWatchButtons(animated: true)
         }
     }
 }

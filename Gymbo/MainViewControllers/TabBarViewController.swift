@@ -15,7 +15,7 @@ class TabBarController: UITabBarController {
     }
 }
 
-// MARK: - UITabBarController Funcs
+// MARK: - UITabBarController Var/Funcs
 extension TabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -294,109 +295,82 @@
             <objects>
                 <viewController restorationIdentifier="RestViewController" storyboardIdentifier="RestViewController" id="4f9-rU-SxP" customClass="RestViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0q8-5C-b0r">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJS-6j-Gkf">
-                                <rect key="frame" x="40" y="112" width="334" height="672"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vv6-3U-2Gm">
+                                <rect key="frame" x="0.0" y="20" width="414" height="45"/>
                                 <subviews>
-                                    <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Afn-Sh-JFM">
-                                        <rect key="frame" x="0.0" y="0.0" width="334" height="44"/>
-                                        <items>
-                                            <navigationItem title="Rest" id="FGM-95-5zT">
-                                                <barButtonItem key="leftBarButtonItem" systemItem="stop" id="4pc-9B-eSK">
-                                                    <connections>
-                                                        <action selector="dismissButtonTapped:" destination="4f9-rU-SxP" id="ggF-Va-fZh"/>
-                                                    </connections>
-                                                </barButtonItem>
-                                            </navigationItem>
-                                        </items>
-                                    </navigationBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MaY-gy-xUp">
-                                        <rect key="frame" x="20" y="64" width="294" height="588"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RrM-SA-7B9">
-                                                <rect key="frame" x="0.0" y="0.0" width="294" height="45"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set a rest timer." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kp4-Yb-nsF">
-                                                        <rect key="frame" x="0.0" y="0.0" width="294" height="45"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="kp4-Yb-nsF" firstAttribute="top" secondItem="RrM-SA-7B9" secondAttribute="top" id="09o-mj-c8V"/>
-                                                    <constraint firstAttribute="trailing" secondItem="kp4-Yb-nsF" secondAttribute="trailing" id="8gE-RX-EEd"/>
-                                                    <constraint firstAttribute="height" constant="45" id="KYb-i2-B4l"/>
-                                                    <constraint firstItem="kp4-Yb-nsF" firstAttribute="leading" secondItem="RrM-SA-7B9" secondAttribute="leading" id="XHV-ZU-xRU"/>
-                                                    <constraint firstAttribute="bottom" secondItem="kp4-Yb-nsF" secondAttribute="bottom" id="XsW-UI-PXD"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nF-8c-tGS">
-                                                <rect key="frame" x="22" y="169" width="250" height="250"/>
-                                                <subviews>
-                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-CN-cPk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
-                                                    </pickerView>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="pa4-CN-cPk" firstAttribute="top" secondItem="9nF-8c-tGS" secondAttribute="top" id="6iC-g4-2wX"/>
-                                                    <constraint firstAttribute="width" constant="250" id="9ra-vg-tr3"/>
-                                                    <constraint firstAttribute="trailing" secondItem="pa4-CN-cPk" secondAttribute="trailing" id="ZTd-nV-H3A"/>
-                                                    <constraint firstItem="pa4-CN-cPk" firstAttribute="leading" secondItem="9nF-8c-tGS" secondAttribute="leading" id="dfW-bt-dEH"/>
-                                                    <constraint firstAttribute="bottom" secondItem="pa4-CN-cPk" secondAttribute="bottom" id="p8m-SV-jff"/>
-                                                    <constraint firstAttribute="height" constant="250" id="rH0-hb-IOA"/>
-                                                </constraints>
-                                            </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtF-ny-D4w" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="543" width="294" height="45"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="45" id="Jns-FE-8fD"/>
-                                                </constraints>
-                                                <state key="normal" title="Button"/>
-                                                <connections>
-                                                    <action selector="mainButtonTapped:" destination="4f9-rU-SxP" eventType="touchUpInside" id="8aI-Mh-ZLR"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="RrM-SA-7B9" secondAttribute="trailing" id="29n-V2-Js9"/>
-                                            <constraint firstItem="RrM-SA-7B9" firstAttribute="leading" secondItem="MaY-gy-xUp" secondAttribute="leading" id="AVD-LT-tdC"/>
-                                            <constraint firstItem="QtF-ny-D4w" firstAttribute="width" secondItem="MaY-gy-xUp" secondAttribute="width" id="PU2-Xs-Z7n"/>
-                                        </constraints>
-                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a time below to rest!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kp4-Yb-nsF">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="MaY-gy-xUp" firstAttribute="top" secondItem="Afn-Sh-JFM" secondAttribute="bottom" constant="20" id="18v-D4-uz7"/>
-                                    <constraint firstAttribute="bottom" secondItem="MaY-gy-xUp" secondAttribute="bottom" constant="20" id="NxX-WB-2gp"/>
-                                    <constraint firstItem="MaY-gy-xUp" firstAttribute="leading" secondItem="aJS-6j-Gkf" secondAttribute="leading" constant="20" id="RUn-Ka-6vy"/>
-                                    <constraint firstAttribute="trailing" secondItem="MaY-gy-xUp" secondAttribute="trailing" constant="20" id="SU4-vM-bPN"/>
-                                    <constraint firstAttribute="trailing" secondItem="Afn-Sh-JFM" secondAttribute="trailing" id="Sev-P9-zR7"/>
-                                    <constraint firstItem="Afn-Sh-JFM" firstAttribute="top" secondItem="aJS-6j-Gkf" secondAttribute="top" symbolic="YES" id="p2O-8R-8M0"/>
-                                    <constraint firstItem="Afn-Sh-JFM" firstAttribute="leading" secondItem="aJS-6j-Gkf" secondAttribute="leading" symbolic="YES" id="sMs-QC-LRc"/>
+                                    <constraint firstAttribute="height" constant="45" id="WDQ-90-lxQ"/>
+                                    <constraint firstItem="kp4-Yb-nsF" firstAttribute="leading" secondItem="vv6-3U-2Gm" secondAttribute="leading" id="Zhp-9r-yKk"/>
+                                    <constraint firstAttribute="trailing" secondItem="kp4-Yb-nsF" secondAttribute="trailing" id="uBa-CP-hfC"/>
+                                    <constraint firstAttribute="bottom" secondItem="kp4-Yb-nsF" secondAttribute="bottom" id="wyf-Jn-XQo"/>
+                                    <constraint firstItem="kp4-Yb-nsF" firstAttribute="top" secondItem="vv6-3U-2Gm" secondAttribute="top" id="zSZ-Ix-VK1"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MaY-gy-xUp">
+                                <rect key="frame" x="59.666666666666657" y="256.66666666666669" width="295" height="295.00000000000006"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nF-8c-tGS">
+                                        <rect key="frame" x="0.0" y="0.0" width="295" height="295"/>
+                                        <subviews>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pa4-CN-cPk">
+                                                <rect key="frame" x="0.0" y="0.0" width="295" height="295"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="pa4-CN-cPk" firstAttribute="top" secondItem="9nF-8c-tGS" secondAttribute="top" id="6iC-g4-2wX"/>
+                                            <constraint firstAttribute="width" constant="295" id="U8v-3Q-seV"/>
+                                            <constraint firstAttribute="trailing" secondItem="pa4-CN-cPk" secondAttribute="trailing" id="ZTd-nV-H3A"/>
+                                            <constraint firstItem="pa4-CN-cPk" firstAttribute="leading" secondItem="9nF-8c-tGS" secondAttribute="leading" id="dfW-bt-dEH"/>
+                                            <constraint firstAttribute="width" secondItem="9nF-8c-tGS" secondAttribute="height" multiplier="1:1" id="iT2-F9-pzX"/>
+                                            <constraint firstAttribute="bottom" secondItem="pa4-CN-cPk" secondAttribute="bottom" id="p8m-SV-jff"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtF-ny-D4w" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="743" width="374" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="Jns-FE-8fD"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="mainButtonTapped:" destination="4f9-rU-SxP" eventType="touchUpInside" id="8aI-Mh-ZLR"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="aJS-6j-Gkf" firstAttribute="centerY" secondItem="0q8-5C-b0r" secondAttribute="centerY" id="0Wg-uZ-oid"/>
-                            <constraint firstItem="aJS-6j-Gkf" firstAttribute="height" secondItem="0q8-5C-b0r" secondAttribute="height" multiplier="0.75" id="UI8-ks-Rqo"/>
-                            <constraint firstItem="OM4-vh-eIY" firstAttribute="trailing" secondItem="aJS-6j-Gkf" secondAttribute="trailing" constant="40" id="Xef-k7-hDG"/>
-                            <constraint firstItem="aJS-6j-Gkf" firstAttribute="leading" secondItem="OM4-vh-eIY" secondAttribute="leading" constant="40" id="rJg-1p-7c6"/>
+                            <constraint firstItem="vv6-3U-2Gm" firstAttribute="trailing" secondItem="OM4-vh-eIY" secondAttribute="trailing" id="1fA-yy-paC"/>
+                            <constraint firstItem="MaY-gy-xUp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vv6-3U-2Gm" secondAttribute="bottom" constant="5" id="563-cs-F0Q"/>
+                            <constraint firstItem="QtF-ny-D4w" firstAttribute="leading" secondItem="0q8-5C-b0r" secondAttribute="leading" constant="20" id="FeV-JL-t9b"/>
+                            <constraint firstItem="MaY-gy-xUp" firstAttribute="centerX" secondItem="0q8-5C-b0r" secondAttribute="centerX" id="MRo-dy-4Kb"/>
+                            <constraint firstItem="MaY-gy-xUp" firstAttribute="centerY" secondItem="0q8-5C-b0r" secondAttribute="centerY" id="PU7-db-rPJ"/>
+                            <constraint firstItem="OM4-vh-eIY" firstAttribute="trailing" secondItem="QtF-ny-D4w" secondAttribute="trailing" constant="20" id="SMM-HD-W21"/>
+                            <constraint firstAttribute="bottom" secondItem="QtF-ny-D4w" secondAttribute="bottom" constant="20" id="btN-uL-5RR"/>
+                            <constraint firstItem="vv6-3U-2Gm" firstAttribute="leading" secondItem="OM4-vh-eIY" secondAttribute="leading" id="eTO-aE-fyR"/>
+                            <constraint firstItem="QtF-ny-D4w" firstAttribute="top" relation="greaterThanOrEqual" secondItem="MaY-gy-xUp" secondAttribute="bottom" constant="5" id="lKh-D9-WrA"/>
+                            <constraint firstItem="vv6-3U-2Gm" firstAttribute="top" secondItem="OM4-vh-eIY" secondAttribute="top" constant="20" id="sfa-ZT-Bl5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OM4-vh-eIY"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="animationProgressContainerView" destination="9nF-8c-tGS" id="1Tg-bY-7gz"/>
-                        <outlet property="containerView" destination="aJS-6j-Gkf" id="dZ4-0v-Fv6"/>
                         <outlet property="mainButton" destination="QtF-ny-D4w" id="xrQ-YK-U3T"/>
-                        <outlet property="navigationBar" destination="Afn-Sh-JFM" id="PpE-rV-3a9"/>
                         <outlet property="restLabel" destination="kp4-Yb-nsF" id="lsK-GK-vku"/>
                         <outlet property="restTimesPickerView" destination="pa4-CN-cPk" id="yqy-eH-bkc"/>
-                        <outlet property="topContainerView" destination="RrM-SA-7B9" id="LN4-Kr-ecV"/>
+                        <outlet property="topContainerView" destination="vv6-3U-2Gm" id="7R6-ev-QSP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ikl-f8-QV7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -452,11 +426,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-YC-PdZ">
-                                <rect key="frame" x="0.0" y="50" width="414" height="659"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="648"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HH5-KY-t9x" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="30" y="729" width="354" height="45"/>
+                                <rect key="frame" x="30" y="718" width="354" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="ERt-bo-Ani"/>
                                 </constraints>
@@ -464,14 +438,14 @@
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="createExerciseButtonTapped:" destination="Ucj-pt-22p" eventType="touchUpInside" id="WBh-0u-6jH"/>
+                                    <action selector="addButtonTapped:" destination="Ucj-pt-22p" eventType="touchUpInside" id="WBh-0u-6jH"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="l3u-YC-PdZ" firstAttribute="top" secondItem="jD5-cl-Ujq" secondAttribute="bottom" constant="20" id="3kO-lu-5nJ"/>
-                            <constraint firstAttribute="bottom" secondItem="HH5-KY-t9x" secondAttribute="bottom" constant="34" id="6yN-CN-Fcm"/>
+                            <constraint firstAttribute="bottom" secondItem="HH5-KY-t9x" secondAttribute="bottom" constant="45" id="6yN-CN-Fcm"/>
                             <constraint firstItem="Gum-bs-9xQ" firstAttribute="trailing" secondItem="l3u-YC-PdZ" secondAttribute="trailing" id="AFB-4l-1qZ"/>
                             <constraint firstItem="l3u-YC-PdZ" firstAttribute="leading" secondItem="Gum-bs-9xQ" secondAttribute="leading" id="Fqb-Op-eYJ"/>
                             <constraint firstItem="jD5-cl-Ujq" firstAttribute="top" secondItem="Gum-bs-9xQ" secondAttribute="top" id="R0p-Ap-G9E"/>
@@ -485,7 +459,7 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="createExerciseButton" destination="HH5-KY-t9x" id="CUo-gE-ztF"/>
+                        <outlet property="addExerciseButton" destination="HH5-KY-t9x" id="CUo-gE-ztF"/>
                         <outlet property="searchTextField" destination="jD5-cl-Ujq" id="aGj-3w-zMb"/>
                         <outlet property="tableView" destination="l3u-YC-PdZ" id="QSQ-Lw-JEx"/>
                     </connections>

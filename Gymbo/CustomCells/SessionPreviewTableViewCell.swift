@@ -9,8 +9,8 @@
 import UIKit
 
 struct SessionPreviewTableViewCellModel {
-    var name: String? = nil
-    var muscles: String? = nil
+    var name: String?
+    var muscles: String?
 }
 
 class SessionPreviewTableViewCell: UITableViewCell {
@@ -27,7 +27,7 @@ class SessionPreviewTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - UITableViewCell Funcs
+// MARK: - UITableViewCell Var/Funcs
 extension SessionPreviewTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
