@@ -72,7 +72,7 @@ extension SessionPreviewViewController {
         }
 
         title = Constants.title
-        exerciseInfoList = dataModelManager.getExerciseInfoList(forSession: session)
+        exerciseInfoList = dataModelManager.exerciseInfoList(for: session)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session.name

@@ -77,7 +77,9 @@ private extension SessionsCollectionViewCell {
 extension SessionsCollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
-            transform(condition: Transform.caseFromBool(bool: isHighlighted))
+            if !isEditing {
+                transform(condition: Transform.caseFromBool(bool: isHighlighted))
+            }
         }
     }
 
@@ -86,7 +88,7 @@ extension SessionsCollectionViewCell {
 
         addShadow()
         setupVisualEffectView()
-        setupRoundedContainerView()
+        setupRoundedCorners()
         setupTextView()
     }
 }
@@ -98,10 +100,11 @@ extension SessionsCollectionViewCell {
         visualEffectView.layer.masksToBounds = true
     }
 
-    private func setupRoundedContainerView() {
-        containerView.layer.cornerRadius = 10
-        containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.lightGray.cgColor
+    private func setupRoundedCorners() {
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.layer.masksToBounds = true
     }
 
     private func setupTextView() {

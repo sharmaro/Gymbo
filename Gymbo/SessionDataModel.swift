@@ -64,31 +64,54 @@ import RealmSwift
     }
 }
 
+extension Session: NSItemProviderReading {
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return []
+    }
+
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
+        return self.init()
+    }
+}
+
+extension Session: NSItemProviderWriting {
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return []
+    }
+
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        return nil
+    }
+}
+
+@objcMembers class SessionsList: Object {
+    let sessions = List<Session>()
+}
+
 class SessionDataModel: NSObject {
     // MARK: - Properties
     static let shared = SessionDataModel()
 
-    var sessionsCount: Int? {
-        return getSessionsCount()
+    var count: Int {
+        return sessionsCount()
     }
 
     private var realm = try? Realm()
 
-    private var sessionsList: Results<Session>?
+    private var sessionsList: SessionsList?
 
     // MARK: - NSObject Var/Funcs
     override init() {
         super.init()
 
         sessionsList = fetchSessions()
-
         printConfigFileLocation()
     }
 }
 
 // MARK: - Funcs
 extension SessionDataModel {
-    func printConfigFileLocation() {
+    private func printConfigFileLocation() {
         print()
         if realm?.configuration.fileURL != nil {
             NSLog("SUCCESS: Realm location exists.")
@@ -98,49 +121,42 @@ extension SessionDataModel {
         print()
     }
 
-    private func fetchSessions() -> Results<Session>? {
-        return realm?.objects(Session.self)
+    private func fetchSessions() -> SessionsList? {
+        return realm?.objects(SessionsList.self).first
     }
 
-    func addSession(session: Session) {
-        try? realm?.write {
-            realm?.add(session)
-        }
+    private func sessionsCount() -> Int {
+        return sessionsList?.sessions.count ?? 0
     }
 
-    func removeSessionAtIndex(_ index: Int) {
-        guard let list = sessionsList,
-            index > -1, index < sessionsList!.count else {
-                return
-        }
-        try? realm?.write {
-            realm?.delete(list[index])
-        }
-    }
-
-    func removeAllRealmData() {
+    private func removeAllRealmData() {
         try? realm?.write {
             realm?.deleteAll()
         }
     }
 
-    func getSession(forIndex index: Int) -> Session? {
-        return sessionsList?[index]
+    private func check(index: Int) -> SessionsList {
+        guard let list = sessionsList,
+            index > -1,
+            index < list.sessions.count else {
+                fatalError("Can't interact with session at index \(index)")
+        }
+        return list
     }
 
-    private func getSessionsCount() -> Int {
-        return sessionsList?.count ?? 0
+    func session(for index: Int) -> Session? {
+        return sessionsList?.sessions[index]
     }
 
-    func getSessionName(forIndex index: Int) -> String {
-        return sessionsList?[index].name ?? "No name"
+    func sessionName(for index: Int) -> String {
+        return sessionsList?.sessions[index].name ?? "No name"
     }
 
-    func getExercisesCount(forIndex index: Int) -> Int {
-        return sessionsList?[index].exercises.count ?? 0
+    func exercisesCount(for index: Int) -> Int {
+        return sessionsList?.sessions[index].exercises.count ?? 0
     }
 
-    func getExerciseInfoList(forSession session: Session) -> [ExerciseInfo]? {
+    func exerciseInfoList(for session: Session) -> [ExerciseInfo]? {
         var exerciseInfoList = [ExerciseInfo]()
         let exercises = session.exercises
         guard exercises.count > 0 else {
@@ -155,9 +171,9 @@ extension SessionDataModel {
         return exerciseInfoList
     }
 
-    func sessionInfoText(forIndex index: Int) -> String {
+    func sessionInfoText(for index: Int) -> String {
         var sessionInfoText = "No exercises in this session."
-        if let exercises = sessionsList?[index].exercises, exercises.count > 0 {
+        if let exercises = sessionsList?.sessions[index].exercises, exercises.count > 0 {
             sessionInfoText = ""
             for i in 0 ..< exercises.count {
                 var sessionString = ""
@@ -170,5 +186,47 @@ extension SessionDataModel {
             }
         }
         return sessionInfoText
+    }
+
+    func add(session: Session) {
+        if let list = sessionsList {
+            try? realm?.write {
+                list.sessions.append(session)
+            }
+        } else {
+            let list = SessionsList()
+            list.sessions.append(session)
+            try? realm?.write {
+                realm?.add(list)
+            }
+        }
+    }
+
+    func insert(session: Session, at index: Int) {
+        // Can insert into array at an index that's 1 + array.count
+        guard let list = sessionsList, index > -1,
+            index < list.sessions.count + 1 else {
+                fatalError("Can't insert session at index \(index)")
+        }
+
+        try? realm?.write {
+            list.sessions.insert(session, at: index)
+        }
+    }
+
+    func replace(at index: Int, with session: Session) {
+        let list = check(index: index)
+
+        try? realm?.write {
+            list.sessions[index] = session
+        }
+    }
+
+    func remove(at index: Int) {
+        let list = check(index: index)
+
+        try? realm?.write {
+            list.sessions.remove(at: index)
+        }
     }
 }

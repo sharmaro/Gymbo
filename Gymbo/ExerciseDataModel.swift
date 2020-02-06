@@ -77,6 +77,15 @@ extension ExerciseDataModel {
         return exerciseDict
     }
 
+    private func saveExercises() {
+        let defaults = UserDefaults.standard
+        let encoder = JSONEncoder()
+
+        if let encodedData = try? encoder.encode(exerciseData) {
+            defaults.set(encodedData, forKey: Constants.EXERCISE_INFO_KEY)
+        }
+    }
+
     private func dataToUse() -> [String: [ExerciseText]] {
         return searchResults.count > 0 ? searchResults : exerciseData
     }
@@ -129,15 +138,6 @@ extension ExerciseDataModel {
             fatalError("Exercise text for group \(group) is nil")
         }
         return exerciseTexts[row]
-    }
-
-    func saveExercises() {
-        let defaults = UserDefaults.standard
-        let encoder = JSONEncoder()
-
-        if let encodedData = try? encoder.encode(exerciseData) {
-            defaults.set(encodedData, forKey: Constants.EXERCISE_INFO_KEY)
-        }
     }
 
     func filterResults(filter: String) {

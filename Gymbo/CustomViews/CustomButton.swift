@@ -41,6 +41,7 @@ class CustomButton: UIButton {
             if isEnabled {
                 alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
             }
+            transform(condition: Transform.caseFromBool(bool: isHighlighted))
         }
     }
 
@@ -60,6 +61,18 @@ private extension CustomButton {
     struct Constants {
         static let dimmedAlpha = CGFloat(0.3)
         static let normalAlpha = CGFloat(1)
+        static let transformScale = CGFloat(0.95)
+
+        static let animationTime = TimeInterval(0.2)
+    }
+
+    enum Transform {
+        case shrink
+        case inflate
+
+        static func caseFromBool(bool: Bool) -> Transform {
+            return bool ? .shrink : .inflate
+        }
     }
 }
 
@@ -69,21 +82,21 @@ extension CustomButton {
         setTitleColor(titleColor, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
-
-        addTarget(self, action: #selector(shrink), for: [.touchDown, .touchDragEnter, .touchDragInside])
-        addTarget(self, action: #selector(inflate), for: [.touchUpInside, .touchUpOutside, .touchDragExit, .touchCancel])
     }
 
-    @objc private func shrink() {
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            self?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-        }
-    }
-
-    @objc private func inflate() {
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            self?.transform = CGAffineTransform.identity
-        }
+    private func transform(condition: Transform) {
+        UIView.animate(withDuration: Constants.animationTime,
+                       delay: 0,
+                       options: [.allowUserInteraction],
+                       animations: { [weak self] in
+            switch condition {
+            case .shrink:
+                self?.transform = CGAffineTransform(scaleX: Constants.transformScale,
+                                                    y: Constants.transformScale)
+            case .inflate:
+                self?.transform = CGAffineTransform.identity
+            }
+        }, completion: nil)
     }
 
     func addCornerRadius(_ radius: CGFloat? = nil) {

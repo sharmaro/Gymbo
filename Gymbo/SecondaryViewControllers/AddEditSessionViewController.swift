@@ -74,6 +74,7 @@ extension AddEditSessionViewController {
         super.viewWillDisappear(animated)
 
         guard tableHeaderView.shouldSaveName, let sessionName = tableHeaderView.sessionName else {
+            view.endEditing(true)
             return
         }
 

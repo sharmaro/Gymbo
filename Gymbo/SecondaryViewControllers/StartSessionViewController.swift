@@ -214,6 +214,7 @@ extension StartSessionViewController {
                 }
             }
         }
+        // If exercises were edited during the started session
         sessionFinishedDelegate?.reloadData()
         dismiss(animated: true, completion: nil)
     }
