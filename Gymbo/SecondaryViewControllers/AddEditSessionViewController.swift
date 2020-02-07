@@ -73,6 +73,8 @@ extension AddEditSessionViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        NotificationCenter.default.post(name: .refreshSessions, object: nil)
+
         guard tableHeaderView.shouldSaveName, let sessionName = tableHeaderView.sessionName else {
             view.endEditing(true)
             return

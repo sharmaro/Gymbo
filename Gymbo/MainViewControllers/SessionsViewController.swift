@@ -6,18 +6,14 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-protocol SessionFinishedDelegate: class {
-    func reloadData()
-}
+import UIKit
+import RealmSwift
 
 protocol SessionDataModelDelegate: class {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>)
     func saveSelectedSession(_ session: Session)
     func updateSessionCells()
 }
-
-import UIKit
-import RealmSwift
 
 class SessionsViewController: UIViewController {
     // MARK: - Properties
@@ -67,6 +63,9 @@ extension SessionsViewController {
 
         setupNavigationBar()
         setupCollectionView()
+        refreshMainView()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshMainView), name: .refreshSessions, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -75,12 +74,6 @@ extension SessionsViewController {
         let isDataEmpty = sessionDataModel.count == 0
         navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
         navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        refreshMainView()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,7 +103,7 @@ extension SessionsViewController {
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
-    private func refreshMainView() {
+    @objc private func refreshMainView() {
         let isDataEmpty = sessionDataModel.count == 0
         collectionView.isHidden = isDataEmpty
         emptyExerciseLabel.isHidden = !isDataEmpty
@@ -251,9 +244,8 @@ extension SessionsViewController: UICollectionViewDropDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        guard let destinationIndexPath = coordinator.destinationIndexPath else {
-            fatalError("destinationIndexPath in performDropWith is nil")
-        }
+        // It helps to use the (0, 0) if there is only one cell
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(row: 0, section: 0)
 
         switch coordinator.proposal.operation {
         case .move:
@@ -311,7 +303,6 @@ extension SessionsViewController: StartSessionDelegate {
         }
 
         startSessionViewController.session = session
-        startSessionViewController.sessionFinishedDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: startSessionViewController)
         if #available(iOS 13.0, *) {
@@ -339,13 +330,6 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
                 self?.refreshMainView()
             }
         }
-    }
-}
-
-// MARK: -
-extension SessionsViewController: SessionFinishedDelegate {
-    func reloadData() {
-        refreshMainView()
     }
 }
 

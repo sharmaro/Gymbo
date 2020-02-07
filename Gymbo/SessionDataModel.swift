@@ -199,6 +199,7 @@ extension SessionDataModel {
             try? realm?.write {
                 realm?.add(list)
             }
+            sessionsList = list
         }
     }
 

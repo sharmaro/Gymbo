@@ -38,3 +38,7 @@ extension String {
         return (minutes * 60) + seconds
     }
 }
+
+extension Notification.Name {
+    static let refreshSessions = Notification.Name("refreshSessions")
+}

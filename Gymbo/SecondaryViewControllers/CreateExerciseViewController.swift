@@ -6,11 +6,11 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
+import UIKit
+
 protocol CreateExerciseDelegate: class {
     func addCreatedExercise(exerciseGroup: String, exerciseText: ExerciseText)
 }
-
-import UIKit
 
 class CreateExerciseViewController: UIViewController {
     // MARK: - Properties

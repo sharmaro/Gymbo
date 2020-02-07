@@ -63,6 +63,15 @@ private extension SessionPreviewViewController {
 
 // MARK: - UIViewController Var/Funcs
 extension SessionPreviewViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        setupTableView()
+        setupTableHeaderView()
+        setupStartSessionButton()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -83,13 +92,10 @@ extension SessionPreviewViewController {
         updateTableView()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
-        setupNavigationBar()
-        setupTableView()
-        setupTableHeaderView()
-        setupStartSessionButton()
+        sessionDataModelDelegate?.updateSessionCells()
     }
 
     override func viewDidLayoutSubviews() {
@@ -98,12 +104,6 @@ extension SessionPreviewViewController {
         // Used for resizing the tableView.headerView when the info text view becomes large enough
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        sessionDataModelDelegate?.updateSessionCells()
     }
 }
 

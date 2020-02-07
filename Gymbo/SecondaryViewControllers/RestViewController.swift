@@ -19,16 +19,12 @@ class RestViewController: UIViewController {
     @IBOutlet private weak var topContainerView: UIView!
     @IBOutlet private weak var restLabel: UILabel!
     @IBOutlet private weak var restTimesPickerView: UIPickerView!
-    @IBOutlet private weak var animationProgressContainerView: UIView!
+    @IBOutlet private weak var circleProgressView: CircleProgressView!
     @IBOutlet private weak var mainButton: CustomButton!
 
     class var id: String {
         return String(describing: self)
     }
-
-    private lazy var circleProgressView: CircleProgressView = {
-        return CircleProgressView(frame: CGRect(origin: .zero, size: CGSize(width: animationProgressContainerView.bounds.width, height: animationProgressContainerView.bounds.width)))
-    }()
 
     private lazy var addTimeButton: CustomButton = {
         let size = CGSize(width: 100, height: 30)
@@ -94,7 +90,7 @@ class RestViewController: UIViewController {
     }
     private var restTimeRemaining = 0 {
         didSet {
-            circleProgressView.restTimeText = restTimeRemaining > 0 ?
+            circleProgressView.timeRemainingText = restTimeRemaining > 0 ?
             restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
         }
     }
@@ -106,6 +102,7 @@ class RestViewController: UIViewController {
 private extension RestViewController {
     struct Constants {
         static let timeDelta = 5
+        static let defaultRow = 11
 
         static let title = "Rest"
     }
@@ -138,7 +135,6 @@ extension RestViewController {
         createPickerViewData()
         setupPickerView()
         setupMainButton()
-        animationProgressContainerView.insertSubview(circleProgressView, belowSubview: restTimesPickerView)
 
         if isTimerActive {
             mainButtonInteraction()
@@ -164,7 +160,7 @@ extension RestViewController {
     private func setupPickerView() {
         restTimesPickerView.dataSource = self
         restTimesPickerView.delegate = self
-        restTimesPickerView.selectRow(11, inComponent: 0, animated: false)
+        restTimesPickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
     }
 
     private func setupMainButton() {
@@ -176,6 +172,7 @@ extension RestViewController {
     private func showHideCustomViews() {
         restTimesPickerView.isHidden.toggle()
         circleProgressView.shouldHideText.toggle()
+
         restLabel.isHidden.toggle()
         addTimeButton.isHidden.toggle()
         removeTimeButton.isHidden.toggle()

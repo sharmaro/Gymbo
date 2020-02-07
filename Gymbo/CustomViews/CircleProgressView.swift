@@ -10,9 +10,8 @@ import UIKit
 
 class CircleProgressView: UIView {
     // MARK: - Properties
-    private var circleView = UIView()
     private var totalTimeLabel = UILabel()
-    private var restTimeRemainingLabel = UILabel()
+    private var timeRemainingLabel = UILabel()
 
     private let staticLayer = CAShapeLayer()
     private let animatedLayer = CAShapeLayer()
@@ -24,16 +23,16 @@ class CircleProgressView: UIView {
         }
     }
 
-    var restTimeText = "" {
+    var timeRemainingText = "" {
         didSet {
-            restTimeRemainingLabel.text = restTimeText
+            timeRemainingLabel.text = timeRemainingText
         }
     }
 
     var shouldHideText = true {
         didSet {
             totalTimeLabel.isHidden = shouldHideText
-            restTimeRemainingLabel.isHidden = shouldHideText
+            timeRemainingLabel.isHidden = shouldHideText
         }
     }
 
@@ -41,15 +40,20 @@ class CircleProgressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        guard frame.width == frame.height else {
-            fatalError("Cannot initiate a CircleProgressView with a rectangular view.")
-        }
         setup()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+
         setup()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Need to call this here because if autolayout is used to create CircleProgressView then on initialization the frame is .zero.
+        setupCircleProgressBar()
     }
 }
 
@@ -63,38 +67,32 @@ private extension CircleProgressView {
         static let lineWidth = CGFloat(8)
         static let timeDelta = CGFloat(5)
         static let fontSize = CGFloat(40)
+        static let labelSpacing = CGFloat(30)
     }
 }
 
 // MARK: - Funcs
 extension CircleProgressView {
     private func setup() {
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
 
-        createCircleProgressBar()
-        addTotalRestTimeLabel()
-        addRestTimeRemainingLabel()
+        setupTimeLabels()
     }
 
-    private func createCircleProgressBar() {
-        let circleSize = CGSize(width: bounds.width, height: bounds.height)
-
-        circleView = UIView(frame: CGRect(origin: .zero, size: circleSize))
-        circleView.backgroundColor = .clear
-        addSubview(circleView)
-
-        let radius = CGFloat(circleView.bounds.width / 2 * 0.96)
+    private func setupCircleProgressBar() {
+        let radius = CGFloat(bounds.width / 2 * 0.96)
 
         let startAngle: CGFloat = .pi * 3 / 2
         let endAngle: CGFloat = -.pi / 2
 
-        let circularPath = UIBezierPath(arcCenter: CGPoint(x: circleSize.width/2, y: circleSize.height/2), radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width/2, y: bounds.height/2), radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
 
         staticLayer.path = circularPath.cgPath
         staticLayer.fillColor = UIColor.clear.cgColor
         staticLayer.strokeColor = UIColor.systemGreen.cgColor
         staticLayer.lineWidth = Constants.lineWidth
-        circleView.layer.addSublayer(staticLayer)
+        layer.addSublayer(staticLayer)
 
         animatedLayer.path = circularPath.cgPath
         animatedLayer.fillColor = UIColor.clear.cgColor
@@ -102,41 +100,35 @@ extension CircleProgressView {
         animatedLayer.lineWidth = Constants.lineWidth
         animatedLayer.strokeEnd = 0
         animatedLayer.lineCap = .round
-        circleView.layer.addSublayer(animatedLayer)
+        layer.addSublayer(animatedLayer)
     }
 
-    private func addTotalRestTimeLabel() {
-        totalTimeLabel = UILabel(frame: .zero)
+    private func setupTimeLabels() {
         totalTimeLabel.text = "00:00"
-        totalTimeLabel.textAlignment = .center
-        totalTimeLabel.font = UIFont.systemFont(ofSize: Constants.fontSize)
         totalTimeLabel.textColor = .lightGray
-        totalTimeLabel.isHidden = true
-        totalTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        circleView.addSubview(totalTimeLabel)
+
+        timeRemainingLabel.textColor = .darkGray
+
+        [totalTimeLabel, timeRemainingLabel].forEach {
+            $0.textAlignment = .center
+            $0.font = UIFont.systemFont(ofSize: Constants.fontSize)
+            $0.isHidden = true
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            addSubview($0)
+        }
 
         NSLayoutConstraint.activate([
-            totalTimeLabel.widthAnchor.constraint(equalTo: circleView.widthAnchor),
+            totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
             totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            totalTimeLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            totalTimeLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: 30)
+            totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing)
         ])
-    }
-
-    private func addRestTimeRemainingLabel() {
-        restTimeRemainingLabel = UILabel(frame: .zero)
-        restTimeRemainingLabel.textAlignment = .center
-        restTimeRemainingLabel.font = UIFont.systemFont(ofSize: Constants.fontSize)
-        restTimeRemainingLabel.textColor = .darkGray
-        restTimeRemainingLabel.isHidden = true
-        restTimeRemainingLabel.translatesAutoresizingMaskIntoConstraints = false
-        circleView.addSubview(restTimeRemainingLabel)
 
         NSLayoutConstraint.activate([
-            restTimeRemainingLabel.widthAnchor.constraint(equalTo: circleView.widthAnchor),
-            restTimeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            restTimeRemainingLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            restTimeRemainingLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: -30)
+            timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
+            timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            timeRemainingLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Constants.labelSpacing)
         ])
     }
 

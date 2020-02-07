@@ -76,8 +76,6 @@ class StartSessionViewController: UIViewController {
     private let realm = try? Realm()
 
     weak var timeLabelDelegate: TimeLabelDelegate?
-    weak var sessionFinishedDelegate: SessionFinishedDelegate?
-
 }
 
 // MARK: - Structs/Enums
@@ -108,6 +106,14 @@ extension StartSessionViewController {
         startTimer()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        sessionTimer?.invalidate()
+        restTimer?.invalidate()
+        NotificationCenter.default.post(name: .refreshSessions, object: nil)
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -117,12 +123,6 @@ extension StartSessionViewController {
 
         tableView.tableFooterView = tableView.tableFooterView
         tableView.tableFooterView?.layoutIfNeeded()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        sessionTimer?.invalidate()
-        restTimer?.invalidate()
     }
 }
 
@@ -187,12 +187,8 @@ extension StartSessionViewController {
         restViewController.restTimerDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: restViewController)
-        if #available(iOS 13.0, *) {
-            // No op
-        } else {
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
-        }
+        modalNavigationController.modalPresentationStyle = .custom
+        modalNavigationController.transitioningDelegate = self
         present(modalNavigationController, animated: true)
     }
 
@@ -214,8 +210,6 @@ extension StartSessionViewController {
                 }
             }
         }
-        // If exercises were edited during the started session
-        sessionFinishedDelegate?.reloadData()
         dismiss(animated: true, completion: nil)
     }
 

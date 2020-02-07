@@ -59,14 +59,6 @@ extension AddExerciseViewController {
         setupTableView()
         setupAddExerciseButton()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if hideBarButtonItems {
-            saveExerciseInfo()
-        }
-    }
 }
 
 // MARK: - Funcs
@@ -187,7 +179,11 @@ extension AddExerciseViewController {
 
     @IBAction func addButtonTapped(_ sender: Any) {
         saveExerciseInfo()
-        dismiss(animated: true, completion: nil)
+        if hideBarButtonItems {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
 
