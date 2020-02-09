@@ -18,8 +18,8 @@ class RestViewController: UIViewController {
     // MARK: - Properties
     @IBOutlet private weak var topContainerView: UIView!
     @IBOutlet private weak var restLabel: UILabel!
-    @IBOutlet private weak var restTimesPickerView: UIPickerView!
     @IBOutlet private weak var circleProgressView: CircleProgressView!
+    @IBOutlet private weak var restTimesPickerView: UIPickerView!
     @IBOutlet private weak var mainButton: CustomButton!
 
     class var id: String {
@@ -84,12 +84,20 @@ class RestViewController: UIViewController {
     var startSessionRestTimeRemaining = 0
     private var totalRestTime = 0 {
         didSet {
+            guard isViewLoaded else {
+                return
+            }
+
             circleProgressView.totalTimeText = totalRestTime > 0 ?
             totalRestTime.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
         }
     }
     private var restTimeRemaining = 0 {
         didSet {
+            guard isViewLoaded else {
+                return
+            }
+
             circleProgressView.timeRemainingText = restTimeRemaining > 0 ?
             restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
         }

@@ -154,12 +154,11 @@ extension SessionPreviewViewController {
     }
 
     @objc private func editButtonTapped() {
-        guard let session = session,
-            let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: AddEditSessionViewController.id) as? AddEditSessionViewController else {
-                NSLog("Could not instantiate AddEditSessionViewController.")
-                return
+        guard let session = session else {
+            fatalError("Can't edit current session")
         }
 
+        let addEditSessionViewController = AddEditSessionViewController.loadFromXib()
         addEditSessionViewController.sessionState = .edit
         addEditSessionViewController.session = session
         navigationController?.pushViewController(addEditSessionViewController, animated: true)

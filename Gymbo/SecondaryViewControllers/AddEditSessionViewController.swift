@@ -141,10 +141,7 @@ extension AddEditSessionViewController {
     }
 
     @objc func addExerciseButtonTapped(_ sender: Any) {
-        guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
-            return
-        }
-
+        let addExerciseViewController = AddExerciseViewController.loadFromXib()
         let modalNavigationController = UINavigationController(rootViewController: addExerciseViewController)
         if #available(iOS 13.0, *) {
             // No op

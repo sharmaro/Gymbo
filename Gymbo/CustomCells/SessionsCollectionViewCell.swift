@@ -101,10 +101,15 @@ extension SessionsCollectionViewCell {
     }
 
     private func setupRoundedCorners() {
+        // Can't set layer.clipsToBounds to true without messing up shadow
+        layer.cornerRadius = 10
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.lightGray.cgColor
+
+        // Need to do this because can't set layer.clipsToBounds to true
         contentView.layer.cornerRadius = 10
         contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.lightGray.cgColor
-        contentView.layer.masksToBounds = true
+        contentView.clipsToBounds = true
     }
 
     private func setupTextView() {

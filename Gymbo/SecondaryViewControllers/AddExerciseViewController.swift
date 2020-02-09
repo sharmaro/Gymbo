@@ -145,19 +145,16 @@ extension AddExerciseViewController {
     }
 
     @objc private func createExerciseButtonTapped() {
-        guard let createExerciseVC = storyboard?.instantiateViewController(withIdentifier: CreateExerciseViewController.id) as? CreateExerciseViewController else {
-            return
-        }
+        let createExerciseViewController = CreateExerciseViewController.loadFromXib()
+        createExerciseViewController.createExerciseDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: createExerciseVC)
+        let modalNavigationController = UINavigationController(rootViewController: createExerciseViewController)
         if #available(iOS 13.0, *) {
             // No op
         } else {
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
         }
-
-        createExerciseVC.createExerciseDelegate = self
         present(modalNavigationController, animated: true, completion: nil)
     }
 

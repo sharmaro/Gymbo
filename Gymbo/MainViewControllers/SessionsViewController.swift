@@ -123,10 +123,7 @@ extension SessionsViewController {
     }
 
     @objc private func addSessionButtonTapped() {
-        guard let addEditSessionViewController = storyboard?.instantiateViewController(withIdentifier: AddEditSessionViewController.id) as? AddEditSessionViewController else {
-                NSLog("Could not instantiate AddEditSessionViewController.")
-                return
-        }
+        let addEditSessionViewController = AddEditSessionViewController.loadFromXib()
         addEditSessionViewController.sessionState = .add
         addEditSessionViewController.sessionDataModelDelegate = self
         navigationController?.pushViewController(addEditSessionViewController, animated: true)
@@ -186,11 +183,11 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
 extension SessionsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
-            let sessionPreviewViewController = storyboard?.instantiateViewController(withIdentifier: SessionPreviewViewController.id) as? SessionPreviewViewController,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
             return
         }
 
+        let sessionPreviewViewController = SessionPreviewViewController.loadFromXib()
         sessionPreviewViewController.session = selectedSession
         sessionPreviewViewController.sessionDataModelDelegate = self
         sessionPreviewViewController.startSessionDelegate = self
@@ -297,11 +294,7 @@ extension SessionsViewController: SessionDataModelDelegate {
 // MARK: - StartSessionDelegate
 extension SessionsViewController: StartSessionDelegate {
     func sessionStarted(session: Session?) {
-        guard let startSessionViewController = storyboard?.instantiateViewController(withIdentifier: StartSessionViewController.id) as? StartSessionViewController else {
-            NSLog("Could not instantiate StartSessionViewController.")
-            return
-        }
-
+        let startSessionViewController = StartSessionViewController.loadFromXib()
         startSessionViewController.session = session
 
         let modalNavigationController = UINavigationController(rootViewController: startSessionViewController)

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateExerciseViewController" customModule="Gymbo" customModuleProvider="target">
+            <connections>
+                <outlet property="exerciseGroupPickerView" destination="iJC-si-40I" id="lu4-I8-Kvs"/>
+                <outlet property="exerciseMusclesTextField" destination="8LT-ea-zTR" id="ePm-Z4-gGP"/>
+                <outlet property="exerciseNameTextField" destination="ycu-Gs-6EI" id="Y9W-GP-e85"/>
+                <outlet property="infoContainerView" destination="lgj-4c-Yfl" id="uGd-aD-1ON"/>
+                <outlet property="view" destination="Kx9-hA-FFV" id="VGx-XZ-tVR"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Kx9-hA-FFV">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lgj-4c-Yfl">
+                    <rect key="frame" x="15" y="64" width="384" height="192"/>
+                    <subviews>
+                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iJC-si-40I">
+                            <rect key="frame" x="5" y="5" width="374" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="a67-Hi-yaM"/>
+                            </constraints>
+                        </pickerView>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ycu-Gs-6EI">
+                            <rect key="frame" x="5" y="106" width="374" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="IEt-dJ-HLj"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8vG-Dm-ln2">
+                            <rect key="frame" x="0.0" y="146" width="384" height="1"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="MXc-pa-Zqf"/>
+                            </constraints>
+                        </view>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Muscle groups..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8LT-ea-zTR">
+                            <rect key="frame" x="5" y="147" width="374" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jq7-aq-bij">
+                            <rect key="frame" x="0.0" y="105" width="384" height="1"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="fyk-qG-E9A"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="jq7-aq-bij" secondAttribute="trailing" id="0A4-rC-1ZP"/>
+                        <constraint firstAttribute="trailing" secondItem="8vG-Dm-ln2" secondAttribute="trailing" id="BCn-Jh-5Pe"/>
+                        <constraint firstItem="8LT-ea-zTR" firstAttribute="leading" secondItem="lgj-4c-Yfl" secondAttribute="leading" constant="5" id="Eak-cE-YEa"/>
+                        <constraint firstItem="8vG-Dm-ln2" firstAttribute="bottom" secondItem="8LT-ea-zTR" secondAttribute="top" id="GEd-Pa-baf"/>
+                        <constraint firstAttribute="trailing" secondItem="iJC-si-40I" secondAttribute="trailing" constant="5" id="Hpu-6A-rr7"/>
+                        <constraint firstItem="ycu-Gs-6EI" firstAttribute="leading" secondItem="lgj-4c-Yfl" secondAttribute="leading" constant="5" id="QuG-43-87E"/>
+                        <constraint firstAttribute="bottom" secondItem="8LT-ea-zTR" secondAttribute="bottom" constant="5" id="Vjw-4v-9IQ"/>
+                        <constraint firstItem="8vG-Dm-ln2" firstAttribute="leading" secondItem="lgj-4c-Yfl" secondAttribute="leading" id="Ymu-Tm-J7Q"/>
+                        <constraint firstAttribute="height" constant="192" id="b9Q-x0-vDA"/>
+                        <constraint firstAttribute="trailing" secondItem="8LT-ea-zTR" secondAttribute="trailing" constant="5" id="dzY-WB-8N8"/>
+                        <constraint firstItem="ycu-Gs-6EI" firstAttribute="height" secondItem="8LT-ea-zTR" secondAttribute="height" id="e3l-Aa-Bz1"/>
+                        <constraint firstItem="iJC-si-40I" firstAttribute="leading" secondItem="lgj-4c-Yfl" secondAttribute="leading" constant="5" id="ict-Si-0w0"/>
+                        <constraint firstItem="jq7-aq-bij" firstAttribute="leading" secondItem="lgj-4c-Yfl" secondAttribute="leading" id="qzy-wS-Imm"/>
+                        <constraint firstItem="ycu-Gs-6EI" firstAttribute="top" secondItem="jq7-aq-bij" secondAttribute="bottom" id="uGK-x8-945"/>
+                        <constraint firstItem="iJC-si-40I" firstAttribute="bottom" secondItem="jq7-aq-bij" secondAttribute="top" id="uad-3m-MPt"/>
+                        <constraint firstItem="ycu-Gs-6EI" firstAttribute="bottom" secondItem="8vG-Dm-ln2" secondAttribute="top" id="utb-og-Fuf"/>
+                        <constraint firstItem="iJC-si-40I" firstAttribute="top" secondItem="lgj-4c-Yfl" secondAttribute="top" constant="5" id="wjg-0D-WA2"/>
+                        <constraint firstAttribute="trailing" secondItem="ycu-Gs-6EI" secondAttribute="trailing" constant="5" id="xvH-JR-F4A"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="lgj-4c-Yfl" secondAttribute="trailing" constant="15" id="9Tv-gb-dle"/>
+                <constraint firstItem="lgj-4c-Yfl" firstAttribute="leading" secondItem="Kx9-hA-FFV" secondAttribute="leading" constant="15" id="Yd0-MU-mVV"/>
+                <constraint firstItem="lgj-4c-Yfl" firstAttribute="top" secondItem="MAl-WU-47q" secondAttribute="top" constant="20" id="gn1-O0-QTk"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="MAl-WU-47q"/>
+            <point key="canvasLocation" x="3416" y="-15"/>
+        </view>
+    </objects>
+</document>

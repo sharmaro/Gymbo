@@ -175,16 +175,13 @@ extension StartSessionViewController {
     }
 
     @objc func restButtonTapped() {
-        guard let restViewController = storyboard?.instantiateViewController(withIdentifier: RestViewController.id) as? RestViewController else {
-            return
-        }
-
-        timeLabelDelegate = restViewController
-
+        let restViewController = RestViewController.loadFromXib()
         restViewController.isTimerActive = restTimer?.isValid ?? false
         restViewController.startSessionTotalRestTime = totalRestTime
         restViewController.startSessionRestTimeRemaining = restTimeRemaining
         restViewController.restTimerDelegate = self
+
+        timeLabelDelegate = restViewController
 
         let modalNavigationController = UINavigationController(rootViewController: restViewController)
         modalNavigationController.modalPresentationStyle = .custom

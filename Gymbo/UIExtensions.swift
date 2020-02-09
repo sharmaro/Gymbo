@@ -143,3 +143,13 @@ extension UIView {
         }
     }
 }
+
+extension UIViewController {
+    // Returns view controller from xib file
+    static func loadFromXib() -> Self {
+        func instantiateFromNib<T: UIViewController>() -> T {
+            return T.init(nibName: String(describing: T.self), bundle: nil)
+        }
+        return instantiateFromNib()
+    }
+}
