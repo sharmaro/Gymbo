@@ -21,11 +21,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bq8-vO-p8J">
-                    <rect key="frame" x="0.0" y="44" width="414" height="738"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="743"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0a-yH-5dX" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                    <rect key="frame" x="30" y="802" width="354" height="45"/>
+                    <rect key="frame" x="20" y="802" width="374" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="uhb-1X-Thl"/>
                     </constraints>
@@ -38,12 +38,12 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Bq8-vO-p8J" firstAttribute="top" secondItem="PMx-3h-hr4" secondAttribute="top" id="7ac-D9-qTz"/>
-                <constraint firstItem="H0a-yH-5dX" firstAttribute="leading" secondItem="PMx-3h-hr4" secondAttribute="leading" constant="30" id="CsW-DS-1wh"/>
+                <constraint firstItem="H0a-yH-5dX" firstAttribute="leading" secondItem="PMx-3h-hr4" secondAttribute="leading" constant="20" id="CsW-DS-1wh"/>
                 <constraint firstItem="Bq8-vO-p8J" firstAttribute="leading" secondItem="PMx-3h-hr4" secondAttribute="leading" id="h0c-zx-cvU"/>
                 <constraint firstItem="PMx-3h-hr4" firstAttribute="bottom" secondItem="H0a-yH-5dX" secondAttribute="bottom" constant="15" id="jOG-66-iP5"/>
                 <constraint firstItem="PMx-3h-hr4" firstAttribute="trailing" secondItem="Bq8-vO-p8J" secondAttribute="trailing" id="k3A-tO-Zyf"/>
-                <constraint firstItem="H0a-yH-5dX" firstAttribute="top" secondItem="Bq8-vO-p8J" secondAttribute="bottom" constant="20" id="x4L-Ue-tD1"/>
-                <constraint firstItem="PMx-3h-hr4" firstAttribute="trailing" secondItem="H0a-yH-5dX" secondAttribute="trailing" constant="30" id="ytm-KA-5ZL"/>
+                <constraint firstItem="H0a-yH-5dX" firstAttribute="top" secondItem="Bq8-vO-p8J" secondAttribute="bottom" constant="15" id="x4L-Ue-tD1"/>
+                <constraint firstItem="PMx-3h-hr4" firstAttribute="trailing" secondItem="H0a-yH-5dX" secondAttribute="trailing" constant="20" id="ytm-KA-5ZL"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="PMx-3h-hr4"/>
             <point key="canvasLocation" x="1830" y="-747"/>

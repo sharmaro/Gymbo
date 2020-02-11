@@ -109,10 +109,13 @@ class RestViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension RestViewController {
     struct Constants {
+        static let title = "Rest"
+
         static let timeDelta = 5
         static let defaultRow = 11
 
-        static let title = "Rest"
+        static let pickerRowHeight = CGFloat(38)
+        static let pickerRowFontSize = CGFloat(28)
     }
 
     enum MainButtonState: String {
@@ -265,16 +268,16 @@ extension RestViewController: UIPickerViewDataSource {
 // MARK: - UIPickerViewDelegate
 extension RestViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: 25)))
+        let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: Constants.pickerRowHeight)))
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center
-        pickerLabel.font = UIFont.systemFont(ofSize: 30)
+        pickerLabel.font = UIFont.systemFont(ofSize: Constants.pickerRowFontSize)
         return pickerLabel
     }
 
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 40
+        return Constants.pickerRowHeight
     }
 }
 

@@ -12,6 +12,7 @@ protocol ExerciseListDelegate: class {
     func updateExerciseList(_ exerciseTextList: [ExerciseText])
 }
 
+// Codable is for encoding/decoding
 struct ExerciseText: Codable {
     var exerciseName: String?
     var exerciseMuscles: String?
@@ -28,7 +29,8 @@ class AddExerciseViewController: UIViewController {
         return String(describing: self)
     }
 
-    private var selectedExercises = [ExerciseText]()
+    private var selectedExerciseNamesAndIndexPaths = [String: IndexPath]()
+    private var selectedExerciseNames = [String]()
     private var exerciseDataModel = ExerciseDataModel.shared
 
     var hideBarButtonItems = false
@@ -39,13 +41,13 @@ class AddExerciseViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension AddExerciseViewController {
     struct Constants {
+        static let title = "Add Exercise"
+
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
         static let headerFontSize = CGFloat(20)
-
-        static let title = "Add Exercise"
     }
 }
 
@@ -58,6 +60,19 @@ extension AddExerciseViewController {
         setupSearchTextField()
         setupTableView()
         setupAddExerciseButton()
+        registerForKeyboardNotifications()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        exerciseDataModel.removeSearchedResults()
     }
 }
 
@@ -79,6 +94,7 @@ extension AddExerciseViewController {
         searchTextField.borderStyle = .none
         searchTextField.leftViewMode = .always
         searchTextField.returnKeyType = .done
+        searchTextField.delegate = self
         searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         let searchImageContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 28, height: 16)))
@@ -92,9 +108,10 @@ extension AddExerciseViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.clipsToBounds = true
         tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
+        tableView.tableFooterView = UIView()
         tableView.register(ExerciseTableViewCell.nib,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
@@ -109,14 +126,20 @@ extension AddExerciseViewController {
 
     private func saveExerciseInfo() {
         // Get exercise info from the selected exercises
-        guard let indexPaths = tableView.indexPathsForSelectedRows else {
+        guard selectedExerciseNamesAndIndexPaths.count > 0 else {
             return
+        }
+
+        var indexPaths = [IndexPath]()
+        for exercise in selectedExerciseNames {
+            if let indexPathToAppend = selectedExerciseNamesAndIndexPaths[exercise] {
+                indexPaths.append(indexPathToAppend)
+            }
         }
 
         var selectedExercises = [ExerciseText]()
         for indexPath in indexPaths {
-            guard indexPath.row < tableView.numberOfRows(inSection: indexPath.section),
-                let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
+            guard let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
                 break
             }
             let exerciseText = exerciseDataModel.exerciseText(for: group, for: indexPath.row)
@@ -129,8 +152,9 @@ extension AddExerciseViewController {
         var title = ""
         let isEnabled: Bool
 
-        if let indexPaths = tableView.indexPathsForSelectedRows, indexPaths.count > 0 {
-            title = "Add (\(indexPaths.count))"
+
+        if selectedExerciseNames.count > 0 {
+            title = "Add (\(selectedExerciseNames.count))"
             isEnabled = true
         } else {
             title = "Add"
@@ -149,20 +173,12 @@ extension AddExerciseViewController {
         createExerciseViewController.createExerciseDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: createExerciseViewController)
-        if #available(iOS 13.0, *) {
-            // No op
-        } else {
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
-        }
+        modalNavigationController.modalPresentationStyle = .custom
+        modalNavigationController.transitioningDelegate = self
         present(modalNavigationController, animated: true, completion: nil)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        if textField.text == "\n" {
-            textField.resignFirstResponder()
-        }
-
         guard let filter = textField.text?.lowercased(),
             filter.count > 0 else {
                 exerciseDataModel.removeSearchedResults()
@@ -202,7 +218,20 @@ extension AddExerciseViewController: UITableViewDataSource {
 
         let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
         cell.configure(dataModel: exerciseTableViewCellModel)
+        handleCellSelection(cell: cell, model: exerciseTableViewCellModel, indexPath: indexPath)
         return cell
+    }
+
+    private func handleCellSelection(cell: UITableViewCell, model: ExerciseTableViewCellModel, indexPath: IndexPath) {
+        if let exerciseCell = cell as? ExerciseTableViewCell {
+            if let exerciseName = model.name,
+                selectedExerciseNamesAndIndexPaths.count > 0, selectedExerciseNamesAndIndexPaths[exerciseName] != nil {
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                exerciseCell.didSelect = true
+            } else {
+                exerciseCell.didSelect = false
+            }
+        }
     }
 }
 
@@ -237,10 +266,32 @@ extension AddExerciseViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
+            let exerciseName = exerciseCell.exerciseName,
+            let trueIndexPath = exerciseDataModel.indexPath(from: indexPath.section, exerciseName: exerciseName) else {
+            return
+        }
+
+        selectedExerciseNamesAndIndexPaths[exerciseName] = trueIndexPath
+        selectedExerciseNames.append(exerciseName)
+        exerciseCell.didSelect = true
         updateAddButtonTitle()
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
+            let exerciseName = exerciseCell.exerciseName else {
+            return
+        }
+
+        selectedExerciseNamesAndIndexPaths[exerciseName] = nil
+        for (index, value) in selectedExerciseNames.enumerated() {
+            if value == exerciseName {
+                selectedExerciseNames.remove(at: index)
+                break
+            }
+        }
+        exerciseCell.didSelect = false
         updateAddButtonTitle()
     }
 }
@@ -256,6 +307,30 @@ extension AddExerciseViewController: CreateExerciseDelegate {
 // MARK: - UIViewControllerTransitioningDelegate
 extension AddExerciseViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.4)
+        return modalPresentationController
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension AddExerciseViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+}
+
+// MARK: - KeyboardObserving
+extension AddExerciseViewController: KeyboardObserving {
+    func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardHeight = notification.keyboardSize?.height else {
+            return
+        }
+
+        tableView.contentInset.bottom = keyboardHeight
+    }
+
+    func keyboardWillHide(_ notification: Notification) {
+        tableView.contentInset = .zero
     }
 }

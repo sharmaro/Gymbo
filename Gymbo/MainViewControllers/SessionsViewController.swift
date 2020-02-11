@@ -189,7 +189,6 @@ extension SessionsViewController: UICollectionViewDelegate {
 
         let sessionPreviewViewController = SessionPreviewViewController.loadFromXib()
         sessionPreviewViewController.session = selectedSession
-        sessionPreviewViewController.sessionDataModelDelegate = self
         sessionPreviewViewController.startSessionDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: sessionPreviewViewController)

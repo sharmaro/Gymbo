@@ -112,6 +112,23 @@ extension ExerciseDataModel {
         return count
     }
 
+    func indexPath(from section: Int, exerciseName name: String) -> IndexPath? {
+        guard section > -1,
+            section < exerciseGroups.count else {
+            return nil
+        }
+        let exerciseGroup = exerciseGroups[section]
+        if let exercises = exerciseData[exerciseGroup] {
+            for (index, value) in exercises.enumerated() {
+                if let exerciseName = value.exerciseName,
+                    exerciseName == name {
+                    return IndexPath(row: index, section: section)
+                }
+            }
+        }
+        return nil
+    }
+
     func exerciseTableViewCellModel(for group: String, for row: Int) -> ExerciseTableViewCellModel {
         let data = dataToUse()
         guard let exerciseText = data[group], row < exerciseText.count else {
@@ -125,7 +142,8 @@ extension ExerciseDataModel {
     }
 
     func exerciseGroup(for index: Int) -> String? {
-        guard index > -1, index < exerciseGroups.count else {
+        guard index > -1,
+            index < exerciseGroups.count else {
             return nil
         }
 
@@ -133,8 +151,7 @@ extension ExerciseDataModel {
     }
 
     func exerciseText(for group: String, for row: Int) -> ExerciseText {
-        let data = dataToUse()
-        guard let exerciseTexts = data[group], row < exerciseTexts.count else {
+        guard let exerciseTexts = exerciseData[group], row < exerciseTexts.count else {
             fatalError("Exercise text for group \(group) is nil")
         }
         return exerciseTexts[row]

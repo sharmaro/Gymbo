@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct CustomBounds {
+    var horizontalPadding: CGFloat
+    var percentHeight: CGFloat
+}
+
 final class ModalPresentationController: UIPresentationController {
     // MARK: - Properties
     private lazy var dimmingView: UIView = {
@@ -17,7 +22,7 @@ final class ModalPresentationController: UIPresentationController {
 
         let dimmingView = UIView(frame: containerView.bounds)
         dimmingView.backgroundColor = UIColor.black.withAlphaComponent(Constants.dimmedAlpha)
-        if !center {
+        if customBounds == nil {
             dimmingView.addGestureRecognizer(
                 UITapGestureRecognizer(target: self, action: #selector(dismiss))
             )
@@ -26,8 +31,12 @@ final class ModalPresentationController: UIPresentationController {
         return dimmingView
     }()
 
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        return UIPanGestureRecognizer(target: self, action: #selector(didPan))
+    }()
+
     private var defaultYOffset = CGFloat(60)
-    var center = false
+    var customBounds: CustomBounds?
 
     // MARK: - UIPresentationController Var/Funcs
     override var frameOfPresentedViewInContainerView: CGRect {
@@ -35,12 +44,14 @@ final class ModalPresentationController: UIPresentationController {
             return CGRect.zero
         }
 
-        if center {
-            let width = containerView.bounds.width - Constants.centerWidthPadding
-            let height = containerView.bounds.height * Constants.centerHeightPadding
+        if let bounds = customBounds {
+            registerForKeyboardNotifications()
+
+            let width = containerView.bounds.width - (2 * bounds.horizontalPadding)
+            let height = containerView.bounds.height * bounds.percentHeight
             let size = CGSize(width: width, height: height)
 
-            let x = Constants.centerWidthPadding / 2
+            let x = bounds.horizontalPadding
             let y = (containerView.bounds.height - height) / 2
             let origin = CGPoint(x: x, y: y)
 
@@ -54,9 +65,8 @@ final class ModalPresentationController: UIPresentationController {
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
-        presentedViewController.view.addGestureRecognizer(
-            UIPanGestureRecognizer(target: self, action: #selector(didPan))
-        )
+        panGesture.delegate = self
+        presentedViewController.view.addGestureRecognizer(panGesture)
     }
 
     override func containerViewWillLayoutSubviews() {
@@ -64,7 +74,7 @@ final class ModalPresentationController: UIPresentationController {
 
         presentedView?.layer.masksToBounds = true
         presentedView?.layer.cornerRadius = Constants.cornerRadius
-        let maskedCorners: CACornerMask = center ? [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        let maskedCorners: CACornerMask = customBounds == nil ? [.layerMinXMinYCorner, .layerMaxXMinYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         presentedView?.layer.maskedCorners = maskedCorners
     }
 
@@ -109,8 +119,8 @@ final class ModalPresentationController: UIPresentationController {
 }
 
 // MARK: - Structs/Enums
-private extension ModalPresentationController {
-    struct Constants {
+extension ModalPresentationController {
+    private struct Constants {
         static let animationDuration = TimeInterval(0.4)
         static let delayDuration = TimeInterval(0)
 
@@ -120,12 +130,13 @@ private extension ModalPresentationController {
         static let cornerRadius = CGFloat(20)
         static let centerWidthPadding = CGFloat(80)
         static let centerHeightPadding = CGFloat(0.7)
+        static let keyboardSpacing = CGFloat(20)
     }
 }
 
 // MARK: - Funcs
 extension ModalPresentationController {
-    @objc func didPan(gestureRecognizer: UIPanGestureRecognizer) {
+    @objc private func didPan(gestureRecognizer: UIPanGestureRecognizer) {
         guard let view = gestureRecognizer.view,
             let presented = presentedView, let container = containerView else {
                 return
@@ -148,7 +159,7 @@ extension ModalPresentationController {
                 presentedViewController.dismiss(animated: true, completion: nil)
             } else {
                 switch presented.frame.origin.y {
-                case 0 ... maxPresentedY:
+                case 0..<maxPresentedY:
                     resizeToFull()
                 default:
                     presentedViewController.dismiss(animated: true, completion: nil)
@@ -174,5 +185,38 @@ extension ModalPresentationController {
 
     @objc private func dismiss() {
         presentedViewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - KeyboardObserving
+extension ModalPresentationController: KeyboardObserving {
+    func keyboardWillShow(_ notification: Notification) {
+        presentedViewController.view.removeGestureRecognizer(panGesture)
+
+        guard let keyboardHeight = notification.keyboardSize?.height else {
+            return
+        }
+
+        if let presentedView = presentedView,
+            let containerView = containerView {
+            let presentedViewFrame = presentedView.frame
+            let newFrame = CGRect(origin: CGPoint(x: presentedViewFrame.origin.x, y: containerView.frame.height - (2 * keyboardHeight) - Constants.keyboardSpacing), size: presentedViewFrame.size)
+            presentedView.frame = newFrame
+        }
+    }
+
+    func keyboardWillHide(_ notification: Notification) {
+        if let presentedView = presentedView {
+            presentedView.frame = frameOfPresentedViewInContainerView
+        }
+        presentedViewController.view.addGestureRecognizer(panGesture)
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension ModalPresentationController: UIGestureRecognizerDelegate {
+    // Preventing panGesture to eat up table view gestures
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,10 +18,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="yXx-Be-TbZ">
-                        <rect key="frame" x="10" y="5" width="300" height="22"/>
+                        <rect key="frame" x="10" y="5" width="300" height="24"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VMP-nF-7Ym">
-                                <rect key="frame" x="0.0" y="0.0" width="40" height="22"/>
+                                <rect key="frame" x="0.0" y="0.0" width="40" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="yw1-bG-QR9"/>
                                 </constraints>
@@ -30,7 +30,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdu-Hw-ZA5">
-                                <rect key="frame" x="46.333333333333343" y="0.0" width="130" height="22"/>
+                                <rect key="frame" x="46.333333333333343" y="0.0" width="130" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="vU9-97-U0c"/>
                                 </constraints>
@@ -39,7 +39,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ki9-KO-0X7">
-                                <rect key="frame" x="182.66666666666666" y="0.0" width="45" height="22"/>
+                                <rect key="frame" x="182.66666666666666" y="0.0" width="45" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="Y0W-hQ-WxY"/>
                                 </constraints>
@@ -47,7 +47,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7j7-wZ-og2">
-                                <rect key="frame" x="233.66666666666663" y="0.0" width="45" height="22"/>
+                                <rect key="frame" x="233.66666666666663" y="0.0" width="45" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="Fsf-FV-z66"/>
                                 </constraints>
@@ -55,18 +55,15 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eaj-fN-d7e">
-                                <rect key="frame" x="285" y="0.0" width="15" height="22"/>
+                                <rect key="frame" x="285" y="0.0" width="15" height="24"/>
                                 <subviews>
                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7QB-69-vXb">
-                                        <rect key="frame" x="0.0" y="3.6666666666666661" width="15" height="14.999999999999998"/>
+                                        <rect key="frame" x="0.0" y="4.6666666666666661" width="15" height="14.999999999999998"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="Iew-dq-Yca"/>
                                             <constraint firstAttribute="width" constant="15" id="bYW-zc-7Kl"/>
                                         </constraints>
                                         <state key="normal" image="checkmark"/>
-                                        <connections>
-                                            <action selector="doneButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6Dk-We-Q5D"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -76,9 +73,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="22" id="COc-FC-MjO"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

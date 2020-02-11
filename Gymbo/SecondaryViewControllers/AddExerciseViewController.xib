@@ -21,20 +21,20 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="rfE-Fw-Etp">
+                    <rect key="frame" x="0.0" y="89" width="414" height="698"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for exercises" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bds-rs-SNb">
-                    <rect key="frame" x="20" y="44" width="374" height="30"/>
+                    <rect key="frame" x="20" y="44" width="374" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="6hZ-RX-OKS"/>
+                        <constraint firstAttribute="height" constant="35" id="40u-B5-l72"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rfE-Fw-Etp">
-                    <rect key="frame" x="0.0" y="94" width="414" height="692"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xig-ZJ-fQP" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                    <rect key="frame" x="30" y="806" width="354" height="45"/>
+                    <rect key="frame" x="20" y="802" width="374" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="X2a-ep-30M"/>
                     </constraints>
@@ -48,16 +48,16 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="xig-ZJ-fQP" firstAttribute="leading" secondItem="8ad-mG-zyp" secondAttribute="leading" constant="30" id="2kb-cx-Gd9"/>
-                <constraint firstItem="rfE-Fw-Etp" firstAttribute="top" secondItem="bds-rs-SNb" secondAttribute="bottom" constant="20" id="AHU-CF-cbq"/>
+                <constraint firstItem="xig-ZJ-fQP" firstAttribute="leading" secondItem="8ad-mG-zyp" secondAttribute="leading" constant="20" id="2kb-cx-Gd9"/>
+                <constraint firstItem="rfE-Fw-Etp" firstAttribute="top" secondItem="bds-rs-SNb" secondAttribute="bottom" constant="10" id="AHU-CF-cbq"/>
                 <constraint firstItem="8ad-mG-zyp" firstAttribute="trailing" secondItem="rfE-Fw-Etp" secondAttribute="trailing" id="BAj-5U-0Ua"/>
                 <constraint firstItem="rfE-Fw-Etp" firstAttribute="leading" secondItem="8ad-mG-zyp" secondAttribute="leading" id="GtK-fF-Mq3"/>
                 <constraint firstItem="bds-rs-SNb" firstAttribute="leading" secondItem="8ad-mG-zyp" secondAttribute="leading" constant="20" id="MTq-JF-Gw1"/>
                 <constraint firstItem="8ad-mG-zyp" firstAttribute="trailing" secondItem="bds-rs-SNb" secondAttribute="trailing" constant="20" id="U3z-Kb-Y45"/>
                 <constraint firstItem="bds-rs-SNb" firstAttribute="top" secondItem="8ad-mG-zyp" secondAttribute="top" id="tVK-4N-R8Z"/>
-                <constraint firstItem="xig-ZJ-fQP" firstAttribute="top" secondItem="rfE-Fw-Etp" secondAttribute="bottom" constant="20" id="utS-UM-AQI"/>
-                <constraint firstAttribute="bottom" secondItem="xig-ZJ-fQP" secondAttribute="bottom" constant="45" id="xIf-Ss-bb5"/>
-                <constraint firstItem="8ad-mG-zyp" firstAttribute="trailing" secondItem="xig-ZJ-fQP" secondAttribute="trailing" constant="30" id="yvf-18-5If"/>
+                <constraint firstItem="xig-ZJ-fQP" firstAttribute="top" secondItem="rfE-Fw-Etp" secondAttribute="bottom" constant="15" id="utS-UM-AQI"/>
+                <constraint firstItem="8ad-mG-zyp" firstAttribute="bottom" secondItem="xig-ZJ-fQP" secondAttribute="bottom" constant="15" id="xIf-Ss-bb5"/>
+                <constraint firstItem="8ad-mG-zyp" firstAttribute="trailing" secondItem="xig-ZJ-fQP" secondAttribute="trailing" constant="20" id="yvf-18-5If"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="8ad-mG-zyp"/>
             <point key="canvasLocation" x="2643" y="-15"/>

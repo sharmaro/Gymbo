@@ -85,3 +85,14 @@ struct Util {
         return correctSuffix
     }
 }
+
+struct UserDefaultKeys {
+    // MARK: - StopWatchViewController
+    static let STOPWATCH_STATE = "stopwatchState"
+    static let STOPWATCH_DATE = "stopwatchDate"
+    static let STOPWATCH_TIME_DICTIONARY = "stopwatchTimeDictionary"
+
+    // MARK: - StartSessionViewController
+    static let STARTSESSION_DATE = "startSessionDate"
+    static let STARTSESSION_TIME_DICTIONARY = "startSessionTimeDictionary"
+}

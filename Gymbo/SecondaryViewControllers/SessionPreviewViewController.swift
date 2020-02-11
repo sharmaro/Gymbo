@@ -44,18 +44,18 @@ class SessionPreviewViewController: UIViewController {
 
     private let dataModelManager = SessionDataModel.shared
 
-    weak var sessionDataModelDelegate: SessionDataModelDelegate?
     weak var startSessionDelegate: StartSessionDelegate?
 }
 
 // MARK: - Structs/Enums
 private extension SessionPreviewViewController {
     struct Constants {
-        static let sessionPreviewCellHeight = CGFloat(55)
+        static let title = "Preview"
+
+        static let sessionPreviewCellHeight = CGFloat(62)
 
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
-        static let title = "Preview"
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
     }
@@ -92,12 +92,6 @@ extension SessionPreviewViewController {
         updateTableView()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        sessionDataModelDelegate?.updateSessionCells()
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -117,8 +111,10 @@ extension SessionPreviewViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(SessionPreviewTableViewCell.nib,
-                           forCellReuseIdentifier: SessionPreviewTableViewCell.reuseIdentifier)
+        // Removes extra lines below shown data
+        tableView.tableFooterView = UIView()
+        tableView.register(ExerciseTableViewCell.nib,
+                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
     private func setupTableHeaderView() {
@@ -181,15 +177,15 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sessionPreviewCell = tableView.dequeueReusableCell(withIdentifier: SessionPreviewTableViewCell.reuseIdentifier, for: indexPath) as? SessionPreviewTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(SessionPreviewTableViewCell.reuseIdentifier)`.")
+        guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
         }
-        var dataModel = SessionPreviewTableViewCellModel()
+        var dataModel = ExerciseTableViewCellModel()
         dataModel.name = exerciseInfoList?[indexPath.row].exerciseName
         dataModel.muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
 
-        sessionPreviewCell.configure(dataModel: dataModel)
-        return sessionPreviewCell
+        exerciseTableViewCell.configure(dataModel: dataModel)
+        return exerciseTableViewCell
     }
 }
 

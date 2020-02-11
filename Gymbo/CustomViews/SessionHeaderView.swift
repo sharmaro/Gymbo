@@ -35,7 +35,7 @@ class SessionHeaderView: UIView {
     }
 
     var shouldSaveName: Bool {
-        return nameTextView.textColor != Colors.dimmedBlack && nameTextView.text.count > 0
+        return nameTextView.textColor != Constants.dimmedBlack && nameTextView.text.count > 0
     }
 
     var isContentEditable = true {
@@ -63,8 +63,11 @@ class SessionHeaderView: UIView {
 
 // MARK: - Structs/Enums
 private extension SessionHeaderView {
-    struct Colors {
+    struct Constants {
         static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
+
+        static let nameTextViewFontSize = CGFloat(28)
+        static let infoTextViewFontSize = CGFloat(20)
     }
 }
 
@@ -80,10 +83,10 @@ extension SessionHeaderView {
     }
 
     private func setupTextViews() {
-        nameTextView.font = UIFont.systemFont(ofSize: 26, weight: .medium)
+        nameTextView.font = UIFont.systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
         nameTextView.tag = 0
 
-        infoTextView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        infoTextView.font = UIFont.systemFont(ofSize: Constants.infoTextViewFontSize, weight: .regular)
         infoTextView.tag = 1
 
         textViews = [nameTextView, infoTextView]

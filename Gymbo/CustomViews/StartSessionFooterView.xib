@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,11 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="500" height="200"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="7bP-a7-XL9">
-                    <rect key="frame" x="20" y="59" width="460" height="98"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="7bP-a7-XL9">
+                    <rect key="frame" x="20" y="59" width="460" height="92"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYp-s7-at0" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="460" height="34"/>
+                            <rect key="frame" x="0.0" y="0.0" width="460" height="31"/>
                             <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -32,7 +32,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Z2-ct-tC3" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="64" width="460" height="34"/>
+                            <rect key="frame" x="0.0" y="61" width="460" height="31"/>
                             <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -40,10 +40,14 @@
                             </connections>
                         </button>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="HYp-s7-at0" firstAttribute="height" secondItem="9Z2-ct-tC3" secondAttribute="height" id="8hv-ei-ElC"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="7bP-a7-XL9" secondAttribute="bottom" constant="15" id="YKJ-xU-NZc"/>
                 <constraint firstItem="7bP-a7-XL9" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="lCy-jK-8P9"/>
                 <constraint firstItem="7bP-a7-XL9" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="meC-lm-mag"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7bP-a7-XL9" secondAttribute="trailing" constant="20" id="vRO-cl-ghq"/>

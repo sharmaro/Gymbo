@@ -50,7 +50,7 @@ private extension AddEditSessionViewController {
         static let dimmedAlpha = CGFloat(0.3)
         static let normalAlpha = CGFloat(1)
         static let exerciseHeaderCellHeight = CGFloat(59)
-        static let exerciseDetailCellHeight = CGFloat(32)
+        static let exerciseDetailCellHeight = CGFloat(40)
         static let addSetButtonCellHeight = CGFloat(50)
 
         static let namePlaceholderText = "Session name"
@@ -68,6 +68,7 @@ extension AddEditSessionViewController {
         setupNavigationBar()
         setupTableView()
         setupTableHeaderView()
+        registerForKeyboardNotifications()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,7 +81,7 @@ extension AddEditSessionViewController {
             return
         }
 
-        // Calls text field and text view didEndEditing() and saves data before realm object is saved
+        // Calls text field and text view didEndEditing() and saves data
         view.endEditing(true)
 
         if sessionState == .add {
@@ -119,6 +120,7 @@ extension AddEditSessionViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
         tableView.register(ExerciseHeaderTableViewCell.nib, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
         tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
@@ -140,7 +142,7 @@ extension AddEditSessionViewController {
         tableView.tableHeaderView?.layoutIfNeeded()
     }
 
-    @objc func addExerciseButtonTapped(_ sender: Any) {
+    @objc private func addExerciseButtonTapped(_ sender: Any) {
         let addExerciseViewController = AddExerciseViewController.loadFromXib()
         let modalNavigationController = UINavigationController(rootViewController: addExerciseViewController)
         if #available(iOS 13.0, *) {
@@ -150,6 +152,7 @@ extension AddEditSessionViewController {
             modalNavigationController.transitioningDelegate = self
         }
         addExerciseViewController.exerciseListDelegate = self
+
         if case .add = sessionState {
             present(modalNavigationController, animated: true, completion: nil)
         } else {
@@ -218,18 +221,23 @@ extension AddEditSessionViewController: UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            if sessionState == .add {
-                removeSet(indexPath: indexPath)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_,_ in
+            if self?.sessionState == .add {
+                self?.removeSet(indexPath: indexPath)
             } else {
-                try? realm?.write {
-                    removeSet(indexPath: indexPath)
+                try? self?.realm?.write {
+                    self?.removeSet(indexPath: indexPath)
                 }
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.reloadSections([indexPath.section], with: .automatic)
+            tableView.reloadSections([indexPath.section], with: .none)
         }
+        deleteAction.backgroundColor = .systemRed
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 
     private func removeSet(indexPath: IndexPath) {
@@ -406,3 +414,21 @@ extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
     }
 }
 
+// MARK: - KeyboardObserving
+extension AddEditSessionViewController: KeyboardObserving {
+    func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardHeight = notification.keyboardSize?.height else {
+            return
+        }
+
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.contentInset.bottom = keyboardHeight
+        }
+    }
+
+    func keyboardWillHide(_ notification: Notification) {
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.contentInset = .zero
+        }
+    }
+}

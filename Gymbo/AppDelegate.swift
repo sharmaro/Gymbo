@@ -22,11 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func setupUINavigationBarAppearance() {
         if #available(iOS 13.0, *) {
-            UINavigationBar.appearance().prefersLargeTitles = false
+            // Do this so large titles show up on iOS >= 13
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = .white
+            appearance.shadowColor = .clear
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().compactAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
         } else {
-            UINavigationBar.appearance().prefersLargeTitles = true
+            UINavigationBar.appearance().shadowImage = UIImage()
         }
-        UINavigationBar.appearance().shadowImage = UIImage()
+
+        UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
     }
 

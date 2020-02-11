@@ -14,7 +14,6 @@ protocol CreateExerciseDelegate: class {
 
 class CreateExerciseViewController: UIViewController {
     // MARK: - Properties
-    @IBOutlet private weak var infoContainerView: UIView!
     @IBOutlet private weak var exerciseGroupPickerView: UIPickerView!
     @IBOutlet private weak var exerciseNameTextField: UITextField!
     @IBOutlet private weak var exerciseMusclesTextField: UITextField!
@@ -32,12 +31,12 @@ class CreateExerciseViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension CreateExerciseViewController {
     struct Constants {
+        static let title = "Create Exercise"
+
         static let navBarButtonSize = CGSize(width: 80, height: 30)
 
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
-
-        static let title = "Create Exercise"
     }
 }
 
@@ -47,7 +46,6 @@ extension CreateExerciseViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
-        setupContainerView()
         setupPickerView()
         setupTextFields()
     }
@@ -69,11 +67,6 @@ extension CreateExerciseViewController {
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
-    private func setupContainerView() {
-        infoContainerView.layer.cornerRadius = 10
-        infoContainerView.layer.borderWidth = 1
-        infoContainerView.layer.borderColor = UIColor.black.cgColor
-    }
 
     private func setupPickerView() {
         exerciseGroupPickerView.dataSource = self
@@ -81,12 +74,16 @@ extension CreateExerciseViewController {
     }
 
     private func setupTextFields() {
-        exerciseNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        exerciseNameTextField.borderStyle = .none
+        [exerciseNameTextField, exerciseMusclesTextField].forEach {
+            $0?.borderStyle = .none
+            $0?.delegate = self
+            $0?.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        }
+        exerciseNameTextField.autocapitalizationType = .words
+        exerciseNameTextField.returnKeyType = .next
         exerciseNameTextField.becomeFirstResponder()
 
-        exerciseMusclesTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        exerciseMusclesTextField.borderStyle = .none
+        exerciseMusclesTextField.returnKeyType = .done
     }
 
     @objc private func cancelButtonTapped() {
@@ -107,14 +104,14 @@ extension CreateExerciseViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func textFieldDidChange() {
+    @objc private func textFieldDidChange(textField: UITextField) {
         guard let exerciseText = exerciseNameTextField.text, let muscleGroupsText = exerciseMusclesTextField.text else {
             return
         }
-        let isTextFilled = (exerciseText.count > 0) && (muscleGroupsText.count > 0)
 
-        navigationItem.rightBarButtonItem?.isEnabled = isTextFilled
-        navigationItem.rightBarButtonItem?.customView?.alpha = isTextFilled ? Constants.activeAlpha : Constants.inactiveAlpha
+        let isTextComplete = (exerciseText.count > 0) && (muscleGroupsText.count > 0)
+        navigationItem.rightBarButtonItem?.isEnabled = isTextComplete
+        navigationItem.rightBarButtonItem?.customView?.alpha = isTextComplete ? Constants.activeAlpha : Constants.inactiveAlpha
     }
 }
 
@@ -142,5 +139,17 @@ extension CreateExerciseViewController: UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 25
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension CreateExerciseViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == exerciseNameTextField {
+            exerciseMusclesTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return false
     }
 }

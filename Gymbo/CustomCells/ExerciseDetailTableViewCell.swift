@@ -46,9 +46,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    private var isExerciseDone = false {
+    var didSelect = false {
         didSet {
-            backgroundColor = isExerciseDone ? .systemGreen : .white
+            backgroundColor = didSelect ? .systemGreen : .clear
         }
     }
 
@@ -101,13 +101,6 @@ extension ExerciseDetailTableViewCell {
         repsTextField.text = dataModel.reps
         weightTextField.text = dataModel.weight
         isDoneButtonEnabled = dataModel.isDoneButtonEnabled
-    }
-
-    @IBAction func doneButtonPressed( _ sender: Any) {
-        guard sender is UIButton else {
-            return
-        }
-        isExerciseDone.toggle()
     }
 }
 

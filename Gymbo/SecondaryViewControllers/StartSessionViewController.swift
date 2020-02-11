@@ -54,14 +54,18 @@ class StartSessionViewController: UIViewController {
     }()
 
     private lazy var tableFooterView: StartSessionFooterView = {
-        let startSessionFooterView = StartSessionFooterView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: 105)))
+        let startSessionFooterView = StartSessionFooterView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.tableFooterViewHeight)))
         startSessionFooterView.startSessionButtonDelegate = self
         return startSessionFooterView
     }()
 
     var session: Session?
 
-    private var sessionSeconds = 0
+    private var sessionSeconds = 0 {
+        didSet {
+            title = sessionSeconds.getMinutesAndSecondsString()
+        }
+    }
     private var sessionTimer: Timer?
 
     private var restTimer: Timer?
@@ -75,6 +79,10 @@ class StartSessionViewController: UIViewController {
 
     private let realm = try? Realm()
 
+    private var selectedRows = [IndexPath: Bool]()
+
+    private let userDefault = UserDefaults.standard
+
     weak var timeLabelDelegate: TimeLabelDelegate?
 }
 
@@ -83,15 +91,19 @@ private extension StartSessionViewController {
     struct Constants {
         static let timeInterval = TimeInterval(1)
 
-        static let verticalStackSpacing = CGFloat(30)
         static let exerciseHeaderCellHeight = CGFloat(59)
-        static let exerciseDetailCellHeight = CGFloat(32)
+        static let exerciseDetailCellHeight = CGFloat(40)
         static let addSetButtonCellHeight = CGFloat(50)
+        static let tableFooterViewHeight = CGFloat(130)
 
         static let barButtonSize = CGSize(width: 80, height: 30)
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
+
+        static let SESSION_SECONDS_KEY = "sessionSeconds"
+        static let REST_TOTAL_TIME_KEY = "restTotalTime"
+        static let REST_REMAINING_TIME_KEY = "restRemainingTime"
     }
 }
 
@@ -103,15 +115,23 @@ extension StartSessionViewController {
         setupTableView()
         setupTableHeaderView()
         setupTableFooterView()
-        startTimer()
+        startSessionTimer()
+        registerForKeyboardNotifications()
+        registerForApplicationNotifications()
+
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        NotificationCenter.default.post(name: .refreshSessions, object: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
         sessionTimer?.invalidate()
         restTimer?.invalidate()
-        NotificationCenter.default.post(name: .refreshSessions, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -142,6 +162,8 @@ extension StartSessionViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .interactive
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
         tableView.register(ExerciseHeaderTableViewCell.nib, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
         tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
         tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
@@ -166,15 +188,24 @@ extension StartSessionViewController {
         tableView.tableFooterView?.layoutIfNeeded()
     }
 
-    private func startTimer() {
+    private func startSessionTimer() {
         sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateSessionTime), userInfo: nil, repeats: true)
         if let timer = sessionTimer {
-            // Allows it to update the navigation bar title.
+            // Allows it to update the navigation bar.
             RunLoop.main.add(timer, forMode: .common)
         }
     }
 
-    @objc func restButtonTapped() {
+    private func startRestTimer() {
+        restTimer?.invalidate()
+        restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateRestTime), userInfo: nil, repeats: true)
+        if let timer = restTimer {
+            // Allows it to update in the navigation bar.
+            RunLoop.main.add(timer, forMode: .common)
+        }
+    }
+
+    @objc private func restButtonTapped() {
         let restViewController = RestViewController.loadFromXib()
         restViewController.isTimerActive = restTimer?.isValid ?? false
         restViewController.startSessionTotalRestTime = totalRestTime
@@ -212,7 +243,6 @@ extension StartSessionViewController {
 
     @objc private func updateSessionTime() {
         sessionSeconds += 1
-        title = sessionSeconds.getMinutesAndSecondsString()
     }
 
     @objc private func updateRestTime() {
@@ -277,6 +307,7 @@ extension StartSessionViewController: UITableViewDataSource {
 
                 exerciseDetailCell.configure(dataModel: dataModel)
                 exerciseDetailCell.exerciseDetailCellDelegate = self
+                exerciseDetailCell.didSelect = selectedRows[indexPath] != nil
                 return exerciseDetailCell
             }
         }
@@ -295,14 +326,20 @@ extension StartSessionViewController: UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            try? realm?.write {
-                removeSet(indexPath: indexPath)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_,_ in
+            try? self?.realm?.write {
+                self?.removeSet(indexPath: indexPath)
             }
+            self?.selectedRows[indexPath] = nil
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.reloadSections([indexPath.section], with: .automatic)
+            tableView.reloadSections([indexPath.section], with: .none)
         }
+        deleteAction.backgroundColor = .systemRed
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 
     private func removeSet(indexPath: IndexPath) {
@@ -326,6 +363,24 @@ extension StartSessionViewController: UITableViewDelegate {
         default:
             return Constants.exerciseDetailCellHeight
         }
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell else {
+            return
+        }
+
+        selectedRows[indexPath] = true
+        exerciseDetailCell.didSelect = true
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell else {
+            return
+        }
+
+        selectedRows[indexPath] = nil
+        exerciseDetailCell.didSelect = false
     }
 }
 
@@ -386,7 +441,7 @@ extension StartSessionViewController: AddSetTableViewCellDelegate {
         }
 
         UIView.performWithoutAnimation {
-            tableView.reloadData()
+            tableView.reloadSections([section], with: .none)
         }
         let sets = session.exercises[section].sets
         tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
@@ -416,10 +471,7 @@ extension StartSessionViewController: ExerciseListDelegate {
 // MARK: - StartSessionButtonDelegate
 extension StartSessionViewController: StartSessionButtonDelegate {
     func addExercise() {
-        guard let addExerciseViewController = storyboard?.instantiateViewController(withIdentifier: AddExerciseViewController.id) as? AddExerciseViewController else {
-            return
-        }
-
+        let addExerciseViewController = AddExerciseViewController.loadFromXib()
         addExerciseViewController.exerciseListDelegate = self
         addExerciseViewController.hideBarButtonItems = true
         navigationController?.pushViewController(addExerciseViewController, animated: true)
@@ -438,12 +490,7 @@ extension StartSessionViewController: RestTimerDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
         timerButton.addMovingLayerAnimation(duration: restTimeRemaining)
 
-        restTimer?.invalidate()
-        restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateRestTime), userInfo: nil, repeats: true)
-        if let timer = sessionTimer {
-            // Allows it to update the navigation bar title.
-            RunLoop.main.add(timer, forMode: .common)
-        }
+        startRestTimer()
     }
 
     func timeUpdated(totalTime: Int, timeRemaining: Int) {
@@ -467,7 +514,70 @@ extension StartSessionViewController: RestTimerDelegate {
 extension StartSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
-        modalPresentationController.center = true
+        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
         return modalPresentationController
+    }
+}
+
+// MARK: - KeyboardObserving
+extension StartSessionViewController: KeyboardObserving {
+    func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardHeight = notification.keyboardSize?.height else {
+            return
+        }
+
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.contentInset.bottom = keyboardHeight
+        }
+    }
+
+    func keyboardWillHide(_ notification: Notification) {
+        UIView.performWithoutAnimation { [weak self] in
+            self?.tableView.contentInset = .zero
+        }
+    }
+}
+
+// MARK: - ApplicationStateObserving
+extension StartSessionViewController: ApplicationStateObserving {
+    func didEnterBackground(_ notification: Notification) {
+        sessionTimer?.invalidate()
+        restTimer?.invalidate()
+
+        let timeDictionary: [String: Int] = [
+            Constants.SESSION_SECONDS_KEY: sessionSeconds,
+            Constants.REST_TOTAL_TIME_KEY: totalRestTime,
+            Constants.REST_REMAINING_TIME_KEY: restTimeRemaining
+        ]
+
+        userDefault.set(Date(), forKey: UserDefaultKeys.STARTSESSION_DATE)
+        userDefault.set(timeDictionary, forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY)
+    }
+
+    func willEnterForeground(_ notification: Notification) {
+        if let date = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_DATE) as? Date,
+            let timeDictionary = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY) as? [String: Int] {
+
+            let secondsElapsed = Int(Date().timeIntervalSince(date))
+
+            sessionSeconds += secondsElapsed
+            startSessionTimer()
+
+            let restTotalTime = timeDictionary[Constants.REST_TOTAL_TIME_KEY] ?? 0
+            let restRemainingTime = timeDictionary[Constants.REST_REMAINING_TIME_KEY] ?? 0
+            let newTimeRemaining = restRemainingTime - secondsElapsed
+
+            if newTimeRemaining > 0 {
+                totalRestTime = restTotalTime
+                restTimeRemaining = newTimeRemaining
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
+                timerButton.addMovingLayerAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+
+                startRestTimer()
+            } else {
+                timerButton.removeMovingLayerAnimation()
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+            }
+        }
     }
 }

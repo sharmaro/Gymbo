@@ -25,12 +25,24 @@ class ExerciseTableViewCell: UITableViewCell {
     class var reuseIdentifier: String {
         return String(describing: self)
     }
+
+    var exerciseName: String? {
+        return exerciseNameLabel.text
+    }
+
+    var didSelect = false {
+        didSet {
+            backgroundColor = didSelect ? .systemGray : .clear
+        }
+    }
 }
 
 // MARK: - UITableViewCell Var/Funcs
 extension ExerciseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        selectionStyle = .none
 
         exerciseNameLabel.textColor = .black
         exerciseMusclesLabel.textColor = .darkGray
