@@ -1,9 +1,9 @@
 //
-//  AddExerciseViewController.swift
+//  ExercisesViewController.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 8/1/19.
-//  Copyright © 2019 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 2/11/20.
+//  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
@@ -19,9 +19,9 @@ struct ExerciseText: Codable {
     let isUserMade: Bool
 }
 
-class AddExerciseViewController: UIViewController {
+class ExercisesViewController: UIViewController {
     // MARK: - Properties
-    @IBOutlet private weak var searchTextField: UITextField!
+    @IBOutlet private weak var searchTextField: SearchTextField!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var addExerciseButton: CustomButton!
 
@@ -33,26 +33,28 @@ class AddExerciseViewController: UIViewController {
     private var selectedExerciseNames = [String]()
     private var exerciseDataModel = ExerciseDataModel.shared
 
-    var hideBarButtonItems = false
+    var state = State.onlyRightBarButton
 
     weak var exerciseListDelegate: ExerciseListDelegate?
 }
 
 // MARK: - Structs/Enums
-private extension AddExerciseViewController {
-    struct Constants {
-        static let title = "Add Exercise"
-
-        static let navBarButtonSize = CGSize(width: 80, height: 30)
-
+extension ExercisesViewController {
+    private struct Constants {
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
         static let headerFontSize = CGFloat(20)
     }
+
+    enum State {
+        case noBarButtons
+        case onlyRightBarButton
+        case bothBarButtons
+    }
 }
 
 // MARK: - UIViewController Var/Funcs
-extension AddExerciseViewController {
+extension ExercisesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,32 +79,24 @@ extension AddExerciseViewController {
 }
 
 // MARK: - Funcs
-extension AddExerciseViewController {
+extension ExercisesViewController {
     private func setupNavigationBar() {
-        title = Constants.title
-        navigationController?.navigationBar.prefersLargeTitles = false
-        if !hideBarButtonItems {
+        title = state == .onlyRightBarButton ? "My Exercises" : "Add Exercises"
+
+        switch state {
+        case .noBarButtons:
+            navigationItem.leftBarButtonItem = nil
+            navigationItem.rightBarButtonItem = nil
+        case .onlyRightBarButton:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
+        case .bothBarButtons:
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
         }
     }
 
     private func setupSearchTextField() {
-        searchTextField.layer.cornerRadius = 10
-        searchTextField.layer.borderWidth = 1
-        searchTextField.layer.borderColor = UIColor.black.cgColor
-        searchTextField.borderStyle = .none
-        searchTextField.leftViewMode = .always
-        searchTextField.returnKeyType = .done
-        searchTextField.delegate = self
-        searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-
-        let searchImageContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 28, height: 16)))
-        let searchImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 10, y: 0), size: CGSize(width: 16, height: 16)))
-        searchImageView.contentMode = .scaleAspectFit
-        searchImageView.image = UIImage(named: "search")
-        searchImageContainerView.addSubview(searchImageView)
-        searchTextField.leftView = searchImageContainerView
+        searchTextField.searchTextFieldDelegate = self
     }
 
     private func setupTableView() {
@@ -114,6 +108,13 @@ extension AddExerciseViewController {
         tableView.tableFooterView = UIView()
         tableView.register(ExerciseTableViewCell.nib,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
+
+        if state == .onlyRightBarButton {
+            addExerciseButton.removeFromSuperview()
+            NSLayoutConstraint.activate([
+                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+        }
     }
 
     private func setupAddExerciseButton() {
@@ -178,21 +179,9 @@ extension AddExerciseViewController {
         present(modalNavigationController, animated: true, completion: nil)
     }
 
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let filter = textField.text?.lowercased(),
-            filter.count > 0 else {
-                exerciseDataModel.removeSearchedResults()
-                tableView.reloadData()
-                return
-        }
-
-        exerciseDataModel.filterResults(filter: filter)
-        tableView.reloadData()
-    }
-
     @IBAction func addButtonTapped(_ sender: Any) {
         saveExerciseInfo()
-        if hideBarButtonItems {
+        if state == .noBarButtons {
             navigationController?.popViewController(animated: true)
         } else {
             dismiss(animated: true, completion: nil)
@@ -201,7 +190,7 @@ extension AddExerciseViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension AddExerciseViewController: UITableViewDataSource {
+extension ExercisesViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return exerciseDataModel.numberOfSections()
     }
@@ -218,13 +207,15 @@ extension AddExerciseViewController: UITableViewDataSource {
 
         let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
         cell.configure(dataModel: exerciseTableViewCellModel)
-        handleCellSelection(cell: cell, model: exerciseTableViewCellModel, indexPath: indexPath)
+        if state == .bothBarButtons || state == .noBarButtons {
+            handleCellSelection(cell: cell, model: exerciseTableViewCellModel, indexPath: indexPath)
+        }
         return cell
     }
 
-    private func handleCellSelection(cell: UITableViewCell, model: ExerciseTableViewCellModel, indexPath: IndexPath) {
+    private func handleCellSelection(cell: UITableViewCell, model: ExerciseText, indexPath: IndexPath) {
         if let exerciseCell = cell as? ExerciseTableViewCell {
-            if let exerciseName = model.name,
+            if let exerciseName = model.exerciseName,
                 selectedExerciseNamesAndIndexPaths.count > 0, selectedExerciseNamesAndIndexPaths[exerciseName] != nil {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 exerciseCell.didSelect = true
@@ -233,10 +224,41 @@ extension AddExerciseViewController: UITableViewDataSource {
             }
         }
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard state == .onlyRightBarButton,
+            let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
+            return false
+        }
+
+        let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
+        return exerciseTableViewCellModel.isUserMade
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
+            let exerciseName = exerciseCell.exerciseName,
+            let trueIndexPath = exerciseDataModel.indexPath(from: indexPath.section, exerciseName: exerciseName) else {
+            return nil
+        }
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
+            self?.exerciseDataModel.removeExercise(at: trueIndexPath)
+            DispatchQueue.main.async {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            completion(true)
+        }
+        deleteAction.backgroundColor = .systemRed
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
 }
 
 // MARK: - UITableViewDelegate
-extension AddExerciseViewController: UITableViewDelegate {
+extension ExercisesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Constants.headerHeight
     }
@@ -266,7 +288,8 @@ extension AddExerciseViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
+        guard state != .onlyRightBarButton,
+            let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName,
             let trueIndexPath = exerciseDataModel.indexPath(from: indexPath.section, exerciseName: exerciseName) else {
             return
@@ -279,7 +302,8 @@ extension AddExerciseViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
+        guard state != .onlyRightBarButton,
+            let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
             return
         }
@@ -294,10 +318,16 @@ extension AddExerciseViewController: UITableViewDelegate {
         exerciseCell.didSelect = false
         updateAddButtonTitle()
     }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < 0 {
+            searchTextField.frame.origin.y = -scrollView.contentOffset.y
+        }
+    }
 }
 
 // MARK: - CreateExerciseDelegate
-extension AddExerciseViewController: CreateExerciseDelegate {
+extension ExercisesViewController: CreateExerciseDelegate {
     func addCreatedExercise(exerciseGroup: String, exerciseText: ExerciseText) {
         exerciseDataModel.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
         tableView.reloadData()
@@ -305,7 +335,7 @@ extension AddExerciseViewController: CreateExerciseDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension AddExerciseViewController: UIViewControllerTransitioningDelegate {
+extension ExercisesViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
         modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.4)
@@ -313,15 +343,27 @@ extension AddExerciseViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension AddExerciseViewController: UITextFieldDelegate {
+// MARK: - SearchTextFieldDelegate
+extension ExercisesViewController: SearchTextFieldDelegate {
+    func textFieldDidChange(_ textField: UITextField) {
+        guard let filter = textField.text?.lowercased(),
+            filter.count > 0 else {
+                exerciseDataModel.removeSearchedResults()
+                tableView.reloadData()
+                return
+        }
+
+        exerciseDataModel.filterResults(filter: filter)
+        tableView.reloadData()
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
 }
 
 // MARK: - KeyboardObserving
-extension AddExerciseViewController: KeyboardObserving {
+extension ExercisesViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let keyboardHeight = notification.keyboardSize?.height else {
             return

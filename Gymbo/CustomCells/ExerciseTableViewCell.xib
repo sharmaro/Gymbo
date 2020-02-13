@@ -39,7 +39,7 @@
                     <constraint firstItem="GC9-gg-oWH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="HqF-Or-wXG"/>
                     <constraint firstAttribute="trailing" secondItem="GC9-gg-oWH" secondAttribute="trailing" constant="20" id="R0g-yi-8wv"/>
                     <constraint firstItem="GC9-gg-oWH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Za5-c6-hR0"/>
-                    <constraint firstAttribute="bottom" secondItem="GC9-gg-oWH" secondAttribute="bottom" constant="10" id="iV5-q0-f7e"/>
+                    <constraint firstAttribute="bottom" secondItem="GC9-gg-oWH" secondAttribute="bottom" priority="999" constant="10" id="iV5-q0-f7e"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

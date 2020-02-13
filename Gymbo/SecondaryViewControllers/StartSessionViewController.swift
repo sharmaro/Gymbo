@@ -84,12 +84,19 @@ class StartSessionViewController: UIViewController {
     private let userDefault = UserDefaults.standard
 
     weak var timeLabelDelegate: TimeLabelDelegate?
+
+    deinit {
+        sessionTimer?.invalidate()
+        restTimer?.invalidate()
+    }
 }
 
 // MARK: - Structs/Enums
 private extension StartSessionViewController {
     struct Constants {
         static let timeInterval = TimeInterval(1)
+
+        static let characterLimit = 5
 
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
@@ -118,20 +125,12 @@ extension StartSessionViewController {
         startSessionTimer()
         registerForKeyboardNotifications()
         registerForApplicationNotifications()
-
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         NotificationCenter.default.post(name: .refreshSessions, object: nil)
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        sessionTimer?.invalidate()
-        restTimer?.invalidate()
     }
 
     override func viewDidLayoutSubviews() {
@@ -150,8 +149,6 @@ extension StartSessionViewController {
 extension StartSessionViewController {
     private func setupNavigationBar() {
         title = 0.getMinutesAndSecondsString()
-        navigationItem.hidesBackButton = true
-        navigationController?.navigationBar.prefersLargeTitles = false
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
@@ -327,13 +324,16 @@ extension StartSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_,_ in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
             try? self?.realm?.write {
                 self?.removeSet(indexPath: indexPath)
             }
             self?.selectedRows[indexPath] = nil
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.reloadSections([indexPath.section], with: .none)
+            DispatchQueue.main.async {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.reloadSections([indexPath.section], with: .none)
+            }
+            completion(true)
         }
         deleteAction.backgroundColor = .systemRed
 
@@ -402,7 +402,7 @@ extension StartSessionViewController: ExerciseHeaderCellDelegate {
 extension StartSessionViewController: ExerciseDetailTableViewCellDelegate {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
-        return totalString.count < 6 // Need a constant for this
+        return totalString.count <= Constants.characterLimit // Need a constant for this
     }
 
     func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell) {
@@ -471,10 +471,15 @@ extension StartSessionViewController: ExerciseListDelegate {
 // MARK: - StartSessionButtonDelegate
 extension StartSessionViewController: StartSessionButtonDelegate {
     func addExercise() {
-        let addExerciseViewController = AddExerciseViewController.loadFromXib()
-        addExerciseViewController.exerciseListDelegate = self
-        addExerciseViewController.hideBarButtonItems = true
-        navigationController?.pushViewController(addExerciseViewController, animated: true)
+        let storyboard = mainStoryboard()
+        guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
+            return
+        }
+
+        exercisesViewController.state = .noBarButtons
+        exercisesViewController.exerciseListDelegate = self
+        navigationController?.pushViewController(exercisesViewController, animated: true)
+        title = ""
     }
 
     func dismiss() {

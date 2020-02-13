@@ -152,4 +152,8 @@ extension UIViewController {
         }
         return instantiateFromNib()
     }
+
+    func mainStoryboard() -> UIStoryboard {
+        return UIStoryboard(name: "Main", bundle: nil)
+    }
 }

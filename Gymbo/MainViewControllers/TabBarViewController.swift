@@ -21,7 +21,6 @@ extension TabBarController {
         super.viewDidLoad()
 
         setupTabBar()
-        setupTabBarItems()
     }
 }
 
@@ -30,10 +29,7 @@ extension TabBarController {
     private func setupTabBar() {
         tabBar.backgroundColor = .black
         tabBar.barTintColor = .black
-    }
 
-    private func setupTabBarItems() {
-//        tabBar.tintColor = Layout.Colors.mainOrange // Color for selected item
-//        tabBar.unselectedItemTintColor = Layout.Colors.white // Color for unselected item
+        selectedIndex = 1
     }
 }

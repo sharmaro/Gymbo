@@ -18,17 +18,17 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="Kx9-hA-FFV">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JpG-Ln-gMq">
-                    <rect key="frame" x="20" y="59" width="374" height="788"/>
+                    <rect key="frame" x="20" y="15" width="374" height="744"/>
                     <subviews>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iJC-si-40I">
                             <rect key="frame" x="0.0" y="0.0" width="374" height="216"/>
                         </pickerView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Exercise name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ycu-Gs-6EI">
-                            <rect key="frame" x="0.0" y="462" width="374" height="40"/>
+                            <rect key="frame" x="0.0" y="440" width="374" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="gmX-XV-ypZ"/>
                             </constraints>
@@ -36,7 +36,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Muscle groups..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8LT-ea-zTR">
-                            <rect key="frame" x="0.0" y="748" width="374" height="40"/>
+                            <rect key="frame" x="0.0" y="704" width="374" height="40"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -59,6 +59,7 @@
                 <constraint firstItem="MAl-WU-47q" firstAttribute="bottom" secondItem="JpG-Ln-gMq" secondAttribute="bottom" constant="15" id="TBE-bI-mdO"/>
                 <constraint firstItem="JpG-Ln-gMq" firstAttribute="leading" secondItem="MAl-WU-47q" secondAttribute="leading" constant="20" id="TFS-DZ-nk2"/>
             </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <viewLayoutGuide key="safeArea" id="MAl-WU-47q"/>
             <point key="canvasLocation" x="3416" y="-15"/>
         </view>

@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct ExerciseTableViewCellModel {
-    var name: String?
-    var muscles: String?
-}
-
 class ExerciseTableViewCell: UITableViewCell {
     // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
@@ -26,13 +21,20 @@ class ExerciseTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
+    private var isUserMade = false {
+        didSet {
+            backgroundColor = isUserMade ? .systemBlue : .white
+        }
+    }
+
     var exerciseName: String? {
         return exerciseNameLabel.text
     }
 
     var didSelect = false {
         didSet {
-            backgroundColor = didSelect ? .systemGray : .clear
+            let defaultColor: UIColor = isUserMade ? .systemBlue : .white
+            backgroundColor = didSelect ? .systemGray : defaultColor
         }
     }
 }
@@ -51,8 +53,9 @@ extension ExerciseTableViewCell {
 
 // MARK: - Funcs
 extension ExerciseTableViewCell {
-    func configure(dataModel: ExerciseTableViewCellModel) {
-        exerciseNameLabel.text = dataModel.name
-        exerciseMusclesLabel.text = dataModel.muscles
+    func configure(dataModel: ExerciseText) {
+        exerciseNameLabel.text = dataModel.exerciseName
+        exerciseMusclesLabel.text = dataModel.exerciseMuscles
+        isUserMade = dataModel.isUserMade
     }
 }

@@ -143,21 +143,26 @@ extension AddEditSessionViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
-        let addExerciseViewController = AddExerciseViewController.loadFromXib()
-        let modalNavigationController = UINavigationController(rootViewController: addExerciseViewController)
+        let storyboard = mainStoryboard()
+        guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
+            return
+        }
+
+        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
         if #available(iOS 13.0, *) {
             // No op
         } else {
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
         }
-        addExerciseViewController.exerciseListDelegate = self
+        exercisesViewController.exerciseListDelegate = self
 
         if case .add = sessionState {
+            exercisesViewController.state = .bothBarButtons
             present(modalNavigationController, animated: true, completion: nil)
         } else {
-            addExerciseViewController.hideBarButtonItems = true
-            navigationController?.pushViewController(addExerciseViewController, animated: true)
+            exercisesViewController.state = .noBarButtons
+            navigationController?.pushViewController(exercisesViewController, animated: true)
         }
     }
 }
@@ -222,7 +227,7 @@ extension AddEditSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_,_ in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
             if self?.sessionState == .add {
                 self?.removeSet(indexPath: indexPath)
             } else {
@@ -230,8 +235,11 @@ extension AddEditSessionViewController: UITableViewDataSource {
                     self?.removeSet(indexPath: indexPath)
                 }
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.reloadSections([indexPath.section], with: .none)
+            DispatchQueue.main.async {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.reloadSections([indexPath.section], with: .none)
+            }
+            completion(true)
         }
         deleteAction.backgroundColor = .systemRed
 

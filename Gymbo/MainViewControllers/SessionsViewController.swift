@@ -41,6 +41,8 @@ class SessionsViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension SessionsViewController {
     struct Constants {
+        static let title = "Sessions"
+
         static let sessionCellHeight = CGFloat(120)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
@@ -86,6 +88,7 @@ extension SessionsViewController {
 // MARK: - Funcs
 extension SessionsViewController {
     private func setupNavigationBar() {
+        title = Constants.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session", style: .plain, target: self, action: #selector(addSessionButtonTapped))
     }

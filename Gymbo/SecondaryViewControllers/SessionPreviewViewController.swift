@@ -180,9 +180,10 @@ extension SessionPreviewViewController: UITableViewDataSource {
         guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
             fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
         }
-        var dataModel = ExerciseTableViewCellModel()
-        dataModel.name = exerciseInfoList?[indexPath.row].exerciseName
-        dataModel.muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
+
+        let name = exerciseInfoList?[indexPath.row].exerciseName
+        let muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
+        let dataModel = ExerciseText(exerciseName: name, exerciseMuscles: muscles, isUserMade: false)
 
         exerciseTableViewCell.configure(dataModel: dataModel)
         return exerciseTableViewCell

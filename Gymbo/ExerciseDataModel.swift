@@ -129,16 +129,14 @@ extension ExerciseDataModel {
         return nil
     }
 
-    func exerciseTableViewCellModel(for group: String, for row: Int) -> ExerciseTableViewCellModel {
+    func exerciseTableViewCellModel(for group: String, for row: Int) -> ExerciseText {
         let data = dataToUse()
-        guard let exerciseText = data[group], row < exerciseText.count else {
+        guard let exerciseText = data[group],
+            row < exerciseText.count else {
             fatalError("Exercise text for group \(group) is nil")
         }
 
-        var dataModel = ExerciseTableViewCellModel()
-        dataModel.name = exerciseText[row].exerciseName
-        dataModel.muscles = exerciseText[row].exerciseMuscles
-        return dataModel
+        return exerciseText[row]
     }
 
     func exerciseGroup(for index: Int) -> String? {
@@ -179,5 +177,17 @@ extension ExerciseDataModel {
             }
         }
         saveExercises()
+    }
+
+    func removeExercise(at indexPath: IndexPath) {
+        guard indexPath.section < exerciseGroups.count,
+            let exercisesCount = exerciseData[exerciseGroups[indexPath.section]]?.count,
+            indexPath.row < exercisesCount else {
+                return
+        }
+        let group = exerciseGroups[indexPath.section]
+        var exercises = exerciseData[group] ?? [ExerciseText]()
+        exercises.remove(at: indexPath.row)
+        exerciseData[group] = exercises
     }
 }
