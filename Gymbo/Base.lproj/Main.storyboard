@@ -313,11 +313,11 @@
             </objects>
             <point key="canvasLocation" x="88" y="-337"/>
         </scene>
-        <!--Exercises-->
+        <!--My Exercises-->
         <scene sceneID="sGN-bo-51h">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KUt-Qj-1hU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Exercises" id="6zG-4k-0kh"/>
+                    <tabBarItem key="tabBarItem" title="My Exercises" image="my_exercises" id="6zG-4k-0kh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="deP-yN-A0a">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -334,6 +334,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="my_exercises" width="24" height="24"/>
         <image name="stopwatch" width="24" height="24"/>
         <image name="weightlifting" width="24" height="24"/>
     </resources>
