@@ -64,6 +64,9 @@ import RealmSwift
     }
 }
 
+// MARK: - For Dragging and Dropping Cells
+
+// MARK: - NSItemProviderReading
 extension Session: NSItemProviderReading {
     static var readableTypeIdentifiersForItemProvider: [String] {
         return []
@@ -74,6 +77,7 @@ extension Session: NSItemProviderReading {
     }
 }
 
+// MARK: - NSItemProviderWriting
 extension Session: NSItemProviderWriting {
     static var writableTypeIdentifiersForItemProvider: [String] {
         return []
@@ -93,7 +97,11 @@ class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
 
     var count: Int {
-        return sessionsCount()
+        return sessionsList?.sessions.count ?? 0
+    }
+
+    var isEmpty: Bool {
+        return sessionsList?.sessions.isEmpty ?? true
     }
 
     private var realm = try? Realm()
@@ -123,10 +131,6 @@ extension SessionDataModel {
 
     private func fetchSessions() -> SessionsList? {
         return realm?.objects(SessionsList.self).first
-    }
-
-    private func sessionsCount() -> Int {
-        return sessionsList?.sessions.count ?? 0
     }
 
     private func removeAllRealmData() {

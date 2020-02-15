@@ -28,7 +28,11 @@ class SessionsViewController: UIViewController {
     private var dataState: DataState = .notEditing {
         didSet {
             let itemType: UIBarButtonItem.SystemItem = dataState == .editing ? .done : .edit
+            let isDataEmpty = sessionDataModel.isEmpty
+
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType, target: self, action: #selector(editButtonTapped))
+            navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
+            navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
 
             // Reloading data so it can toggle the shaking animation.
             UIView.performWithoutAnimation {
@@ -73,7 +77,7 @@ extension SessionsViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let isDataEmpty = sessionDataModel.count == 0
+        let isDataEmpty = sessionDataModel.isEmpty
         navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
         navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
     }
@@ -107,7 +111,7 @@ extension SessionsViewController {
     }
 
     @objc private func refreshMainView() {
-        let isDataEmpty = sessionDataModel.count == 0
+        let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
         emptyExerciseLabel.isHidden = !isDataEmpty
 
