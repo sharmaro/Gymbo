@@ -479,7 +479,12 @@ extension StartSessionViewController: StartSessionButtonDelegate {
         exercisesViewController.state = .noBarButtons
         exercisesViewController.exerciseListDelegate = self
         navigationController?.pushViewController(exercisesViewController, animated: true)
-        title = ""
+        if #available(iOS 13.0, *) {
+            // No op
+            // In iOS >= 13, the title stays updating
+        } else {
+            title = ""
+        }
     }
 
     func dismiss() {
