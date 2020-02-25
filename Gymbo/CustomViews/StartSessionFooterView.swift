@@ -48,12 +48,12 @@ extension StartSessionFooterView {
         addExerciseButton.title = "+ Exercise"
         addExerciseButton.titleFontSize = 15
         addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCornerRadius()
+        addExerciseButton.addCorner()
 
         cancelButton.title = "Cancel"
         cancelButton.titleFontSize = 15
         cancelButton.add(backgroundColor: .systemRed)
-        cancelButton.addCornerRadius()
+        cancelButton.addCorner()
     }
 
     @IBAction func addExerciseButtonTapped(_ sender: Any) {

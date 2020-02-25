@@ -189,5 +189,7 @@ extension ExerciseDataModel {
         var exercises = exerciseData[group] ?? [ExerciseText]()
         exercises.remove(at: indexPath.row)
         exerciseData[group] = exercises
+
+        saveExercises()
     }
 }

@@ -136,7 +136,7 @@ extension SessionPreviewViewController {
         startSessionButton.title = "Start Session"
         startSessionButton.titleLabel?.textAlignment = .center
         startSessionButton.add(backgroundColor: .systemBlue)
-        startSessionButton.addCornerRadius()
+        startSessionButton.addCorner()
     }
 
     private func updateTableView() {

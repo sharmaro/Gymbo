@@ -121,7 +121,7 @@ extension ExercisesViewController {
         addExerciseButton.title = "Add"
         addExerciseButton.titleLabel?.textAlignment = .center
         addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCornerRadius()
+        addExerciseButton.addCorner()
         addExerciseButton.makeUninteractable()
     }
 
@@ -180,11 +180,15 @@ extension ExercisesViewController {
     }
 
     @IBAction func addButtonTapped(_ sender: Any) {
-        saveExerciseInfo()
-        if state == .noBarButtons {
-            navigationController?.popViewController(animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
+        let exercisesCount = selectedExerciseNamesAndIndexPaths.count
+        let exerciseText =  exercisesCount > 1 ? "\(exercisesCount) exercises" : "1 exercise"
+        presentCustomAlert(content: "Add \(exerciseText) to current session?") { [weak self] in
+            self?.saveExerciseInfo()
+            if self?.state == .noBarButtons {
+                self?.navigationController?.popViewController(animated: true)
+            } else {
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }

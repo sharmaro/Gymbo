@@ -15,6 +15,8 @@ fileprivate struct Constants {
 
     static let locations = "locations"
     static let locationAnimation = "loc"
+
+    static let cornerRadius = CGFloat(20)
 }
 
 extension UIView {
@@ -31,6 +33,12 @@ extension UIView {
         layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
         layer.shadowRadius = 2.0
         layer.shadowOpacity = 1.0
+    }
+
+    func roundCorner(radius: CGFloat = Constants.cornerRadius) {
+        clipsToBounds = true
+        layer.cornerRadius = radius
+        layer.masksToBounds = true
     }
 
     func autoPinEdgesTo(superView: UIView?) {
@@ -71,40 +79,6 @@ extension UIView {
             trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -trailing),
             bottomAnchor.constraint(equalTo: superView.bottomAnchor)
         ])
-    }
-
-    func addDimmedView(animated: Bool = false) {
-        let dimmedView = UIView()
-        dimmedView.backgroundColor = Constants.dimmedViewColor
-        dimmedView.alpha = 0
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(dimmedView)
-        dimmedView.autoPinEdgesTo(superView: self)
-
-        if animated {
-            UIView.animate(withDuration: Constants.animationTime) {
-                dimmedView.alpha = 1
-            }
-        } else {
-            dimmedView.alpha = 1
-        }
-    }
-
-    func removeDimmedView(animated: Bool = false) {
-        guard let dimmedView = subviews.last, dimmedView.backgroundColor == Constants.dimmedViewColor else {
-            return
-        }
-
-        if animated {
-            UIView.animate(withDuration: Constants.animationTime, animations: {
-                dimmedView.alpha = 0
-            }) { _ in
-                dimmedView.removeFromSuperview()
-            }
-        } else {
-            dimmedView.removeFromSuperview()
-        }
     }
 
     func addMovingLayerAnimation(animatedColor: UIColor = .systemGray, duration: Int, totalTime: Int = 0, timeRemaining: Int = 0) {
@@ -155,5 +129,13 @@ extension UIViewController {
 
     func mainStoryboard() -> UIStoryboard {
         return UIStoryboard(name: "Main", bundle: nil)
+    }
+
+    func presentCustomAlert(title: String = "Alert", content: String, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: @escaping () -> Void) {
+        let alertViewController = AlertViewController.loadFromXib()
+        alertViewController.setupAlert(title: title, content: content, leftButtonTitle: leftButtonTitle, rightButtonTitle: rightButtonTitle, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
+        alertViewController.modalTransitionStyle = .crossDissolve
+        alertViewController.modalPresentationStyle = .overFullScreen
+        present(alertViewController, animated: true)
     }
 }

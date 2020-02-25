@@ -43,7 +43,7 @@ extension AddSetTableViewCell {
     private func setupAddSetButton() {
         addSetButton.titleFontSize = 15
         addSetButton.add(backgroundColor: .lightGray)
-        addSetButton.addCornerRadius()
+        addSetButton.addCorner()
     }
 
     @IBAction func addSetButtonTapped(_ sender: Any) {

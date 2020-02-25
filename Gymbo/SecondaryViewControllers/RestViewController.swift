@@ -33,7 +33,7 @@ class RestViewController: UIViewController {
         button.title = "+ 5s"
         button.titleFontSize = 15
         button.add(backgroundColor: .systemGray)
-        button.addCornerRadius()
+        button.addCorner()
         button.isHidden = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
@@ -55,7 +55,7 @@ class RestViewController: UIViewController {
         button.title = "- 5s"
         button.titleFontSize = 15
         button.add(backgroundColor: .systemGray)
-        button.addCornerRadius()
+        button.addCorner()
         button.isHidden = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
@@ -177,7 +177,7 @@ extension RestViewController {
     private func setupMainButton() {
         mainButton.title = "Start Timer"
         mainButton.add(backgroundColor: .systemBlue)
-        mainButton.addCornerRadius()
+        mainButton.addCorner()
     }
 
     private func showHideCustomViews() {

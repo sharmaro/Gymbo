@@ -67,8 +67,7 @@ extension ExerciseHeaderTableViewCell {
 
         exerciseNameLabel.textColor = .blue
 
-        deleteExerciseButton.clipsToBounds = true
-        deleteExerciseButton.layer.cornerRadius = deleteExerciseButton.bounds.width / 2
+        deleteExerciseButton.roundCorner(radius: deleteExerciseButton.bounds.width / 2)
 
         doneButton.setTitleColor(.black, for: .normal)
     }

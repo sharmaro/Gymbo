@@ -99,7 +99,7 @@ extension CustomButton {
         }, completion: nil)
     }
 
-    func addCornerRadius(_ radius: CGFloat? = nil) {
+    func addCorner(radius: CGFloat? = nil) {
         layer.cornerRadius = radius ?? cornerRadius
         layer.masksToBounds = false
         clipsToBounds = true

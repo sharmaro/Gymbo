@@ -26,7 +26,7 @@ class StartSessionViewController: UIViewController {
         button.title = "Finish"
         button.titleFontSize = 15
         button.add(backgroundColor: .systemGreen)
-        button.addCornerRadius()
+        button.addCorner()
         button.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -35,7 +35,7 @@ class StartSessionViewController: UIViewController {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.titleFontSize = 15
         button.add(backgroundColor: .systemBlue)
-        button.addCornerRadius()
+        button.addCorner()
         button.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
         return button
     }()

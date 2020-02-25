@@ -96,8 +96,7 @@ extension SessionsCollectionViewCell {
 // MARK: - Funcs
 extension SessionsCollectionViewCell {
     private func setupVisualEffectView() {
-        visualEffectView.layer.cornerRadius = visualEffectView.bounds.width / 2
-        visualEffectView.layer.masksToBounds = true
+        visualEffectView.roundCorner(radius: visualEffectView.bounds.width / 2)
     }
 
     private func setupRoundedCorners() {

@@ -45,6 +45,8 @@
 		6962946F235D594000E681C7 /* Chest.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629467235D593F00E681C7 /* Chest.txt */; };
 		69629470235D594000E681C7 /* Buttocks.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Buttocks.txt */; };
 		69629471235D594000E681C7 /* Hips.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629469235D594000E681C7 /* Hips.txt */; };
+		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
+		69659C0A24039C680054F655 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69659C0824039C680054F655 /* AlertViewController.xib */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
 		697D461723F3B80C002ACDA7 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461623F3B80C002ACDA7 /* SearchTextField.swift */; };
@@ -105,6 +107,8 @@
 		69629467235D593F00E681C7 /* Chest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chest.txt; sourceTree = "<group>"; };
 		69629468235D594000E681C7 /* Buttocks.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Buttocks.txt; sourceTree = "<group>"; };
 		69629469235D594000E681C7 /* Hips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hips.txt; sourceTree = "<group>"; };
+		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		69659C0824039C680054F655 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
 		697D461623F3B80C002ACDA7 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
@@ -148,7 +152,6 @@
 			children = (
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
-				6956292C234463EF00E0AA96 /* ModalPresentationController.swift */,
 				697D461623F3B80C002ACDA7 /* SearchTextField.swift */,
 				6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */,
 				6901E4732387B4980051D1B2 /* SessionHeaderView.xib */,
@@ -219,6 +222,7 @@
 				695D4C0722D450A800E3FB1F /* MainViewControllers */,
 				6929674022F9E0F800832C68 /* SecondaryViewControllers */,
 				692D981F22FE9E640032514D /* CustomCells */,
+				69659C0624039C460054F655 /* CustomViewControllers */,
 				6901E4752387B4C20051D1B2 /* CustomViews */,
 				696A751F2361630300FA605F /* Data */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
@@ -266,6 +270,16 @@
 				69629465235D593F00E681C7 /* Extra Exercises.txt */,
 			);
 			name = WorkoutTextFiles;
+			sourceTree = "<group>";
+		};
+		69659C0624039C460054F655 /* CustomViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				69659C0724039C680054F655 /* AlertViewController.swift */,
+				69659C0824039C680054F655 /* AlertViewController.xib */,
+				6956292C234463EF00E0AA96 /* ModalPresentationController.swift */,
+			);
+			path = CustomViewControllers;
 			sourceTree = "<group>";
 		};
 		696A751F2361630300FA605F /* Data */ = {
@@ -349,6 +363,7 @@
 				694B2AFE23EF5FCC00FA41A3 /* AddEditSessionViewController.xib in Resources */,
 				692D982322FE9E890032514D /* ExerciseDetailTableViewCell.xib in Resources */,
 				69F012E32383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib in Resources */,
+				69659C0A24039C680054F655 /* AlertViewController.xib in Resources */,
 				694B2B0423EF7EAF00FA41A3 /* SessionPreviewViewController.xib in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				69629461235D592000E681C7 /* Abs.txt in Resources */,
@@ -437,6 +452,7 @@
 				69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */,
 				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
 				69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */,
+				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,

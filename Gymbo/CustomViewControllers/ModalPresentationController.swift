@@ -72,8 +72,7 @@ final class ModalPresentationController: UIPresentationController {
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
 
-        presentedView?.layer.masksToBounds = true
-        presentedView?.layer.cornerRadius = Constants.cornerRadius
+        presentedView?.roundCorner(radius: Constants.cornerRadius)
         let maskedCorners: CACornerMask = customBounds == nil ? [.layerMinXMinYCorner, .layerMaxXMinYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         presentedView?.layer.maskedCorners = maskedCorners
     }

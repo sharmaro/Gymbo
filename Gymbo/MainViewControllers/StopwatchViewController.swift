@@ -78,8 +78,7 @@ extension StopwatchViewController {
 // MARK: - Funcs
 extension StopwatchViewController {
     private func setupContainerView() {
-        containerView.clipsToBounds = true
-        containerView.layer.cornerRadius = 20
+        containerView.roundCorner()
     }
 
     private func setupStopWatchButtons() {
@@ -88,7 +87,7 @@ extension StopwatchViewController {
         resetButton.tag = 2
         [startButton, stopButton, resetButton].forEach {
             $0?.titleColor = .white
-            $0?.addCornerRadius(resetButton.bounds.width / 2)
+            $0?.addCorner(radius: resetButton.bounds.width / 2)
         }
     }
 
