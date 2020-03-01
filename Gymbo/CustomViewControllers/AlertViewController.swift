@@ -18,8 +18,9 @@ class AlertViewController: UIViewController {
 
     var alertTitle: String?
     var content: String?
-    var leftButtonTitle = "Cancel"
-    var rightButtonTitle = "Confirm"
+    var usesBothButtons: Bool?
+    var leftButtonTitle: String?
+    var rightButtonTitle: String?
     var leftButtonAction: (() -> Void)?
     var rightButtonAction: (() -> Void)?
 }
@@ -42,15 +43,6 @@ extension AlertViewController {
 
 // MARK: - Funcs
 extension AlertViewController {
-    func setupAlert(title: String = "Alert", content: String, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: @escaping () -> Void) {
-        alertTitle = title
-        self.content = content
-        self.leftButtonTitle = leftButtonTitle
-        self.rightButtonTitle = rightButtonTitle
-        self.leftButtonAction = leftButtonAction
-        self.rightButtonAction = rightButtonAction
-    }
-
     private func setupContentView() {
         contentView.roundCorner()
     }
@@ -71,8 +63,26 @@ extension AlertViewController {
     private func setupAlertView() {
         titleLabel.text = alertTitle
         contentLabel.text = content
-        leftButton.title = leftButtonTitle
-        rightButton.title = rightButtonTitle
+
+        if usesBothButtons ?? true {
+            leftButton.title = leftButtonTitle ?? ""
+            rightButton.title = rightButtonTitle ?? ""
+        } else {
+            rightButton.title = rightButtonTitle ?? ""
+        }
+    }
+
+    func setupAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: @escaping () -> Void) {
+        alertTitle = title
+        self.content = content
+        self.leftButtonTitle = leftButtonTitle
+        self.rightButtonTitle = rightButtonTitle
+        self.leftButtonAction = leftButtonAction
+        self.rightButtonAction = rightButtonAction
+
+        if !usesBothButtons {
+            leftButton.removeFromSuperview()
+        }
     }
 
     @IBAction func leftButtonTapped(_ sender: Any) {

@@ -149,7 +149,10 @@ extension SessionsViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
-            fatalError("Could not dequeue cell with identifier `SessionsCollectionViewCell`")
+            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return UICollectionViewCell()
         }
         var dataModel = SessionsCollectionViewCellModel()
         dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
@@ -205,7 +208,7 @@ extension SessionsViewController: UICollectionViewDelegate {
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
         }
-        present(modalNavigationController, animated: true, completion: nil)
+        present(modalNavigationController, animated: true)
     }
 }
 
@@ -214,7 +217,10 @@ extension SessionsViewController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         guard let session = sessionDataModel.session(for: indexPath.row) else {
-            fatalError("Session to drag at row \(indexPath.row) is nil")
+            presentCustomAlert(title: "Drag Not Allowed", content: "Cannot drag this session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return [UIDragItem]()
         }
         let itemProvider = NSItemProvider(object: session)
         let dragItem = UIDragItem(itemProvider: itemProvider)
@@ -310,7 +316,7 @@ extension SessionsViewController: StartSessionDelegate {
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
         }
-        present(modalNavigationController, animated: true, completion: nil)
+        present(modalNavigationController, animated: true)
     }
 }
 
@@ -321,12 +327,17 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
             return
         }
 
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
-            cell.contentView.alpha = 0
-        }) { [weak self] (finished) in
-            if finished {
-                self?.sessionDataModel.remove(at: index)
-                self?.refreshMainView()
+        let sessionName = sessionDataModel.sessionName(for: index)
+        presentCustomAlert(title: "Delete Session", content: "Are you sure you want to delete \(sessionName)? This cannot be undone.") { [weak self] in
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
+                    cell.contentView.alpha = 0
+                }) { [weak self] (finished) in
+                    if finished {
+                        self?.sessionDataModel.remove(at: index)
+                        self?.refreshMainView()
+                    }
+                }
             }
         }
     }

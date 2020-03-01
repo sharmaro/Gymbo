@@ -130,7 +130,7 @@ extension SessionsCollectionViewCell {
             case .inflate:
                 self?.transform = CGAffineTransform.identity
             }
-        }, completion: nil)
+        })
     }
 
     func configure(dataModel: SessionsCollectionViewCellModel) {

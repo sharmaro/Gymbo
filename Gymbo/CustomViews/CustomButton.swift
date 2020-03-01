@@ -96,7 +96,7 @@ extension CustomButton {
             case .inflate:
                 self?.transform = CGAffineTransform.identity
             }
-        }, completion: nil)
+        })
     }
 
     func addCorner(radius: CGFloat? = nil) {

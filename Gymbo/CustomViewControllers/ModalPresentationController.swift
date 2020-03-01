@@ -93,7 +93,7 @@ final class ModalPresentationController: UIPresentationController {
             }
             self.dimmingView.alpha = 1
 
-            }, completion: nil)
+            })
     }
 
     override func dismissalTransitionWillBegin() {
@@ -107,7 +107,7 @@ final class ModalPresentationController: UIPresentationController {
             }
             self.dimmingView.alpha = 0
 
-            }, completion: nil)
+            })
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
@@ -155,13 +155,13 @@ extension ModalPresentationController {
             let maxPresentedY = (container.frame.height - defaultYOffset) / 2
 
             if velocity.y > 600 {
-                presentedViewController.dismiss(animated: true, completion: nil)
+                presentedViewController.dismiss(animated: true)
             } else {
                 switch presented.frame.origin.y {
                 case 0..<maxPresentedY:
                     resizeToFull()
                 default:
-                    presentedViewController.dismiss(animated: true, completion: nil)
+                    presentedViewController.dismiss(animated: true)
                 }
             }
         default:
@@ -179,11 +179,11 @@ extension ModalPresentationController {
                 return
             }
             presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin
-        }, completion: nil)
+        })
     }
 
     @objc private func dismiss() {
-        presentedViewController.dismiss(animated: true, completion: nil)
+        presentedViewController.dismiss(animated: true)
     }
 }
 
@@ -199,7 +199,7 @@ extension ModalPresentationController: KeyboardObserving {
         if let presentedView = presentedView,
             let containerView = containerView {
             let presentedViewFrame = presentedView.frame
-            let newFrame = CGRect(origin: CGPoint(x: presentedViewFrame.origin.x, y: containerView.frame.height - (2 * keyboardHeight) - Constants.keyboardSpacing), size: presentedViewFrame.size)
+            let newFrame = CGRect(origin: CGPoint(x: presentedViewFrame.origin.x, y: containerView.frame.height - keyboardHeight - presentedViewFrame.size.height - Constants.keyboardSpacing), size: presentedViewFrame.size)
             presentedView.frame = newFrame
         }
     }

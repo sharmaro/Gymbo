@@ -218,24 +218,26 @@ extension StartSessionViewController {
     }
 
     @objc private func finishButtonTapped() {
-        if let session = session {
-            for exercise in session.exercises {
-                for detail in exercise.exerciseDetails {
-                    let weight = Util.formattedString(stringToFormat: detail.weight, type: .weight)
-                    let reps = detail.reps ?? "--"
-                    let last: String
-                    if weight != "--" && reps != "--" {
-                        last = "\(reps) x \(weight)"
-                    } else {
-                        last = "--"
-                    }
-                    try? realm?.write {
-                        detail.last = last
+        presentCustomAlert(title: "Finish Session", content: "Do you want to finish the session?") { [weak self] in
+            if let session = self?.session {
+                for exercise in session.exercises {
+                    for detail in exercise.exerciseDetails {
+                        let weight = Util.formattedString(stringToFormat: detail.weight, type: .weight)
+                        let reps = detail.reps ?? "--"
+                        let last: String
+                        if weight != "--" && reps != "--" {
+                            last = "\(reps) x \(weight)"
+                        } else {
+                            last = "--"
+                        }
+                        try? self?.realm?.write {
+                            detail.last = last
+                        }
                     }
                 }
             }
+            self?.dismiss(animated: true)
         }
-        dismiss(animated: true, completion: nil)
     }
 
     @objc private func updateSessionTime() {
@@ -256,14 +258,20 @@ extension StartSessionViewController {
 extension StartSessionViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
-            fatalError("Session is nil in start session vc numberOfSections()")
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return 0
         }
         return session.exercises.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let session = session else {
-            fatalError("Session is nil in start session vc numberOfRowsInSection()")
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return 0
         }
 
         // Adding 1 for exercise name label
@@ -273,7 +281,10 @@ extension StartSessionViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let session = session else {
-            fatalError("Session is nil in start session vc cellForRowAt()")
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return UITableViewCell()
         }
         
         switch indexPath.row {
@@ -308,7 +319,11 @@ extension StartSessionViewController: UITableViewDataSource {
                 return exerciseDetailCell
             }
         }
-        fatalError("Could not dequeue a valid cell for start session table view")
+
+        presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+            // No op
+        }
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -487,8 +502,10 @@ extension StartSessionViewController: StartSessionButtonDelegate {
         }
     }
 
-    func dismiss() {
-        dismiss(animated: true, completion: nil)
+    func cancelSession() {
+        presentCustomAlert(title: "Cancel Session", content: "Do you want to cancel") { [weak self] in
+            self?.dismiss(animated: true)
+        }
     }
 }
 

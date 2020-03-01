@@ -10,7 +10,7 @@ import UIKit
 
 protocol StartSessionButtonDelegate: class {
     func addExercise()
-    func dismiss()
+    func cancelSession()
 }
 
 class StartSessionFooterView: UIView {
@@ -61,6 +61,6 @@ extension StartSessionFooterView {
     }
 
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        startSessionButtonDelegate?.dismiss()
+        startSessionButtonDelegate?.cancelSession()
     }
 }

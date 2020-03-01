@@ -159,7 +159,7 @@ extension AddEditSessionViewController {
 
         if case .add = sessionState {
             exercisesViewController.state = .bothBarButtons
-            present(modalNavigationController, animated: true, completion: nil)
+            present(modalNavigationController, animated: true)
         } else {
             exercisesViewController.state = .noBarButtons
             navigationController?.pushViewController(exercisesViewController, animated: true)
@@ -211,7 +211,10 @@ extension AddEditSessionViewController: UITableViewDataSource {
                 return exerciseDetailCell
             }
         }
-        fatalError("Could not dequeue a valid cell for add/edit session table view")
+        presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+            // No op
+        }
+        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

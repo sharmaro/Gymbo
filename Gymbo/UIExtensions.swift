@@ -131,9 +131,9 @@ extension UIViewController {
         return UIStoryboard(name: "Main", bundle: nil)
     }
 
-    func presentCustomAlert(title: String = "Alert", content: String, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: @escaping () -> Void) {
+    func presentCustomAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: @escaping () -> Void) {
         let alertViewController = AlertViewController.loadFromXib()
-        alertViewController.setupAlert(title: title, content: content, leftButtonTitle: leftButtonTitle, rightButtonTitle: rightButtonTitle, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
+        alertViewController.setupAlert(title: title, content: content, usesBothButtons: usesBothButtons, leftButtonTitle: leftButtonTitle, rightButtonTitle: rightButtonTitle, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
         alertViewController.modalTransitionStyle = .crossDissolve
         alertViewController.modalPresentationStyle = .overFullScreen
         present(alertViewController, animated: true)

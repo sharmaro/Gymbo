@@ -151,7 +151,9 @@ extension SessionPreviewViewController {
 
     @objc private func editButtonTapped() {
         guard let session = session else {
-            fatalError("Can't edit current session")
+            presentCustomAlert(content: "Can't edit current Session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+            }
+            return
         }
 
         let addEditSessionViewController = AddEditSessionViewController.loadFromXib()
@@ -161,7 +163,7 @@ extension SessionPreviewViewController {
     }
 
     @IBAction func startSessionButtonTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
         startSessionDelegate?.sessionStarted(session: session)
     }
 }
@@ -178,7 +180,10 @@ extension SessionPreviewViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
-            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
+            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                // No op
+            }
+            return UITableViewCell()
         }
 
         let name = exerciseInfoList?[indexPath.row].exerciseName

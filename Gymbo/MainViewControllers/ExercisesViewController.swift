@@ -166,7 +166,7 @@ extension ExercisesViewController {
     }
 
     @objc private func cancelButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     @objc private func createExerciseButtonTapped() {
@@ -176,19 +176,15 @@ extension ExercisesViewController {
         let modalNavigationController = UINavigationController(rootViewController: createExerciseViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
-        present(modalNavigationController, animated: true, completion: nil)
+        present(modalNavigationController, animated: true)
     }
 
     @IBAction func addButtonTapped(_ sender: Any) {
-        let exercisesCount = selectedExerciseNamesAndIndexPaths.count
-        let exerciseText =  exercisesCount > 1 ? "\(exercisesCount) exercises" : "1 exercise"
-        presentCustomAlert(content: "Add \(exerciseText) to current session?") { [weak self] in
-            self?.saveExerciseInfo()
-            if self?.state == .noBarButtons {
-                self?.navigationController?.popViewController(animated: true)
-            } else {
-                self?.dismiss(animated: true, completion: nil)
-            }
+        saveExerciseInfo()
+        if state == .noBarButtons {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
         }
     }
 }
@@ -206,7 +202,10 @@ extension ExercisesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell,
             let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
-            fatalError("Could not dequeue cell with identifier `\(ExerciseTableViewCell.reuseIdentifier)`.")
+                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+                    // No op
+                }
+                return UITableViewCell()
         }
 
         let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
@@ -269,7 +268,7 @@ extension ExercisesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let exerciseGroup = exerciseDataModel.exerciseGroup(for: section) else {
-            fatalError("exerciseDataModel.exerciseGroup is nil ")
+            return nil
         }
         let containerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.headerHeight)))
         containerView.backgroundColor = tableView.numberOfRows(inSection: section) > 0 ? .black : .darkGray

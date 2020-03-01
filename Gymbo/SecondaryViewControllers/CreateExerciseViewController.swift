@@ -96,14 +96,12 @@ extension CreateExerciseViewController {
             return
         }
 
-        presentCustomAlert(content: "Add exercise? ") { [weak self] in
-            let selectedPickerRow = self?.exerciseGroupPickerView.selectedRow(inComponent: 0) ?? 0
-            let exerciseGroup = self?.exerciseGroups[selectedPickerRow] ?? ""
-            let exerciseText = ExerciseText(exerciseName: exercise, exerciseMuscles: muscles, isUserMade: true)
-            self?.createExerciseDelegate?.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
+        let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
+        let exerciseGroup = exerciseGroups[selectedPickerRow]
+        let exerciseText = ExerciseText(exerciseName: exercise, exerciseMuscles: muscles, isUserMade: true)
+        createExerciseDelegate?.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
 
-            self?.dismiss(animated: true)
-        }
+        dismiss(animated: true)
     }
 
     @objc private func textFieldDidChange(textField: UITextField) {
