@@ -66,10 +66,6 @@ private extension SessionsCollectionViewCell {
     enum Transform {
         case shrink
         case inflate
-
-        static func caseFromBool(bool: Bool) -> Transform {
-            return bool ? .shrink : .inflate
-        }
     }
 }
 
@@ -78,7 +74,8 @@ extension SessionsCollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             if !isEditing {
-                transform(condition: Transform.caseFromBool(bool: isHighlighted))
+                let action: Transform = isHighlighted ? .shrink : .inflate
+                transform(condition: action)
             }
         }
     }
@@ -86,7 +83,7 @@ extension SessionsCollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        addShadow()
+        addShadow(direction: .downRight)
         setupVisualEffectView()
         setupRoundedCorners()
         setupTextView()

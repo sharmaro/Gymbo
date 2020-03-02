@@ -218,7 +218,7 @@ extension StartSessionViewController {
     }
 
     @objc private func finishButtonTapped() {
-        presentCustomAlert(title: "Finish Session", content: "Do you want to finish the session?") { [weak self] in
+        presentCustomAlert(title: "Finish Session", content: "Do you want to finish the session?", leftButtonTitle: "No", rightButtonTitle: "Yes") { [weak self] in
             if let session = self?.session {
                 for exercise in session.exercises {
                     for detail in exercise.exerciseDetails {
@@ -503,7 +503,7 @@ extension StartSessionViewController: StartSessionButtonDelegate {
     }
 
     func cancelSession() {
-        presentCustomAlert(title: "Cancel Session", content: "Do you want to cancel") { [weak self] in
+        presentCustomAlert(title: "Cancel Session", content: "Do you want to cancel the session?", leftButtonTitle: "No", rightButtonTitle: "Yes") { [weak self] in
             self?.dismiss(animated: true)
         }
     }
@@ -541,7 +541,7 @@ extension StartSessionViewController: RestTimerDelegate {
 extension StartSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
-        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
+        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.6)
         return modalPresentationController
     }
 }

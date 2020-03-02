@@ -8,6 +8,17 @@
 
 import UIKit
 
+enum ShadowDirection {
+    case up
+    case left
+    case right
+    case down
+    case upLeft
+    case upRight
+    case downLeft
+    case downRight
+}
+
 fileprivate struct Constants {
     static let dimmedViewColor = UIColor.black.withAlphaComponent(0.5)
 
@@ -24,21 +35,6 @@ extension UIView {
         for view in views {
             addSubview(view)
         }
-    }
-
-    func addShadow() {
-        clipsToBounds = true
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 1.0
-    }
-
-    func roundCorner(radius: CGFloat = Constants.cornerRadius) {
-        clipsToBounds = true
-        layer.cornerRadius = radius
-        layer.masksToBounds = true
     }
 
     func autoPinEdgesTo(superView: UIView?) {
@@ -79,6 +75,73 @@ extension UIView {
             trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -trailing),
             bottomAnchor.constraint(equalTo: superView.bottomAnchor)
         ])
+    }
+
+    func addShadow(direction: ShadowDirection) {
+        clipsToBounds = true
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 1.0
+
+        switch direction {
+        case .up:
+            layer.shadowOffset = CGSize(width: 0, height: -4)
+        case .left:
+            layer.shadowOffset = CGSize(width: -2, height: 0)
+        case .right:
+            layer.shadowOffset = CGSize(width: 2, height: 0)
+        case .down:
+            layer.shadowOffset = CGSize(width: 0, height: -4)
+        case .upLeft:
+            layer.shadowOffset = CGSize(width: -2, height: -4)
+        case .upRight:
+            layer.shadowOffset = CGSize(width: 2, height: -4)
+        case .downLeft:
+            layer.shadowOffset = CGSize(width: -2, height: 4)
+        case .downRight:
+            layer.shadowOffset = CGSize(width: 2, height: 4)
+        }
+    }
+
+    func roundCorner(radius: CGFloat = Constants.cornerRadius) {
+        clipsToBounds = true
+        layer.cornerRadius = radius
+        layer.masksToBounds = true
+    }
+
+    func addDimmedView(animated: Bool = false) {
+        let dimmedView = UIView()
+        dimmedView.backgroundColor = Constants.dimmedViewColor
+        dimmedView.alpha = 0
+        dimmedView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(dimmedView)
+        dimmedView.autoPinEdgesTo(superView: self)
+
+        if animated {
+            UIView.animate(withDuration: Constants.animationTime) {
+                dimmedView.alpha = 1
+            }
+        } else {
+            dimmedView.alpha = 1
+        }
+    }
+
+    func removeDimmedView(animated: Bool = false) {
+        guard let dimmedView = subviews.last, dimmedView.backgroundColor == Constants.dimmedViewColor else {
+            return
+        }
+
+        if animated {
+            UIView.animate(withDuration: Constants.animationTime, animations: {
+                dimmedView.alpha = 0
+            }) { _ in
+                dimmedView.removeFromSuperview()
+            }
+        } else {
+            dimmedView.removeFromSuperview()
+        }
     }
 
     func addMovingLayerAnimation(animatedColor: UIColor = .systemGray, duration: Int, totalTime: Int = 0, timeRemaining: Int = 0) {
