@@ -74,14 +74,15 @@ private extension CircleProgressView {
 // MARK: - Funcs
 extension CircleProgressView {
     private func setup() {
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
 
         setupTimeLabels()
     }
 
     private func setupCircleProgressBar() {
-        let radius = CGFloat(bounds.width / 2 * 0.96)
+        // Since this isn't always a square, the smallest bound is necessary for calculating the radius otherwise the circle will go out of bounds
+        let minimumBound = min(bounds.width, bounds.height)
+        let radius = CGFloat(minimumBound / 2 * 0.96)
 
         let startAngle: CGFloat = .pi * 3 / 2
         let endAngle: CGFloat = -.pi / 2
