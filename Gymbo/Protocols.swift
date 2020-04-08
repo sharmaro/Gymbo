@@ -63,7 +63,7 @@ protocol ApplicationStateObserving: class {
     func willEnterForeground(_ notification: Notification)
     func didBecomeActive(_ notification: Notification)
     func willTerminate(_ notification: Notification)
-    func registerForApplicationNotifications()
+    func registerForApplicationStateNotifications()
 }
 
 extension ApplicationStateObserving where Self: UIViewController {
@@ -74,8 +74,8 @@ extension ApplicationStateObserving where Self: UIViewController {
     func didBecomeActive(_ notification: Notification) {}
     func willTerminate(_ notification: Notification) {}
 
-    // Register for UIApplication notifications.
-    func registerForApplicationNotifications() {
+    // Register for UIApplication state notifications.
+    func registerForApplicationStateNotifications() {
         _ = NotificationCenter.default.addObserver(forName: UIApplication.didFinishLaunchingNotification, object: nil, queue: nil) { [weak self] notification in
             self?.didFinishLaunching(notification)
         }
@@ -98,6 +98,29 @@ extension ApplicationStateObserving where Self: UIViewController {
 
         _ = NotificationCenter.default.addObserver(forName: UIApplication.willTerminateNotification, object: nil, queue: nil) { [weak self] notification in
             self?.willTerminate(notification)
+        }
+    }
+}
+
+// MARK: - SessionProgressObserving
+protocol SessionProgressObserving: class {
+    func sessionDidStart(_ notification: Notification)
+    func sessionDidEnd(_ notification: Notification)
+    func registerForSessionProgressNotifications()
+}
+
+extension SessionProgressObserving {
+    func sessionDidStart(_ notification: Notification) {}
+    func sessionDidEnd(_ notification: Notification) {}
+
+    // Register for Session progress notifications.
+    func registerForSessionProgressNotifications() {
+        _ = NotificationCenter.default.addObserver(forName: .startSession, object: nil, queue: nil) { [weak self] notification in
+            self?.sessionDidStart(notification)
+        }
+
+        _ = NotificationCenter.default.addObserver(forName: .endSession, object: nil, queue: nil) { [weak self] notification in
+            self?.sessionDidEnd(notification)
         }
     }
 }

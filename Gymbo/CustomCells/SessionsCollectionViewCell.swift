@@ -18,8 +18,8 @@ struct SessionsCollectionViewCellModel {
     var isEditing = false
 }
 
+// MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
-    // MARK: - Properties
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var visualEffectView: UIVisualEffectView!
     @IBOutlet private weak var deleteButton: CustomButton!

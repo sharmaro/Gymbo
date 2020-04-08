@@ -23,7 +23,7 @@
 #include <realm/util/features.h>
 
 #define REALM_SYNC_VER_MAJOR 4
-#define REALM_SYNC_VER_MINOR 7
+#define REALM_SYNC_VER_MINOR 9
 #define REALM_SYNC_VER_PATCH 5
 #define REALM_SYNC_PRODUCT_NAME "realm-sync"
 

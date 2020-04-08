@@ -8,8 +8,8 @@
 
 import UIKit
 
+// MARK: - Properties
 class StopwatchViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var minuteLabel: UILabel!
     @IBOutlet private weak var secondLabel: UILabel!
@@ -71,7 +71,8 @@ extension StopwatchViewController {
         setupContainerView()
         setupStopWatchButtons()
         loadFromUserDefaults()
-        registerForApplicationNotifications()
+        registerForApplicationStateNotifications()
+        registerForSessionProgressNotifications()
     }
 }
 
@@ -216,5 +217,14 @@ extension StopwatchViewController: ApplicationStateObserving {
 
     func willEnterForeground(_ notification: Notification) {
         updateFromOldState()
+    }
+}
+
+// MARK: - SessionProgressObserving
+extension StopwatchViewController: SessionProgressObserving {
+    func sessionDidStart(_ notification: Notification) {
+    }
+
+    func sessionDidEnd(_ notification: Notification) {
     }
 }

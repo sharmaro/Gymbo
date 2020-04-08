@@ -8,8 +8,8 @@
 
 import Foundation
 
+// MARK: - Properties
 class ExerciseDataModel: NSObject {
-    // MARK: - Parameters
     static let shared = ExerciseDataModel()
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",

@@ -20,7 +20,7 @@ enum ShadowDirection {
 }
 
 fileprivate struct Constants {
-    static let dimmedViewColor = UIColor.black.withAlphaComponent(0.5)
+    static let dimmedViewColor = UIColor.black.withAlphaComponent(0.8)
 
     static let animationTime = TimeInterval(0.2)
 
@@ -78,11 +78,10 @@ extension UIView {
     }
 
     func addShadow(direction: ShadowDirection) {
-        clipsToBounds = true
         layer.masksToBounds = false
         layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 1.0
+        layer.shadowRadius = 2
+        layer.shadowOpacity = 1
 
         switch direction {
         case .up:
@@ -92,7 +91,7 @@ extension UIView {
         case .right:
             layer.shadowOffset = CGSize(width: 2, height: 0)
         case .down:
-            layer.shadowOffset = CGSize(width: 0, height: -4)
+            layer.shadowOffset = CGSize(width: 0, height: 4)
         case .upLeft:
             layer.shadowOffset = CGSize(width: -2, height: -4)
         case .upRight:
@@ -104,10 +103,24 @@ extension UIView {
         }
     }
 
+    func showShadow() {
+        layer.shadowColor = UIColor.lightGray.cgColor
+    }
+
+    func hideShadow() {
+        layer.shadowColor = UIColor.clear.cgColor
+    }
+
+    func removeShadow() {
+        layer.shadowColor = UIColor.clear.cgColor
+        layer.shadowRadius = 0
+        layer.shadowOpacity = 0
+        layer.shadowOffset = .zero
+    }
+
     func roundCorner(radius: CGFloat = Constants.cornerRadius) {
-        clipsToBounds = true
-        layer.cornerRadius = radius
         layer.masksToBounds = true
+        layer.cornerRadius = radius
     }
 
     func addDimmedView(animated: Bool = false) {
@@ -129,7 +142,8 @@ extension UIView {
     }
 
     func removeDimmedView(animated: Bool = false) {
-        guard let dimmedView = subviews.last, dimmedView.backgroundColor == Constants.dimmedViewColor else {
+        guard let dimmedView = subviews.last,
+            dimmedView.backgroundColor == Constants.dimmedViewColor else {
             return
         }
 
@@ -200,5 +214,13 @@ extension UIViewController {
         alertViewController.modalTransitionStyle = .crossDissolve
         alertViewController.modalPresentationStyle = .overFullScreen
         present(alertViewController, animated: true)
+    }
+
+    var tabBarViewController: TabBarController? {
+        return (tabBarController as? TabBarController)
+    }
+
+    var minimizedHeight: CGFloat {
+        return 44
     }
 }

@@ -8,8 +8,17 @@
 
 import UIKit
 
+protocol SetAlphaDelegate: class {
+    func setAlpha(alpha: CGFloat)
+}
+
 protocol ExerciseListDelegate: class {
     func updateExerciseList(_ exerciseTextList: [ExerciseText])
+}
+
+enum PresentationStyle {
+    case normal
+    case modal
 }
 
 // Codable is for encoding/decoding
@@ -19,8 +28,8 @@ struct ExerciseText: Codable {
     let isUserMade: Bool
 }
 
+// MARK: - Properties
 class ExercisesViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var searchTextField: SearchTextField!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var addExerciseButton: CustomButton!
@@ -33,7 +42,7 @@ class ExercisesViewController: UIViewController {
     private var selectedExerciseNames = [String]()
     private var exerciseDataModel = ExerciseDataModel.shared
 
-    var state = State.onlyRightBarButton
+    var presentationStyle = PresentationStyle.normal
 
     weak var exerciseListDelegate: ExerciseListDelegate?
 }
@@ -44,12 +53,6 @@ extension ExercisesViewController {
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
         static let headerFontSize = CGFloat(20)
-    }
-
-    enum State {
-        case noBarButtons
-        case onlyRightBarButton
-        case bothBarButtons
     }
 }
 
@@ -63,6 +66,7 @@ extension ExercisesViewController {
         setupTableView()
         setupAddExerciseButton()
         registerForKeyboardNotifications()
+        registerForSessionProgressNotifications()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,15 +85,12 @@ extension ExercisesViewController {
 // MARK: - Funcs
 extension ExercisesViewController {
     private func setupNavigationBar() {
-        title = state == .onlyRightBarButton ? "My Exercises" : "Add Exercises"
+        title = presentationStyle == .normal ? "My Exercises" : "Add Exercises"
 
-        switch state {
-        case .noBarButtons:
-            navigationItem.leftBarButtonItem = nil
-            navigationItem.rightBarButtonItem = nil
-        case .onlyRightBarButton:
+        switch presentationStyle {
+        case .normal:
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
-        case .bothBarButtons:
+        case .modal:
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
         }
@@ -109,7 +110,7 @@ extension ExercisesViewController {
         tableView.register(ExerciseTableViewCell.nib,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
-        if state == .onlyRightBarButton {
+        if presentationStyle == .normal {
             addExerciseButton.removeFromSuperview()
             NSLayoutConstraint.activate([
                 tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -166,26 +167,32 @@ extension ExercisesViewController {
     }
 
     @objc private func cancelButtonTapped() {
-        dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 
     @objc private func createExerciseButtonTapped() {
+        view.endEditing(true)
+
         let createExerciseViewController = CreateExerciseViewController.loadFromXib()
         createExerciseViewController.createExerciseDelegate = self
+        createExerciseViewController.setAlphaDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: createExerciseViewController)
         modalNavigationController.modalPresentationStyle = .custom
+        modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
-        present(modalNavigationController, animated: true)
+        navigationController?.present(modalNavigationController, animated: true)
+
+        if presentationStyle == .modal {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: { [weak self] in
+                self?.navigationController?.view.alpha = 0
+            })
+        }
     }
 
-    @IBAction func addButtonTapped(_ sender: Any) {
+    @IBAction func addExerciseButton(_ sender: Any) {
         saveExerciseInfo()
-        if state == .noBarButtons {
-            navigationController?.popViewController(animated: true)
-        } else {
-            dismiss(animated: true)
-        }
+        dismiss(animated: true)
     }
 }
 
@@ -210,7 +217,7 @@ extension ExercisesViewController: UITableViewDataSource {
 
         let exerciseTableViewCellModel = exerciseDataModel.exerciseTableViewCellModel(for: group, for: indexPath.row)
         cell.configure(dataModel: exerciseTableViewCellModel)
-        if state == .bothBarButtons || state == .noBarButtons {
+        if presentationStyle == .modal {
             handleCellSelection(cell: cell, model: exerciseTableViewCellModel, indexPath: indexPath)
         }
         return cell
@@ -229,7 +236,7 @@ extension ExercisesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard state == .onlyRightBarButton,
+        guard presentationStyle == .normal,
             let group = exerciseDataModel.exerciseGroup(for: indexPath.section) else {
             return false
         }
@@ -291,7 +298,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard state != .onlyRightBarButton,
+        guard presentationStyle != .normal,
             let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName,
             let trueIndexPath = exerciseDataModel.indexPath(from: indexPath.section, exerciseName: exerciseName) else {
@@ -305,7 +312,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard state != .onlyRightBarButton,
+        guard presentationStyle != .normal,
             let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
             return
@@ -341,7 +348,8 @@ extension ExercisesViewController: CreateExerciseDelegate {
 extension ExercisesViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
-        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.4)
+        modalPresentationController.showDimmingView = presentationStyle == .normal
+        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.42)
         return modalPresentationController
     }
 }
@@ -377,5 +385,29 @@ extension ExercisesViewController: KeyboardObserving {
 
     func keyboardWillHide(_ notification: Notification) {
         tableView.contentInset = .zero
+    }
+}
+
+// MARK: - SetAlphaDelegate
+extension ExercisesViewController: SetAlphaDelegate {
+    func setAlpha(alpha: CGFloat) {
+        if presentationStyle == .modal {
+            UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseIn, animations: { [weak self] in
+                self?.navigationController?.view.alpha = alpha
+            })
+        }
+    }
+}
+
+// MARK: - SessionProgressObserving
+extension ExercisesViewController: SessionProgressObserving {
+    func sessionDidStart(_ notification: Notification) {
+        if tabBarViewController?.isSessionInProgress ?? false {
+            tableView.contentInset.bottom = minimizedHeight
+        }
+    }
+
+    func sessionDidEnd(_ notification: Notification) {
+        tableView.contentInset.bottom = 0
     }
 }

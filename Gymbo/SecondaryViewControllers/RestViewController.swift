@@ -14,8 +14,8 @@ protocol RestTimerDelegate: class {
     func ended()
 }
 
+// MARK: - Properties
 class RestViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var topContainerView: UIView!
     @IBOutlet private weak var restLabel: UILabel!
     @IBOutlet private weak var circleProgressView: CircleProgressView!

@@ -12,8 +12,8 @@ protocol AddSetTableViewCellDelegate: class {
     func addSetButtonTapped(cell: AddSetTableViewCell)
 }
 
+// MARK: - Properties
 class AddSetTableViewCell: UITableViewCell {
-    // MARK: - Properties
     @IBOutlet private weak var addSetButton: CustomButton!
 
     class var nib: UINib {

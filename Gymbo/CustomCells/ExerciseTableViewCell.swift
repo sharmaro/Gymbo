@@ -8,8 +8,8 @@
 
 import UIKit
 
+// MARK: - Properties
 class ExerciseTableViewCell: UITableViewCell {
-    // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
     @IBOutlet private weak var exerciseMusclesLabel: UILabel!
 

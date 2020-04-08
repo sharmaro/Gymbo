@@ -12,8 +12,8 @@ protocol CreateExerciseDelegate: class {
     func addCreatedExercise(exerciseGroup: String, exerciseText: ExerciseText)
 }
 
+// MARK: - Properties
 class CreateExerciseViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var exerciseGroupPickerView: UIPickerView!
     @IBOutlet private weak var exerciseNameTextField: UITextField!
     @IBOutlet private weak var exerciseMusclesTextField: UITextField!
@@ -23,6 +23,7 @@ class CreateExerciseViewController: UIViewController {
     }
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
+    weak var setAlphaDelegate: SetAlphaDelegate?
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
     "Hips", "Legs", "Shoulders", "Extra Exercises"]
@@ -52,6 +53,7 @@ extension CreateExerciseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
         view.endEditing(true)
     }
 }
@@ -88,6 +90,7 @@ extension CreateExerciseViewController {
 
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
+        setAlphaDelegate?.setAlpha(alpha: 1)
     }
 
     @objc private func addButtonTapped() {

@@ -27,8 +27,8 @@ struct ExerciseDetailTableViewCellModel {
     var isDoneButtonEnabled = false
 }
 
+// MARK: - Properties
 class ExerciseDetailTableViewCell: UITableViewCell {
-    // MARK: - Properties
     // Exercise value labels
     @IBOutlet private weak var setsLabel: UILabel!
     @IBOutlet private weak var lastLabel: UILabel!

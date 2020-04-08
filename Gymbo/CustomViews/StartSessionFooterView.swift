@@ -13,8 +13,8 @@ protocol StartSessionButtonDelegate: class {
     func cancelSession()
 }
 
+// MARK: - Properties
 class StartSessionFooterView: UIView {
-    // MARK: - Properties
     @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var addExerciseButton: CustomButton!
     @IBOutlet private weak var cancelButton: CustomButton!

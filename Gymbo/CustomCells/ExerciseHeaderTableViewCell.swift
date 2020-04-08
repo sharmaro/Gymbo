@@ -17,8 +17,8 @@ struct ExerciseHeaderTableViewCellModel {
     var isDoneButtonImageHidden = false
 }
 
+// MARK: - Properties
 class ExerciseHeaderTableViewCell: UITableViewCell {
-    // MARK: - Properties
     @IBOutlet private weak var exerciseNameLabel: UILabel!
     @IBOutlet private weak var deleteExerciseButton: CustomButton!
     // Exercise title views

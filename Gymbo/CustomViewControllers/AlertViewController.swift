@@ -8,8 +8,8 @@
 
 import UIKit
 
+// MARK: - Properties
 class AlertViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var contentLabel: UILabel!
@@ -80,20 +80,19 @@ extension AlertViewController {
         self.leftButtonAction = leftButtonAction
         self.rightButtonAction = rightButtonAction
 
-        if !usesBothButtons {
-            leftButton.removeFromSuperview()
+        guard isViewLoaded, !usesBothButtons else {
+            return
         }
+        leftButton.removeFromSuperview()
     }
 
     @IBAction func leftButtonTapped(_ sender: Any) {
-        dismiss(animated: true) { [weak self] in
-            self?.leftButtonAction?()
-        }
+        dismiss(animated: true)
+        leftButtonAction?()
     }
 
     @IBAction func rightButtonTapped(_ sender: Any) {
-        dismiss(animated: true) { [weak self] in
-            self?.rightButtonAction?()
-        }
+        dismiss(animated: true)
+        rightButtonAction?()
     }
 }

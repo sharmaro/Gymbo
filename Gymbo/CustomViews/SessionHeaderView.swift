@@ -20,8 +20,8 @@ struct SessionHeaderViewModel {
     var textColor = UIColor.black
 }
 
+// MARK: - Properties
 class SessionHeaderView: UIView {
-    // MARK: - Properties
     @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var nameTextView: UITextView!
     @IBOutlet private weak var infoTextView: UITextView!

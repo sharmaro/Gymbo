@@ -13,8 +13,8 @@ protocol SearchTextFieldDelegate: class {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
 }
 
+// MARK: - Properties
 class SearchTextField: UITextField {
-    // MARK: - Properties
     weak var searchTextFieldDelegate: SearchTextFieldDelegate?
 
     // MARK: - UIView Var/Funcs

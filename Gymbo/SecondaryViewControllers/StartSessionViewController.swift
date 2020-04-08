@@ -13,8 +13,8 @@ protocol TimeLabelDelegate: class {
     func updateTimeLabel()
 }
 
+// MARK: - Properties
 class StartSessionViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
@@ -60,6 +60,15 @@ class StartSessionViewController: UIViewController {
     }()
 
     var session: Session?
+    weak var sessionProgresssDelegate: SessionProgressDelegate?
+
+    var initialTabBarFrame: CGRect?
+    weak var dimmedView: UIView?
+    weak var panView: UIView?
+    private var initialPanViewFrame: CGRect?
+    private var panState = PanState.full
+
+    private var modallyPresenting = ModallyPresenting.none
 
     private var sessionSeconds = 0 {
         didSet {
@@ -102,6 +111,7 @@ private extension StartSessionViewController {
         static let exerciseDetailCellHeight = CGFloat(40)
         static let addSetButtonCellHeight = CGFloat(50)
         static let tableFooterViewHeight = CGFloat(130)
+        static let defaultYOffset = CGFloat(60)
 
         static let barButtonSize = CGSize(width: 80, height: 30)
 
@@ -112,19 +122,39 @@ private extension StartSessionViewController {
         static let REST_TOTAL_TIME_KEY = "restTotalTime"
         static let REST_REMAINING_TIME_KEY = "restRemainingTime"
     }
+
+    enum PanState {
+        case full
+        case mini
+    }
+
+    enum ModallyPresenting {
+        case restViewController
+        case exercisesViewController
+        case none
+    }
 }
 
 // MARK: - UIViewController Var/Funcs
 extension StartSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupNavigationBar()
         setupTableView()
         setupTableHeaderView()
         setupTableFooterView()
         startSessionTimer()
         registerForKeyboardNotifications()
-        registerForApplicationNotifications()
+        registerForApplicationStateNotifications()
+        registerForSessionProgressNotifications()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        panView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPan)))
+        initialPanViewFrame = panView?.frame
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -202,7 +232,128 @@ extension StartSessionViewController {
         }
     }
 
+    @objc private func dismissAsChildViewController() {
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            guard let navigationController = self?.navigationController,
+                let defaultTabBarFrame = self?.initialTabBarFrame else {
+                return
+            }
+
+            self?.dimmedView?.alpha = 0
+
+            navigationController.view.frame = CGRect(origin: CGPoint(x: 0, y: navigationController.view.frame.height), size: navigationController.view.frame.size)
+            navigationController.tabBarViewController?.tabBar.frame = defaultTabBarFrame
+        }) { [weak self] (finished) in
+            if finished {
+                self?.dimmedView?.removeFromSuperview()
+                self?.panView?.willMove(toWindow: nil)
+                self?.panView?.removeFromSuperview()
+                self?.navigationController?.removeFromParent()
+                self?.sessionProgresssDelegate?.sessionDidEnd(self?.session)
+            }
+        }
+    }
+
+    @objc private func didPan(gestureRecognizer: UIPanGestureRecognizer) {
+        guard let view = gestureRecognizer.view,
+            let panFrame = initialPanViewFrame else {
+            return
+        }
+
+        let location = gestureRecognizer.translation(in: view)
+
+        switch gestureRecognizer.state {
+        case .changed:
+            let offset = location.y + Constants.defaultYOffset
+
+            switch panState {
+            case .full:
+                if offset >= panFrame.origin.y && offset <= view.frame.height - minimizedHeight {
+                    view.frame.origin.y = offset
+                }
+            case .mini:
+                guard let tabBarViewController = navigationController?.tabBarViewController else {
+                    return
+                }
+
+                let tabBarHeight = tabBarViewController.tabBar.frame.height
+                let newLocation = tabBarViewController.view.frame.height - tabBarHeight - minimizedHeight + location.y
+                if newLocation <= tabBarViewController.view.frame.height - tabBarHeight - minimizedHeight && newLocation >= Constants.defaultYOffset {
+                    view.frame.origin.y = newLocation
+                }
+            }
+        case .ended, .cancelled:
+            let velocity = gestureRecognizer.velocity(in: view)
+            let maxPresentedY = (panFrame.height - Constants.defaultYOffset) / 2
+
+            if panState == .full && velocity.y > 600 {
+                resizeToMiniView()
+            } else if panState == .mini && velocity.y < -600 {
+                resizeToFullView()
+            } else {
+                if view.frame.origin.y < maxPresentedY {
+                    resizeToFullView()
+                } else {
+                    resizeToMiniView()
+                }
+            }
+        default:
+            break
+        }
+    }
+
+    private func resizeToFullView() {
+        if panState != .full {
+            dimmedView?.frame.origin = tabBarViewController?.view.frame.origin ?? .zero
+        }
+
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let panFrame = self?.initialPanViewFrame,
+                let tabBarViewController = self?.navigationController?.tabBarViewController else {
+                return
+            }
+
+            // Making sure this doesn't get called when the view is panned down a little bit and released, yielding in an unnecessary call
+            if self?.panState != .full {
+                self?.dimmedView?.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+                self?.panView?.hideShadow()
+            }
+            self?.navigationController?.navigationBar.prefersLargeTitles = true
+            self?.panView?.frame = panFrame
+            tabBarViewController.tabBar.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height)
+        }) { [weak self] _ in
+            self?.panState = .full
+        }
+    }
+
+    private func resizeToMiniView() {
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let defaultTabBarFrame = self?.initialTabBarFrame,
+                let tabBarViewController = self?.navigationController?.tabBarViewController else {
+                return
+            }
+
+            // Making sure this doesn't get called when the view is panned down a little bit and released, yielding in an unnecessary call
+            if self?.panState != .mini {
+                self?.dimmedView?.backgroundColor = .clear
+                self?.panView?.showShadow()
+            }
+            self?.navigationController?.navigationBar.prefersLargeTitles = false
+
+            let tabBarHeight = defaultTabBarFrame.height
+            self?.panView?.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height - tabBarHeight - (self?.minimizedHeight ?? 0))
+            tabBarViewController.tabBar.frame = defaultTabBarFrame
+        }) { [weak self] _ in
+            if self?.panState != .mini {
+                self?.dimmedView?.frame.origin = self?.panView?.frame.origin ?? CGPoint.zero
+            }
+            self?.panState = .mini
+        }
+    }
+
     @objc private func restButtonTapped() {
+        modallyPresenting = .restViewController
+
         let restViewController = RestViewController.loadFromXib()
         restViewController.isTimerActive = restTimer?.isValid ?? false
         restViewController.startSessionTotalRestTime = totalRestTime
@@ -214,7 +365,7 @@ extension StartSessionViewController {
         let modalNavigationController = UINavigationController(rootViewController: restViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
-        present(modalNavigationController, animated: true)
+        navigationController?.present(modalNavigationController, animated: true)
     }
 
     @objc private func finishButtonTapped() {
@@ -236,7 +387,9 @@ extension StartSessionViewController {
                     }
                 }
             }
-            self?.dismiss(animated: true)
+            DispatchQueue.main.async {
+                self?.dismissAsChildViewController()
+            }
         }
     }
 
@@ -486,25 +639,27 @@ extension StartSessionViewController: ExerciseListDelegate {
 // MARK: - StartSessionButtonDelegate
 extension StartSessionViewController: StartSessionButtonDelegate {
     func addExercise() {
+        modallyPresenting = .exercisesViewController
+
         let storyboard = mainStoryboard()
         guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
             return
         }
 
-        exercisesViewController.state = .noBarButtons
+        exercisesViewController.presentationStyle = .modal
         exercisesViewController.exerciseListDelegate = self
-        navigationController?.pushViewController(exercisesViewController, animated: true)
-        if #available(iOS 13.0, *) {
-            // No op
-            // In iOS >= 13, the title stays updating
-        } else {
-            title = ""
-        }
+
+        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
+        modalNavigationController.modalPresentationStyle = .custom
+        modalNavigationController.transitioningDelegate = self
+        navigationController?.present(modalNavigationController, animated: true)
     }
 
     func cancelSession() {
         presentCustomAlert(title: "Cancel Session", content: "Do you want to cancel the session?", leftButtonTitle: "No", rightButtonTitle: "Yes") { [weak self] in
-            self?.dismiss(animated: true)
+            DispatchQueue.main.async {
+                self?.dismissAsChildViewController()
+            }
         }
     }
 }
@@ -541,7 +696,15 @@ extension StartSessionViewController: RestTimerDelegate {
 extension StartSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
-        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.6)
+
+        switch modallyPresenting {
+        case .restViewController:
+            modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
+        case .exercisesViewController:
+            modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.8)
+        case .none:
+            break
+        }
         return modalPresentationController
     }
 }
@@ -605,6 +768,15 @@ extension StartSessionViewController: ApplicationStateObserving {
                 timerButton.removeMovingLayerAnimation()
                 navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
             }
+        }
+    }
+}
+
+// MARK: - SessionProgressObserving
+extension StartSessionViewController: SessionProgressObserving {
+    func sessionDidEnd(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.dismissAsChildViewController()
         }
     }
 }

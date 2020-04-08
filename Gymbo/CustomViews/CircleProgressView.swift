@@ -8,8 +8,8 @@
 
 import UIKit
 
+// MARK: - Properties
 class CircleProgressView: UIView {
-    // MARK: - Properties
     private var totalTimeLabel = UILabel()
     private var timeRemainingLabel = UILabel()
 

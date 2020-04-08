@@ -14,8 +14,8 @@ enum SessionState: String {
     case edit = "Edit Session"
 }
 
+// MARK: - Properties
 class AddEditSessionViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
 
     class var id: String {
@@ -125,6 +125,10 @@ extension AddEditSessionViewController {
         tableView.register(ExerciseHeaderTableViewCell.nib, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
         tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
         tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+
+        if tabBarViewController?.isSessionInProgress ?? false {
+            tableView.contentInset.bottom = minimizedHeight
+        }
     }
 
     private func setupTableHeaderView() {
@@ -143,27 +147,20 @@ extension AddEditSessionViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
+        view.endEditing(true)
+
         let storyboard = mainStoryboard()
         guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
             return
         }
 
-        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
-        if #available(iOS 13.0, *) {
-            // No op
-        } else {
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
-        }
+        exercisesViewController.presentationStyle = .modal
         exercisesViewController.exerciseListDelegate = self
 
-        if case .add = sessionState {
-            exercisesViewController.state = .bothBarButtons
-            present(modalNavigationController, animated: true)
-        } else {
-            exercisesViewController.state = .noBarButtons
-            navigationController?.pushViewController(exercisesViewController, animated: true)
-        }
+        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
+        modalNavigationController.modalPresentationStyle = .custom
+        modalNavigationController.transitioningDelegate = self
+        navigationController?.present(modalNavigationController, animated: true)
     }
 }
 
@@ -371,7 +368,9 @@ extension AddEditSessionViewController: ExerciseListDelegate {
 // MARK: - UIViewControllerTransitioningDelegate
 extension AddEditSessionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+        modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.8)
+        return modalPresentationController
     }
 }
 

@@ -8,8 +8,8 @@
 
 import UIKit
 
+// MARK: - Properties
 class CustomButton: UIButton {
-    // MARK: - Properties
     var title = "" {
         didSet {
             setTitle(title, for: .normal)

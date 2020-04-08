@@ -13,8 +13,8 @@ struct CustomBounds {
     var percentHeight: CGFloat
 }
 
+// MARK: - Properties
 final class ModalPresentationController: UIPresentationController {
-    // MARK: - Properties
     private lazy var dimmingView: UIView = {
         guard let containerView = containerView else {
             return UIView()
@@ -35,8 +35,9 @@ final class ModalPresentationController: UIPresentationController {
         return UIPanGestureRecognizer(target: self, action: #selector(didPan))
     }()
 
-    private var defaultYOffset = CGFloat(60)
     var customBounds: CustomBounds?
+    var showDimmingView = true
+    private var hasRegisteredForKeyboardNotifications = false
 
     // MARK: - UIPresentationController Var/Funcs
     override var frameOfPresentedViewInContainerView: CGRect {
@@ -45,8 +46,10 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         if let bounds = customBounds {
-            registerForKeyboardNotifications()
-
+            if !hasRegisteredForKeyboardNotifications {
+                hasRegisteredForKeyboardNotifications = true
+                registerForKeyboardNotifications()
+            }
             let width = containerView.bounds.width - (2 * bounds.horizontalPadding)
             let height = containerView.bounds.height * bounds.percentHeight
             let size = CGSize(width: width, height: height)
@@ -58,8 +61,8 @@ final class ModalPresentationController: UIPresentationController {
             return CGRect(origin: origin, size: size)
         }
 
-        let defaultHeight = containerView.bounds.height - defaultYOffset
-        return CGRect(origin: CGPoint(x: 0, y: defaultYOffset), size: CGSize(width: containerView.bounds.width, height: defaultHeight))
+        let defaultHeight = containerView.bounds.height - Constants.defaultYOffset
+        return CGRect(origin: CGPoint(x: 0, y: Constants.defaultYOffset), size: CGSize(width: containerView.bounds.width, height: defaultHeight))
     }
 
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
@@ -79,7 +82,8 @@ final class ModalPresentationController: UIPresentationController {
 
     override func presentationTransitionWillBegin() {
         guard let container = containerView,
-            let coordinator = presentingViewController.transitionCoordinator else {
+            let coordinator = presentingViewController.transitionCoordinator,
+            showDimmingView else {
                 return
         }
 
@@ -92,12 +96,12 @@ final class ModalPresentationController: UIPresentationController {
                 return
             }
             self.dimmingView.alpha = 1
-
-            })
+        })
     }
 
     override func dismissalTransitionWillBegin() {
-        guard let coordinator = presentingViewController.transitionCoordinator else {
+        guard let coordinator = presentingViewController.transitionCoordinator,
+        showDimmingView else {
             return
         }
 
@@ -106,12 +110,11 @@ final class ModalPresentationController: UIPresentationController {
                 return
             }
             self.dimmingView.alpha = 0
-
-            })
+        })
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
-        if completed {
+        if completed, showDimmingView {
             dimmingView.removeFromSuperview()
         }
     }
@@ -123,13 +126,14 @@ extension ModalPresentationController {
         static let animationDuration = TimeInterval(0.4)
         static let delayDuration = TimeInterval(0)
 
+        static let defaultYOffset = CGFloat(60)
         static let dimmedAlpha = CGFloat(0.8)
         static let dampingDuration = CGFloat(1)
         static let velocity = CGFloat(0.7)
-        static let cornerRadius = CGFloat(20)
+        static let cornerRadius = CGFloat(10)
         static let centerWidthPadding = CGFloat(80)
         static let centerHeightPadding = CGFloat(0.7)
-        static let keyboardSpacing = CGFloat(20)
+        static let keyboardSpacing = CGFloat(10)
     }
 }
 
@@ -145,22 +149,21 @@ extension ModalPresentationController {
 
         switch gestureRecognizer.state {
         case .changed:
-            let offset = location.y + defaultYOffset
+            let offset = location.y + Constants.defaultYOffset
 
             if offset > frameOfPresentedViewInContainerView.origin.y {
-                presented.frame.origin.y = location.y + defaultYOffset
+                presented.frame.origin.y = offset
             }
         case .ended, .cancelled:
             let velocity = gestureRecognizer.velocity(in: view)
-            let maxPresentedY = (container.frame.height - defaultYOffset) / 2
+            let maxPresentedY = (container.frame.height - Constants.defaultYOffset) / 2
 
             if velocity.y > 600 {
                 presentedViewController.dismiss(animated: true)
             } else {
-                switch presented.frame.origin.y {
-                case 0..<maxPresentedY:
-                    resizeToFull()
-                default:
+                if presented.frame.origin.y < maxPresentedY {
+                    resizeToFullView()
+                } else {
                     presentedViewController.dismiss(animated: true)
                 }
             }
@@ -169,7 +172,7 @@ extension ModalPresentationController {
         }
     }
 
-    private func resizeToFull() {
+    private func resizeToFullView() {
         guard let presentedView = presentedView else {
             return
         }
@@ -192,21 +195,39 @@ extension ModalPresentationController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         presentedViewController.view.removeGestureRecognizer(panGesture)
 
-        guard let keyboardHeight = notification.keyboardSize?.height else {
+        guard let keyboardHeight = notification.keyboardSize?.height,
+            let presentedView = presentedView,
+            let containerView = containerView else {
             return
         }
 
-        if let presentedView = presentedView,
-            let containerView = containerView {
-            let presentedViewFrame = presentedView.frame
-            let newFrame = CGRect(origin: CGPoint(x: presentedViewFrame.origin.x, y: containerView.frame.height - keyboardHeight - presentedViewFrame.size.height - Constants.keyboardSpacing), size: presentedViewFrame.size)
-            presentedView.frame = newFrame
+        let minYOfKeyboard = containerView.frame.height - keyboardHeight
+        let heightToRemove = abs(presentedView.frame.maxY - minYOfKeyboard)
+        let minYLimitOfPresentedView = presentedView.frame.origin.y / 3
+
+        /**
+         - minYLimitOfPresentedView is 1/3 of it's original origin.y
+         - Need to call (2 * newYOrigin) because that's how much space should not be removed from the new height
+        */
+        guard minYOfKeyboard != presentedView.frame.maxY + Constants.keyboardSpacing else {
+            return
         }
+
+        let newFrame: CGRect
+        // Checking to see if the new origin of presented view is >= minYLimitOfPresentedView
+        if containerView.frame.height - keyboardHeight - Constants.keyboardSpacing - presentedView.frame.height >= minYLimitOfPresentedView {
+            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x, y: containerView.frame.height - keyboardHeight - presentedView.frame.height - Constants.keyboardSpacing), size: presentedView.frame.size)
+        } else {
+            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x, y: minYLimitOfPresentedView), size: CGSize(width: presentedView.frame.width, height: presentedView.frame.height + (2 * minYLimitOfPresentedView) - heightToRemove - Constants.keyboardSpacing))
+        }
+        presentedView.frame = newFrame
+        presentedView.layoutIfNeeded()
     }
 
     func keyboardWillHide(_ notification: Notification) {
         if let presentedView = presentedView {
             presentedView.frame = frameOfPresentedViewInContainerView
+            presentedView.layoutIfNeeded()
         }
         presentedViewController.view.addGestureRecognizer(panGesture)
     }

@@ -9,14 +9,19 @@
 import UIKit
 import RealmSwift
 
+protocol SessionProgressDelegate: class {
+    func sessionDidStart(_ session: Session?)
+    func sessionDidEnd(_ session: Session?)
+}
+
 protocol SessionDataModelDelegate: class {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>)
     func saveSelectedSession(_ session: Session)
     func updateSessionCells()
 }
 
+// MARK: - Properties
 class SessionsViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var emptyExerciseLabel: UILabel!
 
@@ -40,6 +45,8 @@ class SessionsViewController: UIViewController {
             }
         }
     }
+
+    private var shouldStartAnotherSession = false
 }
 
 // MARK: - Structs/Enums
@@ -50,6 +57,7 @@ private extension SessionsViewController {
         static let sessionCellHeight = CGFloat(120)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
+        static let defaultYOffset = CGFloat(60)
     }
 
     enum DataState {
@@ -69,9 +77,9 @@ extension SessionsViewController {
 
         setupNavigationBar()
         setupCollectionView()
-        refreshMainView()
+        refreshSessions()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshMainView), name: .refreshSessions, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshSessions), name: .refreshSessions, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -110,7 +118,7 @@ extension SessionsViewController {
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
-    @objc private func refreshMainView() {
+    @objc private func refreshSessions() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
         emptyExerciseLabel.isHidden = !isDataEmpty
@@ -199,7 +207,7 @@ extension SessionsViewController: UICollectionViewDelegate {
 
         let sessionPreviewViewController = SessionPreviewViewController.loadFromXib()
         sessionPreviewViewController.session = selectedSession
-        sessionPreviewViewController.startSessionDelegate = self
+        sessionPreviewViewController.sessionProgressDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: sessionPreviewViewController)
         if #available(iOS 13.0, *) {
@@ -289,11 +297,11 @@ extension SessionsViewController: SessionDataModelDelegate {
         let session = Session(name: name, info: info, exercises: exercises)
         sessionDataModel.add(session: session)
 
-        refreshMainView()
+        refreshSessions()
     }
 
     func saveSelectedSession(_ editedSession: Session) {
-        refreshMainView()
+        refreshSessions()
     }
 
     func updateSessionCells() {
@@ -303,20 +311,74 @@ extension SessionsViewController: SessionDataModelDelegate {
     }
 }
 
-// MARK: - StartSessionDelegate
-extension SessionsViewController: StartSessionDelegate {
-    func sessionStarted(session: Session?) {
+// MARK: - SessionProgressDelegate
+extension SessionsViewController: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        guard let isSessionInProgress = tabBarViewController?.isSessionInProgress else {
+            return
+        }
+
+        if isSessionInProgress {
+            presentCustomAlert(title: "Another One?", content: "You already have a workout in progress!", usesBothButtons: true, leftButtonTitle: "My Bad", rightButtonTitle: "Start New Workout") { [weak self] in
+                self?.shouldStartAnotherSession = true
+                NotificationCenter.default.post(name: .endSession, object: nil)
+            }
+        } else {
+            startSession(session)
+        }
+    }
+
+    private func startSession(_ session: Session?) {
+        guard let tabBarViewController = navigationController?.tabBarViewController else {
+            return
+        }
+
+        tabBarViewController.isSessionInProgress = true
+
+        let dimmedView = UIView(frame: tabBarViewController.view.frame)
+        dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: tabBarViewController.view.frame.height), size: CGSize(width: tabBarViewController.view.frame.width, height: tabBarViewController.view.frame.height - Constants.defaultYOffset)))
+        shadowContainerView.addShadow(direction: .up)
+        shadowContainerView.hideShadow()
+
         let startSessionViewController = StartSessionViewController.loadFromXib()
         startSessionViewController.session = session
+        startSessionViewController.sessionProgresssDelegate = self
+        startSessionViewController.dimmedView = dimmedView
+        startSessionViewController.panView = shadowContainerView
+        startSessionViewController.initialTabBarFrame = tabBarViewController.tabBar.frame
+        // This allows startSessionViewController to extend over the bottom tab bar
+        startSessionViewController.extendedLayoutIncludesOpaqueBars = true
 
-        let modalNavigationController = UINavigationController(rootViewController: startSessionViewController)
-        if #available(iOS 13.0, *) {
-            // No op
-        } else {
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
+        let containerNavigationController = UINavigationController(rootViewController: startSessionViewController)
+        containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
+        containerNavigationController.view.roundCorner(radius: 10)
+
+        shadowContainerView.addSubview(containerNavigationController.view)
+        containerNavigationController.view.autoPinEdgesTo(superView: shadowContainerView)
+
+        tabBarViewController.view.insertSubview(shadowContainerView, belowSubview: tabBarViewController.tabBar)
+        tabBarViewController.addChild(containerNavigationController)
+        containerNavigationController.didMove(toParent: tabBarViewController)
+
+        tabBarViewController.view.insertSubview(dimmedView, belowSubview: shadowContainerView)
+        tabBarViewController.view.layoutIfNeeded()
+
+        UIView.animate(withDuration: 0.4, delay: 0.1, animations: {
+            shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
+            tabBarViewController.tabBar.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height)
+        })
+    }
+
+    func sessionDidEnd(_ session: Session?) {
+        tabBarViewController?.isSessionInProgress = false
+        if shouldStartAnotherSession {
+            tabBarViewController?.isSessionInProgress = true
+            shouldStartAnotherSession = false
+
+            startSession(session)
         }
-        present(modalNavigationController, animated: true)
     }
 }
 
@@ -335,7 +397,7 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
                 }) { [weak self] (finished) in
                     if finished {
                         self?.sessionDataModel.remove(at: index)
-                        self?.refreshMainView()
+                        self?.refreshSessions()
                     }
                 }
             }

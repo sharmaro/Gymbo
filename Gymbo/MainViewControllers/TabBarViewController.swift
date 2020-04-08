@@ -8,10 +8,23 @@
 
 import UIKit
 
+// MARK: - Properties
 class TabBarController: UITabBarController {
-    // MARK: - Properties
     class var id: String {
         return String(describing: self)
+    }
+
+    var isSessionInProgress = false
+
+    private var selectedTab = SelectedTab.sessions
+}
+
+// MARK: - Structs/Enums
+private extension TabBarController {
+    enum SelectedTab: Int {
+        case exercises = 0
+        case sessions
+        case stopwatch
     }
 }
 
@@ -30,6 +43,6 @@ extension TabBarController {
         tabBar.backgroundColor = .black
         tabBar.barTintColor = .black
 
-        selectedIndex = 1
+        selectedIndex = selectedTab.rawValue
     }
 }

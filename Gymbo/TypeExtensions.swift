@@ -51,4 +51,6 @@ extension Notification {
 
 extension Notification.Name {
     static let refreshSessions = Notification.Name("refreshSessions")
+    static let startSession = Notification.Name("startSession")
+    static let endSession = Notification.Name("endSession")
 }

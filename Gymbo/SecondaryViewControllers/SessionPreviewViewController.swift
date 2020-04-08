@@ -8,17 +8,13 @@
 
 import UIKit
 
-protocol StartSessionDelegate: class {
-    func sessionStarted(session: Session?)
-}
-
 struct ExerciseInfo {
     var exerciseName: String?
     var exerciseMuscles: String?
 }
 
+// MARK: - Properties
 class SessionPreviewViewController: UIViewController {
-    // MARK: - Properties
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var startSessionButton: CustomButton!
 
@@ -44,7 +40,7 @@ class SessionPreviewViewController: UIViewController {
 
     private let dataModelManager = SessionDataModel.shared
 
-    weak var startSessionDelegate: StartSessionDelegate?
+    weak var sessionProgressDelegate: SessionProgressDelegate?
 }
 
 // MARK: - Structs/Enums
@@ -164,7 +160,7 @@ extension SessionPreviewViewController {
 
     @IBAction func startSessionButtonTapped(_ sender: Any) {
         dismiss(animated: true)
-        startSessionDelegate?.sessionStarted(session: session)
+        sessionProgressDelegate?.sessionDidStart(session)
     }
 }
 
