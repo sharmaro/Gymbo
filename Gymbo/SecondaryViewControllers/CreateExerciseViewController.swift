@@ -24,9 +24,6 @@ class CreateExerciseViewController: UIViewController {
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
     weak var setAlphaDelegate: SetAlphaDelegate?
-
-    private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
-    "Hips", "Legs", "Shoulders", "Extra Exercises"]
 }
 
 // MARK: - Structs/Enums
@@ -100,7 +97,7 @@ extension CreateExerciseViewController {
         }
 
         let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
-        let exerciseGroup = exerciseGroups[selectedPickerRow]
+        let exerciseGroup = ExerciseDataModel.shared.exerciseGroups[selectedPickerRow]
         let exerciseText = ExerciseText(exerciseName: exercise, exerciseMuscles: muscles, isUserMade: true)
         createExerciseDelegate?.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
 
@@ -125,7 +122,7 @@ extension CreateExerciseViewController: UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        exerciseGroups.count
+        ExerciseDataModel.shared.exerciseGroups.count
     }
 }
 
@@ -133,7 +130,7 @@ extension CreateExerciseViewController: UIPickerViewDataSource {
 extension CreateExerciseViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: 25)))
-        pickerLabel.text = exerciseGroups[row]
+        pickerLabel.text = ExerciseDataModel.shared.exerciseGroups[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .left
         pickerLabel.font = UIFont.systemFont(ofSize: 18)

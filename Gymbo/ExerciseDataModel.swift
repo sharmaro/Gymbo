@@ -12,8 +12,7 @@ import Foundation
 class ExerciseDataModel: NSObject {
     static let shared = ExerciseDataModel()
 
-    private let exerciseGroups = ["Abs", "Arms", "Back", "Buttocks", "Chest",
-    "Hips", "Legs", "Shoulders", "Extra Exercises"]
+    let exerciseGroups = ["Abs", "Arms", "Back", "Chest", "Glutes", "Hips", "Legs", "Shoulders", "Extra Exercises"]
     var exerciseData = [String: [ExerciseText]]()
     // Used to store the filtered results based on user search
     var searchResults = [String: [ExerciseText]]()

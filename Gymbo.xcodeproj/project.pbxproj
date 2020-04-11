@@ -43,7 +43,7 @@
 		6962946D235D594000E681C7 /* Extra Exercises.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629465235D593F00E681C7 /* Extra Exercises.txt */; };
 		6962946E235D594000E681C7 /* Legs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629466235D593F00E681C7 /* Legs.txt */; };
 		6962946F235D594000E681C7 /* Chest.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629467235D593F00E681C7 /* Chest.txt */; };
-		69629470235D594000E681C7 /* Buttocks.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Buttocks.txt */; };
+		69629470235D594000E681C7 /* Glutes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Glutes.txt */; };
 		69629471235D594000E681C7 /* Hips.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629469235D594000E681C7 /* Hips.txt */; };
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
 		69659C0A24039C680054F655 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69659C0824039C680054F655 /* AlertViewController.xib */; };
@@ -105,7 +105,7 @@
 		69629465235D593F00E681C7 /* Extra Exercises.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Extra Exercises.txt"; sourceTree = "<group>"; };
 		69629466235D593F00E681C7 /* Legs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Legs.txt; sourceTree = "<group>"; };
 		69629467235D593F00E681C7 /* Chest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chest.txt; sourceTree = "<group>"; };
-		69629468235D594000E681C7 /* Buttocks.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Buttocks.txt; sourceTree = "<group>"; };
+		69629468235D594000E681C7 /* Glutes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Glutes.txt; sourceTree = "<group>"; };
 		69629469235D594000E681C7 /* Hips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hips.txt; sourceTree = "<group>"; };
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		69659C0824039C680054F655 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
@@ -262,8 +262,8 @@
 				69629460235D592000E681C7 /* Abs.txt */,
 				69629463235D593F00E681C7 /* Arms.txt */,
 				69629462235D593F00E681C7 /* Back.txt */,
-				69629468235D594000E681C7 /* Buttocks.txt */,
 				69629467235D593F00E681C7 /* Chest.txt */,
+				69629468235D594000E681C7 /* Glutes.txt */,
 				69629469235D594000E681C7 /* Hips.txt */,
 				69629466235D593F00E681C7 /* Legs.txt */,
 				69629464235D593F00E681C7 /* Shoulders.txt */,
@@ -375,7 +375,7 @@
 				6994C5B523EF837B009D4FCB /* RestViewController.xib in Resources */,
 				6962946B235D594000E681C7 /* Arms.txt in Resources */,
 				6994C5B723EF8452009D4FCB /* StartSessionViewController.xib in Resources */,
-				69629470235D594000E681C7 /* Buttocks.txt in Resources */,
+				69629470235D594000E681C7 /* Glutes.txt in Resources */,
 				6962946F235D594000E681C7 /* Chest.txt in Resources */,
 				694B2B0823EF81E100FA41A3 /* CreateExerciseViewController.xib in Resources */,
 				6962946C235D594000E681C7 /* Shoulders.txt in Resources */,
