@@ -59,7 +59,7 @@ class CustomButton: UIButton {
 // MARK: - Structs/Enums
 private extension CustomButton {
     struct Constants {
-        static let dimmedAlpha = CGFloat(0.3)
+        static let dimmedAlpha = CGFloat(0.4)
         static let normalAlpha = CGFloat(1)
         static let transformScale = CGFloat(0.95)
 

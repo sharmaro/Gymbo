@@ -47,8 +47,6 @@ class AddEditSessionViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension AddEditSessionViewController {
     struct Constants {
-        static let dimmedAlpha = CGFloat(0.3)
-        static let normalAlpha = CGFloat(1)
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
         static let addSetButtonCellHeight = CGFloat(50)
@@ -114,6 +112,10 @@ extension AddEditSessionViewController {
     private func setupNavigationBar() {
         title = sessionState.rawValue
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise", style: .plain, target: self, action: #selector(addExerciseButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
     }
 
     private func setupTableView() {
