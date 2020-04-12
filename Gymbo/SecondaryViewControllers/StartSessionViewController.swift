@@ -498,8 +498,10 @@ extension StartSessionViewController: UITableViewDataSource {
             }
             self?.selectedRows[indexPath] = nil
             DispatchQueue.main.async {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                tableView.reloadSections([indexPath.section], with: .none)
+                tableView.performBatchUpdates({ [weak self] in
+                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    self?.tableView.reloadSections([indexPath.section], with: .automatic)
+                })
             }
             completion(true)
         }

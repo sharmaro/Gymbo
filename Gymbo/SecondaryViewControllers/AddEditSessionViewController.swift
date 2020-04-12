@@ -227,6 +227,8 @@ extension AddEditSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // Calls text field and text view didEndEditing() and saves data
+        view.endEditing(true)
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
             if self?.sessionState == .add {
                 self?.removeSet(indexPath: indexPath)
@@ -236,8 +238,10 @@ extension AddEditSessionViewController: UITableViewDataSource {
                 }
             }
             DispatchQueue.main.async {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                tableView.reloadSections([indexPath.section], with: .none)
+                tableView.performBatchUpdates({ [weak self] in
+                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    self?.tableView.reloadSections([indexPath.section], with: .automatic)
+                })
             }
             completion(true)
         }
