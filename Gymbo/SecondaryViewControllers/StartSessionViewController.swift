@@ -411,9 +411,7 @@ extension StartSessionViewController {
 extension StartSessionViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
-                // No op
-            }
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return 0
         }
         return session.exercises.count
@@ -421,9 +419,7 @@ extension StartSessionViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
-                // No op
-            }
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return 0
         }
 
@@ -434,9 +430,7 @@ extension StartSessionViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
-                // No op
-            }
+            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return UITableViewCell()
         }
         
@@ -473,9 +467,7 @@ extension StartSessionViewController: UITableViewDataSource {
             }
         }
 
-        presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
-            // No op
-        }
+        presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
         return UITableViewCell()
     }
 
@@ -610,11 +602,15 @@ extension StartSessionViewController: AddSetTableViewCellDelegate {
             addSet(section: section)
         }
 
-        UIView.performWithoutAnimation {
-            tableView.reloadSections([section], with: .none)
+        DispatchQueue.main.async { [weak self] in
+            let sets = session.exercises[section].sets
+            let lastIndexPath = IndexPath(row: sets, section: section)
+
+            // Using .none because the animation doesn't work well with this VC
+            self?.tableView.insertRows(at: [lastIndexPath], with: .none)
+            // Scrolling to addSetButton row
+            self?.tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
         }
-        let sets = session.exercises[section].sets
-        tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
     }
 
     private func addSet(section: Int) {

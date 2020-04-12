@@ -208,9 +208,7 @@ extension AddEditSessionViewController: UITableViewDataSource {
                 return exerciseDetailCell
             }
         }
-        presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
-            // No op
-        }
+        presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
         return UITableViewCell()
     }
 
@@ -339,11 +337,14 @@ extension AddEditSessionViewController: AddSetTableViewCellDelegate {
             }
         }
 
-        UIView.performWithoutAnimation {
-            tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            let sets = self?.session.exercises[section].sets ?? 0
+            let lastIndexPath = IndexPath(row: sets, section: section)
+
+            self?.tableView.insertRows(at: [lastIndexPath], with: .automatic)
+            // Scrolling to addSetButton row
+            self?.tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
         }
-        let sets = session.exercises[section].sets
-        tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
     }
 
     private func addSet(section: Int) {
