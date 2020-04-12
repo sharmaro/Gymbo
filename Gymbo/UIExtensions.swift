@@ -24,9 +24,6 @@ fileprivate struct Constants {
 
     static let animationTime = TimeInterval(0.2)
 
-    static let locations = "locations"
-    static let locationAnimation = "loc"
-
     static let cornerRadius = CGFloat(20)
 }
 

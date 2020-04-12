@@ -31,8 +31,6 @@ private extension CreateExerciseViewController {
     struct Constants {
         static let title = "Create Exercise"
 
-        static let navBarButtonSize = CGSize(width: 80, height: 30)
-
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
     }

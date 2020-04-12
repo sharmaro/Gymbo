@@ -50,8 +50,6 @@ private extension SessionPreviewViewController {
 
         static let sessionPreviewCellHeight = CGFloat(62)
 
-        static let navBarButtonSize = CGSize(width: 80, height: 30)
-
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
     }

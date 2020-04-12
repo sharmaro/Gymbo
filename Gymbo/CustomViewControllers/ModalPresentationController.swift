@@ -131,8 +131,6 @@ extension ModalPresentationController {
         static let dampingDuration = CGFloat(1)
         static let velocity = CGFloat(0.7)
         static let cornerRadius = CGFloat(10)
-        static let centerWidthPadding = CGFloat(80)
-        static let centerHeightPadding = CGFloat(0.7)
         static let keyboardSpacing = CGFloat(10)
     }
 }

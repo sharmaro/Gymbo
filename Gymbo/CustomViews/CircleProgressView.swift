@@ -65,7 +65,6 @@ private extension CircleProgressView {
 
         static let labelHeight = CGFloat(42)
         static let lineWidth = CGFloat(8)
-        static let timeDelta = CGFloat(5)
         static let fontSize = CGFloat(40)
         static let labelSpacing = CGFloat(30)
     }
