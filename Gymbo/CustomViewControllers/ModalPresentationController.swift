@@ -235,7 +235,7 @@ extension ModalPresentationController: KeyboardObserving {
 
 // MARK: - UIGestureRecognizerDelegate
 extension ModalPresentationController: UIGestureRecognizerDelegate {
-    // Preventing panGesture to eat up table view gestures
+    // Preventing panGesture eating up table view gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture
     }

@@ -65,6 +65,9 @@ class StartSessionViewController: UIViewController {
     var initialTabBarFrame: CGRect?
     weak var dimmedView: UIView?
     weak var panView: UIView?
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        return UIPanGestureRecognizer(target: self, action: #selector(didPan))
+    }()
     private var initialPanViewFrame: CGRect?
     private var panState = PanState.full
 
@@ -153,7 +156,8 @@ extension StartSessionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        panView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPan)))
+        panView?.addGestureRecognizer(panGesture)
+        panGesture.delegate = self
         initialPanViewFrame = panView?.frame
     }
 
@@ -776,5 +780,13 @@ extension StartSessionViewController: SessionProgressObserving {
         DispatchQueue.main.async { [weak self] in
             self?.dismissAsChildViewController()
         }
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension StartSessionViewController: UIGestureRecognizerDelegate {
+    // Preventing panGesture eating up table view gestures
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture
     }
 }
