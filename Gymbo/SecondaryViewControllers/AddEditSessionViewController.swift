@@ -286,6 +286,10 @@ extension AddEditSessionViewController: ExerciseHeaderCellDelegate {
         }
         tableView.deleteSections(IndexSet(integer: section), with: .automatic)
     }
+
+    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell) {
+        // No op
+    }
 }
 
 // MARK: - ExerciseDetailTableViewCellDelegate

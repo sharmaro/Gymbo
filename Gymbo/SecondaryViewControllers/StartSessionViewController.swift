@@ -562,6 +562,21 @@ extension StartSessionViewController: ExerciseHeaderCellDelegate {
         }
         tableView.deleteSections(IndexSet(integer: section), with: .automatic)
     }
+
+    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell) {
+        guard let section = tableView.indexPath(for: cell)?.section else {
+            return
+        }
+
+        let rows = tableView.numberOfRows(inSection: section)
+        for i in 0..<rows {
+            let indexPath = IndexPath(row: i, section: section)
+            if let cell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell {
+                selectedRows[indexPath] = true
+                cell.didSelect = true
+            }
+        }
+    }
 }
 
 // MARK: - ExerciseDetailTableViewCellDelegate

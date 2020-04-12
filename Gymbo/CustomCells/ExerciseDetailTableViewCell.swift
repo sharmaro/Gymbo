@@ -102,6 +102,10 @@ extension ExerciseDetailTableViewCell {
         weightTextField.text = dataModel.weight
         isDoneButtonEnabled = dataModel.isDoneButtonEnabled
     }
+
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        didSelect.toggle()
+    }
 }
 
 // MARK: - UITextFieldDelegate

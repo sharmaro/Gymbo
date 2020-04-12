@@ -10,6 +10,7 @@ import UIKit
 
 protocol ExerciseHeaderCellDelegate: class {
     func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell)
+    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell)
 }
 
 struct ExerciseHeaderTableViewCellModel {
@@ -43,7 +44,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
             doneButton.setImage(image, for: .normal)
             doneButton.setTitle(text, for: .normal)
-            doneButton.isUserInteractionEnabled = isDoneButtonImageHidden
+            doneButton.isUserInteractionEnabled = !isDoneButtonImageHidden
         }
     }
 
@@ -86,5 +87,9 @@ extension ExerciseHeaderTableViewCell {
 
     @IBAction func deleteExerciseButtonTapped(_ sender: Any) {
         exerciseHeaderCellDelegate?.deleteExerciseButtonTapped(cell: self)
+    }
+
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        exerciseHeaderCellDelegate?.exerciseDoneButtonTapped(cell: self)
     }
 }
