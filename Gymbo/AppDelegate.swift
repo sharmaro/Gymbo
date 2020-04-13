@@ -14,10 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        setupFirstWindow()
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
 
         return true
+    }
+
+    private func setupFirstWindow() {
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        let mainTabBarController = MainTabBarController()
+
+        window?.rootViewController = mainTabBarController
+        window?.makeKeyAndVisible()
     }
 
     private func setupUINavigationBarAppearance() {

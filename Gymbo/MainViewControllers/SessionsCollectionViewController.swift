@@ -1,9 +1,9 @@
 //
-//  SessionsViewController.swift
+//  SessionsCollectionViewController.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 7/7/19.
-//  Copyright © 2019 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 4/12/20.
+//  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
@@ -21,9 +21,8 @@ protocol SessionDataModelDelegate: class {
 }
 
 // MARK: - Properties
-class SessionsViewController: UIViewController {
-    @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet private weak var emptyExerciseLabel: UILabel!
+class SessionsCollectionViewController: UICollectionViewController {
+//    @IBOutlet private weak var emptyExerciseLabel: UILabel!
 
     class var id: String {
         return String(describing: self)
@@ -50,7 +49,7 @@ class SessionsViewController: UIViewController {
 }
 
 // MARK: - Structs/Enums
-private extension SessionsViewController {
+private extension SessionsCollectionViewController {
     struct Constants {
         static let title = "Sessions"
 
@@ -71,7 +70,7 @@ private extension SessionsViewController {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension SessionsViewController {
+extension SessionsCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -98,7 +97,7 @@ extension SessionsViewController {
 }
 
 // MARK: - Funcs
-extension SessionsViewController {
+extension SessionsCollectionViewController {
     private func setupNavigationBar() {
         title = Constants.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
@@ -120,12 +119,14 @@ extension SessionsViewController {
         collectionView.keyboardDismissMode = .interactive
         collectionView.register(SessionsCollectionViewCell.nib,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
+
+        collectionView.backgroundColor = .white
     }
 
     @objc private func updateSessionsUI() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
-        emptyExerciseLabel.isHidden = !isDataEmpty
+//        emptyExerciseLabel.isHidden = !isDataEmpty
 
         if isDataEmpty {
             dataState = .notEditing
@@ -148,16 +149,16 @@ extension SessionsViewController {
 }
 
 // MARK: - UICollectionViewDataSource
-extension SessionsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension SessionsCollectionViewController {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sessionDataModel.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
             presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return UICollectionViewCell()
@@ -167,7 +168,7 @@ extension SessionsViewController: UICollectionViewDataSource {
         dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)
         dataModel.isEditing = dataState == .editing
 
-        cell.contentView.alpha = 1
+        cell.alpha = 1
         cell.configure(dataModel: dataModel)
         cell.sessionsCollectionViewCellDelegate = self
         return cell
@@ -175,7 +176,7 @@ extension SessionsViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension SessionsViewController: UICollectionViewDelegateFlowLayout {
+extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
     }
@@ -198,8 +199,12 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UICollectionViewDelegate
-extension SessionsViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+extension SessionsCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        guard dataState == .notEditing else {
+            return
+        }
 
         let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 50, 0)
         cell.layer.transform = rotationTransform
@@ -211,7 +216,7 @@ extension SessionsViewController: UICollectionViewDelegate {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
             return
@@ -233,7 +238,7 @@ extension SessionsViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UICollectionViewDragDelegate
-extension SessionsViewController: UICollectionViewDragDelegate {
+extension SessionsCollectionViewController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         guard let session = sessionDataModel.session(for: indexPath.row) else {
@@ -262,7 +267,7 @@ extension SessionsViewController: UICollectionViewDragDelegate {
 }
 
 // MARK: - UICollectionViewDropDelegate
-extension SessionsViewController: UICollectionViewDropDelegate {
+extension SessionsCollectionViewController: UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         if collectionView.hasActiveDrag {
             return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
@@ -302,7 +307,7 @@ extension SessionsViewController: UICollectionViewDropDelegate {
 }
 
 // MARK: - SessionDataModelDelegate
-extension SessionsViewController: SessionDataModelDelegate {
+extension SessionsCollectionViewController: SessionDataModelDelegate {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>) {
         let session = Session(name: name, info: info, exercises: exercises)
         sessionDataModel.add(session: session)
@@ -326,9 +331,9 @@ extension SessionsViewController: SessionDataModelDelegate {
 }
 
 // MARK: - SessionProgressDelegate
-extension SessionsViewController: SessionProgressDelegate {
+extension SessionsCollectionViewController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
-        guard let isSessionInProgress = tabBarViewController?.isSessionInProgress else {
+        guard let isSessionInProgress = mainTabBarController?.isSessionInProgress else {
             return
         }
 
@@ -343,16 +348,16 @@ extension SessionsViewController: SessionProgressDelegate {
     }
 
     private func startSession(_ session: Session?) {
-        guard let tabBarViewController = navigationController?.tabBarViewController else {
+        guard let mainTabBarController = navigationController?.mainTabBarController else {
             return
         }
 
-        tabBarViewController.isSessionInProgress = true
+        mainTabBarController.isSessionInProgress = true
 
-        let dimmedView = UIView(frame: tabBarViewController.view.frame)
+        let dimmedView = UIView(frame: mainTabBarController.view.frame)
         dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
-        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: tabBarViewController.view.frame.height), size: CGSize(width: tabBarViewController.view.frame.width, height: tabBarViewController.view.frame.height - Constants.defaultYOffset)))
+        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: mainTabBarController.view.frame.height), size: CGSize(width: mainTabBarController.view.frame.width, height: mainTabBarController.view.frame.height - Constants.defaultYOffset)))
         shadowContainerView.addShadow(direction: .up)
         shadowContainerView.hideShadow()
 
@@ -361,7 +366,7 @@ extension SessionsViewController: SessionProgressDelegate {
         startSessionViewController.sessionProgresssDelegate = self
         startSessionViewController.dimmedView = dimmedView
         startSessionViewController.panView = shadowContainerView
-        startSessionViewController.initialTabBarFrame = tabBarViewController.tabBar.frame
+        startSessionViewController.initialTabBarFrame = mainTabBarController.tabBar.frame
         // This allows startSessionViewController to extend over the bottom tab bar
         startSessionViewController.extendedLayoutIncludesOpaqueBars = true
 
@@ -372,23 +377,23 @@ extension SessionsViewController: SessionProgressDelegate {
         shadowContainerView.addSubview(containerNavigationController.view)
         containerNavigationController.view.autoPinEdgesTo(superView: shadowContainerView)
 
-        tabBarViewController.view.insertSubview(shadowContainerView, belowSubview: tabBarViewController.tabBar)
-        tabBarViewController.addChild(containerNavigationController)
-        containerNavigationController.didMove(toParent: tabBarViewController)
+        mainTabBarController.view.insertSubview(shadowContainerView, belowSubview: mainTabBarController.tabBar)
+        mainTabBarController.addChild(containerNavigationController)
+        containerNavigationController.didMove(toParent: mainTabBarController)
 
-        tabBarViewController.view.insertSubview(dimmedView, belowSubview: shadowContainerView)
-        tabBarViewController.view.layoutIfNeeded()
+        mainTabBarController.view.insertSubview(dimmedView, belowSubview: shadowContainerView)
+        mainTabBarController.view.layoutIfNeeded()
 
         UIView.animate(withDuration: 0.4, delay: 0.1, animations: {
             shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
-            tabBarViewController.tabBar.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height)
+            mainTabBarController.tabBar.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height)
         })
     }
 
     func sessionDidEnd(_ session: Session?) {
-        tabBarViewController?.isSessionInProgress = false
+        mainTabBarController?.isSessionInProgress = false
         if shouldStartAnotherSession {
-            tabBarViewController?.isSessionInProgress = true
+            mainTabBarController?.isSessionInProgress = true
             shouldStartAnotherSession = false
 
             startSession(session)
@@ -397,7 +402,7 @@ extension SessionsViewController: SessionProgressDelegate {
 }
 
 // MARK: - SessionsCollectionViewCellDelegate
-extension SessionsViewController: SessionsCollectionViewCellDelegate {
+extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
     func delete(cell: SessionsCollectionViewCell) {
         guard let index = collectionView.indexPath(for: cell)?.row else {
             return
@@ -407,7 +412,7 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
         presentCustomAlert(title: "Delete Session", content: "Are you sure you want to delete \(sessionName)? This cannot be undone.") { [weak self] in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
-                    cell.contentView.alpha = 0
+                    cell.alpha = 0
                 }) { [weak self] (finished) in
                     if finished {
                         self?.sessionDataModel.remove(at: index)
@@ -421,7 +426,7 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension SessionsViewController: UIViewControllerTransitioningDelegate {
+extension SessionsCollectionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }

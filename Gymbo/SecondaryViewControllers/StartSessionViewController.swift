@@ -250,7 +250,7 @@ extension StartSessionViewController {
             self?.dimmedView?.alpha = 0
 
             navigationController.view.frame = CGRect(origin: CGPoint(x: 0, y: navigationController.view.frame.height), size: navigationController.view.frame.size)
-            navigationController.tabBarViewController?.tabBar.frame = defaultTabBarFrame
+            navigationController.mainTabBarController?.tabBar.frame = defaultTabBarFrame
         }) { [weak self] (finished) in
             if finished {
                 self?.dimmedView?.removeFromSuperview()
@@ -280,13 +280,13 @@ extension StartSessionViewController {
                     view.frame.origin.y = offset
                 }
             case .mini:
-                guard let tabBarViewController = navigationController?.tabBarViewController else {
+                guard let mainTabBarController = navigationController?.mainTabBarController else {
                     return
                 }
 
-                let tabBarHeight = tabBarViewController.tabBar.frame.height
-                let newLocation = tabBarViewController.view.frame.height - tabBarHeight - minimizedHeight + location.y
-                if newLocation <= tabBarViewController.view.frame.height - tabBarHeight - minimizedHeight && newLocation >= Constants.defaultYOffset {
+                let tabBarHeight = mainTabBarController.tabBar.frame.height
+                let newLocation = mainTabBarController.view.frame.height - tabBarHeight - minimizedHeight + location.y
+                if newLocation <= mainTabBarController.view.frame.height - tabBarHeight - minimizedHeight && newLocation >= Constants.defaultYOffset {
                     view.frame.origin.y = newLocation
                 }
             }
@@ -312,12 +312,12 @@ extension StartSessionViewController {
 
     private func resizeToFullView() {
         if panState != .full {
-            dimmedView?.frame.origin = tabBarViewController?.view.frame.origin ?? .zero
+            dimmedView?.frame.origin = mainTabBarController?.view.frame.origin ?? .zero
         }
 
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
             guard let panFrame = self?.initialPanViewFrame,
-                let tabBarViewController = self?.navigationController?.tabBarViewController else {
+                let mainTabBarController = self?.navigationController?.mainTabBarController else {
                 return
             }
 
@@ -328,7 +328,7 @@ extension StartSessionViewController {
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = true
             self?.panView?.frame = panFrame
-            tabBarViewController.tabBar.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height)
+            mainTabBarController.tabBar.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height)
         }) { [weak self] _ in
             self?.panState = .full
         }
@@ -337,7 +337,7 @@ extension StartSessionViewController {
     private func resizeToMiniView() {
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
             guard let defaultTabBarFrame = self?.initialTabBarFrame,
-                let tabBarViewController = self?.navigationController?.tabBarViewController else {
+                let mainTabBarController = self?.navigationController?.mainTabBarController else {
                 return
             }
 
@@ -349,8 +349,8 @@ extension StartSessionViewController {
             self?.navigationController?.navigationBar.prefersLargeTitles = false
 
             let tabBarHeight = defaultTabBarFrame.height
-            self?.panView?.frame.origin = CGPoint(x: 0, y: tabBarViewController.view.frame.height - tabBarHeight - (self?.minimizedHeight ?? 0))
-            tabBarViewController.tabBar.frame = defaultTabBarFrame
+            self?.panView?.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height - tabBarHeight - (self?.minimizedHeight ?? 0))
+            mainTabBarController.tabBar.frame = defaultTabBarFrame
         }) { [weak self] _ in
             if self?.panState != .mini {
                 self?.dimmedView?.frame.origin = self?.panView?.frame.origin ?? CGPoint.zero

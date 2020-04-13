@@ -128,7 +128,7 @@ extension AddEditSessionViewController {
         tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
         tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
 
-        if tabBarViewController?.isSessionInProgress ?? false {
+        if mainTabBarController?.isSessionInProgress ?? false {
             tableView.contentInset.bottom = minimizedHeight
         }
     }

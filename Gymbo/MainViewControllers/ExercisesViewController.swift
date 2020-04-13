@@ -404,7 +404,7 @@ extension ExercisesViewController: SetAlphaDelegate {
 // MARK: - SessionProgressObserving
 extension ExercisesViewController: SessionProgressObserving {
     func sessionDidStart(_ notification: Notification) {
-        if tabBarViewController?.isSessionInProgress ?? false {
+        if mainTabBarController?.isSessionInProgress ?? false {
             tableView.contentInset.bottom = minimizedHeight
         }
     }

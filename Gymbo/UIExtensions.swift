@@ -213,8 +213,8 @@ extension UIViewController {
         present(alertViewController, animated: true)
     }
 
-    var tabBarViewController: TabBarController? {
-        return (tabBarController as? TabBarController)
+    var mainTabBarController: MainTabBarController? {
+        return (tabBarController as? MainTabBarController)
     }
 
     var minimizedHeight: CGFloat {
