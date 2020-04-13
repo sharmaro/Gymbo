@@ -77,9 +77,9 @@ extension SessionsViewController {
 
         setupNavigationBar()
         setupCollectionView()
-        refreshSessions()
+        updateSessionsUI()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshSessions), name: .refreshSessions, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -122,7 +122,7 @@ extension SessionsViewController {
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
-    @objc private func refreshSessions() {
+    @objc private func updateSessionsUI() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
         emptyExerciseLabel.isHidden = !isDataEmpty
@@ -133,8 +133,6 @@ extension SessionsViewController {
 
         navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
         navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
-
-        collectionView.reloadData()
     }
 
     @objc private func editButtonTapped() {
@@ -201,6 +199,18 @@ extension SessionsViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - UICollectionViewDelegate
 extension SessionsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 50, 0)
+        cell.layer.transform = rotationTransform
+        cell.alpha = 0
+
+        UIView.animate(withDuration: 0.5) {
+            cell.layer.transform = CATransform3DIdentity
+            cell.alpha = 1
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
@@ -297,11 +307,15 @@ extension SessionsViewController: SessionDataModelDelegate {
         let session = Session(name: name, info: info, exercises: exercises)
         sessionDataModel.add(session: session)
 
-        refreshSessions()
+        let items = collectionView.numberOfItems(inSection: 0)
+        collectionView.insertItems(at: [.init(row: items, section: 0)])
+
+        updateSessionsUI()
     }
 
     func saveSelectedSession(_ editedSession: Session) {
-        refreshSessions()
+        updateSessionsUI()
+        collectionView.reloadData()
     }
 
     func updateSessionCells() {
@@ -397,7 +411,8 @@ extension SessionsViewController: SessionsCollectionViewCellDelegate {
                 }) { [weak self] (finished) in
                     if finished {
                         self?.sessionDataModel.remove(at: index)
-                        self?.refreshSessions()
+                        self?.collectionView.deleteItems(at: [.init(row: index, section: 0)])
+                        self?.updateSessionsUI()
                     }
                 }
             }

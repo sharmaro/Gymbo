@@ -50,7 +50,7 @@ extension Notification {
 }
 
 extension Notification.Name {
-    static let refreshSessions = Notification.Name("refreshSessions")
+    static let updateSessionsUI = Notification.Name("updateSessionsUI")
     static let startSession = Notification.Name("startSession")
     static let endSession = Notification.Name("endSession")
 }

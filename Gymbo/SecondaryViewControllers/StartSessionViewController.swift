@@ -164,7 +164,7 @@ extension StartSessionViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        NotificationCenter.default.post(name: .refreshSessions, object: nil)
+        NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -500,6 +500,7 @@ extension StartSessionViewController: UITableViewDataSource {
             DispatchQueue.main.async {
                 tableView.performBatchUpdates({ [weak self] in
                     self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    // Reloading section so the set indices can update
                     self?.tableView.reloadSections([indexPath.section], with: .automatic)
                 })
             }
