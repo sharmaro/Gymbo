@@ -55,7 +55,7 @@ extension MainTabBarController {
 
         let stopwatchViewController = storyboard.instantiateViewController(withIdentifier: "StopwatchViewController")
         let stopwatchTabImage = UIImage(named: "stopwatch")
-        sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions", image: stopwatchTabImage, tag: 2)
+        stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch", image: stopwatchTabImage, tag: 2)
 
         viewControllers = [exercisesViewController, sessionsCollectionViewController, stopwatchViewController].map {
             UINavigationController(rootViewController: $0)

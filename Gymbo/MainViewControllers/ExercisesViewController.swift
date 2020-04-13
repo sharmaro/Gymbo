@@ -30,7 +30,6 @@ struct ExerciseText: Codable {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    @IBOutlet private weak var searchTextField: SearchTextField!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var addExerciseButton: CustomButton!
 
@@ -62,7 +61,6 @@ extension ExercisesViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
-        setupSearchTextField()
         setupTableView()
         setupAddExerciseButton()
         registerForKeyboardNotifications()
@@ -95,13 +93,17 @@ extension ExercisesViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
         }
 
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Exercise"
+
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func setupSearchTextField() {
-        searchTextField.searchTextFieldDelegate = self
     }
 
     private func setupTableView() {
@@ -113,13 +115,6 @@ extension ExercisesViewController {
         tableView.tableFooterView = UIView()
         tableView.register(ExerciseTableViewCell.nib,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
-
-        if presentationStyle == .normal {
-            addExerciseButton.removeFromSuperview()
-            NSLayoutConstraint.activate([
-                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-        }
     }
 
     private func setupAddExerciseButton() {
@@ -330,11 +325,22 @@ extension ExercisesViewController: UITableViewDelegate {
         exerciseCell.didSelect = false
         updateAddButtonTitle()
     }
+}
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            searchTextField.frame.origin.y = -scrollView.contentOffset.y
+// MARK: - UISearchResultsUpdating
+extension ExercisesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+
+        guard let filter = searchBar.text?.lowercased(),
+            filter.count > 0 else {
+                exerciseDataModel.removeSearchedResults()
+                tableView.reloadData()
+                return
         }
+
+        exerciseDataModel.filterResults(filter: filter)
+        tableView.reloadData()
     }
 }
 
@@ -353,25 +359,6 @@ extension ExercisesViewController: UIViewControllerTransitioningDelegate {
         modalPresentationController.showDimmingView = presentationStyle == .normal
         modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.42)
         return modalPresentationController
-    }
-}
-
-// MARK: - SearchTextFieldDelegate
-extension ExercisesViewController: SearchTextFieldDelegate {
-    func textFieldDidChange(_ textField: UITextField) {
-        guard let filter = textField.text?.lowercased(),
-            filter.count > 0 else {
-                exerciseDataModel.removeSearchedResults()
-                tableView.reloadData()
-                return
-        }
-
-        exerciseDataModel.filterResults(filter: filter)
-        tableView.reloadData()
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
     }
 }
 

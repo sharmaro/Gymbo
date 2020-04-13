@@ -176,17 +176,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="xki-pJ-kkX">
-                                <rect key="frame" x="0.0" y="142" width="414" height="645"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="787"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for exercises" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R8F-al-JOj" customClass="SearchTextField" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="20" y="88" width="374" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="7bD-wN-PJP"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAV-SC-7rj" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
                                 <rect key="frame" x="20" y="802" width="374" height="45"/>
                                 <constraints>
@@ -200,23 +192,19 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="cEb-yX-rYW" firstAttribute="trailing" secondItem="R8F-al-JOj" secondAttribute="trailing" constant="20" id="4s2-bO-i03"/>
                             <constraint firstItem="cEb-yX-rYW" firstAttribute="trailing" secondItem="WAV-SC-7rj" secondAttribute="trailing" constant="20" id="9Nr-LT-lel"/>
                             <constraint firstItem="cEb-yX-rYW" firstAttribute="trailing" secondItem="xki-pJ-kkX" secondAttribute="trailing" id="Kat-7m-aMO"/>
-                            <constraint firstItem="R8F-al-JOj" firstAttribute="leading" secondItem="cEb-yX-rYW" secondAttribute="leading" constant="20" id="MfD-ul-Tc3"/>
                             <constraint firstItem="xki-pJ-kkX" firstAttribute="leading" secondItem="cEb-yX-rYW" secondAttribute="leading" id="UbX-iN-iVl"/>
-                            <constraint firstItem="xki-pJ-kkX" firstAttribute="top" secondItem="R8F-al-JOj" secondAttribute="bottom" constant="10" id="aK4-Zx-mNe"/>
                             <constraint firstItem="WAV-SC-7rj" firstAttribute="top" secondItem="xki-pJ-kkX" secondAttribute="bottom" constant="15" id="eBS-F6-7iU"/>
                             <constraint firstItem="cEb-yX-rYW" firstAttribute="bottom" secondItem="WAV-SC-7rj" secondAttribute="bottom" constant="15" id="geb-oQ-p96"/>
+                            <constraint firstItem="xki-pJ-kkX" firstAttribute="top" secondItem="ggy-h9-tdh" secondAttribute="top" id="loK-Jq-KIj"/>
                             <constraint firstItem="WAV-SC-7rj" firstAttribute="leading" secondItem="cEb-yX-rYW" secondAttribute="leading" constant="20" id="oLA-3l-nl8"/>
-                            <constraint firstItem="R8F-al-JOj" firstAttribute="top" secondItem="cEb-yX-rYW" secondAttribute="top" id="sks-XQ-jTQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cEb-yX-rYW"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5up-IU-nLJ"/>
+                    <navigationItem key="navigationItem" id="Ng3-XM-GXh"/>
                     <connections>
                         <outlet property="addExerciseButton" destination="WAV-SC-7rj" id="uov-Dn-YdN"/>
-                        <outlet property="searchTextField" destination="R8F-al-JOj" id="Za0-Nd-bsl"/>
                         <outlet property="tableView" destination="xki-pJ-kkX" id="cB9-jj-GbY"/>
                     </connections>
                 </viewController>

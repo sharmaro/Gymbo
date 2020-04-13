@@ -49,7 +49,6 @@
 		69659C0A24039C680054F655 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69659C0824039C680054F655 /* AlertViewController.xib */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
-		697D461723F3B80C002ACDA7 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461623F3B80C002ACDA7 /* SearchTextField.swift */; };
 		6994C5B523EF837B009D4FCB /* RestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6994C5B423EF837B009D4FCB /* RestViewController.xib */; };
 		6994C5B723EF8452009D4FCB /* StartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6994C5B623EF8452009D4FCB /* StartSessionViewController.xib */; };
 		69CB2D8A23CC02E600603363 /* StartSessionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CB2D8923CC02E600603363 /* StartSessionFooterView.xib */; };
@@ -111,7 +110,6 @@
 		69659C0824039C680054F655 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
-		697D461623F3B80C002ACDA7 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		6994C5B423EF837B009D4FCB /* RestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestViewController.xib; sourceTree = "<group>"; };
 		6994C5B623EF8452009D4FCB /* StartSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartSessionViewController.xib; sourceTree = "<group>"; };
 		69CB2D8923CC02E600603363 /* StartSessionFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartSessionFooterView.xib; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 			children = (
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
-				697D461623F3B80C002ACDA7 /* SearchTextField.swift */,
 				6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */,
 				6901E4732387B4980051D1B2 /* SessionHeaderView.xib */,
 				69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */,
@@ -460,7 +457,6 @@
 				6942B212232B621600FCEECE /* Util.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Colors.swift in Sources */,
 				6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */,
-				697D461723F3B80C002ACDA7 /* SearchTextField.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,
 				69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */,
 				6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */,

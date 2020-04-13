@@ -14,14 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        setupFirstWindow()
+        setupKeyWindow()
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
 
         return true
     }
 
-    private func setupFirstWindow() {
+    private func setupKeyWindow() {
         window = UIWindow(frame: UIScreen.main.bounds)
 
         let mainTabBarController = MainTabBarController()
