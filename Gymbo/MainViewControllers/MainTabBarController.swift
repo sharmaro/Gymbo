@@ -45,10 +45,11 @@ extension MainTabBarController {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        let exercisesViewController = storyboard.instantiateViewController(withIdentifier: "ExercisesViewController")
+        let exercisesViewController = ExercisesViewController()
         let exercisesTabImage = UIImage(named: "my_exercises")
         exercisesViewController.tabBarItem = UITabBarItem(title: "My Exercises", image: exercisesTabImage, tag: 0)
 
+        // Need to initialize a UICollectionView with a UICollectionViewLayout
         let sessionsCollectionViewController = SessionsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         let sessionsTabImage = UIImage(named: "dumbbell")
         sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions", image: sessionsTabImage, tag: 1)

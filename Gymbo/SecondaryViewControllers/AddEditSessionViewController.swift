@@ -151,11 +151,7 @@ extension AddEditSessionViewController {
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
-        let storyboard = mainStoryboard()
-        guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
-            return
-        }
-
+        let exercisesViewController = ExercisesViewController()
         exercisesViewController.presentationStyle = .modal
         exercisesViewController.exerciseListDelegate = self
 

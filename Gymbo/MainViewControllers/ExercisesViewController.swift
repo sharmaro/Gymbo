@@ -30,12 +30,22 @@ struct ExerciseText: Codable {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var addExerciseButton: CustomButton!
-
     class var id: String {
         return String(describing: self)
     }
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
+    private lazy var addExerciseButton: CustomButton = {
+        let customButton = CustomButton(frame: .zero)
+        customButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
+        customButton.translatesAutoresizingMaskIntoConstraints = false
+        return customButton
+    }()
 
     private var selectedExerciseNamesAndIndexPaths = [String: IndexPath]()
     private var selectedExerciseNames = [String]()
@@ -59,6 +69,8 @@ extension ExercisesViewController {
 extension ExercisesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
 
         setupNavigationBar()
         setupTableView()
@@ -107,6 +119,15 @@ extension ExercisesViewController {
     }
 
     private func setupTableView() {
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            // Using top anchor instead of safe area to get smooth navigation title size change animation
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsMultipleSelection = true
@@ -118,6 +139,16 @@ extension ExercisesViewController {
     }
 
     private func setupAddExerciseButton() {
+        view.addSubview(addExerciseButton)
+
+        NSLayoutConstraint.activate([
+            addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
+            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
+            addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            addExerciseButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+
         addExerciseButton.title = "Add"
         addExerciseButton.titleLabel?.textAlignment = .center
         addExerciseButton.add(backgroundColor: .systemBlue)
@@ -189,7 +220,7 @@ extension ExercisesViewController {
         }
     }
 
-    @IBAction func addExerciseButton(_ sender: Any) {
+    @objc private func addExerciseButtonTapped(_ sender: UIButton) {
         saveExerciseInfo()
         dismiss(animated: true)
     }

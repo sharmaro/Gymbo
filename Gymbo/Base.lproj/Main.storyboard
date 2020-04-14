@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KUt-Qj-1hU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZkM-Oh-f1Y">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -167,73 +167,8 @@
             </objects>
             <point key="canvasLocation" x="87" y="-230"/>
         </scene>
-        <!--Exercises View Controller-->
-        <scene sceneID="q3F-kS-q4g">
-            <objects>
-                <viewController restorationIdentifier="ExercisesViewController" storyboardIdentifier="ExercisesViewController" id="jbZ-mO-qtM" customClass="ExercisesViewController" customModule="Gymbo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ggy-h9-tdh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="xki-pJ-kkX">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="787"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAV-SC-7rj" customClass="CustomButton" customModule="Gymbo" customModuleProvider="target">
-                                <rect key="frame" x="20" y="802" width="374" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="uUM-UI-iKi"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="addExerciseButton:" destination="jbZ-mO-qtM" eventType="touchUpInside" id="edZ-i0-gyK"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="cEb-yX-rYW" firstAttribute="trailing" secondItem="WAV-SC-7rj" secondAttribute="trailing" constant="20" id="9Nr-LT-lel"/>
-                            <constraint firstItem="cEb-yX-rYW" firstAttribute="trailing" secondItem="xki-pJ-kkX" secondAttribute="trailing" id="Kat-7m-aMO"/>
-                            <constraint firstItem="xki-pJ-kkX" firstAttribute="leading" secondItem="cEb-yX-rYW" secondAttribute="leading" id="UbX-iN-iVl"/>
-                            <constraint firstItem="WAV-SC-7rj" firstAttribute="top" secondItem="xki-pJ-kkX" secondAttribute="bottom" constant="15" id="eBS-F6-7iU"/>
-                            <constraint firstItem="cEb-yX-rYW" firstAttribute="bottom" secondItem="WAV-SC-7rj" secondAttribute="bottom" constant="15" id="geb-oQ-p96"/>
-                            <constraint firstItem="xki-pJ-kkX" firstAttribute="top" secondItem="ggy-h9-tdh" secondAttribute="top" id="loK-Jq-KIj"/>
-                            <constraint firstItem="WAV-SC-7rj" firstAttribute="leading" secondItem="cEb-yX-rYW" secondAttribute="leading" constant="20" id="oLA-3l-nl8"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="cEb-yX-rYW"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Ng3-XM-GXh"/>
-                    <connections>
-                        <outlet property="addExerciseButton" destination="WAV-SC-7rj" id="uov-Dn-YdN"/>
-                        <outlet property="tableView" destination="xki-pJ-kkX" id="cB9-jj-GbY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RAm-2O-6cZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1000.0000000000001" y="-1026.5625"/>
-        </scene>
-        <!--My Exercises-->
-        <scene sceneID="sGN-bo-51h">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KUt-Qj-1hU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Exercises" image="my_exercises" id="6zG-4k-0kh"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="deP-yN-A0a">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="jbZ-mO-qtM" kind="relationship" relationship="rootViewController" id="p3M-EL-fMJ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="c0q-oS-8q5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="87" y="-1026"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="my_exercises" width="24" height="24"/>
         <image name="stopwatch" width="24" height="24"/>
     </resources>
 </document>
