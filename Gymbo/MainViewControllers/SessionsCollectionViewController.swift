@@ -22,8 +22,6 @@ protocol SessionDataModelDelegate: class {
 
 // MARK: - Properties
 class SessionsCollectionViewController: UICollectionViewController {
-//    @IBOutlet private weak var emptyExerciseLabel: UILabel!
-
     class var id: String {
         return String(describing: self)
     }
@@ -126,7 +124,6 @@ extension SessionsCollectionViewController {
     @objc private func updateSessionsUI() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
-//        emptyExerciseLabel.isHidden = !isDataEmpty
 
         if isDataEmpty {
             dataState = .notEditing
@@ -200,22 +197,6 @@ extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - UICollectionViewDelegate
 extension SessionsCollectionViewController {
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-
-        guard dataState == .notEditing else {
-            return
-        }
-
-        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 50, 0)
-        cell.layer.transform = rotationTransform
-        cell.alpha = 0
-
-        UIView.animate(withDuration: 0.5) {
-            cell.layer.transform = CATransform3DIdentity
-            cell.alpha = 1
-        }
-    }
-
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
