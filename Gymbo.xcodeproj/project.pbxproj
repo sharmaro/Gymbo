@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6901E4742387B4980051D1B2 /* SessionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6901E4732387B4980051D1B2 /* SessionHeaderView.xib */; };
 		6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */; };
+		690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */; };
 		691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */; };
 		691054E9234301DD00E306F1 /* SessionsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */; };
 		691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */; };
@@ -28,7 +29,6 @@
 		694B2B0823EF81E100FA41A3 /* CreateExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 694B2B0723EF81E100FA41A3 /* CreateExerciseViewController.xib */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
-		695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE622CB28B800E3FB1F /* Main.storyboard */; };
 		695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE922CB28B800E3FB1F /* Assets.xcassets */; };
 		695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */; };
 		695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */; };
@@ -68,6 +68,7 @@
 		315700FCAC782D0687667285 /* Pods_Gymbo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gymbo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6901E4732387B4980051D1B2 /* SessionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionHeaderView.xib; sourceTree = "<group>"; };
 		6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderView.swift; sourceTree = "<group>"; };
+		690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTableViewCell.swift; sourceTree = "<group>"; };
 		691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionsCollectionViewCell.xib; sourceTree = "<group>"; };
 		691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
@@ -88,7 +89,6 @@
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		695D4BE722CB28B800E3FB1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		695D4BE922CB28B800E3FB1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		695D4BEC22CB28B800E3FB1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		695D4BEE22CB28B800E3FB1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -188,6 +188,7 @@
 				6942B214233C7DBA00FCEECE /* ExerciseTableViewCell.xib */,
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
 				691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */,
+				690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -214,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
-				695D4BE622CB28B800E3FB1F /* Main.storyboard */,
 				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
 				695D4C0722D450A800E3FB1F /* MainViewControllers */,
 				6929674022F9E0F800832C68 /* SecondaryViewControllers */,
@@ -365,7 +365,6 @@
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				69629461235D592000E681C7 /* Abs.txt in Resources */,
 				69F012D1237DB0E5008B4225 /* AddSetTableViewCell.xib in Resources */,
-				695D4BE822CB28B800E3FB1F /* Main.storyboard in Resources */,
 				69629471235D594000E681C7 /* Hips.txt in Resources */,
 				6901E4742387B4980051D1B2 /* SessionHeaderView.xib in Resources */,
 				6962946E235D594000E681C7 /* Legs.txt in Resources */,
@@ -438,6 +437,7 @@
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
 				693BD6372383B0F400F51F0B /* StartSessionViewController.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,
+				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
@@ -467,14 +467,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		695D4BE622CB28B800E3FB1F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				695D4BE722CB28B800E3FB1F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

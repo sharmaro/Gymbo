@@ -105,9 +105,9 @@ extension CustomButton {
         clipsToBounds = true
     }
 
-    func add(backgroundColor: UIColor, textColor: UIColor = .white) {
+    func add(backgroundColor: UIColor, titleColor: UIColor = .white) {
         self.backgroundColor = backgroundColor
-        self.titleColor = textColor
+        self.titleColor = titleColor
     }
 
     func makeUninteractable(animated: Bool = false) {

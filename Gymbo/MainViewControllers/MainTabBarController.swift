@@ -10,10 +10,6 @@ import UIKit
 
 // MARK: - Properties
 class MainTabBarController: UITabBarController {
-    class var id: String {
-        return String(describing: self)
-    }
-
     var isSessionInProgress = false
 
     private var selectedTab = SelectedTab.sessions
@@ -43,8 +39,6 @@ extension MainTabBarController {
         tabBar.backgroundColor = .black
         tabBar.barTintColor = .black
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
         let exercisesViewController = ExercisesViewController()
         let exercisesTabImage = UIImage(named: "my_exercises")
         exercisesViewController.tabBarItem = UITabBarItem(title: "My Exercises", image: exercisesTabImage, tag: 0)
@@ -54,7 +48,7 @@ extension MainTabBarController {
         let sessionsTabImage = UIImage(named: "dumbbell")
         sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions", image: sessionsTabImage, tag: 1)
 
-        let stopwatchViewController = storyboard.instantiateViewController(withIdentifier: "StopwatchViewController")
+        let stopwatchViewController = StopwatchViewController()
         let stopwatchTabImage = UIImage(named: "stopwatch")
         stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch", image: stopwatchTabImage, tag: 2)
 

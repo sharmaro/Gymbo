@@ -30,10 +30,6 @@ struct ExerciseText: Codable {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    class var id: String {
-        return String(describing: self)
-    }
-
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +69,7 @@ extension ExercisesViewController {
         view.backgroundColor = .white
 
         setupNavigationBar()
+        addMainViews()
         setupTableView()
         setupAddExerciseButton()
         registerForKeyboardNotifications()
@@ -118,9 +115,11 @@ extension ExercisesViewController {
         edgesForExtendedLayout = .all
     }
 
-    private func setupTableView() {
-        view.addSubview(tableView)
+    private func addMainViews() {
+        view.addSubviews(views: [tableView, addExerciseButton])
+    }
 
+    private func setupTableView() {
         NSLayoutConstraint.activate([
             // Using top anchor instead of safe area to get smooth navigation title size change animation
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -139,8 +138,6 @@ extension ExercisesViewController {
     }
 
     private func setupAddExerciseButton() {
-        view.addSubview(addExerciseButton)
-
         NSLayoutConstraint.activate([
             addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
             addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),

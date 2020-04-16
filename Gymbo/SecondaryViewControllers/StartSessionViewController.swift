@@ -663,11 +663,7 @@ extension StartSessionViewController: StartSessionButtonDelegate {
     func addExercise() {
         modallyPresenting = .exercisesViewController
 
-        let storyboard = mainStoryboard()
-        guard let exercisesViewController = storyboard.instantiateViewController(withIdentifier: ExercisesViewController.id) as? ExercisesViewController else {
-            return
-        }
-
+        let exercisesViewController = ExercisesViewController()
         exercisesViewController.presentationStyle = .modal
         exercisesViewController.exerciseListDelegate = self
 

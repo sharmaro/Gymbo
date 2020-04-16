@@ -56,6 +56,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Structs/Enums
 private extension SessionsCollectionViewCell {
     struct Constants {
         static let animationTime = TimeInterval(0.2)

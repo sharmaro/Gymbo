@@ -22,10 +22,6 @@ protocol SessionDataModelDelegate: class {
 
 // MARK: - Properties
 class SessionsCollectionViewController: UICollectionViewController {
-    class var id: String {
-        return String(describing: self)
-    }
-
     private let sessionDataModel = SessionDataModel.shared
     private var dataState: DataState = .notEditing {
         didSet {
