@@ -8,19 +8,36 @@
 
 import UIKit
 
+protocol SessionProgressDelegate: class {
+    func sessionDidStart(_ session: Session?)
+    func sessionDidEnd(_ session: Session?)
+}
+
 // MARK: - Properties
 class MainTabBarController: UITabBarController {
     var isSessionInProgress = false
 
     private var selectedTab = SelectedTab.sessions
+
+    private var isReplacingSession = false
+    private var startSessionViewControllerReference: StartSessionViewController?
 }
 
 // MARK: - Structs/Enums
 private extension MainTabBarController {
+    struct Constants {
+        static let defaultYOffset = CGFloat(60)
+    }
+
     enum SelectedTab: Int {
         case exercises = 0
         case sessions
         case stopwatch
+    }
+
+    enum SessionState {
+        case start
+        case end
     }
 }
 
@@ -57,5 +74,98 @@ extension MainTabBarController {
         }
 
         selectedIndex = selectedTab.rawValue
+    }
+}
+
+extension MainTabBarController: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        if isSessionInProgress {
+            guard let startSessionViewController = startSessionViewControllerReference else {
+                return
+            }
+
+            presentCustomAlert(title: "Another One?", content: "You already have a workout in progress!", usesBothButtons: true, leftButtonTitle: "You're right, I'll finish this one!", rightButtonTitle: "Start New Workout") { [weak self] in
+                self?.isReplacingSession = true
+                startSessionViewController.dismissAsChildViewController()
+            }
+        } else {
+            startSession(session)
+        }
+    }
+
+    private func startSession(_ session: Session?) {
+        isSessionInProgress = true
+        updateSessionProgressObservingViewControllers(state: .start)
+
+        let dimmedView = UIView(frame: view.frame)
+        dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: view.frame.height), size: CGSize(width: view.frame.width, height: view.frame.height - Constants.defaultYOffset)))
+        shadowContainerView.addShadow(direction: .up)
+        shadowContainerView.hideShadow()
+
+        let startSessionViewController = StartSessionViewController.loadFromXib()
+        startSessionViewController.session = session
+        startSessionViewController.sessionProgresssDelegate = self
+        startSessionViewController.dimmedView = dimmedView
+        startSessionViewController.panView = shadowContainerView
+        startSessionViewController.initialTabBarFrame = tabBar.frame
+        // This allows startSessionViewController to extend over the bottom tab bar
+        startSessionViewController.extendedLayoutIncludesOpaqueBars = true
+
+        let containerNavigationController = UINavigationController(rootViewController: startSessionViewController)
+        containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
+        containerNavigationController.view.roundCorner(radius: 10)
+
+        shadowContainerView.addSubview(containerNavigationController.view)
+        containerNavigationController.view.autoPinEdgesTo(superView: shadowContainerView)
+
+        startSessionViewControllerReference = startSessionViewController
+
+        view.insertSubview(shadowContainerView, belowSubview: tabBar)
+        addChild(containerNavigationController)
+        containerNavigationController.didMove(toParent: self)
+
+        view.insertSubview(dimmedView, belowSubview: shadowContainerView)
+        view.layoutIfNeeded()
+
+        UIView.animate(withDuration: 0.4, delay: 0.1, animations: { [weak self] in
+            guard let self = self else {
+                return
+            }
+
+            shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
+            self.tabBar.frame.origin = CGPoint(x: 0, y: self.view.frame.height)
+        })
+    }
+
+    func sessionDidEnd(_ session: Session?) {
+        isSessionInProgress = false
+        startSessionViewControllerReference = nil
+
+        if isReplacingSession {
+            isReplacingSession = false
+
+            startSession(session)
+        } else {
+            updateSessionProgressObservingViewControllers(state: .end)
+        }
+    }
+
+    private func updateSessionProgressObservingViewControllers(state: SessionState) {
+        switch state {
+        case .start:
+            viewControllers?.forEach {
+                if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+                    viewController.sessionDidStart(nil)
+                }
+            }
+        case .end:
+            viewControllers?.forEach {
+                if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+                    viewController.sessionDidEnd(nil)
+                }
+            }
+        }
     }
 }

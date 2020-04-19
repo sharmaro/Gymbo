@@ -42,6 +42,8 @@ class ExercisesViewController: UIViewController {
         customButton.translatesAutoresizingMaskIntoConstraints = false
         return customButton
     }()
+    private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
+    private var didViewAppear = false
 
     private var selectedExerciseNamesAndIndexPaths = [String: IndexPath]()
     private var selectedExerciseNames = [String]()
@@ -58,6 +60,8 @@ extension ExercisesViewController {
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
         static let headerFontSize = CGFloat(20)
+        static let sessionStartedConstraintConstant = CGFloat(-50)
+        static let sessionEndedConstraintConstant = CGFloat(-15)
     }
 }
 
@@ -73,7 +77,13 @@ extension ExercisesViewController {
         setupTableView()
         setupAddExerciseButton()
         registerForKeyboardNotifications()
-        registerForSessionProgressNotifications()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        didViewAppear = true
+        renewConstraints()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,6 +95,7 @@ extension ExercisesViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        didViewAppear = false
         exerciseDataModel.removeSearchedResults()
     }
 }
@@ -105,7 +116,7 @@ extension ExercisesViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Exercise"
+        searchController.searchBar.placeholder = "Search for an exercise"
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -142,9 +153,10 @@ extension ExercisesViewController {
             addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
             addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
-            addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             addExerciseButton.heightAnchor.constraint(equalToConstant: 45)
         ])
+        addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        addExerciseButtonBottomConstraint?.isActive = true
 
         addExerciseButton.title = "Add"
         addExerciseButton.titleLabel?.textAlignment = .center
@@ -393,11 +405,13 @@ extension ExercisesViewController: UIViewControllerTransitioningDelegate {
 // MARK: - KeyboardObserving
 extension ExercisesViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardHeight = notification.keyboardSize?.height else {
+        guard let mainTabBarController = navigationController?.mainTabBarController,
+            let keyboardHeight = notification.keyboardSize?.height else {
             return
         }
 
-        tableView.contentInset.bottom = keyboardHeight
+        let bottomInset = abs(mainTabBarController.view.frame.height - keyboardHeight - tableView.frame.maxY)
+        tableView.contentInset.bottom = bottomInset
     }
 
     func keyboardWillHide(_ notification: Notification) {
@@ -416,15 +430,34 @@ extension ExercisesViewController: SetAlphaDelegate {
     }
 }
 
-// MARK: - SessionProgressObserving
-extension ExercisesViewController: SessionProgressObserving {
-    func sessionDidStart(_ notification: Notification) {
-        if mainTabBarController?.isSessionInProgress ?? false {
-            tableView.contentInset.bottom = minimizedHeight
-        }
+// MARK: - SessionProgressDelegate
+extension ExercisesViewController: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        renewConstraints()
     }
 
-    func sessionDidEnd(_ notification: Notification) {
-        tableView.contentInset.bottom = 0
+    func sessionDidEnd(_ session: Session?) {
+        renewConstraints()
+    }
+}
+
+// MARK: - SessionStateConstraintsUpdating
+extension ExercisesViewController: SessionStateConstraintsUpdating {
+    func renewConstraints() {
+        guard let mainTabBarController = mainTabBarController else {
+            return
+        }
+
+        if mainTabBarController.isSessionInProgress {
+            addExerciseButtonBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
+        } else {
+            addExerciseButtonBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
+        }
+
+        if didViewAppear {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+        }
     }
 }

@@ -150,7 +150,7 @@ extension StartSessionViewController {
         startSessionTimer()
         registerForKeyboardNotifications()
         registerForApplicationStateNotifications()
-        registerForSessionProgressNotifications()
+//        registerForSessionProgressNotifications()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -240,7 +240,7 @@ extension StartSessionViewController {
         }
     }
 
-    @objc private func dismissAsChildViewController() {
+    @objc func dismissAsChildViewController() {
         UIView.animate(withDuration: 0.4, animations: { [weak self] in
             guard let navigationController = self?.navigationController,
                 let defaultTabBarFrame = self?.initialTabBarFrame else {
@@ -790,14 +790,14 @@ extension StartSessionViewController: ApplicationStateObserving {
     }
 }
 
-// MARK: - SessionProgressObserving
-extension StartSessionViewController: SessionProgressObserving {
-    func sessionDidEnd(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            self?.dismissAsChildViewController()
-        }
-    }
-}
+//// MARK: - SessionProgressObserving
+//extension StartSessionViewController: SessionProgressObserving {
+//    func sessionDidEnd(_ notification: Notification) {
+//        DispatchQueue.main.async { [weak self] in
+//            self?.dismissAsChildViewController()
+//        }
+//    }
+//}
 
 // MARK: - UIGestureRecognizerDelegate
 extension StartSessionViewController: UIGestureRecognizerDelegate {

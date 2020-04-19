@@ -124,3 +124,7 @@ extension SessionProgressObserving {
         }
     }
 }
+
+protocol SessionStateConstraintsUpdating {
+    func renewConstraints()
+}

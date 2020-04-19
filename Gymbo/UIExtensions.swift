@@ -27,6 +27,7 @@ fileprivate struct Constants {
     static let cornerRadius = CGFloat(20)
 }
 
+// MARK: - UIView
 extension UIView {
     func addSubviews(views: [UIView]) {
         for view in views {
@@ -41,10 +42,10 @@ extension UIView {
         }
 
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: superView.topAnchor),
-            leadingAnchor.constraint(equalTo: superView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superView.trailingAnchor),
-            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
+            safeAreaLayoutGuide.topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor),
+            safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.leadingAnchor),
+            safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.trailingAnchor),
+            safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 
@@ -192,6 +193,7 @@ extension UIView {
     }
 }
 
+// MARK: - UIViewController
 extension UIViewController {
     // Returns view controller from xib file
     static func loadFromXib() -> Self {

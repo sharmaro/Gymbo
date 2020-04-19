@@ -93,6 +93,9 @@ class StopwatchViewController: UIViewController {
         return button
     }()
 
+    private var buttonsStackViewBottomConstraint: NSLayoutConstraint?
+    private var didViewAppear = false
+
     private var stopwatchState = StopwatchState.initial
     private var timer: Timer?
 
@@ -161,6 +164,8 @@ private extension StopwatchViewController {
 
         static let timeStackViewHeight = CGFloat(100)
         static let buttonsStackViewHeight = CGFloat(45)
+        static let sessionStartedConstraintConstant = CGFloat(-50)
+        static let sessionEndedConstraintConstant = CGFloat(-15)
     }
 
     // Codable is for encoding/decoding
@@ -204,7 +209,19 @@ extension StopwatchViewController {
         setupButtonsStackView()
         loadFromUserDefaults()
         registerForApplicationStateNotifications()
-        registerForSessionProgressNotifications()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        didViewAppear = true
+        renewConstraints()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        didViewAppear = false
     }
 }
 
@@ -265,9 +282,11 @@ extension StopwatchViewController {
         NSLayoutConstraint.activate([
             buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
         ])
+
+        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        buttonsStackViewBottomConstraint?.isActive = true
 
         [lapAndResetButton, startAndStopButton].forEach {
             buttonsStackView.addArrangedSubview($0)
@@ -382,6 +401,7 @@ extension StopwatchViewController {
                     previousLap = Lap(minutes: minInt, seconds: secInt, centiSeconds: centiSecInt)
 
                     tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .none, animated: true)
                 } else if stopwatchState == .stopped {
                     // User selected `Reset` functionality
                     minInt = 0
@@ -514,12 +534,34 @@ extension StopwatchViewController: ApplicationStateObserving {
     }
 }
 
-// MARK: - SessionProgressObserving
-extension StopwatchViewController: SessionProgressObserving {
-    func sessionDidStart(_ notification: Notification) {
-        // Increase bottom view bottom constraint
+// MARK: - SessionProgressDelegate
+extension StopwatchViewController: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        renewConstraints()
     }
 
-    func sessionDidEnd(_ notification: Notification) {
+    func sessionDidEnd(_ session: Session?) {
+        renewConstraints()
+    }
+}
+
+// MARK: - SessionStateConstraintsUpdating
+extension StopwatchViewController: SessionStateConstraintsUpdating {
+    func renewConstraints() {
+        guard let mainTabBarController = mainTabBarController else {
+            return
+        }
+
+        if mainTabBarController.isSessionInProgress {
+            buttonsStackViewBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
+        } else {
+            buttonsStackViewBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
+        }
+
+        if didViewAppear {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+        }
     }
 }

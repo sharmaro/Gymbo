@@ -9,15 +9,10 @@
 import UIKit
 import RealmSwift
 
-protocol SessionProgressDelegate: class {
-    func sessionDidStart(_ session: Session?)
-    func sessionDidEnd(_ session: Session?)
-}
-
 protocol SessionDataModelDelegate: class {
     func addSessionData(name: String?, info: String?, exercises: List<Exercise>)
     func saveSelectedSession(_ session: Session)
-    func updateSessionCells()
+    func reloadCollectionViewWithoutAnimation()
 }
 
 // MARK: - Properties
@@ -50,7 +45,7 @@ private extension SessionsCollectionViewController {
         static let sessionCellHeight = CGFloat(120)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
-        static let defaultYOffset = CGFloat(60)
+        static let sessionStartedInsetConstant = CGFloat(50)
     }
 
     enum DataState {
@@ -67,6 +62,8 @@ private extension SessionsCollectionViewController {
 extension SessionsCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
 
         setupNavigationBar()
         setupCollectionView()
@@ -103,6 +100,7 @@ extension SessionsCollectionViewController {
     }
 
     private func setupCollectionView() {
+        collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.dragDelegate = self
@@ -113,8 +111,6 @@ extension SessionsCollectionViewController {
         collectionView.keyboardDismissMode = .interactive
         collectionView.register(SessionsCollectionViewCell.nib,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
-
-        collectionView.backgroundColor = .white
     }
 
     @objc private func updateSessionsUI() {
@@ -201,7 +197,7 @@ extension SessionsCollectionViewController {
 
         let sessionPreviewViewController = SessionPreviewViewController.loadFromXib()
         sessionPreviewViewController.session = selectedSession
-        sessionPreviewViewController.sessionProgressDelegate = self
+        sessionPreviewViewController.sessionProgressDelegate = mainTabBarController
 
         let modalNavigationController = UINavigationController(rootViewController: sessionPreviewViewController)
         if #available(iOS 13.0, *) {
@@ -300,7 +296,7 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
         collectionView.reloadData()
     }
 
-    func updateSessionCells() {
+    func reloadCollectionViewWithoutAnimation() {
         UIView.performWithoutAnimation {
             collectionView.reloadData()
         }
@@ -310,71 +306,11 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
 // MARK: - SessionProgressDelegate
 extension SessionsCollectionViewController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
-        guard let isSessionInProgress = mainTabBarController?.isSessionInProgress else {
-            return
-        }
-
-        if isSessionInProgress {
-            presentCustomAlert(title: "Another One?", content: "You already have a workout in progress!", usesBothButtons: true, leftButtonTitle: "My Bad", rightButtonTitle: "Start New Workout") { [weak self] in
-                self?.shouldStartAnotherSession = true
-                NotificationCenter.default.post(name: .endSession, object: nil)
-            }
-        } else {
-            startSession(session)
-        }
-    }
-
-    private func startSession(_ session: Session?) {
-        guard let mainTabBarController = navigationController?.mainTabBarController else {
-            return
-        }
-
-        mainTabBarController.isSessionInProgress = true
-
-        let dimmedView = UIView(frame: mainTabBarController.view.frame)
-        dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-
-        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: mainTabBarController.view.frame.height), size: CGSize(width: mainTabBarController.view.frame.width, height: mainTabBarController.view.frame.height - Constants.defaultYOffset)))
-        shadowContainerView.addShadow(direction: .up)
-        shadowContainerView.hideShadow()
-
-        let startSessionViewController = StartSessionViewController.loadFromXib()
-        startSessionViewController.session = session
-        startSessionViewController.sessionProgresssDelegate = self
-        startSessionViewController.dimmedView = dimmedView
-        startSessionViewController.panView = shadowContainerView
-        startSessionViewController.initialTabBarFrame = mainTabBarController.tabBar.frame
-        // This allows startSessionViewController to extend over the bottom tab bar
-        startSessionViewController.extendedLayoutIncludesOpaqueBars = true
-
-        let containerNavigationController = UINavigationController(rootViewController: startSessionViewController)
-        containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
-        containerNavigationController.view.roundCorner(radius: 10)
-
-        shadowContainerView.addSubview(containerNavigationController.view)
-        containerNavigationController.view.autoPinEdgesTo(superView: shadowContainerView)
-
-        mainTabBarController.view.insertSubview(shadowContainerView, belowSubview: mainTabBarController.tabBar)
-        mainTabBarController.addChild(containerNavigationController)
-        containerNavigationController.didMove(toParent: mainTabBarController)
-
-        mainTabBarController.view.insertSubview(dimmedView, belowSubview: shadowContainerView)
-        mainTabBarController.view.layoutIfNeeded()
-
-        UIView.animate(withDuration: 0.4, delay: 0.1, animations: {
-            shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
-            mainTabBarController.tabBar.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height)
-        })
+        collectionView.contentInset.bottom = Constants.sessionStartedInsetConstant
     }
 
     func sessionDidEnd(_ session: Session?) {
-        mainTabBarController?.isSessionInProgress = false
-        if shouldStartAnotherSession {
-            mainTabBarController?.isSessionInProgress = true
-            shouldStartAnotherSession = false
-
-            startSession(session)
-        }
+        collectionView.contentInset = .zero
     }
 }
 
