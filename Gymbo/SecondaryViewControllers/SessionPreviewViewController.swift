@@ -124,8 +124,6 @@ extension SessionPreviewViewController {
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
             tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
-        tableHeaderView.backgroundColor = .red
-
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
     }

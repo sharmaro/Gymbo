@@ -49,7 +49,7 @@ private extension AddEditSessionViewController {
     struct Constants {
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
-        static let addSetButtonCellHeight = CGFloat(50)
+        static let addSetButtonCellHeight = CGFloat(60)
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
@@ -142,8 +142,6 @@ extension AddEditSessionViewController {
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
             tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
-        tableHeaderView.backgroundColor = .red
-
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
     }
@@ -435,12 +433,14 @@ extension AddEditSessionViewController: SessionHeaderTextViewsDelegate {
 // MARK: - KeyboardObserving
 extension AddEditSessionViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardHeight = notification.keyboardSize?.height else {
+        guard let navigationController = navigationController,
+            let keyboardHeight = notification.keyboardSize?.height else {
             return
         }
 
+        let offset = abs(navigationController.view.frame.height - keyboardHeight - tableView.frame.maxY)
         UIView.performWithoutAnimation { [weak self] in
-            self?.tableView.contentInset.bottom = keyboardHeight
+            self?.tableView.contentInset.bottom = offset
         }
     }
 
