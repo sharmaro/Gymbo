@@ -103,7 +103,6 @@ extension SessionHeaderView {
             textView.autocorrectionType = .no
             textView.delegate = self
         }
-        nameTextView.becomeFirstResponder()
     }
 
     func configure(dataModel: SessionHeaderViewModel) {
@@ -111,6 +110,10 @@ extension SessionHeaderView {
         infoTextView.text = dataModel.info
         nameTextView.textColor = dataModel.textColor
         infoTextView.textColor = dataModel.textColor
+    }
+
+    func makeFirstResponder() {
+        nameTextView.becomeFirstResponder()
     }
 }
 

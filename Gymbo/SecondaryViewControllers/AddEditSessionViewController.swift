@@ -69,6 +69,12 @@ extension AddEditSessionViewController {
         registerForKeyboardNotifications()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        tableHeaderView.makeFirstResponder()
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
