@@ -24,7 +24,7 @@ class CustomButton: UIButton {
 
     var titleFontSize: CGFloat = 18 {
         didSet {
-            titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
+            titleLabel?.font = .systemFont(ofSize: titleFontSize)
         }
     }
 
@@ -80,7 +80,7 @@ private extension CustomButton {
 extension CustomButton {
     private func setup() {
         setTitleColor(titleColor, for: .normal)
-        titleLabel?.font = UIFont.systemFont(ofSize: titleFontSize)
+        titleLabel?.font = .systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
     }
 

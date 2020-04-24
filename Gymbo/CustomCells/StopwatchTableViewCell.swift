@@ -16,7 +16,7 @@ class StopwatchTableViewCell: UITableViewCell {
 
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 20)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -24,7 +24,7 @@ class StopwatchTableViewCell: UITableViewCell {
 
     private lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 20)
         label.textAlignment = .justified
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

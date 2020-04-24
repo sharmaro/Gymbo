@@ -23,8 +23,8 @@ enum PresentationStyle {
 
 // Codable is for encoding/decoding
 struct ExerciseText: Codable {
-    var exerciseName: String?
-    var exerciseMuscles: String?
+    var name: String?
+    var muscles: String?
     let isUserMade: Bool
 }
 
@@ -144,7 +144,7 @@ extension ExercisesViewController {
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
         tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.nib,
+        tableView.register(ExerciseTableViewCell.self,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
@@ -212,7 +212,7 @@ extension ExercisesViewController {
     @objc private func createExerciseButtonTapped() {
         view.endEditing(true)
 
-        let createExerciseViewController = CreateExerciseViewController.loadFromXib()
+        let createExerciseViewController = CreateExerciseViewController()
         createExerciseViewController.createExerciseDelegate = self
         createExerciseViewController.setAlphaDelegate = self
 
@@ -262,7 +262,7 @@ extension ExercisesViewController: UITableViewDataSource {
 
     private func handleCellSelection(cell: UITableViewCell, model: ExerciseText, indexPath: IndexPath) {
         if let exerciseCell = cell as? ExerciseTableViewCell {
-            if let exerciseName = model.exerciseName,
+            if let exerciseName = model.name,
                 selectedExerciseNamesAndIndexPaths.count > 0, selectedExerciseNamesAndIndexPaths[exerciseName] != nil {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 exerciseCell.didSelect = true
@@ -321,7 +321,7 @@ extension ExercisesViewController: UITableViewDelegate {
         titleLabel.text = exerciseGroup
         titleLabel.textAlignment = .left
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: Constants.headerFontSize)
+        titleLabel.font = .systemFont(ofSize: Constants.headerFontSize)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.addSubview(titleLabel)

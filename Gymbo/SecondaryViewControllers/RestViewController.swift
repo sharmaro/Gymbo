@@ -16,15 +16,46 @@ protocol RestTimerDelegate: class {
 
 // MARK: - Properties
 class RestViewController: UIViewController {
-    @IBOutlet private weak var topContainerView: UIView!
-    @IBOutlet private weak var restLabel: UILabel!
-    @IBOutlet private weak var circleProgressView: CircleProgressView!
-    @IBOutlet private weak var restTimesPickerView: UIPickerView!
-    @IBOutlet private weak var mainButton: CustomButton!
+    private var topContainerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
-    class var id: String {
-        return String(describing: self)
-    }
+    private var restLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.text = "Choose a time below to rest!"
+        label.textAlignment = .center
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 17)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var circleProgressView: CircleProgressView = {
+        let circleProgressView = CircleProgressView(frame: .zero)
+        circleProgressView.backgroundColor = .white
+        circleProgressView.translatesAutoresizingMaskIntoConstraints = false
+        return circleProgressView
+    }()
+
+    private var pickerView: UIPickerView = {
+        let pickerView = UIPickerView(frame: .zero)
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        return pickerView
+    }()
+
+    private var mainButton: CustomButton = {
+        let customButton = CustomButton(frame: .zero)
+        customButton.title = "Start Timer"
+        customButton.add(backgroundColor: .systemBlue)
+        customButton.addCorner()
+        customButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
+        customButton.translatesAutoresizingMaskIntoConstraints = false
+        return customButton
+    }()
 
     private lazy var addTimeButton: CustomButton = {
         let size = CGSize(width: 100, height: 30)
@@ -142,10 +173,13 @@ extension RestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         setupNavigationBar()
+        addViews()
+        setupConstraints()
         createPickerViewData()
         setupPickerView()
-        setupMainButton()
 
         if isTimerActive {
             mainButtonInteraction()
@@ -161,6 +195,39 @@ extension RestViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
     }
 
+    private func addViews() {
+        view.addSubviews(views: [topContainerView, circleProgressView, mainButton])
+        topContainerView.addSubviews(views: [restLabel])
+        circleProgressView.addSubviews(views: [pickerView])
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            topContainerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
+            topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            topContainerView.bottomAnchor.constraint(equalTo: circleProgressView.topAnchor, constant: -15),
+            topContainerView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+
+        restLabel.autoPinEdgesTo(superView: topContainerView)
+
+        NSLayoutConstraint.activate([
+            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15)
+        ])
+
+        pickerView.autoPinEdgesTo(superView: circleProgressView)
+
+        NSLayoutConstraint.activate([
+            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            mainButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+    }
+
     private func createPickerViewData() {
         for i in 1...120 {
             let timeString = (i * 5).getMinutesAndSecondsString()
@@ -169,19 +236,13 @@ extension RestViewController {
     }
 
     private func setupPickerView() {
-        restTimesPickerView.dataSource = self
-        restTimesPickerView.delegate = self
-        restTimesPickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
-    }
-
-    private func setupMainButton() {
-        mainButton.title = "Start Timer"
-        mainButton.add(backgroundColor: .systemBlue)
-        mainButton.addCorner()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
     }
 
     private func showHideCustomViews() {
-        restTimesPickerView.isHidden.toggle()
+        pickerView.isHidden.toggle()
         circleProgressView.shouldHideText.toggle()
 
         restLabel.isHidden.toggle()
@@ -200,7 +261,7 @@ extension RestViewController {
 
                 circleProgressView.startAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
             } else {
-                let selectedPickerRow = restTimesPickerView.selectedRow(inComponent: 0)
+                let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
                 totalRestTime = restTimes[selectedPickerRow].getSecondsFromTime() ?? 0
                 restTimeRemaining = totalRestTime
 
@@ -211,6 +272,17 @@ extension RestViewController {
         case .done:
             circleProgressView.stopAnimation()
             restTimerDelegate?.ended()
+            dismiss(animated: true)
+        }
+    }
+
+    private func updateAnimation() {
+        circleProgressView.startAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+        restTimerDelegate?.timeUpdated(totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+
+        if restTimeRemaining <= 0 {
+            restTimerDelegate?.ended()
+            circleProgressView.stopAnimation()
             dismiss(animated: true)
         }
     }
@@ -231,18 +303,7 @@ extension RestViewController {
         updateAnimation()
     }
 
-    private func updateAnimation() {
-        circleProgressView.startAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
-        restTimerDelegate?.timeUpdated(totalTime: totalRestTime, timeRemaining: restTimeRemaining)
-
-        if restTimeRemaining <= 0 {
-            restTimerDelegate?.ended()
-            circleProgressView.stopAnimation()
-            dismiss(animated: true)
-        }
-    }
-
-    @IBAction func mainButtonTapped(_ sender: Any) {
+    @objc private func mainButtonTapped(_ sender: Any) {
         mainButtonInteraction()
     }
 }
@@ -255,7 +316,7 @@ extension RestViewController: UIPickerViewDataSource {
     }
 
     private func hideSelectorLines() {
-        restTimesPickerView.subviews.forEach {
+        pickerView.subviews.forEach {
             $0.isHidden = $0.frame.height < 1.0
         }
     }
@@ -272,7 +333,7 @@ extension RestViewController: UIPickerViewDelegate {
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center
-        pickerLabel.font = UIFont.systemFont(ofSize: Constants.pickerRowFontSize)
+        pickerLabel.font = .systemFont(ofSize: Constants.pickerRowFontSize)
         return pickerLabel
     }
 

@@ -111,7 +111,7 @@ extension CircleProgressView {
 
         [totalTimeLabel, timeRemainingLabel].forEach {
             $0.textAlignment = .center
-            $0.font = UIFont.systemFont(ofSize: Constants.fontSize)
+            $0.font = .systemFont(ofSize: Constants.fontSize)
             $0.isHidden = true
             $0.translatesAutoresizingMaskIntoConstraints = false
             addSubview($0)

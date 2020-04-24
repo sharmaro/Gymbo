@@ -195,16 +195,8 @@ extension UIView {
 
 // MARK: - UIViewController
 extension UIViewController {
-    // Returns view controller from xib file
-    static func loadFromXib() -> Self {
-        func instantiateFromNib<T: UIViewController>() -> T {
-            return T.init(nibName: String(describing: T.self), bundle: nil)
-        }
-        return instantiateFromNib()
-    }
-
     func presentCustomAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
-        let alertViewController = AlertViewController.loadFromXib()
+        let alertViewController = AlertViewController()
         alertViewController.setupAlert(title: title, content: content, usesBothButtons: usesBothButtons, leftButtonTitle: leftButtonTitle, rightButtonTitle: rightButtonTitle, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
         alertViewController.modalTransitionStyle = .crossDissolve
         alertViewController.modalPresentationStyle = .overFullScreen

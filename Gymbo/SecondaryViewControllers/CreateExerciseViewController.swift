@@ -14,13 +14,29 @@ protocol CreateExerciseDelegate: class {
 
 // MARK: - Properties
 class CreateExerciseViewController: UIViewController {
-    @IBOutlet private weak var exerciseGroupPickerView: UIPickerView!
-    @IBOutlet private weak var exerciseNameTextField: UITextField!
-    @IBOutlet private weak var exerciseMusclesTextField: UITextField!
+    private var pickerView: UIPickerView = {
+        let pickerView = UIPickerView(frame: .zero)
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        return pickerView
+    }()
 
-    class var id: String {
-        return String(describing: self)
-    }
+    private var nameTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.placeholder = "Exercise name..."
+        textField.autocapitalizationType = .words
+        textField.returnKeyType = .next
+        textField.becomeFirstResponder()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private var musclesTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.placeholder = "Relevant muscles..."
+        textField.returnKeyType = .done
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
     weak var setAlphaDelegate: SetAlphaDelegate?
@@ -41,7 +57,11 @@ extension CreateExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         setupNavigationBar()
+        addViews()
+        setupConstraints()
         setupPickerView()
         setupTextFields()
     }
@@ -64,23 +84,44 @@ extension CreateExerciseViewController {
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
+    private func addViews() {
+        view.addSubviews(views: [pickerView, nameTextField, musclesTextField])
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            pickerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
+            pickerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            pickerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            pickerView.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -15)
+        ])
+
+        NSLayoutConstraint.activate([
+            nameTextField.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            nameTextField.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            nameTextField.bottomAnchor.constraint(equalTo: musclesTextField.topAnchor, constant: -15),
+            nameTextField.heightAnchor.constraint(equalToConstant: 45)
+        ])
+
+        NSLayoutConstraint.activate([
+            musclesTextField.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            musclesTextField.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            musclesTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            musclesTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
+        ])
+    }
 
     private func setupPickerView() {
-        exerciseGroupPickerView.dataSource = self
-        exerciseGroupPickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.delegate = self
     }
 
     private func setupTextFields() {
-        [exerciseNameTextField, exerciseMusclesTextField].forEach {
-            $0?.borderStyle = .none
-            $0?.delegate = self
-            $0?.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        [nameTextField, musclesTextField].forEach {
+            $0.borderStyle = .none
+            $0.delegate = self
+            $0.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
-        exerciseNameTextField.autocapitalizationType = .words
-        exerciseNameTextField.returnKeyType = .next
-        exerciseNameTextField.becomeFirstResponder()
-
-        exerciseMusclesTextField.returnKeyType = .done
     }
 
     @objc private func cancelButtonTapped() {
@@ -89,21 +130,22 @@ extension CreateExerciseViewController {
     }
 
     @objc private func addButtonTapped() {
-        guard let exercise = exerciseNameTextField.text, !exercise.isEmpty,
-              let muscles = exerciseMusclesTextField.text, !muscles.isEmpty else {
+        guard let exercise = nameTextField.text, !exercise.isEmpty,
+              let muscles = musclesTextField.text, !muscles.isEmpty else {
             return
         }
 
-        let selectedPickerRow = exerciseGroupPickerView.selectedRow(inComponent: 0)
+        let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
         let exerciseGroup = ExerciseDataModel.shared.exerciseGroups[selectedPickerRow]
-        let exerciseText = ExerciseText(exerciseName: exercise, exerciseMuscles: muscles, isUserMade: true)
+        let exerciseText = ExerciseText(name: exercise, muscles: muscles, isUserMade: true)
         createExerciseDelegate?.addCreatedExercise(exerciseGroup: exerciseGroup, exerciseText: exerciseText)
 
         dismiss(animated: true)
     }
 
     @objc private func textFieldDidChange(textField: UITextField) {
-        guard let exerciseText = exerciseNameTextField.text, let muscleGroupsText = exerciseMusclesTextField.text else {
+        guard let exerciseText = nameTextField.text,
+            let muscleGroupsText = musclesTextField.text else {
             return
         }
 
@@ -131,7 +173,7 @@ extension CreateExerciseViewController: UIPickerViewDelegate {
         pickerLabel.text = ExerciseDataModel.shared.exerciseGroups[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .left
-        pickerLabel.font = UIFont.systemFont(ofSize: 18)
+        pickerLabel.font = .systemFont(ofSize: 18)
         return pickerLabel
     }
 
@@ -143,8 +185,8 @@ extension CreateExerciseViewController: UIPickerViewDelegate {
 // MARK: - UITextFieldDelegate
 extension CreateExerciseViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == exerciseNameTextField {
-            exerciseMusclesTextField.becomeFirstResponder()
+        if textField == nameTextField {
+            musclesTextField.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
         }

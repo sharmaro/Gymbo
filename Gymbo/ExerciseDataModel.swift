@@ -50,8 +50,8 @@ extension ExerciseDataModel {
                             let exerciseSplitList = exercise.split(separator: ":")
                             let exerciseName = String(exerciseSplitList[0])
                             let exerciseMuscles =  String(exerciseSplitList[1])
-                            let exerciseText = ExerciseText(exerciseName: exerciseName,
-                                                            exerciseMuscles: exerciseMuscles,
+                            let exerciseText = ExerciseText(name: exerciseName,
+                                                            muscles: exerciseMuscles,
                                                             isUserMade: false)
                             if exerciseData[group] == nil {
                                 exerciseData[group] = [exerciseText]
@@ -119,7 +119,7 @@ extension ExerciseDataModel {
         let exerciseGroup = exerciseGroups[section]
         if let exercises = exerciseData[exerciseGroup] {
             for (index, value) in exercises.enumerated() {
-                if let exerciseName = value.exerciseName,
+                if let exerciseName = value.name,
                     exerciseName == name {
                     return IndexPath(row: index, section: section)
                 }
@@ -157,7 +157,7 @@ extension ExerciseDataModel {
     func filterResults(filter: String) {
         exerciseData.forEach {
             searchResults[$0.key] = $0.value.filter {
-                ($0.exerciseName ?? "").lowercased().contains(filter)
+                ($0.name ?? "").lowercased().contains(filter)
             }
         }
     }
@@ -172,7 +172,7 @@ extension ExerciseDataModel {
         } else {
             exerciseData[exerciseGroup]?.append(exerciseText)
             exerciseData[exerciseGroup]?.sort {
-                return ($0.exerciseName ?? "").lowercased() < ($1.exerciseName ?? "").lowercased()
+                return ($0.name ?? "").lowercased() < ($1.name ?? "").lowercased()
             }
         }
         saveExercises()

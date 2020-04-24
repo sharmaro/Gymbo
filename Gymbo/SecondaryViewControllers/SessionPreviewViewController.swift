@@ -1,5 +1,5 @@
 //
-//  SessionsPreviewViewController.swift
+//  SessionPreviewViewController.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 10/23/19.
@@ -15,12 +15,11 @@ struct ExerciseInfo {
 
 // MARK: - Properties
 class SessionPreviewViewController: UIViewController {
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var startSessionButton: CustomButton!
-
-    class var id: String {
-        return String(describing: self)
-    }
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
 
     private lazy var tableHeaderView: SessionHeaderView = {
         var dataModel = SessionHeaderViewModel()
@@ -33,6 +32,17 @@ class SessionPreviewViewController: UIViewController {
         sessionTableHeaderView.isContentEditable = false
         sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         return sessionTableHeaderView
+    }()
+
+    private lazy var startSessionButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        button.title = "Start Session"
+        button.titleLabel?.textAlignment = .center
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner()
+        button.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
 
     var session: Session?
@@ -60,7 +70,10 @@ extension SessionPreviewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         setupNavigationBar()
+        addMainViews()
         setupTableView()
         setupTableHeaderView()
         setupStartSessionButton()
@@ -106,12 +119,25 @@ extension SessionPreviewViewController {
         edgesForExtendedLayout = .all
     }
 
+    private func addMainViews() {
+        view.addSubviews(views: [tableView, startSessionButton])
+    }
+
     private func setupTableView() {
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: startSessionButton.topAnchor, constant: -15)
+        ])
+
         tableView.delegate = self
         tableView.dataSource = self
         // Removes extra lines below shown data
         tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.nib,
+        tableView.register(ExerciseTableViewCell.self,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
     }
 
@@ -129,10 +155,14 @@ extension SessionPreviewViewController {
     }
 
     private func setupStartSessionButton() {
-        startSessionButton.title = "Start Session"
-        startSessionButton.titleLabel?.textAlignment = .center
-        startSessionButton.add(backgroundColor: .systemBlue)
-        startSessionButton.addCorner()
+        view.addSubview(startSessionButton)
+
+        NSLayoutConstraint.activate([
+            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            startSessionButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
     }
 
     private func updateTableView() {
@@ -152,13 +182,13 @@ extension SessionPreviewViewController {
             return
         }
 
-        let addEditSessionViewController = AddEditSessionViewController.loadFromXib()
+        let addEditSessionViewController = AddEditSessionViewController()
         addEditSessionViewController.sessionState = .edit
         addEditSessionViewController.session = session
         navigationController?.pushViewController(addEditSessionViewController, animated: true)
     }
 
-    @IBAction func startSessionButtonTapped(_ sender: Any) {
+    @objc private func startSessionButtonTapped(_ sender: Any) {
         dismiss(animated: true)
         sessionProgressDelegate?.sessionDidStart(session)
     }
@@ -182,7 +212,7 @@ extension SessionPreviewViewController: UITableViewDataSource {
 
         let name = exerciseInfoList?[indexPath.row].exerciseName
         let muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
-        let dataModel = ExerciseText(exerciseName: name, exerciseMuscles: muscles, isUserMade: false)
+        let dataModel = ExerciseText(name: name, muscles: muscles, isUserMade: false)
 
         exerciseTableViewCell.configure(dataModel: dataModel)
         return exerciseTableViewCell

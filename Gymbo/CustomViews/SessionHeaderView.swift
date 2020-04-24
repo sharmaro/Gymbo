@@ -22,9 +22,23 @@ struct SessionHeaderViewModel {
 
 // MARK: - Properties
 class SessionHeaderView: UIView {
-    @IBOutlet private var contentView: UIView!
-    @IBOutlet private weak var nameTextView: UITextView!
-    @IBOutlet private weak var infoTextView: UITextView!
+    private var nameTextView: UITextView = {
+        let textView = UITextView(frame: .zero)
+        textView.font = .systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
+        textView.isScrollEnabled = false
+        textView.tag = 0
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+
+    private var infoTextView: UITextView = {
+        let textView = UITextView(frame: .zero)
+        textView.font = .systemFont(ofSize: Constants.infoTextViewFontSize, weight: .medium)
+        textView.isScrollEnabled = false
+        textView.tag = 1
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
 
     var sessionName: String? {
         return nameTextView.text
@@ -76,21 +90,32 @@ private extension SessionHeaderView {
 // MARK: - Funcs
 extension SessionHeaderView {
     private func setup() {
-        Bundle.main.loadNibNamed(String(describing: SessionHeaderView.self), owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        addMainViews()
+        setupConstraints()
         setupTextViews()
     }
 
+    private func addMainViews() {
+        addSubviews(views: [nameTextView, infoTextView])
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            nameTextView.topAnchor.constraint(equalTo: topAnchor),
+            nameTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            nameTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            nameTextView.bottomAnchor.constraint(equalTo: infoTextView.topAnchor),
+            nameTextView.heightAnchor.constraint(equalToConstant: 32)
+        ])
+
+        NSLayoutConstraint.activate([
+            infoTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            infoTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            infoTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+
     private func setupTextViews() {
-        nameTextView.font = UIFont.systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
-        nameTextView.tag = 0
-
-        infoTextView.font = UIFont.systemFont(ofSize: Constants.infoTextViewFontSize, weight: .regular)
-        infoTextView.tag = 1
-
         textViews = [nameTextView, infoTextView]
         for textView in textViews {
             textView.isSelectable = false

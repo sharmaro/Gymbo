@@ -15,20 +15,30 @@ protocol StartSessionButtonDelegate: class {
 
 // MARK: - Properties
 class StartSessionFooterView: UIView {
-    @IBOutlet private var contentView: UIView!
-    @IBOutlet private weak var addExerciseButton: CustomButton!
-    @IBOutlet private weak var cancelButton: CustomButton!
+    private var addExerciseButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private var cancelButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
     // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+
         setup()
     }
 }
@@ -36,31 +46,50 @@ class StartSessionFooterView: UIView {
 // MARK: - Funcs
 extension StartSessionFooterView {
     private func setup() {
-        Bundle.main.loadNibNamed(String(describing: StartSessionFooterView.self), owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        setupButtons()
+        addViews()
+        setupViews()
+        setupConstraints()
     }
 
-    private func setupButtons() {
+    private func addViews() {
+        addSubviews(views: [addExerciseButton, cancelButton])
+    }
+
+    private func setupViews() {
         addExerciseButton.title = "+ Exercise"
         addExerciseButton.titleFontSize = 15
         addExerciseButton.add(backgroundColor: .systemBlue)
         addExerciseButton.addCorner()
+        addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
 
         cancelButton.title = "Cancel"
         cancelButton.titleFontSize = 15
         cancelButton.add(backgroundColor: .systemRed)
         cancelButton.addCorner()
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
 
-    @IBAction func addExerciseButtonTapped(_ sender: Any) {
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            addExerciseButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            addExerciseButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -15),
+            addExerciseButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            cancelButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            cancelButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            cancelButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
+        ])
+    }
+
+    @objc private func addExerciseButtonTapped(_ sender: Any) {
         startSessionButtonDelegate?.addExercise()
     }
 
-    @IBAction func cancelButtonTapped(_ sender: Any) {
+    @objc private func cancelButtonTapped(_ sender: Any) {
         startSessionButtonDelegate?.cancelSession()
     }
 }

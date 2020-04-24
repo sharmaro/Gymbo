@@ -109,7 +109,7 @@ extension SessionsCollectionViewController {
         collectionView.dragInteractionEnabled = true
         collectionView.reorderingCadence = .fast
         collectionView.keyboardDismissMode = .interactive
-        collectionView.register(SessionsCollectionViewCell.nib,
+        collectionView.register(SessionsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
@@ -130,7 +130,7 @@ extension SessionsCollectionViewController {
     }
 
     @objc private func addSessionButtonTapped() {
-        let addEditSessionViewController = AddEditSessionViewController.loadFromXib()
+        let addEditSessionViewController = AddEditSessionViewController()
         addEditSessionViewController.sessionState = .add
         addEditSessionViewController.sessionDataModelDelegate = self
         navigationController?.pushViewController(addEditSessionViewController, animated: true)
@@ -195,7 +195,7 @@ extension SessionsCollectionViewController {
             return
         }
 
-        let sessionPreviewViewController = SessionPreviewViewController.loadFromXib()
+        let sessionPreviewViewController = SessionPreviewViewController()
         sessionPreviewViewController.session = selectedSession
         sessionPreviewViewController.sessionProgressDelegate = mainTabBarController
 

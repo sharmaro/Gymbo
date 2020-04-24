@@ -7,26 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6901E4742387B4980051D1B2 /* SessionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6901E4732387B4980051D1B2 /* SessionHeaderView.xib */; };
 		6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */; };
 		690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */; };
 		691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */; };
-		691054E9234301DD00E306F1 /* SessionsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */; };
 		691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */; };
 		6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673A22F77A2900832C68 /* UIExtensions.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
 		692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */; };
-		692D982322FE9E890032514D /* ExerciseDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 692D982122FE9E890032514D /* ExerciseDetailTableViewCell.xib */; };
 		69346A932320189300060E4C /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69346A922320189300060E4C /* TypeExtensions.swift */; };
-		693BD6372383B0F400F51F0B /* StartSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693BD6362383B0F400F51F0B /* StartSessionViewController.swift */; };
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
 		6942B215233C7DBA00FCEECE /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */; };
-		6942B216233C7DBA00FCEECE /* ExerciseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6942B214233C7DBA00FCEECE /* ExerciseTableViewCell.xib */; };
 		69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */; };
-		694B2AFE23EF5FCC00FA41A3 /* AddEditSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 694B2AFD23EF5FCC00FA41A3 /* AddEditSessionViewController.xib */; };
-		694B2B0423EF7EAF00FA41A3 /* SessionPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 694B2B0323EF7EAF00FA41A3 /* SessionPreviewViewController.xib */; };
-		694B2B0823EF81E100FA41A3 /* CreateExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 694B2B0723EF81E100FA41A3 /* CreateExerciseViewController.xib */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
 		695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE922CB28B800E3FB1F /* Assets.xcassets */; };
@@ -46,19 +38,14 @@
 		69629471235D594000E681C7 /* Hips.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629469235D594000E681C7 /* Hips.txt */; };
 		6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */; };
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
-		69659C0A24039C680054F655 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69659C0824039C680054F655 /* AlertViewController.xib */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
+		69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69695698245013C3007FADC2 /* StartSessionTableViewController.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
-		6994C5B523EF837B009D4FCB /* RestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6994C5B423EF837B009D4FCB /* RestViewController.xib */; };
-		6994C5B723EF8452009D4FCB /* StartSessionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6994C5B623EF8452009D4FCB /* StartSessionViewController.xib */; };
-		69CB2D8A23CC02E600603363 /* StartSessionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CB2D8923CC02E600603363 /* StartSessionFooterView.xib */; };
 		69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */; };
 		69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D9023CD6D9F00603363 /* RestViewController.swift */; };
 		69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3C0A323F0DA7C0016F28C /* Protocols.swift */; };
-		69F012D1237DB0E5008B4225 /* AddSetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */; };
 		69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */; };
 		69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */; };
-		69F012E32383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69F012E12383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib */; };
 		69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
@@ -66,26 +53,18 @@
 /* Begin PBXFileReference section */
 		0760852446B766F739525C2A /* Pods-Gymbo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.debug.xcconfig"; sourceTree = "<group>"; };
 		315700FCAC782D0687667285 /* Pods_Gymbo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gymbo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6901E4732387B4980051D1B2 /* SessionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionHeaderView.xib; sourceTree = "<group>"; };
 		6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderView.swift; sourceTree = "<group>"; };
 		690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTableViewCell.swift; sourceTree = "<group>"; };
 		691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCell.swift; sourceTree = "<group>"; };
-		691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionsCollectionViewCell.xib; sourceTree = "<group>"; };
 		691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		6929673A22F77A2900832C68 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
-		692D982122FE9E890032514D /* ExerciseDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseDetailTableViewCell.xib; sourceTree = "<group>"; };
 		69346A922320189300060E4C /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
-		693BD6362383B0F400F51F0B /* StartSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionViewController.swift; sourceTree = "<group>"; };
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
-		6942B214233C7DBA00FCEECE /* ExerciseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseTableViewCell.xib; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditSessionViewController.swift; sourceTree = "<group>"; };
-		694B2AFD23EF5FCC00FA41A3 /* AddEditSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEditSessionViewController.xib; sourceTree = "<group>"; };
-		694B2B0323EF7EAF00FA41A3 /* SessionPreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionPreviewViewController.xib; sourceTree = "<group>"; };
-		694B2B0723EF81E100FA41A3 /* CreateExerciseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateExerciseViewController.xib; sourceTree = "<group>"; };
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,19 +86,14 @@
 		69629469235D594000E681C7 /* Hips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hips.txt; sourceTree = "<group>"; };
 		6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewController.swift; sourceTree = "<group>"; };
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		69659C0824039C680054F655 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
+		69695698245013C3007FADC2 /* StartSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionTableViewController.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
-		6994C5B423EF837B009D4FCB /* RestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestViewController.xib; sourceTree = "<group>"; };
-		6994C5B623EF8452009D4FCB /* StartSessionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartSessionViewController.xib; sourceTree = "<group>"; };
-		69CB2D8923CC02E600603363 /* StartSessionFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartSessionFooterView.xib; sourceTree = "<group>"; };
 		69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionFooterView.swift; sourceTree = "<group>"; };
 		69CB2D9023CD6D9F00603363 /* RestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestViewController.swift; sourceTree = "<group>"; };
 		69E3C0A323F0DA7C0016F28C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetTableViewCell.swift; sourceTree = "<group>"; };
-		69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddSetTableViewCell.xib; sourceTree = "<group>"; };
 		69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTableViewCell.swift; sourceTree = "<group>"; };
-		69F012E12383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExerciseHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModel.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,9 +125,7 @@
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
 				6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */,
-				6901E4732387B4980051D1B2 /* SessionHeaderView.xib */,
 				69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */,
-				69CB2D8923CC02E600603363 /* StartSessionFooterView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -162,15 +134,10 @@
 			isa = PBXGroup;
 			children = (
 				69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */,
-				694B2AFD23EF5FCC00FA41A3 /* AddEditSessionViewController.xib */,
 				69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */,
-				694B2B0723EF81E100FA41A3 /* CreateExerciseViewController.xib */,
 				69CB2D9023CD6D9F00603363 /* RestViewController.swift */,
-				6994C5B423EF837B009D4FCB /* RestViewController.xib */,
 				693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */,
-				694B2B0323EF7EAF00FA41A3 /* SessionPreviewViewController.xib */,
-				693BD6362383B0F400F51F0B /* StartSessionViewController.swift */,
-				6994C5B623EF8452009D4FCB /* StartSessionViewController.xib */,
+				69695698245013C3007FADC2 /* StartSessionTableViewController.swift */,
 			);
 			path = SecondaryViewControllers;
 			sourceTree = "<group>";
@@ -179,15 +146,10 @@
 			isa = PBXGroup;
 			children = (
 				69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */,
-				69F012CF237DB0E5008B4225 /* AddSetTableViewCell.xib */,
 				692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */,
-				692D982122FE9E890032514D /* ExerciseDetailTableViewCell.xib */,
 				69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */,
-				69F012E12383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib */,
 				6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */,
-				6942B214233C7DBA00FCEECE /* ExerciseTableViewCell.xib */,
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
-				691054E7234301DD00E306F1 /* SessionsCollectionViewCell.xib */,
 				690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */,
 			);
 			path = CustomCells;
@@ -273,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				69659C0724039C680054F655 /* AlertViewController.swift */,
-				69659C0824039C680054F655 /* AlertViewController.xib */,
 				6956292C234463EF00E0AA96 /* ModalPresentationController.swift */,
 			);
 			path = CustomViewControllers;
@@ -357,27 +318,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */,
-				694B2AFE23EF5FCC00FA41A3 /* AddEditSessionViewController.xib in Resources */,
-				692D982322FE9E890032514D /* ExerciseDetailTableViewCell.xib in Resources */,
-				69F012E32383A1BD008B4225 /* ExerciseHeaderTableViewCell.xib in Resources */,
-				69659C0A24039C680054F655 /* AlertViewController.xib in Resources */,
-				694B2B0423EF7EAF00FA41A3 /* SessionPreviewViewController.xib in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				69629461235D592000E681C7 /* Abs.txt in Resources */,
-				69F012D1237DB0E5008B4225 /* AddSetTableViewCell.xib in Resources */,
 				69629471235D594000E681C7 /* Hips.txt in Resources */,
-				6901E4742387B4980051D1B2 /* SessionHeaderView.xib in Resources */,
 				6962946E235D594000E681C7 /* Legs.txt in Resources */,
-				6994C5B523EF837B009D4FCB /* RestViewController.xib in Resources */,
 				6962946B235D594000E681C7 /* Arms.txt in Resources */,
-				6994C5B723EF8452009D4FCB /* StartSessionViewController.xib in Resources */,
 				69629470235D594000E681C7 /* Glutes.txt in Resources */,
 				6962946F235D594000E681C7 /* Chest.txt in Resources */,
-				694B2B0823EF81E100FA41A3 /* CreateExerciseViewController.xib in Resources */,
 				6962946C235D594000E681C7 /* Shoulders.txt in Resources */,
-				69CB2D8A23CC02E600603363 /* StartSessionFooterView.xib in Resources */,
-				6942B216233C7DBA00FCEECE /* ExerciseTableViewCell.xib in Resources */,
-				691054E9234301DD00E306F1 /* SessionsCollectionViewCell.xib in Resources */,
 				6962946A235D594000E681C7 /* Back.txt in Resources */,
 				6962946D235D594000E681C7 /* Extra Exercises.txt in Resources */,
 			);
@@ -435,7 +383,6 @@
 				69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTabBarController.swift in Sources */,
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
-				693BD6372383B0F400F51F0B /* StartSessionViewController.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
@@ -455,6 +402,7 @@
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */,
 				6942B212232B621600FCEECE /* Util.swift in Sources */,
+				69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Colors.swift in Sources */,
 				6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,

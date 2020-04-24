@@ -1,9 +1,9 @@
 //
-//  StartSessionViewController.swift
+//  StartSessionTableViewController.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 11/18/19.
-//  Copyright © 2019 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 4/21/20.
+//  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
@@ -14,13 +14,7 @@ protocol TimeLabelDelegate: class {
 }
 
 // MARK: - Properties
-class StartSessionViewController: UIViewController {
-    @IBOutlet private weak var tableView: UITableView!
-
-    class var id: String {
-        return String(describing: self)
-    }
-
+class StartSessionTableViewController: UITableViewController {
     private lazy var finishButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.title = "Finish"
@@ -103,8 +97,50 @@ class StartSessionViewController: UIViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension StartSessionTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .white
+
+        setupNavigationBar()
+        setupTableView()
+        setupTableHeaderView()
+        setupTableFooterView()
+        startSessionTimer()
+        registerForKeyboardNotifications()
+        registerForApplicationStateNotifications()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        panView?.addGestureRecognizer(panGesture)
+        panGesture.delegate = self
+        initialPanViewFrame = panView?.frame
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Used for laying out table header and footer views
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+
+        tableView.tableFooterView = tableView.tableFooterView
+        tableView.tableFooterView?.layoutIfNeeded()
+    }
+}
+
 // MARK: - Structs/Enums
-private extension StartSessionViewController {
+private extension StartSessionTableViewController {
     struct Constants {
         static let timeInterval = TimeInterval(1)
 
@@ -138,49 +174,8 @@ private extension StartSessionViewController {
     }
 }
 
-// MARK: - UIViewController Var/Funcs
-extension StartSessionViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        setupTableView()
-        setupTableHeaderView()
-        setupTableFooterView()
-        startSessionTimer()
-        registerForKeyboardNotifications()
-        registerForApplicationStateNotifications()
-//        registerForSessionProgressNotifications()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        panView?.addGestureRecognizer(panGesture)
-        panGesture.delegate = self
-        initialPanViewFrame = panView?.frame
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Used for laying out table header and footer views
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-
-        tableView.tableFooterView = tableView.tableFooterView
-        tableView.tableFooterView?.layoutIfNeeded()
-    }
-}
-
 // MARK: - Funcs
-extension StartSessionViewController {
+extension StartSessionTableViewController {
     private func setupNavigationBar() {
         title = 0.getMinutesAndSecondsString()
 
@@ -199,9 +194,9 @@ extension StartSessionViewController {
         tableView.keyboardDismissMode = .interactive
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
-        tableView.register(ExerciseHeaderTableViewCell.nib, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
     }
 
     private func setupTableHeaderView() {
@@ -362,7 +357,7 @@ extension StartSessionViewController {
     @objc private func restButtonTapped() {
         modallyPresenting = .restViewController
 
-        let restViewController = RestViewController.loadFromXib()
+        let restViewController = RestViewController()
         restViewController.isTimerActive = restTimer?.isValid ?? false
         restViewController.startSessionTotalRestTime = totalRestTime
         restViewController.startSessionRestTimeRemaining = restTimeRemaining
@@ -416,8 +411,8 @@ extension StartSessionViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension StartSessionViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension StartSessionTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
             presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return 0
@@ -425,7 +420,7 @@ extension StartSessionViewController: UITableViewDataSource {
         return session.exercises.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let session = session else {
             presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return 0
@@ -436,12 +431,12 @@ extension StartSessionViewController: UITableViewDataSource {
         return session.exercises[section].sets + 2
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let session = session else {
             presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return UITableViewCell()
         }
-        
+
         switch indexPath.row {
         case 0: // Exercise header cell
             if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
@@ -479,7 +474,7 @@ extension StartSessionViewController: UITableViewDataSource {
         return UITableViewCell()
     }
 
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch indexPath.row {
         // Protecting the first, second, and last rows because they shouldn't be swipe to delete
         case 0, tableView.numberOfRows(inSection: indexPath.section) - 1:
@@ -491,7 +486,7 @@ extension StartSessionViewController: UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
             try? self?.realm?.write {
                 self?.removeSet(indexPath: indexPath)
@@ -524,8 +519,8 @@ extension StartSessionViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension StartSessionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+extension StartSessionTableViewController {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
             return Constants.exerciseHeaderCellHeight
@@ -536,7 +531,7 @@ extension StartSessionViewController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell else {
             return
         }
@@ -545,7 +540,7 @@ extension StartSessionViewController: UITableViewDelegate {
         exerciseDetailCell.didSelect = true
     }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell else {
             return
         }
@@ -556,7 +551,7 @@ extension StartSessionViewController: UITableViewDelegate {
 }
 
 // MARK: - ExerciseHeaderCellDelegate
-extension StartSessionViewController: ExerciseHeaderCellDelegate {
+extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
     func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
@@ -585,7 +580,7 @@ extension StartSessionViewController: ExerciseHeaderCellDelegate {
 }
 
 // MARK: - ExerciseDetailTableViewCellDelegate
-extension StartSessionViewController: ExerciseDetailTableViewCellDelegate {
+extension StartSessionTableViewController: ExerciseDetailTableViewCellDelegate {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool {
         let totalString = "\(textField.text ?? "")\(string)"
         return totalString.count <= Constants.characterLimit // Need a constant for this
@@ -615,7 +610,7 @@ extension StartSessionViewController: ExerciseDetailTableViewCellDelegate {
 }
 
 // MARK: - AddSetTableViewCellDelegate
-extension StartSessionViewController: AddSetTableViewCellDelegate {
+extension StartSessionTableViewController: AddSetTableViewCellDelegate {
     func addSetButtonTapped(cell: AddSetTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section,
               let session = session else {
@@ -644,10 +639,10 @@ extension StartSessionViewController: AddSetTableViewCellDelegate {
 }
 
 // MARK: - ExerciseListDelegate
-extension StartSessionViewController: ExerciseListDelegate {
+extension StartSessionTableViewController: ExerciseListDelegate {
     func updateExerciseList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
-            let newExercise = Exercise(name: exerciseText.exerciseName, muscleGroups: exerciseText.exerciseMuscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
+            let newExercise = Exercise(name: exerciseText.name, muscleGroups: exerciseText.muscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
             try? realm?.write {
                 session?.exercises.append(newExercise)
             }
@@ -659,7 +654,7 @@ extension StartSessionViewController: ExerciseListDelegate {
 }
 
 // MARK: - StartSessionButtonDelegate
-extension StartSessionViewController: StartSessionButtonDelegate {
+extension StartSessionTableViewController: StartSessionButtonDelegate {
     func addExercise() {
         modallyPresenting = .exercisesViewController
 
@@ -683,7 +678,7 @@ extension StartSessionViewController: StartSessionButtonDelegate {
 }
 
 // MARK: - RestTimerDelegate
-extension StartSessionViewController: RestTimerDelegate {
+extension StartSessionTableViewController: RestTimerDelegate {
     func started(totalTime: Int) {
         totalRestTime = totalTime
         restTimeRemaining = totalRestTime
@@ -711,7 +706,7 @@ extension StartSessionViewController: RestTimerDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension StartSessionViewController: UIViewControllerTransitioningDelegate {
+extension StartSessionTableViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
 
@@ -728,7 +723,7 @@ extension StartSessionViewController: UIViewControllerTransitioningDelegate {
 }
 
 // MARK: - KeyboardObserving
-extension StartSessionViewController: KeyboardObserving {
+extension StartSessionTableViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let keyboardHeight = notification.keyboardSize?.height else {
             return
@@ -747,7 +742,7 @@ extension StartSessionViewController: KeyboardObserving {
 }
 
 // MARK: - ApplicationStateObserving
-extension StartSessionViewController: ApplicationStateObserving {
+extension StartSessionTableViewController: ApplicationStateObserving {
     func didEnterBackground(_ notification: Notification) {
         sessionTimer?.invalidate()
         restTimer?.invalidate()
@@ -790,17 +785,8 @@ extension StartSessionViewController: ApplicationStateObserving {
     }
 }
 
-//// MARK: - SessionProgressObserving
-//extension StartSessionViewController: SessionProgressObserving {
-//    func sessionDidEnd(_ notification: Notification) {
-//        DispatchQueue.main.async { [weak self] in
-//            self?.dismissAsChildViewController()
-//        }
-//    }
-//}
-
 // MARK: - UIGestureRecognizerDelegate
-extension StartSessionViewController: UIGestureRecognizerDelegate {
+extension StartSessionTableViewController: UIGestureRecognizerDelegate {
     // Preventing panGesture eating up table view gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture

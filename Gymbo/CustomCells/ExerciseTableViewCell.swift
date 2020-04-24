@@ -10,16 +10,24 @@ import UIKit
 
 // MARK: - Properties
 class ExerciseTableViewCell: UITableViewCell {
-    @IBOutlet private weak var exerciseNameLabel: UILabel!
-    @IBOutlet private weak var exerciseMusclesLabel: UILabel!
-
-    class var nib: UINib {
-        return UINib(nibName: reuseIdentifier, bundle: nil)
-    }
-
     class var reuseIdentifier: String {
         return String(describing: self)
     }
+
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var musclesLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 15, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private var isUserMade = false {
         didSet {
@@ -28,7 +36,7 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 
     var exerciseName: String? {
-        return exerciseNameLabel.text
+        return nameLabel.text
     }
 
     var didSelect = false {
@@ -37,25 +45,51 @@ class ExerciseTableViewCell: UITableViewCell {
             backgroundColor = didSelect ? .systemGray : defaultColor
         }
     }
-}
 
-// MARK: - UITableViewCell Var/Funcs
-extension ExerciseTableViewCell {
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        selectionStyle = .none
+        setup()
+    }
 
-        exerciseNameLabel.textColor = .black
-        exerciseMusclesLabel.textColor = .darkGray
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+
+        setup()
     }
 }
 
 // MARK: - Funcs
 extension ExerciseTableViewCell {
+    private func setup() {
+        selectionStyle = .none
+
+        addMainViews()
+        addConstraints()
+    }
+
+    private func addMainViews() {
+        contentView.addSubviews(views: [nameLabel, musclesLabel])
+    }
+
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            nameLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
+            nameLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            nameLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            nameLabel.bottomAnchor.constraint(equalTo: musclesLabel.topAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            musclesLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            musclesLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            musclesLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+        ])
+    }
+
     func configure(dataModel: ExerciseText) {
-        exerciseNameLabel.text = dataModel.exerciseName
-        exerciseMusclesLabel.text = dataModel.exerciseMuscles
+        nameLabel.text = dataModel.name
+        musclesLabel.text = dataModel.muscles
         isUserMade = dataModel.isUserMade
     }
 }

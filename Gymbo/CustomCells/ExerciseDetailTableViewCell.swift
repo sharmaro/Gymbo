@@ -29,18 +29,55 @@ struct ExerciseDetailTableViewCellModel {
 
 // MARK: - Properties
 class ExerciseDetailTableViewCell: UITableViewCell {
-    // Exercise value labels
-    @IBOutlet private weak var setsLabel: UILabel!
-    @IBOutlet private weak var lastLabel: UILabel!
-    @IBOutlet private weak var repsTextField: UITextField!
-    @IBOutlet private weak var weightTextField: UITextField!
-    @IBOutlet private weak var doneButton: UIButton!
+    private var stackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    private var setsLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var lastLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var repsTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.keyboardType = .numberPad
+        textField.tag = 0
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private var weightTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.keyboardType = .decimalPad
+        textField.tag = 1
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private var doneButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.text?.removeAll()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
-
-    class var nib: UINib {
-        return UINib(nibName: reuseIdentifier, bundle: nil)
-    }
 
     class var reuseIdentifier: String {
         return String(describing: self)
@@ -59,40 +96,76 @@ class ExerciseDetailTableViewCell: UITableViewCell {
             doneButton.isUserInteractionEnabled = isDoneButtonEnabled
         }
     }
-}
 
-// MARK: - UITableViewCell Var/Funcs
-extension ExerciseDetailTableViewCell {
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        selectionStyle = .none
+        setup()
+    }
 
-        setupTextFields()
-        setupDoneButton()
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+
+        setup()
     }
 }
 
 // MARK: - Funcs
 extension ExerciseDetailTableViewCell {
-    private func setupTextFields() {
-        repsTextField.tag = 0
-        weightTextField.tag = 1
+    private func setup() {
+        selectionStyle = .none
 
-        repsTextField.keyboardType = .numberPad
-        weightTextField.keyboardType = .decimalPad
-
-        [repsTextField, weightTextField].forEach {
-            $0?.layer.cornerRadius = 5
-            $0?.layer.borderWidth = 1
-            $0?.layer.borderColor = UIColor.black.cgColor
-            $0?.borderStyle = .none
-            $0?.delegate = self
-        }
+        addViews()
+        setupConstraints()
+        setupButtonTargets()
+        setupTextFields()
     }
 
-    private func setupDoneButton() {
-        doneButton.setTitleColor(.black, for: .normal)
+    private func addViews() {
+        addSubviews(views: [stackView])
+        stackView.addArrangedSubview(setsLabel)
+        stackView.addArrangedSubview(lastLabel)
+        stackView.addArrangedSubview(repsTextField)
+        stackView.addArrangedSubview(weightTextField)
+        stackView.addArrangedSubview(doneButton)
+    }
+
+    private func setupConstraints() {
+        let stackViewBottomConstraint = stackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
+        stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
+        NSLayoutConstraint.activate([
+            stackView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            stackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            stackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            stackViewBottomConstraint
+        ])
+
+
+        NSLayoutConstraint.activate([
+            setsLabel.widthAnchor.constraint(equalToConstant: 40),
+            lastLabel.widthAnchor.constraint(equalToConstant: 130),
+            repsTextField.widthAnchor.constraint(equalToConstant: 45),
+            weightTextField.widthAnchor.constraint(equalToConstant: 45),
+            doneButton.widthAnchor.constraint(equalToConstant: 15),
+            doneButton.heightAnchor.constraint(equalTo: doneButton.widthAnchor)
+        ])
+        stackView.layoutIfNeeded()
+    }
+
+    private func setupButtonTargets() {
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+    }
+
+    private func setupTextFields() {
+        [repsTextField, weightTextField].forEach {
+            $0.font = .systemFont(ofSize: 15)
+            $0.textAlignment = .center
+            $0.layer.cornerRadius = 5
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.black.cgColor
+            $0.borderStyle = .none
+            $0.delegate = self
+        }
     }
 
     func configure(dataModel: ExerciseDetailTableViewCellModel) {
@@ -103,7 +176,7 @@ extension ExerciseDetailTableViewCell {
         isDoneButtonEnabled = dataModel.isDoneButtonEnabled
     }
 
-    @IBAction func doneButtonTapped(_ sender: Any) {
+    @objc private func doneButtonTapped(_ sender: Any) {
         didSelect.toggle()
     }
 }

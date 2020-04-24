@@ -12,7 +12,6 @@ import UIKit
 class StopwatchViewController: UIViewController {
     private lazy var timeStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +21,7 @@ class StopwatchViewController: UIViewController {
     private lazy var minuteLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "00"
-        label.font = UIFont.systemFont(ofSize: 100)
+        label.font = .systemFont(ofSize: 100)
         label.textAlignment = .center
         label.minimumScaleFactor = 0.1
         label.numberOfLines = 0
@@ -34,7 +33,7 @@ class StopwatchViewController: UIViewController {
     private lazy var secondLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "00"
-        label.font = UIFont.systemFont(ofSize: 100)
+        label.font = .systemFont(ofSize: 100)
         label.textAlignment = .center
         label.minimumScaleFactor = 0.1
         label.numberOfLines = 0
@@ -46,7 +45,7 @@ class StopwatchViewController: UIViewController {
     private lazy var centiSecondLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "00"
-        label.font = UIFont.systemFont(ofSize: 100)
+        label.font = .systemFont(ofSize: 100)
         label.textAlignment = .center
         label.minimumScaleFactor = 0.1
         label.numberOfLines = 0
@@ -63,7 +62,6 @@ class StopwatchViewController: UIViewController {
 
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         stackView.spacing = 15
@@ -291,7 +289,6 @@ extension StopwatchViewController {
         [lapAndResetButton, startAndStopButton].forEach {
             buttonsStackView.addArrangedSubview($0)
         }
-        buttonsStackView.layoutIfNeeded()
     }
 
     private func loadFromUserDefaults() {

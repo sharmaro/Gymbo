@@ -16,24 +16,16 @@ enum SessionState: String {
 
 // MARK: - Properties
 class AddEditSessionViewController: UIViewController {
-    @IBOutlet private weak var tableView: UITableView!
+    private var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
 
-    class var id: String {
-        return String(describing: self)
-    }
-
-    private lazy var tableHeaderView: SessionHeaderView = {
-        var dataModel = SessionHeaderViewModel()
-        dataModel.name = session.name ?? Constants.namePlaceholderText
-        dataModel.info = session.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = sessionState == .add ? Constants.dimmedBlack : .black
-
-        let sessionTableHeaderView = SessionHeaderView()
-        sessionTableHeaderView.configure(dataModel: dataModel)
-        sessionTableHeaderView.isContentEditable = true
-        sessionTableHeaderView.sessionHeaderTextViewsDelegate = self
-        sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        return sessionTableHeaderView
+    private var tableHeaderView: SessionHeaderView = {
+        let sessionHeaderView = SessionHeaderView(frame: .zero)
+        sessionHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        return sessionHeaderView
     }()
 
     private let realm = try? Realm()
@@ -62,6 +54,8 @@ private extension AddEditSessionViewController {
 extension AddEditSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
 
         setupNavigationBar()
         setupTableView()
@@ -125,14 +119,18 @@ extension AddEditSessionViewController {
     }
 
     private func setupTableView() {
+        view.addSubview(tableView)
+
+        tableView.autoPinEdgesTo(superView: view)
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
-        tableView.register(ExerciseHeaderTableViewCell.nib, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.nib, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.nib, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
 
         if mainTabBarController?.isSessionInProgress ?? false {
             tableView.contentInset.bottom = minimizedHeight
@@ -146,10 +144,19 @@ extension AddEditSessionViewController {
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session.name ?? Constants.namePlaceholderText
+        dataModel.info = session.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = sessionState == .add ? Constants.dimmedBlack : .black
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = true
+        tableHeaderView.sessionHeaderTextViewsDelegate = self
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
@@ -364,7 +371,7 @@ extension AddEditSessionViewController: AddSetTableViewCellDelegate {
 extension AddEditSessionViewController: ExerciseListDelegate {
     func updateExerciseList(_ exerciseTextList: [ExerciseText]) {
         for exerciseText in exerciseTextList {
-            let newExercise = Exercise(name: exerciseText.exerciseName, muscleGroups: exerciseText.exerciseMuscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
+            let newExercise = Exercise(name: exerciseText.name, muscleGroups: exerciseText.muscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
             if sessionState == .add {
                 session.exercises.append(newExercise)
             } else {

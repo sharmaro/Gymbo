@@ -10,24 +10,70 @@ import UIKit
 
 // MARK: - Properties
 class AlertViewController: UIViewController {
-    @IBOutlet private weak var contentView: UIView!
-    @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var contentLabel: UILabel!
-    @IBOutlet private weak var leftButton: CustomButton!
-    @IBOutlet private weak var rightButton: CustomButton!
+    private lazy var containerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        view.roundCorner(radius: 10)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
-    var alertTitle: String?
-    var content: String?
-    var usesBothButtons: Bool?
-    var leftButtonTitle: String?
-    var rightButtonTitle: String?
-    var leftButtonAction: (() -> Void)?
-    var rightButtonAction: (() -> Void)?
-}
-// MARK: - Structs/Enums
-private extension SessionPreviewViewController {
-    struct Constants {
-    }
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 24)
+        label.backgroundColor = .systemBlue
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var contentLabel: UILabel! = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 17)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var buttonsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    private lazy var leftButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        button.title = "Cancel"
+        button.add(backgroundColor: .systemRed)
+        button.titleFontSize = 15
+        button.addCorner()
+        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private lazy var rightButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        button.title = "Confirm"
+        button.add(backgroundColor: .systemGreen)
+        button.titleFontSize = 15
+        button.addCorner()
+        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private var alertTitle: String?
+    private var content: String?
+    private var usesBothButtons: Bool?
+    private var leftButtonTitle: String?
+    private var rightButtonTitle: String?
+    private var leftButtonAction: (() -> Void)?
+    private var rightButtonAction: (() -> Void)?
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -35,29 +81,51 @@ extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupContentView()
-        setupButtons()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        addMainViews()
+        setupConstraints()
         setupAlertView()
     }
 }
 
 // MARK: - Funcs
 extension AlertViewController {
-    private func setupContentView() {
-        contentView.roundCorner()
+    private func addMainViews() {
+        view.addSubviews(views: [containerView])
+        containerView.addSubviews(views: [titleLabel, contentLabel, buttonsStackView])
+        buttonsStackView.addArrangedSubview(leftButton)
+        buttonsStackView.addArrangedSubview(rightButton)
     }
 
-    private func setupButtons() {
-        leftButton.title = "Cancel"
-        leftButton.add(backgroundColor: .systemRed)
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
 
-        rightButton.title = "Confirm"
-        rightButton.add(backgroundColor: .systemGreen)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -10),
+            titleLabel.heightAnchor.constraint(equalToConstant: 45)
+        ])
 
-        [leftButton, rightButton].forEach {
-            $0?.titleFontSize = 15
-            $0?.addCorner()
-        }
+        NSLayoutConstraint.activate([
+            contentLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            contentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10)
+        ])
+
+        NSLayoutConstraint.activate([
+            buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            buttonsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
+        ])
+        buttonsStackView.layoutIfNeeded()
     }
 
     private func setupAlertView() {
@@ -86,12 +154,12 @@ extension AlertViewController {
         leftButton.removeFromSuperview()
     }
 
-    @IBAction func leftButtonTapped(_ sender: Any) {
+    @objc private func leftButtonTapped(_ sender: Any) {
         dismiss(animated: true)
         leftButtonAction?()
     }
 
-    @IBAction func rightButtonTapped(_ sender: Any) {
+    @objc private func rightButtonTapped(_ sender: Any) {
         dismiss(animated: true)
         rightButtonAction?()
     }

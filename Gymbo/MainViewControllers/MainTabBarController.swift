@@ -20,7 +20,7 @@ class MainTabBarController: UITabBarController {
     private var selectedTab = SelectedTab.sessions
 
     private var isReplacingSession = false
-    private var startSessionViewControllerReference: StartSessionViewController?
+    private var startSessionViewControllerReference: StartSessionTableViewController?
 }
 
 // MARK: - Structs/Enums
@@ -104,7 +104,7 @@ extension MainTabBarController: SessionProgressDelegate {
         shadowContainerView.addShadow(direction: .up)
         shadowContainerView.hideShadow()
 
-        let startSessionViewController = StartSessionViewController.loadFromXib()
+        let startSessionViewController = StartSessionTableViewController()
         startSessionViewController.session = session
         startSessionViewController.sessionProgresssDelegate = self
         startSessionViewController.dimmedView = dimmedView

@@ -20,25 +20,40 @@ struct SessionsCollectionViewCellModel {
 
 // MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
-    @IBOutlet private weak var containerView: UIView!
-    @IBOutlet private weak var visualEffectView: UIVisualEffectView!
-    @IBOutlet private weak var deleteButton: CustomButton!
-    @IBOutlet private weak var sessionTitleLabel: UILabel!
-    @IBOutlet private weak var exercisesInfoTextView: UITextView!
-
-    class var nib: UINib {
-        return UINib(nibName: reuseIdentifier, bundle: nil)
-    }
-
     class var reuseIdentifier: String {
         return String(describing: self)
     }
 
-    weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var deleteButton: CustomButton = {
+        let button = CustomButton(frame: .zero)
+        let image = UIImage(named: "delete")
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private lazy var infoTextView: UITextView = {
+        let textView = UITextView(frame: .zero)
+        textView.font = .systemFont(ofSize: 14)
+        textView.textColor = .darkGray
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainer.lineBreakMode = .byTruncatingTail
+        textView.isUserInteractionEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
 
     private var isEditing = false {
         didSet {
-            visualEffectView.isHidden = !isEditing
             deleteButton.isHidden = !isEditing
 
             if isEditing {
@@ -53,6 +68,20 @@ class SessionsCollectionViewCell: UICollectionViewCell {
                 layer.removeAllAnimations()
             }
         }
+    }
+
+    weak var sessionsCollectionViewCellDelegate: SessionsCollectionViewCellDelegate?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setup()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+
+        setup()
     }
 }
 
@@ -76,25 +105,47 @@ extension SessionsCollectionViewCell {
         didSet {
             if !isEditing {
                 let action: Transform = isHighlighted ? .shrink : .inflate
-                transform(condition: action)
+                transform(type: action)
             }
         }
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        addShadow(direction: .downRight)
-        setupVisualEffectView()
-        setupRoundedCorners()
-        setupTextView()
     }
 }
 
 // MARK: - Funcs
 extension SessionsCollectionViewCell {
-    private func setupVisualEffectView() {
-        visualEffectView.roundCorner(radius: visualEffectView.bounds.width / 2)
+    private func setup() {
+        addShadow(direction: .downRight)
+        addMainViews()
+        setupMainViewConstraints()
+        setupRoundedCorners()
+    }
+
+    private func addMainViews() {
+        backgroundColor = .white
+        contentView.backgroundColor = .white
+        addSubviews(views: [titleLabel, deleteButton, infoTextView])
+    }
+
+    private func setupMainViewConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
+            titleLabel.bottomAnchor.constraint(equalTo: infoTextView.topAnchor, constant: -5)
+        ])
+
+        NSLayoutConstraint.activate([
+            deleteButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            deleteButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            deleteButton.widthAnchor.constraint(equalToConstant: 20),
+            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            infoTextView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            infoTextView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            infoTextView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
+        ])
     }
 
     private func setupRoundedCorners() {
@@ -109,19 +160,12 @@ extension SessionsCollectionViewCell {
         contentView.clipsToBounds = true
     }
 
-    private func setupTextView() {
-        exercisesInfoTextView.textColor = .darkGray
-        exercisesInfoTextView.textContainerInset = .zero
-        exercisesInfoTextView.textContainer.lineFragmentPadding = 0
-        exercisesInfoTextView.textContainer.lineBreakMode = .byTruncatingTail
-    }
-
-    private func transform(condition: Transform) {
+    private func transform(type: Transform) {
         UIView.animate(withDuration: Constants.animationTime,
                        delay: 0,
                        options: [.allowUserInteraction],
                        animations: { [weak self] in
-            switch condition {
+            switch type {
             case .shrink:
                 self?.transform = CGAffineTransform(scaleX: Constants.transformScale,
                                                     y: Constants.transformScale)
@@ -132,12 +176,12 @@ extension SessionsCollectionViewCell {
     }
 
     func configure(dataModel: SessionsCollectionViewCellModel) {
-        sessionTitleLabel.text = dataModel.title
-        exercisesInfoTextView.text = dataModel.info
+        titleLabel.text = dataModel.title
+        infoTextView.text = dataModel.info
         isEditing = dataModel.isEditing
     }
 
-    @IBAction func deleteButtonTapped(_ sender: Any) {
+    @objc private func deleteButtonTapped(_ sender: UIButton) {
         sessionsCollectionViewCellDelegate?.delete(cell: self)
     }
 }
