@@ -66,9 +66,6 @@ class SessionHeaderView: UIView {
 private extension SessionHeaderView {
     struct Constants {
         static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
-
-        static let nameTextViewFontSize = CGFloat(28)
-        static let infoTextViewFontSize = CGFloat(20)
     }
 }
 

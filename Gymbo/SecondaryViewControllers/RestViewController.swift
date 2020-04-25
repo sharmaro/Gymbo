@@ -70,7 +70,6 @@ private extension RestViewController {
         static let defaultRow = 11
 
         static let pickerRowHeight = CGFloat(38)
-        static let pickerRowFontSize = CGFloat(28)
 
         static let timeButtonSize = CGSize(width: 100, height: 30)
     }

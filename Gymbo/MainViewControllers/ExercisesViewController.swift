@@ -50,7 +50,6 @@ extension ExercisesViewController {
     private struct Constants {
         static let exerciseCellHeight = CGFloat(62)
         static let headerHeight = CGFloat(30)
-        static let headerFontSize = CGFloat(20)
         static let sessionStartedConstraintConstant = CGFloat(-50)
         static let sessionEndedConstraintConstant = CGFloat(-15)
     }
