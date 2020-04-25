@@ -64,16 +64,16 @@ extension ExerciseTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            nameLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
-            nameLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            nameLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             nameLabel.bottomAnchor.constraint(equalTo: musclesLabel.topAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            musclesLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            musclesLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            musclesLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            musclesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            musclesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            musclesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

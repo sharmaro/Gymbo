@@ -53,10 +53,10 @@ extension AddSetTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            addSetButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            addSetButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            addSetButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            addSetButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            addSetButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            addSetButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            addSetButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            addSetButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
         ])
     }
 }

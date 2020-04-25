@@ -149,22 +149,7 @@ extension RestViewController: ViewAdding {
             topContainerView.heightAnchor.constraint(equalToConstant: 30)
         ])
 
-        restLabel.autoPinEdgesTo(superView: topContainerView)
-
-        NSLayoutConstraint.activate([
-            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15)
-        ])
-
-        pickerView.autoPinEdgesTo(superView: circleProgressView)
-
-        NSLayoutConstraint.activate([
-            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            mainButton.heightAnchor.constraint(equalToConstant: 45)
-        ])
+        restLabel.autoPinEdges(to: topContainerView)
 
         NSLayoutConstraint.activate([
             addTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
@@ -178,6 +163,21 @@ extension RestViewController: ViewAdding {
             removeTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
             removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
             removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15)
+        ])
+
+        pickerView.autoPinEdges(to: circleProgressView)
+
+        NSLayoutConstraint.activate([
+            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            mainButton.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
 }

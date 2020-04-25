@@ -124,23 +124,23 @@ extension SessionsCollectionViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: infoTextView.topAnchor, constant: -5)
         ])
 
         NSLayoutConstraint.activate([
-            deleteButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            deleteButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            deleteButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             deleteButton.widthAnchor.constraint(equalToConstant: 20),
             deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            infoTextView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            infoTextView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            infoTextView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
+            infoTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            infoTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            infoTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
         ])
     }
 }

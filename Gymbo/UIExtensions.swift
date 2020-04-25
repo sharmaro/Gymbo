@@ -36,17 +36,31 @@ extension UIView {
         }
     }
 
-    func autoPinEdgesTo(superView: UIView?) {
-        guard let superView = superview,
-            translatesAutoresizingMaskIntoConstraints == false else {
+    func autoPinSafeEdges(to superView: UIView?) {
+        guard let superView = superview else {
             return
         }
+        translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             safeAreaLayoutGuide.topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor),
             safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.leadingAnchor),
             safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.trailingAnchor),
             safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+
+    func autoPinEdges(to superView: UIView?) {
+        guard let superView = superview else {
+            return
+        }
+        translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: superView.topAnchor),
+            leadingAnchor.constraint(equalTo: superView.leadingAnchor),
+            trailingAnchor.constraint(equalTo: superView.trailingAnchor),
+            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
         ])
     }
 
@@ -129,7 +143,7 @@ extension UIView {
         dimmedView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(dimmedView)
-        dimmedView.autoPinEdgesTo(superView: self)
+        dimmedView.autoPinEdges(to: self)
 
         if animated {
             UIView.animate(withDuration: Constants.animationTime) {

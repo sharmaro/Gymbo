@@ -77,7 +77,7 @@ extension CreateExerciseViewController: ViewAdding {
         NSLayoutConstraint.activate([
             musclesTextField.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             musclesTextField.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            musclesTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            musclesTextField.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             musclesTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
         ])
     }

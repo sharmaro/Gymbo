@@ -46,12 +46,12 @@ extension StopwatchTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            descriptionLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            descriptionLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            descriptionLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            valueLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            valueLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            valueLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            valueLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             valueLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
         layoutIfNeeded()
