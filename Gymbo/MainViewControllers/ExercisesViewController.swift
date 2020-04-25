@@ -77,7 +77,7 @@ extension ExercisesViewController: ViewAdding {
         addExerciseButton.title = "Add"
         addExerciseButton.titleLabel?.textAlignment = .center
         addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCorner()
+        addExerciseButton.addCorner(style: .small)
         addExerciseButton.makeUninteractable()
         addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
     }
@@ -316,11 +316,16 @@ extension ExercisesViewController: UITableViewDelegate {
         titleLabel.text = exerciseGroup
         titleLabel.textAlignment = .left
         titleLabel.textColor = .white
-        titleLabel.font = .systemFont(ofSize: Constants.headerFontSize)
+        titleLabel.font = .large
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.addSubview(titleLabel)
-        titleLabel.leadingAndTrailingTo(superView: containerView, leading: 10, trailing: 0)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
 
         return containerView
     }

@@ -19,12 +19,30 @@ enum ShadowDirection {
     case downRight
 }
 
+enum CornerStyle {
+    case extraSmall
+    case small
+    case medium
+    case circle(view: UIView)
+
+    var radius: CGFloat {
+        switch self {
+        case .extraSmall:
+            return 5
+        case .small:
+            return 10
+        case .medium:
+            return 20
+        case .circle(let view):
+            return view.frame.height / 2
+        }
+    }
+}
+
 fileprivate struct Constants {
     static let dimmedViewColor = UIColor.black.withAlphaComponent(0.8)
 
     static let animationTime = TimeInterval(0.2)
-
-    static let cornerRadius = CGFloat(20)
 }
 
 // MARK: - UIView
@@ -60,32 +78,6 @@ extension UIView {
             topAnchor.constraint(equalTo: superView.topAnchor),
             leadingAnchor.constraint(equalTo: superView.leadingAnchor),
             trailingAnchor.constraint(equalTo: superView.trailingAnchor),
-            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
-        ])
-    }
-
-    func centerTo(superView: UIView?) {
-        guard let superView = superview,
-            translatesAutoresizingMaskIntoConstraints == false else {
-            return
-        }
-
-        NSLayoutConstraint.activate([
-            centerXAnchor.constraint(equalTo: superView.centerXAnchor),
-            centerYAnchor.constraint(equalTo: superView.centerYAnchor),
-        ])
-    }
-
-    func leadingAndTrailingTo(superView: UIView?, leading: CGFloat, trailing: CGFloat) {
-        guard let superView = superview,
-            translatesAutoresizingMaskIntoConstraints == false else {
-            return
-        }
-
-        NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: superView.topAnchor),
-            leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: leading),
-            trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: -trailing),
             bottomAnchor.constraint(equalTo: superView.bottomAnchor)
         ])
     }
@@ -131,9 +123,9 @@ extension UIView {
         layer.shadowOffset = .zero
     }
 
-    func roundCorner(radius: CGFloat = Constants.cornerRadius) {
+    func addCorner(style: CornerStyle) {
         layer.masksToBounds = true
-        layer.cornerRadius = radius
+        layer.cornerRadius = style.radius
     }
 
     func addDimmedView(animated: Bool = false) {
@@ -208,6 +200,14 @@ extension UIView {
     }
 }
 
+// MARK: - CALayer
+extension CALayer {
+    func addCorner(style: CornerStyle) {
+        masksToBounds = true
+        cornerRadius = style.radius
+    }
+}
+
 // MARK: - UIViewController
 extension UIViewController {
     func presentCustomAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
@@ -233,5 +233,74 @@ extension UITableView {
         UIView.performWithoutAnimation {
             reloadData()
         }
+    }
+}
+
+// MARK: - CGFloat
+extension CGFloat {
+    static let xxSmall = CGFloat(9)
+    static let xSmall = CGFloat(12)
+    static let small = CGFloat(15)
+    static let medium = CGFloat(18)
+    static let large = CGFloat(20)
+    static let xLarge = CGFloat(25)
+    static let xxLarge = CGFloat(30)
+    static let xxxLarge = CGFloat(40)
+    static let huge = CGFloat(100)
+}
+
+// MARK: - UIFont
+extension UIFont {
+    private func withTraits(_ traits: UIFontDescriptor.SymbolicTraits) -> UIFont {
+        let descriptor = fontDescriptor.withSymbolicTraits(traits) ?? UIFontDescriptor()
+        return UIFont(descriptor: descriptor, size: 0) // 0 size means it's unaffected
+    }
+
+    private func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        let traits = [UIFontDescriptor.TraitKey.weight: weight]
+        let descriptor = fontDescriptor.addingAttributes([UIFontDescriptor.AttributeName.traits: traits])
+        return UIFont(descriptor: descriptor, size: 0) // 0 size means it's unaffected
+    }
+
+    static let xxSmall = UIFont.systemFont(ofSize: .xxSmall)
+    static let xSmall = UIFont.systemFont(ofSize: .xSmall)
+    static let small = UIFont.systemFont(ofSize: .small)
+    static let medium = UIFont.systemFont(ofSize: .medium)
+    static let large = UIFont.systemFont(ofSize: .large)
+    static let xLarge = UIFont.systemFont(ofSize: .xLarge)
+    static let xxLarge = UIFont.systemFont(ofSize: .xxLarge)
+    static let xxxLarge = UIFont.systemFont(ofSize: .xxxLarge)
+    static let huge = UIFont.systemFont(ofSize: .huge)
+
+    var ultraLight: UIFont {
+        return withWeight(.ultraLight)
+    }
+
+    var light: UIFont {
+        return withWeight(.light)
+    }
+
+    var regular: UIFont {
+        return withWeight(.regular)
+    }
+
+    var medium: UIFont {
+        return withWeight(.medium)
+    }
+
+    var semibold: UIFont {
+        return withWeight(.semibold)
+    }
+
+    var heavy: UIFont {
+        return withWeight(.heavy)
+    }
+
+    var bold: UIFont {
+        return withTraits(.traitBold)
+    }
+
+    var italic: UIFont {
+        return withTraits(.traitItalic)
     }
 }

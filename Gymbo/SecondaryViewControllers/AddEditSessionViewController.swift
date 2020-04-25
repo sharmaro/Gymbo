@@ -74,7 +74,7 @@ extension AddEditSessionViewController: ViewAdding {
     }
 
     func addConstraints() {
-        tableView.autoPinEdgesTo(superView: view)
+        tableView.autoPinSafeEdges(to: view)
 
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = tableHeaderView

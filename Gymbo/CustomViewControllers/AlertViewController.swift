@@ -40,16 +40,16 @@ extension AlertViewController: ViewAdding {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
         containerView.backgroundColor = .white
-        containerView.roundCorner(radius: 10)
+        containerView.addCorner(style: .small)
 
         titleLabel.text = alertTitle
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 24)
+        titleLabel.font = .xLarge
         titleLabel.backgroundColor = .systemBlue
 
         contentLabel.text = content
-        contentLabel.font = .systemFont(ofSize: 17)
+        contentLabel.font = .medium
         contentLabel.numberOfLines = 0
 
         buttonsStackView.alignment = .fill
@@ -58,14 +58,14 @@ extension AlertViewController: ViewAdding {
 
         leftButton.title = "Cancel"
         leftButton.add(backgroundColor: .systemRed)
-        leftButton.titleFontSize = 15
-        leftButton.addCorner()
+        leftButton.titleLabel?.font = .small
+        leftButton.addCorner(style: .small)
         leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
 
         rightButton.title = "Confirm"
         rightButton.add(backgroundColor: .systemGreen)
-        rightButton.titleFontSize = 15
-        rightButton.addCorner()
+        rightButton.titleLabel?.font = .small
+        rightButton.addCorner(style: .small)
         rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
 
         if usesBothButtons ?? true {

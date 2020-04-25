@@ -96,25 +96,25 @@ extension SessionsCollectionViewCell: ViewAdding {
     func setupViews() {
         backgroundColor = .white
         // Can't set layer.clipsToBounds to true without messing up shadow
-        layer.cornerRadius = 10
+        layer.addCorner(style: .small)
         layer.borderWidth = 1
         layer.borderColor = UIColor.lightGray.cgColor
 
         contentView.backgroundColor = .white
         // Need to do this because can't set layer.clipsToBounds to true
-        contentView.layer.cornerRadius = 10
+        contentView.layer.addCorner(style: .small)
         contentView.layer.borderWidth = 1
         contentView.clipsToBounds = true
 
         addShadow(direction: .downRight)
 
-        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        titleLabel.font = UIFont.medium.semibold
 
         let image = UIImage(named: "delete")
         deleteButton.setImage(image, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
 
-        infoTextView.font = .systemFont(ofSize: 14)
+        infoTextView.font = .small
         infoTextView.textColor = .darkGray
         infoTextView.textContainerInset = .zero
         infoTextView.textContainer.lineFragmentPadding = 0

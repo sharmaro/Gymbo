@@ -67,7 +67,7 @@ extension SessionPreviewViewController: ViewAdding {
         startSessionButton.title = "Start Session"
         startSessionButton.titleLabel?.textAlignment = .center
         startSessionButton.add(backgroundColor: .systemBlue)
-        startSessionButton.addCorner()
+        startSessionButton.addCorner(style: .small)
         startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
     }
 

@@ -110,20 +110,20 @@ extension RestViewController: ViewAdding {
         restLabel.text = "Choose a time below to rest!"
         restLabel.textAlignment = .center
         restLabel.textColor = .darkGray
-        restLabel.font = .systemFont(ofSize: 17)
+        restLabel.font = .medium
         restLabel.numberOfLines = 0
 
         addTimeButton.title = "+ 5s"
-        addTimeButton.titleFontSize = 15
+        addTimeButton.titleLabel?.font = .small
         addTimeButton.add(backgroundColor: .systemGray)
-        addTimeButton.addCorner()
+        addTimeButton.addCorner(style: .small)
         addTimeButton.isHidden = true
         addTimeButton.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
 
         removeTimeButton.title = "- 5s"
-        removeTimeButton.titleFontSize = 15
+        removeTimeButton.titleLabel?.font = .small
         removeTimeButton.add(backgroundColor: .systemGray)
-        removeTimeButton.addCorner()
+        removeTimeButton.addCorner(style: .small)
         removeTimeButton.isHidden = true
         removeTimeButton.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
 
@@ -136,7 +136,7 @@ extension RestViewController: ViewAdding {
 
         mainButton.title = "Start Timer"
         mainButton.add(backgroundColor: .systemBlue)
-        mainButton.addCorner()
+        mainButton.addCorner(style: .small)
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
     }
 
@@ -305,7 +305,7 @@ extension RestViewController: UIPickerViewDelegate {
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center
-        pickerLabel.font = .systemFont(ofSize: Constants.pickerRowFontSize)
+        pickerLabel.font = .xxLarge
         return pickerLabel
     }
 

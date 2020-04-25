@@ -79,10 +79,10 @@ extension SessionHeaderView: ViewAdding {
     }
 
     func setupViews() {
-        nameTextView.font = .systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
+        nameTextView.font = UIFont.xxLarge.medium
         nameTextView.tag = 0
 
-        infoTextView.font = .systemFont(ofSize: Constants.infoTextViewFontSize, weight: .medium)
+        infoTextView.font = UIFont.large.medium
         infoTextView.tag = 1
 
         textViews = [nameTextView, infoTextView]

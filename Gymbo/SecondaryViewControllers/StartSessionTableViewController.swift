@@ -68,15 +68,15 @@ class StartSessionTableViewController: UITableViewController {
 // MARK: - ViewAdding
 extension StartSessionTableViewController: ViewAdding {
     func setupViews() {
-        timerButton.titleFontSize = 15
+        timerButton.titleLabel?.font = .small
         timerButton.add(backgroundColor: .systemBlue)
-        timerButton.addCorner()
+        timerButton.addCorner(style: .small)
         timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
 
         finishButton.title = "Finish"
-        finishButton.titleFontSize = 15
+        finishButton.titleLabel?.font = .small
         finishButton.add(backgroundColor: .systemGreen)
-        finishButton.addCorner()
+        finishButton.addCorner(style: .small)
         finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
 
         tableView.dataSource = self

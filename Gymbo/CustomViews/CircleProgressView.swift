@@ -86,7 +86,7 @@ extension CircleProgressView: ViewAdding {
 
         [totalTimeLabel, timeRemainingLabel].forEach {
             $0.textAlignment = .center
-            $0.font = .systemFont(ofSize: Constants.fontSize)
+            $0.font = .xxxLarge
             $0.isHidden = true
         }
     }

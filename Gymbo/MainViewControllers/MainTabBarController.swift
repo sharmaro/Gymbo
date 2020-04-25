@@ -115,10 +115,10 @@ extension MainTabBarController: SessionProgressDelegate {
 
         let containerNavigationController = UINavigationController(rootViewController: startSessionViewController)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
-        containerNavigationController.view.roundCorner(radius: 10)
+        containerNavigationController.view.addCorner(style: .small)
 
         shadowContainerView.addSubview(containerNavigationController.view)
-        containerNavigationController.view.autoPinEdgesTo(superView: shadowContainerView)
+        containerNavigationController.view.autoPinSafeEdges(to: shadowContainerView)
 
         startSessionViewControllerReference = startSessionViewController
 

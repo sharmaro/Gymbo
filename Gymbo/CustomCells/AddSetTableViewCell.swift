@@ -45,9 +45,9 @@ extension AddSetTableViewCell: ViewAdding {
         selectionStyle = .none
 
         addSetButton.title = "+ Set"
-        addSetButton.titleFontSize = 15
+        addSetButton.titleLabel?.font = .small
         addSetButton.add(backgroundColor: .lightGray)
-        addSetButton.addCorner()
+        addSetButton.addCorner(style: .small)
         addSetButton.addTarget(self, action: #selector(addSetButtonTapped), for: .touchUpInside)
     }
 

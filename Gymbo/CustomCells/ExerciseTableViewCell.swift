@@ -56,10 +56,10 @@ extension ExerciseTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        nameLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        nameLabel.font = .medium
 
         musclesLabel.textColor = .darkGray
-        musclesLabel.font = .systemFont(ofSize: 15, weight: .light)
+        musclesLabel.font = UIFont.small.light
     }
 
     func addConstraints() {

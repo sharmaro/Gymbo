@@ -37,10 +37,10 @@ extension StopwatchTableViewCell: ViewAdding {
     }
 
     func setupViews() {
-        descriptionLabel.font = .systemFont(ofSize: 20)
+        descriptionLabel.font = .large
         descriptionLabel.textAlignment = .left
 
-        valueLabel.font = .systemFont(ofSize: 20)
+        valueLabel.font = .large
         valueLabel.textAlignment = .justified
     }
 

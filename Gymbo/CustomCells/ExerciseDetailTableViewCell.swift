@@ -88,7 +88,7 @@ extension ExerciseDetailTableViewCell: ViewAdding {
 
         [setsLabel, lastLabel].forEach {
             $0.textAlignment = .center
-            $0.font = .systemFont(ofSize: 15)
+            $0.font = .small
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
@@ -99,9 +99,9 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         weightTextField.tag = 1
 
         [repsTextField, weightTextField].forEach {
-            $0.font = .systemFont(ofSize: 15)
+            $0.font = .small
             $0.textAlignment = .center
-            $0.layer.cornerRadius = 5
+            $0.layer.addCorner(style: .extraSmall)
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.black.cgColor
             $0.borderStyle = .none

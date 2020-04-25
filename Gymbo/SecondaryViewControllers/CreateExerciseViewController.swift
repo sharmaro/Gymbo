@@ -161,7 +161,7 @@ extension CreateExerciseViewController: UIPickerViewDelegate {
         pickerLabel.text = ExerciseDataModel.shared.exerciseGroups[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .left
-        pickerLabel.font = .systemFont(ofSize: 18)
+        pickerLabel.font = .medium
         return pickerLabel
     }
 

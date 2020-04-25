@@ -75,7 +75,7 @@ final class ModalPresentationController: UIPresentationController {
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
 
-        presentedView?.roundCorner(radius: Constants.cornerRadius)
+        presentedView?.addCorner(style: .small)
         let maskedCorners: CACornerMask = customBounds == nil ? [.layerMinXMinYCorner, .layerMaxXMinYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         presentedView?.layer.maskedCorners = maskedCorners
     }
@@ -130,7 +130,6 @@ extension ModalPresentationController {
         static let dimmedAlpha = CGFloat(0.8)
         static let dampingDuration = CGFloat(1)
         static let velocity = CGFloat(0.7)
-        static let cornerRadius = CGFloat(10)
         static let keyboardSpacing = CGFloat(10)
     }
 }

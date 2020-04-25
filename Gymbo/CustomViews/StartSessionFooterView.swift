@@ -42,15 +42,15 @@ extension StartSessionFooterView: ViewAdding {
 
     func setupViews() {
         addExerciseButton.title = "+ Exercise"
-        addExerciseButton.titleFontSize = 15
+        addExerciseButton.titleLabel?.font = .small
         addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCorner()
+        addExerciseButton.addCorner(style: .small)
         addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
 
         cancelButton.title = "Cancel"
-        cancelButton.titleFontSize = 15
+        cancelButton.titleLabel?.font = .small
         cancelButton.add(backgroundColor: .systemRed)
-        cancelButton.addCorner()
+        cancelButton.addCorner(style: .small)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
 

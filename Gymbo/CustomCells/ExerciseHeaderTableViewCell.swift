@@ -88,13 +88,13 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         selectionStyle = .none
 
         nameLabel.textColor = .blue
-        nameLabel.font = .systemFont(ofSize: 17)
+        nameLabel.font = .medium
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         deleteButton.title = ""
         let image = UIImage(named: "delete")
         deleteButton.setImage(image, for: .normal)
-        deleteButton.roundCorner(radius: deleteButton.bounds.width / 2)
+        deleteButton.addCorner(style: .circle(view: deleteButton))
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteExerciseButtonTapped), for: .touchUpInside)
 
@@ -105,7 +105,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         var counter = 0
         [setsLabel, lastLabel, repsLabel, weightLabel].forEach {
             $0.text = labelTexts[counter]
-            $0.font = .systemFont(ofSize: 17)
+            $0.font = .medium
             $0.textAlignment = .center
             $0.translatesAutoresizingMaskIntoConstraints = false
             counter += 1

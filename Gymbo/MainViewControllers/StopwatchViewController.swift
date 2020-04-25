@@ -149,7 +149,7 @@ extension StopwatchViewController: ViewAdding {
 
         [minuteLabel, secondLabel, centiSecondLabel].forEach {
             $0.text = "00"
-            $0.font = .systemFont(ofSize: 100)
+            $0.font = .huge
             $0.textAlignment = .center
             $0.minimumScaleFactor = 0.1
             $0.numberOfLines = 0
@@ -168,13 +168,13 @@ extension StopwatchViewController: ViewAdding {
 
         lapAndResetButton.title = "Lap"
         lapAndResetButton.add(backgroundColor: .systemGray)
-        lapAndResetButton.addCorner(radius: 5)
+        lapAndResetButton.addCorner(style: .small)
         lapAndResetButton.tag = 0
         lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
 
         startAndStopButton.title = "Start"
         startAndStopButton.add(backgroundColor: .systemGreen)
-        startAndStopButton.addCorner(radius: 5)
+        startAndStopButton.addCorner(style: .small)
         startAndStopButton.tag = 1
         startAndStopButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
     }

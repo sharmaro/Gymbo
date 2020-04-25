@@ -22,19 +22,6 @@ class CustomButton: UIButton {
         }
     }
 
-    var titleFontSize: CGFloat = 18 {
-        didSet {
-            titleLabel?.font = .systemFont(ofSize: titleFontSize)
-        }
-    }
-
-    var cornerRadius: CGFloat = 10 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-        }
-    }
-
-
     // MARK: - UIButton Var/Funcs
     override var isHighlighted: Bool {
         didSet {
@@ -80,7 +67,6 @@ private extension CustomButton {
 extension CustomButton {
     private func setup() {
         setTitleColor(titleColor, for: .normal)
-        titleLabel?.font = .systemFont(ofSize: titleFontSize)
         titleLabel?.lineBreakMode = .byWordWrapping
     }
 
@@ -97,12 +83,6 @@ extension CustomButton {
                 self?.transform = CGAffineTransform.identity
             }
         })
-    }
-
-    func addCorner(radius: CGFloat? = nil) {
-        layer.cornerRadius = radius ?? cornerRadius
-        layer.masksToBounds = false
-        clipsToBounds = true
     }
 
     func add(backgroundColor: UIColor, titleColor: UIColor = .white) {
