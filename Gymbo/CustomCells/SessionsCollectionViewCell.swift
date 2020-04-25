@@ -24,33 +24,9 @@ class SessionsCollectionViewCell: UICollectionViewCell {
         return String(describing: self)
     }
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var deleteButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        let image = UIImage(named: "delete")
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var infoTextView: UITextView = {
-        let textView = UITextView(frame: .zero)
-        textView.font = .systemFont(ofSize: 14)
-        textView.textColor = .darkGray
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.isUserInteractionEnabled = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
+    private lazy var titleLabel = UILabel(frame: .zero)
+    private lazy var deleteButton = CustomButton(frame: .zero)
+    private lazy var infoTextView = UITextView(frame: .zero)
 
     private var isEditing = false {
         didSet {
@@ -111,22 +87,42 @@ extension SessionsCollectionViewCell {
     }
 }
 
-// MARK: - Funcs
-extension SessionsCollectionViewCell {
-    private func setup() {
-        addShadow(direction: .downRight)
-        addMainViews()
-        setupMainViewConstraints()
-        setupRoundedCorners()
+// MARK: - ViewAdding
+extension SessionsCollectionViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [titleLabel, deleteButton, infoTextView])
     }
 
-    private func addMainViews() {
+    func setupViews() {
         backgroundColor = .white
+        // Can't set layer.clipsToBounds to true without messing up shadow
+        layer.cornerRadius = 10
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.lightGray.cgColor
+
         contentView.backgroundColor = .white
-        addSubviews(views: [titleLabel, deleteButton, infoTextView])
+        // Need to do this because can't set layer.clipsToBounds to true
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 1
+        contentView.clipsToBounds = true
+
+        addShadow(direction: .downRight)
+
+        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+
+        let image = UIImage(named: "delete")
+        deleteButton.setImage(image, for: .normal)
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+
+        infoTextView.font = .systemFont(ofSize: 14)
+        infoTextView.textColor = .darkGray
+        infoTextView.textContainerInset = .zero
+        infoTextView.textContainer.lineFragmentPadding = 0
+        infoTextView.textContainer.lineBreakMode = .byTruncatingTail
+        infoTextView.isUserInteractionEnabled = false
     }
 
-    private func setupMainViewConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
             titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
@@ -147,17 +143,14 @@ extension SessionsCollectionViewCell {
             infoTextView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
         ])
     }
+}
 
-    private func setupRoundedCorners() {
-        // Can't set layer.clipsToBounds to true without messing up shadow
-        layer.cornerRadius = 10
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.lightGray.cgColor
-
-        // Need to do this because can't set layer.clipsToBounds to true
-        contentView.layer.cornerRadius = 10
-        contentView.layer.borderWidth = 1
-        contentView.clipsToBounds = true
+// MARK: - Funcs
+extension SessionsCollectionViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     private func transform(type: Transform) {

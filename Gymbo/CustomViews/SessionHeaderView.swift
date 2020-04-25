@@ -22,23 +22,8 @@ struct SessionHeaderViewModel {
 
 // MARK: - Properties
 class SessionHeaderView: UIView {
-    private var nameTextView: UITextView = {
-        let textView = UITextView(frame: .zero)
-        textView.font = .systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
-        textView.isScrollEnabled = false
-        textView.tag = 0
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-
-    private var infoTextView: UITextView = {
-        let textView = UITextView(frame: .zero)
-        textView.font = .systemFont(ofSize: Constants.infoTextViewFontSize, weight: .medium)
-        textView.isScrollEnabled = false
-        textView.tag = 1
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
+    private var nameTextView = UITextView(frame: .zero)
+    private var infoTextView = UITextView(frame: .zero)
 
     var sessionName: String? {
         return nameTextView.text
@@ -87,19 +72,34 @@ private extension SessionHeaderView {
     }
 }
 
-// MARK: - Funcs
-extension SessionHeaderView {
-    private func setup() {
-        addMainViews()
-        setupConstraints()
-        setupTextViews()
+// MARK: - ViewAdding
+extension SessionHeaderView: ViewAdding {
+    func addViews() {
+        add(subViews: [nameTextView, infoTextView])
     }
 
-    private func addMainViews() {
-        addSubviews(views: [nameTextView, infoTextView])
+    func setupViews() {
+        nameTextView.font = .systemFont(ofSize: Constants.nameTextViewFontSize, weight: .medium)
+        nameTextView.tag = 0
+
+        infoTextView.font = .systemFont(ofSize: Constants.infoTextViewFontSize, weight: .medium)
+        infoTextView.tag = 1
+
+        textViews = [nameTextView, infoTextView]
+        for textView in textViews {
+            textView.isSelectable = false
+            textView.isScrollEnabled = false
+            textView.isEditable = true
+            textView.textContainerInset = .zero
+            textView.textContainer.lineFragmentPadding = 0
+            textView.textContainer.lineBreakMode = .byWordWrapping
+            textView.returnKeyType = .done
+            textView.autocorrectionType = .no
+            textView.delegate = self
+        }
     }
 
-    private func setupConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
             nameTextView.topAnchor.constraint(equalTo: topAnchor),
             nameTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -114,20 +114,14 @@ extension SessionHeaderView {
             infoTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+}
 
-    private func setupTextViews() {
-        textViews = [nameTextView, infoTextView]
-        for textView in textViews {
-            textView.isSelectable = false
-            textView.isScrollEnabled = false
-            textView.isEditable = true
-            textView.textContainerInset = .zero
-            textView.textContainer.lineFragmentPadding = 0
-            textView.textContainer.lineBreakMode = .byWordWrapping
-            textView.returnKeyType = .done
-            textView.autocorrectionType = .no
-            textView.delegate = self
-        }
+// MARK: - Funcs
+extension SessionHeaderView {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     func configure(dataModel: SessionHeaderViewModel) {

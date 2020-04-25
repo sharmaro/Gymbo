@@ -10,62 +10,13 @@ import UIKit
 
 // MARK: - Properties
 class AlertViewController: UIViewController {
-    private lazy var containerView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
-        view.roundCorner(radius: 10)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private lazy var containerView = UIView(frame: .zero)
+    private lazy var titleLabel = UILabel(frame: .zero)
+    private lazy var contentLabel = UILabel(frame: .zero)
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 24)
-        label.backgroundColor = .systemBlue
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var contentLabel: UILabel! = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 17)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var buttonsStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 15
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private lazy var leftButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "Cancel"
-        button.add(backgroundColor: .systemRed)
-        button.titleFontSize = 15
-        button.addCorner()
-        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var rightButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "Confirm"
-        button.add(backgroundColor: .systemGreen)
-        button.titleFontSize = 15
-        button.addCorner()
-        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private lazy var buttonsStackView = UIStackView(frame: .zero)
+    private lazy var leftButton = CustomButton(frame: .zero)
+    private lazy var rightButton = CustomButton(frame: .zero)
 
     private var alertTitle: String?
     private var content: String?
@@ -76,29 +27,56 @@ class AlertViewController: UIViewController {
     private var rightButtonAction: (() -> Void)?
 }
 
-// MARK: - UIViewController Var/Funcs
-extension AlertViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-
-        addMainViews()
-        setupConstraints()
-        setupAlertView()
-    }
-}
-
-// MARK: - Funcs
-extension AlertViewController {
-    private func addMainViews() {
-        view.addSubviews(views: [containerView])
-        containerView.addSubviews(views: [titleLabel, contentLabel, buttonsStackView])
+// MARK: - ViewAdding
+extension AlertViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [containerView])
+        containerView.add(subViews: [titleLabel, contentLabel, buttonsStackView])
         buttonsStackView.addArrangedSubview(leftButton)
         buttonsStackView.addArrangedSubview(rightButton)
     }
 
-    private func setupConstraints() {
+    func setupViews() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        containerView.backgroundColor = .white
+        containerView.roundCorner(radius: 10)
+
+        titleLabel.text = alertTitle
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 24)
+        titleLabel.backgroundColor = .systemBlue
+
+        contentLabel.text = content
+        contentLabel.font = .systemFont(ofSize: 17)
+        contentLabel.numberOfLines = 0
+
+        buttonsStackView.alignment = .fill
+        buttonsStackView.distribution = .fillEqually
+        buttonsStackView.spacing = 15
+
+        leftButton.title = "Cancel"
+        leftButton.add(backgroundColor: .systemRed)
+        leftButton.titleFontSize = 15
+        leftButton.addCorner()
+        leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+
+        rightButton.title = "Confirm"
+        rightButton.add(backgroundColor: .systemGreen)
+        rightButton.titleFontSize = 15
+        rightButton.addCorner()
+        rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+
+        if usesBothButtons ?? true {
+            leftButton.title = leftButtonTitle ?? ""
+            rightButton.title = rightButtonTitle ?? ""
+        } else {
+            rightButton.title = rightButtonTitle ?? ""
+        }
+    }
+
+    func addConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -127,19 +105,21 @@ extension AlertViewController {
         ])
         buttonsStackView.layoutIfNeeded()
     }
+}
 
-    private func setupAlertView() {
-        titleLabel.text = alertTitle
-        contentLabel.text = content
+// MARK: - UIViewController Var/Funcs
+extension AlertViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        if usesBothButtons ?? true {
-            leftButton.title = leftButtonTitle ?? ""
-            rightButton.title = rightButtonTitle ?? ""
-        } else {
-            rightButton.title = rightButtonTitle ?? ""
-        }
+        addViews()
+        setupViews()
+        addConstraints()
     }
+}
 
+// MARK: - Funcs
+extension AlertViewController {
     func setupAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
         alertTitle = title
         self.content = content

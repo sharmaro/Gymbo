@@ -14,29 +14,9 @@ protocol CreateExerciseDelegate: class {
 
 // MARK: - Properties
 class CreateExerciseViewController: UIViewController {
-    private var pickerView: UIPickerView = {
-        let pickerView = UIPickerView(frame: .zero)
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
-        return pickerView
-    }()
-
-    private var nameTextField: UITextField = {
-        let textField = UITextField(frame: .zero)
-        textField.placeholder = "Exercise name..."
-        textField.autocapitalizationType = .words
-        textField.returnKeyType = .next
-        textField.becomeFirstResponder()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-
-    private var musclesTextField: UITextField = {
-        let textField = UITextField(frame: .zero)
-        textField.placeholder = "Relevant muscles..."
-        textField.returnKeyType = .done
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private var pickerView = UIPickerView(frame: .zero)
+    private var nameTextField = UITextField(frame: .zero)
+    private var musclesTextField = UITextField(frame: .zero)
 
     weak var createExerciseDelegate: CreateExerciseDelegate?
     weak var setAlphaDelegate: SetAlphaDelegate?
@@ -52,43 +32,34 @@ private extension CreateExerciseViewController {
     }
 }
 
-// MARK: - UIViewController Var/Funcs
-extension CreateExerciseViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+// MARK: - ViewAdding
+extension CreateExerciseViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [pickerView, nameTextField, musclesTextField])
+    }
 
+    func setupViews() {
         view.backgroundColor = .white
 
-        setupNavigationBar()
-        addViews()
-        setupConstraints()
-        setupPickerView()
-        setupTextFields()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+
+        [nameTextField, musclesTextField].forEach {
+            $0.borderStyle = .none
+            $0.delegate = self
+            $0.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        }
+
+        nameTextField.placeholder = "Exercise name..."
+        nameTextField.autocapitalizationType = .words
+        nameTextField.returnKeyType = .next
+        nameTextField.becomeFirstResponder()
+
+        musclesTextField.placeholder = "Relevant muscles..."
+        musclesTextField.returnKeyType = .done
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        view.endEditing(true)
-    }
-}
-
-// MARK: - Funcs
-extension CreateExerciseViewController {
-    private func setupNavigationBar() {
-        title = Constants.title
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        // Only allow adding if both text fields are filled
-        navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-
-    private func addViews() {
-        view.addSubviews(views: [pickerView, nameTextField, musclesTextField])
-    }
-
-    private func setupConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
             pickerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             pickerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -110,18 +81,35 @@ extension CreateExerciseViewController {
             musclesTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
         ])
     }
+}
 
-    private func setupPickerView() {
-        pickerView.dataSource = self
-        pickerView.delegate = self
+// MARK: - UIViewController Var/Funcs
+extension CreateExerciseViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
-    private func setupTextFields() {
-        [nameTextField, musclesTextField].forEach {
-            $0.borderStyle = .none
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+}
+
+// MARK: - Funcs
+extension CreateExerciseViewController {
+    private func setupNavigationBar() {
+        title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        // Only allow adding if both text fields are filled
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     @objc private func cancelButtonTapped() {

@@ -14,40 +14,37 @@ class StopwatchTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var valueLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 20)
-        label.textAlignment = .justified
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private lazy var descriptionLabel = UILabel(frame: .zero)
+    private lazy var valueLabel = UILabel(frame: .zero)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        setupLabels()
+        setup()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
-        setupLabels()
+        setup()
     }
 }
 
-// MARK: - Funcs
-extension StopwatchTableViewCell {
-    private func setupLabels() {
-        addSubviews(views: [descriptionLabel, valueLabel])
+// MARK: - ViewAdding
+extension StopwatchTableViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [descriptionLabel, valueLabel])
+    }
 
+    func setupViews() {
+        descriptionLabel.font = .systemFont(ofSize: 20)
+        descriptionLabel.textAlignment = .left
+
+        valueLabel.font = .systemFont(ofSize: 20)
+        valueLabel.textAlignment = .justified
+    }
+
+    func addConstraints() {
         NSLayoutConstraint.activate([
             descriptionLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             descriptionLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 15),
@@ -58,6 +55,15 @@ extension StopwatchTableViewCell {
             valueLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
         layoutIfNeeded()
+    }
+}
+
+// MARK: - Funcs
+extension StopwatchTableViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     func configure(descriptionText: String, valueText: String) {

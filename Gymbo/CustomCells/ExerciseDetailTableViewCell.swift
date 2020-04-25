@@ -29,53 +29,12 @@ struct ExerciseDetailTableViewCellModel {
 
 // MARK: - Properties
 class ExerciseDetailTableViewCell: UITableViewCell {
-    private var stackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private var setsLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private var lastLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private var repsTextField: UITextField = {
-        let textField = UITextField(frame: .zero)
-        textField.keyboardType = .numberPad
-        textField.tag = 0
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-
-    private var weightTextField: UITextField = {
-        let textField = UITextField(frame: .zero)
-        textField.keyboardType = .decimalPad
-        textField.tag = 1
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-
-    private var doneButton: UIButton = {
-        let button = UIButton(frame: .zero)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.text?.removeAll()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var stackView = UIStackView(frame: .zero)
+    private var setsLabel = UILabel(frame: .zero)
+    private var lastLabel = UILabel(frame: .zero)
+    private var repsTextField = UITextField(frame: .zero)
+    private var weightTextField = UITextField(frame: .zero)
+    private var doneButton = UIButton(frame: .zero)
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
@@ -110,19 +69,10 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - Funcs
-extension ExerciseDetailTableViewCell {
-    private func setup() {
-        selectionStyle = .none
-
-        addViews()
-        setupConstraints()
-        setupButtonTargets()
-        setupTextFields()
-    }
-
-    private func addViews() {
-        addSubviews(views: [stackView])
+// MARK: - ViewAdding
+extension ExerciseDetailTableViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [stackView])
         stackView.addArrangedSubview(setsLabel)
         stackView.addArrangedSubview(lastLabel)
         stackView.addArrangedSubview(repsTextField)
@@ -130,7 +80,42 @@ extension ExerciseDetailTableViewCell {
         stackView.addArrangedSubview(doneButton)
     }
 
-    private func setupConstraints() {
+    func setupViews() {
+        selectionStyle = .none
+
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+
+        [setsLabel, lastLabel].forEach {
+            $0.textAlignment = .center
+            $0.font = .systemFont(ofSize: 15)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        repsTextField.keyboardType = .numberPad
+        repsTextField.tag = 0
+
+        weightTextField.keyboardType = .decimalPad
+        weightTextField.tag = 1
+
+        [repsTextField, weightTextField].forEach {
+            $0.font = .systemFont(ofSize: 15)
+            $0.textAlignment = .center
+            $0.layer.cornerRadius = 5
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.black.cgColor
+            $0.borderStyle = .none
+            $0.delegate = self
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        doneButton.setTitleColor(.black, for: .normal)
+        doneButton.titleLabel?.text?.removeAll()
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+    }
+
+    func addConstraints() {
         let stackViewBottomConstraint = stackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
         stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
@@ -151,21 +136,14 @@ extension ExerciseDetailTableViewCell {
         ])
         stackView.layoutIfNeeded()
     }
+}
 
-    private func setupButtonTargets() {
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-    }
-
-    private func setupTextFields() {
-        [repsTextField, weightTextField].forEach {
-            $0.font = .systemFont(ofSize: 15)
-            $0.textAlignment = .center
-            $0.layer.cornerRadius = 5
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.black.cgColor
-            $0.borderStyle = .none
-            $0.delegate = self
-        }
+// MARK: - Funcs
+extension ExerciseDetailTableViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     func configure(dataModel: ExerciseDetailTableViewCellModel) {

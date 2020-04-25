@@ -29,8 +29,9 @@ fileprivate struct Constants {
 
 // MARK: - UIView
 extension UIView {
-    func addSubviews(views: [UIView]) {
-        for view in views {
+    func add(subViews: [UIView]) {
+        for view in subViews {
+            view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
         }
     }
@@ -209,5 +210,14 @@ extension UIViewController {
 
     var minimizedHeight: CGFloat {
         return 44
+    }
+}
+
+// MARK: - UITableView
+extension UITableView {
+    func reloadWithoutAnimation() {
+        UIView.performWithoutAnimation {
+            reloadData()
+        }
     }
 }

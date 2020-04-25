@@ -15,43 +15,11 @@ protocol TimeLabelDelegate: class {
 
 // MARK: - Properties
 class StartSessionTableViewController: UITableViewController {
-    private lazy var finishButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
-        button.title = "Finish"
-        button.titleFontSize = 15
-        button.add(backgroundColor: .systemGreen)
-        button.addCorner()
-        button.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private var finishButton = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+    private var timerButton = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
 
-    private lazy var timerButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
-        button.titleFontSize = 15
-        button.add(backgroundColor: .systemBlue)
-        button.addCorner()
-        button.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
-        return button
-    }()
-
-    private lazy var tableHeaderView: SessionHeaderView = {
-        var dataModel = SessionHeaderViewModel()
-        dataModel.name = session?.name ?? Constants.namePlaceholderText
-        dataModel.info = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .black
-
-        let sessionTableHeaderView = SessionHeaderView()
-        sessionTableHeaderView.configure(dataModel: dataModel)
-        sessionTableHeaderView.isContentEditable = false
-        sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        return sessionTableHeaderView
-    }()
-
-    private lazy var tableFooterView: StartSessionFooterView = {
-        let startSessionFooterView = StartSessionFooterView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: Constants.tableFooterViewHeight)))
-        startSessionFooterView.startSessionButtonDelegate = self
-        return startSessionFooterView
-    }()
+    private var tableHeaderView = SessionHeaderView(frame: .zero)
+    private var tableFooterView = StartSessionFooterView(frame: .zero)
 
     var session: Session?
     weak var sessionProgresssDelegate: SessionProgressDelegate?
@@ -97,6 +65,59 @@ class StartSessionTableViewController: UITableViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension StartSessionTableViewController: ViewAdding {
+    func setupViews() {
+        timerButton.titleFontSize = 15
+        timerButton.add(backgroundColor: .systemBlue)
+        timerButton.addCorner()
+        timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
+
+        finishButton.title = "Finish"
+        finishButton.titleFontSize = 15
+        finishButton.add(backgroundColor: .systemGreen)
+        finishButton.addCorner()
+        finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.keyboardDismissMode = .interactive
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session?.name ?? Constants.namePlaceholderText
+        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .black
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = false
+
+        tableFooterView.frame = CGRect(origin: .zero, size: CGSize(width: tableView.frame.width, height: Constants.tableFooterViewHeight))
+        tableFooterView.startSessionButtonDelegate = self
+        tableView.tableFooterView = tableFooterView
+        tableView.tableFooterView = tableView.tableFooterView
+        tableView.tableFooterView?.layoutIfNeeded()
+    }
+
+    func addConstraints() {
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+        NSLayoutConstraint.activate([
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+        ])
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension StartSessionTableViewController {
     override func viewDidLoad() {
@@ -105,9 +126,8 @@ extension StartSessionTableViewController {
         view.backgroundColor = .white
 
         setupNavigationBar()
-        setupTableView()
-        setupTableHeaderView()
-        setupTableFooterView()
+        setupViews()
+        addConstraints()
         startSessionTimer()
         registerForKeyboardNotifications()
         registerForApplicationStateNotifications()
@@ -185,37 +205,6 @@ extension StartSessionTableViewController {
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.keyboardDismissMode = .interactive
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
-    }
-
-    private func setupTableHeaderView() {
-        tableView.tableHeaderView = tableHeaderView
-
-        NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-    }
-
-    private func setupTableFooterView() {
-        tableView.tableFooterView = tableFooterView
-        tableView.tableFooterView = tableView.tableFooterView
-        tableView.tableFooterView?.layoutIfNeeded()
     }
 
     private func startSessionTimer() {

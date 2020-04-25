@@ -58,15 +58,32 @@ private extension SessionsCollectionViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension SessionsCollectionViewController: ViewAdding {
+    func setupViews() {
+        view.backgroundColor = .white
+
+        collectionView.backgroundColor = .white
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.dragDelegate = self
+        collectionView.dropDelegate = self
+        collectionView.delaysContentTouches = false
+        collectionView.dragInteractionEnabled = true
+        collectionView.reorderingCadence = .fast
+        collectionView.keyboardDismissMode = .interactive
+        collectionView.register(SessionsCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension SessionsCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-
         setupNavigationBar()
-        setupCollectionView()
+        setupViews()
         updateSessionsUI()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
@@ -97,20 +114,6 @@ extension SessionsCollectionViewController {
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func setupCollectionView() {
-        collectionView.backgroundColor = .white
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.dragDelegate = self
-        collectionView.dropDelegate = self
-        collectionView.delaysContentTouches = false
-        collectionView.dragInteractionEnabled = true
-        collectionView.reorderingCadence = .fast
-        collectionView.keyboardDismissMode = .interactive
-        collectionView.register(SessionsCollectionViewCell.self,
-                                forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
 
     @objc private func updateSessionsUI() {

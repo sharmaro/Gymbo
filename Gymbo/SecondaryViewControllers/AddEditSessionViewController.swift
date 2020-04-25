@@ -16,17 +16,8 @@ enum SessionState: String {
 
 // MARK: - Properties
 class AddEditSessionViewController: UIViewController {
-    private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-
-    private var tableHeaderView: SessionHeaderView = {
-        let sessionHeaderView = SessionHeaderView(frame: .zero)
-        sessionHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        return sessionHeaderView
-    }()
+    private var tableView = UITableView(frame: .zero)
+    private var tableHeaderView = SessionHeaderView(frame: .zero)
 
     private let realm = try? Realm()
 
@@ -50,16 +41,63 @@ private extension AddEditSessionViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension AddEditSessionViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [tableView])
+    }
+
+    func setupViews() {
+        view.backgroundColor = .white
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
+        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+
+        if mainTabBarController?.isSessionInProgress ?? false {
+            tableView.contentInset.bottom = minimizedHeight
+        }
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session.name ?? Constants.namePlaceholderText
+        dataModel.info = session.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = sessionState == .add ? Constants.dimmedBlack : .black
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = true
+        tableHeaderView.sessionHeaderTextViewsDelegate = self
+    }
+
+    func addConstraints() {
+        tableView.autoPinEdgesTo(superView: view)
+
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+        NSLayoutConstraint.activate([
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
+        ])
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension AddEditSessionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-
         setupNavigationBar()
-        setupTableView()
-        setupTableHeaderView()
+        addViews()
+        setupViews()
+        addConstraints()
         registerForKeyboardNotifications()
     }
 
@@ -116,47 +154,6 @@ extension AddEditSessionViewController {
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.autoPinEdgesTo(superView: view)
-
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
-
-        if mainTabBarController?.isSessionInProgress ?? false {
-            tableView.contentInset.bottom = minimizedHeight
-        }
-    }
-
-    private func setupTableHeaderView() {
-        tableView.tableHeaderView = tableHeaderView
-
-        NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-
-        var dataModel = SessionHeaderViewModel()
-        dataModel.name = session.name ?? Constants.namePlaceholderText
-        dataModel.info = session.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = sessionState == .add ? Constants.dimmedBlack : .black
-
-        tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = true
-        tableHeaderView.sessionHeaderTextViewsDelegate = self
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {

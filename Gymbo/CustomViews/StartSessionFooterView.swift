@@ -15,17 +15,8 @@ protocol StartSessionButtonDelegate: class {
 
 // MARK: - Properties
 class StartSessionFooterView: UIView {
-    private var addExerciseButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private var cancelButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var addExerciseButton = CustomButton(frame: .zero)
+    private var cancelButton = CustomButton(frame: .zero)
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
@@ -43,19 +34,13 @@ class StartSessionFooterView: UIView {
     }
 }
 
-// MARK: - Funcs
-extension StartSessionFooterView {
-    private func setup() {
-        addViews()
-        setupViews()
-        setupConstraints()
+// MARK: - ViewAdding
+extension StartSessionFooterView: ViewAdding {
+    func addViews() {
+        add(subViews: [addExerciseButton, cancelButton])
     }
 
-    private func addViews() {
-        addSubviews(views: [addExerciseButton, cancelButton])
-    }
-
-    private func setupViews() {
+    func setupViews() {
         addExerciseButton.title = "+ Exercise"
         addExerciseButton.titleFontSize = 15
         addExerciseButton.add(backgroundColor: .systemBlue)
@@ -69,20 +54,29 @@ extension StartSessionFooterView {
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
 
-    private func setupConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
-            addExerciseButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            addExerciseButton.topAnchor.constraint(equalTo: topAnchor),
+            addExerciseButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            addExerciseButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             addExerciseButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -15),
             addExerciseButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            cancelButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            cancelButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            cancelButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            cancelButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
         ])
+    }
+}
+
+// MARK: - Funcs
+extension StartSessionFooterView {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {

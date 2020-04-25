@@ -20,78 +20,20 @@ struct ExerciseHeaderTableViewCellModel {
 
 // MARK: - Properties
 class ExerciseHeaderTableViewCell: UITableViewCell {
-//    @IBOutlet private weak var exerciseNameLabel: UILabel!
-//    @IBOutlet private weak var deleteExerciseButton: CustomButton!
-//    // Exercise title views
-//    @IBOutlet private weak var setsLabel: UILabel!
-//    @IBOutlet private weak var lastLabel: UILabel!
-//    @IBOutlet private weak var repsLabel: UILabel!
-//    @IBOutlet private weak var weightLabel: UILabel!
-//    @IBOutlet private weak var doneButton: UIButton!
     class var reuseIdentifier: String {
         return String(describing: self)
     }
 
-    private var nameLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 17)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // Header views
+    private var nameLabel = UILabel(frame: .zero)
+    private var deleteButton =  CustomButton(frame: .zero)
 
-    private var deleteButton: CustomButton = {
-        let customButton = CustomButton(frame: .zero)
-        customButton.title = ""
-        let image = UIImage(named: "delete")
-        customButton.setImage(image, for: .normal)
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        return customButton
-    }()
-    // Exercise title views
-    private var infoStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private var setsLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Sets"
-        label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private var lastLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Last"
-        label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private var repsLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Reps"
-        label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private var weightLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Lbs"
-        label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // Title views
+    private var infoStackView = UIStackView(frame: .zero)
+    private var setsLabel = UILabel(frame: .zero)
+    private var lastLabel = UILabel(frame: .zero)
+    private var repsLabel =  UILabel(frame: .zero)
+    private var weightLabel =  UILabel(frame: .zero)
 
     private var doneButton: UIButton = {
         let button = UIButton(frame: .zero)
@@ -102,6 +44,8 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
+    private var labelTexts = ["Sets", "Last", "Reps", "Lbs"]
 
     private var isDoneButtonImageHidden = false {
         didSet {
@@ -129,18 +73,10 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - Funcs
-extension ExerciseHeaderTableViewCell {
-    private func setup() {
-        selectionStyle = .none
-
-        addViews()
-        addConstraints()
-        setupViews()
-    }
-
-    private func addViews() {
-        addSubviews(views: [nameLabel, deleteButton, infoStackView])
+// MARK: - ViewAdding
+extension ExerciseHeaderTableViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [nameLabel, deleteButton, infoStackView])
         infoStackView.addArrangedSubview(setsLabel)
         infoStackView.addArrangedSubview(lastLabel)
         infoStackView.addArrangedSubview(repsLabel)
@@ -148,7 +84,37 @@ extension ExerciseHeaderTableViewCell {
         infoStackView.addArrangedSubview(doneButton)
     }
 
-    private func addConstraints() {
+    func setupViews() {
+        selectionStyle = .none
+
+        nameLabel.textColor = .blue
+        nameLabel.font = .systemFont(ofSize: 17)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        deleteButton.title = ""
+        let image = UIImage(named: "delete")
+        deleteButton.setImage(image, for: .normal)
+        deleteButton.roundCorner(radius: deleteButton.bounds.width / 2)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.addTarget(self, action: #selector(deleteExerciseButtonTapped), for: .touchUpInside)
+
+        infoStackView.alignment = .center
+        infoStackView.distribution = .equalSpacing
+        infoStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        var counter = 0
+        [setsLabel, lastLabel, repsLabel, weightLabel].forEach {
+            $0.text = labelTexts[counter]
+            $0.font = .systemFont(ofSize: 17)
+            $0.textAlignment = .center
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            counter += 1
+        }
+
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+    }
+
+    func addConstraints() {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
@@ -182,12 +148,14 @@ extension ExerciseHeaderTableViewCell {
         ])
         infoStackView.layoutIfNeeded()
     }
+}
 
-    private func setupViews() {
-        deleteButton.roundCorner(radius: deleteButton.bounds.width / 2)
-        deleteButton.addTarget(self, action: #selector(deleteExerciseButtonTapped), for: .touchUpInside)
-
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+// MARK: - Funcs
+extension ExerciseHeaderTableViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     func configure(dataModel: ExerciseHeaderTableViewCellModel) {

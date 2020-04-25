@@ -14,20 +14,8 @@ class ExerciseTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var musclesLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 15, weight: .light)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private lazy var nameLabel = UILabel(frame: .zero)
+    private lazy var musclesLabel = UILabel(frame: .zero)
 
     private var isUserMade = false {
         didSet {
@@ -59,20 +47,22 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - Funcs
-extension ExerciseTableViewCell {
-    private func setup() {
+// MARK: - ViewAdding
+extension ExerciseTableViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [nameLabel, musclesLabel])
+    }
+
+    func setupViews() {
         selectionStyle = .none
 
-        addMainViews()
-        addConstraints()
+        nameLabel.font = .systemFont(ofSize: 17, weight: .medium)
+
+        musclesLabel.textColor = .darkGray
+        musclesLabel.font = .systemFont(ofSize: 15, weight: .light)
     }
 
-    private func addMainViews() {
-        contentView.addSubviews(views: [nameLabel, musclesLabel])
-    }
-
-    private func addConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
             nameLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10),
             nameLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -85,6 +75,15 @@ extension ExerciseTableViewCell {
             musclesLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             musclesLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
+    }
+}
+
+// MARK: - Funcs
+extension ExerciseTableViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     func configure(dataModel: ExerciseText) {

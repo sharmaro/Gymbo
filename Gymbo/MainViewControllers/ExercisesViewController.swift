@@ -30,18 +30,9 @@ struct ExerciseText: Codable {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private var tableView = UITableView(frame: .zero)
+    private var addExerciseButton = CustomButton(frame: .zero)
 
-    private lazy var addExerciseButton: CustomButton = {
-        let customButton = CustomButton(frame: .zero)
-        customButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        return customButton
-    }()
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
     private var didViewAppear = false
 
@@ -65,17 +56,60 @@ extension ExercisesViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension ExercisesViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [tableView, addExerciseButton])
+    }
+
+    func setupViews() {
+        view.backgroundColor = .white
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
+        tableView.tableFooterView = UIView()
+        tableView.register(ExerciseTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
+
+        addExerciseButton.title = "Add"
+        addExerciseButton.titleLabel?.textAlignment = .center
+        addExerciseButton.add(backgroundColor: .systemBlue)
+        addExerciseButton.addCorner()
+        addExerciseButton.makeUninteractable()
+        addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
+    }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            // Using top anchor instead of safe area to get smooth navigation title size change animation
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+
+        addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        addExerciseButtonBottomConstraint?.isActive = true
+        NSLayoutConstraint.activate([
+            addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
+            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
+            addExerciseButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension ExercisesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-
         setupNavigationBar()
-        addMainViews()
-        setupTableView()
-        setupAddExerciseButton()
+        addViews()
+        setupViews()
+        addConstraints()
         registerForKeyboardNotifications()
     }
 
@@ -124,45 +158,6 @@ extension ExercisesViewController {
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func addMainViews() {
-        view.addSubviews(views: [tableView, addExerciseButton])
-    }
-
-    private func setupTableView() {
-        NSLayoutConstraint.activate([
-            // Using top anchor instead of safe area to get smooth navigation title size change animation
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
-    }
-
-    private func setupAddExerciseButton() {
-        NSLayoutConstraint.activate([
-            addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
-            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
-            addExerciseButton.heightAnchor.constraint(equalToConstant: 45)
-        ])
-        addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
-        addExerciseButtonBottomConstraint?.isActive = true
-
-        addExerciseButton.title = "Add"
-        addExerciseButton.titleLabel?.textAlignment = .center
-        addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCorner()
-        addExerciseButton.makeUninteractable()
     }
 
     private func saveExerciseInfo() {

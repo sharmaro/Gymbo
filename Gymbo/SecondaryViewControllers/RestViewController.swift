@@ -16,91 +16,15 @@ protocol RestTimerDelegate: class {
 
 // MARK: - Properties
 class RestViewController: UIViewController {
-    private var topContainerView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private var topContainerView = UIView(frame: .zero)
+    private var restLabel = UILabel(frame: .zero)
+    private var addTimeButton = CustomButton(frame: .zero)
+    private var removeTimeButton = CustomButton(frame: .zero)
 
-    private var restLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Choose a time below to rest!"
-        label.textAlignment = .center
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 17)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var circleProgressView = CircleProgressView(frame: .zero)
+    private var pickerView = UIPickerView(frame: .zero)
 
-    private var circleProgressView: CircleProgressView = {
-        let circleProgressView = CircleProgressView(frame: .zero)
-        circleProgressView.backgroundColor = .white
-        circleProgressView.translatesAutoresizingMaskIntoConstraints = false
-        return circleProgressView
-    }()
-
-    private var pickerView: UIPickerView = {
-        let pickerView = UIPickerView(frame: .zero)
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
-        return pickerView
-    }()
-
-    private var mainButton: CustomButton = {
-        let customButton = CustomButton(frame: .zero)
-        customButton.title = "Start Timer"
-        customButton.add(backgroundColor: .systemBlue)
-        customButton.addCorner()
-        customButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        return customButton
-    }()
-
-    private lazy var addTimeButton: CustomButton = {
-        let size = CGSize(width: 100, height: 30)
-
-        let button = CustomButton(frame: .zero)
-        button.title = "+ 5s"
-        button.titleFontSize = 15
-        button.add(backgroundColor: .systemGray)
-        button.addCorner()
-        button.isHidden = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
-        topContainerView.insertSubview(button, belowSubview: restLabel)
-
-        NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: size.width),
-            button.heightAnchor.constraint(equalToConstant: size.height),
-            button.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: -65),
-            button.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
-        ])
-        return button
-    }()
-
-    private lazy var removeTimeButton: CustomButton = {
-        let size = CGSize(width: 100, height: 30)
-
-        let button = CustomButton(frame: .zero)
-        button.title = "- 5s"
-        button.titleFontSize = 15
-        button.add(backgroundColor: .systemGray)
-        button.addCorner()
-        button.isHidden = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
-        topContainerView.insertSubview(button, belowSubview: restLabel)
-
-        NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: size.width),
-            button.heightAnchor.constraint(equalToConstant: size.height),
-            button.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
-            button.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
-        ])
-        return button
-    }()
-
+    private var mainButton = CustomButton(frame: .zero)
     private var mainButtonState: MainButtonState = .startTimer {
         didSet {
             mainButton.title = mainButtonState.rawValue
@@ -147,6 +71,8 @@ private extension RestViewController {
 
         static let pickerRowHeight = CGFloat(38)
         static let pickerRowFontSize = CGFloat(28)
+
+        static let timeButtonSize = CGSize(width: 100, height: 30)
     }
 
     enum MainButtonState: String {
@@ -168,40 +94,53 @@ private extension RestViewController {
     }
 }
 
-// MARK: - UIViewController Var/Funcs
-extension RestViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+// MARK: - ViewAdding
+extension RestViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [topContainerView, circleProgressView, mainButton])
+        topContainerView.add(subViews: [restLabel, addTimeButton, removeTimeButton])
+        circleProgressView.add(subViews: [pickerView])
+    }
 
+    func setupViews() {
         view.backgroundColor = .white
 
-        setupNavigationBar()
-        addViews()
-        setupConstraints()
+        topContainerView.backgroundColor = .white
+
+        restLabel.text = "Choose a time below to rest!"
+        restLabel.textAlignment = .center
+        restLabel.textColor = .darkGray
+        restLabel.font = .systemFont(ofSize: 17)
+        restLabel.numberOfLines = 0
+
+        addTimeButton.title = "+ 5s"
+        addTimeButton.titleFontSize = 15
+        addTimeButton.add(backgroundColor: .systemGray)
+        addTimeButton.addCorner()
+        addTimeButton.isHidden = true
+        addTimeButton.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
+
+        removeTimeButton.title = "- 5s"
+        removeTimeButton.titleFontSize = 15
+        removeTimeButton.add(backgroundColor: .systemGray)
+        removeTimeButton.addCorner()
+        removeTimeButton.isHidden = true
+        removeTimeButton.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
+
+        circleProgressView.backgroundColor = .white
+
         createPickerViewData()
-        setupPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
 
-        if isTimerActive {
-            mainButtonInteraction()
-        }
-    }
-}
-
-// MARK: - Funcs
-extension RestViewController {
-    private func setupNavigationBar() {
-        title = Constants.title
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
+        mainButton.title = "Start Timer"
+        mainButton.add(backgroundColor: .systemBlue)
+        mainButton.addCorner()
+        mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
     }
 
-    private func addViews() {
-        view.addSubviews(views: [topContainerView, circleProgressView, mainButton])
-        topContainerView.addSubviews(views: [restLabel])
-        circleProgressView.addSubviews(views: [pickerView])
-    }
-
-    private func setupConstraints() {
+    func addConstraints() {
         NSLayoutConstraint.activate([
             topContainerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -226,6 +165,45 @@ extension RestViewController {
             mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             mainButton.heightAnchor.constraint(equalToConstant: 45)
         ])
+
+        NSLayoutConstraint.activate([
+            addTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
+            addTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
+            addTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: -65),
+            addTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            removeTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
+            removeTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
+            removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
+            removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
+        ])
+    }
+}
+
+// MARK: - UIViewController Var/Funcs
+extension RestViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        addConstraints()
+
+        if isTimerActive {
+            mainButtonInteraction()
+        }
+    }
+}
+
+// MARK: - Funcs
+extension RestViewController {
+    private func setupNavigationBar() {
+        title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
     }
 
     private func createPickerViewData() {
@@ -233,12 +211,6 @@ extension RestViewController {
             let timeString = (i * 5).getMinutesAndSecondsString()
             restTimes.append(timeString)
         }
-    }
-
-    private func setupPickerView() {
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
     }
 
     private func showHideCustomViews() {

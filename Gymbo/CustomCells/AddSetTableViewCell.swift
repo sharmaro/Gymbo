@@ -18,50 +18,55 @@ class AddSetTableViewCell: UITableViewCell {
         return String(describing: self)
     }
 
-    private var addSetButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "+ Set"
-        button.titleFontSize = 15
-        button.add(backgroundColor: .lightGray)
-        button.addCorner()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var addSetButton = CustomButton(frame: .zero)
 
     weak var addSetTableViewCellDelegate: AddSetTableViewCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        addMainViews()
-        setupAddSetButton()
+        setup()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
-        addMainViews()
-        setupAddSetButton()
+        setup()
     }
 }
 
-// MARK: - Funcs
-extension AddSetTableViewCell {
-    private func addMainViews() {
-        selectionStyle = .none
-
-        addSubviews(views: [addSetButton])
+// MARK: - ViewAdding
+extension AddSetTableViewCell: ViewAdding {
+    func addViews() {
+        add(subViews: [addSetButton])
     }
 
-    private func setupAddSetButton() {
-        addSetButton.addTarget(self, action: #selector(addSetButtonTapped), for: .touchUpInside)
+    func setupViews() {
+        selectionStyle = .none
 
+        addSetButton.title = "+ Set"
+        addSetButton.titleFontSize = 15
+        addSetButton.add(backgroundColor: .lightGray)
+        addSetButton.addCorner()
+        addSetButton.addTarget(self, action: #selector(addSetButtonTapped), for: .touchUpInside)
+    }
+
+    func addConstraints() {
         NSLayoutConstraint.activate([
             addSetButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
             addSetButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
             addSetButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
             addSetButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
+    }
+}
+
+// MARK: - Funcs
+extension AddSetTableViewCell {
+    private func setup() {
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     @objc private func addSetButtonTapped(_ sender: Any) {

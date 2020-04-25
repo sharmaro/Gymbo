@@ -128,3 +128,16 @@ extension SessionProgressObserving {
 protocol SessionStateConstraintsUpdating {
     func renewConstraints()
 }
+
+// MARK: - ViewAddding
+protocol ViewAdding {
+    func addViews()
+    func addConstraints()
+    func setupViews()
+}
+
+extension ViewAdding {
+    func addViews() {}
+    func setupViews() {}
+    func addConstraints() {}
+}

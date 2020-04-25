@@ -10,8 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class CircleProgressView: UIView {
-    private var totalTimeLabel = UILabel()
-    private var timeRemainingLabel = UILabel()
+    private var totalTimeLabel = UILabel(frame: .zero)
+    private var timeRemainingLabel = UILabel(frame: .zero)
 
     private let staticLayer = CAShapeLayer()
     private let animatedLayer = CAShapeLayer()
@@ -70,12 +70,51 @@ private extension CircleProgressView {
     }
 }
 
+// MARK: - ViewAdding
+extension CircleProgressView: ViewAdding {
+    func addViews() {
+        add(subViews: [totalTimeLabel, timeRemainingLabel])
+    }
+
+    func setupViews() {
+        backgroundColor = .clear
+
+        totalTimeLabel.text = "00:00"
+        totalTimeLabel.textColor = .lightGray
+
+        timeRemainingLabel.textColor = .darkGray
+
+        [totalTimeLabel, timeRemainingLabel].forEach {
+            $0.textAlignment = .center
+            $0.font = .systemFont(ofSize: Constants.fontSize)
+            $0.isHidden = true
+        }
+    }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
+            totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing)
+        ])
+
+        NSLayoutConstraint.activate([
+            timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
+            timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            timeRemainingLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Constants.labelSpacing)
+        ])
+    }
+}
+
 // MARK: - Funcs
 extension CircleProgressView {
     private func setup() {
-        backgroundColor = .clear
 
-        setupTimeLabels()
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     private func setupCircleProgressBar() {
@@ -101,35 +140,6 @@ extension CircleProgressView {
         animatedLayer.strokeEnd = 0
         animatedLayer.lineCap = .round
         layer.addSublayer(animatedLayer)
-    }
-
-    private func setupTimeLabels() {
-        totalTimeLabel.text = "00:00"
-        totalTimeLabel.textColor = .lightGray
-
-        timeRemainingLabel.textColor = .darkGray
-
-        [totalTimeLabel, timeRemainingLabel].forEach {
-            $0.textAlignment = .center
-            $0.font = .systemFont(ofSize: Constants.fontSize)
-            $0.isHidden = true
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            addSubview($0)
-        }
-
-        NSLayoutConstraint.activate([
-            totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing)
-        ])
-
-        NSLayoutConstraint.activate([
-            timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            timeRemainingLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Constants.labelSpacing)
-        ])
     }
 
     func startAnimation(duration: Int, totalTime: Int = 0, timeRemaining: Int = 0) {

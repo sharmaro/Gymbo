@@ -10,86 +10,16 @@ import UIKit
 
 // MARK: - Properties
 class StopwatchViewController: UIViewController {
-    private lazy var timeStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    private var timeStackView = UIStackView(frame: .zero)
+    private var minuteLabel = UILabel(frame: .zero)
+    private var secondLabel = UILabel(frame: .zero)
+    private var centiSecondLabel = UILabel(frame: .zero)
 
-    private lazy var minuteLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "00"
-        label.font = .systemFont(ofSize: 100)
-        label.textAlignment = .center
-        label.minimumScaleFactor = 0.1
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var tableView = UITableView(frame: .zero)
 
-    private lazy var secondLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "00"
-        label.font = .systemFont(ofSize: 100)
-        label.textAlignment = .center
-        label.minimumScaleFactor = 0.1
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var centiSecondLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "00"
-        label.font = .systemFont(ofSize: 100)
-        label.textAlignment = .center
-        label.minimumScaleFactor = 0.1
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-
-    private lazy var buttonsStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 15
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private lazy var lapAndResetButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "Lap"
-        button.add(backgroundColor: .systemGray)
-        button.addCorner(radius: 5)
-        button.tag = 0
-        button.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var startAndStopButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "Start"
-        button.add(backgroundColor: .systemGreen)
-        button.addCorner(radius: 5)
-        button.tag = 1
-        button.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var buttonsStackView = UIStackView(frame: .zero)
+    private var lapAndResetButton = CustomButton(frame: .zero)
+    private var startAndStopButton = CustomButton(frame: .zero)
 
     private var buttonsStackViewBottomConstraint: NSLayoutConstraint?
     private var didViewAppear = false
@@ -193,18 +123,111 @@ private extension StopwatchViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension StopwatchViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [timeStackView, tableView, buttonsStackView])
+
+        let verticalSeparatorView1 = createVerticalSeparatorView()
+        let verticalSeparatorView2 = createVerticalSeparatorView()
+        [minuteLabel, verticalSeparatorView1, secondLabel, verticalSeparatorView2, centiSecondLabel].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            timeStackView.addArrangedSubview($0)
+        }
+
+        [lapAndResetButton, startAndStopButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            buttonsStackView.addArrangedSubview($0)
+        }
+    }
+
+    func setupViews() {
+        view.backgroundColor = .white
+
+        timeStackView.alignment = .center
+        timeStackView.distribution = .fill
+
+        [minuteLabel, secondLabel, centiSecondLabel].forEach {
+            $0.text = "00"
+            $0.font = .systemFont(ofSize: 100)
+            $0.textAlignment = .center
+            $0.minimumScaleFactor = 0.1
+            $0.numberOfLines = 0
+            $0.adjustsFontSizeToFitWidth = true
+        }
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
+        tableView.register(StopwatchTableViewCell.self, forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
+
+        buttonsStackView.alignment = .fill
+        buttonsStackView.distribution = .fillEqually
+        buttonsStackView.spacing = 15
+
+        lapAndResetButton.title = "Lap"
+        lapAndResetButton.add(backgroundColor: .systemGray)
+        lapAndResetButton.addCorner(radius: 5)
+        lapAndResetButton.tag = 0
+        lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
+
+        startAndStopButton.title = "Start"
+        startAndStopButton.add(backgroundColor: .systemGreen)
+        startAndStopButton.addCorner(radius: 5)
+        startAndStopButton.tag = 1
+        startAndStopButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
+    }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight)
+        ])
+
+        let verticalSeparatorView1 = timeStackView.arrangedSubviews[1]
+        let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
+        NSLayoutConstraint.activate([
+            secondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
+            centiSecondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
+            minuteLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
+            secondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
+            centiSecondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
+            verticalSeparatorView1.widthAnchor.constraint(equalToConstant: 1),
+            verticalSeparatorView1.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
+            verticalSeparatorView2.widthAnchor.constraint(equalToConstant: 1),
+            verticalSeparatorView2.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2)
+        ])
+        timeStackView.layoutIfNeeded()
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor, constant: 15),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -15)
+        ])
+
+        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        buttonsStackViewBottomConstraint?.isActive = true
+        NSLayoutConstraint.activate([
+            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
+        ])
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension StopwatchViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-
         setupNavigationBar()
-        addMainViews()
-        setupTimeStackView()
-        setupTableView()
-        setupButtonsStackView()
+        addViews()
+        setupViews()
+        addConstraints()
         loadFromUserDefaults()
         registerForApplicationStateNotifications()
     }
@@ -227,68 +250,6 @@ extension StopwatchViewController {
 extension StopwatchViewController {
     private func setupNavigationBar() {
         title = "Stopwatch"
-    }
-
-    private func addMainViews() {
-        view.addSubviews(views: [timeStackView, tableView, buttonsStackView])
-    }
-
-    private func setupTimeStackView() {
-        NSLayoutConstraint.activate([
-            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight)
-        ])
-
-        let verticalSeparatorView1 = createVerticalSeparatorView()
-        let verticalSeparatorView2 = createVerticalSeparatorView()
-        [minuteLabel, verticalSeparatorView1, secondLabel, verticalSeparatorView2, centiSecondLabel].forEach {
-            timeStackView.addArrangedSubview($0)
-        }
-
-        NSLayoutConstraint.activate([
-            secondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
-            centiSecondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
-            minuteLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            secondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            centiSecondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            verticalSeparatorView1.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView1.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
-            verticalSeparatorView2.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView2.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2)
-        ])
-        timeStackView.layoutIfNeeded()
-    }
-
-    private func setupTableView() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor, constant: 15),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -15)
-        ])
-
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.allowsSelection = false
-        tableView.tableFooterView = UIView()
-        tableView.register(StopwatchTableViewCell.self, forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
-    }
-
-    private func setupButtonsStackView() {
-        NSLayoutConstraint.activate([
-            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
-        ])
-
-        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
-        buttonsStackViewBottomConstraint?.isActive = true
-
-        [lapAndResetButton, startAndStopButton].forEach {
-            buttonsStackView.addArrangedSubview($0)
-        }
     }
 
     private func loadFromUserDefaults() {

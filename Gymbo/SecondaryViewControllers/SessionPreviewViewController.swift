@@ -15,35 +15,10 @@ struct ExerciseInfo {
 
 // MARK: - Properties
 class SessionPreviewViewController: UIViewController {
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private var tableView = UITableView(frame: .zero)
+    private var tableHeaderView = SessionHeaderView(frame: .zero)
 
-    private lazy var tableHeaderView: SessionHeaderView = {
-        var dataModel = SessionHeaderViewModel()
-        dataModel.name = session?.name ?? Constants.namePlaceholderText
-        dataModel.info = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .black
-
-        let sessionTableHeaderView = SessionHeaderView()
-        sessionTableHeaderView.configure(dataModel: dataModel)
-        sessionTableHeaderView.isContentEditable = false
-        sessionTableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        return sessionTableHeaderView
-    }()
-
-    private lazy var startSessionButton: CustomButton = {
-        let button = CustomButton(frame: .zero)
-        button.title = "Start Session"
-        button.titleLabel?.textAlignment = .center
-        button.add(backgroundColor: .systemBlue)
-        button.addCorner()
-        button.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var startSessionButton = CustomButton(frame: .zero)
 
     var session: Session?
     var exerciseInfoList: [ExerciseInfo]?
@@ -65,18 +40,74 @@ private extension SessionPreviewViewController {
     }
 }
 
+// MARK: - ViewAdding
+extension SessionPreviewViewController: ViewAdding {
+    func addViews() {
+        view.add(subViews: [tableView, startSessionButton])
+    }
+
+    func setupViews() {
+        view.backgroundColor = .white
+
+        tableView.delegate = self
+        tableView.dataSource = self
+        // Removes extra separators below last cell
+        tableView.tableFooterView = UIView()
+        tableView.register(ExerciseTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.name = session?.name ?? Constants.namePlaceholderText
+        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .black
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = false
+
+        startSessionButton.title = "Start Session"
+        startSessionButton.titleLabel?.textAlignment = .center
+        startSessionButton.add(backgroundColor: .systemBlue)
+        startSessionButton.addCorner()
+        startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
+    }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: startSessionButton.topAnchor, constant: -15)
+        ])
+
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+        NSLayoutConstraint.activate([
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+        ])
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+
+        NSLayoutConstraint.activate([
+            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            startSessionButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+    }
+}
+
 // MARK: - UIViewController Var/Funcs
 extension SessionPreviewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-
         setupNavigationBar()
-        addMainViews()
-        setupTableView()
-        setupTableHeaderView()
-        setupStartSessionButton()
+        addViews()
+        setupViews()
+        addConstraints()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -96,7 +127,7 @@ extension SessionPreviewViewController {
         dataModel.textColor = .black
         tableHeaderView.configure(dataModel: dataModel)
 
-        updateTableView()
+        tableView.reloadWithoutAnimation()
     }
 
     override func viewDidLayoutSubviews() {
@@ -117,58 +148,6 @@ extension SessionPreviewViewController {
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
         edgesForExtendedLayout = .all
-    }
-
-    private func addMainViews() {
-        view.addSubviews(views: [tableView, startSessionButton])
-    }
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        NSLayoutConstraint.activate([
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: startSessionButton.topAnchor, constant: -15)
-        ])
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        // Removes extra lines below shown data
-        tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
-    }
-
-    private func setupTableHeaderView() {
-        tableView.tableHeaderView = tableHeaderView
-
-        NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-    }
-
-    private func setupStartSessionButton() {
-        view.addSubview(startSessionButton)
-
-        NSLayoutConstraint.activate([
-            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            startSessionButton.heightAnchor.constraint(equalToConstant: 45)
-        ])
-    }
-
-    private func updateTableView() {
-        UIView.performWithoutAnimation {
-            tableView.reloadData()
-        }
     }
 
     @objc private func cancelButtonTapped() {
