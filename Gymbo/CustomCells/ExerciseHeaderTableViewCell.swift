@@ -20,10 +20,6 @@ struct ExerciseHeaderTableViewCellModel {
 
 // MARK: - Properties
 class ExerciseHeaderTableViewCell: UITableViewCell {
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     // Header views
     private var nameLabel = UILabel(frame: .zero)
     private var deleteButton =  CustomButton(frame: .zero)
@@ -72,6 +68,9 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
         setup()
     }
 }
+
+// MARK: - ReuseIdentifying
+extension ExerciseHeaderTableViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension ExerciseHeaderTableViewCell: ViewAdding {

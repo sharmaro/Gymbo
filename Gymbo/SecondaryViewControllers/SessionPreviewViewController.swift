@@ -53,8 +53,7 @@ extension SessionPreviewViewController: ViewAdding {
         tableView.dataSource = self
         // Removes extra separators below last cell
         tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session?.name ?? Constants.namePlaceholderText

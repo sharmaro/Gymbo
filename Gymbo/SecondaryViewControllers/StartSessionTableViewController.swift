@@ -68,6 +68,8 @@ class StartSessionTableViewController: UITableViewController {
 // MARK: - ViewAdding
 extension StartSessionTableViewController: ViewAdding {
     func setupViews() {
+        view.backgroundColor = .white
+
         timerButton.titleLabel?.font = .small
         timerButton.add(backgroundColor: .systemBlue)
         timerButton.addCorner(style: .small)
@@ -85,9 +87,12 @@ extension StartSessionTableViewController: ViewAdding {
         tableView.keyboardDismissMode = .interactive
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
-        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseHeaderTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(AddSetTableViewCell.self,
+                           forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session?.name ?? Constants.namePlaceholderText
@@ -122,8 +127,6 @@ extension StartSessionTableViewController: ViewAdding {
 extension StartSessionTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .white
 
         setupNavigationBar()
         setupViews()

@@ -14,10 +14,6 @@ protocol AddSetTableViewCellDelegate: class {
 
 // MARK: - Properties
 class AddSetTableViewCell: UITableViewCell {
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     private var addSetButton = CustomButton(frame: .zero)
 
     weak var addSetTableViewCellDelegate: AddSetTableViewCellDelegate?
@@ -34,6 +30,9 @@ class AddSetTableViewCell: UITableViewCell {
         setup()
     }
 }
+
+// MARK: - ReuseIdentifying
+extension AddSetTableViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension AddSetTableViewCell: ViewAdding {

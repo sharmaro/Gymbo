@@ -10,10 +10,6 @@ import UIKit
 
 // MARK: - Properties
 class StopwatchTableViewCell: UITableViewCell {
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     private lazy var descriptionLabel = UILabel(frame: .zero)
     private lazy var valueLabel = UILabel(frame: .zero)
 
@@ -29,6 +25,9 @@ class StopwatchTableViewCell: UITableViewCell {
         setup()
     }
 }
+
+// MARK: - ReuseIdentifying
+extension StopwatchTableViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension StopwatchTableViewCell: ViewAdding {

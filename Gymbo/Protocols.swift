@@ -141,3 +141,14 @@ extension ViewAdding {
     func setupViews() {}
     func addConstraints() {}
 }
+
+// MARK: - ReuseIdentifying
+protocol ReuseIdentifying {
+    static var reuseIdentifier: String { get }
+}
+
+extension ReuseIdentifying {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}

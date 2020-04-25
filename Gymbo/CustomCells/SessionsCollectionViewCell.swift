@@ -20,10 +20,6 @@ struct SessionsCollectionViewCellModel {
 
 // MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     private lazy var titleLabel = UILabel(frame: .zero)
     private lazy var deleteButton = CustomButton(frame: .zero)
     private lazy var infoTextView = UITextView(frame: .zero)
@@ -86,6 +82,9 @@ extension SessionsCollectionViewCell {
         }
     }
 }
+
+// MARK: - ReuseIdentifying
+extension SessionsCollectionViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension SessionsCollectionViewCell: ViewAdding {

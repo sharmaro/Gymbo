@@ -72,6 +72,8 @@ extension SessionsCollectionViewController: ViewAdding {
         collectionView.dragInteractionEnabled = true
         collectionView.reorderingCadence = .fast
         collectionView.keyboardDismissMode = .interactive
+        collectionView.register(EmptyCollectionViewCell.self,
+        forCellWithReuseIdentifier: EmptyCollectionViewCell.reuseIdentifier)
         collectionView.register(SessionsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
@@ -142,27 +144,42 @@ extension SessionsCollectionViewController {
 
 // MARK: - UICollectionViewDataSource
 extension SessionsCollectionViewController {
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if sessionDataModel.count == 0 {
+            return 1
+        }
         return sessionDataModel.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
-            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-            return UICollectionViewCell()
-        }
-        var dataModel = SessionsCollectionViewCellModel()
-        dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
-        dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)
-        dataModel.isEditing = dataState == .editing
+        let cell: UICollectionViewCell
+        if sessionDataModel.count == 0 {
+            guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.reuseIdentifier, for: indexPath) as? EmptyCollectionViewCell else {
+                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
 
-        cell.alpha = 1
-        cell.configure(dataModel: dataModel)
-        cell.sessionsCollectionViewCellDelegate = self
+                return UICollectionViewCell()
+            }
+
+            emptyCell.set(message: "No Sessions, tap + Session to make one!")
+
+            cell = emptyCell
+        } else {
+            guard let sessionsCell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
+                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
+
+                return UICollectionViewCell()
+            }
+            var dataModel = SessionsCollectionViewCellModel()
+            dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
+            dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)
+            dataModel.isEditing = dataState == .editing
+
+            sessionsCell.alpha = 1
+            sessionsCell.configure(dataModel: dataModel)
+            sessionsCell.sessionsCollectionViewCellDelegate = self
+
+            cell = sessionsCell
+        }
         return cell
     }
 }
@@ -182,6 +199,10 @@ extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        if sessionDataModel.count == 0 {
+            return collectionView.frame.size
+        }
 
         let totalWidth = collectionView.bounds.width
         let itemWidth = (totalWidth - 30) / 2

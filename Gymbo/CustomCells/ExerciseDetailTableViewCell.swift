@@ -38,10 +38,6 @@ class ExerciseDetailTableViewCell: UITableViewCell {
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     var didSelect = false {
         didSet {
             backgroundColor = didSelect ? .systemGreen : .clear
@@ -68,6 +64,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         setup()
     }
 }
+
+// MARK: - ReuseIdentifying
+extension ExerciseDetailTableViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension ExerciseDetailTableViewCell: ViewAdding {

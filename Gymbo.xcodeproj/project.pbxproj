@@ -17,7 +17,7 @@
 		69346A932320189300060E4C /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69346A922320189300060E4C /* TypeExtensions.swift */; };
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
-		6942B215233C7DBA00FCEECE /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */; };
+		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
@@ -40,6 +40,8 @@
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
 		69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */; };
 		69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69695698245013C3007FADC2 /* StartSessionTableViewController.swift */; };
+		696956A32454EB7D007FADC2 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696956A22454EB7D007FADC2 /* EmptyCollectionViewCell.swift */; };
+		696956A52454EBB3007FADC2 /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696956A42454EBB3007FADC2 /* EmptyListView.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
 		69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */; };
 		69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D9023CD6D9F00603363 /* RestViewController.swift */; };
@@ -63,7 +65,7 @@
 		69346A922320189300060E4C /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
+		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* AddEditSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditSessionViewController.swift; sourceTree = "<group>"; };
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,8 @@
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		69671E51234ED83B008655C1 /* CreateExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseViewController.swift; sourceTree = "<group>"; };
 		69695698245013C3007FADC2 /* StartSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionTableViewController.swift; sourceTree = "<group>"; };
+		696956A22454EB7D007FADC2 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
+		696956A42454EBB3007FADC2 /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
 		69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionFooterView.swift; sourceTree = "<group>"; };
 		69CB2D9023CD6D9F00603363 /* RestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			children = (
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
+				696956A42454EBB3007FADC2 /* EmptyListView.swift */,
 				6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */,
 				69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */,
 			);
@@ -148,7 +153,8 @@
 				69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */,
 				692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */,
 				69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */,
-				6942B213233C7DBA00FCEECE /* ExerciseTableViewCell.swift */,
+				69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */,
+				696956A22454EB7D007FADC2 /* EmptyCollectionViewCell.swift */,
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
 				690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */,
 			);
@@ -390,15 +396,17 @@
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
-				6942B215233C7DBA00FCEECE /* ExerciseTableViewCell.swift in Sources */,
 				692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */,
 				695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */,
 				69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */,
 				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
 				69488E1D236F82D000C3A04C /* AddEditSessionViewController.swift in Sources */,
+				696956A32454EB7D007FADC2 /* EmptyCollectionViewCell.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
+				69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */,
+				696956A52454EBB3007FADC2 /* EmptyListView.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				69671E52234ED83B008655C1 /* CreateExerciseViewController.swift in Sources */,
 				6942B212232B621600FCEECE /* Util.swift in Sources */,

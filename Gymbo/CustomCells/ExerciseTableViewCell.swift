@@ -10,10 +10,6 @@ import UIKit
 
 // MARK: - Properties
 class ExerciseTableViewCell: UITableViewCell {
-    class var reuseIdentifier: String {
-        return String(describing: self)
-    }
-
     private lazy var nameLabel = UILabel(frame: .zero)
     private lazy var musclesLabel = UILabel(frame: .zero)
 
@@ -46,6 +42,9 @@ class ExerciseTableViewCell: UITableViewCell {
         setup()
     }
 }
+
+// MARK: - ReuseIdentifying
+extension ExerciseTableViewCell: ReuseIdentifying {}
 
 // MARK: - ViewAdding
 extension ExerciseTableViewCell: ViewAdding {
