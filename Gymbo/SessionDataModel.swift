@@ -6,9 +6,9 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-import Foundation
 import RealmSwift
 
+// MARK: - Properties
 @objcMembers class ExerciseDetails: Object {
     dynamic var last: String?
     dynamic var reps: String?
@@ -23,6 +23,7 @@ import RealmSwift
     }
 }
 
+// MARK: - Properties
 @objcMembers class Exercise: Object {
     dynamic var name: String?
     dynamic var muscleGroups: String?
@@ -47,6 +48,7 @@ import RealmSwift
     }
 }
 
+// MARK: - Properties
 @objcMembers class Session: Object {
     dynamic var name: String?
     dynamic var info: String?
@@ -88,13 +90,19 @@ extension Session: NSItemProviderWriting {
     }
 }
 
+// MARK: - Properties
+// Need to create a List object that stores a List of objects if order is important
+// Realm will not store objects in order
 @objcMembers class SessionsList: Object {
     let sessions = List<Session>()
 }
 
+// MARK: - Properties
 class SessionDataModel: NSObject {
-    // MARK: - Properties
     static let shared = SessionDataModel()
+
+    private var realm = try? Realm()
+    private var sessionsList: SessionsList?
 
     var count: Int {
         return sessionsList?.sessions.count ?? 0
@@ -103,10 +111,6 @@ class SessionDataModel: NSObject {
     var isEmpty: Bool {
         return sessionsList?.sessions.isEmpty ?? true
     }
-
-    private var realm = try? Realm()
-
-    private var sessionsList: SessionsList?
 
     // MARK: - NSObject Var/Funcs
     override init() {
@@ -126,6 +130,7 @@ extension SessionDataModel {
         } else {
             NSLog("FAILURE: Realm location does not exist.")
         }
+        print(String(describing: realm?.configuration.fileURL))
         print()
     }
 
@@ -139,7 +144,7 @@ extension SessionDataModel {
         }
     }
 
-    private func check(index: Int) -> SessionsList {
+    private func check(_ index: Int) -> SessionsList {
         guard let list = sessionsList,
             index > -1,
             index < list.sessions.count else {
@@ -158,21 +163,6 @@ extension SessionDataModel {
 
     func exercisesCount(for index: Int) -> Int {
         return sessionsList?.sessions[index].exercises.count ?? 0
-    }
-
-    func exerciseInfoList(for session: Session) -> [ExerciseInfo]? {
-        var exerciseInfoList = [ExerciseInfo]()
-        let exercises = session.exercises
-        guard exercises.count > 0 else {
-                return nil
-        }
-
-        for exercise in exercises {
-            if let exerciseName = exercise.name, let exerciseMuscles = exercise.muscleGroups {
-                exerciseInfoList.append(ExerciseInfo(exerciseName: "\(exercise.sets) x \(exerciseName)", exerciseMuscles: exerciseMuscles))
-            }
-        }
-        return exerciseInfoList
     }
 
     func sessionInfoText(for index: Int) -> String {
@@ -220,7 +210,7 @@ extension SessionDataModel {
     }
 
     func replace(at index: Int, with session: Session) {
-        let list = check(index: index)
+        let list = check(index)
 
         try? realm?.write {
             list.sessions[index] = session
@@ -228,7 +218,7 @@ extension SessionDataModel {
     }
 
     func remove(at index: Int) {
-        let list = check(index: index)
+        let list = check(index)
 
         try? realm?.write {
             list.sessions.remove(at: index)

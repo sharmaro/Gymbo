@@ -37,7 +37,7 @@ extension AddSetTableViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension AddSetTableViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [addSetButton])
+        add(subviews: [addSetButton])
     }
 
     func setupViews() {

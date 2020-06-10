@@ -10,17 +10,17 @@ import UIKit
 
 // MARK: - Properties
 class AlertViewController: UIViewController {
-    private lazy var containerView = UIView(frame: .zero)
-    private lazy var titleLabel = UILabel(frame: .zero)
-    private lazy var contentLabel = UILabel(frame: .zero)
+    private var containerView = UIView(frame: .zero)
+    private var titleLabel = UILabel(frame: .zero)
+    private var contentLabel = UILabel(frame: .zero)
 
-    private lazy var buttonsStackView = UIStackView(frame: .zero)
-    private lazy var leftButton = CustomButton(frame: .zero)
-    private lazy var rightButton = CustomButton(frame: .zero)
+    private var buttonsStackView = UIStackView(frame: .zero)
+    private var leftButton = CustomButton(frame: .zero)
+    private var rightButton = CustomButton(frame: .zero)
 
     private var alertTitle: String?
     private var content: String?
-    private var usesBothButtons: Bool?
+    private var usesBothButtons = true
     private var leftButtonTitle: String?
     private var rightButtonTitle: String?
     private var leftButtonAction: (() -> Void)?
@@ -30,9 +30,11 @@ class AlertViewController: UIViewController {
 // MARK: - ViewAdding
 extension AlertViewController: ViewAdding {
     func addViews() {
-        view.add(subViews: [containerView])
-        containerView.add(subViews: [titleLabel, contentLabel, buttonsStackView])
-        buttonsStackView.addArrangedSubview(leftButton)
+        view.add(subviews: [containerView])
+        containerView.add(subviews: [titleLabel, contentLabel, buttonsStackView])
+        if usesBothButtons {
+            buttonsStackView.addArrangedSubview(leftButton)
+        }
         buttonsStackView.addArrangedSubview(rightButton)
     }
 
@@ -45,35 +47,33 @@ extension AlertViewController: ViewAdding {
         titleLabel.text = alertTitle
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
-        titleLabel.font = .xLarge
+        titleLabel.font = .large
         titleLabel.backgroundColor = .systemBlue
 
         contentLabel.text = content
-        contentLabel.font = .medium
+        contentLabel.font = .normal
         contentLabel.numberOfLines = 0
 
         buttonsStackView.alignment = .fill
         buttonsStackView.distribution = .fillEqually
         buttonsStackView.spacing = 15
 
-        leftButton.title = "Cancel"
-        leftButton.add(backgroundColor: .systemRed)
-        leftButton.titleLabel?.font = .small
-        leftButton.addCorner(style: .small)
-        leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        if usesBothButtons {
+            leftButton.title = "Cancel"
+            leftButton.titleLabel?.font = .normal
+            leftButton.add(backgroundColor: .systemRed)
+            leftButton.addCorner(style: .small)
+            leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        }
 
         rightButton.title = "Confirm"
+        rightButton.titleLabel?.font = .normal
         rightButton.add(backgroundColor: .systemGreen)
-        rightButton.titleLabel?.font = .small
         rightButton.addCorner(style: .small)
         rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
 
-        if usesBothButtons ?? true {
-            leftButton.title = leftButtonTitle ?? ""
-            rightButton.title = rightButtonTitle ?? ""
-        } else {
-            rightButton.title = rightButtonTitle ?? ""
-        }
+        leftButton.title = usesBothButtons ? (leftButtonTitle ?? "") : ""
+        rightButton.title = rightButtonTitle ?? ""
     }
 
     func addConstraints() {
@@ -123,15 +123,11 @@ extension AlertViewController {
     func setupAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
         alertTitle = title
         self.content = content
+        self.usesBothButtons = usesBothButtons
         self.leftButtonTitle = leftButtonTitle
         self.rightButtonTitle = rightButtonTitle
         self.leftButtonAction = leftButtonAction
         self.rightButtonAction = rightButtonAction
-
-        guard isViewLoaded, !usesBothButtons else {
-            return
-        }
-        leftButton.removeFromSuperview()
     }
 
     @objc private func leftButtonTapped(_ sender: Any) {

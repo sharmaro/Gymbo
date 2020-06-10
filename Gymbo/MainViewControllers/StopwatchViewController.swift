@@ -125,8 +125,12 @@ private extension StopwatchViewController {
 
 // MARK: - ViewAdding
 extension StopwatchViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = "Stopwatch"
+    }
+
     func addViews() {
-        view.add(subViews: [timeStackView, tableView, buttonsStackView])
+        view.add(subviews: [timeStackView, tableView, buttonsStackView])
 
         let verticalSeparatorView1 = createVerticalSeparatorView()
         let verticalSeparatorView2 = createVerticalSeparatorView()
@@ -170,13 +174,13 @@ extension StopwatchViewController: ViewAdding {
         lapAndResetButton.add(backgroundColor: .systemGray)
         lapAndResetButton.addCorner(style: .small)
         lapAndResetButton.tag = 0
-        lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
+        lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
 
         startAndStopButton.title = "Start"
         startAndStopButton.add(backgroundColor: .systemGreen)
         startAndStopButton.addCorner(style: .small)
         startAndStopButton.tag = 1
-        startAndStopButton.addTarget(self, action: #selector(stopWatchButtonPressed), for: .touchUpInside)
+        startAndStopButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
     }
 
     func addConstraints() {
@@ -203,10 +207,10 @@ extension StopwatchViewController: ViewAdding {
         timeStackView.layoutIfNeeded()
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor, constant: 15),
+            tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -15)
+            tableView.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor)
         ])
 
         buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
@@ -248,10 +252,6 @@ extension StopwatchViewController {
 
 // MARK: - Funcs
 extension StopwatchViewController {
-    private func setupNavigationBar() {
-        title = "Stopwatch"
-    }
-
     private func loadFromUserDefaults() {
         if let stopwatchStateInt = userDefault.object(forKey: UserDefaultKeys.STOPWATCH_STATE) as? Int,
             let oldState = StopwatchState(rawValue: stopwatchStateInt) {
@@ -344,7 +344,7 @@ extension StopwatchViewController {
         }
     }
 
-    @objc private func stopWatchButtonPressed(_ sender: Any) {
+    @objc private func stopWatchButtonTapped(_ sender: Any) {
         if let button = sender as? UIButton {
             switch button.tag {
             case 0: // lapAndReset button tapped
@@ -384,7 +384,7 @@ extension StopwatchViewController {
                 }
                 updateStopWatchButtons(animated: true)
             default:
-                fatalError("Unrecognized tag in stopWatchButtonPressed")
+                fatalError("Unrecognized tag in stopWatchButtonTapped")
             }
         }
     }
@@ -398,7 +398,8 @@ extension StopwatchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StopwatchTableViewCell.reuseIdentifier, for: indexPath) as? StopwatchTableViewCell else {
-            fatalError("Couldn't dequeue cell of type StopwatchTableViewCell")
+            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
+            return UITableViewCell()
         }
 
         guard let laps = laps else {

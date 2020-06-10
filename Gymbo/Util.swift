@@ -6,8 +6,6 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-import Foundation
-
 enum SessionDetailType {
     case name
     case sets
@@ -83,6 +81,21 @@ struct Util {
             }
         }
         return correctSuffix
+    }
+
+    static func getStringArraySeparated(by separator: String, text: String?) -> [String] {
+        guard let text = text else {
+            return []
+        }
+
+        if !text.contains(separator) {
+            return text.components(separatedBy: " ")
+        } else {
+            let stringArray = text.components(separatedBy: ",").map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            return stringArray
+        }
     }
 }
 

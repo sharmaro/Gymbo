@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct ExerciseInfo {
-    var exerciseName: String?
-    var exerciseMuscles: String?
-}
-
 // MARK: - Properties
 class SessionPreviewViewController: UIViewController {
     private var tableView = UITableView(frame: .zero)
@@ -21,9 +16,10 @@ class SessionPreviewViewController: UIViewController {
     private var startSessionButton = CustomButton(frame: .zero)
 
     var session: Session?
-    var exerciseInfoList: [ExerciseInfo]?
+    var exerciseInfoArray: [ExerciseInfo]?
 
-    private let dataModelManager = SessionDataModel.shared
+    private let sessionDataModelManager = SessionDataModel.shared
+    private let exercisesDataModelManager = ExerciseDataModel.shared
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
 }
@@ -33,7 +29,7 @@ private extension SessionPreviewViewController {
     struct Constants {
         static let title = "Preview"
 
-        static let sessionPreviewCellHeight = CGFloat(62)
+        static let exerciseCellHeight = CGFloat(70)
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
@@ -42,8 +38,17 @@ private extension SessionPreviewViewController {
 
 // MARK: - ViewAdding
 extension SessionPreviewViewController: ViewAdding {
+    func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
     func addViews() {
-        view.add(subViews: [tableView, startSessionButton])
+        view.add(subviews: [tableView, startSessionButton])
     }
 
     func setupViews() {
@@ -51,9 +56,10 @@ extension SessionPreviewViewController: ViewAdding {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         // Removes extra separators below last cell
         tableView.tableFooterView = UIView()
-        tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session?.name ?? Constants.namePlaceholderText
@@ -118,7 +124,7 @@ extension SessionPreviewViewController {
         }
 
         title = Constants.title
-        exerciseInfoList = dataModelManager.exerciseInfoList(for: session)
+        exerciseInfoArray = exercisesDataModelManager.exerciseInfoList(for: session)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session.name
@@ -140,15 +146,6 @@ extension SessionPreviewViewController {
 
 // MARK: - Funcs
 extension SessionPreviewViewController {
-     private func setupNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
     }
@@ -160,10 +157,10 @@ extension SessionPreviewViewController {
             return
         }
 
-        let addEditSessionViewController = AddEditSessionViewController()
-        addEditSessionViewController.sessionState = .edit
-        addEditSessionViewController.session = session
-        navigationController?.pushViewController(addEditSessionViewController, animated: true)
+        let createEditSessionViewController = CreateEditSessionViewController()
+        createEditSessionViewController.sessionState = .edit
+        createEditSessionViewController.session = session
+        navigationController?.pushViewController(createEditSessionViewController, animated: true)
     }
 
     @objc private func startSessionButtonTapped(_ sender: Any) {
@@ -179,20 +176,17 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exerciseInfoList?.count ?? 0
+        return exerciseInfoArray?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+        guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell,
+            let exercise = exerciseInfoArray?[indexPath.row] else {
             presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
             return UITableViewCell()
         }
 
-        let name = exerciseInfoList?[indexPath.row].exerciseName
-        let muscles = exerciseInfoList?[indexPath.row].exerciseMuscles
-        let dataModel = ExerciseText(name: name, muscles: muscles, isUserMade: false)
-
-        exerciseTableViewCell.configure(dataModel: dataModel)
+        exerciseTableViewCell.configure(dataModel: exercise)
         return exerciseTableViewCell
     }
 }
@@ -200,6 +194,6 @@ extension SessionPreviewViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SessionPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.sessionPreviewCellHeight
+        return Constants.exerciseCellHeight
     }
 }

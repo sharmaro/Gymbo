@@ -72,14 +72,14 @@ private extension SessionHeaderView {
 // MARK: - ViewAdding
 extension SessionHeaderView: ViewAdding {
     func addViews() {
-        add(subViews: [nameTextView, infoTextView])
+        add(subviews: [nameTextView, infoTextView])
     }
 
     func setupViews() {
-        nameTextView.font = UIFont.xxLarge.medium
+        nameTextView.font = UIFont.xLarge.medium
         nameTextView.tag = 0
 
-        infoTextView.font = UIFont.large.medium
+        infoTextView.font = UIFont.medium.medium
         infoTextView.tag = 1
 
         textViews = [nameTextView, infoTextView]

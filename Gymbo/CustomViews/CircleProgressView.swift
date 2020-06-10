@@ -72,7 +72,7 @@ private extension CircleProgressView {
 // MARK: - ViewAdding
 extension CircleProgressView: ViewAdding {
     func addViews() {
-        add(subViews: [totalTimeLabel, timeRemainingLabel])
+        add(subviews: [totalTimeLabel, timeRemainingLabel])
     }
 
     func setupViews() {
@@ -85,7 +85,7 @@ extension CircleProgressView: ViewAdding {
 
         [totalTimeLabel, timeRemainingLabel].forEach {
             $0.textAlignment = .center
-            $0.font = .xxxLarge
+            $0.font = .xxLarge
             $0.isHidden = true
         }
     }
@@ -110,7 +110,6 @@ extension CircleProgressView: ViewAdding {
 // MARK: - Funcs
 extension CircleProgressView {
     private func setup() {
-
         addViews()
         setupViews()
         addConstraints()

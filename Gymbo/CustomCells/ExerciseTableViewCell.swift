@@ -10,14 +10,9 @@ import UIKit
 
 // MARK: - Properties
 class ExerciseTableViewCell: UITableViewCell {
-    private lazy var nameLabel = UILabel(frame: .zero)
-    private lazy var musclesLabel = UILabel(frame: .zero)
-
-    private var isUserMade = false {
-        didSet {
-            backgroundColor = isUserMade ? .systemBlue : .white
-        }
-    }
+    private var muscleImageView = UIImageView(frame: .zero)
+    private var nameLabel = UILabel(frame: .zero)
+    private var musclesLabel = UILabel(frame: .zero)
 
     var exerciseName: String? {
         return nameLabel.text
@@ -25,8 +20,7 @@ class ExerciseTableViewCell: UITableViewCell {
 
     var didSelect = false {
         didSet {
-            let defaultColor: UIColor = isUserMade ? .systemBlue : .white
-            backgroundColor = didSelect ? .systemGray : defaultColor
+            backgroundColor = didSelect ? .systemGray : .white
         }
     }
 
@@ -41,6 +35,12 @@ class ExerciseTableViewCell: UITableViewCell {
 
         setup()
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        muscleImageView.addCorner(style: .circle(view: muscleImageView))
+    }
 }
 
 // MARK: - ReuseIdentifying
@@ -49,28 +49,45 @@ extension ExerciseTableViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension ExerciseTableViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [nameLabel, musclesLabel])
+        add(subviews: [muscleImageView, nameLabel, musclesLabel])
     }
 
     func setupViews() {
-        selectionStyle = .none
+        separatorInset.left = 15
 
-        nameLabel.font = .medium
+        muscleImageView.contentMode = .scaleToFill
+        muscleImageView.layer.borderWidth = 1
+        muscleImageView.layer.borderColor = UIColor.systemRed.cgColor
+
+        nameLabel.font = .normal
 
         musclesLabel.textColor = .darkGray
         musclesLabel.font = UIFont.small.light
+
+        [nameLabel, musclesLabel].forEach {
+            $0.numberOfLines = 1
+            $0.minimumScaleFactor = 0.5
+            $0.adjustsFontSizeToFitWidth = true
+        }
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
+            muscleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            muscleImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -5),
+            muscleImageView.trailingAnchor.constraint(equalTo: musclesLabel.leadingAnchor, constant: -5),
+            muscleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             nameLabel.bottomAnchor.constraint(equalTo: musclesLabel.topAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            musclesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             musclesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             musclesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
@@ -85,9 +102,16 @@ extension ExerciseTableViewCell {
         addConstraints()
     }
 
-    func configure(dataModel: ExerciseText) {
+    func configure(dataModel: ExerciseInfo) {
         nameLabel.text = dataModel.name
         musclesLabel.text = dataModel.muscles
-        isUserMade = dataModel.isUserMade
+
+        let imagesData = dataModel.imagesData
+        if let firstImageData = imagesData.first,
+            let image = UIImage(data: firstImageData) {
+            muscleImageView.image = image
+        } else if let emptyImage = UIImage(named: "emptyImage") {
+            muscleImageView.image = emptyImage
+        }
     }
 }

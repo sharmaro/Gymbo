@@ -6,7 +6,6 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 struct Colors {

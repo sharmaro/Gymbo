@@ -10,8 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class StopwatchTableViewCell: UITableViewCell {
-    private lazy var descriptionLabel = UILabel(frame: .zero)
-    private lazy var valueLabel = UILabel(frame: .zero)
+    private var descriptionLabel = UILabel(frame: .zero)
+    private var valueLabel = UILabel(frame: .zero)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,14 +32,14 @@ extension StopwatchTableViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension StopwatchTableViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [descriptionLabel, valueLabel])
+        add(subviews: [descriptionLabel, valueLabel])
     }
 
     func setupViews() {
-        descriptionLabel.font = .large
+        descriptionLabel.font = .medium
         descriptionLabel.textAlignment = .left
 
-        valueLabel.font = .large
+        valueLabel.font = .medium
         valueLabel.textAlignment = .justified
     }
 

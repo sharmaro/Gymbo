@@ -8,6 +8,15 @@
 
 import UIKit
 
+enum Transform {
+    case shrink
+    case inflate
+
+    static func caseFromBool(bool: Bool) -> Transform {
+        return bool ? .shrink : .inflate
+    }
+}
+
 // MARK: - Properties
 class CustomButton: UIButton {
     var title = "" {
@@ -25,9 +34,11 @@ class CustomButton: UIButton {
     // MARK: - UIButton Var/Funcs
     override var isHighlighted: Bool {
         didSet {
-            if isEnabled {
-                alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
+            guard isEnabled else {
+                return
             }
+
+            alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
             transform(condition: Transform.caseFromBool(bool: isHighlighted))
         }
     }
@@ -51,15 +62,6 @@ private extension CustomButton {
         static let transformScale = CGFloat(0.95)
 
         static let animationTime = TimeInterval(0.2)
-    }
-
-    enum Transform {
-        case shrink
-        case inflate
-
-        static func caseFromBool(bool: Bool) -> Transform {
-            return bool ? .shrink : .inflate
-        }
     }
 }
 
@@ -90,7 +92,7 @@ extension CustomButton {
         self.titleColor = titleColor
     }
 
-    func makeUninteractable(animated: Bool = false) {
+    func makeUninteractable(animated: Bool = true) {
         if animated {
             UIView.animate(withDuration: 0.2) { [weak self] in
                 self?.alpha = Constants.dimmedAlpha
@@ -101,7 +103,7 @@ extension CustomButton {
         isEnabled = false
     }
 
-    func makeInteractable(animated: Bool = false) {
+    func makeInteractable(animated: Bool = true) {
         if animated {
             UIView.animate(withDuration: 0.2) { [weak self] in
                 self?.alpha = Constants.normalAlpha

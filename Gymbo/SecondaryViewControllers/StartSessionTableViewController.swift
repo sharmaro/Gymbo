@@ -67,6 +67,17 @@ class StartSessionTableViewController: UITableViewController {
 
 // MARK: - ViewAdding
 extension StartSessionTableViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = 0.getMinutesAndSecondsString()
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
     func setupViews() {
         view.backgroundColor = .white
 
@@ -199,17 +210,6 @@ private extension StartSessionTableViewController {
 
 // MARK: - Funcs
 extension StartSessionTableViewController {
-    private func setupNavigationBar() {
-        title = 0.getMinutesAndSecondsString()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
     private func startSessionTimer() {
         sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateSessionTime), userInfo: nil, repeats: true)
         if let timer = sessionTimer {
@@ -632,16 +632,14 @@ extension StartSessionTableViewController: AddSetTableViewCellDelegate {
 
 // MARK: - ExerciseListDelegate
 extension StartSessionTableViewController: ExerciseListDelegate {
-    func updateExerciseList(_ exerciseTextList: [ExerciseText]) {
+    func updateExerciseList(_ exerciseTextList: [ExerciseInfo]) {
         for exerciseText in exerciseTextList {
             let newExercise = Exercise(name: exerciseText.name, muscleGroups: exerciseText.muscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
             try? realm?.write {
                 session?.exercises.append(newExercise)
             }
         }
-        UIView.performWithoutAnimation {
-            tableView.reloadData()
-        }
+        tableView.reloadWithoutAnimation()
     }
 }
 
@@ -720,16 +718,11 @@ extension StartSessionTableViewController: KeyboardObserving {
         guard let keyboardHeight = notification.keyboardSize?.height else {
             return
         }
-
-        UIView.performWithoutAnimation { [weak self] in
-            self?.tableView.contentInset.bottom = keyboardHeight
-        }
+        tableView.contentInset.bottom = keyboardHeight
     }
 
     func keyboardWillHide(_ notification: Notification) {
-        UIView.performWithoutAnimation { [weak self] in
-            self?.tableView.contentInset = .zero
-        }
+        tableView.contentInset = .zero
     }
 }
 

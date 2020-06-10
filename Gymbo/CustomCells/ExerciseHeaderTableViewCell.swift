@@ -75,7 +75,7 @@ extension ExerciseHeaderTableViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension ExerciseHeaderTableViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [nameLabel, deleteButton, infoStackView])
+        add(subviews: [nameLabel, deleteButton, infoStackView])
         infoStackView.addArrangedSubview(setsLabel)
         infoStackView.addArrangedSubview(lastLabel)
         infoStackView.addArrangedSubview(repsLabel)
@@ -87,7 +87,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         selectionStyle = .none
 
         nameLabel.textColor = .blue
-        nameLabel.font = .medium
+        nameLabel.font = .normal
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         deleteButton.title = ""
@@ -104,7 +104,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         var counter = 0
         [setsLabel, lastLabel, repsLabel, weightLabel].forEach {
             $0.text = labelTexts[counter]
-            $0.font = .medium
+            $0.font = .normal
             $0.textAlignment = .center
             $0.translatesAutoresizingMaskIntoConstraints = false
             counter += 1

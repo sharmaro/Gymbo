@@ -20,9 +20,9 @@ struct SessionsCollectionViewCellModel {
 
 // MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
-    private lazy var titleLabel = UILabel(frame: .zero)
-    private lazy var deleteButton = CustomButton(frame: .zero)
-    private lazy var infoTextView = UITextView(frame: .zero)
+    private var titleLabel = UILabel(frame: .zero)
+    private var deleteButton = CustomButton(frame: .zero)
+    private var infoLabel = UILabel(frame: .zero)
 
     private var isEditing = false {
         didSet {
@@ -64,11 +64,6 @@ private extension SessionsCollectionViewCell {
 
         static let transformScale = CGFloat(0.95)
     }
-
-    enum Transform {
-        case shrink
-        case inflate
-    }
 }
 
 // MARK: - UICollectionViewCell Var/Funcs
@@ -89,7 +84,7 @@ extension SessionsCollectionViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension SessionsCollectionViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [titleLabel, deleteButton, infoTextView])
+        add(subviews: [titleLabel, deleteButton, infoLabel])
     }
 
     func setupViews() {
@@ -107,18 +102,14 @@ extension SessionsCollectionViewCell: ViewAdding {
 
         addShadow(direction: .downRight)
 
-        titleLabel.font = UIFont.medium.semibold
+        titleLabel.font = UIFont.normal.semibold
 
         let image = UIImage(named: "delete")
         deleteButton.setImage(image, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
 
-        infoTextView.font = .small
-        infoTextView.textColor = .darkGray
-        infoTextView.textContainerInset = .zero
-        infoTextView.textContainer.lineFragmentPadding = 0
-        infoTextView.textContainer.lineBreakMode = .byTruncatingTail
-        infoTextView.isUserInteractionEnabled = false
+        infoLabel.font = .small
+        infoLabel.numberOfLines = 0
     }
 
     func addConstraints() {
@@ -126,7 +117,8 @@ extension SessionsCollectionViewCell: ViewAdding {
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
-            titleLabel.bottomAnchor.constraint(equalTo: infoTextView.topAnchor, constant: -5)
+            titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -5),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
 
         NSLayoutConstraint.activate([
@@ -137,9 +129,9 @@ extension SessionsCollectionViewCell: ViewAdding {
         ])
 
         NSLayoutConstraint.activate([
-            infoTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            infoTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            infoTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            infoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            infoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -5)
         ])
     }
 }
@@ -169,7 +161,7 @@ extension SessionsCollectionViewCell {
 
     func configure(dataModel: SessionsCollectionViewCellModel) {
         titleLabel.text = dataModel.title
-        infoTextView.text = dataModel.info
+        infoLabel.text = dataModel.info
         isEditing = dataModel.isEditing
     }
 

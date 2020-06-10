@@ -28,9 +28,7 @@ class SessionsCollectionViewController: UICollectionViewController {
             navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ? Constants.inactiveAlpha : Constants.activeAlpha
 
             // Reloading data so it can toggle the shaking animation.
-            UIView.performWithoutAnimation {
-                collectionView.reloadData()
-            }
+            collectionView.reloadWithoutAnimation()
         }
     }
 
@@ -60,20 +58,26 @@ private extension SessionsCollectionViewController {
 
 // MARK: - ViewAdding
 extension SessionsCollectionViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = Constants.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session", style: .plain, target: self, action: #selector(addSessionButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
     func setupViews() {
         view.backgroundColor = .white
 
         collectionView.backgroundColor = .white
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.dragDelegate = self
         collectionView.dropDelegate = self
         collectionView.delaysContentTouches = false
         collectionView.dragInteractionEnabled = true
         collectionView.reorderingCadence = .fast
         collectionView.keyboardDismissMode = .interactive
-        collectionView.register(EmptyCollectionViewCell.self,
-        forCellWithReuseIdentifier: EmptyCollectionViewCell.reuseIdentifier)
         collectionView.register(SessionsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
     }
@@ -108,16 +112,6 @@ extension SessionsCollectionViewController {
 
 // MARK: - Funcs
 extension SessionsCollectionViewController {
-    private func setupNavigationBar() {
-        title = Constants.title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session", style: .plain, target: self, action: #selector(addSessionButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
     @objc private func updateSessionsUI() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
@@ -135,59 +129,42 @@ extension SessionsCollectionViewController {
     }
 
     @objc private func addSessionButtonTapped() {
-        let addEditSessionViewController = AddEditSessionViewController()
-        addEditSessionViewController.sessionState = .add
-        addEditSessionViewController.sessionDataModelDelegate = self
-        navigationController?.pushViewController(addEditSessionViewController, animated: true)
+        let createEditSessionViewController = CreateEditSessionViewController()
+        createEditSessionViewController.sessionState = .create
+        createEditSessionViewController.sessionDataModelDelegate = self
+        navigationController?.pushViewController(createEditSessionViewController, animated: true)
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension SessionsCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if sessionDataModel.count == 0 {
-            return 1
-        }
         return sessionDataModel.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: UICollectionViewCell
-        if sessionDataModel.count == 0 {
-            guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.reuseIdentifier, for: indexPath) as? EmptyCollectionViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
+        guard let sessionsCell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
+            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
 
-                return UICollectionViewCell()
-            }
-
-            emptyCell.set(message: "No Sessions, tap + Session to make one!")
-
-            cell = emptyCell
-        } else {
-            guard let sessionsCell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-
-                return UICollectionViewCell()
-            }
-            var dataModel = SessionsCollectionViewCellModel()
-            dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
-            dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)
-            dataModel.isEditing = dataState == .editing
-
-            sessionsCell.alpha = 1
-            sessionsCell.configure(dataModel: dataModel)
-            sessionsCell.sessionsCollectionViewCellDelegate = self
-
-            cell = sessionsCell
+            return UICollectionViewCell()
         }
-        return cell
+        var dataModel = SessionsCollectionViewCellModel()
+        dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
+        dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)
+        dataModel.isEditing = dataState == .editing
+
+        sessionsCell.alpha = 1
+        sessionsCell.configure(dataModel: dataModel)
+        sessionsCell.sessionsCollectionViewCellDelegate = self
+
+        return sessionsCell
     }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -200,12 +177,12 @@ extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        if sessionDataModel.count == 0 {
-            return collectionView.frame.size
-        }
+        let sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
 
-        let totalWidth = collectionView.bounds.width
-        let itemWidth = (totalWidth - 30) / 2
+        let totalWidth = collectionView.frame.width
+        let columns = CGFloat(2)
+        let columnSpacing = CGFloat(10)
+        let itemWidth = (totalWidth - sectionInset.left - sectionInset.right - (columnSpacing * (columns - 1))) / columns
 
         return CGSize(width: itemWidth, height: Constants.sessionCellHeight)
     }
@@ -321,9 +298,7 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
     }
 
     func reloadCollectionViewWithoutAnimation() {
-        UIView.performWithoutAnimation {
-            collectionView.reloadData()
-        }
+        collectionView.reloadWithoutAnimation()
     }
 }
 

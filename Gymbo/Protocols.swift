@@ -131,12 +131,14 @@ protocol SessionStateConstraintsUpdating {
 
 // MARK: - ViewAddding
 protocol ViewAdding {
+    func setupNavigationBar()
     func addViews()
-    func addConstraints()
     func setupViews()
+    func addConstraints()
 }
 
 extension ViewAdding {
+    func setupNavigationBar() {}
     func addViews() {}
     func setupViews() {}
     func addConstraints() {}
@@ -151,4 +153,10 @@ extension ReuseIdentifying {
     static var reuseIdentifier: String {
         return String(describing: self)
     }
+}
+
+// MARK: - DimmedViewDelegate
+protocol DimmedViewDelegate: class {
+    func addView()
+    func removeView()
 }

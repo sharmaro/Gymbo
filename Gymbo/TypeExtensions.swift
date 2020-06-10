@@ -6,9 +6,9 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
+// MARK: - Int
 extension Int {
     var cgFloat: CGFloat {
         return CGFloat(self)
@@ -25,6 +25,7 @@ extension Int {
     }
 }
 
+// MARK: - String
 extension String {
     func getSecondsFromTime() -> Int? {
         let times = Array(self)
@@ -39,6 +40,7 @@ extension String {
     }
 }
 
+// MARK: - Notification
 extension Notification {
     var keyboardSize: CGSize? {
         return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
@@ -49,8 +51,13 @@ extension Notification {
     }
 }
 
+// MARK: - Notification.Name
 extension Notification.Name {
+    // Sessions
     static let updateSessionsUI = Notification.Name("updateSessionsUI")
     static let startSession = Notification.Name("startSession")
     static let endSession = Notification.Name("endSession")
+
+    // Exercises
+    static let updateExercisesUI = Notification.Name("updateExercisesUI")
 }

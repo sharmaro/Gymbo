@@ -71,7 +71,7 @@ extension ExerciseDetailTableViewCell: ReuseIdentifying {}
 // MARK: - ViewAdding
 extension ExerciseDetailTableViewCell: ViewAdding {
     func addViews() {
-        add(subViews: [stackView])
+        add(subviews: [stackView])
         stackView.addArrangedSubview(setsLabel)
         stackView.addArrangedSubview(lastLabel)
         stackView.addArrangedSubview(repsTextField)
@@ -100,7 +100,7 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         [repsTextField, weightTextField].forEach {
             $0.font = .small
             $0.textAlignment = .center
-            $0.layer.addCorner(style: .extraSmall)
+            $0.layer.addCorner(style: .xSmall)
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.black.cgColor
             $0.borderStyle = .none

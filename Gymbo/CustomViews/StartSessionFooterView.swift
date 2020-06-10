@@ -37,7 +37,7 @@ class StartSessionFooterView: UIView {
 // MARK: - ViewAdding
 extension StartSessionFooterView: ViewAdding {
     func addViews() {
-        add(subViews: [addExerciseButton, cancelButton])
+        add(subviews: [addExerciseButton, cancelButton])
     }
 
     func setupViews() {

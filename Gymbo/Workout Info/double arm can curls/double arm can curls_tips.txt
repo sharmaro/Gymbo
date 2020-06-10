@@ -1,0 +1,1 @@
+1. Lower the weights down slowly, do not let them drop.

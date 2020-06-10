@@ -20,14 +20,14 @@ enum ShadowDirection {
 }
 
 enum CornerStyle {
-    case extraSmall
+    case xSmall
     case small
     case medium
     case circle(view: UIView)
 
     var radius: CGFloat {
         switch self {
-        case .extraSmall:
+        case .xSmall:
             return 5
         case .small:
             return 10
@@ -47,8 +47,8 @@ fileprivate struct Constants {
 
 // MARK: - UIView
 extension UIView {
-    func add(subViews: [UIView]) {
-        for view in subViews {
+    func add(subviews: [UIView]) {
+        for view in subviews {
             view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
         }
@@ -236,16 +236,25 @@ extension UITableView {
     }
 }
 
+// MARK: - UICollectionView
+extension UICollectionView {
+    func reloadWithoutAnimation() {
+        UIView.performWithoutAnimation {
+            reloadData()
+        }
+    }
+}
+
 // MARK: - CGFloat
 extension CGFloat {
     static let xxSmall = CGFloat(9)
     static let xSmall = CGFloat(12)
     static let small = CGFloat(15)
-    static let medium = CGFloat(18)
-    static let large = CGFloat(20)
-    static let xLarge = CGFloat(25)
-    static let xxLarge = CGFloat(30)
-    static let xxxLarge = CGFloat(40)
+    static let normal = CGFloat(18)
+    static let medium = CGFloat(20)
+    static let large = CGFloat(25)
+    static let xLarge = CGFloat(30)
+    static let xxLarge = CGFloat(40)
     static let huge = CGFloat(100)
 }
 
@@ -265,11 +274,11 @@ extension UIFont {
     static let xxSmall = UIFont.systemFont(ofSize: .xxSmall)
     static let xSmall = UIFont.systemFont(ofSize: .xSmall)
     static let small = UIFont.systemFont(ofSize: .small)
+    static let normal = UIFont.systemFont(ofSize: .normal)
     static let medium = UIFont.systemFont(ofSize: .medium)
     static let large = UIFont.systemFont(ofSize: .large)
     static let xLarge = UIFont.systemFont(ofSize: .xLarge)
     static let xxLarge = UIFont.systemFont(ofSize: .xxLarge)
-    static let xxxLarge = UIFont.systemFont(ofSize: .xxxLarge)
     static let huge = UIFont.systemFont(ofSize: .huge)
 
     var ultraLight: UIFont {

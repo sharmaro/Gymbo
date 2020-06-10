@@ -95,10 +95,16 @@ private extension RestViewController {
 
 // MARK: - ViewAdding
 extension RestViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
+    }
+
     func addViews() {
-        view.add(subViews: [topContainerView, circleProgressView, mainButton])
-        topContainerView.add(subViews: [restLabel, addTimeButton, removeTimeButton])
-        circleProgressView.add(subViews: [pickerView])
+        view.add(subviews: [topContainerView, circleProgressView, mainButton])
+        topContainerView.add(subviews: [restLabel, addTimeButton, removeTimeButton])
+        circleProgressView.add(subviews: [pickerView])
     }
 
     func setupViews() {
@@ -109,7 +115,7 @@ extension RestViewController: ViewAdding {
         restLabel.text = "Choose a time below to rest!"
         restLabel.textAlignment = .center
         restLabel.textColor = .darkGray
-        restLabel.font = .medium
+        restLabel.font = .normal
         restLabel.numberOfLines = 0
 
         addTimeButton.title = "+ 5s"
@@ -199,12 +205,6 @@ extension RestViewController {
 
 // MARK: - Funcs
 extension RestViewController {
-    private func setupNavigationBar() {
-        title = Constants.title
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
-    }
-
     private func createPickerViewData() {
         for i in 1...120 {
             let timeString = (i * 5).getMinutesAndSecondsString()
@@ -304,7 +304,7 @@ extension RestViewController: UIPickerViewDelegate {
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center
-        pickerLabel.font = .xxLarge
+        pickerLabel.font = .xLarge
         return pickerLabel
     }
 
@@ -319,8 +319,6 @@ extension RestViewController: TimeLabelDelegate {
     func updateTimeLabel() {
         restTimeRemaining -= 1
         if restTimeRemaining <= 0 {
-            // Do other clean up here
-            // Special alert for finishing
             restTimerDelegate?.ended()
             circleProgressView.stopAnimation()
             dismiss(animated: true)
