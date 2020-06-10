@@ -22,6 +22,12 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Gymbo would like to access your camera so you can create custom exercises.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Gymbo would like to access your photos so you can create custom exercises.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gymbo would like to access your photos so you can create custom exercises.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
