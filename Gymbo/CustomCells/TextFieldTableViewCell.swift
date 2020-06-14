@@ -51,7 +51,7 @@ extension TextFieldTableViewCell: ViewAdding {
             textField.topAnchor.constraint(equalTo: topAnchor),
             textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

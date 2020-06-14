@@ -112,7 +112,7 @@ extension ExerciseDetailTableViewCell: ViewAdding {
     }
 
     func addConstraints() {
-        let stackViewBottomConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+        let stackViewBottomConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),

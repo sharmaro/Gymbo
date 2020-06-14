@@ -128,7 +128,7 @@ extension SessionsCollectionViewCell: ViewAdding {
         NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             infoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -5)
+            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -10)
         ])
     }
 }

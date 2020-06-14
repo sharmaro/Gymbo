@@ -65,6 +65,41 @@ class StartSessionTableViewController: UITableViewController {
     }
 }
 
+// MARK: - Structs/Enums
+private extension StartSessionTableViewController {
+    struct Constants {
+        static let timeInterval = TimeInterval(1)
+
+        static let characterLimit = 5
+
+        static let exerciseHeaderCellHeight = CGFloat(59)
+        static let exerciseDetailCellHeight = CGFloat(40)
+        static let addSetButtonCellHeight = CGFloat(55)
+        static let tableFooterViewHeight = CGFloat(110)
+        static let defaultYOffset = CGFloat(60)
+
+        static let barButtonSize = CGSize(width: 80, height: 30)
+
+        static let namePlaceholderText = "Session name"
+        static let infoPlaceholderText = "No Info"
+
+        static let SESSION_SECONDS_KEY = "sessionSeconds"
+        static let REST_TOTAL_TIME_KEY = "restTotalTime"
+        static let REST_REMAINING_TIME_KEY = "restRemainingTime"
+    }
+
+    enum PanState {
+        case full
+        case mini
+    }
+
+    enum ModallyPresenting {
+        case restViewController
+        case exercisesViewController
+        case none
+    }
+}
+
 // MARK: - ViewAdding
 extension StartSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
@@ -170,41 +205,6 @@ extension StartSessionTableViewController {
 
         tableView.tableFooterView = tableView.tableFooterView
         tableView.tableFooterView?.layoutIfNeeded()
-    }
-}
-
-// MARK: - Structs/Enums
-private extension StartSessionTableViewController {
-    struct Constants {
-        static let timeInterval = TimeInterval(1)
-
-        static let characterLimit = 5
-
-        static let exerciseHeaderCellHeight = CGFloat(59)
-        static let exerciseDetailCellHeight = CGFloat(40)
-        static let addSetButtonCellHeight = CGFloat(60)
-        static let tableFooterViewHeight = CGFloat(110)
-        static let defaultYOffset = CGFloat(60)
-
-        static let barButtonSize = CGSize(width: 80, height: 30)
-
-        static let namePlaceholderText = "Session name"
-        static let infoPlaceholderText = "No Info"
-
-        static let SESSION_SECONDS_KEY = "sessionSeconds"
-        static let REST_TOTAL_TIME_KEY = "restTotalTime"
-        static let REST_REMAINING_TIME_KEY = "restRemainingTime"
-    }
-
-    enum PanState {
-        case full
-        case mini
-    }
-
-    enum ModallyPresenting {
-        case restViewController
-        case exercisesViewController
-        case none
     }
 }
 

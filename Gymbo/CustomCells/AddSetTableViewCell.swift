@@ -52,7 +52,7 @@ extension AddSetTableViewCell: ViewAdding {
             addSetButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             addSetButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             addSetButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            addSetButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
+            addSetButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

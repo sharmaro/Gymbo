@@ -42,7 +42,7 @@ extension LabelTableViewCell: ViewAdding {
             detailLabel.topAnchor.constraint(equalTo: topAnchor),
             detailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             detailLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            detailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            detailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

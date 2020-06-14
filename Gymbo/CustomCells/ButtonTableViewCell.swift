@@ -55,7 +55,7 @@ extension ButtonTableViewCell: ViewAdding {
             button.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

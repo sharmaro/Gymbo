@@ -40,7 +40,7 @@ extension LargeTitleTableViewCell: ViewAdding {
             largeTitleLabel.topAnchor.constraint(equalTo: topAnchor),
             largeTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             largeTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            largeTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            largeTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

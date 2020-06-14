@@ -74,7 +74,7 @@ extension ImagesTableViewCell: ViewAdding {
             horizontalScrollView.topAnchor.constraint(equalTo: topAnchor),
             horizontalScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             horizontalScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            horizontalScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            horizontalScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
         horizontalScrollView.layoutIfNeeded()
     }

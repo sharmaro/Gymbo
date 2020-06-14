@@ -59,7 +59,7 @@ extension TextViewTableViewCell: ViewAdding {
             textView.topAnchor.constraint(equalTo: topAnchor),
             textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

@@ -60,7 +60,7 @@ extension MultipleSelectionTableViewCell: ViewAdding {
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

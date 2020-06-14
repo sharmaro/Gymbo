@@ -126,7 +126,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
             deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
         ])
 
-        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
             infoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
