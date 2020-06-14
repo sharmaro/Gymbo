@@ -275,12 +275,12 @@ extension StopwatchViewController {
     private func updateStopWatchButtons(animated: Bool) {
         switch stopwatchState {
         case .initial:
-            lapAndResetButton.makeUninteractable()
+            lapAndResetButton.makeUninteractable(animated: animated)
             lapAndResetButton.title = "Lap"
 
-            startAndStopButton.makeInteractable()
+            startAndStopButton.makeInteractable(animated: animated)
         case .started:
-            lapAndResetButton.makeInteractable()
+            lapAndResetButton.makeInteractable(animated: animated)
             lapAndResetButton.title = "Lap"
 
             startAndStopButton.title = "Stop"

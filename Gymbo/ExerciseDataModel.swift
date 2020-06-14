@@ -9,11 +9,6 @@
 import RealmSwift
 
 // MARK: - Properties
-@objcMembers class ExercisesInfoList: Object {
-    var exercises = List<ExerciseInfo>()
-}
-
-// MARK: - Properties
 @objcMembers class ExerciseInfo: Object, Comparable {
     dynamic var name: String?
     dynamic var muscles: String?
@@ -47,22 +42,27 @@ import RealmSwift
 }
 
 // MARK: - Properties
+@objcMembers class ExercisesInfoList: Object {
+    var exercises = List<ExerciseInfo>()
+}
+
+// MARK: - Properties
 class ExerciseDataModel: NSObject {
     static let shared = ExerciseDataModel()
+
+    private(set) var sectionTitles = [String]()
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Chest", "Glutes", "Hips", "Legs", "Shoulders", "Extra Exercises"]
     private var realm = try? Realm()
     private var exercisesInfoList = ExercisesInfoList()
     // Helper for getting exercises as an array
-    private var exercisesInfoArray: [ExerciseInfo] {
-        return Array(exercisesInfoList.exercises)
-    }
+    private var exercisesInfoDictionary = [String: [ExerciseInfo]]()
     private var exercisesInfoListCache = [String: ExerciseInfo]()
     // Used to store the filtered results based on user search
-    var searchResults = [ExerciseInfo]()
+    private var searchResults = [String: [ExerciseInfo]]()
 
-    var dataToUse: [ExerciseInfo] {
-        return searchResults.count > 0 ? searchResults : exercisesInfoArray
+    private var dataToUse: [String: [ExerciseInfo]] {
+        return searchResults.count > 0 ? searchResults : exercisesInfoDictionary
     }
 
     override init() {
@@ -81,15 +81,12 @@ private extension ExerciseDataModel {
 
 // MARK: - Funcs
 extension ExerciseDataModel {
+    // MARK: - Helper
+
     private func setupExerciseInfoList() {
         if let exercisesInfoList = realm?.objects(ExercisesInfoList.self).first {
             self.exercisesInfoList = exercisesInfoList
-
-            // Keeping a dictionary cache for fast lookups
-            exercisesInfoArray.forEach {
-                let name = $0.name ?? ""
-                exercisesInfoListCache[name] = $0
-            }
+            setupExercisesInfoDictionary(exercisesInfoList: exercisesInfoList)
         } else {
             for group in exerciseGroups {
                 guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
@@ -113,17 +110,30 @@ extension ExerciseDataModel {
                                 existingExerciseInfoObject.groups = ("\(group)")
                             }
                             exercisesInfoListCache[name] = existingExerciseInfoObject
+                            continue
                         }
 
                         let newExerciseInfo = createExerciseObject(name: name, muscles: muscles, group: group)
                         exercisesInfoListCache[name] = newExerciseInfo
+                        exercisesInfoList.exercises.append(newExerciseInfo)
+
+                        if let title = getFirstCharacter(of: name)?.capitalized {
+                            if var exercisesInfoArray = exercisesInfoDictionary[title] {
+                                exercisesInfoArray.append(newExerciseInfo)
+                                exercisesInfoDictionary[title] = exercisesInfoArray
+                            } else {
+                                exercisesInfoDictionary[title] = [newExerciseInfo]
+                            }
+
+                            if !sectionTitles.contains(title) {
+                                sectionTitles.append(title)
+                            }
+                        }
                     }
                 }
             }
-            exercisesInfoListCache.forEach {
-                let info = $0.value
-                exercisesInfoList.exercises.append(info)
-            }
+
+            sectionTitles.sort()
             exercisesInfoList.exercises.sort()
             try? realm?.write {
                 realm?.add(exercisesInfoList)
@@ -205,28 +215,101 @@ extension ExerciseDataModel {
         return ExerciseInfo(name: name, muscles: muscles, groups: group, instructions: instructions, tips: tips, imagesData: imagesData)
     }
 
-    func numberOfRows(in section: Int) -> Int {
+    private func setupExercisesInfoDictionary(exercisesInfoList: ExercisesInfoList) {
+        exercisesInfoList.exercises.forEach {
+            if let name = $0.name,
+                let title = getFirstCharacter(of: name)?.capitalized {
+                if var exercisesInfoArray = exercisesInfoDictionary[title] {
+                    exercisesInfoArray.append($0)
+                    exercisesInfoDictionary[title] = exercisesInfoArray
+                } else {
+                    exercisesInfoDictionary[title] = [$0]
+                }
+
+                // Keeping a dictionary cache for fast lookups
+                exercisesInfoListCache[name] = $0
+
+                if !sectionTitles.contains(title) {
+                    sectionTitles.append(title)
+                }
+            }
+        }
+        sectionTitles.sort()
+    }
+
+    private func getFirstCharacter(of text: String) -> String? {
+        guard let firstCharacter = text.first else {
+            return nil
+        }
+        return String(firstCharacter)
+    }
+
+    private func getCorrectExerciseInfoArrayIn(section: Int) -> [ExerciseInfo]? {
+        guard section > -1,
+            section < sectionTitles.count else {
+                fatalError("Section: \(section) out of bounds")
+        }
+
+        let key: String
+        if searchResults.count == 0 {
+            key = sectionTitles[section]
+        } else {
+            key = searchResults.keys.first ?? ""
+        }
+        return dataToUse[key]
+    }
+
+    // MARK: - UITableView
+
+    var numberOfSections: Int {
         return dataToUse.count
     }
 
-    func index(of exerciseName: String) -> Int? {
-        guard exercisesInfoListCache[exerciseName] != nil,
-            let index = dataToUse.firstIndex(where: {
-                ($0.name ?? "") == exerciseName
-            }) else {
-            return nil
+    func numberOfRows(in section: Int) -> Int {
+        guard let exerciseInfoArray = getCorrectExerciseInfoArrayIn(section: section) else {
+            fatalError("No exercises for section: \(section)")
         }
-        return index
+        return exerciseInfoArray.count
     }
 
-    func exerciseInfo(for row: Int) -> ExerciseInfo {
-        return dataToUse[row]
+    func heightForHeaderIn(section: Int) -> CGFloat {
+        return dataToUse.count == 1 ? 0 : 40
+    }
+
+    func titleForHeaderIn(section: Int) -> String {
+        return sectionTitles[section]
+    }
+
+    // MARK: - Data
+
+    func doesExerciseExist(exerciseName: String) -> Bool {
+        return exercisesInfoListCache[exerciseName] != nil
+    }
+
+    func exerciseInfo(for exercise: String) -> ExerciseInfo {
+        guard let exerciseInfo = exercisesInfoListCache[exercise] else {
+            fatalError("\(exercise) does not exist")
+        }
+        return exerciseInfo
+    }
+
+    func exerciseInfo(for indexPath: IndexPath) -> ExerciseInfo {
+        guard let exerciseInfoArray = getCorrectExerciseInfoArrayIn(section: indexPath.section) else {
+            fatalError("No exercises for section: \(indexPath.section)")
+        }
+
+        guard indexPath.row > -1,
+            indexPath.row < exerciseInfoArray.count else {
+                fatalError("Index: \(indexPath.section) out of bounds")
+        }
+        return exerciseInfoArray[indexPath.row]
     }
 
     func exerciseInfoList(for session: Session) -> [ExerciseInfo] {
         var infoList = [ExerciseInfo]()
         session.exercises.forEach {
-            if let exerciseName = $0.name, let exerciseInfo = exercisesInfoListCache[exerciseName] {
+            if let exerciseName = $0.name,
+                let exerciseInfo = exercisesInfoListCache[exerciseName] {
                 infoList.append(exerciseInfo)
             }
         }
@@ -248,13 +331,21 @@ extension ExerciseDataModel {
         return exerciseGroups[index]
     }
 
-    func exerciseGroups(for index: Int) -> String? {
-        return dataToUse[index].groups
+    func filterResults(filter: String) {
+        guard !filter.isEmpty else {
+            searchResults.removeAll()
+            return
+        }
+
+        searchResults.removeAll()
+        searchResults[""] = Array(exercisesInfoList.exercises).filter { (exerciseInfo) -> Bool in
+            (exerciseInfo.name ?? "").lowercased().contains(filter)
+        }
     }
 
-    func filterResults(filter: String) {
-        searchResults = exercisesInfoArray.filter {
-            ($0.name ?? "").lowercased().contains(filter)
+    func index(of exerciseName: String) -> Int? {
+        return exercisesInfoList.exercises.firstIndex { (exerciseInfo) -> Bool in
+            exerciseInfo.name == exerciseName
         }
     }
 
@@ -265,12 +356,17 @@ extension ExerciseDataModel {
     func createExerciseInfo(_ info: ExerciseInfo, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         let name = info.name ?? ""
 
-        guard exercisesInfoListCache[name] == nil else {
+        guard exercisesInfoListCache[name] == nil,
+            let firstCharacter = getFirstCharacter(of: name)?.capitalized,
+            var exerciseInfoArray = exercisesInfoDictionary[firstCharacter] else {
             fail?()
             return
         }
 
         exercisesInfoListCache[name] = info
+        exerciseInfoArray.append(info)
+        exerciseInfoArray.sort()
+        exercisesInfoDictionary[name] = exerciseInfoArray
         try? realm?.write {
             exercisesInfoList.exercises.append(info)
             exercisesInfoList.exercises.sort()
@@ -280,15 +376,12 @@ extension ExerciseDataModel {
 
     func updateExerciseInfo(_ currentName: String, info: ExerciseInfo, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         guard let newName = info.name,
-            let currentExerciseInfo = exercisesInfoListCache[currentName] else {
-            fail?()
-            return
-        }
-
-        let index = exercisesInfoList.exercises.firstIndex { (info) -> Bool in
-            currentExerciseInfo.name == currentName
-        }
-        guard let indexToInteractAt = index else {
+            let index = index(of: currentName),
+            let firstCharacter = getFirstCharacter(of: currentName)?.capitalized,
+            var exerciseInfoArray = exercisesInfoDictionary[firstCharacter],
+            let firstIndex = exerciseInfoArray.firstIndex(where: { (exerciseInfo) -> Bool in
+                exerciseInfo.name == currentName
+            }) else {
             fail?()
             return
         }
@@ -296,15 +389,22 @@ extension ExerciseDataModel {
         exercisesInfoListCache[newName] = info
 
         if currentName == newName {
+            exerciseInfoArray[firstIndex] = info
+            exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
             try? realm?.write {
-                exercisesInfoList.exercises[indexToInteractAt] = info
+                exercisesInfoList.exercises[index] = info
                 success?()
             }
         } else {
             exercisesInfoListCache[currentName] = nil
 
+            exerciseInfoArray.remove(at: firstIndex)
+            exerciseInfoArray.append(info)
+            exerciseInfoArray.sort()
+            exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
+
             try? realm?.write {
-                exercisesInfoList.exercises.remove(at: indexToInteractAt)
+                exercisesInfoList.exercises.remove(at: index)
                 exercisesInfoList.exercises.append(info)
                 exercisesInfoList.exercises.sort()
                 success?()
@@ -312,13 +412,23 @@ extension ExerciseDataModel {
         }
     }
 
-    func removeExercise(at index: Int) {
-        guard index < exercisesInfoArray.count,
-            let name = exercisesInfoArray[index].name else {
-                return
+    func removeExercise(named: String?) {
+        guard let name = named,
+            let index = index(of: name),
+            let firstCharacter = getFirstCharacter(of: name)?.capitalized,
+            var exerciseInfoArray = exercisesInfoDictionary[firstCharacter],
+            let firstIndex = exerciseInfoArray.firstIndex(where: { (exerciseInfo) -> Bool in
+                exerciseInfo.name == name
+            }) else {
+            return
         }
 
         exercisesInfoListCache[name] = nil
+        exerciseInfoArray.remove(at: firstIndex)
+        exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
+        if !searchResults.isEmpty {
+            searchResults[firstCharacter] = exerciseInfoArray
+        }
         try? realm?.write {
             exercisesInfoList.exercises.remove(at: index)
         }

@@ -167,16 +167,34 @@ extension SessionDataModel {
 
     func sessionInfoText(for index: Int) -> String {
         var sessionInfoText = "No exercises in this session."
-        if let exercises = sessionsList?.sessions[index].exercises, exercises.count > 0 {
+        var exercisesToRemove = [String]()
+
+        if let exercises = sessionsList?.sessions[index].exercises,
+            exercises.count > 0 {
             sessionInfoText = ""
             for i in 0 ..< exercises.count {
-                var sessionString = ""
-                let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
-                sessionString = "\(name)"
-                if i != exercises.count - 1 {
-                    sessionString += ", "
+                if ExerciseDataModel.shared.doesExerciseExist(exerciseName: exercises[i].name ?? "") {
+                    var sessionString = ""
+                    let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
+                    sessionString = "\(name)"
+                    if i != exercises.count - 1 {
+                        sessionString += ", "
+                    }
+                    sessionInfoText.append(sessionString)
+                } else {
+                    exercisesToRemove.append(exercises[i].name ?? "")
                 }
-                sessionInfoText.append(sessionString)
+            }
+
+            exercisesToRemove.forEach {
+                let name = $0
+                if let firstIndex = exercises.firstIndex(where: { (exercise) -> Bool in
+                    exercise.name == name
+                }) {
+                    try? realm?.write {
+                        exercises.remove(at: firstIndex)
+                    }
+                }
             }
         }
         return sessionInfoText

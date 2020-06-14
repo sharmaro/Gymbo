@@ -23,7 +23,7 @@ enum PresentationStyle {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero)
+    private var tableView = UITableView(frame: .zero, style: .grouped)
     private var addExerciseButton = CustomButton(frame: .zero)
 
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
@@ -60,12 +60,14 @@ extension ExercisesViewController: ViewAdding {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
 
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search for an exercise"
+        searchController.searchBar.placeholder = "Search exercises"
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        // Hides the active search bar if a new view controller is presented
+        definesPresentationContext = true
 
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
@@ -84,7 +86,10 @@ extension ExercisesViewController: ViewAdding {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
+        tableView.backgroundColor = .white
         tableView.tableFooterView = UIView()
+        tableView.register(ExercisesHeaderFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
         tableView.register(ExerciseTableViewCell.self,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
@@ -158,16 +163,9 @@ extension ExercisesViewController {
             return
         }
 
-        var indices = [Int]()
-        for exercise in selectedExerciseNames {
-            if let index = selectedExerciseNamesAndIndices[exercise] {
-                indices.append(index)
-            }
-        }
-
         var selectedExercises = [ExerciseInfo]()
-        for index in indices {
-            let exerciseInfo = exerciseDataModel.exerciseInfo(for: index)
+        for exerciseName in selectedExerciseNames {
+            let exerciseInfo = exerciseDataModel.exerciseInfo(for: exerciseName)
             selectedExercises.append(exerciseInfo)
         }
         exerciseListDelegate?.updateExerciseList(selectedExercises)
@@ -226,6 +224,10 @@ extension ExercisesViewController {
 
 // MARK: - UITableViewDataSource
 extension ExercisesViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        exerciseDataModel.numberOfSections
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return exerciseDataModel.numberOfRows(in: section)
     }
@@ -235,7 +237,7 @@ extension ExercisesViewController: UITableViewDataSource {
             fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
 
-        let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath.row)
+        let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath)
         cell.configure(dataModel: exerciseInfo)
 
         if presentationStyle == .modal {
@@ -261,19 +263,18 @@ extension ExercisesViewController: UITableViewDataSource {
             return false
         }
 
-        let exerciseTableViewCellModel = exerciseDataModel.exerciseInfo(for: indexPath.row)
+        let exerciseTableViewCellModel = exerciseDataModel.exerciseInfo(for: indexPath)
         return exerciseTableViewCellModel.isUserMade
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
-            let exerciseName = exerciseCell.exerciseName,
-            let index = exerciseDataModel.index(of: exerciseName) else {
+            let exerciseName = exerciseCell.exerciseName else {
             return nil
         }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
-            self?.exerciseDataModel.removeExercise(at: index)
+            self?.exerciseDataModel.removeExercise(named: exerciseName)
             DispatchQueue.main.async {
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
@@ -285,10 +286,32 @@ extension ExercisesViewController: UITableViewDataSource {
         configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
+
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return exerciseDataModel.sectionTitles
+    }
 }
 
 // MARK: - UITableViewDelegate
 extension ExercisesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return exerciseDataModel.heightForHeaderIn(section: section)
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return exerciseDataModel.heightForHeaderIn(section: section)
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+            return nil
+        }
+
+        let title = exerciseDataModel.titleForHeaderIn(section: section)
+        headerView.configure(title: title)
+        return headerView
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.exerciseCellHeight
     }
@@ -298,7 +321,7 @@ extension ExercisesViewController: UITableViewDelegate {
         case .normal:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath.row)
+            let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath)
             let exercisePreviewViewController = ExercisePreviewViewController(exerciseInfo: exerciseInfo)
             exercisePreviewViewController.dimmedViewDelegate = self
             exercisePreviewViewController.modalPresentationStyle = .overCurrentContext

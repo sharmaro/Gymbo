@@ -198,6 +198,10 @@ extension UIView {
             sublayer.removeFromSuperlayer()
         }
     }
+
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
 }
 
 // MARK: - CALayer
