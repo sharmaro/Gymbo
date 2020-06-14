@@ -95,7 +95,7 @@ extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let selectionCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectionCollectionViewCell else {
-            fatalError("Could not dequeue SelectionCollectionViewCell.")
+            fatalError("Could not dequeue \(SelectionCollectionViewCell.reuseIdentifier)")
         }
 
         let group = selectionTitles[indexPath.row]

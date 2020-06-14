@@ -144,10 +144,9 @@ extension SessionsCollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let sessionsCell = collectionView.dequeueReusableCell(withReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier, for: indexPath) as? SessionsCollectionViewCell else {
-            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-
-            return UICollectionViewCell()
+            fatalError("Could not dequeue \(SessionsCollectionViewCell.reuseIdentifier)")
         }
+
         var dataModel = SessionsCollectionViewCellModel()
         dataModel.title = sessionDataModel.sessionName(for: indexPath.row)
         dataModel.info = sessionDataModel.sessionInfoText(for: indexPath.row)

@@ -183,39 +183,44 @@ extension CreateEditSessionViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
         switch indexPath.row {
         case 0: // Exercise header cell
-            if let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell {
-                var dataModel = ExerciseHeaderTableViewCellModel()
-                dataModel.name = session.exercises[indexPath.section].name
-                dataModel.isDoneButtonImageHidden = true
-
-                exerciseHeaderCell.configure(dataModel: dataModel)
-                exerciseHeaderCell.exerciseHeaderCellDelegate = self
-                return exerciseHeaderCell
+            guard let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell else {
+                fatalError("Could not dequeue \(ExerciseHeaderTableViewCell.reuseIdentifier)")
             }
+
+            var dataModel = ExerciseHeaderTableViewCellModel()
+            dataModel.name = session.exercises[indexPath.section].name
+            dataModel.isDoneButtonImageHidden = true
+
+            exerciseHeaderCell.configure(dataModel: dataModel)
+            exerciseHeaderCell.exerciseHeaderCellDelegate = self
+            cell = exerciseHeaderCell
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
-            if let addSetCell = tableView.dequeueReusableCell(withIdentifier: AddSetTableViewCell.reuseIdentifier, for: indexPath) as? AddSetTableViewCell {
-                addSetCell.addSetTableViewCellDelegate = self
-
-                return addSetCell
+            guard let addSetCell = tableView.dequeueReusableCell(withIdentifier: AddSetTableViewCell.reuseIdentifier, for: indexPath) as? AddSetTableViewCell else {
+                fatalError("Could not dequeue \(AddSetTableViewCell.reuseIdentifier)")
             }
+
+            addSetCell.addSetTableViewCellDelegate = self
+            cell = addSetCell
         default: // Exercise detail cell
-            if let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell {
-                var dataModel = ExerciseDetailTableViewCellModel()
-                dataModel.sets = "\(indexPath.row)"
-                dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-                dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
-                dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
-                dataModel.isDoneButtonEnabled = false
-
-                exerciseDetailCell.configure(dataModel: dataModel)
-                exerciseDetailCell.exerciseDetailCellDelegate = self
-                return exerciseDetailCell
+            guard let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell else {
+                fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
             }
+
+            var dataModel = ExerciseDetailTableViewCellModel()
+            dataModel.sets = "\(indexPath.row)"
+            dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
+            dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
+            dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
+            dataModel.isDoneButtonEnabled = false
+
+            exerciseDetailCell.configure(dataModel: dataModel)
+            exerciseDetailCell.exerciseDetailCellDelegate = self
+            cell = exerciseDetailCell
         }
-        presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-        return UITableViewCell()
+        return cell
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

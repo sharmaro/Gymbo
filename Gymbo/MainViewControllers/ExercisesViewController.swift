@@ -232,8 +232,7 @@ extension ExercisesViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                return UITableViewCell()
+            fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
 
         let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath.row)

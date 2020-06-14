@@ -6,6 +6,8 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
+import UIKit
+
 enum SessionDetailType {
     case name
     case sets

@@ -398,8 +398,7 @@ extension StopwatchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StopwatchTableViewCell.reuseIdentifier, for: indexPath) as? StopwatchTableViewCell else {
-            presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-            return UITableViewCell()
+            fatalError("Could not dequeue \(StopwatchTableViewCell.reuseIdentifier)")
         }
 
         guard let laps = laps else {
@@ -412,7 +411,6 @@ extension StopwatchViewController: UITableViewDataSource {
         if laps.count > 2 {
             cell.checkLapComparison(timeToCheck: lap.totalTime, fastestTime: fastestLap?.totalTime ?? 0, slowestTime: slowestLap?.totalTime ?? 0)
         }
-
         return cell
     }
 }

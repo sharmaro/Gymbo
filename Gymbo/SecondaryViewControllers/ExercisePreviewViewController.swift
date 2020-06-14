@@ -209,24 +209,22 @@ extension ExercisePreviewViewController: UITableViewDataSource {
         switch tableItem {
         case .imagesTitle, .instructionsTitle, .tipsTitle:
             guard let largeTitleTableViewCell = tableView.dequeueReusableCell(withIdentifier: LargeTitleTableViewCell.reuseIdentifier, for: indexPath) as? LargeTitleTableViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                return UITableViewCell()
+                fatalError("Could not dequeue \(LargeTitleTableViewCell.reuseIdentifier)")
             }
+
             largeTitleTableViewCell.configure(title: tableItem.rawValue)
             cell = largeTitleTableViewCell
         case .images:
             if exerciseInfo.imagesData.isEmpty {
                 guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                    presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                    return UITableViewCell()
+                    fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
                 }
 
                 labelTableViewCell.configure(text: Constants.noImagesText)
                 cell = labelTableViewCell
             } else {
                 guard let swipableImageViewCell = tableView.dequeueReusableCell(withIdentifier: SwipableImageViewTableViewCell.reuseIdentifier, for: indexPath) as? SwipableImageViewTableViewCell else {
-                    presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                    return UITableViewCell()
+                    fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
                 }
 
                 let imagesDataArray = Array(exerciseInfo.imagesData)
@@ -235,8 +233,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
             }
         case .instructions, .tips:
             guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                return UITableViewCell()
+                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
             }
 
             let text = tableItem == .instructions ? exerciseInfo.instructions : exerciseInfo.tips

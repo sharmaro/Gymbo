@@ -248,15 +248,14 @@ extension CreateEditExerciseTableViewController {
         switch tableItem {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
             guard let largeTitleTableViewCell = tableView.dequeueReusableCell(withIdentifier: LargeTitleTableViewCell.reuseIdentifier, for: indexPath) as? LargeTitleTableViewCell else {
-                presentCustomAlert(content: "Could not load data.", usesBothButtons: false, rightButtonTitle: "Sounds good")
-                return UITableViewCell()
+                fatalError("Could not dequeue \(LargeTitleTableViewCell.reuseIdentifier)")
             }
 
             largeTitleTableViewCell.configure(title: tableItem.rawValue)
             cell = largeTitleTableViewCell
         case .name:
             guard let textFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier, for: indexPath) as? TextFieldTableViewCell else {
-                fatalError("Couldn't dequeue TextFieldTableViewCell")
+                fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
             }
 
             textFieldTableViewCell.configure(text: exerciseInfo.name ?? "", placeHolder: "Exercise name...")
@@ -264,7 +263,7 @@ extension CreateEditExerciseTableViewController {
             cell = textFieldTableViewCell
         case .muscleGroups:
             guard let multipleSelectionTableViewCell = tableView.dequeueReusableCell(withIdentifier: MultipleSelectionTableViewCell.reuseIdentifier, for: indexPath) as? MultipleSelectionTableViewCell else {
-                fatalError("Couldn't dequeue MultipleSelectionTableViewCell")
+                fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
             }
 
             let selectedTitlesArray = Util.getStringArraySeparated(by: ",", text: exerciseInfo.muscles).map {
@@ -275,7 +274,7 @@ extension CreateEditExerciseTableViewController {
             cell = multipleSelectionTableViewCell
         case .images:
             guard let imagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: ImagesTableViewCell.reuseIdentifier, for: indexPath) as? ImagesTableViewCell else {
-                fatalError("Couldn't dequeue AddImagesTableViewCell")
+                fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
             }
 
             let existingImages = getUIImageFromData(list: exerciseInfo.imagesData)
@@ -285,7 +284,7 @@ extension CreateEditExerciseTableViewController {
             cell = imagesTableViewCell
         case .instructions, .tips:
             guard let textViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: TextViewTableViewCell.reuseIdentifier, for: indexPath) as? TextViewTableViewCell else {
-                fatalError("Couldn't dequeue LabelTableViewCell")
+                fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
             }
 
             let text = tableItem == .instructions ? exerciseInfo.instructions : exerciseInfo.tips
