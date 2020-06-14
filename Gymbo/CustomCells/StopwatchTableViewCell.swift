@@ -26,9 +26,6 @@ class StopwatchTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension StopwatchTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension StopwatchTableViewCell: ViewAdding {
     func addViews() {

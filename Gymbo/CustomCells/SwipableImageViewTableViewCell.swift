@@ -26,9 +26,6 @@ class SwipableImageViewTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension SwipableImageViewTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension SwipableImageViewTableViewCell: ViewAdding {
     func addViews() {

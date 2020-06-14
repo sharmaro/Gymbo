@@ -31,9 +31,6 @@ class AddSetTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension AddSetTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension AddSetTableViewCell: ViewAdding {
     func addViews() {

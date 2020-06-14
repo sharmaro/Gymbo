@@ -35,9 +35,6 @@ extension SelectionCollectionViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension SelectionCollectionViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension SelectionCollectionViewCell: ViewAdding {
     func addViews() {

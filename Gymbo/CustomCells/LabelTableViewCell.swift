@@ -25,9 +25,6 @@ class LabelTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension LabelTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension LabelTableViewCell: ViewAdding {
     func addViews() {

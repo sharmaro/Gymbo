@@ -35,9 +35,6 @@ class TextViewTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension TextViewTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension TextViewTableViewCell: ViewAdding {
     func addViews() {

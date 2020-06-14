@@ -78,9 +78,6 @@ extension SessionsCollectionViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension SessionsCollectionViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension SessionsCollectionViewCell: ViewAdding {
     func addViews() {

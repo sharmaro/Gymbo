@@ -38,9 +38,6 @@ class MultipleSelectionTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension MultipleSelectionTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension MultipleSelectionTableViewCell: ViewAdding {
     func addViews() {

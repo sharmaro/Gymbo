@@ -59,9 +59,6 @@ extension ImagesTableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension ImagesTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension ImagesTableViewCell: ViewAdding {
     func addViews() {

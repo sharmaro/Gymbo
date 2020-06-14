@@ -30,9 +30,6 @@ class TextFieldTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension TextFieldTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension TextFieldTableViewCell: ViewAdding {
     func addViews() {

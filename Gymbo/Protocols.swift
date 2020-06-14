@@ -144,17 +144,6 @@ extension ViewAdding {
     func addConstraints() {}
 }
 
-// MARK: - ReuseIdentifying
-protocol ReuseIdentifying {
-    static var reuseIdentifier: String { get }
-}
-
-extension ReuseIdentifying {
-    static var reuseIdentifier: String {
-        return String(describing: self)
-    }
-}
-
 // MARK: - DimmedViewDelegate
 protocol DimmedViewDelegate: class {
     func addView()

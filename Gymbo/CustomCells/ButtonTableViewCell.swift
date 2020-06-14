@@ -37,9 +37,6 @@ class ButtonTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension ButtonTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension ButtonTableViewCell: ViewAdding {
     func addViews() {

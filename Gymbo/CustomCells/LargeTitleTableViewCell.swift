@@ -25,9 +25,6 @@ class LargeTitleTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension LargeTitleTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension LargeTitleTableViewCell: ViewAdding {
     func addViews() {

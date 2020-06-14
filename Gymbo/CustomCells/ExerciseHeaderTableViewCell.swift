@@ -69,9 +69,6 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - ReuseIdentifying
-extension ExerciseHeaderTableViewCell: ReuseIdentifying {}
-
 // MARK: - ViewAdding
 extension ExerciseHeaderTableViewCell: ViewAdding {
     func addViews() {
