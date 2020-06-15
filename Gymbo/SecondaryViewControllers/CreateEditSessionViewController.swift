@@ -252,13 +252,11 @@ extension CreateEditSessionViewController: UITableViewDataSource {
                     self?.removeSet(indexPath: indexPath)
                 }
             }
-            DispatchQueue.main.async {
-                tableView.performBatchUpdates({ [weak self] in
-                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
-                    // Reloading section so the set indices can update
-                    self?.tableView.reloadSections([indexPath.section], with: .automatic)
-                })
-            }
+            tableView.performBatchUpdates({ [weak self] in
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                // Reloading section so the set indices can update
+                self?.tableView.reloadSections([indexPath.section], with: .automatic)
+            })
             completion(true)
         }
         deleteAction.backgroundColor = .systemRed

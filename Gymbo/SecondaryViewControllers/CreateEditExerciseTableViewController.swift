@@ -26,9 +26,8 @@ enum ExerciseState: String {
 
 // MARK: - Properties
 class CreateEditExerciseTableViewController: UITableViewController {
-    private let saveButton: CustomButton = {
+    private let actionButton: CustomButton = {
         let button = CustomButton()
-        button.title = "Save"
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
         return button
@@ -113,16 +112,17 @@ extension CreateEditExerciseTableViewController: ViewAdding {
         tableView.register(ImagesTableViewCell.self, forCellReuseIdentifier: ImagesTableViewCell.reuseIdentifier)
         tableView.register(TextViewTableViewCell.self, forCellReuseIdentifier: TextViewTableViewCell.reuseIdentifier)
 
-        exerciseState == .create ? saveButton.makeUninteractable(animated: false) : saveButton.makeInteractable(animated: false)
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        exerciseState == .create ? actionButton.makeUninteractable(animated: false) : actionButton.makeInteractable(animated: false)
+        actionButton.title = exerciseState == .create ? "Create" : "Save"
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
 
         let tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.frame.width, height: Constants.tableViewFooterHeight)))
-        tableFooterView.add(subviews: [saveButton])
+        tableFooterView.add(subviews: [actionButton])
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: tableFooterView.topAnchor, constant: 5),
-            saveButton.leadingAnchor.constraint(equalTo: tableFooterView.leadingAnchor, constant: 20),
-            saveButton.trailingAnchor.constraint(equalTo: tableFooterView.trailingAnchor, constant: -20),
-            saveButton.bottomAnchor.constraint(equalTo: tableFooterView.bottomAnchor, constant: -10)
+            actionButton.topAnchor.constraint(equalTo: tableFooterView.topAnchor, constant: 5),
+            actionButton.leadingAnchor.constraint(equalTo: tableFooterView.leadingAnchor, constant: 20),
+            actionButton.trailingAnchor.constraint(equalTo: tableFooterView.trailingAnchor, constant: -20),
+            actionButton.bottomAnchor.constraint(equalTo: tableFooterView.bottomAnchor, constant: -10)
         ])
         tableView.tableFooterView = tableFooterView
     }
@@ -152,10 +152,10 @@ extension CreateEditExerciseTableViewController {
     private func updateSaveButton() {
         guard !exerciseName.isEmpty,
             muscleGroups.count > 0 else {
-                saveButton.makeUninteractable(animated: true)
+                actionButton.makeUninteractable(animated: true)
                 return
         }
-        saveButton.makeInteractable(animated: true)
+        actionButton.makeInteractable(animated: true)
     }
 
     private func setupFromExistingExerciseInfo() {
@@ -181,7 +181,7 @@ extension CreateEditExerciseTableViewController {
         setAlphaDelegate?.setAlpha(alpha: 1)
     }
 
-    @objc private func saveButtonTapped(sender: UIButton) {
+    @objc private func actionButtonTapped(sender: UIButton) {
         var groups = ""
         muscleGroups.sort()
         for (index, name) in muscleGroups.enumerated() {

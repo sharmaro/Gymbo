@@ -76,6 +76,14 @@ class ExerciseDataModel: NSObject {
 private extension ExerciseDataModel {
     struct Constants {
         static let EXERCISE_INFO_KEY = "exerciseInfoKey"
+
+        static let searchResultsKey = "searchResultsKey"
+    }
+
+    enum SearchResultsAction {
+        case create
+        case remove
+        case update
     }
 }
 
@@ -338,7 +346,7 @@ extension ExerciseDataModel {
         }
 
         searchResults.removeAll()
-        searchResults[""] = Array(exercisesInfoList.exercises).filter { (exerciseInfo) -> Bool in
+        searchResults[Constants.searchResultsKey] = Array(exercisesInfoList.exercises).filter { (exerciseInfo) -> Bool in
             (exerciseInfo.name ?? "").lowercased().contains(filter)
         }
     }
@@ -366,7 +374,7 @@ extension ExerciseDataModel {
         exercisesInfoListCache[name] = info
         exerciseInfoArray.append(info)
         exerciseInfoArray.sort()
-        exercisesInfoDictionary[name] = exerciseInfoArray
+        exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
         try? realm?.write {
             exercisesInfoList.exercises.append(info)
             exercisesInfoList.exercises.sort()
@@ -391,6 +399,9 @@ extension ExerciseDataModel {
         if currentName == newName {
             exerciseInfoArray[firstIndex] = info
             exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
+
+            updateSearchResultsWithExercise(name: newName, newExerciseInfo: info, action: .update)
+
             try? realm?.write {
                 exercisesInfoList.exercises[index] = info
                 success?()
@@ -402,6 +413,9 @@ extension ExerciseDataModel {
             exerciseInfoArray.append(info)
             exerciseInfoArray.sort()
             exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
+
+            updateSearchResultsWithExercise(name: currentName, action: .remove)
+            updateSearchResultsWithExercise(newExerciseInfo: info, action: .create)
 
             try? realm?.write {
                 exercisesInfoList.exercises.remove(at: index)
@@ -426,11 +440,37 @@ extension ExerciseDataModel {
         exercisesInfoListCache[name] = nil
         exerciseInfoArray.remove(at: firstIndex)
         exercisesInfoDictionary[firstCharacter] = exerciseInfoArray
-        if !searchResults.isEmpty {
-            searchResults[firstCharacter] = exerciseInfoArray
-        }
+
+        updateSearchResultsWithExercise(name: name, action: .remove)
+
         try? realm?.write {
             exercisesInfoList.exercises.remove(at: index)
         }
+    }
+
+    private func updateSearchResultsWithExercise(name: String = "", newExerciseInfo: ExerciseInfo = ExerciseInfo(), action: SearchResultsAction) {
+        guard !searchResults.isEmpty,
+            var exerciseInfoArray = searchResults[Constants.searchResultsKey] else {
+            return
+        }
+
+        switch action {
+        case .create:
+            exerciseInfoArray.append(newExerciseInfo)
+            exerciseInfoArray.sort()
+        case .remove, .update:
+            guard let firstIndex = exerciseInfoArray.firstIndex(where: { (exerciseInfo) -> Bool in
+                exerciseInfo.name == name
+            }) else {
+                return
+            }
+
+            if action == .remove {
+                exerciseInfoArray.remove(at: firstIndex)
+            } else if action == .update {
+                exerciseInfoArray[firstIndex] = newExerciseInfo
+            }
+        }
+        searchResults[Constants.searchResultsKey] = exerciseInfoArray
     }
 }

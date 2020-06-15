@@ -38,6 +38,10 @@ extension LabelTableViewCell: ViewAdding {
         add(subviews: [detailLabel])
     }
 
+    func setupViews() {
+        selectionStyle = .none
+    }
+
     func addConstraints() {
         NSLayoutConstraint.activate([
             detailLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -52,6 +56,7 @@ extension LabelTableViewCell: ViewAdding {
 extension LabelTableViewCell {
     private func setup() {
         addViews()
+        setupViews()
         addConstraints()
     }
 
