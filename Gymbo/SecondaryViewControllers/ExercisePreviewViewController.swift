@@ -95,7 +95,8 @@ extension ExercisePreviewViewController: ViewAdding {
         tableView.tableFooterView = UIView()
         tableView.register(SwipableImageViewTableViewCell.self,
                            forCellReuseIdentifier: SwipableImageViewTableViewCell.reuseIdentifier)
-        tableView.register(LargeTitleTableViewCell.self, forCellReuseIdentifier: LargeTitleTableViewCell.reuseIdentifier)
+        tableView.register(LabelTableViewCell.self,
+                           forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
         tableView.register(LabelTableViewCell.self,
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
 
@@ -208,12 +209,12 @@ extension ExercisePreviewViewController: UITableViewDataSource {
 
         switch tableItem {
         case .imagesTitle, .instructionsTitle, .tipsTitle:
-            guard let largeTitleTableViewCell = tableView.dequeueReusableCell(withIdentifier: LargeTitleTableViewCell.reuseIdentifier, for: indexPath) as? LargeTitleTableViewCell else {
-                fatalError("Could not dequeue \(LargeTitleTableViewCell.reuseIdentifier)")
+            guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
+                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
             }
 
-            largeTitleTableViewCell.configure(title: tableItem.rawValue)
-            cell = largeTitleTableViewCell
+            labelTableViewCell.configure(text: tableItem.rawValue, font: UIFont.large.medium)
+            cell = labelTableViewCell
         case .images:
             if exerciseInfo.imagesData.isEmpty {
                 guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {

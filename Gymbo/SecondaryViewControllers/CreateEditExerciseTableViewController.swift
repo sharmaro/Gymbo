@@ -107,7 +107,7 @@ extension CreateEditExerciseTableViewController: ViewAdding {
 
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
-        tableView.register(LargeTitleTableViewCell.self, forCellReuseIdentifier: LargeTitleTableViewCell.reuseIdentifier)
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
         tableView.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.reuseIdentifier)
         tableView.register(MultipleSelectionTableViewCell.self, forCellReuseIdentifier: MultipleSelectionTableViewCell.reuseIdentifier)
         tableView.register(ImagesTableViewCell.self, forCellReuseIdentifier: ImagesTableViewCell.reuseIdentifier)
@@ -247,12 +247,12 @@ extension CreateEditExerciseTableViewController {
 
         switch tableItem {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
-            guard let largeTitleTableViewCell = tableView.dequeueReusableCell(withIdentifier: LargeTitleTableViewCell.reuseIdentifier, for: indexPath) as? LargeTitleTableViewCell else {
-                fatalError("Could not dequeue \(LargeTitleTableViewCell.reuseIdentifier)")
+            guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
+                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
             }
 
-            largeTitleTableViewCell.configure(title: tableItem.rawValue)
-            cell = largeTitleTableViewCell
+            labelTableViewCell.configure(text: tableItem.rawValue, font: UIFont.large.medium)
+            cell = labelTableViewCell
         case .name:
             guard let textFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier, for: indexPath) as? TextFieldTableViewCell else {
                 fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")

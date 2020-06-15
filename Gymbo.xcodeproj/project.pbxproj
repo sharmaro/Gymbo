@@ -39,8 +39,6 @@
 		6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */; };
 		6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */; };
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
-		69693CDF247CFA3A00E87133 /* LargeTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CDE247CFA3A00E87133 /* LargeTitleLabel.swift */; };
-		69693CE3247D002800E87133 /* LargeTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE2247D002800E87133 /* LargeTitleTableViewCell.swift */; };
 		69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */; };
 		69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE8247D07CE00E87133 /* SelectionCollectionViewCell.swift */; };
 		69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */; };
@@ -100,8 +98,6 @@
 		6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewController.swift; sourceTree = "<group>"; };
 		6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExercisesHeaderFooterView.swift; path = Gymbo/CustomViews/ExercisesHeaderFooterView.swift; sourceTree = SOURCE_ROOT; };
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		69693CDE247CFA3A00E87133 /* LargeTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleLabel.swift; sourceTree = "<group>"; };
-		69693CE2247D002800E87133 /* LargeTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleTableViewCell.swift; sourceTree = "<group>"; };
 		69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTableViewCell.swift; sourceTree = "<group>"; };
 		69693CE8247D07CE00E87133 /* SelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionTableViewCell.swift; sourceTree = "<group>"; };
@@ -151,7 +147,6 @@
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
 				6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */,
-				69693CDE247CFA3A00E87133 /* LargeTitleLabel.swift */,
 				6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */,
 				69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */,
 			);
@@ -181,7 +176,6 @@
 				69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */,
 				69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */,
 				69693CEC247DF30300E87133 /* LabelTableViewCell.swift */,
-				69693CE2247D002800E87133 /* LargeTitleTableViewCell.swift */,
 				69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */,
 				69693CE8247D07CE00E87133 /* SelectionCollectionViewCell.swift */,
 				691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */,
@@ -424,7 +418,6 @@
 				695D4C0122D30B1D00E3FB1F /* MainTabBarController.swift in Sources */,
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,
-				69693CDF247CFA3A00E87133 /* LargeTitleLabel.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
 				69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
@@ -458,7 +451,6 @@
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,
 				69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */,
 				69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */,
-				69693CE3247D002800E87133 /* LargeTitleTableViewCell.swift in Sources */,
 				6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */,
 				695D4C0522D4508C00E3FB1F /* SessionDataModel.swift in Sources */,
 			);

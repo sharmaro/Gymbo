@@ -32,8 +32,9 @@ extension LabelTableViewCell: ViewAdding {
     }
 
     func setupViews() {
-        detailLabel.font = .normal
         detailLabel.numberOfLines = 0
+        detailLabel.minimumScaleFactor = 0.1
+        detailLabel.adjustsFontSizeToFitWidth = true
         detailLabel.sizeToFit()
     }
 
@@ -55,7 +56,8 @@ extension LabelTableViewCell {
         addConstraints()
     }
 
-    func configure(text: String) {
+    func configure(text: String, font: UIFont = .normal) {
         detailLabel.text = text
+        detailLabel.font = font
     }
 }
