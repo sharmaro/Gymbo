@@ -17,7 +17,6 @@ class TextViewTableViewCell: UITableViewCell {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .normal
-        textView.returnKeyType = .done
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.black.cgColor
         textView.isScrollEnabled = false

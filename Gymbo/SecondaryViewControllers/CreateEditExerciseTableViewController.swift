@@ -309,14 +309,6 @@ extension CreateEditExerciseTableViewController {
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension CreateEditExerciseTableViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return false
-    }
-}
-
 // MARK: - TextViewTableViewCellDelegate
 extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
     func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {
@@ -336,6 +328,11 @@ extension CreateEditExerciseTableViewController: TextFieldTableViewCellDelegate 
         exerciseName = textField.text ?? ""
         updateSaveButton()
     }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 // MARK: - MultipleSelectionTableViewCellDelegate
@@ -349,6 +346,8 @@ extension CreateEditExerciseTableViewController: MultipleSelectionTableViewCellD
 // MARK: - ImagesTableViewCellDelegate
 extension CreateEditExerciseTableViewController: ImagesTableViewCellDelegate {
     func buttonTapped(cell: ImagesTableViewCell, index: Int, function: ButtonFunction) {
+        view.endEditing(true)
+
         imagesTableViewCell = cell
         imagesTableViewCellSelectedIndex = index
 

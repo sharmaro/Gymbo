@@ -9,6 +9,13 @@ import UIKit
 
 protocol TextFieldTableViewCellDelegate: class {
     func textFieldEditingChanged(textField: UITextField)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+}
+
+extension TextFieldTableViewCellDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
+    }
 }
 
 // MARK: - Properties
@@ -17,7 +24,6 @@ class TextFieldTableViewCell: UITableViewCell {
         let textField = UITextField()
         textField.font = .normal
         textField.autocapitalizationType = .words
-        textField.returnKeyType = .done
         textField.borderStyle = .none
         return textField
     }()
@@ -46,6 +52,7 @@ extension TextFieldTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
+        textField.delegate = self
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
 
@@ -71,10 +78,18 @@ extension TextFieldTableViewCell {
         textFieldTableViewCellDelegate?.textFieldEditingChanged(textField: textField)
     }
 
-    func configure(text: String, placeHolder: String) {
+    func configure(text: String, placeHolder: String, returnKeyType: UIReturnKeyType = .done) {
         if !text.isEmpty {
             textField.text = text
         }
         textField.placeholder = placeHolder
+        textField.returnKeyType = returnKeyType
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension TextFieldTableViewCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textFieldTableViewCellDelegate?.textFieldShouldReturn(textField) ?? true
     }
 }
