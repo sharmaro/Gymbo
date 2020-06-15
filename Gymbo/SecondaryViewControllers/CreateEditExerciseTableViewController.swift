@@ -10,13 +10,13 @@ import UIKit
 import RealmSwift
 
 protocol CreateEditExerciseDelegate: class {
-    func createExerciseInfo(_ info: ExerciseInfo, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func updateExerciseInfo(_ currentName: String, info: ExerciseInfo, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
 }
 
 extension CreateEditExerciseDelegate {
-    func createExerciseInfo(_ info: ExerciseInfo, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func updateExerciseInfo(_ currentName: String, info: ExerciseInfo, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
 }
 
 enum ExerciseState: String {
@@ -41,14 +41,14 @@ class CreateEditExerciseTableViewController: UITableViewController {
 
     // Data stored from cell inputs
     private var exerciseName = ""
-    private var muscleGroups = [String]()
+    private var groups = [String]()
     private var imagesTableViewCell: ImagesTableViewCell?
     private var imagesTableViewCellSelectedIndex: Int?
     private var images = [UIImage]()
     private var instructions = ""
     private var tips = ""
 
-    var exerciseInfo = ExerciseInfo()
+    var exercise = Exercise()
     var exerciseState = ExerciseState.create
 
     weak var createEditExerciseDelegate: CreateEditExerciseDelegate?
@@ -151,7 +151,7 @@ extension CreateEditExerciseTableViewController {
 extension CreateEditExerciseTableViewController {
     private func updateSaveButton() {
         guard !exerciseName.isEmpty,
-            muscleGroups.count > 0 else {
+            !groups.isEmpty else {
                 actionButton.makeUninteractable(animated: true)
                 return
         }
@@ -159,11 +159,11 @@ extension CreateEditExerciseTableViewController {
     }
 
     private func setupFromExistingExerciseInfo() {
-        exerciseName = exerciseInfo.name ?? ""
-        muscleGroups = Util.getStringArraySeparated(by: ",", text: exerciseInfo.muscles)
-        images = getUIImageFromData(list: exerciseInfo.imagesData)
-        instructions = exerciseInfo.instructions ?? ""
-        tips = exerciseInfo.tips ?? ""
+        exerciseName = exercise.name ?? ""
+        groups = Util.getStringArraySeparated(by: ",", text: exercise.groups)
+        images = getUIImageFromData(list: exercise.imagesData)
+        instructions = exercise.instructions ?? ""
+        tips = exercise.tips ?? ""
     }
 
     private func getUIImageFromData(list: List<Data>) -> [UIImage] {
@@ -183,10 +183,10 @@ extension CreateEditExerciseTableViewController {
 
     @objc private func actionButtonTapped(sender: UIButton) {
         var groups = ""
-        muscleGroups.sort()
-        for (index, name) in muscleGroups.enumerated() {
+        self.groups.sort()
+        for (index, name) in self.groups.enumerated() {
             let groupName = name.lowercased()
-            if index < muscleGroups.count - 1 {
+            if index < self.groups.count - 1 {
                 groups += "\(groupName), "
             } else {
                 groups += "\(groupName)"
@@ -217,16 +217,16 @@ extension CreateEditExerciseTableViewController {
             }
         }
 
-        let exerciseInfo = ExerciseInfo(name: exerciseName, muscles: groups, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData, isUserMade: true)
+        let exercise = Exercise(name: exerciseName, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData, isUserMade: true)
         switch exerciseState {
         case .create:
-            createEditExerciseDelegate?.createExerciseInfo(exerciseInfo, success: { [weak self] in
+            createEditExerciseDelegate?.createExercise(exercise, success: { [weak self] in
                 self?.dismiss(animated: true)
                 }, fail: { [weak self] in
                     self?.presentCustomAlert(title: "Oops!", content: "Can't create exercise \(self?.exerciseName ?? "") because it already exists!", usesBothButtons: false, rightButtonTitle: "Sounds good.")
             })
         case .edit:
-            createEditExerciseDelegate?.updateExerciseInfo(self.exerciseInfo.name ?? "", info: exerciseInfo, success: { [weak self] in
+            createEditExerciseDelegate?.updateExercise(self.exercise.name ?? "", exercise: exercise, success: { [weak self] in
                 self?.dismiss(animated: true)
             }, fail: { [weak self] in
                 self?.presentCustomAlert(title: "Oops!", content: "Couldn't edit exercise \(self?.exerciseName ?? "")", usesBothButtons: false, rightButtonTitle: "Sounds good.")
@@ -258,7 +258,7 @@ extension CreateEditExerciseTableViewController {
                 fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
             }
 
-            textFieldTableViewCell.configure(text: exerciseInfo.name ?? "", placeHolder: "Exercise name...")
+            textFieldTableViewCell.configure(text: exercise.name ?? "", placeHolder: "Exercise name...")
             textFieldTableViewCell.textFieldTableViewCellDelegate = self
             cell = textFieldTableViewCell
         case .muscleGroups:
@@ -266,7 +266,7 @@ extension CreateEditExerciseTableViewController {
                 fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
             }
 
-            let selectedTitlesArray = Util.getStringArraySeparated(by: ",", text: exerciseInfo.muscles).map {
+            let selectedTitlesArray = Util.getStringArraySeparated(by: ",", text: exercise.groups).map {
                 $0.capitalized
             }
             multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups(), selectedTitles: selectedTitlesArray)
@@ -277,7 +277,7 @@ extension CreateEditExerciseTableViewController {
                 fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
             }
 
-            let existingImages = getUIImageFromData(list: exerciseInfo.imagesData)
+            let existingImages = getUIImageFromData(list: exercise.imagesData)
             let defaultImage = UIImage(named: "add")
             imagesTableViewCell.configure(existingImages: existingImages, defaultImage: defaultImage, type: .button)
             imagesTableViewCell.imagesTableViewCellDelegate = self
@@ -287,7 +287,7 @@ extension CreateEditExerciseTableViewController {
                 fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
             }
 
-            let text = tableItem == .instructions ? exerciseInfo.instructions : exerciseInfo.tips
+            let text = tableItem == .instructions ? exercise.instructions : exercise.tips
             textViewTableViewCell.configure(text: text)
             textViewTableViewCell.textViewTableViewCellDelegate = self
             cell = textViewTableViewCell
@@ -341,7 +341,7 @@ extension CreateEditExerciseTableViewController: TextFieldTableViewCellDelegate 
 // MARK: - MultipleSelectionTableViewCellDelegate
 extension CreateEditExerciseTableViewController: MultipleSelectionTableViewCellDelegate {
     func selected(items: [String]) {
-        muscleGroups = items
+        groups = items
         updateSaveButton()
     }
 }

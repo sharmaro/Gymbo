@@ -38,7 +38,8 @@ enum SessionDetailType {
 
 struct Util {
     static func formattedString(stringToFormat string: String?, type: SessionDetailType) -> String {
-        guard let string = string, string.count > 0 else {
+        guard let string = string,
+            !string.isEmpty else {
             return "--"
         }
 

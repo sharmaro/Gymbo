@@ -139,16 +139,16 @@ extension ImagesTableViewCell {
         }
         horizontalScrollView.layoutIfNeeded()
 
-        guard existingImages.count > 0 else {
+        guard !existingImages.isEmpty else {
             return
         }
 
         let endIndex = min(count, existingImages.count)
         for i in 0..<endIndex {
             let image = existingImages[i]
-            if buttons.count > 0 {
+            if !buttons.isEmpty {
                 buttons[i].setImage(image, for: .normal)
-            } else if imageViews.count > 0 {
+            } else if !imageViews.isEmpty {
                 imageViews[i].image = image
             }
         }

@@ -166,7 +166,7 @@ extension CreateEditSessionViewController {
 
         let exercisesViewController = ExercisesViewController()
         exercisesViewController.presentationStyle = .modal
-        exercisesViewController.exerciseListDelegate = self
+        exercisesViewController.exercisesDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
         modalNavigationController.modalPresentationStyle = .custom
@@ -373,11 +373,11 @@ extension CreateEditSessionViewController: ButtonTableViewCellDelegate {
     }
 }
 
-// MARK: - ExerciseListDelegate
-extension CreateEditSessionViewController: ExerciseListDelegate {
-    func updateExerciseList(_ exerciseTextList: [ExerciseInfo]) {
-        for exerciseText in exerciseTextList {
-            let newExercise = Exercise(name: exerciseText.name, muscleGroups: exerciseText.muscles, sets: 1, exerciseDetails: List<ExerciseDetails>())
+// MARK: - ExercisesDelegate
+extension CreateEditSessionViewController: ExercisesDelegate {
+    func updateExercises(_ exercises: [Exercise]) {
+        exercises.forEach {
+            let newExercise = $0
             if sessionState == .create {
                 session.exercises.append(newExercise)
             } else {

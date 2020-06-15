@@ -12,8 +12,8 @@ protocol SetAlphaDelegate: class {
     func setAlpha(alpha: CGFloat)
 }
 
-protocol ExerciseListDelegate: class {
-    func updateExerciseList(_ exerciseTextList: [ExerciseInfo])
+protocol ExercisesDelegate: class {
+    func updateExercises(_ exercises: [Exercise])
 }
 
 enum PresentationStyle {
@@ -52,7 +52,7 @@ class ExercisesViewController: UIViewController {
 
     var presentationStyle = PresentationStyle.normal
 
-    weak var exerciseListDelegate: ExerciseListDelegate?
+    weak var exercisesDelegate: ExercisesDelegate?
 }
 
 // MARK: - Structs/Enums
@@ -166,16 +166,16 @@ extension ExercisesViewController {
 extension ExercisesViewController {
     private func saveExerciseInfo() {
         // Get exercise info from the selected exercises
-        guard selectedExerciseNamesAndIndices.count > 0 else {
+        guard !selectedExerciseNamesAndIndices.isEmpty else {
             return
         }
 
-        var selectedExercises = [ExerciseInfo]()
+        var selectedExercises = [Exercise]()
         for exerciseName in selectedExerciseNames {
-            let exerciseInfo = exerciseDataModel.exerciseInfo(for: exerciseName)
-            selectedExercises.append(exerciseInfo)
+            let exercise = exerciseDataModel.exercise(for: exerciseName)
+            selectedExercises.append(exercise)
         }
-        exerciseListDelegate?.updateExerciseList(selectedExercises)
+        exercisesDelegate?.updateExercises(selectedExercises)
     }
 
     private func updateAddButtonTitle() {
@@ -183,12 +183,12 @@ extension ExercisesViewController {
         let isEnabled: Bool
 
 
-        if selectedExerciseNames.count > 0 {
-            title = "Add (\(selectedExerciseNames.count))"
-            isEnabled = true
-        } else {
+        if selectedExerciseNames.isEmpty {
             title = "Add"
             isEnabled = false
+        } else {
+            title = "Add (\(selectedExerciseNames.count))"
+            isEnabled = true
         }
         isEnabled ? addExerciseButton.makeInteractable() : addExerciseButton.makeUninteractable()
         addExerciseButton.title = title
@@ -244,19 +244,19 @@ extension ExercisesViewController: UITableViewDataSource {
             fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
 
-        let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath)
-        cell.configure(dataModel: exerciseInfo)
+        let exercise = exerciseDataModel.exercise(for: indexPath)
+        cell.configure(dataModel: exercise)
 
         if presentationStyle == .modal {
-            handleCellSelection(cell: cell, model: exerciseInfo, indexPath: indexPath)
+            handleCellSelection(cell: cell, model: exercise, indexPath: indexPath)
         }
         return cell
     }
 
-    private func handleCellSelection(cell: UITableViewCell, model: ExerciseInfo, indexPath: IndexPath) {
+    private func handleCellSelection(cell: UITableViewCell, model: Exercise, indexPath: IndexPath) {
         if let exerciseCell = cell as? ExerciseTableViewCell {
             if let exerciseName = model.name,
-                selectedExerciseNamesAndIndices.count > 0, selectedExerciseNamesAndIndices[exerciseName] != nil {
+                !selectedExerciseNamesAndIndices.isEmpty, selectedExerciseNamesAndIndices[exerciseName] != nil {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 exerciseCell.didSelect = true
             } else {
@@ -270,7 +270,7 @@ extension ExercisesViewController: UITableViewDataSource {
             return false
         }
 
-        let exerciseTableViewCellModel = exerciseDataModel.exerciseInfo(for: indexPath)
+        let exerciseTableViewCellModel = exerciseDataModel.exercise(for: indexPath)
         return exerciseTableViewCellModel.isUserMade
     }
 
@@ -328,8 +328,8 @@ extension ExercisesViewController: UITableViewDelegate {
         case .normal:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let exerciseInfo = exerciseDataModel.exerciseInfo(for: indexPath)
-            let exercisePreviewViewController = ExercisePreviewViewController(exerciseInfo: exerciseInfo)
+            let exercise = exerciseDataModel.exercise(for: indexPath)
+            let exercisePreviewViewController = ExercisePreviewViewController(exercise: exercise)
             exercisePreviewViewController.dimmedViewDelegate = self
             exercisePreviewViewController.modalPresentationStyle = .overCurrentContext
             exercisePreviewViewController.modalTransitionStyle = .crossDissolve
@@ -375,7 +375,7 @@ extension ExercisesViewController: UISearchResultsUpdating {
         let searchBar = searchController.searchBar
 
         guard let filter = searchBar.text?.lowercased(),
-            filter.count > 0 else {
+            !filter.isEmpty else {
                 exerciseDataModel.removeSearchedResults()
                 tableView.reloadData()
                 return
@@ -388,8 +388,8 @@ extension ExercisesViewController: UISearchResultsUpdating {
 
 // MARK: - CreateExerciseDelegate
 extension ExercisesViewController: CreateEditExerciseDelegate {
-    func createExerciseInfo(_ info: ExerciseInfo, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
-        exerciseDataModel.createExerciseInfo(info, success: { [weak self] in
+    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
+        exerciseDataModel.createExercise(exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
                 self?.tableView.reloadData()

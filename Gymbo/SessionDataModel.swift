@@ -9,95 +9,6 @@
 import RealmSwift
 
 // MARK: - Properties
-@objcMembers class ExerciseDetails: Object {
-    dynamic var last: String?
-    dynamic var reps: String?
-    dynamic var weight: String?
-
-    convenience init(last: String? = nil, reps: String? = nil, weight: String? = nil) {
-        self.init()
-
-        self.last = last
-        self.reps = reps
-        self.weight = weight
-    }
-}
-
-// MARK: - Properties
-@objcMembers class Exercise: Object {
-    dynamic var name: String?
-    dynamic var muscleGroups: String?
-    dynamic var sets: Int = 1
-    let exerciseDetails = List<ExerciseDetails>()
-
-    convenience init(name: String? = nil, muscleGroups: String? = nil, sets: Int = 1, exerciseDetails: List<ExerciseDetails>) {
-        self.init()
-
-        self.name = name
-        self.muscleGroups = muscleGroups
-        self.sets = sets
-
-        if exerciseDetails.isEmpty {
-            let exerciseDetails = ExerciseDetails()
-            self.exerciseDetails.append(exerciseDetails)
-        } else {
-            for exerciseDetail in exerciseDetails {
-                self.exerciseDetails.append(exerciseDetail)
-            }
-        }
-    }
-}
-
-// MARK: - Properties
-@objcMembers class Session: Object {
-    dynamic var name: String?
-    dynamic var info: String?
-    let exercises = List<Exercise>()
-
-    convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {
-        self.init()
-
-        self.name = name
-        self.info = info
-
-        for exercise in exercises {
-            self.exercises.append(exercise)
-        }
-    }
-}
-
-// MARK: - For Dragging and Dropping Cells
-
-// MARK: - NSItemProviderReading
-extension Session: NSItemProviderReading {
-    static var readableTypeIdentifiersForItemProvider: [String] {
-        return []
-    }
-
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        return self.init()
-    }
-}
-
-// MARK: - NSItemProviderWriting
-extension Session: NSItemProviderWriting {
-    static var writableTypeIdentifiersForItemProvider: [String] {
-        return []
-    }
-
-    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        return nil
-    }
-}
-
-// MARK: - Properties
-// Need to create a List object that stores a List of objects if order is important
-// Realm will not store objects in order
-@objcMembers class SessionsList: Object {
-    let sessions = List<Session>()
-}
-
-// MARK: - Properties
 class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
 
@@ -170,10 +81,10 @@ extension SessionDataModel {
         var exercisesToRemove = [String]()
 
         if let exercises = sessionsList?.sessions[index].exercises,
-            exercises.count > 0 {
+            !exercises.isEmpty {
             sessionInfoText = ""
             for i in 0 ..< exercises.count {
-                if ExerciseDataModel.shared.doesExerciseExist(exerciseName: exercises[i].name ?? "") {
+                if ExerciseDataModel.shared.doesExerciseExist(name: exercises[i].name ?? "") {
                     var sessionString = ""
                     let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
                     sessionString = "\(name)"

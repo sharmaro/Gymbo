@@ -70,21 +70,21 @@ class ExercisePreviewViewController: UIViewController {
         return button
     }()
 
-    private var exerciseInfo: ExerciseInfo
+    private var exercise: Exercise
 
     private let tableData: [TableRow] = [.imagesTitle, .images, .instructionsTitle,
                                          .instructions, .tipsTitle, .tips]
 
     weak var dimmedViewDelegate: DimmedViewDelegate?
 
-    init(exerciseInfo: ExerciseInfo) {
-        self.exerciseInfo = exerciseInfo
+    init(exercise: Exercise) {
+        self.exercise = exercise
 
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
-        self.exerciseInfo = ExerciseInfo()
+        self.exercise = Exercise()
 
         super.init(coder: coder)
     }
@@ -116,7 +116,7 @@ extension ExercisePreviewViewController: ViewAdding {
     func addViews() {
         view.add(subviews: [containerView])
         containerView.add(subviews: [closeButton, titleLabel, subTitleLabel, tableView])
-        if exerciseInfo.isUserMade {
+        if exercise.isUserMade {
             containerView.add(subviews: [editButton])
         } else {
             containerView.add(subviews: [editDisclaimerLabel])
@@ -126,8 +126,8 @@ extension ExercisePreviewViewController: ViewAdding {
     func setupViews() {
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
 
-        titleLabel.text = exerciseInfo.name
-        subTitleLabel.text = exerciseInfo.muscles
+        titleLabel.text = exercise.name
+        subTitleLabel.text = exercise.groups
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -171,7 +171,7 @@ extension ExercisePreviewViewController: ViewAdding {
             subTitleLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -10)
         ])
 
-        let viewToUse = exerciseInfo.isUserMade ? editButton : editDisclaimerLabel
+        let viewToUse = exercise.isUserMade ? editButton : editDisclaimerLabel
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -202,8 +202,8 @@ extension ExercisePreviewViewController {
 // MARK: - Funcs
 extension ExercisePreviewViewController {
     private func refreshTitleLabels() {
-        titleLabel.text = exerciseInfo.name
-        subTitleLabel.text = exerciseInfo.muscles
+        titleLabel.text = exercise.name
+        subTitleLabel.text = exercise.groups
     }
 
     @objc private func closeButtonTapped(sender: Any) {
@@ -213,7 +213,7 @@ extension ExercisePreviewViewController {
 
     @objc private func editButtonTapped(sender: Any) {
         let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
-        createEditExerciseTableViewController.exerciseInfo = exerciseInfo
+        createEditExerciseTableViewController.exercise = exercise
         createEditExerciseTableViewController.exerciseState = .edit
         createEditExerciseTableViewController.createEditExerciseDelegate = self
 
@@ -244,7 +244,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
             labelTableViewCell.configure(text: tableItem.rawValue, font: UIFont.large.medium)
             cell = labelTableViewCell
         case .images:
-            if exerciseInfo.imagesData.isEmpty {
+            if exercise.imagesData.isEmpty {
                 guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
                     fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
                 }
@@ -256,7 +256,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
                     fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
                 }
 
-                let imagesDataArray = Array(exerciseInfo.imagesData)
+                let imagesDataArray = Array(exercise.imagesData)
                 swipableImageViewCell.configure(imagesData: imagesDataArray)
                 cell = swipableImageViewCell
             }
@@ -265,7 +265,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
                 fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
             }
 
-            let text = tableItem == .instructions ? exerciseInfo.instructions : exerciseInfo.tips
+            let text = tableItem == .instructions ? exercise.instructions : exercise.tips
             let emptyText = tableItem == .instructions ? Constants.noInstructionsText : Constants.noTipsText
             labelTableViewCell.configure(text: text ?? emptyText)
             cell = labelTableViewCell
@@ -280,7 +280,7 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exerciseInfo.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
+            return exercise.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension
         }
@@ -289,7 +289,7 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exerciseInfo.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
+            return exercise.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension
         }
@@ -298,11 +298,11 @@ extension ExercisePreviewViewController: UITableViewDelegate {
 
 // MARK: - CreateEditExerciseDelegate
 extension ExercisePreviewViewController: CreateEditExerciseDelegate {
-    func updateExerciseInfo(_ currentName: String, info: ExerciseInfo, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
-        ExerciseDataModel.shared.updateExerciseInfo(currentName, info: info, success: { [weak self] in
+    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+        ExerciseDataModel.shared.updateExercise(currentName, exercise: exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
-                self?.exerciseInfo = info
+                self?.exercise = exercise
                 self?.refreshTitleLabels()
                 self?.tableView.reloadData()
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)

@@ -19,6 +19,11 @@
 		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionViewController.swift */; };
+		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
+		695070952497525E00942078 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070942497525E00942078 /* SessionsList.swift */; };
+		695070972497528200942078 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070962497528200942078 /* Exercise.swift */; };
+		69507099249752A300942078 /* ExercisesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69507098249752A300942078 /* ExercisesList.swift */; };
+		6950709B249752B900942078 /* ExerciseDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6950709A249752B900942078 /* ExerciseDetails.swift */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
 		695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE922CB28B800E3FB1F /* Assets.xcassets */; };
@@ -31,7 +36,7 @@
 		6962946A235D594000E681C7 /* Back.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629462235D593F00E681C7 /* Back.txt */; };
 		6962946B235D594000E681C7 /* Arms.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629463235D593F00E681C7 /* Arms.txt */; };
 		6962946C235D594000E681C7 /* Shoulders.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629464235D593F00E681C7 /* Shoulders.txt */; };
-		6962946D235D594000E681C7 /* Extra Exercises.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629465235D593F00E681C7 /* Extra Exercises.txt */; };
+		6962946D235D594000E681C7 /* Other.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629465235D593F00E681C7 /* Other.txt */; };
 		6962946E235D594000E681C7 /* Legs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629466235D593F00E681C7 /* Legs.txt */; };
 		6962946F235D594000E681C7 /* Chest.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629467235D593F00E681C7 /* Chest.txt */; };
 		69629470235D594000E681C7 /* Glutes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 69629468235D594000E681C7 /* Glutes.txt */; };
@@ -75,6 +80,11 @@
 		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionViewController.swift; sourceTree = "<group>"; };
+		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		695070942497525E00942078 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
+		695070962497528200942078 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		69507098249752A300942078 /* ExercisesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesList.swift; sourceTree = "<group>"; };
+		6950709A249752B900942078 /* ExerciseDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetails.swift; sourceTree = "<group>"; };
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,7 +99,7 @@
 		69629462235D593F00E681C7 /* Back.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Back.txt; sourceTree = "<group>"; };
 		69629463235D593F00E681C7 /* Arms.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Arms.txt; sourceTree = "<group>"; };
 		69629464235D593F00E681C7 /* Shoulders.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Shoulders.txt; sourceTree = "<group>"; };
-		69629465235D593F00E681C7 /* Extra Exercises.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Extra Exercises.txt"; sourceTree = "<group>"; };
+		69629465235D593F00E681C7 /* Other.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Other.txt; sourceTree = "<group>"; };
 		69629466235D593F00E681C7 /* Legs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Legs.txt; sourceTree = "<group>"; };
 		69629467235D593F00E681C7 /* Chest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chest.txt; sourceTree = "<group>"; };
 		69629468235D594000E681C7 /* Glutes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Glutes.txt; sourceTree = "<group>"; };
@@ -184,6 +194,18 @@
 			path = CustomCells;
 			sourceTree = "<group>";
 		};
+		69507091249751FD00942078 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				695070962497528200942078 /* Exercise.swift */,
+				6950709A249752B900942078 /* ExerciseDetails.swift */,
+				69507098249752A300942078 /* ExercisesList.swift */,
+				695070922497522400942078 /* Session.swift */,
+				695070942497525E00942078 /* SessionsList.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		695D4BD622CB28B800E3FB1F = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +234,7 @@
 				692D981F22FE9E640032514D /* CustomCells */,
 				69659C0624039C460054F655 /* CustomViewControllers */,
 				6901E4752387B4C20051D1B2 /* CustomViews */,
+				69507091249751FD00942078 /* Models */,
 				696A751F2361630300FA605F /* DataModels */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
 				6962945F235D58D400E681C7 /* WorkoutTextFiles */,
@@ -255,8 +278,8 @@
 				69629468235D594000E681C7 /* Glutes.txt */,
 				69629469235D594000E681C7 /* Hips.txt */,
 				69629466235D593F00E681C7 /* Legs.txt */,
+				69629465235D593F00E681C7 /* Other.txt */,
 				69629464235D593F00E681C7 /* Shoulders.txt */,
-				69629465235D593F00E681C7 /* Extra Exercises.txt */,
 			);
 			name = WorkoutTextFiles;
 			sourceTree = "<group>";
@@ -358,7 +381,7 @@
 				6962946F235D594000E681C7 /* Chest.txt in Resources */,
 				6962946C235D594000E681C7 /* Shoulders.txt in Resources */,
 				6962946A235D594000E681C7 /* Back.txt in Resources */,
-				6962946D235D594000E681C7 /* Extra Exercises.txt in Resources */,
+				6962946D235D594000E681C7 /* Other.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +442,7 @@
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
 				69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
+				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				69C1BCC9245F67E000D23556 /* SwipableImageViewTableViewCell.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
@@ -431,6 +455,8 @@
 				69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */,
 				6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */,
 				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
+				695070932497522400942078 /* Session.swift in Sources */,
+				69507099249752A300942078 /* ExercisesList.swift in Sources */,
 				69488E1D236F82D000C3A04C /* CreateEditSessionViewController.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
 				69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */,
@@ -440,8 +466,10 @@
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTableViewCell.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
+				695070972497528200942078 /* Exercise.swift in Sources */,
 				6942B212232B621600FCEECE /* Util.swift in Sources */,
 				69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */,
+				695070952497525E00942078 /* SessionsList.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Colors.swift in Sources */,
 				6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,

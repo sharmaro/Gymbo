@@ -24,7 +24,7 @@ class ExerciseTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let musclesLabel: UILabel = {
+    private let groupsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .darkGray
         label.font = UIFont.small.light
@@ -63,11 +63,11 @@ class ExerciseTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension ExerciseTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [muscleImageView, nameLabel, musclesLabel])
+        add(subviews: [muscleImageView, nameLabel, groupsLabel])
     }
 
     func setupViews() {
-        [nameLabel, musclesLabel].forEach {
+        [nameLabel, groupsLabel].forEach {
             $0.numberOfLines = 1
             $0.minimumScaleFactor = 0.5
             $0.adjustsFontSizeToFitWidth = true
@@ -79,7 +79,7 @@ extension ExerciseTableViewCell: ViewAdding {
             muscleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             muscleImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -5),
-            muscleImageView.trailingAnchor.constraint(equalTo: musclesLabel.leadingAnchor, constant: -5),
+            muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -5),
             muscleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor)
         ])
@@ -87,12 +87,12 @@ extension ExerciseTableViewCell: ViewAdding {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            nameLabel.bottomAnchor.constraint(equalTo: musclesLabel.topAnchor)
+            nameLabel.bottomAnchor.constraint(equalTo: groupsLabel.topAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            musclesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            musclesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            groupsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            groupsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }
@@ -105,9 +105,9 @@ extension ExerciseTableViewCell {
         addConstraints()
     }
 
-    func configure(dataModel: ExerciseInfo) {
+    func configure(dataModel: Exercise) {
         nameLabel.text = dataModel.name
-        musclesLabel.text = dataModel.muscles
+        groupsLabel.text = dataModel.groups
 
         let imagesData = dataModel.imagesData
         if let firstImageData = imagesData.first,

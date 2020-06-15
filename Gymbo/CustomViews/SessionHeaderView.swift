@@ -45,7 +45,7 @@ class SessionHeaderView: UIView {
     }
 
     var shouldSaveName: Bool {
-        return nameTextView.textColor != Constants.dimmedBlack && nameTextView.text.count > 0
+        return nameTextView.textColor != Constants.dimmedBlack && !nameTextView.text.isEmpty
     }
 
     var isContentEditable = true {
