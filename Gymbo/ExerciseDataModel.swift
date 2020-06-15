@@ -33,15 +33,13 @@ class ExerciseDataModel: NSObject {
     override init() {
         super.init()
 
-        setupExerciseInfoList()
+        setupExerciseList()
     }
 }
 
 // MARK: - Structs/Enums
 private extension ExerciseDataModel {
     struct Constants {
-        static let EXERCISE_INFO_KEY = "exerciseInfoKey"
-
         static let searchResultsKey = "searchResultsKey"
     }
 
@@ -56,7 +54,7 @@ private extension ExerciseDataModel {
 extension ExerciseDataModel {
     // MARK: - Helper
 
-    private func setupExerciseInfoList() {
+    private func setupExerciseList() {
         if let exercisesList = realm?.objects(ExercisesList.self).first {
             self.exercisesList = exercisesList
             setupExercisesDictionary(exercisesList: exercisesList)
@@ -110,7 +108,7 @@ extension ExerciseDataModel {
 
     private func createExerciseFromStorage(name: String, groups: String) -> Exercise {
         let lowercased = name.lowercased().replacingOccurrences(of: "/", with: "_")
-        let exerciseInfoFolderPathString = "Workout Info/\(lowercased)"
+        let exerciseFolderPathString = "Workout Info/\(lowercased)"
 
         // Getting path of resources for app
         guard let resourcePath = Bundle.main.resourcePath else {
@@ -118,8 +116,8 @@ extension ExerciseDataModel {
         }
 
         // Creating exercise name folder path
-        let exerciseInfoFolderPath = URL(fileURLWithPath: resourcePath).appendingPathComponent(exerciseInfoFolderPathString).path
-        guard let contents = try? FileManager().contentsOfDirectory(atPath: exerciseInfoFolderPath) else {
+        let exerciseFolderPath = URL(fileURLWithPath: resourcePath).appendingPathComponent(exerciseFolderPathString).path
+        guard let contents = try? FileManager().contentsOfDirectory(atPath: exerciseFolderPath) else {
             fatalError("Couldn't get contents for exercise: \(name)")
         }
 
@@ -131,7 +129,7 @@ extension ExerciseDataModel {
             if content.contains(".txt") {
                 // Creating a file path for each file name in the exercise name folder
                 // ex: /ab roller crunch/ab roller crunch_0.png
-                let contentFilePath = URL(fileURLWithPath: exerciseInfoFolderPath).appendingPathComponent(content).path
+                let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(content).path
 
                 // Getting the data from that file
                 guard let data = FileManager().contents(atPath: contentFilePath) else{
@@ -170,7 +168,7 @@ extension ExerciseDataModel {
         // Getting image data and appending it to imagesData array
         // Can't store data as [UIImage] because [UIImage] doesn't conform to Codable
         for imageName in imageFileNames {
-            let contentFilePath = URL(fileURLWithPath: exerciseInfoFolderPath).appendingPathComponent(imageName).path
+            let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(imageName).path
 
             guard let data = FileManager().contents(atPath: contentFilePath) else{
                 fatalError("Couldn't get image data for exercise: \(name)")
@@ -253,11 +251,11 @@ extension ExerciseDataModel {
         return exercisesCache[name] != nil
     }
 
-    func exercise(for exercise: String) -> Exercise {
-        guard let exerciseInfo = exercisesCache[exercise] else {
-            fatalError("\(exercise) does not exist")
+    func exercise(for name: String) -> Exercise {
+        guard let exercise = exercisesCache[name] else {
+            fatalError("\(name) does not exist")
         }
-        return exerciseInfo
+        return exercise
     }
 
     func exercise(for indexPath: IndexPath) -> Exercise {
@@ -276,8 +274,8 @@ extension ExerciseDataModel {
         var exerciseArray = [Exercise]()
         session.exercises.forEach {
             if let exerciseName = $0.name,
-                let exerciseInfo = exercisesCache[exerciseName] {
-                exerciseArray.append(exerciseInfo)
+                let exercise = exercisesCache[exerciseName] {
+                exerciseArray.append(exercise)
             }
         }
         return exerciseArray
@@ -305,14 +303,14 @@ extension ExerciseDataModel {
         }
 
         searchResults.removeAll()
-        searchResults[Constants.searchResultsKey] = Array(exercisesList.exercises).filter { (exerciseInfo) -> Bool in
-            (exerciseInfo.name ?? "").lowercased().contains(filter)
+        searchResults[Constants.searchResultsKey] = Array(exercisesList.exercises).filter { (exercise) -> Bool in
+            (exercise.name ?? "").lowercased().contains(filter)
         }
     }
 
-    func index(of exerciseName: String) -> Int? {
-        return exercisesList.exercises.firstIndex { (exerciseInfo) -> Bool in
-            exerciseInfo.name == exerciseName
+    func index(of name: String) -> Int? {
+        return exercisesList.exercises.firstIndex { (exercise) -> Bool in
+            exercise.name == name
         }
     }
 
@@ -346,8 +344,8 @@ extension ExerciseDataModel {
             let index = index(of: currentName),
             let firstCharacter = getFirstCharacter(of: currentName)?.capitalized,
             var exerciseArray = exercisesDictionary[firstCharacter],
-            let firstIndex = exerciseArray.firstIndex(where: { (exerciseInfo) -> Bool in
-                exerciseInfo.name == currentName
+            let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
+                exercise.name == currentName
             }) else {
             fail?()
             return
@@ -390,8 +388,8 @@ extension ExerciseDataModel {
             let index = index(of: name),
             let firstCharacter = getFirstCharacter(of: name)?.capitalized,
             var exerciseArray = exercisesDictionary[firstCharacter],
-            let firstIndex = exerciseArray.firstIndex(where: { (exerciseInfo) -> Bool in
-                exerciseInfo.name == name
+            let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
+                exercise.name == name
             }) else {
             return
         }
@@ -409,27 +407,27 @@ extension ExerciseDataModel {
 
     private func updateSearchResultsWithExercise(name: String = "", newExercise: Exercise = Exercise(), action: SearchResultsAction) {
         guard !searchResults.isEmpty,
-            var exerciseInfoArray = searchResults[Constants.searchResultsKey] else {
+            var exerciseArray = searchResults[Constants.searchResultsKey] else {
             return
         }
 
         switch action {
         case .create:
-            exerciseInfoArray.append(newExercise)
-            exerciseInfoArray.sort()
+            exerciseArray.append(newExercise)
+            exerciseArray.sort()
         case .remove, .update:
-            guard let firstIndex = exerciseInfoArray.firstIndex(where: { (exerciseInfo) -> Bool in
-                exerciseInfo.name == name
+            guard let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
+                exercise.name == name
             }) else {
                 return
             }
 
             if action == .remove {
-                exerciseInfoArray.remove(at: firstIndex)
+                exerciseArray.remove(at: firstIndex)
             } else if action == .update {
-                exerciseInfoArray[firstIndex] = newExercise
+                exerciseArray[firstIndex] = newExercise
             }
         }
-        searchResults[Constants.searchResultsKey] = exerciseInfoArray
+        searchResults[Constants.searchResultsKey] = exerciseArray
     }
 }

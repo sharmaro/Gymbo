@@ -39,11 +39,13 @@ class ExercisesViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         button.makeUninteractable(animated: false)
         return button
     }()
 
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
+
     private var didViewAppear = false
 
     private var selectedExerciseNamesAndIndices = [String: Int]()
@@ -58,9 +60,10 @@ class ExercisesViewController: UIViewController {
 // MARK: - Structs/Enums
 extension ExercisesViewController {
     private struct Constants {
+        static let addExerciseButtonHeight = CGFloat(45)
         static let exerciseCellHeight = CGFloat(70)
-        static let sessionStartedConstraintConstant = CGFloat(-50)
-        static let sessionEndedConstraintConstant = CGFloat(-15)
+        static let sessionStartedConstraintConstant = CGFloat(-64)
+        static let sessionEndedConstraintConstant = CGFloat(-20)
     }
 }
 
@@ -92,7 +95,10 @@ extension ExercisesViewController: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [tableView, addExerciseButton])
+        view.add(subviews: [tableView])
+        if presentationStyle == .modal {
+            view.add(subviews: [addExerciseButton])
+        }
     }
 
     func setupViews() {
@@ -105,7 +111,13 @@ extension ExercisesViewController: ViewAdding {
         tableView.register(ExerciseTableViewCell.self,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
-        addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
+        if presentationStyle == .modal {
+            addExerciseButton.isHidden = presentationStyle == .normal
+            addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
+
+            let spacing = CGFloat(15)
+            tableView.contentInset.bottom = Constants.addExerciseButtonHeight + (-1 * Constants.sessionEndedConstraintConstant) + spacing
+        }
     }
 
     func addConstraints() {
@@ -113,17 +125,20 @@ extension ExercisesViewController: ViewAdding {
             // Using top anchor instead of safe area to get smooth navigation title size change animation
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
-        addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
-        addExerciseButtonBottomConstraint?.isActive = true
-        NSLayoutConstraint.activate([
-            addExerciseButton.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-            addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
-            addExerciseButton.heightAnchor.constraint(equalToConstant: 45)
-        ])
+        if presentationStyle == .modal {
+            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+            addExerciseButtonBottomConstraint?.isActive = true
+
+            NSLayoutConstraint.activate([
+                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
+                addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.addExerciseButtonHeight)
+            ])
+        }
     }
 }
 
@@ -164,7 +179,7 @@ extension ExercisesViewController {
 
 // MARK: - Funcs
 extension ExercisesViewController {
-    private func saveExerciseInfo() {
+    private func saveExercise() {
         // Get exercise info from the selected exercises
         guard !selectedExerciseNamesAndIndices.isEmpty else {
             return
@@ -220,7 +235,7 @@ extension ExercisesViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: UIButton) {
-        saveExerciseInfo()
+        saveExercise()
         dismiss(animated: true)
     }
 
@@ -450,7 +465,8 @@ extension ExercisesViewController: SessionProgressDelegate {
 // MARK: - SessionStateConstraintsUpdating
 extension ExercisesViewController: SessionStateConstraintsUpdating {
     func renewConstraints() {
-        guard let mainTabBarController = mainTabBarController else {
+        guard presentationStyle == .modal,
+            let mainTabBarController = mainTabBarController else {
             return
         }
 

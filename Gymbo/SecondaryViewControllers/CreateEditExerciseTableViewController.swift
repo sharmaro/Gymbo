@@ -136,7 +136,7 @@ extension CreateEditExerciseTableViewController {
         setupNavigationBar()
         setupViews()
         if exerciseState == .edit {
-            setupFromExistingExerciseInfo()
+            setupFromExistingExercise()
         }
     }
 
@@ -158,7 +158,7 @@ extension CreateEditExerciseTableViewController {
         actionButton.makeInteractable(animated: true)
     }
 
-    private func setupFromExistingExerciseInfo() {
+    private func setupFromExistingExercise() {
         exerciseName = exercise.name ?? ""
         groups = Util.getStringArraySeparated(by: ",", text: exercise.groups)
         images = getUIImageFromData(list: exercise.imagesData)

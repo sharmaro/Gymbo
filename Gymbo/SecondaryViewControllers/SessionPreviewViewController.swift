@@ -25,6 +25,7 @@ class SessionPreviewViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         return button
     }()
 
@@ -42,6 +43,8 @@ private extension SessionPreviewViewController {
     struct Constants {
         static let title = "Preview"
 
+        static let startButtonHeight = CGFloat(45)
+        static let startButtonBottomSpacing = CGFloat(-20)
         static let exerciseCellHeight = CGFloat(70)
 
         static let namePlaceholderText = "Session name"
@@ -71,6 +74,9 @@ extension SessionPreviewViewController: ViewAdding {
         tableView.dataSource = self
         tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
+        let spacing = CGFloat(15)
+        tableView.contentInset.bottom = Constants.startButtonHeight + (-1 * Constants.startButtonBottomSpacing) + spacing
+
         var dataModel = SessionHeaderViewModel()
         dataModel.name = session?.name ?? Constants.namePlaceholderText
         dataModel.info = session?.info ?? Constants.infoPlaceholderText
@@ -87,7 +93,7 @@ extension SessionPreviewViewController: ViewAdding {
             tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: startSessionButton.topAnchor, constant: -15)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,8 +110,8 @@ extension SessionPreviewViewController: ViewAdding {
         NSLayoutConstraint.activate([
             startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            startSessionButton.heightAnchor.constraint(equalToConstant: 45)
+            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.startButtonBottomSpacing),
+            startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
         ])
     }
 }

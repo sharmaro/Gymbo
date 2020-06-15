@@ -41,6 +41,7 @@ class StopwatchViewController: UIViewController {
         button.title = "Lap"
         button.add(backgroundColor: .systemGray)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         button.tag = 0
         return button
     }()
@@ -50,6 +51,7 @@ class StopwatchViewController: UIViewController {
         button.title = "Start"
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         button.tag = 1
         return button
     }()
@@ -125,8 +127,9 @@ private extension StopwatchViewController {
 
         static let timeStackViewHeight = CGFloat(100)
         static let buttonsStackViewHeight = CGFloat(45)
-        static let sessionStartedConstraintConstant = CGFloat(-50)
-        static let sessionEndedConstraintConstant = CGFloat(-15)
+        static let sessionStartedConstraintConstant = CGFloat(-64)
+        static let sessionEndedConstraintConstant = CGFloat(-20)
+        static let cellSpacingToButtons = CGFloat(15)
     }
 
     // Codable is for encoding/decoding
@@ -194,6 +197,8 @@ extension StopwatchViewController: ViewAdding {
         tableView.delegate = self
         tableView.register(StopwatchTableViewCell.self, forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
 
+        tableView.contentInset.bottom = Constants.buttonsStackViewHeight + (-1 * Constants.sessionEndedConstraintConstant) + Constants.cellSpacingToButtons
+
         lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
         startAndStopButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
     }
@@ -225,7 +230,7 @@ extension StopwatchViewController: ViewAdding {
             tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor)
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
@@ -524,14 +529,13 @@ extension StopwatchViewController: SessionStateConstraintsUpdating {
             return
         }
 
-        if mainTabBarController.isSessionInProgress {
-            buttonsStackViewBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
-        } else {
-            buttonsStackViewBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
-        }
+        let constantToUse = mainTabBarController.isSessionInProgress ? Constants.sessionStartedConstraintConstant : Constants.sessionEndedConstraintConstant
+        buttonsStackViewBottomConstraint?.constant = constantToUse
 
         if didViewAppear {
             UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.tableView.contentInset.bottom = Constants.buttonsStackViewHeight + (-1 * constantToUse) + Constants.cellSpacingToButtons
+
                 self?.view.layoutIfNeeded()
             }
         }
