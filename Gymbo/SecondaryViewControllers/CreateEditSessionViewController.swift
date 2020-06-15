@@ -32,10 +32,11 @@ private extension CreateEditSessionViewController {
     struct Constants {
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
-        static let addSetButtonCellHeight = CGFloat(55)
+        static let buttonCellHeight = CGFloat(55)
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
+        static let buttonText = "+ Set"
 
         static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
     }
@@ -66,7 +67,7 @@ extension CreateEditSessionViewController: ViewAdding {
         tableView.keyboardDismissMode = .interactive
         tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
         tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(AddSetTableViewCell.self, forCellReuseIdentifier: AddSetTableViewCell.reuseIdentifier)
+        tableView.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
 
         if mainTabBarController?.isSessionInProgress ?? false {
             tableView.contentInset.bottom = minimizedHeight
@@ -198,12 +199,13 @@ extension CreateEditSessionViewController: UITableViewDataSource {
             exerciseHeaderCell.exerciseHeaderCellDelegate = self
             cell = exerciseHeaderCell
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
-            guard let addSetCell = tableView.dequeueReusableCell(withIdentifier: AddSetTableViewCell.reuseIdentifier, for: indexPath) as? AddSetTableViewCell else {
-                fatalError("Could not dequeue \(AddSetTableViewCell.reuseIdentifier)")
+            guard let buttonTableViewCell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.reuseIdentifier, for: indexPath) as? ButtonTableViewCell else {
+                fatalError("Could not dequeue \(ButtonTableViewCell.reuseIdentifier)")
             }
 
-            addSetCell.addSetTableViewCellDelegate = self
-            cell = addSetCell
+            buttonTableViewCell.configure(title: Constants.buttonText, titleColor: .white, backgroundColor: .systemGray, cornerStyle: .small)
+            buttonTableViewCell.buttonTableViewCellDelegate = self
+            cell = buttonTableViewCell
         default: // Exercise detail cell
             guard let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell else {
                 fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
@@ -275,7 +277,7 @@ extension CreateEditSessionViewController: UITableViewDelegate {
         case 0:
             return Constants.exerciseHeaderCellHeight
         case tableView.numberOfRows(inSection: indexPath.section) - 1:
-            return Constants.addSetButtonCellHeight
+            return Constants.buttonCellHeight
         default:
             return Constants.exerciseDetailCellHeight
         }
@@ -338,9 +340,9 @@ extension CreateEditSessionViewController: ExerciseDetailTableViewCellDelegate {
     }
 }
 
-// MARK: - AddSetTableViewCellDelegate
-extension CreateEditSessionViewController: AddSetTableViewCellDelegate {
-    func addSetButtonTapped(cell: AddSetTableViewCell) {
+// MARK: - ButtonTableViewCellDelegate
+extension CreateEditSessionViewController: ButtonTableViewCellDelegate {
+    func buttonTapped(cell: ButtonTableViewCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
         }

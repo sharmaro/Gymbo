@@ -20,6 +20,7 @@ enum ShadowDirection {
 }
 
 enum CornerStyle {
+    case none
     case xSmall
     case small
     case medium
@@ -27,6 +28,8 @@ enum CornerStyle {
 
     var radius: CGFloat {
         switch self {
+        case .none:
+            return 0
         case .xSmall:
             return 5
         case .small:

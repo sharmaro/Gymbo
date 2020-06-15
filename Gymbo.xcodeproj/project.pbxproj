@@ -55,7 +55,6 @@
 		69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81E247DF6860023E967 /* CreateEditExerciseTableViewController.swift */; };
 		69DAD821247E01580023E967 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD820247E01580023E967 /* TextViewTableViewCell.swift */; };
 		69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3C0A323F0DA7C0016F28C /* Protocols.swift */; };
-		69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */; };
 		69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */; };
 		69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
@@ -114,7 +113,6 @@
 		69DAD81E247DF6860023E967 /* CreateEditExerciseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseTableViewController.swift; sourceTree = "<group>"; };
 		69DAD820247E01580023E967 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		69E3C0A323F0DA7C0016F28C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
-		69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetTableViewCell.swift; sourceTree = "<group>"; };
 		69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModel.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */,
-				69F012CE237DB0E5008B4225 /* AddSetTableViewCell.swift */,
 				69DAD81C247DF59E0023E967 /* ButtonTableViewCell.swift */,
 				692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */,
 				69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */,
@@ -414,7 +411,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69F012D2237DB5FF008B4225 /* AddSetTableViewCell.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTabBarController.swift in Sources */,
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ButtonTableViewCellDelegate: class {
-    func buttonTapped()
+    func buttonTapped(cell: ButtonTableViewCell)
 }
 
 // MARK: - Properties
@@ -69,12 +69,12 @@ extension ButtonTableViewCell {
     }
 
     @objc private func buttonTapped() {
-        buttonTableViewCellDelegate?.buttonTapped()
+        buttonTableViewCellDelegate?.buttonTapped(cell: self)
     }
 
-    func configure(title: String, titleColor: UIColor = .black, backgroundColor: UIColor = .systemBlue) {
+    func configure(title: String, font: UIFont = .normal, titleColor: UIColor = .black, backgroundColor: UIColor = .systemBlue, cornerStyle: CornerStyle = .none) {
         button.title = title
         button.add(backgroundColor: backgroundColor, titleColor: titleColor)
-        button.addCorner(style: .small)
+        button.addCorner(style: cornerStyle)
     }
 }
