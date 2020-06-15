@@ -20,7 +20,7 @@ class MainTabBarController: UITabBarController {
     private var selectedTab = SelectedTab.sessions
 
     private var isReplacingSession = false
-    private var startSessionViewControllerReference: StartSessionTableViewController?
+    private var startSessionViewController: StartSessionTableViewController?
 }
 
 // MARK: - Structs/Enums
@@ -80,7 +80,7 @@ extension MainTabBarController {
 extension MainTabBarController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         if isSessionInProgress {
-            guard let startSessionViewController = startSessionViewControllerReference else {
+            guard let startSessionViewController = startSessionViewController else {
                 return
             }
 
@@ -120,7 +120,7 @@ extension MainTabBarController: SessionProgressDelegate {
         shadowContainerView.addSubview(containerNavigationController.view)
         containerNavigationController.view.autoPinSafeEdges(to: shadowContainerView)
 
-        startSessionViewControllerReference = startSessionViewController
+        self.startSessionViewController = startSessionViewController
 
         view.insertSubview(shadowContainerView, belowSubview: tabBar)
         addChild(containerNavigationController)
@@ -141,7 +141,7 @@ extension MainTabBarController: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?) {
         isSessionInProgress = false
-        startSessionViewControllerReference = nil
+        startSessionViewController = nil
 
         if isReplacingSession {
             isReplacingSession = false

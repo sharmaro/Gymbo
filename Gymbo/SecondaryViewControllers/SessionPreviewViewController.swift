@@ -10,10 +10,23 @@ import UIKit
 
 // MARK: - Properties
 class SessionPreviewViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero)
-    private var tableHeaderView = SessionHeaderView(frame: .zero)
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
 
-    private var startSessionButton = CustomButton(frame: .zero)
+    private let tableHeaderView = SessionHeaderView()
+
+    private let startSessionButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Start Session"
+        button.titleLabel?.textAlignment = .center
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        return button
+    }()
 
     var session: Session?
     var exerciseInfoArray: [ExerciseInfo]?
@@ -56,9 +69,6 @@ extension SessionPreviewViewController: ViewAdding {
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.allowsSelection = false
-        // Removes extra separators below last cell
-        tableView.tableFooterView = UIView()
         tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
         var dataModel = SessionHeaderViewModel()
@@ -69,10 +79,6 @@ extension SessionPreviewViewController: ViewAdding {
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false
 
-        startSessionButton.title = "Start Session"
-        startSessionButton.titleLabel?.textAlignment = .center
-        startSessionButton.add(backgroundColor: .systemBlue)
-        startSessionButton.addCorner(style: .small)
         startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
     }
 

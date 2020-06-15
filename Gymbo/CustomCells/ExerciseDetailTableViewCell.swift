@@ -29,12 +29,37 @@ struct ExerciseDetailTableViewCellModel {
 
 // MARK: - Properties
 class ExerciseDetailTableViewCell: UITableViewCell {
-    private var stackView = UIStackView(frame: .zero)
-    private var setsLabel = UILabel(frame: .zero)
-    private var lastLabel = UILabel(frame: .zero)
-    private var repsTextField = UITextField(frame: .zero)
-    private var weightTextField = UITextField(frame: .zero)
-    private var doneButton = UIButton(frame: .zero)
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+
+    private let setsLabel = UILabel()
+    private let lastLabel = UILabel()
+
+    private let repsTextField: UITextField = {
+        let textField = UITextField()
+        textField.keyboardType = .numberPad
+        textField.tag = 0
+        return textField
+    }()
+
+    private let weightTextField: UITextField = {
+        let textField = UITextField()
+        textField.keyboardType = .decimalPad
+        textField.tag = 1
+        return textField
+    }()
+
+    private let doneButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.text?.removeAll()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     weak var exerciseDetailCellDelegate: ExerciseDetailTableViewCellDelegate?
 
@@ -79,20 +104,11 @@ extension ExerciseDetailTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-
         [setsLabel, lastLabel].forEach {
             $0.textAlignment = .center
             $0.font = .small
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-
-        repsTextField.keyboardType = .numberPad
-        repsTextField.tag = 0
-
-        weightTextField.keyboardType = .decimalPad
-        weightTextField.tag = 1
 
         [repsTextField, weightTextField].forEach {
             $0.font = .small
@@ -105,9 +121,6 @@ extension ExerciseDetailTableViewCell: ViewAdding {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        doneButton.setTitleColor(.black, for: .normal)
-        doneButton.titleLabel?.text?.removeAll()
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 

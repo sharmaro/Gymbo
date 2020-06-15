@@ -13,7 +13,14 @@ protocol TextFieldTableViewCellDelegate: class {
 
 // MARK: - Properties
 class TextFieldTableViewCell: UITableViewCell {
-    private var textField = UITextField()
+    private let textField: UITextField = {
+        let textField = UITextField()
+        textField.font = .normal
+        textField.autocapitalizationType = .words
+        textField.returnKeyType = .done
+        textField.borderStyle = .none
+        return textField
+    }()
 
     weak var textFieldTableViewCellDelegate: TextFieldTableViewCellDelegate?
 
@@ -39,10 +46,6 @@ extension TextFieldTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        textField.font = .normal
-        textField.autocapitalizationType = .words
-        textField.returnKeyType = .done
-        textField.borderStyle = .none
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
 

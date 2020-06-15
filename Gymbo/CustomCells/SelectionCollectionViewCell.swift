@@ -10,7 +10,18 @@ import UIKit
 
 // MARK: - Properties
 class SelectionCollectionViewCell: UICollectionViewCell {
-    private var selectionLabel = UILabel()
+    private let selectionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemBlue
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        label.font = .normal
+        label.numberOfLines = 0
+        label.minimumScaleFactor = 0.1
+        label.adjustsFontSizeToFitWidth = true
+        label.addCorner(style: .small)
+        return label
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,17 +52,6 @@ extension SelectionCollectionViewCell: ViewAdding {
         add(subviews: [selectionLabel])
     }
 
-    func setupViews() {
-        selectionLabel.textColor = .systemBlue
-        selectionLabel.textAlignment = .center
-        selectionLabel.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        selectionLabel.font = .normal
-        selectionLabel.numberOfLines = 0
-        selectionLabel.minimumScaleFactor = 0.1
-        selectionLabel.adjustsFontSizeToFitWidth = true
-        selectionLabel.addCorner(style: .small)
-    }
-
     func addConstraints() {
         selectionLabel.autoPinEdges(to: self)
     }
@@ -61,7 +61,6 @@ extension SelectionCollectionViewCell: ViewAdding {
 extension SelectionCollectionViewCell {
     private func setup() {
         addViews()
-        setupViews()
         addConstraints()
     }
 

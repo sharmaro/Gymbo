@@ -10,7 +10,14 @@ import UIKit
 
 // MARK: - Properties
 class LabelTableViewCell: UITableViewCell {
-    private var detailLabel = UILabel()
+    private let detailLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.minimumScaleFactor = 0.1
+        label.adjustsFontSizeToFitWidth = true
+        label.sizeToFit()
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,13 +38,6 @@ extension LabelTableViewCell: ViewAdding {
         add(subviews: [detailLabel])
     }
 
-    func setupViews() {
-        detailLabel.numberOfLines = 0
-        detailLabel.minimumScaleFactor = 0.1
-        detailLabel.adjustsFontSizeToFitWidth = true
-        detailLabel.sizeToFit()
-    }
-
     func addConstraints() {
         NSLayoutConstraint.activate([
             detailLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -52,7 +52,6 @@ extension LabelTableViewCell: ViewAdding {
 extension LabelTableViewCell {
     private func setup() {
         addViews()
-        setupViews()
         addConstraints()
     }
 

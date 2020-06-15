@@ -10,7 +10,11 @@ import UIKit
 
 // MARK: - Properties
 class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
-    private var label = UILabel()
+    private let label: UILabel = {
+        let label = UILabel()
+        label.font = .medium
+        return label
+    }()
 
     // MARK: - UIView Var/Funcs
     override init(reuseIdentifier: String?) {
@@ -32,10 +36,6 @@ extension ExercisesHeaderFooterView: ViewAdding {
         add(subviews: [label])
     }
 
-    func setupViews() {
-        label.font = .medium
-    }
-
     func addConstraints() {
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),
@@ -50,7 +50,6 @@ extension ExercisesHeaderFooterView: ViewAdding {
 extension ExercisesHeaderFooterView {
     private func setup() {
         addViews()
-        setupViews()
         addConstraints()
     }
 

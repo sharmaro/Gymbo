@@ -10,25 +10,83 @@ import UIKit
 
 // MARK: - Properties
 class ExercisePreviewViewController: UIViewController {
-    private var closeButton = CustomButton()
-    private var containerView = UIView()
-    private var titleLabel = UILabel()
-    private var subTitleLabel = UILabel()
-    private var tableView = UITableView()
-    private var editDisclaimerLabel = UILabel()
-    private var editButton = CustomButton()
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addCorner(style: .medium)
+        return view
+    }()
 
-    private var exerciseInfo = ExerciseInfo()
+    private let closeButton: CustomButton = {
+        let button = CustomButton()
+        let closeImage = UIImage(named: "close")
+        button.setImage(closeImage, for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.add(backgroundColor: .lightGray)
+        return button
+    }()
 
-    private var tableData: [TableRow] = [.imagesTitle, .images, .instructionsTitle,
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle).bold
+        label.numberOfLines = 0
+        label.backgroundColor = .white
+        return label
+    }()
+
+    private let subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .normal
+        label.textColor = .systemGray
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = .white
+        return label
+    }()
+
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+
+    private let editDisclaimerLabel: UILabel = {
+        let label = UILabel()
+        label.text = Constants.editDisclaimerText
+        label.textAlignment = .center
+        label.font = UIFont.small.light
+        label.textColor = UIColor.black.withAlphaComponent(0.5)
+        return label
+    }()
+
+    private let editButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Edit"
+        button.titleLabel?.font = .normal
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        return button
+    }()
+
+    private var exerciseInfo: ExerciseInfo
+
+    private let tableData: [TableRow] = [.imagesTitle, .images, .instructionsTitle,
                                          .instructions, .tipsTitle, .tips]
 
     weak var dimmedViewDelegate: DimmedViewDelegate?
 
-    convenience init(exerciseInfo: ExerciseInfo) {
-        self.init()
-
+    init(exerciseInfo: ExerciseInfo) {
         self.exerciseInfo = exerciseInfo
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        self.exerciseInfo = ExerciseInfo()
+
+        super.init(coder: coder)
     }
 }
 
@@ -66,33 +124,13 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func setupViews() {
-        containerView.backgroundColor = .white
-        containerView.addCorner(style: .medium)
-
-        closeButton.titleLabel?.font = .normal
-        let closeImage = UIImage(named: "close")
-        closeButton.setImage(closeImage, for: .normal)
-        closeButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        closeButton.add(backgroundColor: .lightGray)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
 
         titleLabel.text = exerciseInfo.name
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle).bold
-        titleLabel.numberOfLines = 0
-        titleLabel.backgroundColor = .white
-
         subTitleLabel.text = exerciseInfo.muscles
-        subTitleLabel.font = .normal
-        subTitleLabel.textColor = .systemGray
-        subTitleLabel.minimumScaleFactor = 0.5
-        subTitleLabel.adjustsFontSizeToFitWidth = true
-        subTitleLabel.backgroundColor = .white
 
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.allowsSelection = false
-        tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
         tableView.register(SwipableImageViewTableViewCell.self,
                            forCellReuseIdentifier: SwipableImageViewTableViewCell.reuseIdentifier)
         tableView.register(LabelTableViewCell.self,
@@ -100,16 +138,6 @@ extension ExercisePreviewViewController: ViewAdding {
         tableView.register(LabelTableViewCell.self,
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
 
-        editDisclaimerLabel.text = Constants.editDisclaimerText
-        editDisclaimerLabel.textAlignment = .center
-        editDisclaimerLabel.font = UIFont.small.light
-        editDisclaimerLabel.textColor = UIColor.black.withAlphaComponent(0.5)
-        editDisclaimerLabel.backgroundColor = .clear
-
-        editButton.title = "Edit"
-        editButton.titleLabel?.font = .normal
-        editButton.add(backgroundColor: .systemBlue)
-        editButton.addCorner(style: .small)
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
 

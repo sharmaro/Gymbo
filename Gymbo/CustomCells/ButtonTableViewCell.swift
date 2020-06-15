@@ -14,7 +14,11 @@ protocol ButtonTableViewCellDelegate: class {
 
 // MARK: - Properties
 class ButtonTableViewCell: UITableViewCell {
-    private var button = CustomButton()
+    private let button: CustomButton = {
+        let button = CustomButton()
+        button.titleLabel?.font = .normal
+        return button
+    }()
 
     var isButtonInteractable: Bool = true {
         didSet {
@@ -46,7 +50,6 @@ extension ButtonTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        button.titleLabel?.font = .normal
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
 

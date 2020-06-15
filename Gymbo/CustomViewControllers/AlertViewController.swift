@@ -10,13 +10,55 @@ import UIKit
 
 // MARK: - Properties
 class AlertViewController: UIViewController {
-    private var containerView = UIView(frame: .zero)
-    private var titleLabel = UILabel(frame: .zero)
-    private var contentLabel = UILabel(frame: .zero)
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addCorner(style: .small)
+        return view
+    }()
 
-    private var buttonsStackView = UIStackView(frame: .zero)
-    private var leftButton = CustomButton(frame: .zero)
-    private var rightButton = CustomButton(frame: .zero)
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .large
+        label.backgroundColor = .systemBlue
+        return label
+    }()
+
+    private let contentLabel: UILabel = {
+        let label = UILabel()
+        label.font = .normal
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private let buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 15
+        return stackView
+    }()
+
+    // Not always created
+    private lazy var leftButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Cancel"
+        button.titleLabel?.font = .normal
+        button.add(backgroundColor: .systemRed)
+        button.addCorner(style: .small)
+        return button
+    }()
+
+    private let rightButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Confirm"
+        button.titleLabel?.font = .normal
+        button.add(backgroundColor: .systemGreen)
+        button.addCorner(style: .small)
+        return button
+    }()
 
     private var alertTitle: String?
     private var content: String?
@@ -41,35 +83,12 @@ extension AlertViewController: ViewAdding {
     func setupViews() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
-        containerView.backgroundColor = .white
-        containerView.addCorner(style: .small)
-
         titleLabel.text = alertTitle
-        titleLabel.textColor = .white
-        titleLabel.textAlignment = .center
-        titleLabel.font = .large
-        titleLabel.backgroundColor = .systemBlue
-
         contentLabel.text = content
-        contentLabel.font = .normal
-        contentLabel.numberOfLines = 0
-
-        buttonsStackView.alignment = .fill
-        buttonsStackView.distribution = .fillEqually
-        buttonsStackView.spacing = 15
 
         if usesBothButtons {
-            leftButton.title = "Cancel"
-            leftButton.titleLabel?.font = .normal
-            leftButton.add(backgroundColor: .systemRed)
-            leftButton.addCorner(style: .small)
             leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         }
-
-        rightButton.title = "Confirm"
-        rightButton.titleLabel?.font = .normal
-        rightButton.add(backgroundColor: .systemGreen)
-        rightButton.addCorner(style: .small)
         rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
 
         leftButton.title = usesBothButtons ? (leftButtonTitle ?? "") : ""

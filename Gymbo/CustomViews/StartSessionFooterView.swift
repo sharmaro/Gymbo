@@ -15,8 +15,23 @@ protocol StartSessionButtonDelegate: class {
 
 // MARK: - Properties
 class StartSessionFooterView: UIView {
-    private var addExerciseButton = CustomButton(frame: .zero)
-    private var cancelButton = CustomButton(frame: .zero)
+    private let addExerciseButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "+ Exercise"
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        return button
+    }()
+
+    private let cancelButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Cancel"
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemRed)
+        button.addCorner(style: .small)
+        return button
+    }()
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
@@ -41,16 +56,7 @@ extension StartSessionFooterView: ViewAdding {
     }
 
     func setupViews() {
-        addExerciseButton.title = "+ Exercise"
-        addExerciseButton.titleLabel?.font = .small
-        addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCorner(style: .small)
         addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
-
-        cancelButton.title = "Cancel"
-        cancelButton.titleLabel?.font = .small
-        cancelButton.add(backgroundColor: .systemRed)
-        cancelButton.addCorner(style: .small)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
 

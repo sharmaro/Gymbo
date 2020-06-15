@@ -15,11 +15,25 @@ protocol TimeLabelDelegate: class {
 
 // MARK: - Properties
 class StartSessionTableViewController: UITableViewController {
-    private var finishButton = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
-    private var timerButton = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+    private let timerButton: CustomButton = {
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        return button
+    }()
 
-    private var tableHeaderView = SessionHeaderView(frame: .zero)
-    private var tableFooterView = StartSessionFooterView(frame: .zero)
+    private let finishButton: CustomButton = {
+        let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
+        button.title = "Finish"
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemGreen)
+        button.addCorner(style: .small)
+        return button
+    }()
+
+    private let tableHeaderView = SessionHeaderView()
+    private let tableFooterView = StartSessionFooterView()
 
     var session: Session?
     weak var sessionProgresssDelegate: SessionProgressDelegate?
@@ -117,15 +131,7 @@ extension StartSessionTableViewController: ViewAdding {
     func setupViews() {
         view.backgroundColor = .white
 
-        timerButton.titleLabel?.font = .small
-        timerButton.add(backgroundColor: .systemBlue)
-        timerButton.addCorner(style: .small)
         timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
-
-        finishButton.title = "Finish"
-        finishButton.titleLabel?.font = .small
-        finishButton.add(backgroundColor: .systemGreen)
-        finishButton.addCorner(style: .small)
         finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
 
         tableView.dataSource = self

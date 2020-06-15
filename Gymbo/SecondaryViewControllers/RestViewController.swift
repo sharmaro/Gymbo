@@ -16,15 +16,58 @@ protocol RestTimerDelegate: class {
 
 // MARK: - Properties
 class RestViewController: UIViewController {
-    private var topContainerView = UIView(frame: .zero)
-    private var restLabel = UILabel(frame: .zero)
-    private var addTimeButton = CustomButton(frame: .zero)
-    private var removeTimeButton = CustomButton(frame: .zero)
+    private let topContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
 
-    private var circleProgressView = CircleProgressView(frame: .zero)
-    private var pickerView = UIPickerView(frame: .zero)
+    private let restLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Choose a time below to rest!"
+        label.textAlignment = .center
+        label.textColor = .darkGray
+        label.font = .normal
+        label.numberOfLines = 0
+        return label
+    }()
 
-    private var mainButton = CustomButton(frame: .zero)
+    private let addTimeButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "+ 5s"
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemGray)
+        button.addCorner(style: .small)
+        button.isHidden = true
+        return button
+    }()
+
+    private let removeTimeButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "- 5s"
+        button.titleLabel?.font = .small
+        button.add(backgroundColor: .systemGray)
+        button.addCorner(style: .small)
+        button.isHidden = true
+        return button
+    }()
+
+    private let circleProgressView: CircleProgressView = {
+        let view = CircleProgressView()
+        view.backgroundColor = .white
+        return view
+    }()
+
+    private let pickerView = UIPickerView()
+
+    private let mainButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Start Timer"
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        return button
+    }()
+
     private var mainButtonState: MainButtonState = .startTimer {
         didSet {
             mainButton.title = mainButtonState.rawValue
@@ -110,38 +153,14 @@ extension RestViewController: ViewAdding {
     func setupViews() {
         view.backgroundColor = .white
 
-        topContainerView.backgroundColor = .white
-
-        restLabel.text = "Choose a time below to rest!"
-        restLabel.textAlignment = .center
-        restLabel.textColor = .darkGray
-        restLabel.font = .normal
-        restLabel.numberOfLines = 0
-
-        addTimeButton.title = "+ 5s"
-        addTimeButton.titleLabel?.font = .small
-        addTimeButton.add(backgroundColor: .systemGray)
-        addTimeButton.addCorner(style: .small)
-        addTimeButton.isHidden = true
         addTimeButton.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
-
-        removeTimeButton.title = "- 5s"
-        removeTimeButton.titleLabel?.font = .small
-        removeTimeButton.add(backgroundColor: .systemGray)
-        removeTimeButton.addCorner(style: .small)
-        removeTimeButton.isHidden = true
         removeTimeButton.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
-
-        circleProgressView.backgroundColor = .white
 
         createPickerViewData()
         pickerView.dataSource = self
         pickerView.delegate = self
         pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
 
-        mainButton.title = "Start Timer"
-        mainButton.add(backgroundColor: .systemBlue)
-        mainButton.addCorner(style: .small)
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
     }
 

@@ -14,7 +14,13 @@ protocol MultipleSelectionTableViewCellDelegate: class {
 
 // MARK: - Properties
 class MultipleSelectionTableViewCell: UITableViewCell {
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.allowsMultipleSelection = true
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
 
     private var selectionTitles = [String]() {
         didSet {
@@ -49,9 +55,6 @@ extension MultipleSelectionTableViewCell: ViewAdding {
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.allowsMultipleSelection = true
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .white
         collectionView.register(SelectionCollectionViewCell.self, forCellWithReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier)
     }
 

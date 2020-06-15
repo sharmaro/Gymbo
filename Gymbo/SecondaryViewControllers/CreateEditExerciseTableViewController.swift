@@ -34,11 +34,11 @@ class CreateEditExerciseTableViewController: UITableViewController {
         return button
     }()
 
-    private var tableData: [TableRow] = [.nameTitle, .name, .muscleGroupsTitle,
+    private let tableData: [TableRow] = [.nameTitle, .name, .muscleGroupsTitle,
                                          .muscleGroups, .imagesTitle, .images,
                                          .instructionsTitle, .instructions, .tipsTitle, .tips]
 
-    private var exerciseDataModel = ExerciseDataModel.shared
+    private let exerciseDataModel = ExerciseDataModel.shared
 
     // Data stored from cell inputs
     private var exerciseName = ""

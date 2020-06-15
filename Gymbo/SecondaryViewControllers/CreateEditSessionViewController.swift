@@ -16,8 +16,15 @@ enum SessionState: String {
 
 // MARK: - Properties
 class CreateEditSessionViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero)
-    private var tableHeaderView = SessionHeaderView(frame: .zero)
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
+        return tableView
+    }()
+
+    private let tableHeaderView = SessionHeaderView()
 
     private let realm = try? Realm()
 
@@ -62,9 +69,6 @@ extension CreateEditSessionViewController: ViewAdding {
 
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
         tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
         tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
         tableView.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)

@@ -10,16 +10,49 @@ import UIKit
 
 // MARK: - Properties
 class StopwatchViewController: UIViewController {
-    private var timeStackView = UIStackView(frame: .zero)
-    private var minuteLabel = UILabel(frame: .zero)
-    private var secondLabel = UILabel(frame: .zero)
-    private var centiSecondLabel = UILabel(frame: .zero)
+    private let timeStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }()
 
-    private var tableView = UITableView(frame: .zero)
+    private let minuteLabel = UILabel()
+    private let secondLabel = UILabel()
+    private let centiSecondLabel = UILabel()
 
-    private var buttonsStackView = UIStackView(frame: .zero)
-    private var lapAndResetButton = CustomButton(frame: .zero)
-    private var startAndStopButton = CustomButton(frame: .zero)
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+
+    private let buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 15
+        return stackView
+    }()
+
+    private let lapAndResetButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Lap"
+        button.add(backgroundColor: .systemGray)
+        button.addCorner(style: .small)
+        button.tag = 0
+        return button
+    }()
+
+    private let startAndStopButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Start"
+        button.add(backgroundColor: .systemGreen)
+        button.addCorner(style: .small)
+        button.tag = 1
+        return button
+    }()
 
     private var buttonsStackViewBottomConstraint: NSLayoutConstraint?
     private var didViewAppear = false
@@ -148,9 +181,6 @@ extension StopwatchViewController: ViewAdding {
     func setupViews() {
         view.backgroundColor = .white
 
-        timeStackView.alignment = .center
-        timeStackView.distribution = .fill
-
         [minuteLabel, secondLabel, centiSecondLabel].forEach {
             $0.text = "00"
             $0.font = .huge
@@ -162,24 +192,9 @@ extension StopwatchViewController: ViewAdding {
 
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.allowsSelection = false
-        tableView.tableFooterView = UIView()
         tableView.register(StopwatchTableViewCell.self, forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
 
-        buttonsStackView.alignment = .fill
-        buttonsStackView.distribution = .fillEqually
-        buttonsStackView.spacing = 15
-
-        lapAndResetButton.title = "Lap"
-        lapAndResetButton.add(backgroundColor: .systemGray)
-        lapAndResetButton.addCorner(style: .small)
-        lapAndResetButton.tag = 0
         lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
-
-        startAndStopButton.title = "Start"
-        startAndStopButton.add(backgroundColor: .systemGreen)
-        startAndStopButton.addCorner(style: .small)
-        startAndStopButton.tag = 1
         startAndStopButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
     }
 

@@ -10,8 +10,18 @@ import UIKit
 
 // MARK: - Properties
 class CircleProgressView: UIView {
-    private var totalTimeLabel = UILabel(frame: .zero)
-    private var timeRemainingLabel = UILabel(frame: .zero)
+    private let totalTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textColor = .lightGray
+        return label
+    }()
+
+    private let timeRemainingLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        return label
+    }()
 
     private let staticLayer = CAShapeLayer()
     private let animatedLayer = CAShapeLayer()
@@ -77,11 +87,6 @@ extension CircleProgressView: ViewAdding {
 
     func setupViews() {
         backgroundColor = .clear
-
-        totalTimeLabel.text = "00:00"
-        totalTimeLabel.textColor = .lightGray
-
-        timeRemainingLabel.textColor = .darkGray
 
         [totalTimeLabel, timeRemainingLabel].forEach {
             $0.textAlignment = .center

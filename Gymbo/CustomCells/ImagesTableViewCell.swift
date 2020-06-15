@@ -19,7 +19,7 @@ enum ButtonFunction {
 
 // MARK: - Properties
 class ImagesTableViewCell: UITableViewCell {
-    private var horizontalScrollView = UIScrollView()
+    private let horizontalScrollView = UIScrollView()
 
     private var buttons = [CustomButton]()
     private var imageViews = [UIImageView]()

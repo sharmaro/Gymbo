@@ -22,8 +22,19 @@ struct SessionHeaderViewModel {
 
 // MARK: - Properties
 class SessionHeaderView: UIView {
-    private var nameTextView = UITextView(frame: .zero)
-    private var infoTextView = UITextView(frame: .zero)
+    private let nameTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.xLarge.medium
+        textView.tag = 0
+        return textView
+    }()
+
+    private let infoTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.medium.medium
+        textView.tag = 1
+        return textView
+    }()
 
     var sessionName: String? {
         return nameTextView.text
@@ -76,12 +87,6 @@ extension SessionHeaderView: ViewAdding {
     }
 
     func setupViews() {
-        nameTextView.font = UIFont.xLarge.medium
-        nameTextView.tag = 0
-
-        infoTextView.font = UIFont.medium.medium
-        infoTextView.tag = 1
-
         textViews = [nameTextView, infoTextView]
         for textView in textViews {
             textView.isSelectable = false

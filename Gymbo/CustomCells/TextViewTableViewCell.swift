@@ -14,8 +14,19 @@ protocol TextViewTableViewCellDelegate: class {
 
 // MARK: - Properties
 class TextViewTableViewCell: UITableViewCell {
-    private var textView = UITextView()
+    private let textView: UITextView = {
+        let textView = UITextView()
+        textView.font = .normal
+        textView.returnKeyType = .done
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.black.cgColor
+        textView.isScrollEnabled = false
+        textView.textContainer.lineBreakMode = .byWordWrapping
+        textView.addCorner(style: .small)
+        return textView
+    }()
 
+    // Can't override text property
     var textViewText: String? {
         return textView.text
     }
@@ -44,13 +55,6 @@ extension TextViewTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        textView.font = .normal
-        textView.returnKeyType = .done
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.black.cgColor
-        textView.isScrollEnabled = false
-        textView.textContainer.lineBreakMode = .byWordWrapping
-        textView.addCorner(style: .small)
         textView.delegate = self
     }
 

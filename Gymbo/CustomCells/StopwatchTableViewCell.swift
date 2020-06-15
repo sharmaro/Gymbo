@@ -10,8 +10,19 @@ import UIKit
 
 // MARK: - Properties
 class StopwatchTableViewCell: UITableViewCell {
-    private var descriptionLabel = UILabel(frame: .zero)
-    private var valueLabel = UILabel(frame: .zero)
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .medium
+        label.textAlignment = .left
+        return label
+    }()
+
+    private let valueLabel: UILabel = {
+        let label = UILabel()
+        label.font = .medium
+        label.textAlignment = .justified
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,14 +43,6 @@ extension StopwatchTableViewCell: ViewAdding {
         add(subviews: [descriptionLabel, valueLabel])
     }
 
-    func setupViews() {
-        descriptionLabel.font = .medium
-        descriptionLabel.textAlignment = .left
-
-        valueLabel.font = .medium
-        valueLabel.textAlignment = .justified
-    }
-
     func addConstraints() {
         NSLayoutConstraint.activate([
             descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -58,7 +61,6 @@ extension StopwatchTableViewCell: ViewAdding {
 extension StopwatchTableViewCell {
     private func setup() {
         addViews()
-        setupViews()
         addConstraints()
     }
 

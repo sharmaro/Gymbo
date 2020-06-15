@@ -20,9 +20,25 @@ struct SessionsCollectionViewCellModel {
 
 // MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
-    private var titleLabel = UILabel(frame: .zero)
-    private var deleteButton = CustomButton(frame: .zero)
-    private var infoLabel = UILabel(frame: .zero)
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.normal.semibold
+        return label
+    }()
+
+    private let deleteButton: CustomButton = {
+        let button = CustomButton()
+        let image = UIImage(named: "delete")
+        button.setImage(image, for: .normal)
+        return button
+    }()
+
+    private let infoLabel: UILabel = {
+        let label = UILabel()
+        label.font = .small
+        label.numberOfLines = 0
+        return label
+    }()
 
     private var isEditing = false {
         didSet {
@@ -99,14 +115,7 @@ extension SessionsCollectionViewCell: ViewAdding {
 
         addShadow(direction: .downRight)
 
-        titleLabel.font = UIFont.normal.semibold
-
-        let image = UIImage(named: "delete")
-        deleteButton.setImage(image, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-
-        infoLabel.font = .small
-        infoLabel.numberOfLines = 0
     }
 
     func addConstraints() {

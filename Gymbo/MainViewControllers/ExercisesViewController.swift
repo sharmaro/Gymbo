@@ -23,8 +23,25 @@ enum PresentationStyle {
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero, style: .grouped)
-    private var addExerciseButton = CustomButton(frame: .zero)
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
+        tableView.backgroundColor = .white
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+
+    private let addExerciseButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Add"
+        button.titleLabel?.textAlignment = .center
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .small)
+        button.makeUninteractable(animated: false)
+        return button
+    }()
 
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
     private var didViewAppear = false
@@ -83,21 +100,11 @@ extension ExercisesViewController: ViewAdding {
 
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.backgroundColor = .white
-        tableView.tableFooterView = UIView()
         tableView.register(ExercisesHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
         tableView.register(ExerciseTableViewCell.self,
                            forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
-        addExerciseButton.title = "Add"
-        addExerciseButton.titleLabel?.textAlignment = .center
-        addExerciseButton.add(backgroundColor: .systemBlue)
-        addExerciseButton.addCorner(style: .small)
-        addExerciseButton.makeUninteractable(animated: false)
         addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
     }
 

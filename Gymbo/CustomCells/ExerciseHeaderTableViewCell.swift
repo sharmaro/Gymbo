@@ -21,17 +21,37 @@ struct ExerciseHeaderTableViewCellModel {
 // MARK: - Properties
 class ExerciseHeaderTableViewCell: UITableViewCell {
     // Header views
-    private var nameLabel = UILabel(frame: .zero)
-    private var deleteButton =  CustomButton(frame: .zero)
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .blue
+        label.font = .normal
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let deleteButton: CustomButton = {
+        let button = CustomButton()
+        button.title = ""
+        let image = UIImage(named: "delete")
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     // Title views
-    private var infoStackView = UIStackView(frame: .zero)
-    private var setsLabel = UILabel(frame: .zero)
-    private var lastLabel = UILabel(frame: .zero)
-    private var repsLabel =  UILabel(frame: .zero)
-    private var weightLabel =  UILabel(frame: .zero)
+    private let infoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
 
-    private var doneButton: UIButton = {
+    private let setsLabel = UILabel()
+    private let lastLabel = UILabel()
+    private let repsLabel =  UILabel()
+    private let weightLabel =  UILabel()
+
+    private let doneButton: UIButton = {
         let button = UIButton(frame: .zero)
         button.setTitle("", for: .normal)
         let image = UIImage(named: "checkmark")
@@ -41,7 +61,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
         return button
     }()
 
-    private var labelTexts = ["Sets", "Last", "Reps", "Lbs"]
+    private let labelTexts = ["Sets", "Last", "Reps", "Lbs"]
 
     private var isDoneButtonImageHidden = false {
         didSet {
@@ -67,6 +87,12 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
         setup()
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        deleteButton.addCorner(style: .circle(view: deleteButton))
+    }
 }
 
 // MARK: - ViewAdding
@@ -83,20 +109,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
     func setupViews() {
         selectionStyle = .none
 
-        nameLabel.textColor = .blue
-        nameLabel.font = .normal
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        deleteButton.title = ""
-        let image = UIImage(named: "delete")
-        deleteButton.setImage(image, for: .normal)
-        deleteButton.addCorner(style: .circle(view: deleteButton))
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteExerciseButtonTapped), for: .touchUpInside)
-
-        infoStackView.alignment = .center
-        infoStackView.distribution = .equalSpacing
-        infoStackView.translatesAutoresizingMaskIntoConstraints = false
 
         var counter = 0
         [setsLabel, lastLabel, repsLabel, weightLabel].forEach {

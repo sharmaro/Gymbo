@@ -10,9 +10,26 @@ import UIKit
 
 // MARK: - Properties
 class ExerciseTableViewCell: UITableViewCell {
-    private var muscleImageView = UIImageView(frame: .zero)
-    private var nameLabel = UILabel(frame: .zero)
-    private var musclesLabel = UILabel(frame: .zero)
+    private let muscleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.systemRed.cgColor
+        return imageView
+    }()
+
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .normal
+        return label
+    }()
+
+    private let musclesLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.font = UIFont.small.light
+        return label
+    }()
 
     var exerciseName: String? {
         return nameLabel.text
@@ -50,17 +67,6 @@ extension ExerciseTableViewCell: ViewAdding {
     }
 
     func setupViews() {
-        separatorInset.left = 15
-
-        muscleImageView.contentMode = .scaleToFill
-        muscleImageView.layer.borderWidth = 1
-        muscleImageView.layer.borderColor = UIColor.systemRed.cgColor
-
-        nameLabel.font = .normal
-
-        musclesLabel.textColor = .darkGray
-        musclesLabel.font = UIFont.small.light
-
         [nameLabel, musclesLabel].forEach {
             $0.numberOfLines = 1
             $0.minimumScaleFactor = 0.5

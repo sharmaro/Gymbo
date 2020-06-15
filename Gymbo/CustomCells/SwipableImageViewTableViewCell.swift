@@ -10,8 +10,22 @@ import UIKit
 
 // MARK: - Properties
 class SwipableImageViewTableViewCell: UITableViewCell {
-    private var horizontalScrollView = UIScrollView()
-    private var pageControl = UIPageControl()
+    private let horizontalScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+
+    private let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.currentPage = 0
+        pageControl.alpha = 0.5
+        pageControl.pageIndicatorTintColor = .darkGray
+        pageControl.currentPageIndicatorTintColor = .systemBlue
+        return pageControl
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,15 +47,7 @@ extension SwipableImageViewTableViewCell: ViewAdding {
     }
 
     func setupViews() {
-        horizontalScrollView.isPagingEnabled = true
-        horizontalScrollView.showsHorizontalScrollIndicator = false
-        horizontalScrollView.showsVerticalScrollIndicator = false
         horizontalScrollView.delegate = self
-
-        pageControl.currentPage = 0
-        pageControl.alpha = 0.5
-        pageControl.pageIndicatorTintColor = .darkGray
-        pageControl.currentPageIndicatorTintColor = .systemBlue
     }
 
     func addConstraints() {
