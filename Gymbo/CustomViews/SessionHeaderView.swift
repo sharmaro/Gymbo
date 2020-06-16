@@ -9,49 +9,50 @@
 import UIKit
 
 protocol SessionHeaderTextViewsDelegate: class {
+    func textViewDidChange(_ textView: UITextView)
     func textViewDidBeginEditing(_ textView: UITextView)
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
     func textViewDidEndEditing(_ textView: UITextView)
 }
 
 struct SessionHeaderViewModel {
-    var name: String?
-    var info: String?
+    var firstText: String?
+    var secondText: String?
     var textColor = UIColor.black
 }
 
 // MARK: - Properties
 class SessionHeaderView: UIView {
-    private let nameTextView: UITextView = {
+    private let firstTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.xLarge.medium
+        textView.returnKeyType = .next
         textView.tag = 0
         return textView
     }()
 
-    private let infoTextView: UITextView = {
+    private let secondTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.medium.medium
         textView.tag = 1
         return textView
     }()
 
-    var sessionName: String? {
-        return nameTextView.text
+    var firstText: String? {
+        return firstTextView.text
     }
 
-    var info: String {
-        return infoTextView.text
+    var secondText: String {
+        return secondTextView.text
     }
 
-    var shouldSaveName: Bool {
-        return nameTextView.textColor != Constants.dimmedBlack && !nameTextView.text.isEmpty
+    var shouldSave: Bool {
+        return firstTextView.textColor != Constants.dimmedBlack && !firstTextView.text.isEmpty
     }
 
     var isContentEditable = true {
         didSet {
-            nameTextView.isEditable = isContentEditable
-            infoTextView.isEditable = isContentEditable
+            firstTextView.isEditable = isContentEditable
+            secondTextView.isEditable = isContentEditable
         }
     }
 
@@ -83,11 +84,11 @@ private extension SessionHeaderView {
 // MARK: - ViewAdding
 extension SessionHeaderView: ViewAdding {
     func addViews() {
-        add(subviews: [nameTextView, infoTextView])
+        add(subviews: [firstTextView, secondTextView])
     }
 
     func setupViews() {
-        textViews = [nameTextView, infoTextView]
+        textViews = [firstTextView, secondTextView]
         for textView in textViews {
             textView.isSelectable = false
             textView.isScrollEnabled = false
@@ -95,7 +96,6 @@ extension SessionHeaderView: ViewAdding {
             textView.textContainerInset = .zero
             textView.textContainer.lineFragmentPadding = 0
             textView.textContainer.lineBreakMode = .byWordWrapping
-            textView.returnKeyType = .done
             textView.autocorrectionType = .no
             textView.delegate = self
         }
@@ -103,17 +103,16 @@ extension SessionHeaderView: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(equalTo: topAnchor),
-            nameTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            nameTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            nameTextView.bottomAnchor.constraint(equalTo: infoTextView.topAnchor),
-            nameTextView.heightAnchor.constraint(equalToConstant: 32)
+            firstTextView.topAnchor.constraint(equalTo: topAnchor),
+            firstTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            firstTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            firstTextView.bottomAnchor.constraint(equalTo: secondTextView.topAnchor),
         ])
 
         NSLayoutConstraint.activate([
-            infoTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            infoTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            infoTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            secondTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
@@ -127,25 +126,43 @@ extension SessionHeaderView {
     }
 
     func configure(dataModel: SessionHeaderViewModel) {
-        nameTextView.text = dataModel.name
-        infoTextView.text = dataModel.info
-        nameTextView.textColor = dataModel.textColor
-        infoTextView.textColor = dataModel.textColor
+        firstTextView.text = dataModel.firstText
+        secondTextView.text = dataModel.secondText
+        firstTextView.textColor = dataModel.textColor
+        secondTextView.textColor = dataModel.textColor
     }
 
     func makeFirstResponder() {
-        nameTextView.becomeFirstResponder()
+        firstTextView.becomeFirstResponder()
     }
 }
 
 // MARK: - UITextViewDelegate
 extension SessionHeaderView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        sessionHeaderTextViewsDelegate?.textViewDidChange(textView)
+    }
+
     func textViewDidBeginEditing(_ textView: UITextView) {
         sessionHeaderTextViewsDelegate?.textViewDidBeginEditing(textViews[textView.tag])
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return sessionHeaderTextViewsDelegate?.textView(textViews[textView.tag], shouldChangeTextIn: range, replacementText: text) ?? false
+        guard text == "\n" else {
+            return true
+        }
+
+        switch textView.tag {
+        case 0:
+            textView.resignFirstResponder()
+            secondTextView.becomeFirstResponder()
+            return false
+        case 1:
+            break
+        default:
+            break
+        }
+        return true
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {

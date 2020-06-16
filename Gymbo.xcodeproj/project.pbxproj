@@ -18,7 +18,7 @@
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
-		69488E1D236F82D000C3A04C /* CreateEditSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionViewController.swift */; };
+		69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
 		695070952497525E00942078 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070942497525E00942078 /* SessionsList.swift */; };
 		695070972497528200942078 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070962497528200942078 /* Exercise.swift */; };
@@ -79,7 +79,7 @@
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
-		69488E1C236F82D000C3A04C /* CreateEditSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionViewController.swift; sourceTree = "<group>"; };
+		69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTableViewController.swift; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		695070942497525E00942078 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
 		695070962497528200942078 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				69DAD81E247DF6860023E967 /* CreateEditExerciseTableViewController.swift */,
-				69488E1C236F82D000C3A04C /* CreateEditSessionViewController.swift */,
+				69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */,
 				69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */,
 				69CB2D9023CD6D9F00603363 /* RestViewController.swift */,
 				693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */,
@@ -457,7 +457,7 @@
 				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
 				695070932497522400942078 /* Session.swift in Sources */,
 				69507099249752A300942078 /* ExercisesList.swift in Sources */,
-				69488E1D236F82D000C3A04C /* CreateEditSessionViewController.swift in Sources */,
+				69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
 				69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,

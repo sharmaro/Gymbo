@@ -78,8 +78,8 @@ extension SessionPreviewViewController: ViewAdding {
         tableView.contentInset.bottom = Constants.startButtonHeight + (-1 * Constants.startButtonBottomSpacing) + spacing
 
         var dataModel = SessionHeaderViewModel()
-        dataModel.name = session?.name ?? Constants.namePlaceholderText
-        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
         dataModel.textColor = .black
 
         tableHeaderView.configure(dataModel: dataModel)
@@ -139,8 +139,8 @@ extension SessionPreviewViewController {
         exerciseArray = exercisesDataModelManager.exerciseList(for: session)
 
         var dataModel = SessionHeaderViewModel()
-        dataModel.name = session.name
-        dataModel.info = session.info
+        dataModel.firstText = session.name
+        dataModel.secondText = session.info
         dataModel.textColor = .black
         tableHeaderView.configure(dataModel: dataModel)
 
@@ -169,10 +169,10 @@ extension SessionPreviewViewController {
             return
         }
 
-        let createEditSessionViewController = CreateEditSessionViewController()
-        createEditSessionViewController.sessionState = .edit
-        createEditSessionViewController.session = session
-        navigationController?.pushViewController(createEditSessionViewController, animated: true)
+        let createEditSessionTableViewController = CreateEditSessionTableViewController()
+        createEditSessionTableViewController.sessionState = .edit
+        createEditSessionTableViewController.session = session
+        navigationController?.pushViewController(createEditSessionTableViewController, animated: true)
     }
 
     @objc private func startSessionButtonTapped(_ sender: Any) {

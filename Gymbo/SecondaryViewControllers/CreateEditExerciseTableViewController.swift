@@ -299,20 +299,18 @@ extension CreateEditExerciseTableViewController {
 // MARK: - UITableViewDelegate
 extension CreateEditExerciseTableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let tableItem = tableData[indexPath.row]
-        return tableItem.height
+        return tableData[indexPath.row].height
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let tableItem = tableData[indexPath.row]
-        return tableItem.height
+        return tableData[indexPath.row].height
     }
 }
 
 // MARK: - TextViewTableViewCellDelegate
 extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
     func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {
-        tableView.performBatchUpdates({
+        tableView.performBatchUpdates ({
             textView.sizeToFit()
         })
 

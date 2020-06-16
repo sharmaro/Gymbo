@@ -134,8 +134,6 @@ extension StartSessionTableViewController: ViewAdding {
         timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
         finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
 
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .interactive
         tableView.allowsMultipleSelection = true
@@ -148,8 +146,8 @@ extension StartSessionTableViewController: ViewAdding {
                            forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
 
         var dataModel = SessionHeaderViewModel()
-        dataModel.name = session?.name ?? Constants.namePlaceholderText
-        dataModel.info = session?.info ?? Constants.infoPlaceholderText
+        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
         dataModel.textColor = .black
 
         tableHeaderView.configure(dataModel: dataModel)
@@ -495,7 +493,7 @@ extension StartSessionTableViewController {
                 self?.removeSet(indexPath: indexPath)
             }
             self?.selectedRows[indexPath] = nil
-            tableView.performBatchUpdates({ [weak self] in
+            tableView.performBatchUpdates ({ [weak self] in
                 self?.tableView.deleteRows(at: [indexPath], with: .automatic)
                 // Reloading section so the set indices can update
                 self?.tableView.reloadSections([indexPath.section], with: .automatic)

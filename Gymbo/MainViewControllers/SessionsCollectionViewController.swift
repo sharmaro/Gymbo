@@ -129,10 +129,10 @@ extension SessionsCollectionViewController {
     }
 
     @objc private func addSessionButtonTapped() {
-        let createEditSessionViewController = CreateEditSessionViewController()
-        createEditSessionViewController.sessionState = .create
-        createEditSessionViewController.sessionDataModelDelegate = self
-        navigationController?.pushViewController(createEditSessionViewController, animated: true)
+        let createEditSessionTableViewController = CreateEditSessionTableViewController()
+        createEditSessionTableViewController.sessionState = .create
+        createEditSessionTableViewController.sessionDataModelDelegate = self
+        navigationController?.pushViewController(createEditSessionTableViewController, animated: true)
     }
 }
 
@@ -260,7 +260,7 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
                     return
                 }
 
-                collectionView.performBatchUpdates({
+                collectionView.performBatchUpdates ({
                     guard let fromSession = sessionDataModel.session(for: sourceIndexPath.row) else {
                         return
                     }
