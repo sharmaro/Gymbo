@@ -8,6 +8,16 @@
 
 import RealmSwift
 
+protocol SessionDataModelDelegate: class {
+    func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+}
+
+extension SessionDataModelDelegate {
+    func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+}
+
 // MARK: - Properties
 class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
@@ -64,6 +74,12 @@ extension SessionDataModel {
         return list
     }
 
+    func index(of name: String) -> Int? {
+        return sessionsList?.sessions.firstIndex(where: {
+            name == $0.name
+        })
+    }
+
     func session(for index: Int) -> Session? {
         return sessionsList?.sessions[index]
     }
@@ -111,18 +127,54 @@ extension SessionDataModel {
         return sessionInfoText
     }
 
-    func add(session: Session) {
+    func create(session: Session, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         if let list = sessionsList {
+            guard !list.sessions.contains(where: {
+                $0.name == session.name
+            }) else {
+                fail?()
+                return
+            }
+
             try? realm?.write {
                 list.sessions.append(session)
+                success?()
             }
         } else {
             let list = SessionsList()
             list.sessions.append(session)
             try? realm?.write {
                 realm?.add(list)
+                success?()
             }
             sessionsList = list
+        }
+    }
+
+    func update(_ currentName: String, session: Session, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+        guard let newName = session.name,
+            let index = index(of: currentName) else {
+                fail?()
+                return
+        }
+
+        if currentName == newName {
+            try? realm?.write {
+                sessionsList?.sessions[index] = session
+                success?()
+            }
+        } else {
+            // Using self because `index` is already used here
+            guard self.index(of: newName) == nil else {
+                fail?()
+                return
+            }
+
+            try? realm?.write {
+                sessionsList?.sessions.remove(at: index)
+                sessionsList?.sessions.append(session)
+                success?()
+            }
         }
     }
 

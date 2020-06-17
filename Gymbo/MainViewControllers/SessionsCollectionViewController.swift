@@ -9,12 +9,6 @@
 import UIKit
 import RealmSwift
 
-protocol SessionDataModelDelegate: class {
-    func addSessionData(name: String?, info: String?, exercises: List<Exercise>)
-    func saveSelectedSession(_ session: Session)
-    func reloadCollectionViewWithoutAnimation()
-}
-
 // MARK: - Properties
 class SessionsCollectionViewController: UICollectionViewController {
     private let sessionDataModel = SessionDataModel.shared
@@ -93,6 +87,7 @@ extension SessionsCollectionViewController {
         updateSessionsUI()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionViewWithoutAnimation), name: .reloadDataWithoutAnimation, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -133,6 +128,10 @@ extension SessionsCollectionViewController {
         createEditSessionTableViewController.sessionState = .create
         createEditSessionTableViewController.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTableViewController, animated: true)
+    }
+
+    @objc private func reloadCollectionViewWithoutAnimation() {
+        collectionView.reloadWithoutAnimation()
     }
 }
 
@@ -225,6 +224,7 @@ extension SessionsCollectionViewController: UICollectionViewDragDelegate {
         return [dragItem]
     }
 
+    // Used for showing the view when the session is being dragged
     func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         guard let cell = collectionView.cellForItem(at: indexPath) as? SessionsCollectionViewCell else {
             return nil
@@ -281,23 +281,32 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
 
 // MARK: - SessionDataModelDelegate
 extension SessionsCollectionViewController: SessionDataModelDelegate {
-    func addSessionData(name: String?, info: String?, exercises: List<Exercise>) {
-        let session = Session(name: name, info: info, exercises: exercises)
-        sessionDataModel.add(session: session)
+    func create(_ session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+        sessionDataModel.create(session: session, success: { [weak self] in
+            guard let self = self else {
+                return
+            }
 
-        let items = collectionView.numberOfItems(inSection: 0)
-        collectionView.insertItems(at: [.init(row: items, section: 0)])
+            success()
+            self.collectionView.performBatchUpdates ({
+                let items = self.collectionView.numberOfItems(inSection: 0)
+                self.collectionView.insertItems(at: [IndexPath(row: items, section: 0)])
+            })
 
-        updateSessionsUI()
+            DispatchQueue.main.async {
+                self.updateSessionsUI()
+            }
+        }, fail: fail)
     }
 
-    func saveSelectedSession(_ editedSession: Session) {
-        updateSessionsUI()
-        collectionView.reloadData()
-    }
-
-    func reloadCollectionViewWithoutAnimation() {
-        collectionView.reloadWithoutAnimation()
+    func update(_ currentName: String, session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+        sessionDataModel.update(currentName, session: session, success: { [weak self] in
+            success()
+            DispatchQueue.main.async {
+                self?.updateSessionsUI()
+                self?.collectionView.reloadData()
+            }
+        }, fail: fail)
     }
 }
 

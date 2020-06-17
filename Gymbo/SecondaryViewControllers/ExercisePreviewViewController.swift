@@ -215,7 +215,7 @@ extension ExercisePreviewViewController {
         let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
         createEditExerciseTableViewController.exercise = exercise
         createEditExerciseTableViewController.exerciseState = .edit
-        createEditExerciseTableViewController.createEditExerciseDelegate = self
+        createEditExerciseTableViewController.exerciseDataModelDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: createEditExerciseTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
@@ -296,10 +296,10 @@ extension ExercisePreviewViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - CreateEditExerciseDelegate
-extension ExercisePreviewViewController: CreateEditExerciseDelegate {
-    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
-        ExerciseDataModel.shared.updateExercise(currentName, exercise: exercise, success: { [weak self] in
+// MARK: - ExerciseDataModelDelegate
+extension ExercisePreviewViewController: ExerciseDataModelDelegate {
+    func update(_ currentName: String, exercise: Exercise, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+        ExerciseDataModel.shared.update(currentName, exercise: exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
                 self?.exercise = exercise

@@ -45,7 +45,7 @@ class SessionHeaderView: UIView {
         return secondTextView.text
     }
 
-    var shouldSave: Bool {
+    var isFirstTextValid: Bool {
         return firstTextView.textColor != Constants.dimmedBlack && !firstTextView.text.isEmpty
     }
 

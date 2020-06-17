@@ -55,6 +55,7 @@ extension Notification {
 extension Notification.Name {
     // Sessions
     static let updateSessionsUI = Notification.Name("updateSessionsUI")
+    static let reloadDataWithoutAnimation = Notification.Name("reloadDataWithoutAnimation")
     static let startSession = Notification.Name("startSession")
     static let endSession = Notification.Name("endSession")
 

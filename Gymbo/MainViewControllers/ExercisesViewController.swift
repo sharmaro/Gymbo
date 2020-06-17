@@ -220,7 +220,7 @@ extension ExercisesViewController {
 
         let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
         createEditExerciseTableViewController.exerciseState = .create
-        createEditExerciseTableViewController.createEditExerciseDelegate = self
+        createEditExerciseTableViewController.exerciseDataModelDelegate = self
         createEditExerciseTableViewController.setAlphaDelegate = self
 
         let modalNavigationController = UINavigationController(rootViewController: createEditExerciseTableViewController)
@@ -403,10 +403,10 @@ extension ExercisesViewController: UISearchResultsUpdating {
     }
 }
 
-// MARK: - CreateExerciseDelegate
-extension ExercisesViewController: CreateEditExerciseDelegate {
-    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
-        exerciseDataModel.createExercise(exercise, success: { [weak self] in
+// MARK: - ExerciseDataModelDelegate
+extension ExercisesViewController: ExerciseDataModelDelegate {
+    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
+        exerciseDataModel.create(exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
                 self?.tableView.reloadData()

@@ -77,13 +77,7 @@ extension SessionPreviewViewController: ViewAdding {
         let spacing = CGFloat(15)
         tableView.contentInset.bottom = Constants.startButtonHeight + (-1 * Constants.startButtonBottomSpacing) + spacing
 
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
-        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .black
-
-        tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = false
+        updateTableHeaderView()
 
         startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
     }
@@ -158,6 +152,16 @@ extension SessionPreviewViewController {
 
 // MARK: - Funcs
 extension SessionPreviewViewController {
+    private func updateTableHeaderView() {
+        var dataModel = SessionHeaderViewModel()
+        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .black
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = false
+    }
+
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
     }
@@ -172,6 +176,7 @@ extension SessionPreviewViewController {
         let createEditSessionTableViewController = CreateEditSessionTableViewController()
         createEditSessionTableViewController.sessionState = .edit
         createEditSessionTableViewController.session = session
+        createEditSessionTableViewController.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTableViewController, animated: true)
     }
 
@@ -206,5 +211,18 @@ extension SessionPreviewViewController: UITableViewDataSource {
 extension SessionPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.exerciseCellHeight
+    }
+}
+
+// MARK: -
+extension SessionPreviewViewController: SessionDataModelDelegate {
+    func update(_ currentName: String, session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+        SessionDataModel.shared.update(currentName, session: session, success: { [weak self] in
+            success()
+            self?.session = session
+            DispatchQueue.main.async {
+                self?.updateTableHeaderView()
+            }
+        }, fail: fail)
     }
 }

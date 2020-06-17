@@ -110,7 +110,7 @@ extension CreateEditSessionTableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        guard tableHeaderView.shouldSave,
+        guard tableHeaderView.isFirstTextValid,
             let sessionName = tableHeaderView.firstText else {
             view.endEditing(true)
             return
@@ -119,15 +119,28 @@ extension CreateEditSessionTableViewController {
         // Calls text field and text view didEndEditing() and saves data
         view.endEditing(true)
 
+        let sessionToInteractWith = Session(name: sessionName, info: tableHeaderView.secondText, exercises: session.exercises)
         if sessionState == .create {
-            sessionDataModelDelegate?.addSessionData(name: sessionName, info: tableHeaderView.secondText, exercises: session.exercises)
+            sessionDataModelDelegate?.create(sessionToInteractWith, success: {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
+                }
+            }, fail: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.presentCustomAlert(title: "Oops!", content: "Can't create session \(sessionName) because it already exists!", usesBothButtons: false, rightButtonTitle: "Sad!")
+                }
+            })
         } else {
-            try? realm?.write {
-                session.name = sessionName
-                session.info = tableHeaderView.secondText
-            }
+            sessionDataModelDelegate?.update(session.name ?? "", session: sessionToInteractWith, success: {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
+                }
+            }, fail: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.presentCustomAlert(title: "Oops!", content: "Couldn't update session \(self?.session.name ?? "").", usesBothButtons: false, rightButtonTitle: "Sad!")
+                }
+            })
         }
-        NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -408,22 +421,6 @@ extension CreateEditSessionTableViewController: SessionHeaderTextViewsDelegate {
                 textView.textColor = Constants.dimmedBlack
             }
             return
-        }
-
-        if sessionState == .create {
-            if textView.tag == 0 {
-                session.name = textView.text
-            } else {
-                session.info = textView.text
-            }
-        } else {
-            try? realm?.write {
-                if textView.tag == 0 {
-                    session.name = textView.text
-                } else {
-                    session.info = textView.text
-                }
-            }
         }
     }
 }

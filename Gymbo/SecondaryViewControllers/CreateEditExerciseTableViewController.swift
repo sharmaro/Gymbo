@@ -9,16 +9,6 @@
 import UIKit
 import RealmSwift
 
-protocol CreateEditExerciseDelegate: class {
-    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-}
-
-extension CreateEditExerciseDelegate {
-    func createExercise(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func updateExercise(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-}
-
 enum ExerciseState: String {
     case create = "Create Exercise"
     case edit = "Edit Exercise"
@@ -51,7 +41,7 @@ class CreateEditExerciseTableViewController: UITableViewController {
     var exercise = Exercise()
     var exerciseState = ExerciseState.create
 
-    weak var createEditExerciseDelegate: CreateEditExerciseDelegate?
+    weak var exerciseDataModelDelegate: ExerciseDataModelDelegate?
     weak var setAlphaDelegate: SetAlphaDelegate?
 }
 
@@ -220,16 +210,20 @@ extension CreateEditExerciseTableViewController {
         let exercise = Exercise(name: exerciseName, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData, isUserMade: true)
         switch exerciseState {
         case .create:
-            createEditExerciseDelegate?.createExercise(exercise, success: { [weak self] in
+            exerciseDataModelDelegate?.create(exercise, success: { [weak self] in
                 self?.dismiss(animated: true)
                 }, fail: { [weak self] in
-                    self?.presentCustomAlert(title: "Oops!", content: "Can't create exercise \(self?.exerciseName ?? "") because it already exists!", usesBothButtons: false, rightButtonTitle: "Sounds good.")
+                    DispatchQueue.main.async {
+                        self?.presentCustomAlert(title: "Oops!", content: "Can't create exercise \(self?.exerciseName ?? "") because it already exists!", usesBothButtons: false, rightButtonTitle: "Sad!")
+                    }
             })
         case .edit:
-            createEditExerciseDelegate?.updateExercise(self.exercise.name ?? "", exercise: exercise, success: { [weak self] in
+            exerciseDataModelDelegate?.update(self.exercise.name ?? "", exercise: exercise, success: { [weak self] in
                 self?.dismiss(animated: true)
             }, fail: { [weak self] in
-                self?.presentCustomAlert(title: "Oops!", content: "Couldn't edit exercise \(self?.exerciseName ?? "")", usesBothButtons: false, rightButtonTitle: "Sounds good.")
+                DispatchQueue.main.async {
+                    self?.presentCustomAlert(title: "Oops!", content: "Couldn't edit exercise \(self?.exerciseName ?? "").", usesBothButtons: false, rightButtonTitle: "Sad!")
+                }
             })
         }
     }

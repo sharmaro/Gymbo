@@ -8,6 +8,16 @@
 
 import RealmSwift
 
+protocol ExerciseDataModelDelegate: class {
+    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+}
+
+extension ExerciseDataModelDelegate {
+    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+}
+
 // MARK: - Properties
 class ExerciseDataModel: NSObject {
     static let shared = ExerciseDataModel()
@@ -309,16 +319,16 @@ extension ExerciseDataModel {
     }
 
     func index(of name: String) -> Int? {
-        return exercisesList.exercises.firstIndex { (exercise) -> Bool in
-            exercise.name == name
-        }
+        return exercisesList.exercises.firstIndex(where: {
+            name == $0.name
+        })
     }
 
     func removeSearchedResults() {
         searchResults.removeAll()
     }
 
-    func createExercise(_ exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func create(_ exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         let name = exercise.name ?? ""
 
         guard exercisesCache[name] == nil,
@@ -339,7 +349,7 @@ extension ExerciseDataModel {
         }
     }
 
-    func updateExercise(_ currentName: String, exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func update(_ currentName: String, exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         guard let newName = exercise.name,
             let index = index(of: currentName),
             let firstCharacter = getFirstCharacter(of: currentName)?.capitalized,
@@ -364,6 +374,11 @@ extension ExerciseDataModel {
                 success?()
             }
         } else {
+            guard exercisesCache[newName] == nil else {
+                fail?()
+                return
+            }
+
             exercisesCache[currentName] = nil
 
             exerciseArray.remove(at: firstIndex)
