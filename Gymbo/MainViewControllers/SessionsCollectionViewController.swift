@@ -260,14 +260,14 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
                     return
                 }
 
+                guard let fromSession = sessionDataModel.session(for: sourceIndexPath.row) else {
+                    return
+                }
+
+                sessionDataModel.remove(at: sourceIndexPath.item)
+                sessionDataModel.insert(session: fromSession, at: destinationIndexPath.item)
+
                 collectionView.performBatchUpdates ({
-                    guard let fromSession = sessionDataModel.session(for: sourceIndexPath.row) else {
-                        return
-                    }
-
-                    sessionDataModel.remove(at: sourceIndexPath.item)
-                    sessionDataModel.insert(session: fromSession, at: destinationIndexPath.item)
-
                     collectionView.deleteItems(at: [sourceIndexPath])
                     collectionView.insertItems(at: [destinationIndexPath])
                 })

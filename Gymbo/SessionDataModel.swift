@@ -145,9 +145,9 @@ extension SessionDataModel {
             list.sessions.append(session)
             try? realm?.write {
                 realm?.add(list)
+                sessionsList = list
                 success?()
             }
-            sessionsList = list
         }
     }
 

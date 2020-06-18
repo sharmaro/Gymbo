@@ -222,6 +222,8 @@ extension SessionPreviewViewController: SessionDataModelDelegate {
             self?.session = session
             DispatchQueue.main.async {
                 self?.updateTableHeaderView()
+                // Updating collectionView in SessionsCollectionViewController
+                NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
             }
         }, fail: fail)
     }

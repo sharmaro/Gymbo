@@ -122,9 +122,7 @@ extension CreateEditSessionTableViewController {
         let sessionToInteractWith = Session(name: sessionName, info: tableHeaderView.secondText, exercises: session.exercises)
         if sessionState == .create {
             sessionDataModelDelegate?.create(sessionToInteractWith, success: {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
-                }
+                // No op
             }, fail: { [weak self] in
                 DispatchQueue.main.async {
                     self?.presentCustomAlert(title: "Oops!", content: "Can't create session \(sessionName) because it already exists!", usesBothButtons: false, rightButtonTitle: "Sad!")
@@ -132,9 +130,7 @@ extension CreateEditSessionTableViewController {
             })
         } else {
             sessionDataModelDelegate?.update(session.name ?? "", session: sessionToInteractWith, success: {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
-                }
+                // No op
             }, fail: { [weak self] in
                 DispatchQueue.main.async {
                     self?.presentCustomAlert(title: "Oops!", content: "Couldn't update session \(self?.session.name ?? "").", usesBothButtons: false, rightButtonTitle: "Sad!")

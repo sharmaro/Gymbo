@@ -113,7 +113,7 @@ extension ExerciseTableViewCell {
         if let firstImageData = imagesData.first,
             let image = UIImage(data: firstImageData) {
             muscleImageView.image = image
-        } else if let emptyImage = UIImage(named: "emptyImage") {
+        } else if let emptyImage = UIImage(named: "empty") {
             muscleImageView.image = emptyImage
         }
     }
