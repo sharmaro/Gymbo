@@ -26,30 +26,26 @@ extension UIViewController {
     }
 
     func showActivityIndicator() {
-        DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
+        let viewToUse = navigationController?.view == nil ? view : navigationController?.view
 
-            let backgroundView = UIView(frame: viewToUse?.bounds ?? .zero)
-            backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        let backgroundView = UIView(frame: viewToUse?.bounds ?? .zero)
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
-            let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
-            activityIndicatorView.center = backgroundView.center
-            activityIndicatorView.startAnimating()
+        let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicatorView.center = backgroundView.center
+        activityIndicatorView.startAnimating()
 
-            backgroundView.addSubview(activityIndicatorView)
-            viewToUse?.addSubview(backgroundView)
-        }
+        backgroundView.addSubview(activityIndicatorView)
+        viewToUse?.addSubview(backgroundView)
     }
 
     func hideActivityIndicator() {
-        DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
+        let viewToUse = navigationController?.view == nil ? view : navigationController?.view
 
-            guard let backgroundView = viewToUse?.subviews.last,
-                backgroundView.subviews.first is UIActivityIndicatorView else {
-                return
-            }
-            backgroundView.removeFromSuperview()
+        guard let backgroundView = viewToUse?.subviews.last,
+            backgroundView.subviews.first is UIActivityIndicatorView else {
+            return
         }
+        backgroundView.removeFromSuperview()
     }
 }

@@ -377,6 +377,13 @@ extension ExercisesViewController: UITableViewDelegate {
         exerciseCell.didSelect = false
         updateAddButtonTitle()
     }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let visibleIndexPaths = tableView.indexPathsForVisibleRows,
+            let lastIndexPathForVisibleRows = visibleIndexPaths.last, lastIndexPathForVisibleRows == indexPath {
+            hideActivityIndicator()
+        }
+    }
 }
 
 // MARK: - UISearchResultsUpdating
@@ -494,6 +501,11 @@ extension ExercisesViewController: DimmedViewDelegate {
 extension ExercisesViewController: DataFetchDelegate {
     func didFinishFetch() {
         tableView.reloadData()
-        hideActivityIndicator()
+
+        guard tableView.numberOfSections > 0,
+            tableView.numberOfRows(inSection: 0) > 0 else {
+            hideActivityIndicator()
+                return
+        }
     }
 }
