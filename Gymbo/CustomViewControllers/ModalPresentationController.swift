@@ -92,9 +92,7 @@ final class ModalPresentationController: UIPresentationController {
         container.addSubview(dimmingView)
 
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             self.dimmingView.alpha = 1
         })
     }
@@ -106,9 +104,7 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         coordinator.animate(alongsideTransition: { [weak self] _ -> Void in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             self.dimmingView.alpha = 0
         })
     }
@@ -175,9 +171,7 @@ extension ModalPresentationController {
         }
 
         UIView.animate(withDuration: Constants.animationDuration, delay: Constants.delayDuration, usingSpringWithDamping: Constants.dampingDuration, initialSpringVelocity: Constants.velocity, options: .curveEaseInOut, animations: { [weak self] in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin
         })
     }

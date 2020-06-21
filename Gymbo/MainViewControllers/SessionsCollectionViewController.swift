@@ -85,6 +85,7 @@ extension SessionsCollectionViewController {
         setupNavigationBar()
         setupViews()
         updateSessionsUI()
+        sessionDataModel.fetchSessions()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionViewWithoutAnimation), name: .reloadDataWithoutAnimation, object: nil)
@@ -283,9 +284,7 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
 extension SessionsCollectionViewController: SessionDataModelDelegate {
     func create(_ session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
         sessionDataModel.create(session: session, success: { [weak self] in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
 
             success()
             self.collectionView.performBatchUpdates ({

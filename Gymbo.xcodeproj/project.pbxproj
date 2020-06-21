@@ -60,6 +60,9 @@
 		69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81E247DF6860023E967 /* CreateEditExerciseTableViewController.swift */; };
 		69DAD821247E01580023E967 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD820247E01580023E967 /* TextViewTableViewCell.swift */; };
 		69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B47C249B331800E4DD99 /* NotificationHelper.swift */; };
+		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
+		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
+		69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */; };
 		69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3C0A323F0DA7C0016F28C /* Protocols.swift */; };
 		69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */; };
 		69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */; };
@@ -124,6 +127,9 @@
 		69DAD81E247DF6860023E967 /* CreateEditExerciseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseTableViewController.swift; sourceTree = "<group>"; };
 		69DAD820247E01580023E967 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		69E3B47C249B331800E4DD99 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
+		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
+		69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3C0A323F0DA7C0016F28C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModel.swift; sourceTree = "<group>"; };
@@ -291,8 +297,11 @@
 		696A751F2361630300FA605F /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
+				69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */,
 				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
+				69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
+				69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */,
 			);
 			name = DataModels;
 			sourceTree = "<group>";
@@ -452,10 +461,12 @@
 				69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
 				69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */,
+				69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				69C1BCC9245F67E000D23556 /* SwipableImageViewTableViewCell.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
+				69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
 				69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */,
@@ -472,6 +483,7 @@
 				69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
 				69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */,
+				69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTableViewCell.swift in Sources */,

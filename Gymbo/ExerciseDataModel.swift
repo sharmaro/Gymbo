@@ -8,16 +8,6 @@
 
 import RealmSwift
 
-protocol ExerciseDataModelDelegate: class {
-    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-}
-
-extension ExerciseDataModelDelegate {
-    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-}
-
 // MARK: - Properties
 class ExerciseDataModel: NSObject {
     static let shared = ExerciseDataModel()
@@ -27,7 +17,7 @@ class ExerciseDataModel: NSObject {
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Chest",
                                   "Glutes", "Hips", "Legs", "Other", "Shoulders"]
-    // Stores exercises alphabetically
+    // Stores exercises based on their first character
     private var exercisesDictionary = [String: [Exercise]]()
     // Stores exercises by name for quick lookup
     private var exercisesCache = [String: Exercise]()
@@ -40,11 +30,7 @@ class ExerciseDataModel: NSObject {
         return searchResults.isEmpty ? exercisesDictionary : searchResults
     }
 
-    override init() {
-        super.init()
-
-        setupExerciseList()
-    }
+    weak var dataFetchDelegate: DataFetchDelegate?
 }
 
 // MARK: - Structs/Enums
@@ -64,54 +50,70 @@ private extension ExerciseDataModel {
 extension ExerciseDataModel {
     // MARK: - Helper
 
-    private func setupExerciseList() {
+    func fetchExercises() {
         if let exercisesList = realm?.objects(ExercisesList.self).first {
             self.exercisesList = exercisesList
-            setupExercisesDictionary(exercisesList: exercisesList)
-        } else {
-            for group in exerciseGroups {
-                guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
-                    let content = try? String(contentsOfFile: filePath) else {
-                        fatalError("Error while opening file: \(group).txt.")
+
+            dataFetchDelegate?.didBeginFetch()
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                // Realm objects can only be used on the thread that creates them
+                let backgroundRealm = try? Realm()
+                if let backgroundExercisesList = backgroundRealm?.objects(ExercisesList.self).first {
+                    self?.setupExercisesDictionary(exercisesList: backgroundExercisesList)
                 }
+            }
+        } else {
+            dataFetchDelegate?.didBeginFetch()
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                guard let self = self else { return }
 
-                let exercises = content.components(separatedBy: "\n")
-                for exercise in exercises {
-                    // Prevents reading the empty line at EOF
-                    if !exercise.isEmpty {
-                        let exerciseSplitList = exercise.split(separator: ":")
-                        let name = String(exerciseSplitList[0])
-                        let groups =  String(exerciseSplitList[1])
+                for group in self.exerciseGroups {
+                    guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
+                        let content = try? String(contentsOfFile: filePath) else {
+                            fatalError("Error while opening file: \(group).txt.")
+                    }
 
-                        // Skip adding existing exercises
-                        if exercisesCache[name] != nil {
-                            continue
-                        }
+                    let exercises = content.components(separatedBy: "\n")
+                    for exercise in exercises {
+                        // Prevents reading the empty line at EOF
+                        if !exercise.isEmpty {
+                            let exerciseSplitList = exercise.split(separator: ":")
+                            let name = String(exerciseSplitList[0])
+                            let groups =  String(exerciseSplitList[1])
 
-                        let newExercise = createExerciseFromStorage(name: name, groups: groups)
-                        exercisesCache[name] = newExercise
-                        exercisesList.exercises.append(newExercise)
-
-                        if let title = getFirstCharacter(of: name)?.capitalized {
-                            if var exercisesArray = exercisesDictionary[title] {
-                                exercisesArray.append(newExercise)
-                                exercisesDictionary[title] = exercisesArray
-                            } else {
-                                exercisesDictionary[title] = [newExercise]
+                            // Skip adding existing exercises
+                            if self.exercisesCache[name] != nil {
+                                continue
                             }
 
-                            if !sectionTitles.contains(title) {
-                                sectionTitles.append(title)
+                            let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
+                            self.exercisesCache[name] = newExercise
+                            self.exercisesList.exercises.append(newExercise)
+
+                            if let title = self.getFirstCharacter(of: name)?.capitalized {
+                                if var exercisesArray = self.exercisesDictionary[title] {
+                                    exercisesArray.append(newExercise)
+                                    self.exercisesDictionary[title] = exercisesArray
+                                } else {
+                                    self.exercisesDictionary[title] = [newExercise]
+                                }
+
+                                if !self.sectionTitles.contains(title) {
+                                    self.sectionTitles.append(title)
+                                }
                             }
                         }
                     }
                 }
-            }
+                DispatchQueue.main.async {
+                    self.sectionTitles.sort()
+                    self.exercisesList.exercises.sort()
 
-            sectionTitles.sort()
-            exercisesList.exercises.sort()
-            try? realm?.write {
-                realm?.add(exercisesList)
+                    try? self.realm?.write {
+                        self.realm?.add(self.exercisesList)
+                        self.dataFetchDelegate?.didFinishFetch()
+                    }
+                }
             }
         }
     }
@@ -192,24 +194,34 @@ extension ExerciseDataModel {
 
     private func setupExercisesDictionary(exercisesList: ExercisesList) {
         exercisesList.exercises.forEach {
-            if let name = $0.name,
-                let title = getFirstCharacter(of: name)?.capitalized {
-                if var exercisesArray = exercisesDictionary[title] {
-                    exercisesArray.append($0)
-                    exercisesDictionary[title] = exercisesArray
-                } else {
-                    exercisesDictionary[title] = [$0]
-                }
+            // ThreadSafeReference allows the passing of Realm objects between threads
+            let backgroundThreadExercise = ThreadSafeReference(to: $0)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
 
-                // Keeping a dictionary cache for fast lookups
-                exercisesCache[name] = $0
+                if let mainThreadExercise = self.realm?.resolve(backgroundThreadExercise),
+                    let name = mainThreadExercise.name,
+                    let title = self.getFirstCharacter(of: name)?.capitalized {
+                    if var exercisesArray = self.exercisesDictionary[title] {
+                        exercisesArray.append(mainThreadExercise)
+                        self.exercisesDictionary[title] = exercisesArray
+                    } else {
+                        self.exercisesDictionary[title] = [mainThreadExercise]
+                    }
 
-                if !sectionTitles.contains(title) {
-                    sectionTitles.append(title)
+                    // Keeping a dictionary cache for fast lookups
+                    self.exercisesCache[name] = mainThreadExercise
+
+                    if !self.sectionTitles.contains(title) {
+                        self.sectionTitles.append(title)
+                    }
                 }
             }
         }
-        sectionTitles.sort()
+        DispatchQueue.main.async { [weak self] in
+            self?.sectionTitles.sort()
+            self?.dataFetchDelegate?.didFinishFetch()
+        }
     }
 
     private func getFirstCharacter(of text: String) -> String? {

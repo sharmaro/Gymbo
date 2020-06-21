@@ -8,16 +8,6 @@
 
 import RealmSwift
 
-protocol SessionDataModelDelegate: class {
-    func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-}
-
-extension SessionDataModelDelegate {
-    func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-}
-
 // MARK: - Properties
 class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
@@ -33,30 +23,22 @@ class SessionDataModel: NSObject {
         return sessionsList?.sessions.isEmpty ?? true
     }
 
-    // MARK: - NSObject Var/Funcs
-    override init() {
-        super.init()
-
-        sessionsList = fetchSessions()
-        printConfigFileLocation()
-    }
+    weak var dataFetchDelegate: DataFetchDelegate?
 }
 
 // MARK: - Funcs
 extension SessionDataModel {
+    // Delete this eventually
     private func printConfigFileLocation() {
-        print()
-        if realm?.configuration.fileURL != nil {
-            NSLog("SUCCESS: Realm location exists.")
-        } else {
-            NSLog("FAILURE: Realm location does not exist.")
-        }
-        print(String(describing: realm?.configuration.fileURL))
-        print()
+        realm?.configuration.fileURL != nil ? NSLog("SUCCESS: Realm location exists.") : NSLog("FAILURE: Realm location does not exist.")
+        print("\(String(describing: realm?.configuration.fileURL))\n")
     }
 
-    private func fetchSessions() -> SessionsList? {
-        return realm?.objects(SessionsList.self).first
+    func fetchSessions() {
+        printConfigFileLocation()
+        dataFetchDelegate?.didBeginFetch()
+        sessionsList = realm?.objects(SessionsList.self).first
+        dataFetchDelegate?.didFinishFetch()
     }
 
     private func removeAllRealmData() {

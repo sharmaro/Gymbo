@@ -130,9 +130,7 @@ extension MainTabBarController: SessionProgressDelegate {
         view.layoutIfNeeded()
 
         UIView.animate(withDuration: 0.4, delay: 0.1, animations: { [weak self] in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
 
             shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
             self.tabBar.frame.origin = CGPoint(x: 0, y: self.view.frame.height)

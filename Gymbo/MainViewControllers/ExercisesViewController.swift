@@ -48,9 +48,9 @@ class ExercisesViewController: UIViewController {
 
     private var didViewAppear = false
 
+    private let exerciseDataModel = ExerciseDataModel.shared
     private var selectedExerciseNamesAndIndices = [String: Int]()
     private var selectedExerciseNames = [String]()
-    private var exerciseDataModel = ExerciseDataModel.shared
 
     var presentationStyle = PresentationStyle.normal
 
@@ -151,6 +151,8 @@ extension ExercisesViewController {
         addViews()
         setupViews()
         addConstraints()
+        showActivityIndicator()
+        setupExerciseDataModel()
         registerForKeyboardNotifications()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateExercisesUI), name: .updateExercisesUI, object: nil)
@@ -179,6 +181,11 @@ extension ExercisesViewController {
 
 // MARK: - Funcs
 extension ExercisesViewController {
+    private func setupExerciseDataModel() {
+        exerciseDataModel.dataFetchDelegate = self
+        exerciseDataModel.fetchExercises()
+    }
+
     private func saveExercise() {
         // Get exercise info from the selected exercises
         guard !selectedExerciseNamesAndIndices.isEmpty else {
@@ -198,7 +205,6 @@ extension ExercisesViewController {
     private func updateAddButtonTitle() {
         var title = ""
         let isEnabled: Bool
-
 
         if selectedExerciseNames.isEmpty {
             title = "Add"
@@ -494,5 +500,13 @@ extension ExercisesViewController: DimmedViewDelegate {
 
     func removeView() {
         navigationController?.view.removeDimmedView(animated: true)
+    }
+}
+
+// MARK: - DataFetchDelegate
+extension ExercisesViewController: DataFetchDelegate {
+    func didFinishFetch() {
+        tableView.reloadData()
+        hideActivityIndicator()
     }
 }
