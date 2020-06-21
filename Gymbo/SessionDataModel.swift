@@ -84,7 +84,7 @@ extension SessionDataModel {
             for i in 0 ..< exercises.count {
                 if ExerciseDataModel.shared.doesExerciseExist(name: exercises[i].name ?? "") {
                     var sessionString = ""
-                    let name = Util.formattedString(stringToFormat: exercises[i].name, type: .name)
+                    let name = Utility.formattedString(stringToFormat: exercises[i].name, type: .name)
                     sessionString = "\(name)"
                     if i != exercises.count - 1 {
                         sessionString += ", "

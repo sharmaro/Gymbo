@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol SessionProgressDelegate: class {
-    func sessionDidStart(_ session: Session?)
-    func sessionDidEnd(_ session: Session?)
-}
-
 // MARK: - Properties
 class MainTabBarController: UITabBarController {
     var isSessionInProgress = false

@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol MultipleSelectionTableViewCellDelegate: class {
-    func selected(items: [String])
-}
-
 // MARK: - Properties
 class MultipleSelectionTableViewCell: UITableViewCell {
     private let collectionView: UICollectionView = {

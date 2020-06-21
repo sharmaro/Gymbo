@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol TextViewTableViewCellDelegate: class {
-    func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell)
-}
-
 // MARK: - Properties
 class TextViewTableViewCell: UITableViewCell {
     private let textView: UITextView = {

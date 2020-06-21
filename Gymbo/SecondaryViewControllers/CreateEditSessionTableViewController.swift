@@ -9,11 +9,6 @@
 import UIKit
 import RealmSwift
 
-enum SessionState: String {
-    case create = "Create Session"
-    case edit = "Edit Session"
-}
-
 // MARK: - Properties
 class CreateEditSessionTableViewController: UITableViewController {
     private let tableHeaderView = SessionHeaderView()
@@ -73,7 +68,7 @@ extension CreateEditSessionTableViewController: ViewAdding {
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = true
-        tableHeaderView.sessionHeaderTextViewsDelegate = self
+        tableHeaderView.customTextViewDelegate = self
     }
 
     func addConstraints() {
@@ -388,8 +383,8 @@ extension CreateEditSessionTableViewController: UIViewControllerTransitioningDel
     }
 }
 
-// MARK: - SessionHeaderTextViewsDelegate
-extension CreateEditSessionTableViewController: SessionHeaderTextViewsDelegate {
+// MARK: - CustomTextViewDelegate
+extension CreateEditSessionTableViewController: CustomTextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         tableView.performBatchUpdates ({
             textView.sizeToFit()

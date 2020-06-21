@@ -8,15 +8,6 @@
 
 import UIKit
 
-protocol ImagesTableViewCellDelegate: class {
-    func buttonTapped(cell: ImagesTableViewCell, index: Int, function: ButtonFunction)
-}
-
-enum ButtonFunction {
-    case add
-    case update
-}
-
 // MARK: - Properties
 class ImagesTableViewCell: UITableViewCell {
     private let horizontalScrollView = UIScrollView()
@@ -48,14 +39,6 @@ class ImagesTableViewCell: UITableViewCell {
         super.init(coder: coder)
 
         setup()
-    }
-}
-
-// MARK: - Structs/Enums
-extension ImagesTableViewCell {
-    enum ImageType {
-        case button
-        case image
     }
 }
 
@@ -133,7 +116,7 @@ extension ImagesTableViewCell {
                 imageViews.append(imageView)
                 view = imageView
             }
-            view.addCorner(style: .circle(view: view))
+            view.addCorner(style: .circle(length: view.frame.height))
             previousX += viewSize.width + spacing
             horizontalScrollView.addSubview(view)
         }

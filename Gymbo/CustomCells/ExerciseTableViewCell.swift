@@ -56,7 +56,7 @@ class ExerciseTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        muscleImageView.addCorner(style: .circle(view: muscleImageView))
+        muscleImageView.addCorner(style: .circle(length: muscleImageView.frame.height))
     }
 }
 

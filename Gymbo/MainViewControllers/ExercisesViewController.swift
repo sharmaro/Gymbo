@@ -8,19 +8,6 @@
 
 import UIKit
 
-protocol SetAlphaDelegate: class {
-    func setAlpha(alpha: CGFloat)
-}
-
-protocol ExercisesDelegate: class {
-    func updateExercises(_ exercises: [Exercise])
-}
-
-enum PresentationStyle {
-    case normal
-    case modal
-}
-
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
     private let tableView: UITableView = {

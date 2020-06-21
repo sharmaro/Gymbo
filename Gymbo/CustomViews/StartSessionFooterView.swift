@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol StartSessionButtonDelegate: class {
-    func addExercise()
-    func cancelSession()
-}
-
 // MARK: - Properties
 class StartSessionFooterView: UIView {
     private let addExerciseButton: CustomButton = {

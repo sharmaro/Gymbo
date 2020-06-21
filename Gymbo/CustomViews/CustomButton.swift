@@ -8,15 +8,6 @@
 
 import UIKit
 
-enum Transform {
-    case shrink
-    case inflate
-
-    static func caseFromBool(bool: Bool) -> Transform {
-        return bool ? .shrink : .inflate
-    }
-}
-
 // MARK: - Properties
 class CustomButton: UIButton {
     var title = "" {

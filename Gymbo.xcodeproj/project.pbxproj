@@ -11,12 +11,9 @@
 		690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */; };
 		691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */; };
 		691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */; };
-		6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673A22F77A2900832C68 /* UIExtensions.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
 		692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */; };
-		69346A932320189300060E4C /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69346A922320189300060E4C /* TypeExtensions.swift */; };
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
-		6942B212232B621600FCEECE /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942B211232B621600FCEECE /* Util.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
@@ -49,6 +46,54 @@
 		69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */; };
 		69693CED247DF30300E87133 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CEC247DF30300E87133 /* LabelTableViewCell.swift */; };
 		69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69695698245013C3007FADC2 /* StartSessionTableViewController.swift */; };
+		6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */; };
+		6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */; };
+		6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */; };
+		6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */; };
+		6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3CC249F1FC600479E91 /* ViewAdding.swift */; };
+		6972E3CF249F1FE600479E91 /* DimmedViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3CE249F1FE600479E91 /* DimmedViewDelegate.swift */; };
+		6972E3D2249F209900479E91 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3D1249F209900479E91 /* Int+Extension.swift */; };
+		6972E3D8249F213900479E91 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3D7249F213900479E91 /* String+Extension.swift */; };
+		6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3D9249F215400479E91 /* Notification+Extension.swift */; };
+		6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3DC249F21E700479E91 /* UIView+Extension.swift */; };
+		6972E3DF249F223000479E91 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3DE249F223000479E91 /* CALayer+Extension.swift */; };
+		6972E3E1249F225200479E91 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E0249F225200479E91 /* UIViewController+Extension.swift */; };
+		6972E3E3249F22B100479E91 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E2249F22B100479E91 /* UITableView+Extension.swift */; };
+		6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */; };
+		6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */; };
+		6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */; };
+		6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3EB249F236700479E91 /* ShadowDirection.swift */; };
+		6972E3EE249F237C00479E91 /* CornerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3ED249F237C00479E91 /* CornerStyle.swift */; };
+		6972E3F0249F244200479E91 /* PresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3EF249F244200479E91 /* PresentationStyle.swift */; };
+		6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F1249F246E00479E91 /* ExerciseState.swift */; };
+		6972E3F4249F24A800479E91 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F3249F24A800479E91 /* SessionState.swift */; };
+		6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F5249F24DD00479E91 /* ButtonFunction.swift */; };
+		6972E3F8249F254800479E91 /* ImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F7249F254800479E91 /* ImageType.swift */; };
+		6972E3FA249F257700479E91 /* TextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F9249F257700479E91 /* TextFieldType.swift */; };
+		6972E3FC249F25A100479E91 /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3FB249F25A100479E91 /* Transform.swift */; };
+		6972E3FE249F268500479E91 /* SessionProgressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */; };
+		6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */; };
+		6972E402249F26E700479E91 /* ExercisesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E401249F26E700479E91 /* ExercisesDelegate.swift */; };
+		6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E403249F273F00479E91 /* RestTimerDelegate.swift */; };
+		6972E406249F276A00479E91 /* UpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E405249F276A00479E91 /* UpdateDelegate.swift */; };
+		6972E408249F288100479E91 /* ImagesTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E407249F288100479E91 /* ImagesTableViewCellDelegate.swift */; };
+		6972E40A249F28AB00479E91 /* ButtonTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E409249F28AB00479E91 /* ButtonTableViewCellDelegate.swift */; };
+		6972E40C249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E40B249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift */; };
+		6972E40F249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E40E249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift */; };
+		6972E411249F29E100479E91 /* ExerciseHeaderCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E410249F29E100479E91 /* ExerciseHeaderCellDelegate.swift */; };
+		6972E413249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E412249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift */; };
+		6972E415249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */; };
+		6972E417249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E416249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift */; };
+		6972E419249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */; };
+		6972E41B249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */; };
+		6972E41D249F2B5600479E91 /* TextViewTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */; };
+		6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41E249F2BA100479E91 /* CustomBounds.swift */; };
+		6972E421249F2BDB00479E91 /* CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */; };
+		6972E423249F2CF100479E91 /* SessionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */; };
+		6972E425249F2D4A00479E91 /* StartSessionButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E424249F2D4A00479E91 /* StartSessionButtonDelegate.swift */; };
+		6972E428249F2E1A00479E91 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */; };
+		6972E42A249F2E3D00479E91 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E429249F2E3D00479E91 /* Utility.swift */; };
+		6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42B249F2EBF00479E91 /* SessionDetailType.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
 		69C1BCC324594B1300D23556 /* Workout Info in Resources */ = {isa = PBXBuildFile; fileRef = 69C1BCC224594B1300D23556 /* Workout Info */; };
 		69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */; };
@@ -63,7 +108,6 @@
 		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
 		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
 		69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */; };
-		69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3C0A323F0DA7C0016F28C /* Protocols.swift */; };
 		69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */; };
 		69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
@@ -76,12 +120,9 @@
 		690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTableViewCell.swift; sourceTree = "<group>"; };
 		691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
-		6929673A22F77A2900832C68 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
-		69346A922320189300060E4C /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
-		6942B211232B621600FCEECE /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTableViewController.swift; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -116,6 +157,54 @@
 		69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		69693CEC247DF30300E87133 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		69695698245013C3007FADC2 /* StartSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionTableViewController.swift; sourceTree = "<group>"; };
+		6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserving.swift; sourceTree = "<group>"; };
+		6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStateObserving.swift; sourceTree = "<group>"; };
+		6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProgressObserving.swift; sourceTree = "<group>"; };
+		6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStateConstraintsUpdating.swift; sourceTree = "<group>"; };
+		6972E3CC249F1FC600479E91 /* ViewAdding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAdding.swift; sourceTree = "<group>"; };
+		6972E3CE249F1FE600479E91 /* DimmedViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmedViewDelegate.swift; sourceTree = "<group>"; };
+		6972E3D1249F209900479E91 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		6972E3D7249F213900479E91 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		6972E3D9249F215400479E91 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
+		6972E3DC249F21E700479E91 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		6972E3DE249F223000479E91 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		6972E3E0249F225200479E91 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		6972E3E2249F22B100479E91 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
+		6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		6972E3EB249F236700479E91 /* ShadowDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowDirection.swift; sourceTree = "<group>"; };
+		6972E3ED249F237C00479E91 /* CornerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerStyle.swift; sourceTree = "<group>"; };
+		6972E3EF249F244200479E91 /* PresentationStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationStyle.swift; sourceTree = "<group>"; };
+		6972E3F1249F246E00479E91 /* ExerciseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseState.swift; sourceTree = "<group>"; };
+		6972E3F3249F24A800479E91 /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
+		6972E3F5249F24DD00479E91 /* ButtonFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFunction.swift; sourceTree = "<group>"; };
+		6972E3F7249F254800479E91 /* ImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageType.swift; sourceTree = "<group>"; };
+		6972E3F9249F257700479E91 /* TextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldType.swift; sourceTree = "<group>"; };
+		6972E3FB249F25A100479E91 /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
+		6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProgressDelegate.swift; sourceTree = "<group>"; };
+		6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAlphaDelegate.swift; sourceTree = "<group>"; };
+		6972E401249F26E700479E91 /* ExercisesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesDelegate.swift; sourceTree = "<group>"; };
+		6972E403249F273F00479E91 /* RestTimerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTimerDelegate.swift; sourceTree = "<group>"; };
+		6972E405249F276A00479E91 /* UpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDelegate.swift; sourceTree = "<group>"; };
+		6972E407249F288100479E91 /* ImagesTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E409249F28AB00479E91 /* ButtonTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E40B249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E40E249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCellModel.swift; sourceTree = "<group>"; };
+		6972E410249F29E100479E91 /* ExerciseHeaderCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderCellDelegate.swift; sourceTree = "<group>"; };
+		6972E412249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTableViewCellModel.swift; sourceTree = "<group>"; };
+		6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E416249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCellModel.swift; sourceTree = "<group>"; };
+		6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E41E249F2BA100479E91 /* CustomBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBounds.swift; sourceTree = "<group>"; };
+		6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextViewDelegate.swift; sourceTree = "<group>"; };
+		6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderViewModel.swift; sourceTree = "<group>"; };
+		6972E424249F2D4A00479E91 /* StartSessionButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionButtonDelegate.swift; sourceTree = "<group>"; };
+		6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		6972E429249F2E3D00479E91 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		6972E42B249F2EBF00479E91 /* SessionDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailType.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
 		69C1BCC224594B1300D23556 /* Workout Info */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Workout Info"; sourceTree = "<group>"; };
 		69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +219,6 @@
 		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
 		69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDataModelDelegate.swift; sourceTree = "<group>"; };
-		69E3C0A323F0DA7C0016F28C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		69F012E02383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModel.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
@@ -205,10 +293,15 @@
 		69507091249751FD00942078 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6972E41E249F2BA100479E91 /* CustomBounds.swift */,
 				695070962497528200942078 /* Exercise.swift */,
 				6950709A249752B900942078 /* ExerciseDetails.swift */,
+				6972E40E249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift */,
+				6972E412249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift */,
 				69507098249752A300942078 /* ExercisesList.swift */,
 				695070922497522400942078 /* Session.swift */,
+				6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */,
+				6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */,
 				695070942497525E00942078 /* SessionsList.swift */,
 			);
 			name = Models;
@@ -245,7 +338,7 @@
 				69507091249751FD00942078 /* Models */,
 				696A751F2361630300FA605F /* DataModels */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
-				6962945F235D58D400E681C7 /* WorkoutTextFiles */,
+				6962945F235D58D400E681C7 /* WorkoutsData */,
 				695D4BE922CB28B800E3FB1F /* Assets.xcassets */,
 				695D4BEE22CB28B800E3FB1F /* Info.plist */,
 			);
@@ -266,23 +359,23 @@
 		695D4C0822D450CD00E3FB1F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				695D4C0222D30CA300E3FB1F /* Colors.swift */,
-				69E3B47C249B331800E4DD99 /* NotificationHelper.swift */,
-				69E3C0A323F0DA7C0016F28C /* Protocols.swift */,
-				69346A922320189300060E4C /* TypeExtensions.swift */,
-				6929673A22F77A2900832C68 /* UIExtensions.swift */,
-				6942B211232B621600FCEECE /* Util.swift */,
+				6972E42D249F2F5600479E91 /* Classes */,
+				6972E3EA249F234D00479E91 /* Enums */,
+				6972E3C3249F1F0700479E91 /* Protocols */,
+				6972E426249F2E0900479E91 /* Structs */,
+				6972E3D0249F207E00479E91 /* TypeExtensions */,
+				6972E3DB249F21D500479E91 /* UIExtensions */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		6962945F235D58D400E681C7 /* WorkoutTextFiles */ = {
+		6962945F235D58D400E681C7 /* WorkoutsData */ = {
 			isa = PBXGroup;
 			children = (
 				69C1BCC224594B1300D23556 /* Workout Info */,
 				69E3B47E249B385900E4DD99 /* WorkoutInitFiles */,
 			);
-			name = WorkoutTextFiles;
+			name = WorkoutsData;
 			sourceTree = "<group>";
 		};
 		69659C0624039C460054F655 /* CustomViewControllers */ = {
@@ -297,13 +390,100 @@
 		696A751F2361630300FA605F /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
-				69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */,
 				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
-				69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
-				69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */,
 			);
 			name = DataModels;
+			sourceTree = "<group>";
+		};
+		6972E3C3249F1F0700479E91 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */,
+				6972E409249F28AB00479E91 /* ButtonTableViewCellDelegate.swift */,
+				6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */,
+				69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */,
+				6972E3CE249F1FE600479E91 /* DimmedViewDelegate.swift */,
+				69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */,
+				6972E410249F29E100479E91 /* ExerciseHeaderCellDelegate.swift */,
+				6972E401249F26E700479E91 /* ExercisesDelegate.swift */,
+				6972E40B249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift */,
+				6972E407249F288100479E91 /* ImagesTableViewCellDelegate.swift */,
+				6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */,
+				6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */,
+				6972E403249F273F00479E91 /* RestTimerDelegate.swift */,
+				69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */,
+				6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */,
+				6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */,
+				6972E416249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift */,
+				6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */,
+				6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */,
+				6972E424249F2D4A00479E91 /* StartSessionButtonDelegate.swift */,
+				6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */,
+				6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */,
+				6972E405249F276A00479E91 /* UpdateDelegate.swift */,
+				6972E3CC249F1FC600479E91 /* ViewAdding.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		6972E3D0249F207E00479E91 /* TypeExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */,
+				6972E3D1249F209900479E91 /* Int+Extension.swift */,
+				6972E3D9249F215400479E91 /* Notification+Extension.swift */,
+				6972E3D7249F213900479E91 /* String+Extension.swift */,
+			);
+			name = TypeExtensions;
+			sourceTree = "<group>";
+		};
+		6972E3DB249F21D500479E91 /* UIExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6972E3DE249F223000479E91 /* CALayer+Extension.swift */,
+				6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */,
+				6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */,
+				6972E3E2249F22B100479E91 /* UITableView+Extension.swift */,
+				6972E3DC249F21E700479E91 /* UIView+Extension.swift */,
+				6972E3E0249F225200479E91 /* UIViewController+Extension.swift */,
+			);
+			name = UIExtensions;
+			sourceTree = "<group>";
+		};
+		6972E3EA249F234D00479E91 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				6972E3F5249F24DD00479E91 /* ButtonFunction.swift */,
+				6972E3ED249F237C00479E91 /* CornerStyle.swift */,
+				6972E3F1249F246E00479E91 /* ExerciseState.swift */,
+				6972E3F7249F254800479E91 /* ImageType.swift */,
+				6972E3EF249F244200479E91 /* PresentationStyle.swift */,
+				6972E42B249F2EBF00479E91 /* SessionDetailType.swift */,
+				6972E3F3249F24A800479E91 /* SessionState.swift */,
+				6972E3EB249F236700479E91 /* ShadowDirection.swift */,
+				6972E3F9249F257700479E91 /* TextFieldType.swift */,
+				6972E3FB249F25A100479E91 /* Transform.swift */,
+			);
+			name = Enums;
+			sourceTree = "<group>";
+		};
+		6972E426249F2E0900479E91 /* Structs */ = {
+			isa = PBXGroup;
+			children = (
+				695D4C0222D30CA300E3FB1F /* Colors.swift */,
+				6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */,
+				6972E429249F2E3D00479E91 /* Utility.swift */,
+			);
+			name = Structs;
+			sourceTree = "<group>";
+		};
+		6972E42D249F2F5600479E91 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				69E3B47C249B331800E4DD99 /* NotificationHelper.swift */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 		69E3B47E249B385900E4DD99 /* WorkoutInitFiles */ = {
@@ -454,53 +634,97 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6972E402249F26E700479E91 /* ExercisesDelegate.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTabBarController.swift in Sources */,
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
+				6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,
+				6972E3FE249F268500479E91 /* SessionProgressDelegate.swift in Sources */,
+				6972E3D2249F209900479E91 /* Int+Extension.swift in Sources */,
+				6972E42A249F2E3D00479E91 /* Utility.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
 				69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
 				69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */,
 				69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
+				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
+				6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */,
 				69C1BCC9245F67E000D23556 /* SwipableImageViewTableViewCell.swift in Sources */,
+				6972E421249F2BDB00479E91 /* CustomTextViewDelegate.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
+				6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */,
 				69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */,
+				6972E3FA249F257700479E91 /* TextFieldType.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
 				69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */,
 				692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */,
+				6972E3E3249F22B100479E91 /* UITableView+Extension.swift in Sources */,
 				69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */,
+				6972E3F8249F254800479E91 /* ImageType.swift in Sources */,
 				695D4BFF22D30AFE00E3FB1F /* StopwatchViewController.swift in Sources */,
+				6972E417249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift in Sources */,
+				6972E425249F2D4A00479E91 /* StartSessionButtonDelegate.swift in Sources */,
+				6972E3EE249F237C00479E91 /* CornerStyle.swift in Sources */,
+				6972E423249F2CF100479E91 /* SessionHeaderViewModel.swift in Sources */,
 				69DAD821247E01580023E967 /* TextViewTableViewCell.swift in Sources */,
-				69E3C0A423F0DA7C0016F28C /* Protocols.swift in Sources */,
 				6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */,
-				69346A932320189300060E4C /* TypeExtensions.swift in Sources */,
+				6972E3F0249F244200479E91 /* PresentationStyle.swift in Sources */,
 				695070932497522400942078 /* Session.swift in Sources */,
+				6972E3CF249F1FE600479E91 /* DimmedViewDelegate.swift in Sources */,
 				69507099249752A300942078 /* ExercisesList.swift in Sources */,
+				6972E415249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift in Sources */,
 				69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */,
+				6972E3E1249F225200479E91 /* UIViewController+Extension.swift in Sources */,
 				69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
 				69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */,
+				6972E411249F29E100479E91 /* ExerciseHeaderCellDelegate.swift in Sources */,
 				69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
+				6972E3FC249F25A100479E91 /* Transform.swift in Sources */,
+				6972E41B249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift in Sources */,
+				6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */,
+				6972E406249F276A00479E91 /* UpdateDelegate.swift in Sources */,
+				6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */,
+				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
+				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
+				6972E408249F288100479E91 /* ImagesTableViewCellDelegate.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */,
+				6972E41D249F2B5600479E91 /* TextViewTableViewCellDelegate.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTableViewCell.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTableViewCell.swift in Sources */,
+				6972E413249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				695070972497528200942078 /* Exercise.swift in Sources */,
-				6942B212232B621600FCEECE /* Util.swift in Sources */,
 				69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */,
 				695070952497525E00942078 /* SessionsList.swift in Sources */,
 				695D4C0322D30CA300E3FB1F /* Colors.swift in Sources */,
-				6929673B22F77A2900832C68 /* UIExtensions.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,
+				6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */,
+				6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */,
+				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
+				6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */,
+				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
+				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
 				69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */,
+				6972E40A249F28AB00479E91 /* ButtonTableViewCellDelegate.swift in Sources */,
+				6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */,
+				6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */,
+				6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */,
+				6972E428249F2E1A00479E91 /* UserDefaultKeys.swift in Sources */,
+				6972E3DF249F223000479E91 /* CALayer+Extension.swift in Sources */,
 				69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */,
+				6972E3F4249F24A800479E91 /* SessionState.swift in Sources */,
+				6972E40C249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift in Sources */,
 				6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */,
+				6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */,
+				6972E40F249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift in Sources */,
 				695D4C0522D4508C00E3FB1F /* SessionDataModel.swift in Sources */,
+				6972E419249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

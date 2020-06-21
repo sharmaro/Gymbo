@@ -7,17 +7,6 @@
 
 import UIKit
 
-protocol TextFieldTableViewCellDelegate: class {
-    func textFieldEditingChanged(textField: UITextField)
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-}
-
-extension TextFieldTableViewCellDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-}
-
 // MARK: - Properties
 class TextFieldTableViewCell: UITableViewCell {
     private let textField: UITextField = {

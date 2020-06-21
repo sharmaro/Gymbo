@@ -9,11 +9,6 @@
 import UIKit
 import RealmSwift
 
-enum ExerciseState: String {
-    case create = "Create Exercise"
-    case edit = "Edit Exercise"
-}
-
 // MARK: - Properties
 class CreateEditExerciseTableViewController: UITableViewController {
     private let actionButton: CustomButton = {
@@ -150,7 +145,7 @@ extension CreateEditExerciseTableViewController {
 
     private func setupFromExistingExercise() {
         exerciseName = exercise.name ?? ""
-        groups = Util.getStringArraySeparated(by: ",", text: exercise.groups)
+        groups = Utility.getStringArraySeparated(by: ",", text: exercise.groups)
         images = getUIImageFromData(list: exercise.imagesData)
         instructions = exercise.instructions ?? ""
         tips = exercise.tips ?? ""
@@ -260,7 +255,7 @@ extension CreateEditExerciseTableViewController {
                 fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
             }
 
-            let selectedTitlesArray = Util.getStringArraySeparated(by: ",", text: exercise.groups).map {
+            let selectedTitlesArray = Utility.getStringArraySeparated(by: ",", text: exercise.groups).map {
                 $0.capitalized
             }
             multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups(), selectedTitles: selectedTitlesArray)

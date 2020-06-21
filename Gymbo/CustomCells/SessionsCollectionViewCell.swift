@@ -8,16 +8,6 @@
 
 import UIKit
 
-protocol SessionsCollectionViewCellDelegate: class {
-    func delete(cell: SessionsCollectionViewCell)
-}
-
-struct SessionsCollectionViewCellModel {
-    var title: String?
-    var info: String?
-    var isEditing = false
-}
-
 // MARK: - Properties
 class SessionsCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {

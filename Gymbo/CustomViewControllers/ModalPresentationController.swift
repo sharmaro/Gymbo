@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct CustomBounds {
-    var horizontalPadding: CGFloat
-    var percentHeight: CGFloat
-}
-
 // MARK: - Properties
 final class ModalPresentationController: UIPresentationController {
     private lazy var dimmingView: UIView = {

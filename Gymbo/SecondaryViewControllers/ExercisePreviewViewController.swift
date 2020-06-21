@@ -156,7 +156,7 @@ extension ExercisePreviewViewController: ViewAdding {
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
         ])
         closeButton.layoutIfNeeded()
-        closeButton.addCorner(style: .circle(view: closeButton))
+        closeButton.addCorner(style: .circle(length: closeButton.frame.height))
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 15),

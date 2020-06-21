@@ -9,10 +9,6 @@
 import UIKit
 import RealmSwift
 
-protocol TimeLabelDelegate: class {
-    func updateTimeLabel()
-}
-
 // MARK: - Properties
 class StartSessionTableViewController: UITableViewController {
     private let timerButton: CustomButton = {
@@ -71,7 +67,7 @@ class StartSessionTableViewController: UITableViewController {
 
     private let userDefault = UserDefaults.standard
 
-    weak var timeLabelDelegate: TimeLabelDelegate?
+    weak var updateDelegate: UpdateDelegate?
 
     deinit {
         sessionTimer?.invalidate()
@@ -360,7 +356,7 @@ extension StartSessionTableViewController {
         restViewController.startSessionRestTimeRemaining = restTimeRemaining
         restViewController.restTimerDelegate = self
 
-        timeLabelDelegate = restViewController
+        updateDelegate = restViewController
 
         let modalNavigationController = UINavigationController(rootViewController: restViewController)
         modalNavigationController.modalPresentationStyle = .custom
@@ -373,7 +369,7 @@ extension StartSessionTableViewController {
             if let session = self?.session {
                 for exercise in session.exercises {
                     for detail in exercise.exerciseDetails {
-                        let weight = Util.formattedString(stringToFormat: detail.weight, type: .weight)
+                        let weight = Utility.formattedString(stringToFormat: detail.weight, type: .weight)
                         let reps = detail.reps ?? "--"
                         let last: String
                         if weight != "--" && reps != "--" {
@@ -399,7 +395,7 @@ extension StartSessionTableViewController {
 
     @objc private func updateRestTime() {
         restTimeRemaining -= 1
-        timeLabelDelegate?.updateTimeLabel()
+        updateDelegate?.update()
 
         if restTimeRemaining == 0 {
             ended()

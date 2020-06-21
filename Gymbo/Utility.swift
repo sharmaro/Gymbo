@@ -1,42 +1,12 @@
 //
-//  Util.swift
+//  Utility.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 9/12/19.
-//  Copyright © 2019 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 6/20/20.
+//  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
-
-enum SessionDetailType {
-    case name
-    case sets
-    case reps(areUnique: Bool)
-    case weight
-    case time
-    case info
-
-    func valueForType() -> String {
-        let value: String
-        switch self {
-        case .name:
-            value = "name"
-        case .sets:
-            value = "sets"
-        case .reps:
-            value = "reps"
-        case .weight:
-            value = "weight"
-        case .time:
-            value = "time"
-        case .info:
-            value = "additional info"
-        }
-        return value
-    }
-}
-
-struct Util {
+struct Utility {
     static func formattedString(stringToFormat string: String?, type: SessionDetailType) -> String {
         guard let string = string,
             !string.isEmpty else {
@@ -48,17 +18,17 @@ struct Util {
         case .name:
             return string
         case .sets:
-            suffix = Util.formatPluralString(inputString: string, suffixBase: "set")
+            suffix = Utility.formatPluralString(inputString: string, suffixBase: "set")
         case .reps(let areUnique):
             if areUnique {
                 return "unique reps"
             }
 
-            suffix = Util.formatPluralString(inputString: string, suffixBase: "rep")
+            suffix = Utility.formatPluralString(inputString: string, suffixBase: "rep")
         case .weight:
-            suffix = Util.formatPluralString(inputString: string, suffixBase: "lb")
+            suffix = Utility.formatPluralString(inputString: string, suffixBase: "lb")
         case .time:
-            suffix = Util.formatPluralString(inputString: string, suffixBase: "sec")
+            suffix = Utility.formatPluralString(inputString: string, suffixBase: "sec")
         case .info:
             suffix = ""
         }
@@ -100,15 +70,4 @@ struct Util {
             return stringArray
         }
     }
-}
-
-struct UserDefaultKeys {
-    // MARK: - StopWatchViewController
-    static let STOPWATCH_STATE = "stopwatchState"
-    static let STOPWATCH_DATE = "stopwatchDate"
-    static let STOPWATCH_TIME_DICTIONARY = "stopwatchTimeDictionary"
-
-    // MARK: - StartSessionViewController
-    static let STARTSESSION_DATE = "startSessionDate"
-    static let STARTSESSION_TIME_DICTIONARY = "startSessionTimeDictionary"
 }

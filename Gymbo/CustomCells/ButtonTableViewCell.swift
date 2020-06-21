@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol ButtonTableViewCellDelegate: class {
-    func buttonTapped(cell: ButtonTableViewCell)
-}
-
 // MARK: - Properties
 class ButtonTableViewCell: UITableViewCell {
     private let button: CustomButton = {

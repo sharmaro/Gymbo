@@ -8,25 +8,6 @@
 
 import UIKit
 
-// Protocol for handling UITextField and UITextView interactions
-protocol ExerciseDetailTableViewCellDelegate: class {
-    func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool
-    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell)
-}
-
-enum TextFieldType: String {
-    case reps = "reps"
-    case weight = "weight"
-}
-
-struct ExerciseDetailTableViewCellModel {
-    var sets: String?
-    var last: String?
-    var reps: String?
-    var weight: String?
-    var isDoneButtonEnabled = false
-}
-
 // MARK: - Properties
 class ExerciseDetailTableViewCell: UITableViewCell {
     private let stackView: UIStackView = {

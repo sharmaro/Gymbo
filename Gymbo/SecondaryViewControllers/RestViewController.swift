@@ -8,12 +8,6 @@
 
 import UIKit
 
-protocol RestTimerDelegate: class {
-    func started(totalTime: Int)
-    func timeUpdated(totalTime: Int, timeRemaining: Int)
-    func ended()
-}
-
 // MARK: - Properties
 class RestViewController: UIViewController {
     private let topContainerView: UIView = {
@@ -332,10 +326,10 @@ extension RestViewController: UIPickerViewDelegate {
     }
 }
 
-// MARK: - TempDelegate
-extension RestViewController: TimeLabelDelegate {
+// MARK: - UpdateDelegate
+extension RestViewController: UpdateDelegate {
     // Using StartSessionViewController's timer to update the time in this presented view controller
-    func updateTimeLabel() {
+    func update() {
         restTimeRemaining -= 1
         if restTimeRemaining <= 0 {
             restTimerDelegate?.ended()

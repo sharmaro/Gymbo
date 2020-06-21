@@ -8,16 +8,6 @@
 
 import UIKit
 
-protocol ExerciseHeaderCellDelegate: class {
-    func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell)
-    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell)
-}
-
-struct ExerciseHeaderTableViewCellModel {
-    var name: String?
-    var isDoneButtonImageHidden = false
-}
-
 // MARK: - Properties
 class ExerciseHeaderTableViewCell: UITableViewCell {
     // Header views
@@ -91,7 +81,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        deleteButton.addCorner(style: .circle(view: deleteButton))
+        deleteButton.addCorner(style: .circle(length: deleteButton.frame.height))
     }
 }
 

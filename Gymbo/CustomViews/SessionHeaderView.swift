@@ -8,18 +8,6 @@
 
 import UIKit
 
-protocol SessionHeaderTextViewsDelegate: class {
-    func textViewDidChange(_ textView: UITextView)
-    func textViewDidBeginEditing(_ textView: UITextView)
-    func textViewDidEndEditing(_ textView: UITextView)
-}
-
-struct SessionHeaderViewModel {
-    var firstText: String?
-    var secondText: String?
-    var textColor = UIColor.black
-}
-
 // MARK: - Properties
 class SessionHeaderView: UIView {
     private let firstTextView: UITextView = {
@@ -58,7 +46,7 @@ class SessionHeaderView: UIView {
 
     private var textViews = [UITextView]()
 
-    weak var sessionHeaderTextViewsDelegate: SessionHeaderTextViewsDelegate?
+    weak var customTextViewDelegate: CustomTextViewDelegate?
 
     // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
@@ -140,11 +128,11 @@ extension SessionHeaderView {
 // MARK: - UITextViewDelegate
 extension SessionHeaderView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        sessionHeaderTextViewsDelegate?.textViewDidChange(textView)
+        customTextViewDelegate?.textViewDidChange(textView)
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        sessionHeaderTextViewsDelegate?.textViewDidBeginEditing(textViews[textView.tag])
+        customTextViewDelegate?.textViewDidBeginEditing(textViews[textView.tag])
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -166,6 +154,6 @@ extension SessionHeaderView: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        sessionHeaderTextViewsDelegate?.textViewDidEndEditing(textViews[textView.tag])
+        customTextViewDelegate?.textViewDidEndEditing(textViews[textView.tag])
     }
 }
