@@ -343,7 +343,7 @@ extension ExercisesViewController: UITableViewDelegate {
             exercisePreviewViewController.dimmedViewDelegate = self
             exercisePreviewViewController.modalPresentationStyle = .overCurrentContext
             exercisePreviewViewController.modalTransitionStyle = .crossDissolve
-            navigationController?.present(exercisePreviewViewController, animated: true)
+            mainTabBarController?.present(exercisePreviewViewController, animated: true)
 
             addView()
         case .modal:
