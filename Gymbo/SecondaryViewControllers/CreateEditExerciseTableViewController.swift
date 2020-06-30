@@ -167,6 +167,7 @@ extension CreateEditExerciseTableViewController {
     }
 
     @objc private func actionButtonTapped(sender: UIButton) {
+        Haptic.shared.sendImpactFeedback(.medium)
         var groups = ""
         self.groups.sort()
         for (index, name) in self.groups.enumerated() {

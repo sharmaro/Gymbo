@@ -84,8 +84,8 @@ extension SessionsCollectionViewController {
 
         setupNavigationBar()
         setupViews()
-        updateSessionsUI()
-        sessionDataModel.fetchSessions()
+        showActivityIndicator()
+        setupSessionDataModel()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionViewWithoutAnimation), name: .reloadDataWithoutAnimation, object: nil)
@@ -108,6 +108,11 @@ extension SessionsCollectionViewController {
 
 // MARK: - Funcs
 extension SessionsCollectionViewController {
+    private func setupSessionDataModel() {
+        sessionDataModel.dataFetchDelegate = self
+        sessionDataModel.fetchData()
+    }
+
     @objc private func updateSessionsUI() {
         let isDataEmpty = sessionDataModel.isEmpty
         collectionView.isHidden = isDataEmpty
@@ -192,8 +197,10 @@ extension SessionsCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
-            return
+                Haptic.shared.sendNotificationFeedback(.warning)
+                return
         }
+        Haptic.shared.sendSelectionFeedback()
 
         let sessionPreviewViewController = SessionPreviewViewController()
         sessionPreviewViewController.session = selectedSession
@@ -287,11 +294,6 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
             guard let self = self else { return }
 
             success()
-            self.collectionView.performBatchUpdates ({
-                let items = self.collectionView.numberOfItems(inSection: 0)
-                self.collectionView.insertItems(at: [IndexPath(row: items, section: 0)])
-            })
-
             DispatchQueue.main.async {
                 self.updateSessionsUI()
             }
@@ -329,6 +331,7 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
 
         let sessionName = sessionDataModel.sessionName(for: index)
         presentCustomAlert(title: "Delete Session", content: "Are you sure you want to delete \(sessionName)? This cannot be undone.") { [weak self] in
+            Haptic.shared.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
                     cell.alpha = 0
@@ -348,5 +351,14 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
 extension SessionsCollectionViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+// MARK: - DataFetchDelegate
+extension SessionsCollectionViewController: DataFetchDelegate {
+    func didFinishFetch() {
+        updateSessionsUI()
+        collectionView.reloadData()
+        hideActivityIndicator()
     }
 }

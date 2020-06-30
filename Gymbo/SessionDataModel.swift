@@ -13,7 +13,11 @@ class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
 
     private var realm = try? Realm()
-    private var sessionsList: SessionsList?
+    private var sessionsList: SessionsList? {
+        didSet {
+            dataFetchDelegate?.didFinishFetch()
+        }
+    }
 
     var count: Int {
         return sessionsList?.sessions.count ?? 0
@@ -34,11 +38,10 @@ extension SessionDataModel {
         print("\(String(describing: realm?.configuration.fileURL))\n")
     }
 
-    func fetchSessions() {
+    func fetchData() {
         printConfigFileLocation()
         dataFetchDelegate?.didBeginFetch()
         sessionsList = realm?.objects(SessionsList.self).first
-        dataFetchDelegate?.didFinishFetch()
     }
 
     private func removeAllRealmData() {
@@ -58,7 +61,7 @@ extension SessionDataModel {
 
     func index(of name: String) -> Int? {
         return sessionsList?.sessions.firstIndex(where: {
-            name == $0.name
+            $0.name == name
         })
     }
 
@@ -76,34 +79,17 @@ extension SessionDataModel {
 
     func sessionInfoText(for index: Int) -> String {
         var sessionInfoText = "No exercises in this session."
-        var exercisesToRemove = [String]()
-
         if let exercises = sessionsList?.sessions[index].exercises,
             !exercises.isEmpty {
             sessionInfoText = ""
             for i in 0 ..< exercises.count {
-                if ExerciseDataModel.shared.doesExerciseExist(name: exercises[i].name ?? "") {
-                    var sessionString = ""
-                    let name = Utility.formattedString(stringToFormat: exercises[i].name, type: .name)
-                    sessionString = "\(name)"
-                    if i != exercises.count - 1 {
-                        sessionString += ", "
-                    }
-                    sessionInfoText.append(sessionString)
-                } else {
-                    exercisesToRemove.append(exercises[i].name ?? "")
+                var sessionString = ""
+                let name = Utility.formattedString(stringToFormat: exercises[i].name, type: .name)
+                sessionString = "\(name)"
+                if i != exercises.count - 1 {
+                    sessionString += ", "
                 }
-            }
-
-            exercisesToRemove.forEach {
-                let name = $0
-                if let firstIndex = exercises.firstIndex(where: { (exercise) -> Bool in
-                    exercise.name == name
-                }) {
-                    try? realm?.write {
-                        exercises.remove(at: firstIndex)
-                    }
-                }
+                sessionInfoText.append(sessionString)
             }
         }
         return sessionInfoText
@@ -185,6 +171,25 @@ extension SessionDataModel {
 
         try? realm?.write {
             list.sessions.remove(at: index)
+        }
+    }
+
+    func removeInstancesOfExercise(name: String?) {
+        guard let name = name else {
+            return
+        }
+
+        if let sessions = sessionsList?.sessions {
+            for session in sessions {
+                let exercises = session.exercises
+                if let index = exercises.firstIndex(where: {
+                    $0.name == name
+                }) {
+                    try? realm?.write {
+                        exercises.remove(at: index)
+                    }
+                }
+            }
         }
     }
 }

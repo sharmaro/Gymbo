@@ -67,7 +67,6 @@ extension MainTabBarController {
         viewControllers = [exercisesViewController, sessionsCollectionViewController, stopwatchViewController].map {
             UINavigationController(rootViewController: $0)
         }
-
         selectedIndex = selectedTab.rawValue
     }
 }

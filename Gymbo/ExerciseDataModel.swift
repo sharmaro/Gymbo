@@ -50,7 +50,7 @@ private extension ExerciseDataModel {
 extension ExerciseDataModel {
     // MARK: - Helper
 
-    func fetchExercises() {
+    func fetchData() {
         if let exercisesList = realm?.objects(ExercisesList.self).first {
             self.exercisesList = exercisesList
 

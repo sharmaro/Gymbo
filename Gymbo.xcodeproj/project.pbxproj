@@ -94,6 +94,7 @@
 		6972E428249F2E1A00479E91 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */; };
 		6972E42A249F2E3D00479E91 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E429249F2E3D00479E91 /* Utility.swift */; };
 		6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42B249F2EBF00479E91 /* SessionDetailType.swift */; };
+		6972E42F24A029E000479E91 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42E24A029E000479E91 /* Haptic.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
 		69C1BCC324594B1300D23556 /* Workout Info in Resources */ = {isa = PBXBuildFile; fileRef = 69C1BCC224594B1300D23556 /* Workout Info */; };
 		69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */; };
@@ -205,6 +206,7 @@
 		6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		6972E429249F2E3D00479E91 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		6972E42B249F2EBF00479E91 /* SessionDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailType.swift; sourceTree = "<group>"; };
+		6972E42E24A029E000479E91 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
 		69C1BCC224594B1300D23556 /* Workout Info */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Workout Info"; sourceTree = "<group>"; };
 		69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				695D4C0222D30CA300E3FB1F /* Colors.swift */,
+				6972E42E24A029E000479E91 /* Haptic.swift */,
 				6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */,
 				6972E429249F2E3D00479E91 /* Utility.swift */,
 			);
@@ -643,6 +646,7 @@
 				6972E3D2249F209900479E91 /* Int+Extension.swift in Sources */,
 				6972E42A249F2E3D00479E91 /* Utility.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
+				6972E42F24A029E000479E91 /* Haptic.swift in Sources */,
 				69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
 				69DAD81F247DF6860023E967 /* CreateEditExerciseTableViewController.swift in Sources */,

@@ -71,6 +71,15 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension ExerciseDetailTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        didSelect = false
+    }
+}
+
 // MARK: - ViewAdding
 extension ExerciseDetailTableViewCell: ViewAdding {
     func addViews() {
@@ -145,6 +154,7 @@ extension ExerciseDetailTableViewCell {
     }
 
     @objc private func doneButtonTapped(_ sender: Any) {
+        Haptic.shared.sendImpactFeedback(.medium)
         didSelect.toggle()
     }
 }

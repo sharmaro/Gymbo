@@ -237,6 +237,7 @@ extension RestViewController {
     private func mainButtonInteraction() {
         switch mainButtonState {
         case .startTimer:
+            Haptic.shared.sendSelectionFeedback()
             showHideCustomViews()
 
             if isTimerActive {
@@ -254,6 +255,7 @@ extension RestViewController {
             }
             mainButtonState = .done
         case .done:
+            Haptic.shared.sendNotificationFeedback(.success)
             circleProgressView.stopAnimation()
             restTimerDelegate?.ended()
             dismiss(animated: true)
@@ -276,12 +278,14 @@ extension RestViewController {
     }
 
     @objc private func addTimeButtonTapped() {
+        Haptic.shared.sendSelectionFeedback()
         totalRestTime += Constants.timeDelta
         restTimeRemaining += Constants.timeDelta
         updateAnimation()
     }
 
     @objc private func removeTimeButtonTapped() {
+        Haptic.shared.sendSelectionFeedback()
         totalRestTime -= Constants.timeDelta
         restTimeRemaining -= Constants.timeDelta
         updateAnimation()

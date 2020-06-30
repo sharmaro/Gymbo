@@ -170,7 +170,7 @@ extension ExercisesViewController {
 extension ExercisesViewController {
     private func setupExerciseDataModel() {
         exerciseDataModel.dataFetchDelegate = self
-        exerciseDataModel.fetchExercises()
+        exerciseDataModel.fetchData()
     }
 
     private func saveExercise() {
@@ -230,6 +230,7 @@ extension ExercisesViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: UIButton) {
+        Haptic.shared.sendImpactFeedback(.medium)
         saveExercise()
         dismiss(animated: true)
     }
@@ -291,10 +292,10 @@ extension ExercisesViewController: UITableViewDataSource {
         }
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
+            SessionDataModel.shared.removeInstancesOfExercise(name: exerciseName)
             self?.exerciseDataModel.removeExercise(named: exerciseName)
-            DispatchQueue.main.async {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            Haptic.shared.sendImpactFeedback(.medium)
             completion(true)
         }
         deleteAction.backgroundColor = .systemRed
@@ -334,6 +335,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        Haptic.shared.sendSelectionFeedback()
         switch presentationStyle {
         case .normal:
             tableView.deselectRow(at: indexPath, animated: true)
@@ -361,6 +363,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        Haptic.shared.sendSelectionFeedback()
         guard presentationStyle != .normal,
             let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
