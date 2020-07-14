@@ -84,7 +84,7 @@ extension SessionsCollectionViewController {
 
         setupNavigationBar()
         setupViews()
-        showActivityIndicator()
+        showActivityIndicator(withText: "Loading Sessions")
         setupSessionDataModel()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateSessionsUI), name: .updateSessionsUI, object: nil)
@@ -296,6 +296,7 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
             success()
             DispatchQueue.main.async {
                 self.updateSessionsUI()
+                self.collectionView.reloadWithoutAnimation()
             }
         }, fail: fail)
     }
@@ -356,7 +357,7 @@ extension SessionsCollectionViewController: UIViewControllerTransitioningDelegat
 
 // MARK: - DataFetchDelegate
 extension SessionsCollectionViewController: DataFetchDelegate {
-    func didFinishFetch() {
+    func didEndFetch() {
         updateSessionsUI()
         collectionView.reloadData()
         hideActivityIndicator()

@@ -25,31 +25,29 @@ extension UIViewController {
         present(alertViewController, animated: true)
     }
 
-    func showActivityIndicator() {
+    func showActivityIndicator(withText text: String? = nil) {
         DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.mainTabBarController?.view == nil ? self?.view : self?.mainTabBarController?.view
+            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
 
-            let blurEffect = UIBlurEffect(style: .dark)
-            let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-            blurredEffectView.frame = viewToUse?.bounds ?? .zero
-
-            let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
-            activityIndicatorView.center = blurredEffectView.center
-            activityIndicatorView.startAnimating()
-
-            blurredEffectView.contentView.addSubview(activityIndicatorView)
-            viewToUse?.addSubview(blurredEffectView)
+            let activityIndicatorView = ActivityIndicatorView(withText: text)
+            viewToUse?.add(subviews: [activityIndicatorView])
+            activityIndicatorView.autoPinEdges(to: viewToUse)
         }
     }
 
     func hideActivityIndicator() {
         DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.mainTabBarController?.view == nil ? self?.view : self?.mainTabBarController?.view
+            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
 
-            guard let visualEffectView = viewToUse?.subviews.last as? UIVisualEffectView else {
+            guard let activityIndicatorView = viewToUse?.subviews.last as? ActivityIndicatorView else {
                 return
             }
-            visualEffectView.removeFromSuperview()
+
+            UIView.animate(withDuration: 0.2, animations: {
+                activityIndicatorView.alpha = 0
+            }) { _ in
+                activityIndicatorView.removeFromSuperview()
+            }
         }
     }
 }

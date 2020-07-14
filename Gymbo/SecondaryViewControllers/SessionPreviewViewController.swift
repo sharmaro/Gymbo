@@ -30,10 +30,8 @@ class SessionPreviewViewController: UIViewController {
     }()
 
     var session: Session?
-    var exerciseArray: [Exercise]?
 
     private let sessionDataModelManager = SessionDataModel.shared
-    private let exercisesDataModelManager = ExerciseDataModel.shared
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
 }
@@ -130,7 +128,6 @@ extension SessionPreviewViewController {
         }
 
         title = Constants.title
-        exerciseArray = exercisesDataModelManager.exerciseList(for: session)
 
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session.name
@@ -194,12 +191,12 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exerciseArray?.count ?? 0
+        return session?.exercises.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell,
-            let exercise = exerciseArray?[indexPath.row] else {
+            let exercise = session?.exercises[indexPath.row] else {
             fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
 

@@ -95,6 +95,7 @@
 		6972E42A249F2E3D00479E91 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E429249F2E3D00479E91 /* Utility.swift */; };
 		6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42B249F2EBF00479E91 /* SessionDetailType.swift */; };
 		6972E42F24A029E000479E91 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42E24A029E000479E91 /* Haptic.swift */; };
+		6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43024B59D7000479E91 /* ActivityIndicatorView.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
 		69C1BCC324594B1300D23556 /* Workout Info in Resources */ = {isa = PBXBuildFile; fileRef = 69C1BCC224594B1300D23556 /* Workout Info */; };
 		69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */; };
@@ -207,6 +208,7 @@
 		6972E429249F2E3D00479E91 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		6972E42B249F2EBF00479E91 /* SessionDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailType.swift; sourceTree = "<group>"; };
 		6972E42E24A029E000479E91 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
+		6972E43024B59D7000479E91 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
 		69C1BCC224594B1300D23556 /* Workout Info */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Workout Info"; sourceTree = "<group>"; };
 		69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewViewController.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 		6901E4752387B4C20051D1B2 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				6972E43024B59D7000479E91 /* ActivityIndicatorView.swift */,
 				691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */,
 				6929673C22F77DC200832C68 /* CustomButton.swift */,
 				6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */,
@@ -715,6 +718,7 @@
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
 				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
 				69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */,
+				6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */,
 				6972E40A249F28AB00479E91 /* ButtonTableViewCellDelegate.swift in Sources */,
 				6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */,
 				6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */,

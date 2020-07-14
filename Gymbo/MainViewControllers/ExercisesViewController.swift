@@ -138,7 +138,7 @@ extension ExercisesViewController {
         addViews()
         setupViews()
         addConstraints()
-        showActivityIndicator()
+        showActivityIndicator(withText: "Loading Exercises")
         setupExerciseDataModel()
         registerForKeyboardNotifications()
 
@@ -495,7 +495,7 @@ extension ExercisesViewController: DimmedViewDelegate {
 
 // MARK: - DataFetchDelegate
 extension ExercisesViewController: DataFetchDelegate {
-    func didFinishFetch() {
+    func didEndFetch() {
         tableView.reloadData()
         hideActivityIndicator()
     }

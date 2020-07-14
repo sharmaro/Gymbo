@@ -51,21 +51,27 @@ extension ExerciseDataModel {
     // MARK: - Helper
 
     func fetchData() {
+        guard exercisesList.exercises.isEmpty else {
+            dataFetchDelegate?.didEndFetch()
+            return
+        }
+
         if let exercisesList = realm?.objects(ExercisesList.self).first {
             self.exercisesList = exercisesList
 
             dataFetchDelegate?.didBeginFetch()
             DispatchQueue.global(qos: .background).async { [weak self] in
-                // Realm objects can only be used on the thread that creates them
-                let backgroundRealm = try? Realm()
-                if let backgroundExercisesList = backgroundRealm?.objects(ExercisesList.self).first {
-                    self?.setupExercisesDictionary(exercisesList: backgroundExercisesList)
-                }
+                self?.setupExercisesDictionary()
             }
         } else {
             dataFetchDelegate?.didBeginFetch()
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let self = self else { return }
+
+                let exercisesList = ExercisesList()
+                var exercisesCache = [String: Exercise]()
+                var exercisesDictionary = [String: [Exercise]]()
+                var sectionTitles = [String]()
 
                 for group in self.exerciseGroups {
                     guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
@@ -82,38 +88,39 @@ extension ExerciseDataModel {
                             let groups =  String(exerciseSplitList[1])
 
                             // Skip adding existing exercises
-                            if self.exercisesCache[name] != nil {
+                            if exercisesCache[name] != nil {
                                 continue
                             }
 
                             let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
-                            self.exercisesCache[name] = newExercise
-                            self.exercisesList.exercises.append(newExercise)
+                            exercisesCache[name] = newExercise
+                            exercisesList.exercises.append(newExercise)
 
                             if let title = self.getFirstCharacter(of: name)?.capitalized {
-                                if var exercisesArray = self.exercisesDictionary[title] {
+                                if var exercisesArray = exercisesDictionary[title] {
                                     exercisesArray.append(newExercise)
-                                    self.exercisesDictionary[title] = exercisesArray
+                                    exercisesDictionary[title] = exercisesArray
                                 } else {
-                                    self.exercisesDictionary[title] = [newExercise]
+                                    exercisesDictionary[title] = [newExercise]
                                 }
 
-                                if !self.sectionTitles.contains(title) {
-                                    self.sectionTitles.append(title)
+                                if !sectionTitles.contains(title) {
+                                    sectionTitles.append(title)
                                 }
                             }
                         }
                     }
                 }
                 DispatchQueue.main.async {
-                    self.sectionTitles.sort()
-                    self.exercisesList.exercises.sort()
-
-                    try? self.realm?.write {
-                        self.realm?.add(self.exercisesList)
-                        self.dataFetchDelegate?.didFinishFetch()
-                    }
+                    sectionTitles.sort()
+                    exercisesList.exercises.sort()
                 }
+
+                let backgroundRealm = try? Realm()
+                try? backgroundRealm?.write {
+                    backgroundRealm?.add(exercisesList)
+                }
+                self.setupExercisesDictionary()
             }
         }
     }
@@ -192,7 +199,13 @@ extension ExerciseDataModel {
         return Exercise(name: name, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData)
     }
 
-    private func setupExercisesDictionary(exercisesList: ExercisesList) {
+    private func setupExercisesDictionary() {
+        // Realm objects can only be used on the thread that creates them
+        let realm = try? Realm()
+        guard let exercisesList = realm?.objects(ExercisesList.self).first else {
+            return
+        }
+
         exercisesList.exercises.forEach {
             // ThreadSafeReference allows the passing of Realm objects between threads
             let backgroundThreadExercise = ThreadSafeReference(to: $0)
@@ -220,7 +233,7 @@ extension ExerciseDataModel {
         }
         DispatchQueue.main.async { [weak self] in
             self?.sectionTitles.sort()
-            self?.dataFetchDelegate?.didFinishFetch()
+            self?.dataFetchDelegate?.didEndFetch()
         }
     }
 

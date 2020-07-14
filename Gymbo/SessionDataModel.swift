@@ -15,7 +15,7 @@ class SessionDataModel: NSObject {
     private var realm = try? Realm()
     private var sessionsList: SessionsList? {
         didSet {
-            dataFetchDelegate?.didFinishFetch()
+            dataFetchDelegate?.didEndFetch()
         }
     }
 

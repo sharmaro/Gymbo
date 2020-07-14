@@ -8,10 +8,10 @@
 
 protocol DataFetchDelegate: class {
     func didBeginFetch()
-    func didFinishFetch()
+    func didEndFetch()
 }
 
 extension DataFetchDelegate {
     func didBeginFetch() {}
-    func didFinishFetch() {}
+    func didEndFetch() {}
 }
