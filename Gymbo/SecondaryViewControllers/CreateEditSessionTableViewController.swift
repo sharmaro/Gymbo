@@ -18,6 +18,9 @@ class CreateEditSessionTableViewController: UITableViewController {
     var session = Session()
     var sessionState = SessionState.create
 
+    private var didAddSet = false
+    private var previousExerciseDetailInformation: (reps: String?, weight: String?) = ("", "")
+
     weak var sessionDataModelDelegate: SessionDataModelDelegate?
 }
 
@@ -199,13 +202,24 @@ extension CreateEditSessionTableViewController {
                 fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
             }
 
+            let indexPathToUse = IndexPath(row: indexPath.row - 1, section: indexPath.section)
             var dataModel = ExerciseDetailTableViewCellModel()
             dataModel.sets = "\(indexPath.row)"
             dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-            dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
-            dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
             dataModel.isDoneButtonEnabled = false
+            if didAddSet {
+                dataModel.reps = previousExerciseDetailInformation.reps
+                dataModel.weight = previousExerciseDetailInformation.weight
 
+                saveTextFieldsWithOrWithoutRealm(text: dataModel.reps, textFieldType: .reps, indexPath: indexPathToUse)
+                saveTextFieldsWithOrWithoutRealm(text: dataModel.weight, textFieldType: .weight, indexPath: indexPathToUse)
+
+                didAddSet = false
+                previousExerciseDetailInformation = ("", "")
+            } else {
+                dataModel.reps = session.exercises[indexPathToUse.section].exerciseDetails[indexPathToUse.row].reps
+                dataModel.weight = session.exercises[indexPathToUse.section].exerciseDetails[indexPathToUse.row].weight
+            }
             exerciseDetailCell.configure(dataModel: dataModel)
             exerciseDetailCell.exerciseDetailCellDelegate = self
             cell = exerciseDetailCell
@@ -307,23 +321,28 @@ extension CreateEditSessionTableViewController: ExerciseDetailTableViewCellDeleg
             return
         }
 
-        let text = textField.text ?? "--"
+        let indexPathToUse = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+        saveTextFieldsWithOrWithoutRealm(text: textField.text, textFieldType: textFieldType, indexPath: indexPathToUse)
+    }
+
+    private func saveTextFieldsWithOrWithoutRealm(text: String?, textFieldType: TextFieldType, indexPath: IndexPath) {
+        let text = text ?? "--"
         // Decrementing indexPath.row by 1 because the first cell is the exercise header cell
         if sessionState == .create {
-            saveTextFieldData(text, textFieldType: textFieldType, section: indexPath.section, row: indexPath.row - 1)
+            saveTextFieldData(text, textFieldType: textFieldType, indexPath: indexPath)
         } else {
             try? realm?.write {
-                saveTextFieldData(text, textFieldType: textFieldType, section: indexPath.section, row: indexPath.row - 1)
+                saveTextFieldData(text, textFieldType: textFieldType, indexPath: indexPath)
             }
         }
     }
 
-    private func saveTextFieldData(_ text: String, textFieldType: TextFieldType, section: Int, row: Int) {
+    private func saveTextFieldData(_ text: String, textFieldType: TextFieldType, indexPath: IndexPath) {
         switch textFieldType {
         case .reps:
-            session.exercises[section].exerciseDetails[row].reps = text
+            session.exercises[indexPath.section].exerciseDetails[indexPath.row].reps = text
         case .weight:
-            session.exercises[section].exerciseDetails[row].weight = text
+            session.exercises[indexPath.section].exerciseDetails[indexPath.row].weight = text
         }
     }
 }
@@ -342,6 +361,23 @@ extension CreateEditSessionTableViewController: ButtonTableViewCellDelegate {
             try? realm?.write {
                 addSet(section: section)
             }
+        }
+
+        didAddSet = true
+        let numberOfRows = tableView.numberOfRows(inSection: section)
+        let indexPath = IndexPath(row: numberOfRows - 2, section: section)
+        if let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell {
+            let previousReps = exerciseDetailCell.reps
+            let previousWeight = exerciseDetailCell.weight
+            previousExerciseDetailInformation = (previousReps, previousWeight)
+
+            /**
+             - Saving info in previously filled out ExerciseDetailTableViewCell in case the data wasn't saved
+             - Usually it's saved when the textField resigns first responder
+             - But if the user adds a set and doesn't resign the reps or weight textField first, then the data has to be manually saved by calling saveTextFieldsWithOrWithoutRealm()
+             */
+            saveTextFieldsWithOrWithoutRealm(text: previousReps, textFieldType: .reps, indexPath: indexPath)
+            saveTextFieldsWithOrWithoutRealm(text: previousWeight, textFieldType: .weight, indexPath: indexPath)
         }
 
         DispatchQueue.main.async { [weak self] in

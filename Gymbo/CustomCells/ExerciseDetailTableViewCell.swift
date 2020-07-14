@@ -50,6 +50,14 @@ class ExerciseDetailTableViewCell: UITableViewCell {
         }
     }
 
+    var reps: String? {
+        return repsTextField.text
+    }
+
+    var weight: String? {
+        return weightTextField.text
+    }
+
     private var isDoneButtonEnabled = false {
         didSet {
             let image = isDoneButtonEnabled ? UIImage(named: "checkmark") : nil
@@ -111,6 +119,24 @@ extension ExerciseDetailTableViewCell: ViewAdding {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
+        let repsTextFieldToolBar = UIToolbar()
+        repsTextFieldToolBar.barStyle = .default
+        repsTextFieldToolBar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextToolbarButtonTapped))
+        ]
+        repsTextFieldToolBar.sizeToFit()
+        repsTextField.inputAccessoryView = repsTextFieldToolBar
+
+
+        let weightTextFieldToolBar = UIToolbar()
+        weightTextFieldToolBar.barStyle = .default
+        weightTextFieldToolBar.items = [
+            UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(previousToolbarButtonTapped)),
+        ]
+        weightTextFieldToolBar.sizeToFit()
+        weightTextField.inputAccessoryView = weightTextFieldToolBar
+
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
@@ -134,6 +160,14 @@ extension ExerciseDetailTableViewCell: ViewAdding {
             doneButton.heightAnchor.constraint(equalTo: doneButton.widthAnchor)
         ])
         stackView.layoutIfNeeded()
+    }
+
+    @objc func nextToolbarButtonTapped() {
+        weightTextField.becomeFirstResponder()
+    }
+
+    @objc func previousToolbarButtonTapped() {
+        repsTextField.becomeFirstResponder()
     }
 }
 
