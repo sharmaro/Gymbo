@@ -40,7 +40,9 @@ import RealmSwift
             self.exerciseDetails.append(exerciseDetails)
         } else {
             for exerciseDetail in exerciseDetails {
-                self.exerciseDetails.append(exerciseDetail)
+                // Creating a new instance of ExericseDetails so nothing is copied from Realm when adding new sessions
+                let newExerciseDetail = ExerciseDetails(last: exerciseDetail.last, reps: exerciseDetail.reps, weight: exerciseDetail.weight)
+                self.exerciseDetails.append(newExerciseDetail)
             }
         }
     }

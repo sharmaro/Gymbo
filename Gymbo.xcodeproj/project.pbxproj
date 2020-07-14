@@ -298,7 +298,6 @@
 		69507091249751FD00942078 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6972E41E249F2BA100479E91 /* CustomBounds.swift */,
 				695070962497528200942078 /* Exercise.swift */,
 				6950709A249752B900942078 /* ExerciseDetails.swift */,
 				6972E40E249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift */,
@@ -477,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				695D4C0222D30CA300E3FB1F /* Colors.swift */,
+				6972E41E249F2BA100479E91 /* CustomBounds.swift */,
 				6972E42E24A029E000479E91 /* Haptic.swift */,
 				6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */,
 				6972E429249F2E3D00479E91 /* Utility.swift */,
