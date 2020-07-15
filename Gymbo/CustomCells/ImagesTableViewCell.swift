@@ -141,7 +141,7 @@ extension ImagesTableViewCell {
         let imageToUse = image ?? defaultImage
         let button = buttons[index]
 
-        UIView.transition(with: button, duration: 0.2, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: button, duration: .defaultAnimationTime, options: .transitionCrossDissolve, animations: {
             button.setImage(imageToUse, for: .normal)
         })
     }

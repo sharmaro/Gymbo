@@ -81,7 +81,7 @@ extension AlertViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        view.backgroundColor = .dimmedBackgroundBlack
 
         titleLabel.text = alertTitle
         contentLabel.text = content

@@ -66,8 +66,6 @@ class SessionsCollectionViewCell: UICollectionViewCell {
 // MARK: - Structs/Enums
 private extension SessionsCollectionViewCell {
     struct Constants {
-        static let animationTime = TimeInterval(0.2)
-
         static let transformScale = CGFloat(0.95)
     }
 }
@@ -141,7 +139,7 @@ extension SessionsCollectionViewCell {
     }
 
     private func transform(type: Transform) {
-        UIView.animate(withDuration: Constants.animationTime,
+        UIView.animate(withDuration: .defaultAnimationTime,
                        delay: 0,
                        options: [.allowUserInteraction],
                        animations: { [weak self] in

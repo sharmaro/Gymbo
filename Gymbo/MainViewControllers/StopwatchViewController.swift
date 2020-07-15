@@ -444,7 +444,7 @@ extension StopwatchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.alpha = 0
 
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: .defaultAnimationTime) {
             cell.alpha = 1
         }
     }
@@ -533,7 +533,7 @@ extension StopwatchViewController: SessionStateConstraintsUpdating {
         buttonsStackViewBottomConstraint?.constant = constantToUse
 
         if didViewAppear {
-            UIView.animate(withDuration: 0.2) { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
                 self?.tableView.contentInset.bottom = Constants.buttonsStackViewHeight + (-1 * constantToUse) + Constants.cellSpacingToButtons
 
                 self?.view.layoutIfNeeded()

@@ -223,7 +223,10 @@ extension ExercisesViewController {
         navigationController?.present(modalNavigationController, animated: true)
 
         if presentationStyle == .modal {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime,
+                           delay: 0,
+                           options: .curveEaseInOut,
+                           animations: { [weak self] in
                 self?.navigationController?.view.alpha = 0
             })
         }
@@ -442,7 +445,10 @@ extension ExercisesViewController: KeyboardObserving {
 extension ExercisesViewController: SetAlphaDelegate {
     func setAlpha(alpha: CGFloat) {
         if presentationStyle == .modal {
-            UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseIn, animations: { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime,
+                           delay: .defaultAnimationTime,
+                           options: .curveEaseIn,
+                           animations: { [weak self] in
                 self?.navigationController?.view.alpha = alpha
             })
         }
@@ -475,7 +481,7 @@ extension ExercisesViewController: SessionStateConstraintsUpdating {
         }
 
         if didViewAppear {
-            UIView.animate(withDuration: 0.2) { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
                 self?.view.layoutIfNeeded()
             }
         }

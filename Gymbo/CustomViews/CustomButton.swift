@@ -51,8 +51,6 @@ private extension CustomButton {
         static let dimmedAlpha = CGFloat(0.4)
         static let normalAlpha = CGFloat(1)
         static let transformScale = CGFloat(0.95)
-
-        static let animationTime = TimeInterval(0.2)
     }
 }
 
@@ -64,7 +62,7 @@ extension CustomButton {
     }
 
     private func transform(condition: Transform) {
-        UIView.animate(withDuration: Constants.animationTime,
+        UIView.animate(withDuration: .defaultAnimationTime,
                        delay: 0,
                        options: [.allowUserInteraction],
                        animations: { [weak self] in
@@ -85,7 +83,7 @@ extension CustomButton {
 
     func makeUninteractable(animated: Bool = true) {
         if animated {
-            UIView.animate(withDuration: 0.2) { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
                 self?.alpha = Constants.dimmedAlpha
             }
         } else {
@@ -96,7 +94,7 @@ extension CustomButton {
 
     func makeInteractable(animated: Bool = true) {
         if animated {
-            UIView.animate(withDuration: 0.2) { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
                 self?.alpha = Constants.normalAlpha
             }
         } else {

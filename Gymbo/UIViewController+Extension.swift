@@ -43,7 +43,8 @@ extension UIViewController {
                 return
             }
 
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: .defaultAnimationTime,
+                           animations: {
                 activityIndicatorView.alpha = 0
             }) { _ in
                 activityIndicatorView.removeFromSuperview()

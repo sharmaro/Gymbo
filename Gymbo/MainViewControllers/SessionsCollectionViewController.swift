@@ -334,7 +334,10 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
         presentCustomAlert(title: "Delete Session", content: "Are you sure you want to delete \(sessionName)? This cannot be undone.") { [weak self] in
             Haptic.shared.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.2, delay: 0.0, options: [], animations: {
+                UIView.animate(withDuration: .defaultAnimationTime,
+                               delay: 0.0,
+                               options: [],
+                               animations: {
                     cell.alpha = 0
                 }) { [weak self] (finished) in
                     if finished {

@@ -303,7 +303,8 @@ extension StartSessionTableViewController {
             dimmedView?.frame.origin = mainTabBarController?.view.frame.origin ?? .zero
         }
 
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+        UIView.animate(withDuration: .defaultAnimationTime,
+                       animations: { [weak self] in
             guard let panFrame = self?.initialPanViewFrame,
                 let mainTabBarController = self?.navigationController?.mainTabBarController else {
                 return
@@ -311,7 +312,7 @@ extension StartSessionTableViewController {
 
             // Making sure this doesn't get called when the view is panned down a little bit and released, yielding in an unnecessary call
             if self?.panState != .full {
-                self?.dimmedView?.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+                self?.dimmedView?.backgroundColor = .dimmedBackgroundBlack
                 self?.panView?.hideShadow()
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = true
@@ -323,7 +324,8 @@ extension StartSessionTableViewController {
     }
 
     private func resizeToMiniView() {
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+        UIView.animate(withDuration: .defaultAnimationTime,
+                       animations: { [weak self] in
             guard let defaultTabBarFrame = self?.initialTabBarFrame,
                 let mainTabBarController = self?.navigationController?.mainTabBarController else {
                 return

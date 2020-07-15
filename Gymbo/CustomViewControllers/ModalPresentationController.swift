@@ -16,7 +16,7 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         let dimmingView = UIView(frame: containerView.bounds)
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(Constants.dimmedAlpha)
+        dimmingView.backgroundColor = .dimmedBackgroundBlack
         if customBounds == nil {
             dimmingView.addGestureRecognizer(
                 UITapGestureRecognizer(target: self, action: #selector(dismiss))
@@ -118,7 +118,6 @@ extension ModalPresentationController {
         static let delayDuration = TimeInterval(0)
 
         static let defaultYOffset = CGFloat(60)
-        static let dimmedAlpha = CGFloat(0.8)
         static let dampingDuration = CGFloat(1)
         static let velocity = CGFloat(0.7)
         static let keyboardSpacing = CGFloat(10)
@@ -165,7 +164,12 @@ extension ModalPresentationController {
             return
         }
 
-        UIView.animate(withDuration: Constants.animationDuration, delay: Constants.delayDuration, usingSpringWithDamping: Constants.dampingDuration, initialSpringVelocity: Constants.velocity, options: .curveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: Constants.animationDuration,
+                       delay: Constants.delayDuration,
+                       usingSpringWithDamping: Constants.dampingDuration,
+                       initialSpringVelocity: Constants.velocity,
+                       options: .curveEaseInOut,
+                       animations: { [weak self] in
             guard let self = self else { return }
             presentedView.frame.origin = self.frameOfPresentedViewInContainerView.origin
         })

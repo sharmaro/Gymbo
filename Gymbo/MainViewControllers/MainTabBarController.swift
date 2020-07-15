@@ -92,7 +92,7 @@ extension MainTabBarController: SessionProgressDelegate {
         updateSessionProgressObservingViewControllers(state: .start)
 
         let dimmedView = UIView(frame: view.frame)
-        dimmedView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        dimmedView.backgroundColor = .dimmedBackgroundBlack
 
         let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: view.frame.height), size: CGSize(width: view.frame.width, height: view.frame.height - Constants.defaultYOffset)))
         shadowContainerView.addShadow(direction: .up)
@@ -123,7 +123,9 @@ extension MainTabBarController: SessionProgressDelegate {
         view.insertSubview(dimmedView, belowSubview: shadowContainerView)
         view.layoutIfNeeded()
 
-        UIView.animate(withDuration: 0.4, delay: 0.1, animations: { [weak self] in
+        UIView.animate(withDuration: 0.4,
+                       delay: 0.1,
+                       animations: { [weak self] in
             guard let self = self else { return }
 
             shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)

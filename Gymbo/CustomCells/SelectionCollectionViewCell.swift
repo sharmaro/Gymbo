@@ -14,7 +14,7 @@ class SelectionCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .systemBlue
         label.textAlignment = .center
-        label.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        label.backgroundColor = Constants.dimmedBlack
         label.font = .normal
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.1
@@ -46,6 +46,13 @@ extension SelectionCollectionViewCell {
     }
 }
 
+// MARK: - Structs/Enums
+private extension SelectionCollectionViewCell {
+    struct Constants {
+        static let dimmedBlack = UIColor.black.withAlphaComponent(0.1)
+    }
+}
+
 // MARK: - ViewAdding
 extension SelectionCollectionViewCell: ViewAdding {
     func addViews() {
@@ -65,7 +72,7 @@ extension SelectionCollectionViewCell {
     }
 
     private func transform(type: Transform) {
-        UIView.animate(withDuration: 0.2,
+        UIView.animate(withDuration: .defaultAnimationTime,
                        delay: 0,
                        options: [.curveEaseInOut],
                        animations: { [weak self] in
@@ -84,7 +91,7 @@ extension SelectionCollectionViewCell {
 
     // Invert the title color and background color when selection state changes
     func tapped() {
-        UIView.animate(withDuration: 0.2) { [weak self] in
+        UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
             guard let self = self else { return }
 
             if self.isSelected {
@@ -92,7 +99,7 @@ extension SelectionCollectionViewCell {
                 self.selectionLabel.backgroundColor = .systemBlue
             } else {
                 self.selectionLabel.textColor = .systemBlue
-                self.selectionLabel.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+                self.selectionLabel.backgroundColor = Constants.dimmedBlack
             }
         }
     }

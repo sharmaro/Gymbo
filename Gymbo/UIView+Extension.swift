@@ -8,12 +8,6 @@
 
 import UIKit
 
-fileprivate struct Constants {
-    static let dimmedViewColor = UIColor.black.withAlphaComponent(0.8)
-
-    static let animationTime = TimeInterval(0.2)
-}
-
 extension UIView {
     func add(subviews: [UIView]) {
         for view in subviews {
@@ -98,7 +92,7 @@ extension UIView {
 
     func addDimmedView(animated: Bool = false) {
         let dimmedView = UIView()
-        dimmedView.backgroundColor = Constants.dimmedViewColor
+        dimmedView.backgroundColor = .dimmedBackgroundBlack
         dimmedView.alpha = 0
         dimmedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -106,7 +100,7 @@ extension UIView {
         dimmedView.autoPinEdges(to: self)
 
         if animated {
-            UIView.animate(withDuration: Constants.animationTime) {
+            UIView.animate(withDuration: .defaultAnimationTime) {
                 dimmedView.alpha = 1
             }
         } else {
@@ -116,12 +110,13 @@ extension UIView {
 
     func removeDimmedView(animated: Bool = false) {
         guard let dimmedView = subviews.last,
-            dimmedView.backgroundColor == Constants.dimmedViewColor else {
+            dimmedView.backgroundColor == .dimmedBackgroundBlack else {
             return
         }
 
         if animated {
-            UIView.animate(withDuration: Constants.animationTime, animations: {
+            UIView.animate(withDuration: .defaultAnimationTime,
+                           animations: {
                 dimmedView.alpha = 0
             }) { _ in
                 dimmedView.removeFromSuperview()
