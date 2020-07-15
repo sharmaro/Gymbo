@@ -146,8 +146,12 @@ extension ImagesTableViewCell {
         })
     }
 
-    @objc private func imageButtonTapped(_ sender: UIButton) {
-        let function: ButtonFunction = sender.image(for: .normal) == defaultImage ? .add : .update
-        imagesTableViewCellDelegate?.buttonTapped(cell: self, index: sender.tag, function: function)
+    @objc private func imageButtonTapped(_ sender: Any) {
+        guard let button = sender as? UIButton else {
+            return
+        }
+
+        let function: ButtonFunction = button.image(for: .normal) == defaultImage ? .add : .update
+        imagesTableViewCellDelegate?.buttonTapped(cell: self, index: button.tag, function: function)
     }
 }

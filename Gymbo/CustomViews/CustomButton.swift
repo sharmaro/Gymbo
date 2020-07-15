@@ -28,7 +28,6 @@ class CustomButton: UIButton {
             guard isEnabled else {
                 return
             }
-
             alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
             transform(condition: Transform.caseFromBool(bool: isHighlighted))
         }

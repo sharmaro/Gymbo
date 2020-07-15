@@ -159,7 +159,7 @@ extension SessionsCollectionViewCell {
         isEditing = dataModel.isEditing
     }
 
-    @objc private func deleteButtonTapped(_ sender: UIButton) {
+    @objc private func deleteButtonTapped(_ sender: Any) {
         Haptic.shared.sendImpactFeedback(.heavy)
         sessionsCollectionViewCellDelegate?.delete(cell: self)
     }

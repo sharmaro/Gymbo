@@ -232,7 +232,7 @@ extension ExercisesViewController {
         }
     }
 
-    @objc private func addExerciseButtonTapped(_ sender: UIButton) {
+    @objc private func addExerciseButtonTapped(_ sender: Any) {
         Haptic.shared.sendImpactFeedback(.medium)
         saveExercise()
         dismiss(animated: true)
