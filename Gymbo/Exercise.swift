@@ -19,13 +19,15 @@ import RealmSwift
     dynamic var isUserMade = false
 
     // User-related exercise information
-    dynamic var sets: Int = 1
+    dynamic var weightType = 0
+    dynamic var sets = 1
     let exerciseDetails = List<ExerciseDetails>()
 
-    convenience init(name: String? = nil, groups: String? = nil, instructions: String? = nil, tips: String? = nil, imagesData: List<Data> = List<Data>(), isUserMade: Bool = false, sets: Int = 1, exerciseDetails: List<ExerciseDetails> = List<ExerciseDetails>()) {
+    convenience init(name: String? = nil, groups: String? = nil, instructions: String? = nil, tips: String? = nil, imagesData: List<Data> = List<Data>(), isUserMade: Bool = false, weightType: Int = 0, sets: Int = 1, exerciseDetails: List<ExerciseDetails> = List<ExerciseDetails>()) {
         self.init()
 
         self.name = name
+        self.weightType = weightType
         self.groups = groups
         self.instructions = instructions
         self.tips = tips

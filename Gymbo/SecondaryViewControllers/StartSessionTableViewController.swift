@@ -443,6 +443,7 @@ extension StartSessionTableViewController {
 
             var dataModel = ExerciseHeaderTableViewCellModel()
             dataModel.name = session.exercises[indexPath.section].name
+            dataModel.weightType = session.exercises[indexPath.section].weightType
             dataModel.isDoneButtonImageHidden = false
 
             exerciseHeaderCell.configure(dataModel: dataModel)
@@ -565,7 +566,7 @@ extension StartSessionTableViewController {
 
 // MARK: - ExerciseHeaderCellDelegate
 extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
-    func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell) {
+    func deleteButtonTapped(cell: ExerciseHeaderTableViewCell) {
         Haptic.shared.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
@@ -579,7 +580,18 @@ extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
         NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
     }
 
-    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell) {
+    func weightButtonTapped(cell: ExerciseHeaderTableViewCell) {
+        Haptic.shared.sendSelectionFeedback()
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+
+        try? realm?.write {
+            session?.exercises[indexPath.section].weightType = cell.weightType
+        }
+    }
+
+    func doneButtonTapped(cell: ExerciseHeaderTableViewCell) {
         Haptic.shared.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return

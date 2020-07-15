@@ -31,6 +31,16 @@ class ToggleButton: CustomButton {
 
 // MARK: - Funcs
 extension ToggleButton {
+    func setCurrentItem(item: String?) {
+        guard let item = item,
+            let firstIndex = items.firstIndex(of: item) else {
+            return
+        }
+
+        title = item
+        itemIndex = firstIndex
+    }
+
     private func setup() {
         title = items.first ?? ""
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)

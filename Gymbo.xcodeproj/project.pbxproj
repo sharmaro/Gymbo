@@ -22,6 +22,7 @@
 		69507099249752A300942078 /* ExercisesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69507098249752A300942078 /* ExercisesList.swift */; };
 		6950709B249752B900942078 /* ExerciseDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6950709A249752B900942078 /* ExerciseDetails.swift */; };
 		6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956292C234463EF00E0AA96 /* ModalPresentationController.swift */; };
+		6957605024BED49100A97F09 /* WeightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6957604F24BED49100A97F09 /* WeightType.swift */; };
 		695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D4BE222CB28B800E3FB1F /* AppDelegate.swift */; };
 		695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BE922CB28B800E3FB1F /* Assets.xcassets */; };
 		695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */; };
@@ -135,6 +136,7 @@
 		69507098249752A300942078 /* ExercisesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesList.swift; sourceTree = "<group>"; };
 		6950709A249752B900942078 /* ExerciseDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetails.swift; sourceTree = "<group>"; };
 		6956292C234463EF00E0AA96 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
+		6957604F24BED49100A97F09 /* WeightType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightType.swift; sourceTree = "<group>"; };
 		695D4BDF22CB28B800E3FB1F /* Gymbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695D4BE222CB28B800E3FB1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		695D4BE922CB28B800E3FB1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 				6972E3EB249F236700479E91 /* ShadowDirection.swift */,
 				6972E3F9249F257700479E91 /* TextFieldType.swift */,
 				6972E3FB249F25A100479E91 /* Transform.swift */,
+				6957604F24BED49100A97F09 /* WeightType.swift */,
 			);
 			name = Enums;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */,
 				6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */,
 				6972E428249F2E1A00479E91 /* UserDefaultKeys.swift in Sources */,
+				6957605024BED49100A97F09 /* WeightType.swift in Sources */,
 				6972E3DF249F223000479E91 /* CALayer+Extension.swift in Sources */,
 				69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */,
 				6972E3F4249F24A800479E91 /* SessionState.swift in Sources */,

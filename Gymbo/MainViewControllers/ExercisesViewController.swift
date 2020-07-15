@@ -183,7 +183,15 @@ extension ExercisesViewController {
         for exerciseName in selectedExerciseNames {
             // Need to create a new exercise object to be passed into selectedExercises so the existing exericse isn't updated in Realm
             let referenceExercise = exerciseDataModel.exercise(for: exerciseName)
-            let exercise = Exercise(name: referenceExercise.name, groups: referenceExercise.groups, instructions: referenceExercise.instructions, tips: referenceExercise.tips, imagesData: referenceExercise.imagesData, isUserMade: referenceExercise.isUserMade, sets: referenceExercise.sets, exerciseDetails: referenceExercise.exerciseDetails)
+            let exercise = Exercise(name: referenceExercise.name,
+                                    groups: referenceExercise.groups,
+                                    instructions: referenceExercise.instructions,
+                                    tips: referenceExercise.tips,
+                                    imagesData: referenceExercise.imagesData,
+                                    isUserMade: referenceExercise.isUserMade,
+                                    weightType: referenceExercise.weightType,
+                                    sets: referenceExercise.sets,
+                                    exerciseDetails: referenceExercise.exerciseDetails)
             selectedExercises.append(exercise)
         }
         exercisesDelegate?.updateExercises(selectedExercises)

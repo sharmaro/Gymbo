@@ -38,8 +38,14 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
     private let setsLabel = UILabel()
     private let lastLabel = UILabel()
-    private let repsLabel =  UILabel()
-    private let weightLabel =  UILabel()
+    private let repsLabel = UILabel()
+    private let weightButton: ToggleButton = {
+        let button = ToggleButton(items: WeightType.textItems)
+        button.add(backgroundColor: .systemBlue)
+        button.addCorner(style: .xSmall)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     private let doneButton: UIButton = {
         let button = UIButton(frame: .zero)
@@ -51,7 +57,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
         return button
     }()
 
-    private let labelTexts = ["Sets", "Last", "Reps", "Lbs"]
+    private let labelTexts = ["Sets", "Last", "Reps"]
 
     private var isDoneButtonImageHidden = false {
         didSet {
@@ -62,6 +68,10 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
             doneButton.setTitle(text, for: .normal)
             doneButton.isUserInteractionEnabled = !isDoneButtonImageHidden
         }
+    }
+
+    var weightType: Int {
+        return WeightType.type(text: weightButton.title)
     }
 
     weak var exerciseHeaderCellDelegate: ExerciseHeaderCellDelegate?
@@ -92,23 +102,25 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         infoStackView.addArrangedSubview(setsLabel)
         infoStackView.addArrangedSubview(lastLabel)
         infoStackView.addArrangedSubview(repsLabel)
-        infoStackView.addArrangedSubview(weightLabel)
+        infoStackView.addArrangedSubview(weightButton)
         infoStackView.addArrangedSubview(doneButton)
     }
 
     func setupViews() {
         selectionStyle = .none
 
-        deleteButton.addTarget(self, action: #selector(deleteExerciseButtonTapped), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
 
         var counter = 0
-        [setsLabel, lastLabel, repsLabel, weightLabel].forEach {
+        [setsLabel, lastLabel, repsLabel].forEach {
             $0.text = labelTexts[counter]
             $0.font = .normal
             $0.textAlignment = .center
             $0.translatesAutoresizingMaskIntoConstraints = false
             counter += 1
         }
+
+        weightButton.addTarget(self, action: #selector(weightButtonTapped), for: .touchUpInside)
 
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
@@ -134,14 +146,15 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         NSLayoutConstraint.activate([
             infoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             infoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            infoStackViewBottomConstraint,
+            infoStackViewBottomConstraint
         ])
 
         NSLayoutConstraint.activate([
             setsLabel.widthAnchor.constraint(equalToConstant: 40),
             lastLabel.widthAnchor.constraint(equalToConstant: 130),
             repsLabel.widthAnchor.constraint(equalToConstant: 45),
-            weightLabel.widthAnchor.constraint(equalToConstant: 45),
+            weightButton.widthAnchor.constraint(equalToConstant: 45),
+            weightButton.heightAnchor.constraint(equalToConstant: 25),
             doneButton.widthAnchor.constraint(equalToConstant: 15),
             doneButton.heightAnchor.constraint(equalTo: doneButton.widthAnchor)
         ])
@@ -159,14 +172,21 @@ extension ExerciseHeaderTableViewCell {
 
     func configure(dataModel: ExerciseHeaderTableViewCellModel) {
         nameLabel.text = dataModel.name
+        if let weightTypeString = WeightType.init(rawValue: dataModel.weightType ?? 0)?.text {
+            weightButton.setCurrentItem(item: weightTypeString)
+        }
         isDoneButtonImageHidden = dataModel.isDoneButtonImageHidden
     }
 
-    @objc private func deleteExerciseButtonTapped(_ sender: Any) {
-        exerciseHeaderCellDelegate?.deleteExerciseButtonTapped(cell: self)
+    @objc private func deleteButtonTapped(_ sender: Any) {
+        exerciseHeaderCellDelegate?.deleteButtonTapped(cell: self)
+    }
+
+    @objc private func weightButtonTapped(_ sender: Any) {
+        exerciseHeaderCellDelegate?.weightButtonTapped(cell: self)
     }
 
     @objc private func doneButtonTapped(_ sender: Any) {
-        exerciseHeaderCellDelegate?.exerciseDoneButtonTapped(cell: self)
+        exerciseHeaderCellDelegate?.doneButtonTapped(cell: self)
     }
 }

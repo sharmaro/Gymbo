@@ -203,7 +203,12 @@ extension CreateEditExerciseTableViewController {
             }
         }
 
-        let exercise = Exercise(name: exerciseName, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData, isUserMade: true)
+        let exercise = Exercise(name: exerciseName,
+                                groups: groups,
+                                instructions: instructions,
+                                tips: tips,
+                                imagesData: imagesData,
+                                isUserMade: true)
         switch exerciseState {
         case .create:
             exerciseDataModelDelegate?.create(exercise, success: { [weak self] in

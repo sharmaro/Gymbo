@@ -184,6 +184,7 @@ extension CreateEditSessionTableViewController {
 
             var dataModel = ExerciseHeaderTableViewCellModel()
             dataModel.name = session.exercises[indexPath.section].name
+            dataModel.weightType = session.exercises[indexPath.section].weightType
             dataModel.isDoneButtonImageHidden = true
 
             exerciseHeaderCell.configure(dataModel: dataModel)
@@ -287,7 +288,7 @@ extension CreateEditSessionTableViewController {
 
 // MARK: - ExerciseHeaderCellDelegate
 extension CreateEditSessionTableViewController: ExerciseHeaderCellDelegate {
-    func deleteExerciseButtonTapped(cell: ExerciseHeaderTableViewCell) {
+    func deleteButtonTapped(cell: ExerciseHeaderTableViewCell) {
         Haptic.shared.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
@@ -303,7 +304,22 @@ extension CreateEditSessionTableViewController: ExerciseHeaderCellDelegate {
         tableView.deleteSections(IndexSet(integer: section), with: .automatic)
     }
 
-    func exerciseDoneButtonTapped(cell: ExerciseHeaderTableViewCell) {
+    func weightButtonTapped(cell: ExerciseHeaderTableViewCell) {
+        Haptic.shared.sendSelectionFeedback()
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+
+        if sessionState == .create {
+            session.exercises[indexPath.section].weightType = cell.weightType
+        } else {
+            try? realm?.write {
+                session.exercises[indexPath.section].weightType = cell.weightType
+            }
+        }
+    }
+
+    func doneButtonTapped(cell: ExerciseHeaderTableViewCell) {
         // No op
     }
 }

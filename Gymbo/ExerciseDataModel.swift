@@ -196,7 +196,11 @@ extension ExerciseDataModel {
             imagesData.append(data)
         }
 
-        return Exercise(name: name, groups: groups, instructions: instructions, tips: tips, imagesData: imagesData)
+        return Exercise(name: name,
+                        groups: groups,
+                        instructions: instructions,
+                        tips: tips,
+                        imagesData: imagesData)
     }
 
     private func setupExercisesDictionary() {

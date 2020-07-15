@@ -8,5 +8,6 @@
 
 struct ExerciseHeaderTableViewCellModel {
     var name: String?
+    var weightType: Int?
     var isDoneButtonImageHidden = false
 }
