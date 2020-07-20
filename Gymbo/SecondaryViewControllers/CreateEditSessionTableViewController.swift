@@ -43,7 +43,7 @@ private extension CreateEditSessionTableViewController {
 extension CreateEditSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = sessionState.rawValue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise", style: .plain, target: self, action: #selector(addExerciseButtonTapped))
 
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
@@ -148,7 +148,7 @@ extension CreateEditSessionTableViewController {
 
 // MARK: - Funcs
 extension CreateEditSessionTableViewController {
-    @objc private func createExerciseButtonTapped(_ sender: Any) {
+    @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
         let exercisesViewController = ExercisesViewController()

@@ -353,12 +353,10 @@ extension ExercisesViewController: UITableViewDelegate {
 
             let exercise = exerciseDataModel.exercise(for: indexPath)
             let exercisePreviewViewController = ExercisePreviewViewController(exercise: exercise)
-            exercisePreviewViewController.dimmedViewDelegate = self
-            exercisePreviewViewController.modalPresentationStyle = .overCurrentContext
-            exercisePreviewViewController.modalTransitionStyle = .crossDissolve
-            mainTabBarController?.present(exercisePreviewViewController, animated: true)
-
-            addView()
+            let modalNavigationController = UINavigationController(rootViewController: exercisePreviewViewController)
+            modalNavigationController.modalPresentationStyle = .custom
+            modalNavigationController.transitioningDelegate = self
+            mainTabBarController?.present(modalNavigationController, animated: true)
         case .modal:
             guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
                 let exerciseName = exerciseCell.exerciseName,

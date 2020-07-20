@@ -10,40 +10,6 @@ import UIKit
 
 // MARK: - Properties
 class ExercisePreviewViewController: UIViewController {
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.addCorner(style: .medium)
-        return view
-    }()
-
-    private let closeButton: CustomButton = {
-        let button = CustomButton()
-        let closeImage = UIImage(named: "close")
-        button.setImage(closeImage, for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        button.add(backgroundColor: .lightGray)
-        return button
-    }()
-
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle).bold
-        label.numberOfLines = 0
-        label.backgroundColor = .white
-        return label
-    }()
-
-    private let subTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .normal
-        label.textColor = .systemGray
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = .white
-        return label
-    }()
-
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.allowsSelection = false
@@ -72,10 +38,8 @@ class ExercisePreviewViewController: UIViewController {
 
     private var exercise: Exercise
 
-    private let tableData: [TableRow] = [.imagesTitle, .images, .instructionsTitle,
+    private let tableData: [TableRow] = [ .title, .imagesTitle, .images, .instructionsTitle,
                                          .instructions, .tipsTitle, .tips]
-
-    weak var dimmedViewDelegate: DimmedViewDelegate?
 
     init(exercise: Exercise) {
         self.exercise = exercise
@@ -93,6 +57,8 @@ class ExercisePreviewViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension ExercisePreviewViewController {
     struct Constants {
+        static let title = "Exercise"
+
         static let swipableImageViewTableViewCellHeight = CGFloat(200)
 
         static let noImagesText = "No images\n"
@@ -108,29 +74,33 @@ private extension ExercisePreviewViewController {
         case instructions
         case tipsTitle = "Tips"
         case tips
+        case title
     }
 }
 
 // MARK: - ViewAdding
 extension ExercisePreviewViewController: ViewAdding {
+    func setupNavigationBar() {
+        navigationItem.title = Constants.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
+    }
+
     func addViews() {
-        view.add(subviews: [containerView])
-        containerView.add(subviews: [closeButton, titleLabel, subTitleLabel, tableView])
+        view.add(subviews: [tableView])
         if exercise.isUserMade {
-            containerView.add(subviews: [editButton])
+            view.add(subviews: [editButton])
         } else {
-            containerView.add(subviews: [editDisclaimerLabel])
+            view.add(subviews: [editDisclaimerLabel])
         }
     }
 
     func setupViews() {
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-
-        titleLabel.text = exercise.name
-        subTitleLabel.text = exercise.groups
+        view.backgroundColor = .white
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(TwoLabelsTableViewCell.self,
+                           forCellReuseIdentifier: TwoLabelsTableViewCell.reuseIdentifier)
         tableView.register(SwipableImageViewTableViewCell.self,
                            forCellReuseIdentifier: SwipableImageViewTableViewCell.reuseIdentifier)
         tableView.register(LabelTableViewCell.self,
@@ -142,47 +112,19 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func addConstraints() {
-        NSLayoutConstraint.activate([
-            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7)
-        ])
-
-        NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            closeButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            closeButton.widthAnchor.constraint(equalToConstant: 28),
-            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
-        ])
-        closeButton.layoutIfNeeded()
-        closeButton.addCorner(style: .circle(length: closeButton.frame.height))
-
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 15),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            titleLabel.bottomAnchor.constraint(equalTo: subTitleLabel.topAnchor, constant: -2)
-        ])
-
-        NSLayoutConstraint.activate([
-            subTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            subTitleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            subTitleLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -10)
-        ])
-
         let viewToUse = exercise.isUserMade ? editButton : editDisclaimerLabel
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: viewToUse.topAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            viewToUse.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            viewToUse.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            viewToUse.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -15),
-            viewToUse.heightAnchor.constraint(equalToConstant: 45)
+            viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            viewToUse.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            viewToUse.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
 }
@@ -202,13 +144,11 @@ extension ExercisePreviewViewController {
 // MARK: - Funcs
 extension ExercisePreviewViewController {
     private func refreshTitleLabels() {
-        titleLabel.text = exercise.name
-        subTitleLabel.text = exercise.groups
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 
     @objc private func closeButtonTapped(sender: Any) {
         dismiss(animated: true)
-        dimmedViewDelegate?.removeView()
     }
 
     @objc private func editButtonTapped(sender: Any) {
@@ -236,6 +176,13 @@ extension ExercisePreviewViewController: UITableViewDataSource {
         let tableItem = tableData[indexPath.row]
 
         switch tableItem {
+        case .title:
+            guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(withIdentifier: TwoLabelsTableViewCell.reuseIdentifier, for: indexPath) as? TwoLabelsTableViewCell else {
+                fatalError("Could not dequeue \(TwoLabelsTableViewCell.reuseIdentifier)")
+            }
+
+            twoLabelsTableViewCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
+            cell = twoLabelsTableViewCell
         case .imagesTitle, .instructionsTitle, .tipsTitle:
             guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
                 fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
