@@ -133,6 +133,8 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         weightTextFieldToolBar.barStyle = .default
         weightTextFieldToolBar.items = [
             UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(previousToolbarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneToolbarButtonTapped))
         ]
         weightTextFieldToolBar.sizeToFit()
         weightTextField.inputAccessoryView = weightTextFieldToolBar
@@ -168,6 +170,10 @@ extension ExerciseDetailTableViewCell: ViewAdding {
 
     @objc func previousToolbarButtonTapped() {
         repsTextField.becomeFirstResponder()
+    }
+
+    @objc func doneToolbarButtonTapped() {
+        endEditing(true)
     }
 }
 
