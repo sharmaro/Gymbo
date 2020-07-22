@@ -18,4 +18,7 @@ extension CGFloat {
     static let xLarge = CGFloat(30)
     static let xxLarge = CGFloat(40)
     static let huge = CGFloat(100)
+
+    static let defaultUnselectedBorder = CGFloat(1)
+    static let defaultSelectedBorder = CGFloat(2)
 }

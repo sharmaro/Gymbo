@@ -304,6 +304,10 @@ extension CreateEditExerciseTableViewController {
 
 // MARK: - TextViewTableViewCellDelegate
 extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder, toColor: .defaultSelectedBorder, fromWidth: .defaultUnselectedBorder, toWidth: .defaultSelectedBorder)
+    }
+
     func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {
         tableView.performBatchUpdates ({
             textView.sizeToFit()
@@ -312,6 +316,10 @@ extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
         if let indexPathOfCell = tableView.indexPath(for: cell) {
             tableView.scrollToRow(at: indexPathOfCell, at: .bottom, animated: true)
         }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder, toColor: .defaultUnselectedBorder, fromWidth: .defaultSelectedBorder, toWidth: .defaultUnselectedBorder)
     }
 }
 

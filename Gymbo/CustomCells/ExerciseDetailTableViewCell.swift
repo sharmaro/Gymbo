@@ -111,10 +111,10 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         [repsTextField, weightTextField].forEach {
             $0.font = .small
             $0.textAlignment = .center
-            $0.layer.addCorner(style: .xSmall)
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.black.cgColor
             $0.borderStyle = .none
+            $0.layer.addCorner(style: .xSmall)
+            $0.layer.borderWidth = .defaultUnselectedBorder
+            $0.layer.borderColor = .defaultUnselectedBorder
             $0.delegate = self
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -201,11 +201,17 @@ extension ExerciseDetailTableViewCell {
 
 // MARK: - UITextFieldDelegate
 extension ExerciseDetailTableViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder, toColor: .defaultSelectedBorder, fromWidth: .defaultUnselectedBorder, toWidth: .defaultSelectedBorder)
+    }
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder, toColor: .defaultUnselectedBorder, fromWidth: .defaultSelectedBorder, toWidth: .defaultUnselectedBorder)
+
         var type: TextFieldType
         switch textField.tag {
         case 0:

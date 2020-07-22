@@ -9,6 +9,10 @@
 import UIKit
 
 extension UIView {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+
     func add(subviews: [UIView]) {
         for view in subviews {
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -162,7 +166,45 @@ extension UIView {
         }
     }
 
-    static var reuseIdentifier: String {
-        return String(describing: self)
+    // Border width needs to be set before calling this
+    func animateBorderColor(from: CGColor, to: CGColor) {
+        let animationKey = "borderColor"
+        let colorAnimation = CABasicAnimation(keyPath: animationKey)
+        colorAnimation.fromValue = from
+        colorAnimation.toValue = to
+        colorAnimation.duration = .defaultAnimationTime
+        layer.borderColor = to
+        layer.add(colorAnimation, forKey: animationKey)
+
+    }
+
+    // Border width needs to be set before calling this
+    func animateBorderWidth(from: CGFloat, to: CGFloat) {
+        let animationKey = "borderWidth"
+        let widthAnimation = CABasicAnimation(keyPath: animationKey)
+        widthAnimation.fromValue = from
+        widthAnimation.toValue = to
+        widthAnimation.duration = .defaultAnimationTime
+        layer.borderWidth = to
+        layer.add(widthAnimation, forKey: animationKey)
+    }
+
+    // Border width needs to be set before calling this
+    func animateBorderColorAndWidth(fromColor: CGColor, toColor: CGColor, fromWidth: CGFloat, toWidth: CGFloat) {
+        let colorAnimation = CABasicAnimation(keyPath: "borderColor")
+        colorAnimation.fromValue = fromColor
+        colorAnimation.toValue = toColor
+        layer.borderColor = toColor
+
+        let widthAnimation = CABasicAnimation(keyPath: "borderWidth")
+        widthAnimation.fromValue = fromWidth
+        widthAnimation.toValue = toWidth
+        layer.borderWidth = toWidth
+
+        let bothAnimations = CAAnimationGroup()
+        bothAnimations.duration = .defaultAnimationTime
+        bothAnimations.animations = [colorAnimation, widthAnimation]
+        bothAnimations.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        layer.add(bothAnimations, forKey: "color and width")
     }
 }

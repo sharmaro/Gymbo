@@ -83,7 +83,15 @@ extension TextViewTableViewCell {
 
 // MARK: - UITextViewDelegate
 extension TextViewTableViewCell: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textViewTableViewCellDelegate?.textViewDidBeginEditing(textView)
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         textViewTableViewCellDelegate?.textViewDidChange(textView, cell: self)
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textViewTableViewCellDelegate?.textViewDidEndEditing(textView)
     }
 }
