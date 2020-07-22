@@ -97,7 +97,7 @@
 		6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42B249F2EBF00479E91 /* SessionDetailType.swift */; };
 		6972E42F24A029E000479E91 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E42E24A029E000479E91 /* Haptic.swift */; };
 		6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43024B59D7000479E91 /* ActivityIndicatorView.swift */; };
-		6972E43324BEAF7E00479E91 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43224BEAF7E00479E91 /* Color+Extension.swift */; };
+		6972E43324BEAF7E00479E91 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43224BEAF7E00479E91 /* UIColor+Extension.swift */; };
 		6972E43524BEB03800479E91 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43424BEB03800479E91 /* TimeInterval+Extension.swift */; };
 		6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43624BEB26400479E91 /* ToggleButton.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */; };
@@ -215,7 +215,7 @@
 		6972E42B249F2EBF00479E91 /* SessionDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailType.swift; sourceTree = "<group>"; };
 		6972E42E24A029E000479E91 /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		6972E43024B59D7000479E91 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
-		6972E43224BEAF7E00479E91 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		6972E43224BEAF7E00479E91 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		6972E43424BEB03800479E91 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		6972E43624BEB26400479E91 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesViewController.swift; sourceTree = "<group>"; };
@@ -446,7 +446,8 @@
 		6972E3D0249F207E00479E91 /* TypeExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				6972E43224BEAF7E00479E91 /* Color+Extension.swift */,
+				6972E3DE249F223000479E91 /* CALayer+Extension.swift */,
+				69A39B2224C817A000ECEA25 /* CGColor+Extension.swift */,
 				6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */,
 				6972E3D1249F209900479E91 /* Int+Extension.swift */,
 				6972E3D9249F215400479E91 /* Notification+Extension.swift */,
@@ -459,9 +460,8 @@
 		6972E3DB249F21D500479E91 /* UIExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				6972E3DE249F223000479E91 /* CALayer+Extension.swift */,
-				69A39B2224C817A000ECEA25 /* CGColor+Extension.swift */,
 				6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */,
+				6972E43224BEAF7E00479E91 /* UIColor+Extension.swift */,
 				6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */,
 				6972E3E2249F22B100479E91 /* UITableView+Extension.swift */,
 				6972E3DC249F21E700479E91 /* UIView+Extension.swift */,
@@ -682,7 +682,7 @@
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
 				69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */,
-				6972E43324BEAF7E00479E91 /* Color+Extension.swift in Sources */,
+				6972E43324BEAF7E00479E91 /* UIColor+Extension.swift in Sources */,
 				692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */,
 				6972E3E3249F22B100479E91 /* UITableView+Extension.swift in Sources */,
 				69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */,

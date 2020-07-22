@@ -1,5 +1,5 @@
 //
-//  Color+Extension.swift
+//  UIColor+Extension.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 7/14/20.
