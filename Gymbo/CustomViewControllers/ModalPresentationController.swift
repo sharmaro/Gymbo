@@ -27,7 +27,7 @@ final class ModalPresentationController: UIPresentationController {
     }()
 
     private lazy var panGesture: UIPanGestureRecognizer = {
-        return UIPanGestureRecognizer(target: self, action: #selector(didPan))
+        UIPanGestureRecognizer(target: self, action: #selector(didPan))
     }()
 
     var customBounds: CustomBounds?

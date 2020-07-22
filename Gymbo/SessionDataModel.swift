@@ -20,11 +20,11 @@ class SessionDataModel: NSObject {
     }
 
     var count: Int {
-        return sessionsList?.sessions.count ?? 0
+        sessionsList?.sessions.count ?? 0
     }
 
     var isEmpty: Bool {
-        return sessionsList?.sessions.isEmpty ?? true
+        sessionsList?.sessions.isEmpty ?? true
     }
 
     weak var dataFetchDelegate: DataFetchDelegate?
@@ -60,21 +60,21 @@ extension SessionDataModel {
     }
 
     func index(of name: String) -> Int? {
-        return sessionsList?.sessions.firstIndex(where: {
+        sessionsList?.sessions.firstIndex(where: {
             $0.name == name
         })
     }
 
     func session(for index: Int) -> Session? {
-        return sessionsList?.sessions[index]
+        sessionsList?.sessions[index]
     }
 
     func sessionName(for index: Int) -> String {
-        return sessionsList?.sessions[index].name ?? "No name"
+        sessionsList?.sessions[index].name ?? "No name"
     }
 
     func exercisesCount(for index: Int) -> Int {
-        return sessionsList?.sessions[index].exercises.count ?? 0
+        sessionsList?.sessions[index].exercises.count ?? 0
     }
 
     func sessionInfoText(for index: Int) -> String {

@@ -71,7 +71,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     }
 
     var weightType: Int {
-        return WeightType.type(text: weightButton.title)
+        WeightType.type(text: weightButton.title)
     }
 
     weak var exerciseHeaderCellDelegate: ExerciseHeaderCellDelegate?

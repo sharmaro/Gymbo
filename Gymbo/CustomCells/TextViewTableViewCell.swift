@@ -23,7 +23,7 @@ class TextViewTableViewCell: UITableViewCell {
 
     // Can't override text property
     var textViewText: String? {
-        return textView.text
+        textView.text
     }
 
     weak var textViewTableViewCellDelegate: TextViewTableViewCellDelegate?

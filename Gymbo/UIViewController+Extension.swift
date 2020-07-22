@@ -10,11 +10,11 @@ import UIKit
 
 extension UIViewController {
     var mainTabBarController: MainTabBarController? {
-        return (tabBarController as? MainTabBarController)
+        (tabBarController as? MainTabBarController)
     }
 
     var minimizedHeight: CGFloat {
-        return 44
+        44
     }
 
     func presentCustomAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {

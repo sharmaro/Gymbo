@@ -40,6 +40,13 @@ class MultipleSelectionTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - Structs/Enums
+private extension MultipleSelectionTableViewCell {
+    struct Constants {
+        static let minimumLineSpacing = CGFloat(5)
+    }
+}
+
 // MARK: - ViewAdding
 extension MultipleSelectionTableViewCell: ViewAdding {
     func addViews() {
@@ -86,7 +93,7 @@ extension MultipleSelectionTableViewCell {
 // MARK: - UICollectionViewDataSource
 extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectionTitles.count
+        selectionTitles.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -110,11 +117,11 @@ extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MultipleSelectionTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        Constants.minimumLineSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        Constants.minimumLineSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -31,34 +31,34 @@ extension UIFont {
     static let huge = UIFont.systemFont(ofSize: .huge)
 
     var ultraLight: UIFont {
-        return withWeight(.ultraLight)
+        withWeight(.ultraLight)
     }
 
     var light: UIFont {
-        return withWeight(.light)
+        withWeight(.light)
     }
 
     var regular: UIFont {
-        return withWeight(.regular)
+        withWeight(.regular)
     }
 
     var medium: UIFont {
-        return withWeight(.medium)
+        withWeight(.medium)
     }
 
     var semibold: UIFont {
-        return withWeight(.semibold)
+        withWeight(.semibold)
     }
 
     var heavy: UIFont {
-        return withWeight(.heavy)
+        withWeight(.heavy)
     }
 
     var bold: UIFont {
-        return withTraits(.traitBold)
+        withTraits(.traitBold)
     }
 
     var italic: UIFont {
-        return withTraits(.traitItalic)
+        withTraits(.traitItalic)
     }
 }

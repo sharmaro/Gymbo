@@ -186,12 +186,8 @@ extension SessionPreviewViewController {
 
 // MARK: - UITableViewDataSource
 extension SessionPreviewViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return session?.exercises.count ?? 0
+        session?.exercises.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -208,7 +204,7 @@ extension SessionPreviewViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SessionPreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.exerciseCellHeight
+        Constants.exerciseCellHeight
     }
 }
 

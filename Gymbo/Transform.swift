@@ -11,6 +11,6 @@ enum Transform {
     case inflate
 
     static func caseFromBool(bool: Bool) -> Transform {
-        return bool ? .shrink : .inflate
+        bool ? .shrink : .inflate
     }
 }

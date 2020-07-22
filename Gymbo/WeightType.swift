@@ -22,7 +22,7 @@ enum WeightType: Int, CaseIterable {
     }
 
     static var textItems: [String] {
-        return WeightType.allCases.map {
+        WeightType.allCases.map {
             $0.text
         }
     }

@@ -31,21 +31,21 @@ import RealmSwift
 // MARK: - NSItemProviderReading
 extension Session: NSItemProviderReading {
     static var readableTypeIdentifiersForItemProvider: [String] {
-        return []
+        []
     }
 
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        return self.init()
+        self.init()
     }
 }
 
 // MARK: - NSItemProviderWriting
 extension Session: NSItemProviderWriting {
     static var writableTypeIdentifiersForItemProvider: [String] {
-        return []
+        []
     }
 
     func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
-        return nil
+        nil
     }
 }

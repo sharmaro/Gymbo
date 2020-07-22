@@ -168,7 +168,7 @@ extension ExercisePreviewViewController {
 // MARK: - UITableViewDataSource
 extension ExercisePreviewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        tableData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

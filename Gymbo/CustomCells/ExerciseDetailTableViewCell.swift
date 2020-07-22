@@ -51,11 +51,11 @@ class ExerciseDetailTableViewCell: UITableViewCell {
     }
 
     var reps: String? {
-        return repsTextField.text
+        repsTextField.text
     }
 
     var weight: String? {
-        return weightTextField.text
+        weightTextField.text
     }
 
     private var isDoneButtonEnabled = false {
@@ -206,7 +206,7 @@ extension ExerciseDetailTableViewCell: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
+        exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {

@@ -125,6 +125,7 @@ private extension StopwatchViewController {
 
         static let timerInterval = TimeInterval(0.01)
 
+        static let stopWatchTableViewCellHeight = CGFloat(50)
         static let timeStackViewHeight = CGFloat(100)
         static let buttonsStackViewHeight = CGFloat(45)
         static let sessionStartedConstraintConstant = CGFloat(-64)
@@ -413,7 +414,7 @@ extension StopwatchViewController {
 // MARK: - UITableViewDataSource
 extension StopwatchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return laps?.count ?? 0
+        laps?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -438,7 +439,7 @@ extension StopwatchViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension StopwatchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        Constants.stopWatchTableViewCellHeight
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

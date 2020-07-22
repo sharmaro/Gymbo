@@ -26,15 +26,15 @@ class SessionHeaderView: UIView {
     }()
 
     var firstText: String? {
-        return firstTextView.text
+        firstTextView.text
     }
 
     var secondText: String {
-        return secondTextView.text
+        secondTextView.text
     }
 
     var isFirstTextValid: Bool {
-        return firstTextView.textColor != Constants.dimmedBlack && !firstTextView.text.isEmpty
+        firstTextView.textColor != Constants.dimmedBlack && !firstTextView.text.isEmpty
     }
 
     var isContentEditable = true {

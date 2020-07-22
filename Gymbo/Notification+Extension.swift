@@ -11,11 +11,11 @@ import UIKit
 // MARK - Notification
 extension Notification {
     var keyboardSize: CGSize? {
-        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
+        (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
     }
 
     var keyboardAnimationDuration: Double? {
-        return userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
     }
 }
 

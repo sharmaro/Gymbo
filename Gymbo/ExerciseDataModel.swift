@@ -27,7 +27,7 @@ class ExerciseDataModel: NSObject {
     private(set) var sectionTitles = [String]()
 
     private var dataToUse: [String: [Exercise]] {
-        return searchResults.isEmpty ? exercisesDictionary : searchResults
+        searchResults.isEmpty ? exercisesDictionary : searchResults
     }
 
     weak var dataFetchDelegate: DataFetchDelegate?
@@ -266,7 +266,7 @@ extension ExerciseDataModel {
     // MARK: - UITableView
 
     var numberOfSections: Int {
-        return dataToUse.count
+        dataToUse.count
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -277,17 +277,17 @@ extension ExerciseDataModel {
     }
 
     func heightForHeaderIn(section: Int) -> CGFloat {
-        return dataToUse.count == 1 ? 0 : 40
+        dataToUse.count == 1 ? 0 : 40
     }
 
     func titleForHeaderIn(section: Int) -> String {
-        return sectionTitles[section]
+        sectionTitles[section]
     }
 
     // MARK: - Data
 
     func doesExerciseExist(name: String) -> Bool {
-        return exercisesCache[name] != nil
+        exercisesCache[name] != nil
     }
 
     func exercise(for name: String) -> Exercise {
@@ -321,11 +321,11 @@ extension ExerciseDataModel {
     }
 
     func defaultExerciseGroupCount() -> Int {
-        return exerciseGroups.count
+        exerciseGroups.count
     }
 
     func defaultExerciseGroups() -> [String] {
-        return exerciseGroups
+        exerciseGroups
     }
 
     func defaultExerciseGroup(for index: Int) -> String {
@@ -348,7 +348,7 @@ extension ExerciseDataModel {
     }
 
     func index(of name: String) -> Int? {
-        return exercisesList.exercises.firstIndex(where: {
+        exercisesList.exercises.firstIndex(where: {
             name == $0.name
         })
     }

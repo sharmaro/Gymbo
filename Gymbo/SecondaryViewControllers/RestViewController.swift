@@ -326,7 +326,7 @@ extension RestViewController: UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return Constants.pickerRowHeight
+        Constants.pickerRowHeight
     }
 }
 

@@ -15,6 +15,6 @@ protocol TextFieldTableViewCellDelegate: class {
 
 extension TextFieldTableViewCellDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
+        true
     }
 }

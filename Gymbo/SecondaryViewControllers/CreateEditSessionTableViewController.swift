@@ -165,13 +165,13 @@ extension CreateEditSessionTableViewController {
 // MARK: - UITableViewDataSource
 extension CreateEditSessionTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return session.exercises.count
+        session.exercises.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Adding 1 for exercise name label
         // Adding 1 for "+ Set button"
-        return session.exercises[section].sets + 2
+        session.exercises[section].sets + 2
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

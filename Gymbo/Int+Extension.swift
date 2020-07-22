@@ -10,11 +10,11 @@ import UIKit
 
 extension Int {
     var cgFloat: CGFloat {
-        return CGFloat(self)
+        CGFloat(self)
     }
 
     func twoDigits() -> String {
-        return String(format: "%02d", self)
+        String(format: "%02d", self)
     }
 
     func getMinutesAndSecondsString() -> String {

@@ -233,7 +233,7 @@ extension CreateEditExerciseTableViewController {
 // MARK: - UITableViewDataSource
 extension CreateEditExerciseTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        tableData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -294,11 +294,11 @@ extension CreateEditExerciseTableViewController {
 // MARK: - UITableViewDelegate
 extension CreateEditExerciseTableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableData[indexPath.row].height
+        tableData[indexPath.row].height
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableData[indexPath.row].height
+        tableData[indexPath.row].height
     }
 }
 

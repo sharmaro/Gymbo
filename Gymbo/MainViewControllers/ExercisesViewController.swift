@@ -317,18 +317,18 @@ extension ExercisesViewController: UITableViewDataSource {
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return exerciseDataModel.sectionTitles
+        exerciseDataModel.sectionTitles
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ExercisesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return exerciseDataModel.heightForHeaderIn(section: section)
+        exerciseDataModel.heightForHeaderIn(section: section)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return exerciseDataModel.heightForHeaderIn(section: section)
+        exerciseDataModel.heightForHeaderIn(section: section)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -342,7 +342,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.exerciseCellHeight
+        Constants.exerciseCellHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
