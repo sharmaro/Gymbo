@@ -51,8 +51,7 @@ extension AppDelegate {
     private func setupKeyWindow() {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let mainTabBarController = MainTabBarController()
-        window?.rootViewController = mainTabBarController
+        window?.rootViewController = MainTabBarController()
         window?.makeKeyAndVisible()
     }
 

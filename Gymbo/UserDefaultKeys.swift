@@ -15,4 +15,7 @@ struct UserDefaultKeys {
     // MARK: - StartSessionViewController
     static let STARTSESSION_DATE = "startSessionDate"
     static let STARTSESSION_TIME_DICTIONARY = "startSessionTimeDictionary"
+
+    // MARK: - User
+    static let IS_FIRST_LOAD = "isFirstLoad"
 }

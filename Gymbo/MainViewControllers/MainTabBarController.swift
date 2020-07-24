@@ -43,6 +43,12 @@ extension MainTabBarController {
 
         setupTabBar()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        showOnboardingIfNeeded()
+    }
 }
 
 // MARK: - Funcs
@@ -68,6 +74,15 @@ extension MainTabBarController {
             UINavigationController(rootViewController: $0)
         }
         selectedIndex = selectedTab.rawValue
+    }
+
+    private func showOnboardingIfNeeded() {
+        if User.isFirstLoad {
+            let onboardingPageViewController = OnboardingPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            present(onboardingPageViewController, animated: true, completion: {
+                User.firstTimeLoaded()
+            })
+        }
     }
 }
 
