@@ -117,6 +117,7 @@ class StopwatchViewController: UIViewController {
 // MARK: - Structs/Enums
 private extension StopwatchViewController {
     struct Constants {
+        static let title = "Stopwatch"
         static let CENTISECONDS_KEY = "centiseconds"
         static let SECONDS_KEY = "seconds"
         static let MINUTES_KEY = "minutes"
@@ -163,7 +164,7 @@ private extension StopwatchViewController {
 // MARK: - ViewAdding
 extension StopwatchViewController: ViewAdding {
     func setupNavigationBar() {
-        title = "Stopwatch"
+        title = Constants.title
     }
 
     func addViews() {
@@ -328,7 +329,6 @@ extension StopwatchViewController {
             secInt = timeDictionary[Constants.SECONDS_KEY] ?? 0
             minInt = timeDictionary[Constants.MINUTES_KEY] ?? 0
         }
-
         loadLaps()
     }
 
@@ -379,8 +379,9 @@ extension StopwatchViewController {
 
                     previousLap = Lap(minutes: minInt, seconds: secInt, centiSeconds: centiSecInt)
 
-                    tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .none, animated: true)
+                    UIView.transition(with: tableView, duration: .defaultAnimationTime, options: .transitionCrossDissolve, animations: { [weak self] in
+                        self?.tableView.reloadData()
+                    })
                 } else if stopwatchState == .stopped {
                     // User selected `Reset` functionality
                     minInt = 0
