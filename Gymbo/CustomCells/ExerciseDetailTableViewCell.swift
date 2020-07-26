@@ -113,8 +113,7 @@ extension ExerciseDetailTableViewCell: ViewAdding {
             $0.textAlignment = .center
             $0.borderStyle = .none
             $0.layer.addCorner(style: .xSmall)
-            $0.layer.borderWidth = .defaultUnselectedBorder
-            $0.layer.borderColor = .defaultUnselectedBorder
+            $0.addBorder(.defaultUnselectedBorder, color: .defaultUnselectedBorder)
             $0.delegate = self
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

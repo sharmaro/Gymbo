@@ -77,10 +77,10 @@ extension MainTabBarController {
     }
 
     private func showOnboardingIfNeeded() {
-        if User.isFirstLoad {
+        if User.isFirstTimeLoad {
             let onboardingPageViewController = OnboardingPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
             present(onboardingPageViewController, animated: true, completion: {
-                User.firstTimeLoaded()
+                User.firstTimeLoadComplete()
             })
         }
     }

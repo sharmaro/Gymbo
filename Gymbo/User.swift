@@ -9,11 +9,11 @@
 import Foundation
 
 struct User {
-    static var isFirstLoad: Bool {
-        return (UserDefaults.standard.object(forKey: UserDefaultKeys.IS_FIRST_LOAD) as? Bool) ?? true
+    static var isFirstTimeLoad: Bool {
+        return (UserDefaults.standard.object(forKey: UserDefaultKeys.IS_FIRST_TIME_LOAD) as? Bool) ?? true
     }
 
-    static func firstTimeLoaded() {
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.IS_FIRST_LOAD)
+    static func firstTimeLoadComplete() {
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.IS_FIRST_TIME_LOAD)
     }
 }

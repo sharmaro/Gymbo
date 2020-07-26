@@ -27,6 +27,7 @@ class OnboardingViewController: UIViewController {
     private let infoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .darkGray
+        label.textAlignment = .center
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.5
         label.adjustsFontSizeToFitWidth = true

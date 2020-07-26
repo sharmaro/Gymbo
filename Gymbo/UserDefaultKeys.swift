@@ -17,5 +17,5 @@ struct UserDefaultKeys {
     static let STARTSESSION_TIME_DICTIONARY = "startSessionTimeDictionary"
 
     // MARK: - User
-    static let IS_FIRST_LOAD = "isFirstLoad"
+    static let IS_FIRST_TIME_LOAD = "isFirstTimeLoad"
 }

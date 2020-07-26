@@ -10,4 +10,6 @@ import UIKit
 
 extension UIColor {
     static let dimmedBackgroundBlack = UIColor.black.withAlphaComponent(0.8)
+    static var defaultUnselectedBorder = UIColor.black
+    static var defaultSelectedBorder = UIColor.systemGreen
 }

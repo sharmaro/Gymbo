@@ -167,13 +167,13 @@ extension UIView {
     }
 
     // Border width needs to be set before calling this
-    func animateBorderColor(from: CGColor, to: CGColor) {
+    func animateBorderColor(from: UIColor, to: UIColor) {
         let animationKey = "borderColor"
         let colorAnimation = CABasicAnimation(keyPath: animationKey)
-        colorAnimation.fromValue = from
-        colorAnimation.toValue = to
+        colorAnimation.fromValue = from.cgColor
+        colorAnimation.toValue = to.cgColor
         colorAnimation.duration = .defaultAnimationTime
-        layer.borderColor = to
+        layer.borderColor = to.cgColor
         layer.add(colorAnimation, forKey: animationKey)
 
     }
@@ -190,11 +190,11 @@ extension UIView {
     }
 
     // Border width needs to be set before calling this
-    func animateBorderColorAndWidth(fromColor: CGColor, toColor: CGColor, fromWidth: CGFloat, toWidth: CGFloat) {
+    func animateBorderColorAndWidth(fromColor: UIColor, toColor: UIColor, fromWidth: CGFloat, toWidth: CGFloat) {
         let colorAnimation = CABasicAnimation(keyPath: "borderColor")
-        colorAnimation.fromValue = fromColor
-        colorAnimation.toValue = toColor
-        layer.borderColor = toColor
+        colorAnimation.fromValue = fromColor.cgColor
+        colorAnimation.toValue = toColor.cgColor
+        layer.borderColor = toColor.cgColor
 
         let widthAnimation = CABasicAnimation(keyPath: "borderWidth")
         widthAnimation.fromValue = fromWidth
@@ -206,5 +206,10 @@ extension UIView {
         bothAnimations.animations = [colorAnimation, widthAnimation]
         bothAnimations.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         layer.add(bothAnimations, forKey: "color and width")
+    }
+
+    func addBorder(_ width: CGFloat = 1, color: UIColor = .black) {
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
     }
 }

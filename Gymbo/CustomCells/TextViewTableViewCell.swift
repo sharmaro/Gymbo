@@ -13,8 +13,7 @@ class TextViewTableViewCell: UITableViewCell {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .normal
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.addBorder()
         textView.isScrollEnabled = false
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.addCorner(style: .small)

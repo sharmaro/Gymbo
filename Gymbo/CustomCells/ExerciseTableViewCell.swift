@@ -13,8 +13,7 @@ class ExerciseTableViewCell: UITableViewCell {
     private let muscleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.systemRed.cgColor
+        imageView.addBorder(1, color: .systemRed)
         return imageView
     }()
 
