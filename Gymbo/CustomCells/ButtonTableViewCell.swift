@@ -40,7 +40,7 @@ class ButtonTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension ButtonTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [button])
+        contentView.add(subviews: [button])
     }
 
     func setupViews() {
@@ -51,10 +51,10 @@ extension ButtonTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

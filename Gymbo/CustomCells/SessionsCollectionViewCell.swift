@@ -85,7 +85,7 @@ extension SessionsCollectionViewCell {
 // MARK: - ViewAdding
 extension SessionsCollectionViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [titleLabel, deleteButton, infoLabel])
+        contentView.add(subviews: [titleLabel, deleteButton, infoLabel])
     }
 
     func setupViews() {
@@ -107,24 +107,24 @@ extension SessionsCollectionViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -5),
             titleLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
 
         NSLayoutConstraint.activate([
-            deleteButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             deleteButton.widthAnchor.constraint(equalToConstant: 20),
             deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            infoLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            infoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -10)
+            infoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            infoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

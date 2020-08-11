@@ -43,7 +43,7 @@ class SwipableImageViewTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension SwipableImageViewTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [horizontalScrollView, pageControl])
+        contentView.add(subviews: [horizontalScrollView, pageControl])
     }
 
     func setupViews() {
@@ -52,17 +52,17 @@ extension SwipableImageViewTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            horizontalScrollView.topAnchor.constraint(equalTo: topAnchor),
-            horizontalScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            horizontalScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            horizontalScrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            horizontalScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            horizontalScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             horizontalScrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor)
         ])
         horizontalScrollView.layoutIfNeeded()
 
         NSLayoutConstraint.activate([
-            pageControl.leadingAnchor.constraint(equalTo: leadingAnchor),
-            pageControl.trailingAnchor.constraint(equalTo: trailingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             pageControl.heightAnchor.constraint(equalToConstant: 20),
         ])
     }

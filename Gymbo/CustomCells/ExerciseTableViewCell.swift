@@ -62,7 +62,7 @@ class ExerciseTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension ExerciseTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [muscleImageView, nameLabel, groupsLabel])
+        contentView.add(subviews: [muscleImageView, nameLabel, groupsLabel])
     }
 
     func setupViews() {
@@ -75,23 +75,23 @@ extension ExerciseTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            muscleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            muscleImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            muscleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            muscleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -5),
             muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -5),
-            muscleImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             nameLabel.bottomAnchor.constraint(equalTo: groupsLabel.topAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            groupsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            groupsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            groupsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            groupsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

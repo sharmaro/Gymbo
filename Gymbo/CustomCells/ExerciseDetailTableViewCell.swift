@@ -91,7 +91,7 @@ extension ExerciseDetailTableViewCell {
 // MARK: - ViewAdding
 extension ExerciseDetailTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [stackView])
+        contentView.add(subviews: [stackView])
         stackView.addArrangedSubview(setsLabel)
         stackView.addArrangedSubview(lastLabel)
         stackView.addArrangedSubview(repsTextField)
@@ -145,9 +145,9 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         let stackViewBottomConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             stackViewBottomConstraint
         ])
 

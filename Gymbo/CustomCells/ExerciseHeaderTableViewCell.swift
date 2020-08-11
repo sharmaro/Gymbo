@@ -98,7 +98,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension ExerciseHeaderTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [nameLabel, deleteButton, infoStackView])
+        contentView.add(subviews: [nameLabel, deleteButton, infoStackView])
         infoStackView.addArrangedSubview(setsLabel)
         infoStackView.addArrangedSubview(lastLabel)
         infoStackView.addArrangedSubview(repsLabel)
@@ -127,16 +127,16 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
             nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
             nameLabel.heightAnchor.constraint(equalToConstant: 22)
         ])
 
         NSLayoutConstraint.activate([
-            deleteButton.topAnchor.constraint(equalTo: topAnchor),
-            deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             deleteButton.widthAnchor.constraint(equalToConstant: 15),
             deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
         ])
@@ -144,8 +144,8 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
-            infoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            infoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             infoStackViewBottomConstraint
         ])
 

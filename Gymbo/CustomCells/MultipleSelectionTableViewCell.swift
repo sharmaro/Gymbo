@@ -50,7 +50,7 @@ private extension MultipleSelectionTableViewCell {
 // MARK: - ViewAdding
 extension MultipleSelectionTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [collectionView])
+        contentView.add(subviews: [collectionView])
     }
 
     func setupViews() {
@@ -63,10 +63,10 @@ extension MultipleSelectionTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

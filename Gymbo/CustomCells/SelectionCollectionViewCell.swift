@@ -56,11 +56,11 @@ private extension SelectionCollectionViewCell {
 // MARK: - ViewAdding
 extension SelectionCollectionViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [selectionLabel])
+        contentView.add(subviews: [selectionLabel])
     }
 
     func addConstraints() {
-        selectionLabel.autoPinEdges(to: self)
+        selectionLabel.autoPinEdges(to: contentView)
     }
 }
 

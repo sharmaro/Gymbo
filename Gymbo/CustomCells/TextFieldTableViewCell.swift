@@ -35,7 +35,7 @@ class TextFieldTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension TextFieldTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [textField])
+        contentView.add(subviews: [textField])
     }
 
     func setupViews() {
@@ -47,10 +47,10 @@ extension TextFieldTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: topAnchor),
-            textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            textField.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

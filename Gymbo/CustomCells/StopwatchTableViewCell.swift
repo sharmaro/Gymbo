@@ -40,17 +40,17 @@ class StopwatchTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension StopwatchTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [descriptionLabel, valueLabel])
+        contentView.add(subviews: [descriptionLabel, valueLabel])
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            valueLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            valueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            valueLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             valueLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
         layoutIfNeeded()

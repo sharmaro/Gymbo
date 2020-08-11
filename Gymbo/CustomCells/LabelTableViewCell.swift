@@ -35,7 +35,7 @@ class LabelTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension LabelTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [detailLabel])
+        contentView.add(subviews: [detailLabel])
     }
 
     func setupViews() {
@@ -44,10 +44,10 @@ extension LabelTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            detailLabel.topAnchor.constraint(equalTo: topAnchor),
-            detailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            detailLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            detailLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            detailLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            detailLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            detailLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

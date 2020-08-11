@@ -45,7 +45,7 @@ class ImagesTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension ImagesTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [horizontalScrollView])
+        contentView.add(subviews: [horizontalScrollView])
     }
 
     func setupViews() {
@@ -54,10 +54,10 @@ extension ImagesTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            horizontalScrollView.topAnchor.constraint(equalTo: topAnchor),
-            horizontalScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            horizontalScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            horizontalScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            horizontalScrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            horizontalScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            horizontalScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            horizontalScrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
         horizontalScrollView.layoutIfNeeded()
     }

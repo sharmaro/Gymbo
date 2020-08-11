@@ -52,14 +52,14 @@ extension TwoLabelsTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topLabel.topAnchor.constraint(equalTo: topAnchor),
-            topLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            topLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            topLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            topLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             topLabel.bottomAnchor.constraint(equalTo: bottomLabel.topAnchor),
 
-            bottomLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            bottomLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            bottomLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            bottomLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            bottomLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            bottomLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }
 }
