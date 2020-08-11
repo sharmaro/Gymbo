@@ -126,30 +126,25 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
     }
 
     func addConstraints() {
+        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+        infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
+
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
             nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
-            nameLabel.heightAnchor.constraint(equalToConstant: 22)
-        ])
+            nameLabel.heightAnchor.constraint(equalToConstant: 22),
 
-        NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             deleteButton.widthAnchor.constraint(equalToConstant: 15),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
-        ])
+            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),
 
-        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
-        infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
-        NSLayoutConstraint.activate([
             infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            infoStackViewBottomConstraint
-        ])
+            infoStackViewBottomConstraint,
 
-        NSLayoutConstraint.activate([
             setsLabel.widthAnchor.constraint(equalToConstant: 40),
             lastLabel.widthAnchor.constraint(equalToConstant: 130),
             repsLabel.widthAnchor.constraint(equalToConstant: 45),

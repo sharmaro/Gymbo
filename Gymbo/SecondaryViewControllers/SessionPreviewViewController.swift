@@ -81,30 +81,27 @@ extension SessionPreviewViewController: ViewAdding {
     }
 
     func addConstraints() {
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+
         NSLayoutConstraint.activate([
             tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = tableHeaderView
-        NSLayoutConstraint.activate([
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
 
-        NSLayoutConstraint.activate([
             startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.startButtonBottomSpacing),
             startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
         ])
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
     }
 }
 

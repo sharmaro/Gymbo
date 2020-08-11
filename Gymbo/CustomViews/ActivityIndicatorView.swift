@@ -97,10 +97,8 @@ extension ActivityIndicatorView: ViewAdding {
             contentBlurEffectView.centerXAnchor.constraint(equalTo: containerBlurEffectView.centerXAnchor),
             contentBlurEffectView.centerYAnchor.constraint(equalTo: containerBlurEffectView.centerYAnchor),
             contentBlurEffectView.widthAnchor.constraint(equalToConstant: 200),
-            contentBlurEffectView.heightAnchor.constraint(equalToConstant: 60)
-        ])
+            contentBlurEffectView.heightAnchor.constraint(equalToConstant: 60),
 
-        NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentBlurEffectView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentBlurEffectView.trailingAnchor, constant: -20),
             stackView.centerYAnchor.constraint(equalTo: contentBlurEffectView.centerYAnchor)

@@ -61,10 +61,8 @@ extension StartSessionFooterView: ViewAdding {
             addExerciseButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             addExerciseButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             addExerciseButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -15),
-            addExerciseButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor)
-        ])
+            addExerciseButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor),
 
-        NSLayoutConstraint.activate([
             cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             cancelButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)

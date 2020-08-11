@@ -99,28 +99,22 @@ extension AlertViewController: ViewAdding {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
-        ])
+            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 
-        NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 45)
-        ])
+            titleLabel.heightAnchor.constraint(equalToConstant: 45),
 
-        NSLayoutConstraint.activate([
             contentLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             contentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10)
-        ])
+            contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10),
 
-        NSLayoutConstraint.activate([
             buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            buttonsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-            buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
+                       buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+                       buttonsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+                       buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
         ])
         buttonsStackView.layoutIfNeeded()
     }

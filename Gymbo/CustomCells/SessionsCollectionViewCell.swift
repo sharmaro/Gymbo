@@ -111,17 +111,13 @@ extension SessionsCollectionViewCell: ViewAdding {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -5),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22)
-        ])
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
 
-        NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             deleteButton.widthAnchor.constraint(equalToConstant: 20),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
-        ])
+            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),
 
-        NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             infoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)

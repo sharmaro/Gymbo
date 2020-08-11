@@ -55,16 +55,14 @@ extension SwipableImageViewTableViewCell: ViewAdding {
             horizontalScrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
             horizontalScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            horizontalScrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor)
-        ])
-        horizontalScrollView.layoutIfNeeded()
+            horizontalScrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
 
-        NSLayoutConstraint.activate([
             pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             pageControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            pageControl.heightAnchor.constraint(equalToConstant: 20),
+            pageControl.heightAnchor.constraint(equalToConstant: 20)
         ])
+        horizontalScrollView.layoutIfNeeded()
     }
 }
 

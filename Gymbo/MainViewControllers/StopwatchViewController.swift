@@ -206,16 +206,18 @@ extension StopwatchViewController: ViewAdding {
     }
 
     func addConstraints() {
+        let verticalSeparatorView1 = timeStackView.arrangedSubviews[1]
+        let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
+
+        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        buttonsStackViewBottomConstraint?.isActive = true
+
         NSLayoutConstraint.activate([
             timeStackView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight)
-        ])
+            timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight),
 
-        let verticalSeparatorView1 = timeStackView.arrangedSubviews[1]
-        let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
-        NSLayoutConstraint.activate([
             secondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
             centiSecondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
             minuteLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
@@ -224,24 +226,18 @@ extension StopwatchViewController: ViewAdding {
             verticalSeparatorView1.widthAnchor.constraint(equalToConstant: 1),
             verticalSeparatorView1.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
             verticalSeparatorView2.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView2.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2)
-        ])
-        timeStackView.layoutIfNeeded()
+            verticalSeparatorView2.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
 
-        NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
-        buttonsStackViewBottomConstraint?.isActive = true
-        NSLayoutConstraint.activate([
             buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
         ])
+        timeStackView.layoutIfNeeded()
     }
 }
 

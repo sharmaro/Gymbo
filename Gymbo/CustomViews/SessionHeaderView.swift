@@ -95,9 +95,7 @@ extension SessionHeaderView: ViewAdding {
             firstTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
             firstTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
             firstTextView.bottomAnchor.constraint(equalTo: secondTextView.topAnchor),
-        ])
 
-        NSLayoutConstraint.activate([
             secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
             secondTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
             secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor)

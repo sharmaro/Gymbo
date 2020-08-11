@@ -80,16 +80,12 @@ extension ExerciseTableViewCell: ViewAdding {
             muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -5),
             muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -5),
             muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor)
-        ])
+            muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor),
 
-        NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            nameLabel.bottomAnchor.constraint(equalTo: groupsLabel.topAnchor)
-        ])
+            nameLabel.bottomAnchor.constraint(equalTo: groupsLabel.topAnchor),
 
-        NSLayoutConstraint.activate([
             groupsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             groupsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])

@@ -100,10 +100,8 @@ extension CircleProgressView: ViewAdding {
             totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
             totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing)
-        ])
+            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing),
 
-        NSLayoutConstraint.activate([
             timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
             timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),

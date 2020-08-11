@@ -148,11 +148,8 @@ extension ExerciseDetailTableViewCell: ViewAdding {
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            stackViewBottomConstraint
-        ])
+            stackViewBottomConstraint,
 
-
-        NSLayoutConstraint.activate([
             setsLabel.widthAnchor.constraint(equalToConstant: 40),
             lastLabel.widthAnchor.constraint(equalToConstant: 130),
             repsTextField.widthAnchor.constraint(equalToConstant: 45),

@@ -164,34 +164,32 @@ extension RestViewController: ViewAdding {
             topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             topContainerView.bottomAnchor.constraint(equalTo: circleProgressView.topAnchor, constant: -15),
-            topContainerView.heightAnchor.constraint(equalToConstant: 30)
-        ])
+            topContainerView.heightAnchor.constraint(equalToConstant: 30),
 
-        restLabel.autoPinEdges(to: topContainerView)
+            restLabel.topAnchor.constraint(equalTo: topContainerView.topAnchor),
+            restLabel.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor),
+            restLabel.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor),
+            restLabel.bottomAnchor.constraint(equalTo: topContainerView.bottomAnchor),
 
-        NSLayoutConstraint.activate([
             addTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
             addTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
             addTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: -65),
-            addTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
-        ])
+            addTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
 
-        NSLayoutConstraint.activate([
             removeTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
             removeTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
             removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
-            removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor)
-        ])
+            removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
 
-        NSLayoutConstraint.activate([
             circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15)
-        ])
+            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15),
 
-        pickerView.autoPinEdges(to: circleProgressView)
+            pickerView.topAnchor.constraint(equalTo: circleProgressView.topAnchor),
+            pickerView.leadingAnchor.constraint(equalTo: circleProgressView.leadingAnchor),
+            pickerView.trailingAnchor.constraint(equalTo: circleProgressView.trailingAnchor),
+            pickerView.bottomAnchor.constraint(equalTo: circleProgressView.bottomAnchor),
 
-        NSLayoutConstraint.activate([
             mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
