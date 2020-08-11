@@ -13,4 +13,5 @@ import RealmSwift
 // MARK: - Properties
 @objcMembers class ExercisesList: Object {
     var exercises = List<Exercise>()
+    var sectionTitles = List<String>()
 }

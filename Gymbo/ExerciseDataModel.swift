@@ -12,23 +12,23 @@ import RealmSwift
 class ExerciseDataModel: NSObject {
     static let shared = ExerciseDataModel()
 
-    private var realm = try? Realm()
-    private var exercisesList = ExercisesList()
+    private var realm: Realm? {
+        try? Realm()
+    }
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Chest",
                                   "Glutes", "Hips", "Legs", "Other", "Shoulders"]
-    // Stores exercises based on their first character
-    private var exercisesDictionary = [String: [Exercise]]()
-    // Stores exercises by name for quick lookup
-    private var exercisesCache = [String: Exercise]()
-    // Used to store the filtered results based on user search
-    private var searchResults = [String: [Exercise]]()
 
-    private(set) var sectionTitles = [String]()
+    private var isFirstTimeLoad = true
+    private var firstTimeLoadExercises = List<Exercise>()
 
-    private var dataToUse: [String: [Exercise]] {
-        searchResults.isEmpty ? exercisesDictionary : searchResults
+    private var exercises: [Exercise] {
+        return isFirstTimeLoad ? Array(firstTimeLoadExercises) : Array(realm?.objects(ExercisesList.self).first?.exercises ?? List<Exercise>())
     }
+
+    // Used to store the filtered results based on user search
+    private var searchResults = ""
+    private(set) var sectionTitles = [String]()
 
     weak var dataFetchDelegate: DataFetchDelegate?
 }
@@ -51,76 +51,81 @@ extension ExerciseDataModel {
     // MARK: - Helper
 
     func fetchData() {
-        guard exercisesList.exercises.isEmpty else {
-            dataFetchDelegate?.didEndFetch()
-            return
+        DispatchQueue.main.async { [weak self] in
+            self?.dataFetchDelegate?.didBeginFetch()
         }
 
-        if let exercisesList = realm?.objects(ExercisesList.self).first {
-            self.exercisesList = exercisesList
+        if realm?.objects(ExercisesList.self).first != nil {
+            isFirstTimeLoad = false
+            sectionTitles = Array(realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
 
-            dataFetchDelegate?.didBeginFetch()
-            DispatchQueue.global(qos: .background).async { [weak self] in
-                self?.setupExercisesDictionary()
+            DispatchQueue.main.async { [weak self] in
+                self?.dataFetchDelegate?.didEndFetch()
             }
         } else {
-            dataFetchDelegate?.didBeginFetch()
             DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let self = self else { return }
 
-                let exercisesList = ExercisesList()
-                var exercisesCache = [String: Exercise]()
-                var exercisesDictionary = [String: [Exercise]]()
-                var sectionTitles = [String]()
+                let fileName = "all_workouts"
+                let fileType = "txt"
+                guard let filePath = Bundle.main.path(forResource: fileName, ofType: fileType),
+                    let content = try? String(contentsOfFile: filePath) else {
+                        fatalError("Error while opening file: \(fileName).\(fileType).")
+                }
 
-                for group in self.exerciseGroups {
-                    guard let filePath = Bundle.main.path(forResource: group, ofType: "txt"),
-                        let content = try? String(contentsOfFile: filePath) else {
-                            fatalError("Error while opening file: \(group).txt.")
-                    }
+                let exercises = content.components(separatedBy: "\n")
+                // Need these copies so realm isn't accessed on the wrong thread
+                let realmCopyExercises = List<Exercise>()
+                let realmCopySectionTitles = List<String>()
 
-                    let exercises = content.components(separatedBy: "\n")
-                    for exercise in exercises {
-                        // Prevents reading the empty line at EOF
-                        if !exercise.isEmpty {
-                            let exerciseSplitList = exercise.split(separator: ":")
-                            let name = String(exerciseSplitList[0])
-                            let groups =  String(exerciseSplitList[1])
+                for exercise in exercises {
+                    // Prevents reading the empty line at EOF
+                    if !exercise.isEmpty {
+                        let exerciseSplitList = exercise.split(separator: ":")
+                        let name = String(exerciseSplitList[0])
+                        let groups =  String(exerciseSplitList[1])
 
-                            // Skip adding existing exercises
-                            if exercisesCache[name] != nil {
-                                continue
-                            }
 
-                            let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
-                            exercisesCache[name] = newExercise
-                            exercisesList.exercises.append(newExercise)
+                        let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
+                        let realmCopyExercise = Exercise(name: newExercise.name,
+                                                         groups: newExercise.groups,
+                                                         instructions: newExercise.instructions,
+                                                         tips: newExercise.tips,
+                                                         imagesData: newExercise.imagesData,
+                                                         isUserMade: newExercise.isUserMade,
+                                                         weightType: newExercise.weightType,
+                                                         sets: newExercise.sets,
+                                                         exerciseDetails: newExercise.exerciseDetails)
+                        self.firstTimeLoadExercises.append(newExercise)
+                        realmCopyExercises.append(realmCopyExercise)
 
-                            if let title = self.getFirstCharacter(of: name)?.capitalized {
-                                if var exercisesArray = exercisesDictionary[title] {
-                                    exercisesArray.append(newExercise)
-                                    exercisesDictionary[title] = exercisesArray
-                                } else {
-                                    exercisesDictionary[title] = [newExercise]
-                                }
-
-                                if !sectionTitles.contains(title) {
-                                    sectionTitles.append(title)
-                                }
-                            }
+                        if let title = self.getFirstCharacter(of: name)?.capitalized,
+                            !self.sectionTitles.contains(title) {
+                            self.sectionTitles.append(title)
+                            realmCopySectionTitles.append(title)
                         }
                     }
                 }
-                DispatchQueue.main.async {
-                    sectionTitles.sort()
-                    exercisesList.exercises.sort()
+                DispatchQueue.main.async { [weak self] in
+                    self?.dataFetchDelegate?.didEndFetch()
                 }
 
-                let backgroundRealm = try? Realm()
-                try? backgroundRealm?.write {
-                    backgroundRealm?.add(exercisesList)
+                let exercisesList = ExercisesList()
+                exercisesList.exercises = realmCopyExercises
+                exercisesList.sectionTitles = realmCopySectionTitles
+                try? self.realm?.write {
+                    self.realm?.add(exercisesList)
                 }
-                self.setupExercisesDictionary()
+                self.isFirstTimeLoad = false
+
+                // Updating realm again in case the user adds any exercises while the original exercises array is still being written to realm
+                DispatchQueue.main.async {
+                    let updatedExercisesList = List<Exercise>()
+                    updatedExercisesList.append(objectsIn: self.exercises)
+                    try? self.realm?.write {
+                        self.realm?.objects(ExercisesList.self).first?.exercises = updatedExercisesList
+                    }
+                }
             }
         }
     }
@@ -203,44 +208,6 @@ extension ExerciseDataModel {
                         imagesData: imagesData)
     }
 
-    private func setupExercisesDictionary() {
-        // Realm objects can only be used on the thread that creates them
-        let realm = try? Realm()
-        guard let exercisesList = realm?.objects(ExercisesList.self).first else {
-            return
-        }
-
-        exercisesList.exercises.forEach {
-            // ThreadSafeReference allows the passing of Realm objects between threads
-            let backgroundThreadExercise = ThreadSafeReference(to: $0)
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-
-                if let mainThreadExercise = self.realm?.resolve(backgroundThreadExercise),
-                    let name = mainThreadExercise.name,
-                    let title = self.getFirstCharacter(of: name)?.capitalized {
-                    if var exercisesArray = self.exercisesDictionary[title] {
-                        exercisesArray.append(mainThreadExercise)
-                        self.exercisesDictionary[title] = exercisesArray
-                    } else {
-                        self.exercisesDictionary[title] = [mainThreadExercise]
-                    }
-
-                    // Keeping a dictionary cache for fast lookups
-                    self.exercisesCache[name] = mainThreadExercise
-
-                    if !self.sectionTitles.contains(title) {
-                        self.sectionTitles.append(title)
-                    }
-                }
-            }
-        }
-        DispatchQueue.main.async { [weak self] in
-            self?.sectionTitles.sort()
-            self?.dataFetchDelegate?.didEndFetch()
-        }
-    }
-
     private func getFirstCharacter(of text: String) -> String? {
         guard let firstCharacter = text.first else {
             return nil
@@ -258,15 +225,18 @@ extension ExerciseDataModel {
         if searchResults.count == 0 {
             key = sectionTitles[section]
         } else {
-            key = searchResults.keys.first ?? ""
+            key = searchResults
         }
-        return dataToUse[key]
+
+        return exercises.filter {
+            return $0.name?.hasPrefix(key) ?? false
+        }
     }
 
     // MARK: - UITableView
 
     var numberOfSections: Int {
-        dataToUse.count
+        searchResults.isEmpty ? exercises.isEmpty ? 0 : sectionTitles.count : 1
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -277,7 +247,7 @@ extension ExerciseDataModel {
     }
 
     func heightForHeaderIn(section: Int) -> CGFloat {
-        dataToUse.count == 1 ? 0 : 40
+        numberOfSections == 1 ? 0 : 40
     }
 
     func titleForHeaderIn(section: Int) -> String {
@@ -287,11 +257,15 @@ extension ExerciseDataModel {
     // MARK: - Data
 
     func doesExerciseExist(name: String) -> Bool {
-        exercisesCache[name] != nil
+        exercises.contains(where: { (exercise) -> Bool in
+            exercise.name == name
+        })
     }
 
     func exercise(for name: String) -> Exercise {
-        guard let exercise = exercisesCache[name] else {
+        guard let exercise = exercises.first(where: { (exercise) -> Bool in
+            exercise.name == name
+        }) else {
             fatalError("\(name) does not exist")
         }
         return exercise
@@ -307,17 +281,6 @@ extension ExerciseDataModel {
                 fatalError("Index: \(indexPath.section) out of bounds")
         }
         return exerciseArray[indexPath.row]
-    }
-
-    func exerciseList(for session: Session) -> [Exercise] {
-        var exerciseArray = [Exercise]()
-        session.exercises.forEach {
-            if let exerciseName = $0.name,
-                let exercise = exercisesCache[exerciseName] {
-                exerciseArray.append(exercise)
-            }
-        }
-        return exerciseArray
     }
 
     func defaultExerciseGroupCount() -> Int {
@@ -341,14 +304,11 @@ extension ExerciseDataModel {
             return
         }
 
-        searchResults.removeAll()
-        searchResults[Constants.searchResultsKey] = Array(exercisesList.exercises).filter { (exercise) -> Bool in
-            (exercise.name ?? "").lowercased().contains(filter)
-        }
+        searchResults = filter
     }
 
     func index(of name: String) -> Int? {
-        exercisesList.exercises.firstIndex(where: {
+        exercises.firstIndex(where: {
             name == $0.name
         })
     }
@@ -360,68 +320,47 @@ extension ExerciseDataModel {
     func create(_ exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         let name = exercise.name ?? ""
 
-        guard exercisesCache[name] == nil,
-            let firstCharacter = getFirstCharacter(of: name)?.capitalized,
-            var exerciseArray = exercisesDictionary[firstCharacter] else {
+        guard !doesExerciseExist(name: name) else {
             fail?()
             return
         }
 
-        exercisesCache[name] = exercise
-        exerciseArray.append(exercise)
-        exerciseArray.sort()
-        exercisesDictionary[firstCharacter] = exerciseArray
-        try? realm?.write {
-            exercisesList.exercises.append(exercise)
-            exercisesList.exercises.sort()
-            success?()
+        DispatchQueue.main.async {
+            try? self.realm?.write {
+                self.realm?.objects(ExercisesList.self).first?.exercises.append(exercise)
+                self.realm?.objects(ExercisesList.self).first?.exercises.sort()
+                success?()
+            }
         }
     }
 
     func update(_ currentName: String, exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
         guard let newName = exercise.name,
-            let index = index(of: currentName),
-            let firstCharacter = getFirstCharacter(of: currentName)?.capitalized,
-            var exerciseArray = exercisesDictionary[firstCharacter],
-            let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
-                exercise.name == currentName
-            }) else {
+            let index = index(of: currentName) else {
             fail?()
             return
         }
 
-        exercisesCache[newName] = exercise
-
         if currentName == newName {
-            exerciseArray[firstIndex] = exercise
-            exercisesDictionary[firstCharacter] = exerciseArray
-
             updateSearchResultsWithExercise(name: newName, newExercise: exercise, action: .update)
 
             try? realm?.write {
-                exercisesList.exercises[index] = exercise
+                realm?.objects(ExercisesList.self).first?.exercises[index] = exercise
                 success?()
             }
         } else {
-            guard exercisesCache[newName] == nil else {
+            guard !doesExerciseExist(name: newName) else {
                 fail?()
                 return
             }
-
-            exercisesCache[currentName] = nil
-
-            exerciseArray.remove(at: firstIndex)
-            exerciseArray.append(exercise)
-            exerciseArray.sort()
-            exercisesDictionary[firstCharacter] = exerciseArray
 
             updateSearchResultsWithExercise(name: currentName, action: .remove)
             updateSearchResultsWithExercise(newExercise: exercise, action: .create)
 
             try? realm?.write {
-                exercisesList.exercises.remove(at: index)
-                exercisesList.exercises.append(exercise)
-                exercisesList.exercises.sort()
+                realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
+                realm?.objects(ExercisesList.self).first?.exercises.append(exercise)
+                realm?.objects(ExercisesList.self).first?.exercises.sort()
                 success?()
             }
         }
@@ -429,49 +368,44 @@ extension ExerciseDataModel {
 
     func removeExercise(named: String?) {
         guard let name = named,
-            let index = index(of: name),
-            let firstCharacter = getFirstCharacter(of: name)?.capitalized,
-            var exerciseArray = exercisesDictionary[firstCharacter],
-            let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
-                exercise.name == name
-            }) else {
+            let index = index(of: name) else {
             return
         }
-
-        exercisesCache[name] = nil
-        exerciseArray.remove(at: firstIndex)
-        exercisesDictionary[firstCharacter] = exerciseArray
 
         updateSearchResultsWithExercise(name: name, action: .remove)
 
         try? realm?.write {
-            exercisesList.exercises.remove(at: index)
+            realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
         }
     }
 
     private func updateSearchResultsWithExercise(name: String = "", newExercise: Exercise = Exercise(), action: SearchResultsAction) {
-        guard !searchResults.isEmpty,
-            var exerciseArray = searchResults[Constants.searchResultsKey] else {
+        guard !searchResults.isEmpty else {
             return
         }
 
         switch action {
         case .create:
-            exerciseArray.append(newExercise)
-            exerciseArray.sort()
+            try? realm?.write {
+                realm?.objects(ExercisesList.self).first?.exercises.append(newExercise)
+                realm?.objects(ExercisesList.self).first?.exercises.sort()
+            }
         case .remove, .update:
-            guard let firstIndex = exerciseArray.firstIndex(where: { (exercise) -> Bool in
+            guard let firstIndex = exercises.firstIndex(where: { (exercise) -> Bool in
                 exercise.name == name
             }) else {
                 return
             }
 
             if action == .remove {
-                exerciseArray.remove(at: firstIndex)
+                try? realm?.write {
+                    realm?.objects(ExercisesList.self).first?.exercises.remove(at: firstIndex)
+                }
             } else if action == .update {
-                exerciseArray[firstIndex] = newExercise
+                try? realm?.write {
+                    realm?.objects(ExercisesList.self).first?.exercises[firstIndex] = newExercise
+                }
             }
         }
-        searchResults[Constants.searchResultsKey] = exerciseArray
     }
 }

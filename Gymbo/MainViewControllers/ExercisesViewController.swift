@@ -258,7 +258,7 @@ extension ExercisesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exerciseDataModel.numberOfRows(in: section)
+        exerciseDataModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -278,7 +278,8 @@ extension ExercisesViewController: UITableViewDataSource {
     private func handleCellSelection(cell: UITableViewCell, model: Exercise, indexPath: IndexPath) {
         if let exerciseCell = cell as? ExerciseTableViewCell {
             if let exerciseName = model.name,
-                !selectedExerciseNamesAndIndices.isEmpty, selectedExerciseNamesAndIndices[exerciseName] != nil {
+                !selectedExerciseNamesAndIndices.isEmpty,
+                selectedExerciseNamesAndIndices[exerciseName] != nil {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 exerciseCell.didSelect = true
             } else {
@@ -292,8 +293,8 @@ extension ExercisesViewController: UITableViewDataSource {
             return false
         }
 
-        let exerciseTableViewCellModel = exerciseDataModel.exercise(for: indexPath)
-        return exerciseTableViewCellModel.isUserMade
+        let exercise = exerciseDataModel.exercise(for: indexPath)
+        return exercise.isUserMade
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
