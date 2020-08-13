@@ -10,5 +10,7 @@ import UIKit
 
 protocol ExerciseDetailTableViewCellDelegate: class {
     func shouldChangeCharactersInTextField(textField: UITextField, replacementString string: String) -> Bool
-    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell)
+    func textFieldDidEndEditing(textField: UITextField,
+                                textFieldType: TextFieldType,
+                                cell: ExerciseDetailTableViewCell)
 }

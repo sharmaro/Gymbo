@@ -8,10 +8,16 @@
 
 protocol ExerciseDataModelDelegate: class {
     func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func update(_ currentName: String,
+                exercise: Exercise,
+                success: @escaping(() -> Void),
+                fail: @escaping(() -> Void))
 }
 
 extension ExerciseDataModelDelegate {
     func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func update(_ currentName: String, exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func update(_ currentName: String,
+                exercise: Exercise,
+                success: @escaping(() -> Void),
+                fail: @escaping(() -> Void)) {}
 }

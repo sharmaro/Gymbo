@@ -46,7 +46,9 @@ extension OnboardingPageViewController: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageControl.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            pageControl.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -10)
         ])
     }
 }
@@ -64,7 +66,8 @@ extension OnboardingPageViewController {
 
 // MARK: - UIPageViewControllerDataSource
 extension OnboardingPageViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? OnboardingViewController,
             let index = pages.firstIndex(of: viewController) else {
             return nil
@@ -72,7 +75,8 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
         return index == 0 ? nil : pages[index - 1]
     }
 
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? OnboardingViewController,
             let index = pages.firstIndex(of: viewController) else {
             return nil
@@ -84,7 +88,10 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
 
 // MARK: - UIPageViewControllerDelegate
 extension OnboardingPageViewController: UIPageViewControllerDelegate {
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController],
+                            transitionCompleted completed: Bool) {
         guard let viewController = pageViewController.viewControllers?.first as? OnboardingViewController,
             let index = pages.firstIndex(of: viewController) else {
             return

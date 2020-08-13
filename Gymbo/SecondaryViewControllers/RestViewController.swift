@@ -135,7 +135,9 @@ extension RestViewController: ViewAdding {
     func setupNavigationBar() {
         title = Constants.title
         navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
+                                                           target: self,
+                                                           action: #selector(closeButtonTapped))
     }
 
     func addViews() {
@@ -158,11 +160,18 @@ extension RestViewController: ViewAdding {
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
     }
 
+    //swiftlint:disable:next function_body_length
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topContainerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
-            topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            topContainerView.safeAreaLayoutGuide.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 15),
+            topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
             topContainerView.bottomAnchor.constraint(equalTo: circleProgressView.topAnchor, constant: -15),
             topContainerView.heightAnchor.constraint(equalToConstant: 30),
 
@@ -181,8 +190,12 @@ extension RestViewController: ViewAdding {
             removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
             removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
 
-            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
             circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15),
 
             pickerView.topAnchor.constraint(equalTo: circleProgressView.topAnchor),
@@ -190,9 +203,15 @@ extension RestViewController: ViewAdding {
             pickerView.trailingAnchor.constraint(equalTo: circleProgressView.trailingAnchor),
             pickerView.bottomAnchor.constraint(equalTo: circleProgressView.bottomAnchor),
 
-            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
+            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -15),
             mainButton.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
@@ -242,7 +261,9 @@ extension RestViewController {
                 totalRestTime = startSessionTotalRestTime
                 restTimeRemaining = startSessionRestTimeRemaining
 
-                circleProgressView.startAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+                circleProgressView.startAnimation(duration: restTimeRemaining,
+                                                  totalTime: totalRestTime,
+                                                  timeRemaining: restTimeRemaining)
             } else {
                 let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
                 totalRestTime = restTimes[selectedPickerRow].getSecondsFromTime() ?? 0
@@ -261,7 +282,9 @@ extension RestViewController {
     }
 
     private func updateAnimation() {
-        circleProgressView.startAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+        circleProgressView.startAnimation(duration: restTimeRemaining,
+                                          totalTime: totalRestTime,
+                                          timeRemaining: restTimeRemaining)
         restTimerDelegate?.timeUpdated(totalTime: totalRestTime, timeRemaining: restTimeRemaining)
 
         if restTimeRemaining <= 0 {
@@ -314,8 +337,13 @@ extension RestViewController: UIPickerViewDataSource {
 
 // MARK: - UIPickerViewDelegate
 extension RestViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let pickerLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: pickerView.bounds.width, height: Constants.pickerRowHeight)))
+    func pickerView(_ pickerView: UIPickerView,
+                    viewForRow row: Int,
+                    forComponent component: Int,
+                    reusing view: UIView?) -> UIView {
+        let pickerLabel = UILabel(frame: CGRect(origin: .zero,
+                                                size: CGSize(width: pickerView.bounds.width,
+                                                             height: Constants.pickerRowHeight)))
         pickerLabel.text = restTimes[row]
         pickerLabel.textColor = .black
         pickerLabel.textAlignment = .center

@@ -62,9 +62,14 @@ extension ExercisesViewController: ViewAdding {
         switch presentationStyle {
         case .normal: break
         case .modal:
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                               target: self,
+                                                               action: #selector(cancelButtonTapped))
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createExerciseButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(createExerciseButtonTapped))
 
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Search exercises"
@@ -103,7 +108,10 @@ extension ExercisesViewController: ViewAdding {
             addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
 
             let spacing = CGFloat(15)
-            tableView.contentInset.bottom = Constants.addExerciseButtonHeight + (-1 * Constants.sessionEndedConstraintConstant) + spacing
+            tableView.contentInset.bottom =
+                Constants.addExerciseButtonHeight +
+                (-1 * Constants.sessionEndedConstraintConstant) +
+                spacing
         }
     }
 
@@ -111,18 +119,27 @@ extension ExercisesViewController: ViewAdding {
         NSLayoutConstraint.activate([
             // Using top anchor instead of safe area to get smooth navigation title size change animation
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         if presentationStyle == .modal {
-            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: Constants.sessionEndedConstraintConstant)
             addExerciseButtonBottomConstraint?.isActive = true
 
             NSLayoutConstraint.activate([
-                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant:  -20),
+                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 20),
+                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -20),
                 addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.addExerciseButtonHeight)
             ])
         }
@@ -142,7 +159,10 @@ extension ExercisesViewController {
         setupExerciseDataModel()
         registerForKeyboardNotifications()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateExercisesUI), name: .updateExercisesUI, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateExercisesUI),
+                                               name: .updateExercisesUI,
+                                               object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -181,7 +201,10 @@ extension ExercisesViewController {
 
         var selectedExercises = [Exercise]()
         for exerciseName in selectedExerciseNames {
-            // Need to create a new exercise object to be passed into selectedExercises so the existing exericse isn't updated in Realm
+            /*
+             Need to create a new exercise object to be passed into selectedExercises
+             so the existing exericse isn't updated in Realm
+             */
             let referenceExercise = exerciseDataModel.exercise(for: exerciseName)
             let exercise = Exercise(name: referenceExercise.name,
                                     groups: referenceExercise.groups,
@@ -224,7 +247,8 @@ extension ExercisesViewController {
         createEditExerciseTableViewController.exerciseDataModelDelegate = self
         createEditExerciseTableViewController.setAlphaDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: createEditExerciseTableViewController)
+        let modalNavigationController = UINavigationController(
+            rootViewController: createEditExerciseTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
@@ -262,7 +286,9 @@ extension ExercisesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseTableViewCell else {
             fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
 
@@ -297,13 +323,16 @@ extension ExercisesViewController: UITableViewDataSource {
         return exercise.isUserMade
     }
 
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+        -> UISwipeActionsConfiguration? {
         guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
             return nil
         }
 
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "Delete") { [weak self] _, _, completion in
             SessionDataModel.shared.removeInstancesOfExercise(name: exerciseName)
             self?.exerciseDataModel.removeExercise(named: exerciseName)
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -333,7 +362,8 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
             return nil
         }
 
@@ -354,7 +384,8 @@ extension ExercisesViewController: UITableViewDelegate {
 
             let exercise = exerciseDataModel.exercise(for: indexPath)
             let exercisePreviewViewController = ExercisePreviewViewController(exercise: exercise)
-            let modalNavigationController = UINavigationController(rootViewController: exercisePreviewViewController)
+            let modalNavigationController = UINavigationController(
+                rootViewController: exercisePreviewViewController)
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
             mainTabBarController?.present(modalNavigationController, animated: true)
@@ -381,11 +412,10 @@ extension ExercisesViewController: UITableViewDelegate {
         }
 
         selectedExerciseNamesAndIndices[exerciseName] = nil
-        for (index, value) in selectedExerciseNames.enumerated() {
-            if value == exerciseName {
-                selectedExerciseNames.remove(at: index)
-                break
-            }
+        if let index = selectedExerciseNames.firstIndex(where: { (name) -> Bool in
+            return name == exerciseName
+        }) {
+            selectedExerciseNames.remove(at: index)
         }
         exerciseCell.didSelect = false
         updateAddButtonTitle()
@@ -423,8 +453,12 @@ extension ExercisesViewController: ExerciseDataModelDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension ExercisesViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        let modalPresentationController = ModalPresentationController(
+            presentedViewController: presented,
+            presenting: presenting)
         modalPresentationController.showDimmingView = presentationStyle == .normal
         modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
         return modalPresentationController

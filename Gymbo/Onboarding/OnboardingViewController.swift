@@ -72,6 +72,7 @@ extension OnboardingViewController: ViewAdding {
         infoLabel.text = onboardingPage.info
     }
 
+    //swiftlint:disable:next function_body_length
     func addConstraints() {
         if onboardingPage == .welcome || onboardingPage == .finish {
             titleLabel.textAlignment = .center
@@ -81,28 +82,52 @@ extension OnboardingViewController: ViewAdding {
                 titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 
                 infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 20),
+                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -20),
                 infoLabel.heightAnchor.constraint(equalToConstant: 100)
             ])
         } else {
-            imageViewTopConstraint = imageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: view.frame.height)
+            imageViewTopConstraint =
+                imageView.topAnchor.constraint(
+                    equalTo: titleLabel.bottomAnchor,
+                    constant: view.frame.height)
             imageViewTopConstraint?.isActive = true
 
-            infoLabelBottomConstraint = infoLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40)
+            infoLabelBottomConstraint =
+                infoLabel.safeAreaLayoutGuide.bottomAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                    constant: -40)
 
             NSLayoutConstraint.activate([
-                titleLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-                titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                titleLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                titleLabel.safeAreaLayoutGuide.topAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.topAnchor,
+                    constant: 20),
+                titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 20),
+                titleLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -20),
                 titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 
-                imageView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                imageView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                imageView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 20),
+                imageView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -20),
                 imageView.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -20),
 
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 20),
+                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -20),
                 infoLabel.heightAnchor.constraint(equalToConstant: 100)
             ])
         }

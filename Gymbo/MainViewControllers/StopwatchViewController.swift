@@ -135,6 +135,7 @@ private extension StopwatchViewController {
     }
 
     // Codable is for encoding/decoding
+    //swiftlint:disable:next type_name
     struct Lap: Codable {
         var minutes: Int
         var seconds: Int
@@ -197,25 +198,36 @@ extension StopwatchViewController: ViewAdding {
 
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(StopwatchTableViewCell.self, forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
+        tableView.register(StopwatchTableViewCell.self,
+                           forCellReuseIdentifier: StopwatchTableViewCell.reuseIdentifier)
 
-        tableView.contentInset.bottom = Constants.buttonsStackViewHeight + (-1 * Constants.sessionEndedConstraintConstant) + Constants.cellSpacingToButtons
+        tableView.contentInset.bottom =
+            Constants.buttonsStackViewHeight +
+            (-1 * Constants.sessionEndedConstraintConstant) +
+            Constants.cellSpacingToButtons
 
         lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
         startAndStopButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
     }
 
+    //swiftlint:disable:next function_body_length
     func addConstraints() {
         let verticalSeparatorView1 = timeStackView.arrangedSubviews[1]
         let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
 
-        buttonsStackViewBottomConstraint = buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.sessionEndedConstraintConstant)
+        buttonsStackViewBottomConstraint =
+            buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: Constants.sessionEndedConstraintConstant)
         buttonsStackViewBottomConstraint?.isActive = true
 
         NSLayoutConstraint.activate([
-            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor),
+            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight),
 
             secondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
@@ -224,17 +236,26 @@ extension StopwatchViewController: ViewAdding {
             secondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
             centiSecondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
             verticalSeparatorView1.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView1.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
+            verticalSeparatorView1.heightAnchor.constraint(
+                equalToConstant: Constants.timeStackViewHeight / 2),
             verticalSeparatorView2.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView2.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight / 2),
+            verticalSeparatorView2.heightAnchor.constraint(
+                equalToConstant: Constants.timeStackViewHeight / 2),
 
             tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 15),
+            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -15),
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
         ])
         timeStackView.layoutIfNeeded()
@@ -304,7 +325,11 @@ extension StopwatchViewController {
             startAndStopButton.title = "Stop"
             startAndStopButton.add(backgroundColor: .systemRed)
 
-            timer = Timer.scheduledTimer(timeInterval: Constants.timerInterval, target: self, selector: #selector(updateTimeLabels), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: Constants.timerInterval,
+                                         target: self,
+                                         selector: #selector(updateTimeLabels),
+                                         userInfo: nil,
+                                         repeats: true)
             if let timer = timer {
                 // Allows it to update the navigation bar.
                 RunLoop.main.add(timer, forMode: .common)
@@ -320,7 +345,8 @@ extension StopwatchViewController {
     }
 
     private func updateFromOldValues() {
-        if let timeDictionary = userDefault.object(forKey: UserDefaultKeys.STOPWATCH_TIME_DICTIONARY) as? [String: Int] {
+        if let timeDictionary =
+            userDefault.object(forKey: UserDefaultKeys.STOPWATCH_TIME_DICTIONARY) as? [String: Int] {
             centiSecInt = timeDictionary[Constants.CENTISECONDS_KEY] ?? 0
             secInt = timeDictionary[Constants.SECONDS_KEY] ?? 0
             minInt = timeDictionary[Constants.MINUTES_KEY] ?? 0
@@ -375,7 +401,10 @@ extension StopwatchViewController {
 
                     previousLap = Lap(minutes: minInt, seconds: secInt, centiSeconds: centiSecInt)
 
-                    UIView.transition(with: tableView, duration: .defaultAnimationTime, options: .transitionCrossDissolve, animations: { [weak self] in
+                    UIView.transition(with: tableView,
+                                      duration: .defaultAnimationTime,
+                                      options: .transitionCrossDissolve,
+                                      animations: { [weak self] in
                         self?.tableView.reloadData()
                     })
                 } else if stopwatchState == .stopped {
@@ -415,7 +444,9 @@ extension StopwatchViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StopwatchTableViewCell.reuseIdentifier, for: indexPath) as? StopwatchTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: StopwatchTableViewCell.reuseIdentifier,
+            for: indexPath) as? StopwatchTableViewCell else {
             fatalError("Could not dequeue \(StopwatchTableViewCell.reuseIdentifier)")
         }
 
@@ -427,7 +458,9 @@ extension StopwatchViewController: UITableViewDataSource {
         cell.configure(descriptionText: "Lap \(laps.count - indexPath.row)", valueText: lap.text)
 
         if laps.count > 2 {
-            cell.checkLapComparison(timeToCheck: lap.totalTime, fastestTime: fastestLap?.totalTime ?? 0, slowestTime: slowestLap?.totalTime ?? 0)
+            cell.checkLapComparison(timeToCheck: lap.totalTime,
+                                    fastestTime: fastestLap?.totalTime ?? 0,
+                                    slowestTime: slowestLap?.totalTime ?? 0)
         }
         return cell
     }
@@ -439,7 +472,9 @@ extension StopwatchViewController: UITableViewDelegate {
         Constants.stopWatchTableViewCellHeight
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
         cell.alpha = 0
 
         UIView.animate(withDuration: .defaultAnimationTime) {
@@ -447,7 +482,6 @@ extension StopwatchViewController: UITableViewDelegate {
         }
     }
 }
-
 
 // MARK: - ApplicationStateObserving
 extension StopwatchViewController: ApplicationStateObserving {
@@ -527,13 +561,18 @@ extension StopwatchViewController: SessionStateConstraintsUpdating {
             return
         }
 
-        let constantToUse = mainTabBarController.isSessionInProgress ? Constants.sessionStartedConstraintConstant : Constants.sessionEndedConstraintConstant
+        let constantToUse =
+            mainTabBarController.isSessionInProgress ?
+                Constants.sessionStartedConstraintConstant :
+                Constants.sessionEndedConstraintConstant
         buttonsStackViewBottomConstraint?.constant = constantToUse
 
         if didViewAppear {
             UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-                self?.tableView.contentInset.bottom = Constants.buttonsStackViewHeight + (-1 * constantToUse) + Constants.cellSpacingToButtons
-
+                self?.tableView.contentInset.bottom =
+                    Constants.buttonsStackViewHeight +
+                    (-1 * constantToUse) +
+                    Constants.cellSpacingToButtons
                 self?.view.layoutIfNeeded()
             }
         }

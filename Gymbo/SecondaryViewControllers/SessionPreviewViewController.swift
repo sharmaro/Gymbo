@@ -53,8 +53,12 @@ private extension SessionPreviewViewController {
 // MARK: - ViewAdding
 extension SessionPreviewViewController: ViewAdding {
     func setupNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(cancelButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                            target: self,
+                                                            action: #selector(editButtonTapped))
 
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
@@ -70,10 +74,13 @@ extension SessionPreviewViewController: ViewAdding {
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ExerciseTableViewCell.self, forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseTableViewCell.reuseIdentifier)
 
         let spacing = CGFloat(15)
-        tableView.contentInset.bottom = Constants.startButtonHeight + (-1 * Constants.startButtonBottomSpacing) + spacing
+        tableView.contentInset.bottom = Constants.startButtonHeight +
+                                        (-1 * Constants.startButtonBottomSpacing) +
+                                        spacing
 
         updateTableHeaderView()
 
@@ -86,8 +93,10 @@ extension SessionPreviewViewController: ViewAdding {
 
         NSLayoutConstraint.activate([
             tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
@@ -95,9 +104,15 @@ extension SessionPreviewViewController: ViewAdding {
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
             tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
 
-            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.startButtonBottomSpacing),
+            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
+            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: Constants.startButtonBottomSpacing),
             startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
@@ -162,7 +177,9 @@ extension SessionPreviewViewController {
 
     @objc private func editButtonTapped() {
         guard let session = session else {
-            presentCustomAlert(content: "Can't edit current Session.", usesBothButtons: false, rightButtonTitle: "Sounds good") {
+            presentCustomAlert(content: "Can't edit current Session.",
+                               usesBothButtons: false,
+                               rightButtonTitle: "Sounds good") {
             }
             return
         }
@@ -188,7 +205,9 @@ extension SessionPreviewViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let exerciseTableViewCell = tableView.dequeueReusableCell(withIdentifier: ExerciseTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseTableViewCell,
+        guard let exerciseTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseTableViewCell,
             let exercise = session?.exercises[indexPath.row] else {
             fatalError("Could not dequeue \(ExerciseTableViewCell.reuseIdentifier)")
         }
@@ -207,7 +226,10 @@ extension SessionPreviewViewController: UITableViewDelegate {
 
 // MARK: -
 extension SessionPreviewViewController: SessionDataModelDelegate {
-    func update(_ currentName: String, session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+    func update(_ currentName: String,
+                session: Session,
+                success: @escaping (() -> Void),
+                fail: @escaping (() -> Void)) {
         SessionDataModel.shared.update(currentName, session: session, success: { [weak self] in
             success()
             self?.session = session

@@ -20,11 +20,17 @@ extension SessionProgressObserving {
 
     // Register for Session progress notifications.
     func registerForSessionProgressNotifications() {
-        _ = NotificationCenter.default.addObserver(forName: .startSession, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: .startSession,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.sessionDidStart(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: .endSession, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: .endSession,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.sessionDidEnd(notification)
         }
     }

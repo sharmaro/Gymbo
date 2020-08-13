@@ -34,7 +34,9 @@ class SessionDataModel: NSObject {
 extension SessionDataModel {
     // Delete this eventually
     private func printConfigFileLocation() {
-        realm?.configuration.fileURL != nil ? NSLog("SUCCESS: Realm location exists.") : NSLog("FAILURE: Realm location does not exist.")
+        realm?.configuration.fileURL != nil ?
+            NSLog("SUCCESS: Realm location exists.") :
+            NSLog("FAILURE: Realm location does not exist.")
         print("\(String(describing: realm?.configuration.fileURL))\n")
     }
 
@@ -119,7 +121,10 @@ extension SessionDataModel {
         }
     }
 
-    func update(_ currentName: String, session: Session, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func update(_ currentName: String,
+                session: Session,
+                success: (() -> Void)? = nil,
+                fail: (() -> Void)? = nil) {
         guard let newName = session.name,
             let index = index(of: currentName) else {
                 fail?()

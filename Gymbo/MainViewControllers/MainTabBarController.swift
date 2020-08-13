@@ -59,18 +59,27 @@ extension MainTabBarController {
 
         let exercisesViewController = ExercisesViewController()
         let exercisesTabImage = UIImage(named: "my_exercises")
-        exercisesViewController.tabBarItem = UITabBarItem(title: "My Exercises", image: exercisesTabImage, tag: 0)
+        exercisesViewController.tabBarItem = UITabBarItem(title: "My Exercises",
+                                                          image: exercisesTabImage,
+                                                          tag: 0)
 
         // Need to initialize a UICollectionView with a UICollectionViewLayout
-        let sessionsCollectionViewController = SessionsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let sessionsCollectionViewController = SessionsCollectionViewController(
+            collectionViewLayout: UICollectionViewFlowLayout())
         let sessionsTabImage = UIImage(named: "dumbbell")
-        sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions", image: sessionsTabImage, tag: 1)
+        sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions",
+                                                                   image: sessionsTabImage,
+                                                                   tag: 1)
 
         let stopwatchViewController = StopwatchViewController()
         let stopwatchTabImage = UIImage(named: "stopwatch")
-        stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch", image: stopwatchTabImage, tag: 2)
+        stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch",
+                                                          image: stopwatchTabImage,
+                                                          tag: 2)
 
-        viewControllers = [exercisesViewController, sessionsCollectionViewController, stopwatchViewController].map {
+        viewControllers = [exercisesViewController,
+                           sessionsCollectionViewController,
+                           stopwatchViewController].map {
             UINavigationController(rootViewController: $0)
         }
         selectedIndex = selectedTab.rawValue
@@ -78,7 +87,9 @@ extension MainTabBarController {
 
     private func showOnboardingIfNeeded() {
         if User.isFirstTimeLoad {
-            let onboardingPageViewController = OnboardingPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            let onboardingPageViewController = OnboardingPageViewController(
+                transitionStyle: .scroll,
+                navigationOrientation: .horizontal)
             present(onboardingPageViewController, animated: true, completion: {
                 User.firstTimeLoadComplete()
             })
@@ -93,7 +104,11 @@ extension MainTabBarController: SessionProgressDelegate {
                 return
             }
 
-            presentCustomAlert(title: "Another One?", content: "You already have a workout in progress!", usesBothButtons: true, leftButtonTitle: "You're right, I'll finish this one!", rightButtonTitle: "Start New Workout") { [weak self] in
+            presentCustomAlert(title: "Another One?",
+                               content: "You already have a workout in progress!",
+                               usesBothButtons: true,
+                               leftButtonTitle: "You're right, I'll finish this one!",
+                               rightButtonTitle: "Start New Workout") { [weak self] in
                 self?.isReplacingSession = true
                 startSessionViewController.dismissAsChildViewController()
             }
@@ -109,7 +124,10 @@ extension MainTabBarController: SessionProgressDelegate {
         let dimmedView = UIView(frame: view.frame)
         dimmedView.backgroundColor = .dimmedBackgroundBlack
 
-        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: view.frame.height), size: CGSize(width: view.frame.width, height: view.frame.height - Constants.defaultYOffset)))
+        let height = view.frame.height - Constants.defaultYOffset
+        let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: view.frame.height),
+                                                       size: CGSize(width: view.frame.width,
+                                                                    height: height)))
         shadowContainerView.addShadow(direction: .up)
         shadowContainerView.hideShadow()
 
@@ -122,7 +140,8 @@ extension MainTabBarController: SessionProgressDelegate {
         // This allows startSessionViewController to extend over the bottom tab bar
         startSessionViewController.extendedLayoutIncludesOpaqueBars = true
 
-        let containerNavigationController = UINavigationController(rootViewController: startSessionViewController)
+        let containerNavigationController = UINavigationController(
+            rootViewController: startSessionViewController)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
         containerNavigationController.view.addCorner(style: .small)
 
@@ -165,13 +184,15 @@ extension MainTabBarController: SessionProgressDelegate {
         switch state {
         case .start:
             viewControllers?.forEach {
-                if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+                if let viewController =
+                    ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
                     viewController.sessionDidStart(nil)
                 }
             }
         case .end:
             viewControllers?.forEach {
-                if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+                if let viewController =
+                    ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
                     viewController.sessionDidEnd(nil)
                 }
             }

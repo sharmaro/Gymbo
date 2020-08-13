@@ -7,6 +7,6 @@
 //
 
 enum TextFieldType: String {
-    case reps = "reps"
-    case weight = "weight"
+    case reps
+    case weight
 }

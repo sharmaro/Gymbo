@@ -43,7 +43,10 @@ private extension CreateEditSessionTableViewController {
 extension CreateEditSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = sessionState.rawValue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise", style: .plain, target: self, action: #selector(addExerciseButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addExerciseButtonTapped))
 
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
@@ -56,9 +59,12 @@ extension CreateEditSessionTableViewController: ViewAdding {
         tableView.separatorStyle = .none
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
-        tableView.register(ExerciseHeaderTableViewCell.self, forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self, forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseHeaderTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(ButtonTableViewCell.self,
+                           forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
 
         if mainTabBarController?.isSessionInProgress ?? false {
             tableView.contentInset.bottom = minimizedHeight
@@ -81,7 +87,7 @@ extension CreateEditSessionTableViewController: ViewAdding {
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
@@ -117,13 +123,18 @@ extension CreateEditSessionTableViewController {
         // Calls text field and text view didEndEditing() and saves data
         view.endEditing(true)
 
-        let sessionToInteractWith = Session(name: sessionName, info: tableHeaderView.secondText, exercises: session.exercises)
+        let sessionToInteractWith = Session(name: sessionName,
+                                            info: tableHeaderView.secondText,
+                                            exercises: session.exercises)
         if sessionState == .create {
             sessionDataModelDelegate?.create(sessionToInteractWith, success: {
                 // No op
             }, fail: { [weak self] in
                 DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!", content: "Can't create session \(sessionName) because it already exists!", usesBothButtons: false, rightButtonTitle: "Sad!")
+                    self?.presentCustomAlert(title: "Oops!",
+                                             content: "\(sessionName) already exists!",
+                                             usesBothButtons: false,
+                                             rightButtonTitle: "Sad!")
                 }
             })
         } else {
@@ -131,7 +142,10 @@ extension CreateEditSessionTableViewController {
                 // No op
             }, fail: { [weak self] in
                 DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!", content: "Couldn't update session \(self?.session.name ?? "").", usesBothButtons: false, rightButtonTitle: "Sad!")
+                    self?.presentCustomAlert(title: "Oops!",
+                                             content: "Couldn't update session \(self?.session.name ?? "").",
+                                             usesBothButtons: false,
+                                             rightButtonTitle: "Sad!")
                 }
             })
         }
@@ -148,6 +162,74 @@ extension CreateEditSessionTableViewController {
 
 // MARK: - Funcs
 extension CreateEditSessionTableViewController {
+    private func getExerciseHeaderTableViewCell(for indexPath: IndexPath) -> ExerciseHeaderTableViewCell {
+        guard let exerciseHeaderTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseHeaderTableViewCell else {
+            fatalError("Could not dequeue \(ExerciseHeaderTableViewCell.reuseIdentifier)")
+        }
+
+        var dataModel = ExerciseHeaderTableViewCellModel()
+        dataModel.name = session.exercises[indexPath.section].name
+        dataModel.weightType = session.exercises[indexPath.section].weightType
+        dataModel.isDoneButtonImageHidden = true
+
+        exerciseHeaderTableViewCell.configure(dataModel: dataModel)
+        exerciseHeaderTableViewCell.exerciseHeaderCellDelegate = self
+        return exerciseHeaderTableViewCell
+    }
+
+    private func getButtonTableViewCell(for indexPath: IndexPath) -> ButtonTableViewCell {
+        guard let buttonTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ButtonTableViewCell.reuseIdentifier,
+            for: indexPath) as? ButtonTableViewCell else {
+            fatalError("Could not dequeue \(ButtonTableViewCell.reuseIdentifier)")
+        }
+
+        buttonTableViewCell.configure(title: Constants.buttonText,
+                                      titleColor: .white,
+                                      backgroundColor: .systemGray,
+                                      cornerStyle: .small)
+        buttonTableViewCell.buttonTableViewCellDelegate = self
+        return buttonTableViewCell
+    }
+
+    private func getExerciseDetailTableViewCell(for indexPath: IndexPath) -> ExerciseDetailTableViewCell {
+        guard let exerciseDetailCell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseDetailTableViewCell else {
+            fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
+        }
+
+        let indexPathToUse = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+        var dataModel = ExerciseDetailTableViewCellModel()
+        dataModel.sets = "\(indexPath.row)"
+        let exercise = session.exercises[indexPath.section]
+        dataModel.last = exercise.exerciseDetails[indexPath.row - 1].last ?? "--"
+        dataModel.isDoneButtonEnabled = false
+        if didAddSet {
+            dataModel.reps = previousExerciseDetailInformation.reps
+            dataModel.weight = previousExerciseDetailInformation.weight
+
+            saveTextFieldsWithOrWithoutRealm(text: dataModel.reps,
+                                             textFieldType: .reps,
+                                             indexPath: indexPathToUse)
+            saveTextFieldsWithOrWithoutRealm(text: dataModel.weight,
+                                             textFieldType: .weight,
+                                             indexPath: indexPathToUse)
+
+            didAddSet = false
+            previousExerciseDetailInformation = ("", "")
+        } else {
+            let exercise = session.exercises[indexPathToUse.section]
+            dataModel.reps = exercise.exerciseDetails[indexPathToUse.row].reps
+            dataModel.weight = exercise.exerciseDetails[indexPathToUse.row].weight
+        }
+        exerciseDetailCell.configure(dataModel: dataModel)
+        exerciseDetailCell.exerciseDetailCellDelegate = self
+        return exerciseDetailCell
+    }
+
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
@@ -174,56 +256,16 @@ extension CreateEditSessionTableViewController {
         session.exercises[section].sets + 2
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch indexPath.row {
         case 0: // Exercise header cell
-            guard let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell else {
-                fatalError("Could not dequeue \(ExerciseHeaderTableViewCell.reuseIdentifier)")
-            }
-
-            var dataModel = ExerciseHeaderTableViewCellModel()
-            dataModel.name = session.exercises[indexPath.section].name
-            dataModel.weightType = session.exercises[indexPath.section].weightType
-            dataModel.isDoneButtonImageHidden = true
-
-            exerciseHeaderCell.configure(dataModel: dataModel)
-            exerciseHeaderCell.exerciseHeaderCellDelegate = self
-            cell = exerciseHeaderCell
+            cell = getExerciseHeaderTableViewCell(for: indexPath)
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
-            guard let buttonTableViewCell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.reuseIdentifier, for: indexPath) as? ButtonTableViewCell else {
-                fatalError("Could not dequeue \(ButtonTableViewCell.reuseIdentifier)")
-            }
-
-            buttonTableViewCell.configure(title: Constants.buttonText, titleColor: .white, backgroundColor: .systemGray, cornerStyle: .small)
-            buttonTableViewCell.buttonTableViewCellDelegate = self
-            cell = buttonTableViewCell
+            cell = getButtonTableViewCell(for: indexPath)
         default: // Exercise detail cell
-            guard let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell else {
-                fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
-            }
-
-            let indexPathToUse = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-            var dataModel = ExerciseDetailTableViewCellModel()
-            dataModel.sets = "\(indexPath.row)"
-            dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-            dataModel.isDoneButtonEnabled = false
-            if didAddSet {
-                dataModel.reps = previousExerciseDetailInformation.reps
-                dataModel.weight = previousExerciseDetailInformation.weight
-
-                saveTextFieldsWithOrWithoutRealm(text: dataModel.reps, textFieldType: .reps, indexPath: indexPathToUse)
-                saveTextFieldsWithOrWithoutRealm(text: dataModel.weight, textFieldType: .weight, indexPath: indexPathToUse)
-
-                didAddSet = false
-                previousExerciseDetailInformation = ("", "")
-            } else {
-                dataModel.reps = session.exercises[indexPathToUse.section].exerciseDetails[indexPathToUse.row].reps
-                dataModel.weight = session.exercises[indexPathToUse.section].exerciseDetails[indexPathToUse.row].weight
-            }
-            exerciseDetailCell.configure(dataModel: dataModel)
-            exerciseDetailCell.exerciseDetailCellDelegate = self
-            cell = exerciseDetailCell
+            cell = getExerciseDetailTableViewCell(for: indexPath)
         }
         return cell
     }
@@ -240,10 +282,12 @@ extension CreateEditSessionTableViewController {
         }
     }
 
+    //swiftlint:disable:next line_length
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // Calls text field and text view didEndEditing() and saves data
         view.endEditing(true)
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "Delete") { [weak self] _, _, completion in
             Haptic.shared.sendImpactFeedback(.medium)
             if self?.sessionState == .create {
                 self?.removeSet(indexPath: indexPath)
@@ -252,7 +296,8 @@ extension CreateEditSessionTableViewController {
                     self?.removeSet(indexPath: indexPath)
                 }
             }
-            tableView.performBatchUpdates ({
+
+            tableView.performBatchUpdates({
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 // Reloading section so the set indices can update
                 tableView.reloadSections([indexPath.section], with: .automatic)
@@ -331,17 +376,21 @@ extension CreateEditSessionTableViewController: ExerciseDetailTableViewCellDeleg
         return totalString.count < 5
     }
 
-    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell) {
+    func textFieldDidEndEditing(textField: UITextField,
+                                textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             NSLog("Found nil index path for text field after it ended editing.")
             return
         }
 
         let indexPathToUse = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-        saveTextFieldsWithOrWithoutRealm(text: textField.text, textFieldType: textFieldType, indexPath: indexPathToUse)
+        saveTextFieldsWithOrWithoutRealm(text: textField.text,
+                                         textFieldType: textFieldType, indexPath: indexPathToUse)
     }
 
-    private func saveTextFieldsWithOrWithoutRealm(text: String?, textFieldType: TextFieldType, indexPath: IndexPath) {
+    private func saveTextFieldsWithOrWithoutRealm(text: String?,
+                                                  textFieldType: TextFieldType,
+                                                  indexPath: IndexPath) {
         let text = text ?? "--"
         // Decrementing indexPath.row by 1 because the first cell is the exercise header cell
         if sessionState == .create {
@@ -387,13 +436,18 @@ extension CreateEditSessionTableViewController: ButtonTableViewCellDelegate {
             let previousWeight = exerciseDetailCell.weight
             previousExerciseDetailInformation = (previousReps, previousWeight)
 
-            /**
+            /*
              - Saving info in previously filled out ExerciseDetailTableViewCell in case the data wasn't saved
              - Usually it's saved when the textField resigns first responder
-             - But if the user adds a set and doesn't resign the reps or weight textField first, then the data has to be manually saved by calling saveTextFieldsWithOrWithoutRealm()
+             - But if the user adds a set and doesn't resign the reps or weight textField first,
+             then the data has to be manually saved by calling saveTextFieldsWithOrWithoutRealm()
              */
-            saveTextFieldsWithOrWithoutRealm(text: previousReps, textFieldType: .reps, indexPath: indexPath)
-            saveTextFieldsWithOrWithoutRealm(text: previousWeight, textFieldType: .weight, indexPath: indexPath)
+            saveTextFieldsWithOrWithoutRealm(text: previousReps,
+                                             textFieldType: .reps,
+                                             indexPath: indexPath)
+            saveTextFieldsWithOrWithoutRealm(text: previousWeight,
+                                             textFieldType: .weight,
+                                             indexPath: indexPath)
         }
 
         DispatchQueue.main.async { [weak self] in
@@ -402,7 +456,10 @@ extension CreateEditSessionTableViewController: ButtonTableViewCellDelegate {
 
             self?.tableView.insertRows(at: [lastIndexPath], with: .automatic)
             // Scrolling to addSetButton row
-            self?.tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
+            self?.tableView.scrollToRow(
+                at: IndexPath(row: sets + 1, section: section),
+                at: .none,
+                animated: true)
         }
     }
 
@@ -431,8 +488,12 @@ extension CreateEditSessionTableViewController: ExercisesDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension CreateEditSessionTableViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        let modalPresentationController = ModalPresentationController(
+            presentedViewController: presented,
+            presenting: presenting)
         modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.8)
         return modalPresentationController
     }
@@ -441,7 +502,7 @@ extension CreateEditSessionTableViewController: UIViewControllerTransitioningDel
 // MARK: - CustomTextViewDelegate
 extension CreateEditSessionTableViewController: CustomTextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        tableView.performBatchUpdates ({
+        tableView.performBatchUpdates({
             textView.sizeToFit()
         })
     }
@@ -463,7 +524,8 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
                 textView.text = text
                 textView.textColor = .black
             } else {
-                textView.text = textView.tag == 0 ? Constants.namePlaceholderText : Constants.infoPlaceholderText
+                textView.text = textView.tag == 0 ?
+                    Constants.namePlaceholderText : Constants.infoPlaceholderText
                 textView.textColor = Constants.dimmedBlack
             }
             return

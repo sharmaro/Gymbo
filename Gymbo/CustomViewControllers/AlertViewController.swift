@@ -98,8 +98,12 @@ extension AlertViewController: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
 
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -112,8 +116,12 @@ extension AlertViewController: ViewAdding {
             contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10),
 
             buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-                       buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-                       buttonsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+                       buttonsStackView.trailingAnchor.constraint(
+                        equalTo: containerView.trailingAnchor,
+                        constant: -20),
+                       buttonsStackView.bottomAnchor.constraint(
+                        equalTo: containerView.bottomAnchor,
+                        constant: -10),
                        buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
         ])
         buttonsStackView.layoutIfNeeded()
@@ -133,7 +141,13 @@ extension AlertViewController {
 
 // MARK: - Funcs
 extension AlertViewController {
-    func setupAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
+    func setupAlert(title: String = "Alert",
+                    content: String,
+                    usesBothButtons: Bool = true,
+                    leftButtonTitle: String = "Cancel",
+                    rightButtonTitle: String = "Confirm",
+                    leftButtonAction: (() -> Void)? = nil,
+                    rightButtonAction: (() -> Void)? = nil) {
         alertTitle = title
         self.content = content
         self.usesBothButtons = usesBothButtons

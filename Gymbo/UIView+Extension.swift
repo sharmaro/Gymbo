@@ -28,8 +28,10 @@ extension UIView {
 
         NSLayoutConstraint.activate([
             safeAreaLayoutGuide.topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor),
-            safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.leadingAnchor),
-            safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.trailingAnchor),
+            safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: superView.safeAreaLayoutGuide.leadingAnchor),
+            safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: superView.safeAreaLayoutGuide.trailingAnchor),
             safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -130,7 +132,8 @@ extension UIView {
         }
     }
 
-    func addMovingLayerAnimation(animatedColor: UIColor = .systemGray, duration: Int, totalTime: Int = 0, timeRemaining: Int = 0) {
+    func addMovingLayerAnimation(animatedColor: UIColor = .systemGray, duration: Int,
+                                 totalTime: Int = 0, timeRemaining: Int = 0) {
         if let sublayer = layer.sublayers?.first as? CAShapeLayer {
             sublayer.removeFromSuperlayer()
         }
@@ -145,7 +148,8 @@ extension UIView {
         }
 
         let movingLayer = CAShapeLayer()
-        movingLayer.frame = CGRect(origin: CGPoint(x: bounds.width - (bounds.width * strokeEnd), y: 0), size: bounds.size)
+        movingLayer.frame = CGRect(origin: CGPoint(x: bounds.width - (bounds.width * strokeEnd), y: 0),
+                                   size: bounds.size)
         movingLayer.backgroundColor = UIColor.systemGray.cgColor
         layer.insertSublayer(movingLayer, at: 0)
 
@@ -190,7 +194,8 @@ extension UIView {
     }
 
     // Border width needs to be set before calling this
-    func animateBorderColorAndWidth(fromColor: UIColor, toColor: UIColor, fromWidth: CGFloat, toWidth: CGFloat) {
+    func animateBorderColorAndWidth(fromColor: UIColor, toColor: UIColor,
+                                    fromWidth: CGFloat, toWidth: CGFloat) {
         let colorAnimation = CABasicAnimation(keyPath: "borderColor")
         colorAnimation.fromValue = fromColor.cgColor
         colorAnimation.toValue = toColor.cgColor

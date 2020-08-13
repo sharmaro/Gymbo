@@ -45,7 +45,9 @@ extension Session: NSItemProviderWriting {
         []
     }
 
-    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+    func loadData(withTypeIdentifier typeIdentifier: String,
+                  forItemProviderCompletionHandler completionHandler:
+        @escaping (Data?, Error?) -> Void) -> Progress? {
         nil
     }
 }

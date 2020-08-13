@@ -116,7 +116,10 @@ extension StartSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = 0.getMinutesAndSecondsString()
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(restButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
 
         // This allows there to be a smooth transition from large title to small and vice-versa
@@ -149,7 +152,9 @@ extension StartSessionTableViewController: ViewAdding {
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false
 
-        tableFooterView.frame = CGRect(origin: .zero, size: CGSize(width: tableView.frame.width, height: Constants.tableFooterViewHeight))
+        tableFooterView.frame = CGRect(origin: .zero,
+                                       size: CGSize(width: tableView.frame.width,
+                                                    height: Constants.tableFooterViewHeight))
         tableFooterView.startSessionButtonDelegate = self
         tableView.tableFooterView = tableFooterView
         tableView.tableFooterView = tableView.tableFooterView
@@ -163,7 +168,9 @@ extension StartSessionTableViewController: ViewAdding {
             tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.trailingAnchor.constraint(
+                equalTo: tableView.trailingAnchor,
+                constant: -20)
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
@@ -212,7 +219,11 @@ extension StartSessionTableViewController {
 // MARK: - Funcs
 extension StartSessionTableViewController {
     private func startSessionTimer() {
-        sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateSessionTime), userInfo: nil, repeats: true)
+        sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval,
+                                            target: self,
+                                            selector: #selector(updateSessionTime),
+                                            userInfo: nil,
+                                            repeats: true)
         if let timer = sessionTimer {
             // Allows it to update the navigation bar.
             RunLoop.main.add(timer, forMode: .common)
@@ -221,7 +232,11 @@ extension StartSessionTableViewController {
 
     private func startRestTimer() {
         restTimer?.invalidate()
-        restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval, target: self, selector: #selector(updateRestTime), userInfo: nil, repeats: true)
+        restTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval,
+                                         target: self,
+                                         selector: #selector(updateRestTime),
+                                         userInfo: nil,
+                                         repeats: true)
         if let timer = restTimer {
             // Allows it to update in the navigation bar.
             RunLoop.main.add(timer, forMode: .common)
@@ -237,7 +252,10 @@ extension StartSessionTableViewController {
 
             self?.dimmedView?.alpha = 0
 
-            navigationController.view.frame = CGRect(origin: CGPoint(x: 0, y: navigationController.view.frame.height), size: navigationController.view.frame.size)
+            navigationController.view.frame = CGRect(
+                origin: CGPoint(x: 0,
+                                y: navigationController.view.frame.height),
+                size: navigationController.view.frame.size)
             navigationController.mainTabBarController?.tabBar.frame = defaultTabBarFrame
         }) { [weak self] (finished) in
             if finished {
@@ -250,6 +268,7 @@ extension StartSessionTableViewController {
         }
     }
 
+    //swiftlint:disable:next cyclomatic_complexity
     @objc private func didPan(gestureRecognizer: UIPanGestureRecognizer) {
         guard let view = gestureRecognizer.view,
             let panFrame = initialPanViewFrame else {
@@ -273,8 +292,15 @@ extension StartSessionTableViewController {
                 }
 
                 let tabBarHeight = mainTabBarController.tabBar.frame.height
-                let newLocation = mainTabBarController.view.frame.height - tabBarHeight - minimizedHeight + location.y
-                if newLocation <= mainTabBarController.view.frame.height - tabBarHeight - minimizedHeight && newLocation >= Constants.defaultYOffset {
+                let newLocation = mainTabBarController.view.frame.height -
+                    tabBarHeight -
+                    minimizedHeight +
+                    location.y
+                if newLocation <= mainTabBarController.view.frame.height -
+                    tabBarHeight -
+                    minimizedHeight &&
+                    newLocation >=
+                    Constants.defaultYOffset {
                     view.frame.origin.y = newLocation
                 }
             }
@@ -310,14 +336,18 @@ extension StartSessionTableViewController {
                 return
             }
 
-            // Making sure this doesn't get called when the view is panned down a little bit and released, yielding in an unnecessary call
+            /*
+             Making sure this doesn't get called when the view is panned down a little bit and released,
+             yielding in an unnecessary call
+            */
             if self?.panState != .full {
                 self?.dimmedView?.backgroundColor = .dimmedBackgroundBlack
                 self?.panView?.hideShadow()
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = true
             self?.panView?.frame = panFrame
-            mainTabBarController.tabBar.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height)
+            mainTabBarController.tabBar.frame.origin = CGPoint(x: 0,
+                                                               y: mainTabBarController.view.frame.height)
         }) { [weak self] _ in
             self?.panState = .full
         }
@@ -331,15 +361,22 @@ extension StartSessionTableViewController {
                 return
             }
 
-            // Making sure this doesn't get called when the view is panned down a little bit and released, yielding in an unnecessary call
+            /*
+             Making sure this doesn't get called when the view is panned down a little bit and released,
+             yielding in an unnecessary call
+            */
             if self?.panState != .mini {
                 self?.dimmedView?.backgroundColor = .clear
                 self?.panView?.showShadow()
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = false
 
+            let mainTabBarControllerHeight = mainTabBarController.view.frame.height
             let tabBarHeight = defaultTabBarFrame.height
-            self?.panView?.frame.origin = CGPoint(x: 0, y: mainTabBarController.view.frame.height - tabBarHeight - (self?.minimizedHeight ?? 0))
+            let minimizedHeight = self?.minimizedHeight ?? 0
+            let newYPosition = mainTabBarControllerHeight - tabBarHeight - minimizedHeight
+
+            self?.panView?.frame.origin = CGPoint(x: 0, y: newYPosition)
             mainTabBarController.tabBar.frame = defaultTabBarFrame
         }) { [weak self] _ in
             if self?.panState != .mini {
@@ -347,6 +384,62 @@ extension StartSessionTableViewController {
             }
             self?.panState = .mini
         }
+    }
+
+    private func getExerciseHeaderTableViewCell(for indexPath: IndexPath,
+                                                session: Session) -> ExerciseHeaderTableViewCell {
+        guard let exerciseHeaderTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseHeaderTableViewCell else {
+            fatalError("Could not dequeue \(ExerciseHeaderTableViewCell.reuseIdentifier)")
+        }
+
+        var dataModel = ExerciseHeaderTableViewCellModel()
+        dataModel.name = session.exercises[indexPath.section].name
+        dataModel.weightType = session.exercises[indexPath.section].weightType
+        dataModel.isDoneButtonImageHidden = false
+
+        exerciseHeaderTableViewCell.configure(dataModel: dataModel)
+        exerciseHeaderTableViewCell.exerciseHeaderCellDelegate = self
+        return exerciseHeaderTableViewCell
+    }
+
+    private func getButtonTableViewCell(for indexPath: IndexPath) -> ButtonTableViewCell {
+        guard let buttonTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ButtonTableViewCell.reuseIdentifier,
+            for: indexPath) as? ButtonTableViewCell else {
+            fatalError("Could not dequeue \(ButtonTableViewCell.reuseIdentifier)")
+        }
+
+        buttonTableViewCell.configure(title: Constants.buttonText,
+                                      titleColor: .white,
+                                      backgroundColor: .systemGray,
+                                      cornerStyle: .small)
+        buttonTableViewCell.buttonTableViewCellDelegate = self
+        return buttonTableViewCell
+    }
+
+    private func getExerciseDetailTableViewCell(for indexPath: IndexPath,
+                                                session: Session) -> ExerciseDetailTableViewCell {
+        guard let exerciseDetailCell = tableView.dequeueReusableCell(
+            withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier,
+            for: indexPath) as? ExerciseDetailTableViewCell else {
+            fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
+        }
+
+        let exercise = session.exercises[indexPath.section]
+        var dataModel = ExerciseDetailTableViewCellModel()
+
+        dataModel.sets = "\(indexPath.row)"
+        dataModel.last = exercise.exerciseDetails[indexPath.row - 1].last ?? "--"
+        dataModel.reps = exercise.exerciseDetails[indexPath.row - 1].reps
+        dataModel.weight = exercise.exerciseDetails[indexPath.row - 1].weight
+        dataModel.isDoneButtonEnabled = true
+
+        exerciseDetailCell.configure(dataModel: dataModel)
+        exerciseDetailCell.exerciseDetailCellDelegate = self
+        exerciseDetailCell.didSelect = selectedRows[indexPath] ?? false
+        return exerciseDetailCell
     }
 
     @objc private func restButtonTapped() {
@@ -368,7 +461,10 @@ extension StartSessionTableViewController {
 
     @objc private func finishButtonTapped() {
         Haptic.shared.sendImpactFeedback(.heavy)
-        presentCustomAlert(title: "Finish Session", content: "Do you want to finish the session?", leftButtonTitle: "No", rightButtonTitle: "Yes") { [weak self] in
+        presentCustomAlert(title: "Finish Session",
+                           content: "Do you want to finish the session?",
+                           leftButtonTitle: "No",
+                           rightButtonTitle: "Yes") { [weak self] in
             Haptic.shared.sendImpactFeedback(.heavy)
             if let session = self?.session {
                 for exercise in session.exercises {
@@ -412,7 +508,9 @@ extension StartSessionTableViewController {
 extension StartSessionTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
+            presentCustomAlert(content: "Could not start session.",
+                               usesBothButtons: false,
+                               rightButtonTitle: "Sounds good")
             return 0
         }
         return session.exercises.count
@@ -420,7 +518,9 @@ extension StartSessionTableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.", usesBothButtons: false, rightButtonTitle: "Sounds good")
+            presentCustomAlert(content: "Could not start session.",
+                               usesBothButtons: false,
+                               rightButtonTitle: "Sounds good")
             return 0
         }
 
@@ -429,7 +529,8 @@ extension StartSessionTableViewController {
         return session.exercises[section].sets + 2
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let session = session else {
             fatalError("Session is nil in \(String(describing: self))")
         }
@@ -437,42 +538,11 @@ extension StartSessionTableViewController {
         let cell: UITableViewCell
         switch indexPath.row {
         case 0: // Exercise header cell
-            guard let exerciseHeaderCell = tableView.dequeueReusableCell(withIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseHeaderTableViewCell else {
-                fatalError("Could not dequeue \(ExerciseHeaderTableViewCell.reuseIdentifier)")
-            }
-
-            var dataModel = ExerciseHeaderTableViewCellModel()
-            dataModel.name = session.exercises[indexPath.section].name
-            dataModel.weightType = session.exercises[indexPath.section].weightType
-            dataModel.isDoneButtonImageHidden = false
-
-            exerciseHeaderCell.configure(dataModel: dataModel)
-            exerciseHeaderCell.exerciseHeaderCellDelegate = self
-            cell = exerciseHeaderCell
+            cell = getExerciseHeaderTableViewCell(for: indexPath, session: session)
         case tableView.numberOfRows(inSection: indexPath.section) - 1: // Add set cell
-            guard let buttonTableViewCell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.reuseIdentifier, for: indexPath) as? ButtonTableViewCell else {
-                fatalError("Could not dequeue \(ButtonTableViewCell.reuseIdentifier)")
-            }
-
-            buttonTableViewCell.configure(title: Constants.buttonText, titleColor: .white, backgroundColor: .systemGray, cornerStyle: .small)
-            buttonTableViewCell.buttonTableViewCellDelegate = self
-            cell = buttonTableViewCell
+            cell = getButtonTableViewCell(for: indexPath)
         default: // Exercise detail cell
-            guard let exerciseDetailCell = tableView.dequeueReusableCell(withIdentifier: ExerciseDetailTableViewCell.reuseIdentifier, for: indexPath) as? ExerciseDetailTableViewCell else {
-                fatalError("Could not dequeue \(ExerciseDetailTableViewCell.reuseIdentifier)")
-            }
-
-            var dataModel = ExerciseDetailTableViewCellModel()
-            dataModel.sets = "\(indexPath.row)"
-            dataModel.last = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].last ?? "--"
-            dataModel.reps = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].reps
-            dataModel.weight = session.exercises[indexPath.section].exerciseDetails[indexPath.row - 1].weight
-            dataModel.isDoneButtonEnabled = true
-
-            exerciseDetailCell.configure(dataModel: dataModel)
-            exerciseDetailCell.exerciseDetailCellDelegate = self
-            exerciseDetailCell.didSelect = selectedRows[indexPath] ?? false
-            cell = exerciseDetailCell
+            cell = getExerciseDetailTableViewCell(for: indexPath, session: session)
         }
         return cell
     }
@@ -489,8 +559,10 @@ extension StartSessionTableViewController {
         }
     }
 
+    //swiftlint:disable:next line_length
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _,_, completion in
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "Delete") { [weak self] _, _, completion in
             Haptic.shared.sendImpactFeedback(.medium)
             try? self?.realm?.write {
                 self?.removeSet(indexPath: indexPath)
@@ -509,7 +581,7 @@ extension StartSessionTableViewController {
                 }
             }
 
-            tableView.performBatchUpdates ({
+            tableView.performBatchUpdates({
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 // Reloading section so the set indices can update
                 tableView.reloadSections([indexPath.section], with: .automatic)
@@ -550,7 +622,8 @@ extension StartSessionTableViewController {
         Haptic.shared.sendSelectionFeedback()
         tableView.deselectRow(at: indexPath, animated: false)
 
-        guard let exerciseDetailCell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell else {
+        guard let exerciseDetailCell = tableView.cellForRow(
+            at: indexPath) as? ExerciseDetailTableViewCell else {
             return
         }
 
@@ -615,7 +688,9 @@ extension StartSessionTableViewController: ExerciseDetailTableViewCellDelegate {
         return totalString.count <= Constants.characterLimit // Need a constant for this
     }
 
-    func textFieldDidEndEditing(textField: UITextField, textFieldType: TextFieldType, cell: ExerciseDetailTableViewCell) {
+    func textFieldDidEndEditing(textField: UITextField,
+                                textFieldType: TextFieldType,
+                                cell: ExerciseDetailTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {
             NSLog("Found nil index path for text field after it ended editing.")
             return
@@ -624,7 +699,10 @@ extension StartSessionTableViewController: ExerciseDetailTableViewCellDelegate {
         let text = textField.text ?? "--"
         // Decrementing indexPath.row by 1 because the first cell is the exercise header cell
         try? realm?.write {
-            saveTextFieldData(text, textFieldType: textFieldType, section: indexPath.section, row: indexPath.row - 1)
+            saveTextFieldData(text,
+                              textFieldType: textFieldType,
+                              section: indexPath.section,
+                              row: indexPath.row - 1)
         }
     }
 
@@ -658,7 +736,10 @@ extension StartSessionTableViewController: ButtonTableViewCellDelegate {
             // Using .none because the animation doesn't work well with this VC
             self?.tableView.insertRows(at: [lastIndexPath], with: .none)
             // Scrolling to addSetButton row
-            self?.tableView.scrollToRow(at: IndexPath(row: sets + 1, section: section), at: .none, animated: true)
+            self?.tableView.scrollToRow(at: IndexPath(row: sets + 1,
+                                                      section: section),
+                                        at: .none,
+                                        animated: true)
         }
     }
 
@@ -700,7 +781,10 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
 
     func cancelSession() {
         Haptic.shared.sendImpactFeedback(.heavy)
-        presentCustomAlert(title: "Cancel Session", content: "Do you want to cancel the session?", leftButtonTitle: "No", rightButtonTitle: "Yes") { [weak self] in
+        presentCustomAlert(title: "Cancel Session",
+                           content: "Do you want to cancel the session?",
+                           leftButtonTitle: "No",
+                           rightButtonTitle: "Yes") { [weak self] in
             Haptic.shared.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
                 self?.dismissAsChildViewController()
@@ -724,13 +808,18 @@ extension StartSessionTableViewController: RestTimerDelegate {
         totalRestTime = totalTime
         restTimeRemaining = timeRemaining
 
-        timerButton.addMovingLayerAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+        timerButton.addMovingLayerAnimation(duration: restTimeRemaining,
+                                            totalTime: totalRestTime,
+                                            timeRemaining: restTimeRemaining)
     }
 
     func ended() {
         restTimer?.invalidate()
         timerButton.removeMovingLayerAnimation()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(restButtonTapped))
 
         // In case this timer finishes first.
         presentedViewController?.dismiss(animated: true)
@@ -739,8 +828,12 @@ extension StartSessionTableViewController: RestTimerDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension StartSessionTableViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        let modalPresentationController = ModalPresentationController(
+            presentedViewController: presented,
+            presenting: presenting)
 
         switch modallyPresenting {
         case .restViewController:
@@ -786,7 +879,8 @@ extension StartSessionTableViewController: ApplicationStateObserving {
 
     func willEnterForeground(_ notification: Notification) {
         if let date = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_DATE) as? Date,
-            let timeDictionary = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY) as? [String: Int] {
+            let timeDictionary = userDefault.object(
+                forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY) as? [String: Int] {
 
             let secondsElapsed = Int(Date().timeIntervalSince(date))
 
@@ -801,12 +895,17 @@ extension StartSessionTableViewController: ApplicationStateObserving {
                 totalRestTime = restTotalTime
                 restTimeRemaining = newTimeRemaining
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
-                timerButton.addMovingLayerAnimation(duration: restTimeRemaining, totalTime: totalRestTime, timeRemaining: restTimeRemaining)
+                timerButton.addMovingLayerAnimation(duration: restTimeRemaining,
+                                                    totalTime: totalRestTime,
+                                                    timeRemaining: restTimeRemaining)
 
                 startRestTimer()
             } else {
                 timerButton.removeMovingLayerAnimation()
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest", style: .plain, target: self, action: #selector(restButtonTapped))
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
+                                                                   style: .plain,
+                                                                   target: self,
+                                                                   action: #selector(restButtonTapped))
             }
         }
     }
@@ -815,7 +914,8 @@ extension StartSessionTableViewController: ApplicationStateObserving {
 // MARK: - UIGestureRecognizerDelegate
 extension StartSessionTableViewController: UIGestureRecognizerDelegate {
     // Preventing panGesture eating up table view gestures
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture
     }
 }

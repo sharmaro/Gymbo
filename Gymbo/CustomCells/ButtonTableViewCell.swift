@@ -71,7 +71,11 @@ extension ButtonTableViewCell {
         buttonTableViewCellDelegate?.buttonTapped(cell: self)
     }
 
-    func configure(title: String, font: UIFont = .normal, titleColor: UIColor = .black, backgroundColor: UIColor = .systemBlue, cornerStyle: CornerStyle = .none) {
+    func configure(title: String,
+                   font: UIFont = .normal,
+                   titleColor: UIColor = .black,
+                   backgroundColor: UIColor = .systemBlue,
+                   cornerStyle: CornerStyle = .none) {
         button.title = title
         button.add(backgroundColor: backgroundColor, titleColor: titleColor)
         button.addCorner(style: cornerStyle)

@@ -28,27 +28,45 @@ extension ApplicationStateObserving where Self: UIViewController {
 
     // Register for UIApplication state notifications.
     func registerForApplicationStateNotifications() {
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.didFinishLaunchingNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.didFinishLaunchingNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.didFinishLaunching(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.willResignActiveNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.willResignActive(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.didEnterBackgroundNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.didEnterBackground(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.willEnterForegroundNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.willEnterForeground(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.didBecomeActiveNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.didBecomeActive(notification)
         }
 
-        _ = NotificationCenter.default.addObserver(forName: UIApplication.willTerminateNotification, object: nil, queue: nil) { [weak self] notification in
+        _ = NotificationCenter.default.addObserver(
+        forName: UIApplication.willTerminateNotification,
+        object: nil,
+        queue: nil) { [weak self] notification in
             self?.willTerminate(notification)
         }
     }

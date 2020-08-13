@@ -37,7 +37,7 @@ extension NotificationHelper {
             guard let self = self else { return }
 
             if settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .denied {
-                self.notificationCenter.requestAuthorization(options: self.options) { (didAllow, error) in
+                self.notificationCenter.requestAuthorization(options: self.options) { (didAllow, _) in
                     if didAllow {
                         print("User accepted notifications :)")
                     } else {
@@ -81,7 +81,9 @@ extension NotificationHelper {
 
 // MARK: - UNUserNotificationCenterDelegate
 extension NotificationHelper: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         if response.actionIdentifier == UNNotificationDismissActionIdentifier {
             // User dismissed notification without taking action
             // No op

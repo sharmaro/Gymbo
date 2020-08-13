@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK - Notification
+// MARK: - Notification
 extension Notification {
     var keyboardSize: CGSize? {
         (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
@@ -19,7 +19,7 @@ extension Notification {
     }
 }
 
-// MARK - Notification.Name
+// MARK: - Notification.Name
 extension Notification.Name {
     // Sessions
     static let updateSessionsUI = Notification.Name("updateSessionsUI")

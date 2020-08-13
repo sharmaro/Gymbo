@@ -36,8 +36,10 @@ class SessionsCollectionViewCell: UICollectionViewCell {
 
             if isEditing {
                 let oddOrEven = Int.random(in: 1 ... 2)
-                let transformAnim = CAKeyframeAnimation(keyPath:"transform")
-                transformAnim.values = [NSValue(caTransform3D: CATransform3DMakeRotation(0.02, 0.0, 0.0, 1.0)), NSValue(caTransform3D: CATransform3DMakeRotation(-0.02, 0.0, 0.0, 1))]
+                let transformAnim = CAKeyframeAnimation(keyPath: "transform")
+                transformAnim.values = [NSValue(
+                    caTransform3D: CATransform3DMakeRotation(0.02, 0.0, 0.0, 1.0)),
+                                        NSValue(caTransform3D: CATransform3DMakeRotation(-0.02, 0.0, 0.0, 1))]
                 transformAnim.autoreverses = true
                 transformAnim.duration = oddOrEven == 1 ? 0.13 : 0.12
                 transformAnim.repeatCount = .infinity

@@ -17,9 +17,21 @@ extension UIViewController {
         44
     }
 
-    func presentCustomAlert(title: String = "Alert", content: String, usesBothButtons: Bool = true, leftButtonTitle: String = "Cancel", rightButtonTitle: String = "Confirm", leftButtonAction: (() -> Void)? = nil, rightButtonAction: (() -> Void)? = nil) {
+    func presentCustomAlert(title: String = "Alert",
+                            content: String,
+                            usesBothButtons: Bool = true,
+                            leftButtonTitle: String = "Cancel",
+                            rightButtonTitle: String = "Confirm",
+                            leftButtonAction: (() -> Void)? = nil,
+                            rightButtonAction: (() -> Void)? = nil) {
         let alertViewController = AlertViewController()
-        alertViewController.setupAlert(title: title, content: content, usesBothButtons: usesBothButtons, leftButtonTitle: leftButtonTitle, rightButtonTitle: rightButtonTitle, leftButtonAction: leftButtonAction, rightButtonAction: rightButtonAction)
+        alertViewController.setupAlert(title: title,
+                                       content: content,
+                                       usesBothButtons: usesBothButtons,
+                                       leftButtonTitle: leftButtonTitle,
+                                       rightButtonTitle: rightButtonTitle,
+                                       leftButtonAction: leftButtonAction,
+                                       rightButtonAction: rightButtonAction)
         alertViewController.modalTransitionStyle = .crossDissolve
         alertViewController.modalPresentationStyle = .overFullScreen
         present(alertViewController, animated: true)
@@ -27,7 +39,10 @@ extension UIViewController {
 
     func showActivityIndicator(withText text: String? = nil) {
         DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
+            let viewToUse =
+                self?.navigationController?.view == nil ?
+                self?.view :
+                self?.navigationController?.view
 
             let activityIndicatorView = ActivityIndicatorView(withText: text)
             viewToUse?.add(subviews: [activityIndicatorView])
@@ -37,7 +52,10 @@ extension UIViewController {
 
     func hideActivityIndicator() {
         DispatchQueue.main.async { [weak self] in
-            let viewToUse = self?.navigationController?.view == nil ? self?.view : self?.navigationController?.view
+            let viewToUse =
+                self?.navigationController?.view == nil ?
+                self?.view :
+                self?.navigationController?.view
 
             guard let activityIndicatorView = viewToUse?.subviews.last as? ActivityIndicatorView else {
                 return

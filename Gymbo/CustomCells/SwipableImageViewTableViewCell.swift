@@ -86,7 +86,7 @@ extension SwipableImageViewTableViewCell {
             if let image = UIImage(data: data) {
                 let imageView = UIImageView(frame: CGRect(origin:
                     CGPoint(x: frame.width * CGFloat(index),
-                            y: 0),size:
+                            y: 0), size:
                     CGSize(width: frame.width,
                            height: frame.height - 20)))
                 imageView.image = image

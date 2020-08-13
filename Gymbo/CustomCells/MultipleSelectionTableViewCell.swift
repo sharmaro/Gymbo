@@ -11,7 +11,8 @@ import UIKit
 // MARK: - Properties
 class MultipleSelectionTableViewCell: UITableViewCell {
     private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.allowsMultipleSelection = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .white
@@ -58,7 +59,8 @@ extension MultipleSelectionTableViewCell: ViewAdding {
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(SelectionCollectionViewCell.self, forCellWithReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier)
+        collectionView.register(SelectionCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier)
     }
 
     func addConstraints() {
@@ -96,8 +98,11 @@ extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
         selectionTitles.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let selectionCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectionCollectionViewCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let selectionCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier,
+            for: indexPath) as? SelectionCollectionViewCell else {
             fatalError("Could not dequeue \(SelectionCollectionViewCell.reuseIdentifier)")
         }
 
@@ -116,15 +121,21 @@ extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MultipleSelectionTableViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Constants.minimumLineSpacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         Constants.minimumLineSpacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let totalWidth = collectionView.frame.width
         let columns = CGFloat(3)
@@ -144,7 +155,8 @@ extension MultipleSelectionTableViewCell: UICollectionViewDelegateFlowLayout {
 extension MultipleSelectionTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         Haptic.shared.sendSelectionFeedback()
-        guard let selectionCollectionViewCell = collectionView.cellForItem(at: indexPath) as? SelectionCollectionViewCell else {
+        guard let selectionCollectionViewCell = collectionView.cellForItem(
+            at: indexPath) as? SelectionCollectionViewCell else {
             return
         }
 
@@ -155,7 +167,8 @@ extension MultipleSelectionTableViewCell: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         Haptic.shared.sendSelectionFeedback()
-        guard let selectionCollectionViewCell = collectionView.cellForItem(at: indexPath) as? SelectionCollectionViewCell else {
+        guard let selectionCollectionViewCell = collectionView.cellForItem(
+            at: indexPath) as? SelectionCollectionViewCell else {
             return
         }
 

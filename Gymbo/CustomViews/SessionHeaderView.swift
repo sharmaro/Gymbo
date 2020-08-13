@@ -133,7 +133,9 @@ extension SessionHeaderView: UITextViewDelegate {
         customTextViewDelegate?.textViewDidBeginEditing(textViews[textView.tag])
     }
 
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
         guard text == "\n" else {
             return true
         }

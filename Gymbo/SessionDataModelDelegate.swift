@@ -8,10 +8,12 @@
 
 protocol SessionDataModelDelegate: class {
     func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
-    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void))
+    func update(_ currentName: String, session: Session,
+                success: @escaping(() -> Void), fail: @escaping(() -> Void))
 }
 
 extension SessionDataModelDelegate {
     func create(_ session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
-    func update(_ currentName: String, session: Session, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
+    func update(_ currentName: String, session: Session,
+                success: @escaping(() -> Void), fail: @escaping(() -> Void)) {}
 }

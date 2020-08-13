@@ -57,10 +57,14 @@ final class ModalPresentationController: UIPresentationController {
         }
 
         let defaultHeight = containerView.bounds.height - Constants.defaultYOffset
-        return CGRect(origin: CGPoint(x: 0, y: Constants.defaultYOffset), size: CGSize(width: containerView.bounds.width, height: defaultHeight))
+        return CGRect(origin: CGPoint(x: 0,
+                                      y: Constants.defaultYOffset),
+                      size: CGSize(width: containerView.bounds.width,
+                                   height: defaultHeight))
     }
 
-    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+    override init(presentedViewController: UIViewController,
+                  presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         panGesture.delegate = self
@@ -71,7 +75,10 @@ final class ModalPresentationController: UIPresentationController {
         super.containerViewWillLayoutSubviews()
 
         presentedView?.addCorner(style: .small)
-        let maskedCorners: CACornerMask = customBounds == nil ? [.layerMinXMinYCorner, .layerMaxXMinYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        let maskedCorners: CACornerMask =
+            customBounds == nil ?
+            [.layerMinXMinYCorner, .layerMaxXMinYCorner] :
+            [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         presentedView?.layer.maskedCorners = maskedCorners
     }
 
@@ -195,20 +202,40 @@ extension ModalPresentationController: KeyboardObserving {
         let heightToRemove = abs(presentedView.frame.maxY - minYOfKeyboard)
         let minYLimitOfPresentedView = presentedView.frame.origin.y / 3
 
-        /**
+        /*
          - minYLimitOfPresentedView is 1/3 of it's original origin.y
-         - Need to call (2 * newYOrigin) because that's how much space should not be removed from the new height
+         - Need to call (2 * newYOrigin) because that's how much space should not
+         be removed from the new height
         */
         guard minYOfKeyboard != presentedView.frame.maxY + Constants.keyboardSpacing else {
             return
         }
 
         let newFrame: CGRect
+        let newOrigin =
+            containerView.frame.height -
+            keyboardHeight - Constants.keyboardSpacing -
+            presentedView.frame.height
         // Checking to see if the new origin of presented view is >= minYLimitOfPresentedView
-        if containerView.frame.height - keyboardHeight - Constants.keyboardSpacing - presentedView.frame.height >= minYLimitOfPresentedView {
-            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x, y: containerView.frame.height - keyboardHeight - presentedView.frame.height - Constants.keyboardSpacing), size: presentedView.frame.size)
+        if newOrigin >= minYLimitOfPresentedView {
+            let y =
+                containerView.frame.height -
+                keyboardHeight -
+                presentedView.frame.height -
+                Constants.keyboardSpacing
+            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x,
+                                              y: y),
+                              size: presentedView.frame.size)
         } else {
-            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x, y: minYLimitOfPresentedView), size: CGSize(width: presentedView.frame.width, height: presentedView.frame.height + (2 * minYLimitOfPresentedView) - heightToRemove - Constants.keyboardSpacing))
+            let height =
+                presentedView.frame.height +
+                (2 * minYLimitOfPresentedView) -
+                heightToRemove -
+                Constants.keyboardSpacing
+            newFrame = CGRect(origin: CGPoint(x: presentedView.frame.origin.x,
+                                              y: minYLimitOfPresentedView),
+                              size: CGSize(width: presentedView.frame.width,
+                                           height: height))
         }
         presentedView.frame = newFrame
         presentedView.layoutIfNeeded()
@@ -226,7 +253,8 @@ extension ModalPresentationController: KeyboardObserving {
 // MARK: - UIGestureRecognizerDelegate
 extension ModalPresentationController: UIGestureRecognizerDelegate {
     // Preventing panGesture eating up table view gestures
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer != panGesture
     }
 }

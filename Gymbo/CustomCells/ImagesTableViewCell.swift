@@ -71,27 +71,18 @@ extension ImagesTableViewCell {
         addConstraints()
     }
 
-    func configure(count: Int = 2, existingImages: [UIImage?], defaultImage: UIImage?, type: ImageType) {
-        /**
-         - Preventing adding subviews to horizontalScrollView multiple times.
-         - UIScrollView has 2 subviews (two scroll view indicators).
-         */
-        guard horizontalScrollView.subviews.count == 2,
-            let image = defaultImage else {
-            return
-        }
-
-        self.defaultImage = image
-
+    private func setupHorizontalScrollView(count: Int, imageType: ImageType, image: UIImage) {
         let squareBound = frame.height * 0.9
         let viewSize = CGSize(width: squareBound, height: squareBound)
         let spacing = CGFloat(20)
-        horizontalScrollView.contentSize.width = (CGFloat(count) * viewSize.width) + (CGFloat(count) * spacing)
+        horizontalScrollView.contentSize.width =
+            (CGFloat(count) * viewSize.width) +
+            (CGFloat(count) * spacing)
 
         var previousX = CGFloat(0)
         for i in 0..<Int(count) {
             let view: UIView
-            switch type {
+            switch imageType {
             case .button:
                 let button = CustomButton(frame:
                     CGRect(origin:
@@ -121,6 +112,24 @@ extension ImagesTableViewCell {
             horizontalScrollView.addSubview(view)
         }
         horizontalScrollView.layoutIfNeeded()
+    }
+
+    func configure(count: Int = 2,
+                   existingImages: [UIImage?],
+                   defaultImage: UIImage?,
+                   type: ImageType) {
+        /*
+         - Preventing adding subviews to horizontalScrollView multiple times.
+         - UIScrollView has 2 subviews (two scroll view indicators).
+         */
+        guard horizontalScrollView.subviews.count == 2,
+            let image = defaultImage else {
+            return
+        }
+
+        self.defaultImage = image
+
+        setupHorizontalScrollView(count: count, imageType: type, image: image)
 
         guard !existingImages.isEmpty else {
             return
@@ -141,7 +150,10 @@ extension ImagesTableViewCell {
         let imageToUse = image ?? defaultImage
         let button = buttons[index]
 
-        UIView.transition(with: button, duration: .defaultAnimationTime, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: button,
+                          duration: .defaultAnimationTime,
+                          options: .transitionCrossDissolve,
+                          animations: {
             button.setImage(imageToUse, for: .normal)
         })
     }

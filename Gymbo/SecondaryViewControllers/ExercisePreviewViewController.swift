@@ -82,7 +82,9 @@ private extension ExercisePreviewViewController {
 extension ExercisePreviewViewController: ViewAdding {
     func setupNavigationBar() {
         navigationItem.title = Constants.title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
+                                                           target: self,
+                                                           action: #selector(closeButtonTapped))
     }
 
     func addViews() {
@@ -115,13 +117,21 @@ extension ExercisePreviewViewController: ViewAdding {
         let viewToUse = exercise.isUserMade ? editButton : editDisclaimerLabel
         NSLayoutConstraint.activate([
             tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: viewToUse.topAnchor),
 
-            viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            viewToUse.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            viewToUse.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
+            viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -15),
             viewToUse.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
@@ -145,6 +155,43 @@ extension ExercisePreviewViewController {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 
+    private func getTwoLabelsTableViewCell(for indexPath: IndexPath) -> TwoLabelsTableViewCell {
+        guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: TwoLabelsTableViewCell.reuseIdentifier,
+            for: indexPath) as? TwoLabelsTableViewCell else {
+            fatalError("Could not dequeue \(TwoLabelsTableViewCell.reuseIdentifier)")
+        }
+
+        twoLabelsTableViewCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
+        return twoLabelsTableViewCell
+    }
+
+    private func getLabelTableViewCell(for indexPath: IndexPath,
+                                       text: String,
+                                       font: UIFont = .normal) -> LabelTableViewCell {
+        guard let labelTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: LabelTableViewCell.reuseIdentifier,
+            for: indexPath) as? LabelTableViewCell else {
+            fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
+        }
+
+        labelTableViewCell.configure(text: text, font: font)
+        return labelTableViewCell
+    }
+
+    private func getSwipableImageViewTableViewCell(
+        for indexPath: IndexPath) -> SwipableImageViewTableViewCell {
+        guard let swipableImageViewCell = tableView.dequeueReusableCell(
+            withIdentifier: SwipableImageViewTableViewCell.reuseIdentifier,
+            for: indexPath) as? SwipableImageViewTableViewCell else {
+            fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
+        }
+
+        let imagesDataArray = Array(exercise.imagesData)
+        swipableImageViewCell.configure(imagesData: imagesDataArray)
+        return swipableImageViewCell
+    }
+
     @objc private func closeButtonTapped(sender: Any) {
         dismiss(animated: true)
     }
@@ -155,7 +202,8 @@ extension ExercisePreviewViewController {
         createEditExerciseTableViewController.exerciseState = .edit
         createEditExerciseTableViewController.exerciseDataModelDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: createEditExerciseTableViewController)
+        let modalNavigationController = UINavigationController(
+            rootViewController: createEditExerciseTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
@@ -169,51 +217,26 @@ extension ExercisePreviewViewController: UITableViewDataSource {
         tableData.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let tableItem = tableData[indexPath.row]
+        let tableRow = tableData[indexPath.row]
 
-        switch tableItem {
+        switch tableRow {
         case .title:
-            guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(withIdentifier: TwoLabelsTableViewCell.reuseIdentifier, for: indexPath) as? TwoLabelsTableViewCell else {
-                fatalError("Could not dequeue \(TwoLabelsTableViewCell.reuseIdentifier)")
-            }
-
-            twoLabelsTableViewCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
-            cell = twoLabelsTableViewCell
+            cell = getTwoLabelsTableViewCell(for: indexPath)
         case .imagesTitle, .instructionsTitle, .tipsTitle:
-            guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
-            }
-
-            labelTableViewCell.configure(text: tableItem.rawValue, font: UIFont.large.medium)
-            cell = labelTableViewCell
+            cell = getLabelTableViewCell(for: indexPath, text: tableRow.rawValue, font: UIFont.large.medium)
         case .images:
             if exercise.imagesData.isEmpty {
-                guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                    fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
-                }
-
-                labelTableViewCell.configure(text: Constants.noImagesText)
-                cell = labelTableViewCell
+                cell = getLabelTableViewCell(for: indexPath, text: Constants.noImagesText)
             } else {
-                guard let swipableImageViewCell = tableView.dequeueReusableCell(withIdentifier: SwipableImageViewTableViewCell.reuseIdentifier, for: indexPath) as? SwipableImageViewTableViewCell else {
-                    fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
-                }
-
-                let imagesDataArray = Array(exercise.imagesData)
-                swipableImageViewCell.configure(imagesData: imagesDataArray)
-                cell = swipableImageViewCell
+                cell = getSwipableImageViewTableViewCell(for: indexPath)
             }
         case .instructions, .tips:
-            guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
-            }
-
-            let text = tableItem == .instructions ? exercise.instructions : exercise.tips
-            let emptyText = tableItem == .instructions ? Constants.noInstructionsText : Constants.noTipsText
-            labelTableViewCell.configure(text: text ?? emptyText)
-            cell = labelTableViewCell
+            let text = tableRow == .instructions ? exercise.instructions : exercise.tips
+            let emptyText = tableRow == .instructions ? Constants.noInstructionsText : Constants.noTipsText
+            cell = getLabelTableViewCell(for: indexPath, text: text ?? emptyText)
         }
         return cell
     }
@@ -225,7 +248,8 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exercise.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
+            return exercise.imagesData.isEmpty ?
+                UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension
         }
@@ -234,7 +258,8 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exercise.imagesData.isEmpty ? UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
+            return exercise.imagesData.isEmpty ?
+                UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension
         }
@@ -243,7 +268,10 @@ extension ExercisePreviewViewController: UITableViewDelegate {
 
 // MARK: - ExerciseDataModelDelegate
 extension ExercisePreviewViewController: ExerciseDataModelDelegate {
-    func update(_ currentName: String, exercise: Exercise, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
+    func update(_ currentName: String,
+                exercise: Exercise,
+                success: @escaping (() -> Void),
+                fail: @escaping (() -> Void)) {
         ExerciseDataModel.shared.update(currentName, exercise: exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
@@ -258,11 +286,14 @@ extension ExercisePreviewViewController: ExerciseDataModelDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension ExercisePreviewViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let modalPresentationController = ModalPresentationController(presentedViewController: presented, presenting: presenting)
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        let modalPresentationController = ModalPresentationController(
+            presentedViewController: presented,
+            presenting: presenting)
         modalPresentationController.showDimmingView = false
         modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
-        
         return modalPresentationController
     }
 }

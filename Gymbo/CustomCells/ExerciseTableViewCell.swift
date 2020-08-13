@@ -14,6 +14,7 @@ class ExerciseTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.addBorder(1, color: .systemRed)
+        imageView.addCorner(style: .small)
         return imageView
     }()
 
@@ -50,12 +51,6 @@ class ExerciseTableViewCell: UITableViewCell {
         super.init(coder: coder)
 
         setup()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        muscleImageView.addCorner(style: .circle(length: muscleImageView.frame.height))
     }
 }
 

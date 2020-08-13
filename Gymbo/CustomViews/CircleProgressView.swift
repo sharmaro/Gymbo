@@ -62,7 +62,10 @@ class CircleProgressView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        // Need to call this here because if autolayout is used to create CircleProgressView then on initialization the frame is .zero.
+        /*
+         Need to call this here because if autolayout is used to
+         create CircleProgressView then on initialization the frame is .zero.
+         */
         setupCircleProgressBar()
     }
 }
@@ -105,7 +108,9 @@ extension CircleProgressView: ViewAdding {
             timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
             timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            timeRemainingLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Constants.labelSpacing)
+            timeRemainingLabel.centerYAnchor.constraint(
+                equalTo: centerYAnchor,
+                constant: -Constants.labelSpacing)
         ])
     }
 }
@@ -119,14 +124,22 @@ extension CircleProgressView {
     }
 
     private func setupCircleProgressBar() {
-        // Since this isn't always a square, the smallest bound is necessary for calculating the radius otherwise the circle will go out of bounds
+        /*
+         Since this isn't always a square, the smallest bound is
+         necessary for calculating the radius otherwise
+         the circle will go out of bounds
+         */
         let minimumBound = min(bounds.width, bounds.height)
         let radius = CGFloat(minimumBound / 2 * 0.96)
 
         let startAngle: CGFloat = .pi * 3 / 2
         let endAngle: CGFloat = -.pi / 2
 
-        let circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width/2, y: bounds.height/2), radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width/2, y: bounds.height/2),
+                                        radius: radius,
+                                        startAngle: startAngle,
+                                        endAngle: endAngle,
+                                        clockwise: false)
 
         staticLayer.path = circularPath.cgPath
         staticLayer.fillColor = UIColor.clear.cgColor

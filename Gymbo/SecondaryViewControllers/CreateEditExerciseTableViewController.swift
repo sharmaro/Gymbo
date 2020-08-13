@@ -64,7 +64,9 @@ private extension CreateEditExerciseTableViewController {
 
         var height: CGFloat {
             switch self {
-            case .nameTitle, .name, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .instructions, .tipsTitle, .tips:
+            case .nameTitle, .name, .muscleGroupsTitle,
+                 .imagesTitle, .instructionsTitle, .instructions,
+                 .tipsTitle, .tips:
                 return UITableView.automaticDimension
             case .muscleGroups:
                 return Constants.muscleGroupsCellHeight
@@ -79,7 +81,9 @@ private extension CreateEditExerciseTableViewController {
 extension CreateEditExerciseTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = exerciseState.rawValue
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(cancelButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
+                                                           target: self,
+                                                           action: #selector(cancelButtonTapped))
 
         // This allows there to be a smooth transition from large title to small and vice-versa
         extendedLayoutIncludesOpaqueBars = true
@@ -91,17 +95,26 @@ extension CreateEditExerciseTableViewController: ViewAdding {
 
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
-        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
-        tableView.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.reuseIdentifier)
-        tableView.register(MultipleSelectionTableViewCell.self, forCellReuseIdentifier: MultipleSelectionTableViewCell.reuseIdentifier)
-        tableView.register(ImagesTableViewCell.self, forCellReuseIdentifier: ImagesTableViewCell.reuseIdentifier)
-        tableView.register(TextViewTableViewCell.self, forCellReuseIdentifier: TextViewTableViewCell.reuseIdentifier)
+        tableView.register(LabelTableViewCell.self,
+                           forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
+        tableView.register(TextFieldTableViewCell.self,
+                           forCellReuseIdentifier: TextFieldTableViewCell.reuseIdentifier)
+        tableView.register(MultipleSelectionTableViewCell.self,
+                           forCellReuseIdentifier: MultipleSelectionTableViewCell.reuseIdentifier)
+        tableView.register(ImagesTableViewCell.self,
+                           forCellReuseIdentifier: ImagesTableViewCell.reuseIdentifier)
+        tableView.register(TextViewTableViewCell.self,
+                           forCellReuseIdentifier: TextViewTableViewCell.reuseIdentifier)
 
-        exerciseState == .create ? actionButton.makeUninteractable(animated: false) : actionButton.makeInteractable(animated: false)
+        exerciseState == .create ?
+            actionButton.makeUninteractable(animated: false) :
+            actionButton.makeInteractable(animated: false)
         actionButton.title = exerciseState == .create ? "Create" : "Save"
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
 
-        let tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: tableView.frame.width, height: Constants.tableViewFooterHeight)))
+        let tableFooterView = UIView(frame: CGRect(origin: .zero,
+                                                   size: CGSize(width: tableView.frame.width,
+                                                                height: Constants.tableViewFooterHeight)))
         tableFooterView.add(subviews: [actionButton])
         NSLayoutConstraint.activate([
             actionButton.topAnchor.constraint(equalTo: tableFooterView.topAnchor, constant: 5),
@@ -161,6 +174,110 @@ extension CreateEditExerciseTableViewController {
         return images
     }
 
+    private func createDataList(from images: [UIImage]) -> List<Data> {
+        let imagesData = List<Data>()
+        for image in images {
+            if let data = image.jpegData(compressionQuality: 0.5) {
+                imagesData.append(data)
+            }
+        }
+        return imagesData
+    }
+
+    private func getInstructionsAndTipsFromCell() -> (instructions: String?, tips: String?) {
+        var instructions: String?
+        var tips: String?
+        if let instructionsCellRow = tableData.firstIndex(of: .instructions),
+            let tipsCellRow = tableData.firstIndex(of: .tips),
+            let instructionsCell = tableView.cellForRow(at: IndexPath(row: instructionsCellRow, section: 0))
+                as? TextViewTableViewCell,
+            let tipsCell = tableView.cellForRow(at: IndexPath(row: tipsCellRow, section: 0))
+                as? TextViewTableViewCell {
+            if !(instructionsCell.textViewText?.isEmpty ?? true) {
+                instructions = instructionsCell.textViewText
+                instructions?.append("\n")
+            }
+
+            if !(tipsCell.textViewText?.isEmpty ?? true) {
+                tips = tipsCell.textViewText
+                tips?.append("\n")
+            }
+        }
+        return (instructions, tips)
+    }
+
+    private func getLabelTableViewCell(for indexPath: IndexPath, tableRow: TableRow) -> LabelTableViewCell {
+        guard let labelTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: LabelTableViewCell.reuseIdentifier,
+            for: indexPath) as? LabelTableViewCell else {
+            fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
+        }
+
+        labelTableViewCell.configure(text: tableRow.rawValue, font: UIFont.large.medium)
+        return labelTableViewCell
+    }
+
+    private func getTextFieldTableViewCell(for indexPath: IndexPath,
+                                           tableRow: TableRow) -> TextFieldTableViewCell {
+        guard let textFieldTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: TextFieldTableViewCell.reuseIdentifier,
+            for: indexPath) as? TextFieldTableViewCell else {
+            fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
+        }
+
+        textFieldTableViewCell.configure(text: exercise.name ?? "", placeHolder: "Exercise name...")
+        textFieldTableViewCell.textFieldTableViewCellDelegate = self
+        return textFieldTableViewCell
+    }
+
+    private func getMultipleSelectionTableViewCell(for indexPath: IndexPath,
+                                                   tableRow: TableRow) -> MultipleSelectionTableViewCell {
+        guard let multipleSelectionTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: MultipleSelectionTableViewCell.reuseIdentifier,
+            for: indexPath) as? MultipleSelectionTableViewCell else {
+            fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
+        }
+
+        let selectedTitlesArray = Utility.getStringArraySeparated(by: ",", text: exercise.groups).map {
+            $0.capitalized
+        }
+        multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups(),
+                                                 selectedTitles: selectedTitlesArray)
+        multipleSelectionTableViewCell.multipleSelectionTableViewCellDelegate = self
+        return multipleSelectionTableViewCell
+    }
+
+    private func getImagesTableViewCell(for indexPath: IndexPath,
+                                        tableRow: TableRow) -> ImagesTableViewCell {
+        guard let imagesTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ImagesTableViewCell.reuseIdentifier,
+            for: indexPath) as? ImagesTableViewCell else {
+            fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
+        }
+
+        let existingImages = getUIImageFromData(list: exercise.imagesData)
+        let defaultImage = UIImage(named: "add")
+        imagesTableViewCell.configure(existingImages: existingImages,
+                                      defaultImage: defaultImage,
+                                      type: .button)
+        imagesTableViewCell.imagesTableViewCellDelegate = self
+        return imagesTableViewCell
+    }
+
+    private func getTextViewTableViewCell(for indexPath: IndexPath,
+                                          tableRow: TableRow) -> TextViewTableViewCell {
+        guard let textViewTableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: TextViewTableViewCell.reuseIdentifier,
+            for: indexPath) as? TextViewTableViewCell else {
+            fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
+        }
+
+        let text = tableRow == .instructions ? exercise.instructions : exercise.tips
+        textViewTableViewCell.configure(text: text)
+        textViewTableViewCell.textViewTableViewCellDelegate = self
+        return textViewTableViewCell
+    }
+
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
         setAlphaDelegate?.setAlpha(alpha: 1)
@@ -179,51 +296,38 @@ extension CreateEditExerciseTableViewController {
             }
         }
 
-        let imagesData = List<Data>()
-        for image in images {
-            if let data = image.jpegData(compressionQuality: 0.5) {
-                imagesData.append(data)
-            }
-        }
-
-        var instructions: String? = nil
-        var tips: String? = nil
-        if let instructionsCellRow = tableData.firstIndex(of: .instructions),
-            let tipsCellRow = tableData.firstIndex(of: .tips),
-            let instructionsCell = tableView.cellForRow(at: IndexPath(row: instructionsCellRow, section: 0)) as? TextViewTableViewCell,
-            let tipsCell = tableView.cellForRow(at: IndexPath(row: tipsCellRow, section: 0)) as? TextViewTableViewCell {
-            if !(instructionsCell.textViewText?.isEmpty ?? true) {
-                instructions = instructionsCell.textViewText
-                instructions?.append("\n")
-            }
-
-            if !(tipsCell.textViewText?.isEmpty ?? true) {
-                tips = tipsCell.textViewText
-                tips?.append("\n")
-            }
-        }
-
+        let imagesData = createDataList(from: images)
+        let instructionsAndTips = getInstructionsAndTipsFromCell()
         let exercise = Exercise(name: exerciseName,
                                 groups: groups,
-                                instructions: instructions,
-                                tips: tips,
+                                instructions: instructionsAndTips.instructions,
+                                tips: instructionsAndTips.tips,
                                 imagesData: imagesData,
                                 isUserMade: true)
+        let exerciseName = self.exerciseName
         switch exerciseState {
         case .create:
             exerciseDataModelDelegate?.create(exercise, success: { [weak self] in
                 self?.dismiss(animated: true)
                 }, fail: { [weak self] in
                     DispatchQueue.main.async {
-                        self?.presentCustomAlert(title: "Oops!", content: "Can't create exercise \(self?.exerciseName ?? "") because it already exists!", usesBothButtons: false, rightButtonTitle: "Sad!")
+                        self?.presentCustomAlert(title: "Oops!",
+                                                 content: "\(exerciseName) already exists!",
+                                                 usesBothButtons: false,
+                                                 rightButtonTitle: "Sad!")
                     }
             })
         case .edit:
-            exerciseDataModelDelegate?.update(self.exercise.name ?? "", exercise: exercise, success: { [weak self] in
+            exerciseDataModelDelegate?.update(self.exercise.name ?? "",
+                                              exercise: exercise,
+                                              success: { [weak self] in
                 self?.dismiss(animated: true)
             }, fail: { [weak self] in
                 DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!", content: "Couldn't edit exercise \(self?.exerciseName ?? "").", usesBothButtons: false, rightButtonTitle: "Sad!")
+                    self?.presentCustomAlert(title: "Oops!",
+                                             content: "Couldn't edit exercise \(exerciseName).",
+                                             usesBothButtons: false,
+                                             rightButtonTitle: "Sad!")
                 }
             })
         }
@@ -236,56 +340,22 @@ extension CreateEditExerciseTableViewController {
         tableData.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let tableItem = tableData[indexPath.row]
+        let tableRow = tableData[indexPath.row]
 
-        switch tableItem {
+        switch tableRow {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
-            guard let labelTableViewCell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.reuseIdentifier, for: indexPath) as? LabelTableViewCell else {
-                fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
-            }
-
-            labelTableViewCell.configure(text: tableItem.rawValue, font: UIFont.large.medium)
-            cell = labelTableViewCell
+            cell = getLabelTableViewCell(for: indexPath, tableRow: tableRow)
         case .name:
-            guard let textFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier, for: indexPath) as? TextFieldTableViewCell else {
-                fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
-            }
-
-            textFieldTableViewCell.configure(text: exercise.name ?? "", placeHolder: "Exercise name...")
-            textFieldTableViewCell.textFieldTableViewCellDelegate = self
-            cell = textFieldTableViewCell
+            cell = getTextFieldTableViewCell(for: indexPath, tableRow: tableRow)
         case .muscleGroups:
-            guard let multipleSelectionTableViewCell = tableView.dequeueReusableCell(withIdentifier: MultipleSelectionTableViewCell.reuseIdentifier, for: indexPath) as? MultipleSelectionTableViewCell else {
-                fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
-            }
-
-            let selectedTitlesArray = Utility.getStringArraySeparated(by: ",", text: exercise.groups).map {
-                $0.capitalized
-            }
-            multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups(), selectedTitles: selectedTitlesArray)
-            multipleSelectionTableViewCell.multipleSelectionTableViewCellDelegate = self
-            cell = multipleSelectionTableViewCell
+            cell = getMultipleSelectionTableViewCell(for: indexPath, tableRow: tableRow)
         case .images:
-            guard let imagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: ImagesTableViewCell.reuseIdentifier, for: indexPath) as? ImagesTableViewCell else {
-                fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
-            }
-
-            let existingImages = getUIImageFromData(list: exercise.imagesData)
-            let defaultImage = UIImage(named: "add")
-            imagesTableViewCell.configure(existingImages: existingImages, defaultImage: defaultImage, type: .button)
-            imagesTableViewCell.imagesTableViewCellDelegate = self
-            cell = imagesTableViewCell
+            cell = getImagesTableViewCell(for: indexPath, tableRow: tableRow)
         case .instructions, .tips:
-            guard let textViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: TextViewTableViewCell.reuseIdentifier, for: indexPath) as? TextViewTableViewCell else {
-                fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
-            }
-
-            let text = tableItem == .instructions ? exercise.instructions : exercise.tips
-            textViewTableViewCell.configure(text: text)
-            textViewTableViewCell.textViewTableViewCellDelegate = self
-            cell = textViewTableViewCell
+            cell = getTextViewTableViewCell(for: indexPath, tableRow: tableRow)
         }
         return cell
     }
@@ -293,7 +363,8 @@ extension CreateEditExerciseTableViewController {
 
 // MARK: - UITableViewDelegate
 extension CreateEditExerciseTableViewController {
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         tableData[indexPath.row].height
     }
 
@@ -305,11 +376,14 @@ extension CreateEditExerciseTableViewController {
 // MARK: - TextViewTableViewCellDelegate
 extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder, toColor: .defaultSelectedBorder, fromWidth: .defaultUnselectedBorder, toWidth: .defaultSelectedBorder)
+        textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
+                                            toColor: .defaultSelectedBorder,
+                                            fromWidth: .defaultUnselectedBorder,
+                                            toWidth: .defaultSelectedBorder)
     }
 
     func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {
-        tableView.performBatchUpdates ({
+        tableView.performBatchUpdates({
             textView.sizeToFit()
         })
 
@@ -319,7 +393,10 @@ extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder, toColor: .defaultUnselectedBorder, fromWidth: .defaultSelectedBorder, toWidth: .defaultUnselectedBorder)
+        textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder,
+                                            toColor: .defaultUnselectedBorder,
+                                            fromWidth: .defaultSelectedBorder,
+                                            toWidth: .defaultUnselectedBorder)
     }
 }
 
@@ -356,19 +433,25 @@ extension CreateEditExerciseTableViewController: ImagesTableViewCellDelegate {
         alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
             self?.getImage(fromSourceType: .camera)
         }))
-        alertController.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "Photo Library",
+                                                style: .default,
+                                                handler: { [weak self] _ in
             self?.getImage(fromSourceType: .photoLibrary)
         }))
 
         if function == .update {
-            alertController.addAction(UIAlertAction(title: "Remove Photo", style: .destructive, handler: { [weak self] _ in
+            alertController.addAction(UIAlertAction(title: "Remove Photo",
+                                                    style: .destructive,
+                                                    handler: { [weak self] _ in
                 self?.imagesTableViewCell?.update(for: index)
                 self?.imagesTableViewCell = nil
                 self?.imagesTableViewCellSelectedIndex = nil
             }))
         }
 
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: .destructive,
+                                                handler: { [weak self] _ in
             self?.imagesTableViewCell = nil
             self?.imagesTableViewCellSelectedIndex = nil
         }))
@@ -389,8 +472,10 @@ extension CreateEditExerciseTableViewController: ImagesTableViewCellDelegate {
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension CreateEditExerciseTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension CreateEditExerciseTableViewController: UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true) { [weak self] in
             guard let cell = self?.imagesTableViewCell,
                 let selectedIndex = self?.imagesTableViewCellSelectedIndex,

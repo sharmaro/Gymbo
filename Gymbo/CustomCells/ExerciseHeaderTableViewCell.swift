@@ -126,7 +126,9 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
     }
 
     func addConstraints() {
-        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(
+            equalTo: bottomAnchor,
+            constant: -10)
         infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
 
         NSLayoutConstraint.activate([

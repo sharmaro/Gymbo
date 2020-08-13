@@ -122,18 +122,26 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         repsTextFieldToolBar.barStyle = .default
         repsTextFieldToolBar.items = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextToolbarButtonTapped))
+            UIBarButtonItem(title: "Next",
+                            style: .plain,
+                            target: self,
+                            action: #selector(nextToolbarButtonTapped))
         ]
         repsTextFieldToolBar.sizeToFit()
         repsTextField.inputAccessoryView = repsTextFieldToolBar
 
-
         let weightTextFieldToolBar = UIToolbar()
         weightTextFieldToolBar.barStyle = .default
         weightTextFieldToolBar.items = [
-            UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(previousToolbarButtonTapped)),
+            UIBarButtonItem(title: "Previous",
+                            style: .plain,
+                            target: self,
+                            action: #selector(previousToolbarButtonTapped)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneToolbarButtonTapped))
+            UIBarButtonItem(title: "Done",
+                            style: .plain,
+                            target: self,
+                            action: #selector(doneToolbarButtonTapped))
         ]
         weightTextFieldToolBar.sizeToFit()
         weightTextField.inputAccessoryView = weightTextFieldToolBar
@@ -142,7 +150,9 @@ extension ExerciseDetailTableViewCell: ViewAdding {
     }
 
     func addConstraints() {
-        let stackViewBottomConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+        let stackViewBottomConstraint = stackView.bottomAnchor.constraint(
+            equalTo: bottomAnchor,
+            constant: -10)
         stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -198,15 +208,24 @@ extension ExerciseDetailTableViewCell {
 // MARK: - UITextFieldDelegate
 extension ExerciseDetailTableViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder, toColor: .defaultSelectedBorder, fromWidth: .defaultUnselectedBorder, toWidth: .defaultSelectedBorder)
+        textField.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
+                                             toColor: .defaultSelectedBorder,
+                                             fromWidth: .defaultUnselectedBorder,
+                                             toWidth: .defaultSelectedBorder)
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField, replacementString: string) ?? true
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        exerciseDetailCellDelegate?.shouldChangeCharactersInTextField(textField: textField,
+                                                                      replacementString: string) ?? true
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder, toColor: .defaultUnselectedBorder, fromWidth: .defaultSelectedBorder, toWidth: .defaultUnselectedBorder)
+        textField.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder,
+                                             toColor: .defaultUnselectedBorder,
+                                             fromWidth: .defaultSelectedBorder,
+                                             toWidth: .defaultUnselectedBorder)
 
         var type: TextFieldType
         switch textField.tag {
@@ -217,6 +236,8 @@ extension ExerciseDetailTableViewCell: UITextFieldDelegate {
         default:
             fatalError("Incorrect text field ended editing")
         }
-        exerciseDetailCellDelegate?.textFieldDidEndEditing(textField: textField, textFieldType: type, cell: self)
+        exerciseDetailCellDelegate?.textFieldDidEndEditing(textField: textField,
+                                                           textFieldType: type,
+                                                           cell: self)
     }
 }

@@ -7,5 +7,6 @@ target 'Gymbo' do
 
   # Pods for Gymbo
   pod 'RealmSwift'
+  pod 'SwiftLint'
 
 end

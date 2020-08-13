@@ -23,7 +23,9 @@ class ExerciseDataModel: NSObject {
     private var firstTimeLoadExercises = List<Exercise>()
 
     private var exercises: [Exercise] {
-        return isFirstTimeLoad ? Array(firstTimeLoadExercises) : Array(realm?.objects(ExercisesList.self).first?.exercises ?? List<Exercise>())
+        isFirstTimeLoad ?
+        Array(firstTimeLoadExercises) :
+        Array(realm?.objects(ExercisesList.self).first?.exercises ?? List<Exercise>())
     }
 
     // Used to store the filtered results based on user search
@@ -75,37 +77,13 @@ extension ExerciseDataModel {
 
                 let exercises = content.components(separatedBy: "\n")
                 // Need these copies so realm isn't accessed on the wrong thread
-                let realmCopyExercises = List<Exercise>()
-                let realmCopySectionTitles = List<String>()
+                var realmCopyExercises = List<Exercise>()
+                var realmCopySectionTitles = List<String>()
 
-                for exercise in exercises {
-                    // Prevents reading the empty line at EOF
-                    if !exercise.isEmpty {
-                        let exerciseSplitList = exercise.split(separator: ":")
-                        let name = String(exerciseSplitList[0])
-                        let groups =  String(exerciseSplitList[1])
+                self.readExercises(exercises: exercises,
+                                   realmCopyExercises: &realmCopyExercises,
+                                   realmCopySectionTitles: &realmCopySectionTitles)
 
-
-                        let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
-                        let realmCopyExercise = Exercise(name: newExercise.name,
-                                                         groups: newExercise.groups,
-                                                         instructions: newExercise.instructions,
-                                                         tips: newExercise.tips,
-                                                         imagesData: newExercise.imagesData,
-                                                         isUserMade: newExercise.isUserMade,
-                                                         weightType: newExercise.weightType,
-                                                         sets: newExercise.sets,
-                                                         exerciseDetails: newExercise.exerciseDetails)
-                        self.firstTimeLoadExercises.append(newExercise)
-                        realmCopyExercises.append(realmCopyExercise)
-
-                        if let title = self.getFirstCharacter(of: name)?.capitalized,
-                            !self.sectionTitles.contains(title) {
-                            self.sectionTitles.append(title)
-                            realmCopySectionTitles.append(title)
-                        }
-                    }
-                }
                 DispatchQueue.main.async { [weak self] in
                     self?.dataFetchDelegate?.didEndFetch()
                 }
@@ -118,7 +96,11 @@ extension ExerciseDataModel {
                 }
                 self.isFirstTimeLoad = false
 
-                // Updating realm again in case the user adds any exercises while the original exercises array is still being written to realm
+                /*
+                 Updating realm again in case the user adds
+                 any exercises while the original exercises
+                 array is still being written to realm
+                 */
                 DispatchQueue.main.async {
                     let updatedExercisesList = List<Exercise>()
                     updatedExercisesList.append(objectsIn: self.exercises)
@@ -130,6 +112,37 @@ extension ExerciseDataModel {
         }
     }
 
+    private func readExercises(exercises: [String],
+                               realmCopyExercises: inout List<Exercise>,
+                               realmCopySectionTitles: inout List<String>) {
+        // Prevents reading the empty line at EOF
+        for exercise in exercises where !exercise.isEmpty {
+            let exerciseSplitList = exercise.split(separator: ":")
+            let name = String(exerciseSplitList[0])
+            let groups =  String(exerciseSplitList[1])
+
+            let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
+            let realmCopyExercise = Exercise(name: newExercise.name,
+                                             groups: newExercise.groups,
+                                             instructions: newExercise.instructions,
+                                             tips: newExercise.tips,
+                                             imagesData: newExercise.imagesData,
+                                             isUserMade: newExercise.isUserMade,
+                                             weightType: newExercise.weightType,
+                                             sets: newExercise.sets,
+                                             exerciseDetails: newExercise.exerciseDetails)
+            self.firstTimeLoadExercises.append(newExercise)
+            realmCopyExercises.append(realmCopyExercise)
+
+            if let title = self.getFirstCharacter(of: name)?.capitalized,
+                !self.sectionTitles.contains(title) {
+                self.sectionTitles.append(title)
+                realmCopySectionTitles.append(title)
+            }
+        }
+    }
+
+    //swiftlint:disable:next cyclomatic_complexity
     private func createExerciseFromStorage(name: String, groups: String) -> Exercise {
         let lowercased = name.lowercased().replacingOccurrences(of: "/", with: "_")
         let exerciseFolderPathString = "Workout Info/\(lowercased)"
@@ -140,6 +153,7 @@ extension ExerciseDataModel {
         }
 
         // Creating exercise name folder path
+        //swiftlint:disable:next line_length
         let exerciseFolderPath = URL(fileURLWithPath: resourcePath).appendingPathComponent(exerciseFolderPathString).path
         guard let contents = try? FileManager().contentsOfDirectory(atPath: exerciseFolderPath) else {
             fatalError("Couldn't get contents for exercise: \(name)")
@@ -153,10 +167,11 @@ extension ExerciseDataModel {
             if content.contains(".txt") {
                 // Creating a file path for each file name in the exercise name folder
                 // ex: /ab roller crunch/ab roller crunch_0.png
+                //swiftlint:disable:next line_length
                 let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(content).path
 
                 // Getting the data from that file
-                guard let data = FileManager().contents(atPath: contentFilePath) else{
+                guard let data = FileManager().contents(atPath: contentFilePath) else {
                     fatalError("Couldn't get text data for exercise: \(name)")
                 }
 
@@ -164,15 +179,13 @@ extension ExerciseDataModel {
                 let rawText = (String(data: data, encoding: .utf8) ?? "").components(separatedBy: "\n")
                 var formattedText = ""
                 // Looping through raw text to add 2 new line vertical spacing between each line of text
-                for (index, line) in rawText.enumerated() {
-                    // Ignoring the last line that's empty
-                    if !line.isEmpty {
-                        // The last line should only get 1 new line vertical spacing
-                        if index < rawText.count - 2 {
-                            formattedText.append("\(line)\n\n")
-                        } else {
-                            formattedText.append("\(line)\n")
-                        }
+                // Ignoring the last line that's empty
+                for (index, line) in rawText.enumerated() where !line.isEmpty {
+                    // The last line should only get 1 new line vertical spacing
+                    if index < rawText.count - 2 {
+                        formattedText.append("\(line)\n\n")
+                    } else {
+                        formattedText.append("\(line)\n")
                     }
                 }
 
@@ -192,9 +205,10 @@ extension ExerciseDataModel {
         // Getting image data and appending it to imagesData array
         // Can't store data as [UIImage] because [UIImage] doesn't conform to Codable
         for imageName in imageFileNames {
+            //swiftlint:disable:next line_length
             let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(imageName).path
 
-            guard let data = FileManager().contents(atPath: contentFilePath) else{
+            guard let data = FileManager().contents(atPath: contentFilePath) else {
                 fatalError("Couldn't get image data for exercise: \(name)")
             }
 
@@ -222,7 +236,7 @@ extension ExerciseDataModel {
         }
 
         let key: String
-        if searchResults.count == 0 {
+        if searchResults.isEmpty {
             key = sectionTitles[section]
         } else {
             key = searchResults
@@ -334,7 +348,10 @@ extension ExerciseDataModel {
         }
     }
 
-    func update(_ currentName: String, exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func update(_ currentName: String,
+                exercise: Exercise,
+                success: (() -> Void)? = nil,
+                fail: (() -> Void)? = nil) {
         guard let newName = exercise.name,
             let index = index(of: currentName) else {
             fail?()
@@ -379,7 +396,9 @@ extension ExerciseDataModel {
         }
     }
 
-    private func updateSearchResultsWithExercise(name: String = "", newExercise: Exercise = Exercise(), action: SearchResultsAction) {
+    private func updateSearchResultsWithExercise(name: String = "",
+                                                 newExercise: Exercise = Exercise(),
+                                                 action: SearchResultsAction) {
         guard !searchResults.isEmpty else {
             return
         }

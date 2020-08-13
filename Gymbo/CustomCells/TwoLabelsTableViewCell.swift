@@ -59,7 +59,7 @@ extension TwoLabelsTableViewCell: ViewAdding {
 
             bottomLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             bottomLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            bottomLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            bottomLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }
@@ -77,4 +77,3 @@ extension TwoLabelsTableViewCell {
         bottomLabel.text = bottomText
     }
 }
-

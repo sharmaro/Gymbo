@@ -23,7 +23,15 @@ import RealmSwift
     dynamic var sets = 1
     let exerciseDetails = List<ExerciseDetails>()
 
-    convenience init(name: String? = nil, groups: String? = nil, instructions: String? = nil, tips: String? = nil, imagesData: List<Data> = List<Data>(), isUserMade: Bool = false, weightType: Int = 0, sets: Int = 1, exerciseDetails: List<ExerciseDetails> = List<ExerciseDetails>()) {
+    convenience init(name: String? = nil,
+                     groups: String? = nil,
+                     instructions: String? = nil,
+                     tips: String? = nil,
+                     imagesData: List<Data> = List<Data>(),
+                     isUserMade: Bool = false,
+                     weightType: Int = 0,
+                     sets: Int = 1,
+                     exerciseDetails: List<ExerciseDetails> = List<ExerciseDetails>()) {
         self.init()
 
         self.name = name
@@ -42,8 +50,13 @@ import RealmSwift
             self.exerciseDetails.append(exerciseDetails)
         } else {
             for exerciseDetail in exerciseDetails {
-                // Creating a new instance of ExericseDetails so nothing is copied from Realm when adding new sessions
-                let newExerciseDetail = ExerciseDetails(last: exerciseDetail.last, reps: exerciseDetail.reps, weight: exerciseDetail.weight)
+                /*
+                 Creating a new instance of ExericseDetails so nothing is
+                 copied from Realm when adding new sessions
+                 */
+                let newExerciseDetail = ExerciseDetails(last: exerciseDetail.last,
+                                                        reps: exerciseDetail.reps,
+                                                        weight: exerciseDetail.weight)
                 self.exerciseDetails.append(newExerciseDetail)
             }
         }
