@@ -266,7 +266,6 @@ extension SessionsCollectionViewController: UICollectionViewDragDelegate {
         let itemProvider = NSItemProvider(object: session)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         dragItem.localObject = session
-
         return [dragItem]
     }
 
@@ -307,11 +306,8 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
         case .move:
             let items = coordinator.items
             for item in items {
-                guard let sourceIndexPath = item.sourceIndexPath else {
-                    return
-                }
-
-                guard let fromSession = sessionDataModel.session(for: sourceIndexPath.row) else {
+                guard let sourceIndexPath = item.sourceIndexPath,
+                    let fromSession = sessionDataModel.session(for: sourceIndexPath.row) else {
                     return
                 }
 

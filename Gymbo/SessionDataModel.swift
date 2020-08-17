@@ -12,11 +12,12 @@ import RealmSwift
 class SessionDataModel: NSObject {
     static let shared = SessionDataModel()
 
-    private var realm = try? Realm()
+    private var realm: Realm? {
+        try? Realm()
+    }
+
     private var sessionsList: SessionsList? {
-        didSet {
-            dataFetchDelegate?.didEndFetch()
-        }
+        realm?.objects(SessionsList.self).first
     }
 
     var count: Int {
@@ -43,7 +44,26 @@ extension SessionDataModel {
     func fetchData() {
         printConfigFileLocation()
         dataFetchDelegate?.didBeginFetch()
-        sessionsList = realm?.objects(SessionsList.self).first
+
+        // Add a sample session for first time downloads
+        if User.isFirstTimeLoad {
+            let sampleExercise = Exercise(name: "Sample Exercise",
+                                          groups: "sample groups",
+                                          instructions: "Sample Instructions",
+                                          tips: "Sample Tips",
+                                          isUserMade: true,
+                                          weightType: WeightType.lbs.rawValue)
+            let sampleExerciseList = List<Exercise>()
+            sampleExerciseList.append(sampleExercise)
+            let sampleSession = Session(name: "Sample", info: "Sample Info", exercises: sampleExerciseList)
+
+            let list = SessionsList()
+            list.sessions.append(sampleSession)
+            try? realm?.write {
+                realm?.add(list)
+            }
+        }
+        dataFetchDelegate?.didEndFetch()
     }
 
     private func removeAllRealmData() {
@@ -98,26 +118,17 @@ extension SessionDataModel {
     }
 
     func create(session: Session, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
-        if let list = sessionsList {
-            guard !list.sessions.contains(where: {
-                $0.name == session.name
-            }) else {
-                fail?()
-                return
-            }
+        guard let list = sessionsList,
+            !list.sessions.contains(where: {
+            $0.name == session.name
+        }) else {
+            fail?()
+            return
+        }
 
-            try? realm?.write {
-                list.sessions.append(session)
-                success?()
-            }
-        } else {
-            let list = SessionsList()
+        try? realm?.write {
             list.sessions.append(session)
-            try? realm?.write {
-                realm?.add(list)
-                sessionsList = list
-                success?()
-            }
+            success?()
         }
     }
 
