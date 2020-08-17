@@ -230,10 +230,10 @@ extension SessionsCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard dataState == .notEditing,
             let selectedSession = sessionDataModel.session(for: indexPath.row) else {
-                Haptic.shared.sendNotificationFeedback(.warning)
+                Haptic.sendNotificationFeedback(.warning)
                 return
         }
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
 
         let sessionPreviewViewController = SessionPreviewViewController()
         sessionPreviewViewController.session = selectedSession
@@ -376,7 +376,7 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
         let sessionName = sessionDataModel.sessionName(for: index)
         presentCustomAlert(title: "Delete Session",
                            content: "Are you sure you want to delete \(sessionName)?") { [weak self] in
-            Haptic.shared.sendImpactFeedback(.heavy)
+            Haptic.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
                 UIView.animate(withDuration: .defaultAnimationTime,
                                delay: 0.0,

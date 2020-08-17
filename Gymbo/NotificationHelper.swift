@@ -11,15 +11,13 @@ import UserNotifications
 
 // MARK: - Properties
 class NotificationHelper: NSObject {
-    static let shared = NotificationHelper()
-
-    private let notificationCenter = UNUserNotificationCenter.current()
-    private let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+    private static let notificationCenter = UNUserNotificationCenter.current()
+    private static let options: UNAuthorizationOptions = [.alert, .sound, .badge]
 
     override init() {
         super.init()
 
-        notificationCenter.delegate = self
+        NotificationHelper.notificationCenter.delegate = self
     }
 }
 
@@ -32,12 +30,12 @@ private extension NotificationHelper {
 
 // MARK: - Funcs
 extension NotificationHelper {
-    func requestPermission() {
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] (settings) in
-            guard let self = self else { return }
+    static func requestPermission() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
 
             if settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .denied {
-                self.notificationCenter.requestAuthorization(options: self.options) { (didAllow, _) in
+                NotificationHelper.notificationCenter.requestAuthorization(
+                options: NotificationHelper.options) { (didAllow, _) in
                     if didAllow {
                         print("User accepted notifications :)")
                     } else {
@@ -48,7 +46,7 @@ extension NotificationHelper {
         }
     }
 
-    func sendNotification() {
+    static func sendNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Title"
         content.subtitle = "Subtitle"
@@ -70,11 +68,11 @@ extension NotificationHelper {
         }
     }
 
-    func removeAllPendingNotificationRequests() {
+    static func removeAllPendingNotificationRequests() {
         notificationCenter.removeAllPendingNotificationRequests()
     }
 
-    func clearBadgeNumber() {
+    static func clearBadge() {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
 }

@@ -460,12 +460,12 @@ extension StartSessionTableViewController {
     }
 
     @objc private func finishButtonTapped() {
-        Haptic.shared.sendImpactFeedback(.heavy)
+        Haptic.sendImpactFeedback(.heavy)
         presentCustomAlert(title: "Finish Session",
                            content: "Do you want to finish the session?",
                            leftButtonTitle: "No",
                            rightButtonTitle: "Yes") { [weak self] in
-            Haptic.shared.sendImpactFeedback(.heavy)
+            Haptic.sendImpactFeedback(.heavy)
             if let session = self?.session {
                 for exercise in session.exercises {
                     for detail in exercise.exerciseDetails {
@@ -498,7 +498,7 @@ extension StartSessionTableViewController {
         updateDelegate?.update()
 
         if restTimeRemaining == 0 {
-            Haptic.shared.sendNotificationFeedback(.success)
+            Haptic.sendNotificationFeedback(.success)
             ended()
         }
     }
@@ -563,7 +563,7 @@ extension StartSessionTableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "Delete") { [weak self] _, _, completion in
-            Haptic.shared.sendImpactFeedback(.medium)
+            Haptic.sendImpactFeedback(.medium)
             try? self?.realm?.write {
                 self?.removeSet(indexPath: indexPath)
             }
@@ -619,7 +619,7 @@ extension StartSessionTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         tableView.deselectRow(at: indexPath, animated: false)
 
         guard let exerciseDetailCell = tableView.cellForRow(
@@ -640,7 +640,7 @@ extension StartSessionTableViewController {
 // MARK: - ExerciseHeaderCellDelegate
 extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
     func deleteButtonTapped(cell: ExerciseHeaderTableViewCell) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
         }
@@ -654,7 +654,7 @@ extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
     }
 
     func weightButtonTapped(cell: ExerciseHeaderTableViewCell) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
@@ -665,7 +665,7 @@ extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
     }
 
     func doneButtonTapped(cell: ExerciseHeaderTableViewCell) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
         }
@@ -719,7 +719,7 @@ extension StartSessionTableViewController: ExerciseDetailTableViewCellDelegate {
 // MARK: - ButtonTableViewCellDelegate
 extension StartSessionTableViewController: ButtonTableViewCellDelegate {
     func buttonTapped(cell: ButtonTableViewCell) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section,
               let session = session else {
             return
@@ -780,12 +780,12 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
     }
 
     func cancelSession() {
-        Haptic.shared.sendImpactFeedback(.heavy)
+        Haptic.sendImpactFeedback(.heavy)
         presentCustomAlert(title: "Cancel Session",
                            content: "Do you want to cancel the session?",
                            leftButtonTitle: "No",
                            rightButtonTitle: "Yes") { [weak self] in
-            Haptic.shared.sendImpactFeedback(.heavy)
+            Haptic.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
                 self?.dismissAsChildViewController()
             }

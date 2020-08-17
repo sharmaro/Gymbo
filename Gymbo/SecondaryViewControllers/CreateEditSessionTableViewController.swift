@@ -288,7 +288,7 @@ extension CreateEditSessionTableViewController {
         view.endEditing(true)
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "Delete") { [weak self] _, _, completion in
-            Haptic.shared.sendImpactFeedback(.medium)
+            Haptic.sendImpactFeedback(.medium)
             if self?.sessionState == .create {
                 self?.removeSet(indexPath: indexPath)
             } else {
@@ -334,7 +334,7 @@ extension CreateEditSessionTableViewController {
 // MARK: - ExerciseHeaderCellDelegate
 extension CreateEditSessionTableViewController: ExerciseHeaderCellDelegate {
     func deleteButtonTapped(cell: ExerciseHeaderTableViewCell) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
         }
@@ -350,7 +350,7 @@ extension CreateEditSessionTableViewController: ExerciseHeaderCellDelegate {
     }
 
     func weightButtonTapped(cell: ExerciseHeaderTableViewCell) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
@@ -415,7 +415,7 @@ extension CreateEditSessionTableViewController: ExerciseDetailTableViewCellDeleg
 // MARK: - ButtonTableViewCellDelegate
 extension CreateEditSessionTableViewController: ButtonTableViewCellDelegate {
     func buttonTapped(cell: ButtonTableViewCell) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         guard let section = tableView.indexPath(for: cell)?.section else {
             return
         }

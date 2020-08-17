@@ -192,7 +192,7 @@ extension SessionPreviewViewController {
     }
 
     @objc private func startSessionButtonTapped(_ sender: Any) {
-        Haptic.shared.sendImpactFeedback(.heavy)
+        Haptic.sendImpactFeedback(.heavy)
         dismiss(animated: true)
         sessionProgressDelegate?.sessionDidStart(session)
     }

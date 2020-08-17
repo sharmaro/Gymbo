@@ -154,7 +154,7 @@ extension MultipleSelectionTableViewCell: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDelegate
 extension MultipleSelectionTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         guard let selectionCollectionViewCell = collectionView.cellForItem(
             at: indexPath) as? SelectionCollectionViewCell else {
             return
@@ -166,7 +166,7 @@ extension MultipleSelectionTableViewCell: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         guard let selectionCollectionViewCell = collectionView.cellForItem(
             at: indexPath) as? SelectionCollectionViewCell else {
             return

@@ -10,24 +10,23 @@ import UIKit
 
 // MARK: - Properties
 struct Haptic {
-    static let shared = Haptic()
 }
 
 // MARK: - Funcs
 extension Haptic {
-    func sendNotificationFeedback(_ style: UINotificationFeedbackGenerator.FeedbackType) {
+    static func sendNotificationFeedback(_ style: UINotificationFeedbackGenerator.FeedbackType) {
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(style)
     }
 
-    func sendImpactFeedback(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
+    static func sendImpactFeedback(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: style)
         impactFeedbackGenerator.prepare()
         impactFeedbackGenerator.impactOccurred()
     }
 
-    func sendSelectionFeedback() {
+    static func sendSelectionFeedback() {
         let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
         selectionFeedbackGenerator.prepare()
         selectionFeedbackGenerator.selectionChanged()

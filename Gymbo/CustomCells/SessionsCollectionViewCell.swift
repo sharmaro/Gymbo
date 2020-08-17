@@ -157,7 +157,7 @@ extension SessionsCollectionViewCell {
     }
 
     @objc private func deleteButtonTapped(_ sender: Any) {
-        Haptic.shared.sendImpactFeedback(.heavy)
+        Haptic.sendImpactFeedback(.heavy)
         sessionsCollectionViewCellDelegate?.delete(cell: self)
     }
 }

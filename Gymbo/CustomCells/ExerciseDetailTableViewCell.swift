@@ -200,7 +200,7 @@ extension ExerciseDetailTableViewCell {
     }
 
     @objc private func doneButtonTapped(_ sender: Any) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         didSelect.toggle()
     }
 }

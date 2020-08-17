@@ -267,7 +267,7 @@ extension ExercisesViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
-        Haptic.shared.sendImpactFeedback(.medium)
+        Haptic.sendImpactFeedback(.medium)
         saveExercise()
         dismiss(animated: true)
     }
@@ -338,7 +338,7 @@ extension ExercisesViewController: UITableViewDataSource {
             self?.sessionDataModel.removeInstancesOfExercise(name: exerciseName)
             self?.exerciseDataModel.removeExercise(named: exerciseName)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            Haptic.shared.sendImpactFeedback(.medium)
+            Haptic.sendImpactFeedback(.medium)
             completion(true)
         }
         deleteAction.backgroundColor = .systemRed
@@ -379,7 +379,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         switch presentationStyle {
         case .normal:
             tableView.deselectRow(at: indexPath, animated: true)
@@ -406,7 +406,7 @@ extension ExercisesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        Haptic.shared.sendSelectionFeedback()
+        Haptic.sendSelectionFeedback()
         guard presentationStyle != .normal,
             let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
