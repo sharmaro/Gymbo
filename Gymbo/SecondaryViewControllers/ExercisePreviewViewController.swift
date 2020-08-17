@@ -108,8 +108,6 @@ extension ExercisePreviewViewController: ViewAdding {
                            forCellReuseIdentifier: SwipableImageViewTableViewCell.reuseIdentifier)
         tableView.register(LabelTableViewCell.self,
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
-        tableView.register(LabelTableViewCell.self,
-                           forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
 
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }

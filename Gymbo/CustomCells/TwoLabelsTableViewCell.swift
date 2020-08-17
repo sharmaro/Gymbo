@@ -43,7 +43,7 @@ class TwoLabelsTableViewCell: UITableViewCell {
 // MARK: - ViewAdding
 extension TwoLabelsTableViewCell: ViewAdding {
     func addViews() {
-        add(subviews: [topLabel, bottomLabel])
+        contentView.add(subviews: [topLabel, bottomLabel])
     }
 
     func setupViews() {
