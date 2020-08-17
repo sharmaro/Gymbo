@@ -11,7 +11,8 @@ import RealmSwift
 
 // MARK: - Properties
 class SessionsCollectionViewController: UICollectionViewController {
-    private let sessionDataModel = SessionDataModel.shared
+    private let sessionDataModel = SessionDataModel()
+
     private var dataState: DataState = .notEditing {
         didSet {
             let itemType: UIBarButtonItem.SystemItem = dataState == .editing ? .done : .edit

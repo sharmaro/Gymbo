@@ -31,11 +31,13 @@ class ExercisesViewController: UIViewController {
         return button
     }()
 
+    private let sessionDataModel = SessionDataModel()
+
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
 
     private var didViewAppear = false
 
-    private let exerciseDataModel = ExerciseDataModel.shared
+    private let exerciseDataModel = ExerciseDataModel()
     private var selectedExerciseNamesAndIndices = [String: Int]()
     private var selectedExerciseNames = [String]()
 
@@ -333,7 +335,7 @@ extension ExercisesViewController: UITableViewDataSource {
 
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "Delete") { [weak self] _, _, completion in
-            SessionDataModel.shared.removeInstancesOfExercise(name: exerciseName)
+            self?.sessionDataModel.removeInstancesOfExercise(name: exerciseName)
             self?.exerciseDataModel.removeExercise(named: exerciseName)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             Haptic.shared.sendImpactFeedback(.medium)

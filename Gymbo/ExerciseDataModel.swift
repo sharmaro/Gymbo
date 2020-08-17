@@ -10,8 +10,6 @@ import RealmSwift
 
 // MARK: - Properties
 class ExerciseDataModel: NSObject {
-    static let shared = ExerciseDataModel()
-
     private var realm: Realm? {
         try? Realm()
     }

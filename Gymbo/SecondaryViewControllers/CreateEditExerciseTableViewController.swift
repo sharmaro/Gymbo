@@ -22,7 +22,7 @@ class CreateEditExerciseTableViewController: UITableViewController {
                                          .muscleGroups, .imagesTitle, .images,
                                          .instructionsTitle, .instructions, .tipsTitle, .tips]
 
-    private let exerciseDataModel = ExerciseDataModel.shared
+    private let exerciseDataModel = ExerciseDataModel()
 
     // Data stored from cell inputs
     private var exerciseName = ""

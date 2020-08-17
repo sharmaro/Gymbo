@@ -36,6 +36,7 @@ class ExercisePreviewViewController: UIViewController {
         return button
     }()
 
+    private let exerciseDataModel = ExerciseDataModel()
     private var exercise: Exercise
 
     private let tableData: [TableRow] = [ .title, .imagesTitle, .images, .instructionsTitle,
@@ -272,7 +273,7 @@ extension ExercisePreviewViewController: ExerciseDataModelDelegate {
                 exercise: Exercise,
                 success: @escaping (() -> Void),
                 fail: @escaping (() -> Void)) {
-        ExerciseDataModel.shared.update(currentName, exercise: exercise, success: { [weak self] in
+        exerciseDataModel.update(currentName, exercise: exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
                 self?.exercise = exercise

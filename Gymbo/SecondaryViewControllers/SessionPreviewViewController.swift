@@ -29,9 +29,9 @@ class SessionPreviewViewController: UIViewController {
         return button
     }()
 
-    var session: Session?
+    private let sessionDataModel = SessionDataModel()
 
-    private let sessionDataModelManager = SessionDataModel.shared
+    var session: Session?
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
 }
@@ -230,7 +230,7 @@ extension SessionPreviewViewController: SessionDataModelDelegate {
                 session: Session,
                 success: @escaping (() -> Void),
                 fail: @escaping (() -> Void)) {
-        SessionDataModel.shared.update(currentName, session: session, success: { [weak self] in
+        sessionDataModel.update(currentName, session: session, success: { [weak self] in
             success()
             self?.session = session
             DispatchQueue.main.async {

@@ -10,8 +10,6 @@ import RealmSwift
 
 // MARK: - Properties
 class SessionDataModel: NSObject {
-    static let shared = SessionDataModel()
-
     private var realm: Realm? {
         try? Realm()
     }
