@@ -63,8 +63,8 @@ extension ExerciseDataModel {
                 self.sectionTitles =
                     Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
 
-                DispatchQueue.main.async { [weak self] in
-                    self?.dataFetchDelegate?.didEndFetch()
+                DispatchQueue.main.async {
+                    self.dataFetchDelegate?.didEndFetch()
                 }
             } else {
                 let fileName = "all_workouts"
@@ -83,8 +83,8 @@ extension ExerciseDataModel {
                                    realmCopyExercises: &realmCopyExercises,
                                    realmCopySectionTitles: &realmCopySectionTitles)
 
-                DispatchQueue.main.async { [weak self] in
-                    self?.dataFetchDelegate?.didEndFetch()
+                DispatchQueue.main.async {
+                    self.dataFetchDelegate?.didEndFetch()
                 }
 
                 let exercisesList = ExercisesList()
