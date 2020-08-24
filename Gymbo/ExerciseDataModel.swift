@@ -55,17 +55,18 @@ extension ExerciseDataModel {
             self?.dataFetchDelegate?.didBeginFetch()
         }
 
-        if realm?.objects(ExercisesList.self).first != nil {
-            isFirstTimeLoad = false
-            sectionTitles = Array(realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
 
-            DispatchQueue.main.async { [weak self] in
-                self?.dataFetchDelegate?.didEndFetch()
-            }
-        } else {
-            DispatchQueue.global(qos: .background).async { [weak self] in
-                guard let self = self else { return }
+            if self.realm?.objects(ExercisesList.self).first != nil {
+                self.isFirstTimeLoad = false
+                self.sectionTitles =
+                    Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
 
+                DispatchQueue.main.async { [weak self] in
+                    self?.dataFetchDelegate?.didEndFetch()
+                }
+            } else {
                 let fileName = "all_workouts"
                 let fileType = "txt"
                 guard let filePath = Bundle.main.path(forResource: fileName, ofType: fileType),
