@@ -10,11 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class ButtonTableViewCell: UITableViewCell {
-    private let button: CustomButton = {
-        let button = CustomButton()
-        button.titleLabel?.font = .normal
-        return button
-    }()
+    private let button = CustomButton()
 
     var isButtonInteractable: Bool = true {
         didSet {
@@ -54,7 +50,7 @@ extension ButtonTableViewCell: ViewAdding {
             button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
         ])
     }
 }
@@ -75,9 +71,13 @@ extension ButtonTableViewCell {
                    font: UIFont = .normal,
                    titleColor: UIColor = .black,
                    backgroundColor: UIColor = .systemBlue,
-                   cornerStyle: CornerStyle = .none) {
+                   cornerStyle: CornerStyle = .none,
+                   shouldAddShadow: Bool = true) {
         button.title = title
         button.add(backgroundColor: backgroundColor, titleColor: titleColor)
         button.addCorner(style: cornerStyle)
+        if shouldAddShadow {
+            button.addShadow(direction: .down)
+        }
     }
 }

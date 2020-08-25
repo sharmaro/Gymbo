@@ -92,15 +92,8 @@ extension SessionsCollectionViewCell: ViewAdding {
 
     func setupViews() {
         backgroundColor = .white
-        // Can't set layer.clipsToBounds to true without messing up shadow
         layer.addCorner(style: .small)
         addBorder(1, color: .lightGray)
-
-        contentView.backgroundColor = .white
-        // Need to do this because can't set layer.clipsToBounds to true
-        contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .clear)
-        contentView.clipsToBounds = true
 
         addShadow(direction: .downRight)
 

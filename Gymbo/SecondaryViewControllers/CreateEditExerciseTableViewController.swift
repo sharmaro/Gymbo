@@ -15,6 +15,7 @@ class CreateEditExerciseTableViewController: UITableViewController {
         let button = CustomButton()
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         return button
     }()
 
@@ -47,7 +48,7 @@ private extension CreateEditExerciseTableViewController {
         static let inactiveAlpha = CGFloat(0.3)
         static let muscleGroupsCellHeight = CGFloat(150)
         static let imagesCellHeight = CGFloat(100)
-        static let tableViewFooterHeight = CGFloat(55)
+        static let tableViewFooterHeight = CGFloat(60)
     }
 
     enum TableRow: String {

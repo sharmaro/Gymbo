@@ -50,7 +50,7 @@ extension UIView {
         ])
     }
 
-    func addShadow(direction: ShadowDirection) {
+    func addShadow(direction: Direction) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowRadius = 2
@@ -216,5 +216,23 @@ extension UIView {
     func addBorder(_ width: CGFloat = 1, color: UIColor = .black) {
         layer.borderWidth = width
         layer.borderColor = color.cgColor
+    }
+
+    func addGradient(axis: Axis = .horizontal, colors: [UIColor]) {
+        layer.masksToBounds = true
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = colors.map { $0.cgColor }
+        switch axis {
+        case .horizontal:
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        case .vertical:
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        }
+        gradientLayer.addCorner(style: .small)
+        layer.insertSublayer(gradientLayer, at: 0)
     }
 }

@@ -29,7 +29,7 @@ private extension CreateEditSessionTableViewController {
     struct Constants {
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
-        static let buttonCellHeight = CGFloat(55)
+        static let buttonCellHeight = CGFloat(65)
 
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"

@@ -33,6 +33,9 @@
 		6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */; };
 		6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */; };
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
+		696664FB24F37FD70049507A /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FA24F37FD70049507A /* Axis.swift */; };
+		696664FD24F3812A0049507A /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FC24F3812A0049507A /* Gradient.swift */; };
+		696664FF24F381C50049507A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FE24F381C50049507A /* Color.swift */; };
 		69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */; };
 		69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE8247D07CE00E87133 /* SelectionCollectionViewCell.swift */; };
 		69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */; };
@@ -54,7 +57,7 @@
 		6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */; };
 		6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */; };
 		6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */; };
-		6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3EB249F236700479E91 /* ShadowDirection.swift */; };
+		6972E3EC249F236700479E91 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3EB249F236700479E91 /* Direction.swift */; };
 		6972E3EE249F237C00479E91 /* CornerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3ED249F237C00479E91 /* CornerStyle.swift */; };
 		6972E3F0249F244200479E91 /* PresentationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3EF249F244200479E91 /* PresentationStyle.swift */; };
 		6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3F1249F246E00479E91 /* ExerciseState.swift */; };
@@ -146,6 +149,9 @@
 		6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewController.swift; sourceTree = "<group>"; };
 		6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExercisesHeaderFooterView.swift; path = Gymbo/CustomViews/ExercisesHeaderFooterView.swift; sourceTree = SOURCE_ROOT; };
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		696664FA24F37FD70049507A /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
+		696664FC24F3812A0049507A /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
+		696664FE24F381C50049507A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTableViewCell.swift; sourceTree = "<group>"; };
 		69693CE8247D07CE00E87133 /* SelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionTableViewCell.swift; sourceTree = "<group>"; };
@@ -167,7 +173,7 @@
 		6972E3E4249F22C500479E91 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		6972E3E8249F22FF00479E91 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		6972E3EB249F236700479E91 /* ShadowDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowDirection.swift; sourceTree = "<group>"; };
+		6972E3EB249F236700479E91 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		6972E3ED249F237C00479E91 /* CornerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerStyle.swift; sourceTree = "<group>"; };
 		6972E3EF249F244200479E91 /* PresentationStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationStyle.swift; sourceTree = "<group>"; };
 		6972E3F1249F246E00479E91 /* ExerciseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseState.swift; sourceTree = "<group>"; };
@@ -463,15 +469,16 @@
 		6972E3EA249F234D00479E91 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				696664FA24F37FD70049507A /* Axis.swift */,
 				6972E3F5249F24DD00479E91 /* ButtonFunction.swift */,
 				6972E3ED249F237C00479E91 /* CornerStyle.swift */,
+				6972E3EB249F236700479E91 /* Direction.swift */,
 				6972E3F1249F246E00479E91 /* ExerciseState.swift */,
 				6972E3F7249F254800479E91 /* ImageType.swift */,
 				69A7392224CAB69E00AAD965 /* OnboardingPage.swift */,
 				6972E3EF249F244200479E91 /* PresentationStyle.swift */,
 				6972E42B249F2EBF00479E91 /* SessionDetailType.swift */,
 				6972E3F3249F24A800479E91 /* SessionState.swift */,
-				6972E3EB249F236700479E91 /* ShadowDirection.swift */,
 				6972E3F9249F257700479E91 /* TextFieldType.swift */,
 				6972E3FB249F25A100479E91 /* Transform.swift */,
 				6957604F24BED49100A97F09 /* WeightType.swift */,
@@ -482,7 +489,9 @@
 		6972E426249F2E0900479E91 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
+				696664FE24F381C50049507A /* Color.swift */,
 				6972E41E249F2BA100479E91 /* CustomBounds.swift */,
+				696664FC24F3812A0049507A /* Gradient.swift */,
 				6972E42E24A029E000479E91 /* Haptic.swift */,
 				6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */,
 				69A7392424CABE3600AAD965 /* User.swift */,
@@ -659,6 +668,7 @@
 				6972E3D2249F209900479E91 /* Int+Extension.swift in Sources */,
 				6972E42A249F2E3D00479E91 /* Utility.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */,
+				696664FD24F3812A0049507A /* Gradient.swift in Sources */,
 				6972E42F24A029E000479E91 /* Haptic.swift in Sources */,
 				69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */,
@@ -722,6 +732,7 @@
 				6972E413249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				695070972497528200942078 /* Exercise.swift in Sources */,
+				696664FF24F381C50049507A /* Color.swift in Sources */,
 				69695699245013C3007FADC2 /* StartSessionTableViewController.swift in Sources */,
 				695070952497525E00942078 /* SessionsList.swift in Sources */,
 				695D4BE322CB28B800E3FB1F /* AppDelegate.swift in Sources */,
@@ -735,9 +746,10 @@
 				6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */,
 				6972E40A249F28AB00479E91 /* ButtonTableViewCellDelegate.swift in Sources */,
 				6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */,
-				6972E3EC249F236700479E91 /* ShadowDirection.swift in Sources */,
+				6972E3EC249F236700479E91 /* Direction.swift in Sources */,
 				6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */,
 				69A7392124CAA37A00AAD965 /* OnboardingViewController.swift in Sources */,
+				696664FB24F37FD70049507A /* Axis.swift in Sources */,
 				6972E428249F2E1A00479E91 /* UserDefaultKeys.swift in Sources */,
 				6957605024BED49100A97F09 /* WeightType.swift in Sources */,
 				6972E3DF249F223000479E91 /* CALayer+Extension.swift in Sources */,

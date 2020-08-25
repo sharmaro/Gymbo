@@ -84,8 +84,8 @@ private extension StartSessionTableViewController {
 
         static let exerciseHeaderCellHeight = CGFloat(59)
         static let exerciseDetailCellHeight = CGFloat(40)
-        static let buttonCellHeight = CGFloat(55)
-        static let tableFooterViewHeight = CGFloat(110)
+        static let buttonCellHeight = CGFloat(65)
+        static let tableFooterViewHeight = CGFloat(120)
         static let defaultYOffset = CGFloat(60)
 
         static let barButtonSize = CGSize(width: 80, height: 30)

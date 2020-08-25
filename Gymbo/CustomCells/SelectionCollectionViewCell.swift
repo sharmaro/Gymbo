@@ -10,16 +10,22 @@ import UIKit
 
 // MARK: - Properties
 class SelectionCollectionViewCell: UICollectionViewCell {
+    private var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Constants.dimmedBlack
+        view.addCorner(style: .small)
+        return view
+    }()
+
     private let selectionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemBlue
         label.textAlignment = .center
-        label.backgroundColor = Constants.dimmedBlack
+        label.backgroundColor = .clear
         label.font = .normal
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.1
         label.adjustsFontSizeToFitWidth = true
-        label.addCorner(style: .small)
         return label
     }()
 
@@ -56,11 +62,13 @@ private extension SelectionCollectionViewCell {
 // MARK: - ViewAdding
 extension SelectionCollectionViewCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [selectionLabel])
+        contentView.add(subviews: [containerView])
+        containerView.add(subviews: [selectionLabel])
     }
 
     func addConstraints() {
-        selectionLabel.autoPinEdges(to: contentView)
+        containerView.autoPinEdges(to: contentView)
+        selectionLabel.autoPinEdges(to: containerView)
     }
 }
 
@@ -91,15 +99,18 @@ extension SelectionCollectionViewCell {
 
     // Invert the title color and background color when selection state changes
     func tapped() {
+        contentView.layoutIfNeeded()
+
         UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
             guard let self = self else { return }
 
             if self.isSelected {
                 self.selectionLabel.textColor = .white
-                self.selectionLabel.backgroundColor = .systemBlue
+                self.containerView.addGradient(colors: [Color.blue, Color.lightGray])
             } else {
                 self.selectionLabel.textColor = .systemBlue
-                self.selectionLabel.backgroundColor = Constants.dimmedBlack
+                self.containerView.backgroundColor = Constants.dimmedBlack
+                self.containerView.layer.sublayers?.removeFirst()
             }
         }
     }

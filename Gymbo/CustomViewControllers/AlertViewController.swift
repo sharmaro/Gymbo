@@ -48,6 +48,7 @@ class AlertViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemRed)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         return button
     }()
 
@@ -57,6 +58,7 @@ class AlertViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         return button
     }()
 

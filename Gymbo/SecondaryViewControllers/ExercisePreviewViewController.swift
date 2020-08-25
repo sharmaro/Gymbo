@@ -33,6 +33,7 @@ class ExercisePreviewViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
+        button.addShadow(direction: .down)
         return button
     }()
 
@@ -86,6 +87,10 @@ extension ExercisePreviewViewController: ViewAdding {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
     }
 
     func addViews() {
@@ -131,7 +136,7 @@ extension ExercisePreviewViewController: ViewAdding {
             viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: -15),
-            viewToUse.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45)
+            viewToUse.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
 }
