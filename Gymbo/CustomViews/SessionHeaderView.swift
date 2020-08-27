@@ -98,7 +98,7 @@ extension SessionHeaderView: ViewAdding {
 
             secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
             secondTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
         ])
     }
 }

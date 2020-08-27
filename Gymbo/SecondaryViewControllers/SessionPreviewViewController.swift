@@ -99,10 +99,10 @@ extension SessionPreviewViewController: ViewAdding {
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
             tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
 
             startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,

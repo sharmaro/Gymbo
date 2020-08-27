@@ -84,10 +84,10 @@ extension CreateEditSessionTableViewController: ViewAdding {
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = tableHeaderView
         NSLayoutConstraint.activate([
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor)
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20)
         ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()

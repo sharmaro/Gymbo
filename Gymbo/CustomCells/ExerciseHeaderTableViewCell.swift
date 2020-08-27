@@ -13,8 +13,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     // Header views
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .blue
-        label.font = .normal
+        label.font = UIFont.medium.bold
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -135,7 +134,7 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
-            nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
+            nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -2),
             nameLabel.heightAnchor.constraint(equalToConstant: 22),
 
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
