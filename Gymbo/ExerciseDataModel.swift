@@ -242,7 +242,7 @@ extension ExerciseDataModel {
         }
 
         return exercises.filter {
-            return $0.name?.hasPrefix(key) ?? false
+            return $0.name?.lowercased().hasPrefix(key.lowercased()) ?? false
         }
     }
 
