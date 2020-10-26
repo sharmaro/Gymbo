@@ -18,6 +18,7 @@ class SessionPreviewViewController: UIViewController {
     }()
 
     private let tableHeaderView = SessionHeaderView()
+    private var didLayoutTableHeaderView = false
 
     private let startSessionButton: CustomButton = {
         let button = CustomButton()
@@ -84,8 +85,14 @@ extension SessionPreviewViewController {
         super.viewDidLayoutSubviews()
 
         // Used for resizing the tableView.headerView when the info text view becomes large enough
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
+        if !didLayoutTableHeaderView {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.tableHeaderView?.layoutIfNeeded()
+                self.tableView.tableHeaderView = self.tableView.tableHeaderView
+            }
+        }
+        didLayoutTableHeaderView = true
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -146,10 +153,8 @@ extension SessionPreviewViewController: ViewAdding {
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20),
+            tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
 
             startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
@@ -162,8 +167,6 @@ extension SessionPreviewViewController: ViewAdding {
                 constant: Constants.startButtonBottomSpacing),
             startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
         ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
     }
 }
 

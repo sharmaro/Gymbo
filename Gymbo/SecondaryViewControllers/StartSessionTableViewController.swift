@@ -29,6 +29,7 @@ class StartSessionTableViewController: UITableViewController {
     }()
 
     private let tableHeaderView = SessionHeaderView()
+    private var didLayoutTableHeaderView = false
     private let tableFooterView = StartSessionFooterView()
 
     var session: Session?
@@ -138,6 +139,26 @@ extension StartSessionTableViewController {
 
         NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Used for resizing the tableView.headerView when the info text view becomes large enough
+        if !didLayoutTableHeaderView {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.tableHeaderView?.layoutIfNeeded()
+                self.tableView.tableHeaderView = self.tableView.tableHeaderView
+            }
+        }
+        didLayoutTableHeaderView = true
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
 }
 
 // MARK: - ViewAdding
@@ -196,15 +217,9 @@ extension StartSessionTableViewController: ViewAdding {
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = tableHeaderView
         NSLayoutConstraint.activate([
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(
-                equalTo: tableView.trailingAnchor,
-                constant: -20)
+            tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor)
         ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
     }
 }
 
