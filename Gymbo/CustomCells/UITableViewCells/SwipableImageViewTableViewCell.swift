@@ -22,8 +22,6 @@ class SwipableImageViewTableViewCell: UITableViewCell {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
         pageControl.alpha = 0.5
-        pageControl.pageIndicatorTintColor = .darkGray
-        pageControl.currentPageIndicatorTintColor = .systemBlue
         return pageControl
     }()
 
@@ -40,6 +38,15 @@ class SwipableImageViewTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension SwipableImageViewTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension SwipableImageViewTableViewCell: ViewAdding {
     func addViews() {
@@ -48,6 +55,13 @@ extension SwipableImageViewTableViewCell: ViewAdding {
 
     func setupViews() {
         horizontalScrollView.delegate = self
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        pageControl.pageIndicatorTintColor = .mainDarkGray
+        pageControl.currentPageIndicatorTintColor = .systemBlue
     }
 
     func addConstraints() {
@@ -71,6 +85,7 @@ extension SwipableImageViewTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

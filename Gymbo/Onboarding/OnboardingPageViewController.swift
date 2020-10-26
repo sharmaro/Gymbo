@@ -22,6 +22,24 @@ class OnboardingPageViewController: UIPageViewController {
     private var pageIndex = 0
 }
 
+// MARK: - UIViewController Var/Funcs
+extension OnboardingPageViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension OnboardingPageViewController: ViewAdding {
     func addViews() {
@@ -29,8 +47,6 @@ extension OnboardingPageViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         dataSource = self
         delegate = self
 
@@ -43,6 +59,10 @@ extension OnboardingPageViewController: ViewAdding {
         pageControl.currentPage = pageIndex
     }
 
+    func setupColors() {
+        view.backgroundColor = .mainWhite
+    }
+
     func addConstraints() {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -50,17 +70,6 @@ extension OnboardingPageViewController: ViewAdding {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: -10)
         ])
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension OnboardingPageViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addViews()
-        setupViews()
-        addConstraints()
     }
 }
 

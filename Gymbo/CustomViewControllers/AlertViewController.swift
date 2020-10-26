@@ -12,14 +12,12 @@ import UIKit
 class AlertViewController: UIViewController {
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         view.addCorner(style: .small)
         return view
     }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         label.textAlignment = .center
         label.font = .large
         label.backgroundColor = .systemBlue
@@ -48,7 +46,6 @@ class AlertViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemRed)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -58,7 +55,6 @@ class AlertViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -69,6 +65,24 @@ class AlertViewController: UIViewController {
     private var rightButtonTitle: String?
     private var leftButtonAction: (() -> Void)?
     private var rightButtonAction: (() -> Void)?
+}
+
+// MARK: - UIViewController Var/Funcs
+extension AlertViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
 }
 
 // MARK: - ViewAdding
@@ -95,6 +109,12 @@ extension AlertViewController: ViewAdding {
 
         leftButton.title = usesBothButtons ? (leftButtonTitle ?? "") : ""
         rightButton.title = rightButtonTitle ?? ""
+    }
+
+    func setupColors() {
+        containerView.backgroundColor = .mainLightGray
+        titleLabel.textColor = .mainWhite
+        contentLabel.textColor = .mainBlack
     }
 
     func addConstraints() {
@@ -127,17 +147,6 @@ extension AlertViewController: ViewAdding {
                        buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
         ])
         buttonsStackView.layoutIfNeeded()
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension AlertViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addViews()
-        setupViews()
-        addConstraints()
     }
 }
 

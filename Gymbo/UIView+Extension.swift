@@ -52,9 +52,9 @@ extension UIView {
 
     func addShadow(direction: Direction) {
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowColor = UIColor.mainDarkGray.cgColor
         layer.shadowRadius = 2
-        layer.shadowOpacity = 1
+        layer.shadowOpacity = 0.6
 
         switch direction {
         case .up:
@@ -77,7 +77,7 @@ extension UIView {
     }
 
     func showShadow() {
-        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowColor = UIColor.mainDarkGray.cgColor
     }
 
     func hideShadow() {

@@ -37,10 +37,25 @@ class StopwatchTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension StopwatchTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension StopwatchTableViewCell: ViewAdding {
     func addViews() {
         contentView.add(subviews: [descriptionLabel, valueLabel])
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        [descriptionLabel, valueLabel].forEach { $0.textColor = $0.textColor }
     }
 
     func addConstraints() {
@@ -61,15 +76,13 @@ extension StopwatchTableViewCell: ViewAdding {
 extension StopwatchTableViewCell {
     private func setup() {
         addViews()
+        setupColors()
         addConstraints()
     }
 
     func configure(descriptionText: String, valueText: String) {
         descriptionLabel.text = descriptionText
         valueLabel.text = valueText
-
-        descriptionLabel.textColor = .black
-        valueLabel.textColor = .black
     }
 
     func checkLapComparison(timeToCheck: Int, fastestTime: Int, slowestTime: Int) {
@@ -80,8 +93,8 @@ extension StopwatchTableViewCell {
             descriptionLabel.textColor = .systemRed
             valueLabel.textColor = .systemRed
         } else {
-            descriptionLabel.textColor = .black
-            valueLabel.textColor = .black
+            descriptionLabel.textColor = .mainBlack
+            valueLabel.textColor = .mainBlack
         }
     }
 }

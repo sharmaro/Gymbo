@@ -15,7 +15,6 @@ class MultipleSelectionTableViewCell: UITableViewCell {
                                               collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.allowsMultipleSelection = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .white
         return collectionView
     }()
 
@@ -48,6 +47,15 @@ private extension MultipleSelectionTableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension MultipleSelectionTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension MultipleSelectionTableViewCell: ViewAdding {
     func addViews() {
@@ -61,6 +69,12 @@ extension MultipleSelectionTableViewCell: ViewAdding {
         collectionView.delegate = self
         collectionView.register(SelectionCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SelectionCollectionViewCell.reuseIdentifier)
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        collectionView.backgroundColor = .mainWhite
     }
 
     func addConstraints() {
@@ -78,6 +92,7 @@ extension MultipleSelectionTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

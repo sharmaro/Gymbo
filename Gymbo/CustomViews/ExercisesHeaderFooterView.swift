@@ -16,7 +16,6 @@ class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
         return label
     }()
 
-    // MARK: - UIView Var/Funcs
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
@@ -30,10 +29,24 @@ class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
     }
 }
 
+// MARK: - UIView Var/Funcs
+extension ExercisesHeaderFooterView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ExercisesHeaderFooterView: ViewAdding {
     func addViews() {
         add(subviews: [label])
+    }
+
+    func setupColors() {
+        backgroundColor = .clear
+        label.textColor = .mainBlack
     }
 
     func addConstraints() {
@@ -50,6 +63,7 @@ extension ExercisesHeaderFooterView: ViewAdding {
 extension ExercisesHeaderFooterView {
     private func setup() {
         addViews()
+        setupColors()
         addConstraints()
     }
 

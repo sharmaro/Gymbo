@@ -32,6 +32,15 @@ class LabelTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension LabelTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension LabelTableViewCell: ViewAdding {
     func addViews() {
@@ -40,6 +49,12 @@ extension LabelTableViewCell: ViewAdding {
 
     func setupViews() {
         selectionStyle = .none
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        detailLabel.textColor = .mainBlack
     }
 
     func addConstraints() {
@@ -57,6 +72,7 @@ extension LabelTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

@@ -97,6 +97,7 @@ extension MainTabBarController {
     }
 }
 
+// MARK: - SessionProgressDelegate
 extension MainTabBarController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         if isSessionInProgress {
@@ -108,10 +109,11 @@ extension MainTabBarController: SessionProgressDelegate {
                                content: "You already have a workout in progress!",
                                usesBothButtons: true,
                                leftButtonTitle: "You're right, I'll finish this one!",
-                               rightButtonTitle: "Start New Workout") { [weak self] in
-                self?.isReplacingSession = true
-                startSessionViewController.dismissAsChildViewController()
-            }
+                               rightButtonTitle: "Start New Workout",
+                               rightButtonAction: { [weak self] in
+                                self?.isReplacingSession = true
+                                startSessionViewController.dismissAsChildViewController()
+                               })
         } else {
             startSession(session)
         }

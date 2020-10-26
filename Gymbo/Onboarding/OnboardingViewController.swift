@@ -26,7 +26,6 @@ class OnboardingViewController: UIViewController {
 
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
         label.textAlignment = .center
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.5
@@ -58,6 +57,57 @@ extension OnboardingViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension OnboardingViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        guard onboardingPage != .welcome,
+            onboardingPage != .finish else {
+            return
+        }
+
+        imageView.alpha = 0
+        infoLabel.alpha = 0
+
+        imageViewTopConstraint?.constant = view.frame.height
+        infoLabelBottomConstraint?.isActive = false
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard onboardingPage != .welcome,
+            onboardingPage != .finish else {
+            return
+        }
+
+        imageViewTopConstraint?.constant = 20
+        infoLabelBottomConstraint?.isActive = true
+
+        UIView.animate(withDuration: 0.4) {
+            self.imageView.alpha = 1
+            self.infoLabel.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension OnboardingViewController: ViewAdding {
     func addViews() {
@@ -65,11 +115,15 @@ extension OnboardingViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         titleLabel.text = onboardingPage.rawValue
         imageView.image = onboardingPage.image
         infoLabel.text = onboardingPage.info
+    }
+
+    func setupColors() {
+        view.backgroundColor = .mainWhite
+        titleLabel.textColor = .mainBlack
+        infoLabel.textColor = .mainDarkGray
     }
 
     //swiftlint:disable:next function_body_length
@@ -130,50 +184,6 @@ extension OnboardingViewController: ViewAdding {
                     constant: -20),
                 infoLabel.heightAnchor.constraint(equalToConstant: 100)
             ])
-        }
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension OnboardingViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addViews()
-        setupViews()
-        addConstraints()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        guard onboardingPage != .welcome,
-            onboardingPage != .finish else {
-            return
-        }
-
-        imageView.alpha = 0
-        infoLabel.alpha = 0
-
-        imageViewTopConstraint?.constant = view.frame.height
-        infoLabelBottomConstraint?.isActive = false
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        guard onboardingPage != .welcome,
-            onboardingPage != .finish else {
-            return
-        }
-
-        imageViewTopConstraint?.constant = 20
-        infoLabelBottomConstraint?.isActive = true
-
-        UIView.animate(withDuration: 0.4) {
-            self.imageView.alpha = 1
-            self.infoLabel.alpha = 1
-            self.view.layoutIfNeeded()
         }
     }
 }

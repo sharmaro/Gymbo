@@ -32,6 +32,15 @@ class TextFieldTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension TextFieldTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension TextFieldTableViewCell: ViewAdding {
     func addViews() {
@@ -43,6 +52,12 @@ extension TextFieldTableViewCell: ViewAdding {
 
         textField.delegate = self
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        textField.textColor = .mainBlack
     }
 
     func addConstraints() {
@@ -60,6 +75,7 @@ extension TextFieldTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

@@ -41,7 +41,6 @@ class StopwatchViewController: UIViewController {
         button.title = "Lap"
         button.add(backgroundColor: .systemGray)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         button.tag = 0
         return button
     }()
@@ -51,7 +50,6 @@ class StopwatchViewController: UIViewController {
         button.title = "Start"
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         button.tag = 1
         return button
     }()
@@ -162,6 +160,40 @@ private extension StopwatchViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension StopwatchViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+        loadFromUserDefaults()
+        registerForApplicationStateNotifications()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        didViewAppear = true
+        renewConstraints()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        didViewAppear = false
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension StopwatchViewController: ViewAdding {
     func setupNavigationBar() {
@@ -185,8 +217,6 @@ extension StopwatchViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         [minuteLabel, secondLabel, centiSecondLabel].forEach {
             $0.text = "00"
             $0.font = .huge
@@ -208,6 +238,12 @@ extension StopwatchViewController: ViewAdding {
 
         lapAndResetButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
         startAndStopButton.addTarget(self, action: #selector(stopWatchButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        view.backgroundColor = .mainWhite
+        tableView.backgroundColor = .mainWhite
+        [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .mainBlack }
     }
 
     //swiftlint:disable:next function_body_length
@@ -259,33 +295,6 @@ extension StopwatchViewController: ViewAdding {
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
         ])
         timeStackView.layoutIfNeeded()
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension StopwatchViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        addViews()
-        setupViews()
-        addConstraints()
-        loadFromUserDefaults()
-        registerForApplicationStateNotifications()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        didViewAppear = true
-        renewConstraints()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        didViewAppear = false
     }
 }
 

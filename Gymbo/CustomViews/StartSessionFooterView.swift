@@ -15,7 +15,6 @@ class StartSessionFooterView: UIView {
         button.title = "+ Exercise"
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -24,13 +23,11 @@ class StartSessionFooterView: UIView {
         button.title = "Cancel"
         button.add(backgroundColor: .systemRed)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
     weak var startSessionButtonDelegate: StartSessionButtonDelegate?
 
-    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -44,6 +41,15 @@ class StartSessionFooterView: UIView {
     }
 }
 
+// MARK: - UIView Var/Funcs
+extension StartSessionFooterView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension StartSessionFooterView: ViewAdding {
     func addViews() {
@@ -53,6 +59,10 @@ extension StartSessionFooterView: ViewAdding {
     func setupViews() {
         addExerciseButton.addTarget(self, action: #selector(addExerciseButtonTapped), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        backgroundColor = .clear
     }
 
     func addConstraints() {
@@ -75,6 +85,7 @@ extension StartSessionFooterView {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

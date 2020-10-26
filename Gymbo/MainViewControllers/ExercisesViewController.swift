@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 // MARK: - Properties
 class ExercisesViewController: UIViewController {
@@ -15,7 +16,6 @@ class ExercisesViewController: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
-        tableView.backgroundColor = .white
         tableView.tableFooterView = UIView()
         return tableView
     }()
@@ -26,7 +26,6 @@ class ExercisesViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         button.makeUninteractable(animated: false)
         return button
     }()
@@ -53,6 +52,53 @@ extension ExercisesViewController {
         static let exerciseCellHeight = CGFloat(70)
         static let sessionStartedConstraintConstant = CGFloat(-64)
         static let sessionEndedConstraintConstant = CGFloat(-20)
+    }
+}
+
+// MARK: - UIViewController Var/Funcs
+extension ExercisesViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+        showActivityIndicator(withText: "Loading Exercises")
+        setupExerciseDataModel()
+        registerForKeyboardNotifications()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateExercisesUI),
+                                               name: .updateExercisesUI,
+                                               object: nil)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        didViewAppear = true
+        renewConstraints()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        didViewAppear = false
+        exerciseDataModel.removeSearchedResults()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
     }
 }
 
@@ -96,8 +142,6 @@ extension ExercisesViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ExercisesHeaderFooterView.self,
@@ -115,6 +159,10 @@ extension ExercisesViewController: ViewAdding {
                 (-1 * Constants.sessionEndedConstraintConstant) +
                 spacing
         }
+    }
+
+    func setupColors() {
+        [view, tableView].forEach { $0.backgroundColor = .mainWhite }
     }
 
     func addConstraints() {
@@ -148,46 +196,6 @@ extension ExercisesViewController: ViewAdding {
     }
 }
 
-// MARK: - UIViewController Var/Funcs
-extension ExercisesViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        addViews()
-        setupViews()
-        addConstraints()
-        showActivityIndicator(withText: "Loading Exercises")
-        setupExerciseDataModel()
-        registerForKeyboardNotifications()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateExercisesUI),
-                                               name: .updateExercisesUI,
-                                               object: nil)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        didViewAppear = true
-        renewConstraints()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        view.endEditing(true)
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        didViewAppear = false
-        exerciseDataModel.removeSearchedResults()
-    }
-}
-
 // MARK: - Funcs
 extension ExercisesViewController {
     private func setupExerciseDataModel() {
@@ -205,7 +213,7 @@ extension ExercisesViewController {
         for exerciseName in selectedExerciseNames {
             /*
              Need to create a new exercise object to be passed into selectedExercises
-             so the existing exericse isn't updated in Realm
+             so the existing exercise isn't updated in Realm
              */
             let referenceExercise = exerciseDataModel.exercise(for: exerciseName)
             let exercise = Exercise(name: referenceExercise.name,

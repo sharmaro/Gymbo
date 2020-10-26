@@ -13,6 +13,7 @@ class SessionsCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.normal.semibold
+        label.numberOfLines = 0
         return label
     }()
 
@@ -82,6 +83,12 @@ extension SessionsCollectionViewCell {
             }
         }
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
 }
 
 // MARK: - ViewAdding
@@ -91,13 +98,18 @@ extension SessionsCollectionViewCell: ViewAdding {
     }
 
     func setupViews() {
-        backgroundColor = .white
-        layer.addCorner(style: .small)
-        addBorder(1, color: .lightGray)
-
-        addShadow(direction: .downRight)
+        contentView.layer.addCorner(style: .small)
+        contentView.addBorder(1, color: .mainDarkGray)
+        contentView.addShadow(direction: .downRight)
 
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        contentView.backgroundColor = .mainWhite
+        contentView.layer.borderColor = UIColor.mainDarkGray.cgColor
+        contentView.layer.shadowColor = UIColor.mainDarkGray.cgColor
+        [titleLabel, infoLabel].forEach { $0.textColor = .mainBlack }
     }
 
     func addConstraints() {
@@ -106,7 +118,6 @@ extension SessionsCollectionViewCell: ViewAdding {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -5),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
 
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
@@ -125,6 +136,7 @@ extension SessionsCollectionViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

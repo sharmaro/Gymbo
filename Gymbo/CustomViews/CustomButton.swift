@@ -16,20 +16,9 @@ class CustomButton: UIButton {
         }
     }
 
-    var titleColor = UIColor.black {
+    var titleColor = UIColor.mainBlack {
         didSet {
             setTitleColor(titleColor, for: .normal)
-        }
-    }
-
-    // MARK: - UIButton Var/Funcs
-    override var isHighlighted: Bool {
-        didSet {
-            guard isEnabled else {
-                return
-            }
-            alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
-            transform(condition: Transform.caseFromBool(bool: isHighlighted))
         }
     }
 
@@ -42,6 +31,16 @@ class CustomButton: UIButton {
         super.init(coder: aDecoder)
         setup()
     }
+
+    override var isHighlighted: Bool {
+        didSet {
+            guard isEnabled else {
+                return
+            }
+            alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
+            transform(condition: Transform.caseFromBool(bool: isHighlighted))
+        }
+    }
 }
 
 // MARK: - Structs/Enums
@@ -53,11 +52,25 @@ private extension CustomButton {
     }
 }
 
+// MARK: - UIButton Var/Funcs
+extension CustomButton {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - Funcs
 extension CustomButton {
     private func setup() {
-        setTitleColor(titleColor, for: .normal)
+        setupColors()
         titleLabel?.lineBreakMode = .byWordWrapping
+    }
+
+    private func setupColors() {
+        backgroundColor = backgroundColor
+        setTitleColor(titleColor, for: .normal)
     }
 
     private func transform(condition: Transform) {
@@ -75,7 +88,7 @@ extension CustomButton {
         })
     }
 
-    func add(backgroundColor: UIColor, titleColor: UIColor = .white) {
+    func add(backgroundColor: UIColor, titleColor: UIColor = .mainWhite) {
         self.backgroundColor = backgroundColor
         self.titleColor = titleColor
     }

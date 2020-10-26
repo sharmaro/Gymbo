@@ -85,15 +85,17 @@ extension AppDelegate {
         if #available(iOS 13.0, *) {
             // Do this so large titles show up on iOS >= 13
             let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = .white
+            appearance.backgroundColor = .mainWhite
             appearance.shadowColor = .clear
-            appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.mainBlack]
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.mainBlack]
 
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
         } else {
+            UINavigationBar.appearance().barTintColor = .mainWhite
+            UINavigationBar.appearance().tintColor = .mainWhite
             UINavigationBar.appearance().shadowImage = UIImage()
         }
 

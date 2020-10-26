@@ -42,6 +42,15 @@ class ImagesTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension ImagesTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ImagesTableViewCell: ViewAdding {
     func addViews() {
@@ -50,6 +59,11 @@ extension ImagesTableViewCell: ViewAdding {
 
     func setupViews() {
         selectionStyle = .none
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
     }
 
     func addConstraints() {
@@ -68,6 +82,7 @@ extension ImagesTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

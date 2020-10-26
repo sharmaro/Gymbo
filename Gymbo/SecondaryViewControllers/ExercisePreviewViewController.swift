@@ -22,8 +22,8 @@ class ExercisePreviewViewController: UIViewController {
         let label = UILabel()
         label.text = Constants.editDisclaimerText
         label.textAlignment = .center
-        label.font = UIFont.small.light
-        label.textColor = UIColor.black.withAlphaComponent(0.5)
+        label.font = UIFont.medium.light
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
 
@@ -33,7 +33,6 @@ class ExercisePreviewViewController: UIViewController {
         button.titleLabel?.font = .normal
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -80,6 +79,25 @@ private extension ExercisePreviewViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension ExercisePreviewViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ExercisePreviewViewController: ViewAdding {
     func setupNavigationBar() {
@@ -103,8 +121,6 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TwoLabelsTableViewCell.self,
@@ -115,6 +131,11 @@ extension ExercisePreviewViewController: ViewAdding {
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
 
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        [view, tableView].forEach { $0.backgroundColor = .mainWhite }
+        editDisclaimerLabel.textColor = UIColor.mainBlack.withAlphaComponent(0.5)
     }
 
     func addConstraints() {
@@ -138,18 +159,6 @@ extension ExercisePreviewViewController: ViewAdding {
                 constant: -15),
             viewToUse.heightAnchor.constraint(equalToConstant: 45)
         ])
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension ExercisePreviewViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        addViews()
-        setupViews()
-        addConstraints()
     }
 }
 

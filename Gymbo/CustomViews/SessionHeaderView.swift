@@ -34,7 +34,7 @@ class SessionHeaderView: UIView {
     }
 
     var isFirstTextValid: Bool {
-        firstTextView.textColor != Constants.dimmedBlack && !firstTextView.text.isEmpty
+        firstTextView.textColor != .dimmedDarkGray && !firstTextView.text.isEmpty
     }
 
     var isContentEditable = true {
@@ -48,7 +48,6 @@ class SessionHeaderView: UIView {
 
     weak var customTextViewDelegate: CustomTextViewDelegate?
 
-    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -62,10 +61,12 @@ class SessionHeaderView: UIView {
     }
 }
 
-// MARK: - Structs/Enums
-private extension SessionHeaderView {
-    struct Constants {
-        static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
+// MARK: - UIView Var/Funcs
+extension SessionHeaderView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
     }
 }
 
@@ -89,6 +90,13 @@ extension SessionHeaderView: ViewAdding {
         }
     }
 
+    func setupColors() {
+        backgroundColor = .clear
+        [firstTextView, secondTextView].forEach {
+            $0.backgroundColor = .clear
+        }
+    }
+
     func addConstraints() {
         NSLayoutConstraint.activate([
             firstTextView.topAnchor.constraint(equalTo: topAnchor),
@@ -108,6 +116,7 @@ extension SessionHeaderView {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

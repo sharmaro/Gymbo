@@ -34,63 +34,6 @@ private extension CreateEditSessionTableViewController {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
         static let buttonText = "+ Set"
-
-        static let dimmedBlack = UIColor.black.withAlphaComponent(0.2)
-    }
-}
-
-// MARK: - ViewAdding
-extension CreateEditSessionTableViewController: ViewAdding {
-    func setupNavigationBar() {
-        title = sessionState.rawValue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(addExerciseButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
-    func setupViews() {
-        view.backgroundColor = .white
-
-        tableView.separatorStyle = .none
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.register(ExerciseHeaderTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(ButtonTableViewCell.self,
-                           forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
-
-        if mainTabBarController?.isSessionInProgress ?? false {
-            tableView.contentInset.bottom = minimizedHeight
-        }
-
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session.name ?? Constants.namePlaceholderText
-        dataModel.secondText = session.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = sessionState == .create ? Constants.dimmedBlack : .black
-
-        tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = true
-        tableHeaderView.customTextViewDelegate = self
-    }
-
-    func addConstraints() {
-        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = tableHeaderView
-        NSLayoutConstraint.activate([
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20)
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
     }
 }
 
@@ -101,6 +44,7 @@ extension CreateEditSessionTableViewController {
 
         setupNavigationBar()
         setupViews()
+        setupColors()
         addConstraints()
         registerForKeyboardNotifications()
     }
@@ -151,10 +95,65 @@ extension CreateEditSessionTableViewController {
         }
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
 
-        // Used for resizing the tableView.headerView when the info text view becomes large enough
+        setupColors()
+    }
+}
+
+// MARK: - ViewAdding
+extension CreateEditSessionTableViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = sessionState.rawValue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addExerciseButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
+    func setupViews() {
+        tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
+        tableView.register(ExerciseHeaderTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(ButtonTableViewCell.self,
+                           forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
+
+        if mainTabBarController?.isSessionInProgress ?? false {
+            tableView.contentInset.bottom = minimizedHeight
+        }
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.firstText = session.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = sessionState == .create ? .dimmedDarkGray : .mainBlack
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = true
+        tableHeaderView.customTextViewDelegate = self
+    }
+
+    func setupColors() {
+        view.backgroundColor = .mainWhite
+    }
+
+    func addConstraints() {
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+        NSLayoutConstraint.activate([
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: -20)
+        ])
         tableView.tableHeaderView = tableView.tableHeaderView
         tableView.tableHeaderView?.layoutIfNeeded()
     }
@@ -508,9 +507,9 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == Constants.dimmedBlack {
+        if textView.textColor == .dimmedDarkGray {
             textView.text.removeAll()
-            textView.textColor = .black
+            textView.textColor = .mainBlack
         }
     }
 
@@ -522,11 +521,11 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
 
             if let text = textInfo[textView.tag] {
                 textView.text = text
-                textView.textColor = .black
+                textView.textColor = .mainBlack
             } else {
                 textView.text = textView.tag == 0 ?
                     Constants.namePlaceholderText : Constants.infoPlaceholderText
-                textView.textColor = Constants.dimmedBlack
+                textView.textColor = .dimmedDarkGray
             }
             return
         }

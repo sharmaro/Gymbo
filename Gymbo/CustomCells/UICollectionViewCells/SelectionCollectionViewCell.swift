@@ -12,16 +12,13 @@ import UIKit
 class SelectionCollectionViewCell: UICollectionViewCell {
     private var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Constants.dimmedBlack
         view.addCorner(style: .small)
         return view
     }()
 
     private let selectionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemBlue
         label.textAlignment = .center
-        label.backgroundColor = .clear
         label.font = .normal
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.1
@@ -50,12 +47,11 @@ extension SelectionCollectionViewCell {
             transform(type: action)
         }
     }
-}
 
-// MARK: - Structs/Enums
-private extension SelectionCollectionViewCell {
-    struct Constants {
-        static let dimmedBlack = UIColor.black.withAlphaComponent(0.1)
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
     }
 }
 
@@ -64,6 +60,14 @@ extension SelectionCollectionViewCell: ViewAdding {
     func addViews() {
         contentView.add(subviews: [containerView])
         containerView.add(subviews: [selectionLabel])
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        containerView.backgroundColor = .dimmedDarkGray
+        selectionLabel.textColor = .systemBlue
+        selectionLabel.backgroundColor = .clear
     }
 
     func addConstraints() {
@@ -76,6 +80,7 @@ extension SelectionCollectionViewCell: ViewAdding {
 extension SelectionCollectionViewCell {
     private func setup() {
         addViews()
+        setupColors()
         addConstraints()
     }
 
@@ -105,11 +110,11 @@ extension SelectionCollectionViewCell {
             guard let self = self else { return }
 
             if self.isSelected {
-                self.selectionLabel.textColor = .white
-                self.containerView.addGradient(colors: [Color.blue, Color.lightGray])
+                self.selectionLabel.textColor = .mainWhite
+                self.containerView.addGradient(colors: [.customBlue, .customLightGray])
             } else {
                 self.selectionLabel.textColor = .systemBlue
-                self.containerView.backgroundColor = Constants.dimmedBlack
+                self.containerView.backgroundColor = .dimmedDarkGray
                 self.containerView.layer.sublayers?.removeFirst()
             }
         }

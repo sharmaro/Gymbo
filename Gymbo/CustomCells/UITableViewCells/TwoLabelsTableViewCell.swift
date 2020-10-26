@@ -21,7 +21,6 @@ class TwoLabelsTableViewCell: UITableViewCell {
     private let bottomLabel: UILabel = {
         let label = UILabel()
         label.font = .normal
-        label.textColor = .systemGray
         label.minimumScaleFactor = 0.5
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -40,6 +39,15 @@ class TwoLabelsTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension TwoLabelsTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension TwoLabelsTableViewCell: ViewAdding {
     func addViews() {
@@ -48,6 +56,15 @@ extension TwoLabelsTableViewCell: ViewAdding {
 
     func setupViews() {
         selectionStyle = .none
+    }
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        [topLabel, bottomLabel].forEach {
+            $0.backgroundColor = .mainWhite
+        }
+        topLabel.textColor = .mainBlack
+        bottomLabel.textColor = .mainDarkGray
     }
 
     func addConstraints() {
@@ -69,6 +86,7 @@ extension TwoLabelsTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

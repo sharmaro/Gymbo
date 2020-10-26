@@ -111,72 +111,6 @@ private extension StartSessionTableViewController {
     }
 }
 
-// MARK: - ViewAdding
-extension StartSessionTableViewController: ViewAdding {
-    func setupNavigationBar() {
-        title = 0.getMinutesAndSecondsString()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: #selector(restButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
-    func setupViews() {
-        view.backgroundColor = .white
-
-        timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
-        finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
-
-        tableView.separatorStyle = .none
-        tableView.keyboardDismissMode = .interactive
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.register(ExerciseHeaderTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
-        tableView.register(ExerciseDetailTableViewCell.self,
-                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
-        tableView.register(ButtonTableViewCell.self,
-                           forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
-
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
-        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .black
-
-        tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = false
-
-        tableFooterView.frame = CGRect(origin: .zero,
-                                       size: CGSize(width: tableView.frame.width,
-                                                    height: Constants.tableFooterViewHeight))
-        tableFooterView.startSessionButtonDelegate = self
-        tableView.tableFooterView = tableFooterView
-        tableView.tableFooterView = tableView.tableFooterView
-        tableView.tableFooterView?.layoutIfNeeded()
-    }
-
-    func addConstraints() {
-        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = tableHeaderView
-        NSLayoutConstraint.activate([
-            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
-            tableHeaderView.trailingAnchor.constraint(
-                equalTo: tableView.trailingAnchor,
-                constant: -20)
-        ])
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-    }
-}
-
 // MARK: - UIViewController Var/Funcs
 extension StartSessionTableViewController {
     override func viewDidLoad() {
@@ -184,6 +118,7 @@ extension StartSessionTableViewController {
 
         setupNavigationBar()
         setupViews()
+        setupColors()
         addConstraints()
         startSessionTimer()
         registerForKeyboardNotifications()
@@ -203,16 +138,73 @@ extension StartSessionTableViewController {
 
         NotificationCenter.default.post(name: .updateSessionsUI, object: nil)
     }
+}
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+// MARK: - ViewAdding
+extension StartSessionTableViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = 0.getMinutesAndSecondsString()
 
-        // Used for laying out table header and footer views
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(restButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
 
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
+    func setupViews() {
+        timerButton.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
+        finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
+
+        tableView.separatorStyle = .none
+        tableView.keyboardDismissMode = .interactive
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.register(ExerciseHeaderTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseHeaderTableViewCell.reuseIdentifier)
+        tableView.register(ExerciseDetailTableViewCell.self,
+                           forCellReuseIdentifier: ExerciseDetailTableViewCell.reuseIdentifier)
+        tableView.register(ButtonTableViewCell.self,
+                           forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .mainBlack
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = false
+
+        tableFooterView.frame = CGRect(origin: .zero,
+                                       size: CGSize(width: tableView.frame.width,
+                                                    height: Constants.tableFooterViewHeight))
+        tableFooterView.startSessionButtonDelegate = self
+        tableView.tableFooterView = tableFooterView
         tableView.tableFooterView = tableView.tableFooterView
         tableView.tableFooterView?.layoutIfNeeded()
+    }
+
+    func setupColors() {
+        view.backgroundColor = .mainWhite
+    }
+
+    func addConstraints() {
+        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.tableHeaderView = tableHeaderView
+        NSLayoutConstraint.activate([
+            tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor),
+            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 20),
+            tableHeaderView.trailingAnchor.constraint(
+                equalTo: tableView.trailingAnchor,
+                constant: -20)
+        ])
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
     }
 }
 
@@ -464,29 +456,32 @@ extension StartSessionTableViewController {
         presentCustomAlert(title: "Finish Session",
                            content: "Do you want to finish the session?",
                            leftButtonTitle: "No",
-                           rightButtonTitle: "Yes") { [weak self] in
-            Haptic.sendImpactFeedback(.heavy)
-            if let session = self?.session {
-                for exercise in session.exercises {
-                    for detail in exercise.exerciseDetails {
-                        let weight = Utility.formattedString(stringToFormat: detail.weight, type: .weight)
-                        let reps = detail.reps ?? "--"
-                        let last: String
-                        if weight != "--" && reps != "--" {
-                            last = "\(reps) x \(weight)"
-                        } else {
-                            last = "--"
-                        }
-                        try? self?.realm?.write {
-                            detail.last = last
-                        }
-                    }
-                }
-            }
-            DispatchQueue.main.async {
-                self?.dismissAsChildViewController()
-            }
-        }
+                           rightButtonTitle: "Yes",
+                           rightButtonAction: { [weak self] in
+                            Haptic.sendImpactFeedback(.heavy)
+                            if let session = self?.session {
+                                for exercise in session.exercises {
+                                    for detail in exercise.exerciseDetails {
+                                        let weight = Utility.formattedString(
+                                            stringToFormat: detail.weight,
+                                            type: .weight)
+                                        let reps = detail.reps ?? "--"
+                                        let last: String
+                                        if weight != "--" && reps != "--" {
+                                            last = "\(reps) x \(weight)"
+                                        } else {
+                                            last = "--"
+                                        }
+                                        try? self?.realm?.write {
+                                            detail.last = last
+                                        }
+                                    }
+                                }
+                            }
+                            DispatchQueue.main.async {
+                                self?.dismissAsChildViewController()
+                            }
+                           })
     }
 
     @objc private func updateSessionTime() {
@@ -784,12 +779,13 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
         presentCustomAlert(title: "Cancel Session",
                            content: "Do you want to cancel the session?",
                            leftButtonTitle: "No",
-                           rightButtonTitle: "Yes") { [weak self] in
-            Haptic.sendImpactFeedback(.heavy)
-            DispatchQueue.main.async {
-                self?.dismissAsChildViewController()
-            }
-        }
+                           rightButtonTitle: "Yes",
+                           rightButtonAction: { [weak self] in
+                            Haptic.sendImpactFeedback(.heavy)
+                            DispatchQueue.main.async {
+                                self?.dismissAsChildViewController()
+                            }
+                           })
     }
 }
 

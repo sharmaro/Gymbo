@@ -33,6 +33,15 @@ class ButtonTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension ButtonTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ButtonTableViewCell: ViewAdding {
     func addViews() {
@@ -43,6 +52,11 @@ extension ButtonTableViewCell: ViewAdding {
         selectionStyle = .none
 
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
     }
 
     func addConstraints() {
@@ -60,6 +74,7 @@ extension ButtonTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 
@@ -69,15 +84,11 @@ extension ButtonTableViewCell {
 
     func configure(title: String,
                    font: UIFont = .normal,
-                   titleColor: UIColor = .black,
+                   titleColor: UIColor = .mainBlack,
                    backgroundColor: UIColor = .systemBlue,
-                   cornerStyle: CornerStyle = .none,
-                   shouldAddShadow: Bool = true) {
+                   cornerStyle: CornerStyle = .none) {
         button.title = title
         button.add(backgroundColor: backgroundColor, titleColor: titleColor)
         button.addCorner(style: cornerStyle)
-        if shouldAddShadow {
-            button.addShadow(direction: .down)
-        }
     }
 }

@@ -86,6 +86,12 @@ extension ExerciseDetailTableViewCell {
 
         didSelect = false
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
 }
 
 // MARK: - ViewAdding
@@ -149,6 +155,16 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        [setsLabel, lastLabel].forEach { $0.textColor = .mainBlack }
+        [repsTextField, weightTextField].forEach {
+            $0.textColor = .mainBlack
+            $0.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
+        }
+    }
+
     func addConstraints() {
         let stackViewBottomConstraint = stackView.bottomAnchor.constraint(
             equalTo: bottomAnchor,
@@ -169,18 +185,6 @@ extension ExerciseDetailTableViewCell: ViewAdding {
         ])
         stackView.layoutIfNeeded()
     }
-
-    @objc func nextToolbarButtonTapped() {
-        weightTextField.becomeFirstResponder()
-    }
-
-    @objc func previousToolbarButtonTapped() {
-        repsTextField.becomeFirstResponder()
-    }
-
-    @objc func doneToolbarButtonTapped() {
-        endEditing(true)
-    }
 }
 
 // MARK: - Funcs
@@ -188,6 +192,7 @@ extension ExerciseDetailTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 
@@ -202,6 +207,18 @@ extension ExerciseDetailTableViewCell {
     @objc private func doneButtonTapped(_ sender: Any) {
         Haptic.sendImpactFeedback(.medium)
         didSelect.toggle()
+    }
+
+    @objc private func nextToolbarButtonTapped() {
+        weightTextField.becomeFirstResponder()
+    }
+
+    @objc private func previousToolbarButtonTapped() {
+        repsTextField.becomeFirstResponder()
+    }
+
+    @objc private func doneToolbarButtonTapped() {
+        endEditing(true)
     }
 }
 

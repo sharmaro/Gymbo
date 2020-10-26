@@ -25,7 +25,6 @@ class SessionPreviewViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.add(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -50,6 +49,52 @@ private extension SessionPreviewViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension SessionPreviewViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        guard isViewLoaded,
+            let session = session else {
+                return
+        }
+
+        title = Constants.title
+
+        var dataModel = SessionHeaderViewModel()
+        dataModel.firstText = session.name
+        dataModel.secondText = session.info
+        dataModel.textColor = .mainBlack
+        tableHeaderView.configure(dataModel: dataModel)
+
+        tableView.reloadWithoutAnimation()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Used for resizing the tableView.headerView when the info text view becomes large enough
+        tableView.tableHeaderView = tableView.tableHeaderView
+        tableView.tableHeaderView?.layoutIfNeeded()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension SessionPreviewViewController: ViewAdding {
     func setupNavigationBar() {
@@ -70,8 +115,6 @@ extension SessionPreviewViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ExerciseTableViewCell.self,
@@ -85,6 +128,10 @@ extension SessionPreviewViewController: ViewAdding {
         updateTableHeaderView()
 
         startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        [view, tableView].forEach { $0.backgroundColor = . mainWhite }
     }
 
     func addConstraints() {
@@ -120,52 +167,13 @@ extension SessionPreviewViewController: ViewAdding {
     }
 }
 
-// MARK: - UIViewController Var/Funcs
-extension SessionPreviewViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        addViews()
-        setupViews()
-        addConstraints()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        guard isViewLoaded,
-            let session = session else {
-                return
-        }
-
-        title = Constants.title
-
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session.name
-        dataModel.secondText = session.info
-        dataModel.textColor = .black
-        tableHeaderView.configure(dataModel: dataModel)
-
-        tableView.reloadWithoutAnimation()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Used for resizing the tableView.headerView when the info text view becomes large enough
-        tableView.tableHeaderView = tableView.tableHeaderView
-        tableView.tableHeaderView?.layoutIfNeeded()
-    }
-}
-
 // MARK: - Funcs
 extension SessionPreviewViewController {
     private func updateTableHeaderView() {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .black
+        dataModel.textColor = .mainBlack
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false
@@ -179,8 +187,7 @@ extension SessionPreviewViewController {
         guard let session = session else {
             presentCustomAlert(content: "Can't edit current Session.",
                                usesBothButtons: false,
-                               rightButtonTitle: "Sounds good") {
-            }
+                               rightButtonTitle: "Sounds good")
             return
         }
 
@@ -193,8 +200,10 @@ extension SessionPreviewViewController {
 
     @objc private func startSessionButtonTapped(_ sender: Any) {
         Haptic.sendImpactFeedback(.heavy)
-        dismiss(animated: true)
-        sessionProgressDelegate?.sessionDidStart(session)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.sessionProgressDelegate?.sessionDidStart(self.session)
+        }
     }
 }
 

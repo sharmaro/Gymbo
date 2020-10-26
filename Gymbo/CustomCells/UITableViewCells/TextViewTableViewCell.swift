@@ -40,6 +40,15 @@ class TextViewTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension TextViewTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension TextViewTableViewCell: ViewAdding {
     func addViews() {
@@ -50,6 +59,12 @@ extension TextViewTableViewCell: ViewAdding {
         selectionStyle = .none
 
         textView.delegate = self
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        textView.textColor = .mainBlack
     }
 
     func addConstraints() {
@@ -67,6 +82,7 @@ extension TextViewTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

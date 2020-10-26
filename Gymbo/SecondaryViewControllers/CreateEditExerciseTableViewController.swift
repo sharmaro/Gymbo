@@ -15,7 +15,6 @@ class CreateEditExerciseTableViewController: UITableViewController {
         let button = CustomButton()
         button.add(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
-        button.addShadow(direction: .down)
         return button
     }()
 
@@ -78,6 +77,33 @@ private extension CreateEditExerciseTableViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension CreateEditExerciseTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        setupViews()
+        setupColors()
+
+        if exerciseState == .edit {
+            setupFromExistingExercise()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension CreateEditExerciseTableViewController: ViewAdding {
     func setupNavigationBar() {
@@ -92,8 +118,6 @@ extension CreateEditExerciseTableViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
         tableView.register(LabelTableViewCell.self,
@@ -125,24 +149,9 @@ extension CreateEditExerciseTableViewController: ViewAdding {
         ])
         tableView.tableFooterView = tableFooterView
     }
-}
 
-// MARK: - UIViewController Var/Funcs
-extension CreateEditExerciseTableViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        setupViews()
-        if exerciseState == .edit {
-            setupFromExistingExercise()
-        }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        view.endEditing(true)
+    func setupColors() {
+        view.backgroundColor = .mainWhite
     }
 }
 

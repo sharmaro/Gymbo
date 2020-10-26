@@ -13,13 +13,11 @@ class CircleProgressView: UIView {
     private let totalTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
-        label.textColor = .lightGray
         return label
     }()
 
     private let timeRemainingLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
         return label
     }()
 
@@ -46,7 +44,6 @@ class CircleProgressView: UIView {
         }
     }
 
-    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -57,16 +54,6 @@ class CircleProgressView: UIView {
         super.init(coder: coder)
 
         setup()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        /*
-         Need to call this here because if autolayout is used to
-         create CircleProgressView then on initialization the frame is .zero.
-         */
-        setupCircleProgressBar()
     }
 }
 
@@ -82,6 +69,25 @@ private extension CircleProgressView {
     }
 }
 
+// MARK: - UIView Var/Funcs
+extension CircleProgressView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        /*
+         Need to call this here because if autolayout is used to
+         create CircleProgressView then on initialization the frame is .zero.
+         */
+        setupCircleProgressBar()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension CircleProgressView: ViewAdding {
     func addViews() {
@@ -89,13 +95,16 @@ extension CircleProgressView: ViewAdding {
     }
 
     func setupViews() {
-        backgroundColor = .clear
-
         [totalTimeLabel, timeRemainingLabel].forEach {
             $0.textAlignment = .center
             $0.font = .xxLarge
             $0.isHidden = true
         }
+    }
+
+    func setupColors() {
+        backgroundColor = .clear
+        timeRemainingLabel.textColor = .mainLightGray
     }
 
     func addConstraints() {
@@ -120,6 +129,7 @@ extension CircleProgressView {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

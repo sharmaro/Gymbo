@@ -26,7 +26,6 @@ class ExerciseTableViewCell: UITableViewCell {
 
     private let groupsLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
         label.font = UIFont.small.light
         return label
     }()
@@ -35,11 +34,7 @@ class ExerciseTableViewCell: UITableViewCell {
         return nameLabel.text
     }
 
-    var didSelect = false {
-        didSet {
-            backgroundColor = didSelect ? .systemGray : .white
-        }
-    }
+    var didSelect = false
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,6 +49,15 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITableViewCell Var/Funcs
+extension ExerciseTableViewCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ExerciseTableViewCell: ViewAdding {
     func addViews() {
@@ -61,19 +65,30 @@ extension ExerciseTableViewCell: ViewAdding {
     }
 
     func setupViews() {
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = .mainLightGray
+
         [nameLabel, groupsLabel].forEach {
+            $0.backgroundColor = .clear
             $0.numberOfLines = 1
             $0.minimumScaleFactor = 0.5
             $0.adjustsFontSizeToFitWidth = true
         }
     }
 
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        nameLabel.textColor = .mainBlack
+        groupsLabel.textColor = .mainDarkGray
+    }
+
     func addConstraints() {
         NSLayoutConstraint.activate([
             muscleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             muscleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -5),
-            muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -5),
+            muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -10),
+            muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -10),
             muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor),
 
@@ -92,6 +107,7 @@ extension ExerciseTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 
@@ -102,8 +118,10 @@ extension ExerciseTableViewCell {
         let imagesData = dataModel.imagesData
         if let firstImageData = imagesData.first,
             let image = UIImage(data: firstImageData) {
+            muscleImageView.contentMode = .scaleToFill
             muscleImageView.image = image
         } else if let emptyImage = UIImage(named: "empty") {
+            muscleImageView.contentMode = .center
             muscleImageView.image = emptyImage
         }
     }

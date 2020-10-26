@@ -37,7 +37,6 @@ class ActivityIndicatorView: UIView {
 
     private let label: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont.normal.bold
         label.adjustsFontSizeToFitWidth = true
@@ -46,7 +45,6 @@ class ActivityIndicatorView: UIView {
 
     private var text: String?
 
-    // MARK: - UIView Var/Funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -67,6 +65,15 @@ class ActivityIndicatorView: UIView {
     }
 }
 
+// MARK: - UIView Var/Funcs
+extension ActivityIndicatorView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension ActivityIndicatorView: ViewAdding {
     func addViews() {
@@ -80,14 +87,17 @@ extension ActivityIndicatorView: ViewAdding {
     }
 
     func setupViews() {
-        backgroundColor = .clear
-
         label.text = text
 
         if text == nil {
             activityIndicatorView.style = .whiteLarge
             contentBlurEffectView.effect = nil
         }
+    }
+
+    func setupColors() {
+        backgroundColor = .clear
+        label.textColor = .darkGray
     }
 
     func addConstraints() {
@@ -111,6 +121,7 @@ extension ActivityIndicatorView {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 }

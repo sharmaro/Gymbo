@@ -54,38 +54,6 @@ private extension SessionsCollectionViewController {
     }
 }
 
-// MARK: - ViewAdding
-extension SessionsCollectionViewController: ViewAdding {
-    func setupNavigationBar() {
-        title = Constants.title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                           target: self,
-                                                           action: #selector(editButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session",
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(addSessionButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
-    }
-
-    func setupViews() {
-        view.backgroundColor = .white
-
-        collectionView.backgroundColor = .white
-        collectionView.dragDelegate = self
-        collectionView.dropDelegate = self
-        collectionView.delaysContentTouches = false
-        collectionView.dragInteractionEnabled = true
-        collectionView.reorderingCadence = .fast
-        collectionView.keyboardDismissMode = .interactive
-        collectionView.register(SessionsCollectionViewCell.self,
-                                forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
-    }
-}
-
 // MARK: - UIViewController Var/Funcs
 extension SessionsCollectionViewController {
     override func viewDidLoad() {
@@ -93,6 +61,7 @@ extension SessionsCollectionViewController {
 
         setupNavigationBar()
         setupViews()
+        setupColors()
         showActivityIndicator(withText: "Loading Sessions")
         setupSessionDataModel()
 
@@ -119,6 +88,46 @@ extension SessionsCollectionViewController {
         super.viewWillDisappear(animated)
 
         dataState = .notEditing
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
+// MARK: - ViewAdding
+extension SessionsCollectionViewController: ViewAdding {
+    func setupNavigationBar() {
+        title = Constants.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                           target: self,
+                                                           action: #selector(editButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addSessionButtonTapped))
+
+        // This allows there to be a smooth transition from large title to small and vice-versa
+        extendedLayoutIncludesOpaqueBars = true
+        edgesForExtendedLayout = .all
+    }
+
+    func setupViews() {
+        collectionView.dragDelegate = self
+        collectionView.dropDelegate = self
+        collectionView.delaysContentTouches = false
+        collectionView.dragInteractionEnabled = true
+        collectionView.reorderingCadence = .fast
+        collectionView.keyboardDismissMode = .interactive
+        collectionView.register(SessionsCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SessionsCollectionViewCell.reuseIdentifier)
+    }
+
+    func setupColors() {
+        navigationController?.view.backgroundColor = .mainWhite
+        collectionView.backgroundColor = .mainWhite
     }
 }
 
@@ -375,23 +384,24 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
 
         let sessionName = sessionDataModel.sessionName(for: index)
         presentCustomAlert(title: "Delete Session",
-                           content: "Are you sure you want to delete \(sessionName)?") { [weak self] in
-            Haptic.sendImpactFeedback(.heavy)
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: .defaultAnimationTime,
-                               delay: 0.0,
-                               options: [],
-                               animations: {
-                    cell.alpha = 0
-                }) { [weak self] (finished) in
-                    if finished {
-                        self?.sessionDataModel.remove(at: index)
-                        self?.collectionView.deleteItems(at: [.init(row: index, section: 0)])
-                        self?.updateSessionsUI()
-                    }
-                }
-            }
-        }
+                           content: "Are you sure you want to delete \(sessionName)?",
+                           rightButtonAction: { [weak self] in
+                            Haptic.sendImpactFeedback(.heavy)
+                            DispatchQueue.main.async {
+                                UIView.animate(withDuration: .defaultAnimationTime,
+                                               delay: 0.0,
+                                               options: [],
+                                               animations: {
+                                                cell.alpha = 0
+                                               }) { [weak self] (finished) in
+                                    if finished {
+                                        self?.sessionDataModel.remove(at: index)
+                                        self?.collectionView.deleteItems(at: [.init(row: index, section: 0)])
+                                        self?.updateSessionsUI()
+                                    }
+                                }
+                            }
+                           })
     }
 }
 

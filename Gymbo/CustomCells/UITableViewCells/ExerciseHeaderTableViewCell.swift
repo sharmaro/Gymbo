@@ -38,6 +38,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     private let setsLabel = UILabel()
     private let lastLabel = UILabel()
     private let repsLabel = UILabel()
+
     private let weightButton: ToggleButton = {
         let button = ToggleButton(items: WeightType.textItems)
         button.add(backgroundColor: .systemBlue)
@@ -86,11 +87,20 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
         setup()
     }
+}
 
+// MARK: - UITableViewCell Var/Funcs
+extension ExerciseHeaderTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
         deleteButton.addCorner(style: .circle(length: deleteButton.frame.height))
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
     }
 }
 
@@ -122,6 +132,12 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         weightButton.addTarget(self, action: #selector(weightButtonTapped), for: .touchUpInside)
 
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        backgroundColor = .mainWhite
+        contentView.backgroundColor = .clear
+        [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .mainBlack }
     }
 
     func addConstraints() {
@@ -163,6 +179,7 @@ extension ExerciseHeaderTableViewCell {
     private func setup() {
         addViews()
         setupViews()
+        setupColors()
         addConstraints()
     }
 

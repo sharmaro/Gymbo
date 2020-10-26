@@ -12,7 +12,6 @@ import UIKit
 class RestViewController: UIViewController {
     private let topContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
 
@@ -20,7 +19,6 @@ class RestViewController: UIViewController {
         let label = UILabel()
         label.text = "Choose a time below to rest!"
         label.textAlignment = .center
-        label.textColor = .darkGray
         label.font = .normal
         label.numberOfLines = 0
         return label
@@ -48,7 +46,7 @@ class RestViewController: UIViewController {
 
     private let circleProgressView: CircleProgressView = {
         let view = CircleProgressView()
-        view.backgroundColor = .white
+        view.backgroundColor = .mainWhite
         return view
     }()
 
@@ -130,6 +128,29 @@ private extension RestViewController {
     }
 }
 
+// MARK: - UIViewController Var/Funcs
+extension RestViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        addViews()
+        setupViews()
+        setupColors()
+        addConstraints()
+
+        if isTimerActive {
+            mainButtonInteraction()
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setupColors()
+    }
+}
+
 // MARK: - ViewAdding
 extension RestViewController: ViewAdding {
     func setupNavigationBar() {
@@ -147,8 +168,6 @@ extension RestViewController: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .white
-
         addTimeButton.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
         removeTimeButton.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
 
@@ -158,6 +177,11 @@ extension RestViewController: ViewAdding {
         pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
 
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
+    }
+
+    func setupColors() {
+        [view, topContainerView].forEach { $0.backgroundColor = .mainWhite }
+        restLabel.textColor = .mainDarkGray
     }
 
     //swiftlint:disable:next function_body_length
@@ -214,22 +238,6 @@ extension RestViewController: ViewAdding {
                 constant: -15),
             mainButton.heightAnchor.constraint(equalToConstant: 45)
         ])
-    }
-}
-
-// MARK: - UIViewController Var/Funcs
-extension RestViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        addViews()
-        setupViews()
-        addConstraints()
-
-        if isTimerActive {
-            mainButtonInteraction()
-        }
     }
 }
 
@@ -345,7 +353,7 @@ extension RestViewController: UIPickerViewDelegate {
                                                 size: CGSize(width: pickerView.bounds.width,
                                                              height: Constants.pickerRowHeight)))
         pickerLabel.text = restTimes[row]
-        pickerLabel.textColor = .black
+        pickerLabel.textColor = .mainBlack
         pickerLabel.textAlignment = .center
         pickerLabel.font = .xLarge
         return pickerLabel
