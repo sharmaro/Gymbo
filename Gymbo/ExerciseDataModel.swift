@@ -37,6 +37,7 @@ class ExerciseDataModel: NSObject {
 private extension ExerciseDataModel {
     struct Constants {
         static let searchResultsKey = "searchResultsKey"
+        static let headerHeight = CGFloat(40)
     }
 
     enum SearchResultsAction {
@@ -260,7 +261,7 @@ extension ExerciseDataModel {
     }
 
     func heightForHeaderIn(section: Int) -> CGFloat {
-        numberOfSections == 1 ? 0 : 40
+        numberOfSections == 0 ? 0 : Constants.headerHeight
     }
 
     func titleForHeaderIn(section: Int) -> String {

@@ -444,8 +444,14 @@ extension ExercisesViewController: UISearchResultsUpdating {
                 return
         }
 
-        exerciseDataModel.filterResults(filter: filter)
-        tableView.reloadData()
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            self.exerciseDataModel.filterResults(filter: filter)
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 

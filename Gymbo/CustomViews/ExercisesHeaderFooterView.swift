@@ -45,7 +45,9 @@ extension ExercisesHeaderFooterView: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .clear
+        let customBackgroundView = UIView()
+        customBackgroundView.backgroundColor = .mainLightGray
+        backgroundView = customBackgroundView
         label.textColor = .mainBlack
     }
 
