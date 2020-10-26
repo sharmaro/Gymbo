@@ -101,6 +101,7 @@ extension SessionsCollectionViewController {
 extension SessionsCollectionViewController: ViewAdding {
     func setupNavigationBar() {
         title = Constants.title
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                            target: self,
                                                            action: #selector(editButtonTapped))

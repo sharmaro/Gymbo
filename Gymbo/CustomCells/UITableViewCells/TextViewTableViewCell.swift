@@ -59,12 +59,24 @@ extension TextViewTableViewCell: ViewAdding {
         selectionStyle = .none
 
         textView.delegate = self
+        let textViewToolBar = UIToolbar()
+        textViewToolBar.barStyle = .default
+        textViewToolBar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Done",
+                            style: .plain,
+                            target: self,
+                            action: #selector(doneToolbarButtonTapped))
+        ]
+        textViewToolBar.sizeToFit()
+        textView.inputAccessoryView = textViewToolBar
     }
 
     func setupColors() {
         backgroundColor = .mainWhite
         contentView.backgroundColor = .clear
         textView.textColor = .mainBlack
+        textView.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
     }
 
     func addConstraints() {
@@ -93,6 +105,10 @@ extension TextViewTableViewCell {
         } else {
             textView.text = text
         }
+    }
+
+    @objc private func doneToolbarButtonTapped() {
+        endEditing(true)
     }
 }
 
