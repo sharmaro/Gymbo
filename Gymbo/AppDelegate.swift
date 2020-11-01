@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        NotificationHelper.requestPermission()
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
+        setupUserInterfaceMode()
 
         return true
     }
@@ -106,5 +107,9 @@ extension AppDelegate {
     private func setupUITableViewAppearance() {
         UITableView.appearance().showsHorizontalScrollIndicator = false
         UITableView.appearance().showsVerticalScrollIndicator = false
+    }
+
+    private func setupUserInterfaceMode() {
+        UserInterfaceMode.setUserInterfaceMode(with: .currentMode)
     }
 }

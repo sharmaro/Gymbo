@@ -12,6 +12,7 @@ import UIKit
 class StopwatchTableViewCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .mainBlack
         label.font = .medium
         label.textAlignment = .left
         return label
@@ -19,6 +20,7 @@ class StopwatchTableViewCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .mainBlack
         label.font = .medium
         label.textAlignment = .justified
         return label
@@ -63,12 +65,12 @@ extension StopwatchTableViewCell: ViewAdding {
             descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
             valueLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             valueLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
-        layoutIfNeeded()
     }
 }
 

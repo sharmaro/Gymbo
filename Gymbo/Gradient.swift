@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Properties
 struct Gradient {
     var startingColor: UIColor
     var endingColor: UIColor

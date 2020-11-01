@@ -6,7 +6,12 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
+// MARK: - Properties
 struct Utility {
+}
+
+// MARK: - Funcs
+extension Utility {
     static func formattedString(stringToFormat string: String?, type: SessionDetailType) -> String {
         guard let string = string,
             !string.isEmpty else {

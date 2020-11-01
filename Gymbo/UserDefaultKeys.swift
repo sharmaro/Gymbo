@@ -6,6 +6,7 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
+// MARK: - Properties
 struct UserDefaultKeys {
     // MARK: - StopWatchViewController
     static let STOPWATCH_STATE = "stopwatchState"
@@ -18,4 +19,5 @@ struct UserDefaultKeys {
 
     // MARK: - User
     static let IS_FIRST_TIME_LOAD = "isFirstTimeLoad"
+    static let INTERFACE_STYLE = "interfaceStyle"
 }

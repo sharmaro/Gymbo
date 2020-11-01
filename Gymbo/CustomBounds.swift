@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Properties
 struct CustomBounds {
     var horizontalPadding: CGFloat
     var percentHeight: CGFloat

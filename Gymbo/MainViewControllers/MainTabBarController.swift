@@ -12,7 +12,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     var isSessionInProgress = false
 
-    private var selectedTab = SelectedTab.sessions
+    private var selectedTab = Tabs.sessions
 
     private var isReplacingSession = false
     private var startSessionViewController: StartSessionTableViewController?
@@ -24,10 +24,41 @@ private extension MainTabBarController {
         static let defaultYOffset = CGFloat(60)
     }
 
-    enum SelectedTab: Int {
-        case exercises = 0
+    enum Tabs: Int {
+        case profile = 0
+        case exercises
         case sessions
         case stopwatch
+
+        var title: String {
+            let text: String
+            switch self {
+            case .profile:
+                text = "Profile"
+            case .exercises:
+                text = "My Exercises"
+            case .sessions:
+                text = "Sessions"
+            case .stopwatch:
+                text = "Stopwatch"
+            }
+            return text
+        }
+
+        var image: UIImage {
+            let imageName: String
+            switch self {
+            case .profile:
+                imageName = "profile"
+            case .exercises:
+                imageName = "my_exercises"
+            case .sessions:
+                imageName = "dumbbell"
+            case .stopwatch:
+                imageName = "stopwatch"
+            }
+            return UIImage(named: imageName) ?? UIImage()
+        }
     }
 
     enum SessionState {
@@ -57,27 +88,34 @@ extension MainTabBarController {
         tabBar.backgroundColor = .black
         tabBar.barTintColor = .black
 
+        let profileViewController = ProfileViewController()
+        let profileTab = Tabs.profile
+        profileViewController.tabBarItem = UITabBarItem(title: profileTab.title,
+                                                        image: profileTab.image,
+                                                        tag: profileTab.rawValue)
+
         let exercisesViewController = ExercisesViewController()
-        let exercisesTabImage = UIImage(named: "my_exercises")
-        exercisesViewController.tabBarItem = UITabBarItem(title: "My Exercises",
-                                                          image: exercisesTabImage,
-                                                          tag: 0)
+        let exercisesTab = Tabs.exercises
+        exercisesViewController.tabBarItem = UITabBarItem(title: exercisesTab.title,
+                                                          image: exercisesTab.image,
+                                                          tag: exercisesTab.rawValue)
 
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let sessionsCollectionViewController = SessionsCollectionViewController(
             collectionViewLayout: UICollectionViewFlowLayout())
-        let sessionsTabImage = UIImage(named: "dumbbell")
-        sessionsCollectionViewController.tabBarItem = UITabBarItem(title: "Sessions",
-                                                                   image: sessionsTabImage,
-                                                                   tag: 1)
+        let sessionsTab = Tabs.sessions
+        sessionsCollectionViewController.tabBarItem = UITabBarItem(title: sessionsTab.title,
+                                                                   image: sessionsTab.image,
+                                                                   tag: sessionsTab.rawValue)
 
         let stopwatchViewController = StopwatchViewController()
-        let stopwatchTabImage = UIImage(named: "stopwatch")
-        stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch",
-                                                          image: stopwatchTabImage,
-                                                          tag: 2)
+        let stopwatchTab = Tabs.stopwatch
+        stopwatchViewController.tabBarItem = UITabBarItem(title: stopwatchTab.title,
+                                                          image: stopwatchTab.image,
+                                                          tag: stopwatchTab.rawValue)
 
-        viewControllers = [exercisesViewController,
+        viewControllers = [profileViewController,
+                           exercisesViewController,
                            sessionsCollectionViewController,
                            stopwatchViewController].map {
             UINavigationController(rootViewController: $0)

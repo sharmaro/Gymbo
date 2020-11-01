@@ -13,6 +13,8 @@
 		691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
 		692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */; };
+		6930ACEF254EA80B002F2F80 /* SelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACEE254EA80B002F2F80 /* SelectionTableViewController.swift */; };
+		6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */; };
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */; };
@@ -33,6 +35,10 @@
 		6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */; };
 		6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */; };
 		69659C0924039C680054F655 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertViewController.swift */; };
+		6965C20C254BCC5D00A898AB /* UserInterfaceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C20B254BCC5D00A898AB /* UserInterfaceMode.swift */; };
+		6965C210254BD7B600A898AB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C20F254BD7B600A898AB /* ProfileViewController.swift */; };
+		6965C213254BE76100A898AB /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C212254BE76100A898AB /* SettingsTableViewController.swift */; };
+		6965C217254BF28500A898AB /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C216254BF28500A898AB /* SelectionTableViewCell.swift */; };
 		696664FB24F37FD70049507A /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FA24F37FD70049507A /* Axis.swift */; };
 		696664FD24F3812A0049507A /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FC24F3812A0049507A /* Gradient.swift */; };
 		69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */; };
@@ -127,6 +133,8 @@
 		691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
+		6930ACEE254EA80B002F2F80 /* SelectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewController.swift; sourceTree = "<group>"; };
+		6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionDelegate.swift; sourceTree = "<group>"; };
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTableViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +157,10 @@
 		6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewController.swift; sourceTree = "<group>"; };
 		6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExercisesHeaderFooterView.swift; path = Gymbo/CustomViews/ExercisesHeaderFooterView.swift; sourceTree = SOURCE_ROOT; };
 		69659C0724039C680054F655 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		6965C20B254BCC5D00A898AB /* UserInterfaceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceMode.swift; sourceTree = "<group>"; };
+		6965C20F254BD7B600A898AB /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		6965C212254BE76100A898AB /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		6965C216254BF28500A898AB /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		696664FA24F37FD70049507A /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
 		696664FC24F3812A0049507A /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		69693CE4247D012A00E87133 /* ImagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTableViewCell.swift; sourceTree = "<group>"; };
@@ -277,6 +289,7 @@
 				69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */,
 				69CB2D9023CD6D9F00603363 /* RestViewController.swift */,
 				693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */,
+				6965C212254BE76100A898AB /* SettingsTableViewController.swift */,
 				69695698245013C3007FADC2 /* StartSessionTableViewController.swift */,
 			);
 			path = SecondaryViewControllers;
@@ -351,6 +364,7 @@
 			isa = PBXGroup;
 			children = (
 				695D4C0022D30B1D00E3FB1F /* MainTabBarController.swift */,
+				6965C20F254BD7B600A898AB /* ProfileViewController.swift */,
 				697D461423F3B58A002ACDA7 /* ExercisesViewController.swift */,
 				6962F35D244410AA00CB6DAE /* SessionsCollectionViewController.swift */,
 				695D4BFE22D30AFE00E3FB1F /* StopwatchViewController.swift */,
@@ -385,6 +399,7 @@
 			children = (
 				69659C0724039C680054F655 /* AlertViewController.swift */,
 				6956292C234463EF00E0AA96 /* ModalPresentationController.swift */,
+				6930ACEE254EA80B002F2F80 /* SelectionTableViewController.swift */,
 			);
 			path = CustomViewControllers;
 			sourceTree = "<group>";
@@ -414,6 +429,7 @@
 				6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */,
 				6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */,
 				6972E403249F273F00479E91 /* RestTimerDelegate.swift */,
+				6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */,
 				69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */,
 				6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */,
 				6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */,
@@ -470,6 +486,7 @@
 				6972E3F3249F24A800479E91 /* SessionState.swift */,
 				6972E3F9249F257700479E91 /* TextFieldType.swift */,
 				6972E3FB249F25A100479E91 /* Transform.swift */,
+				6965C20B254BCC5D00A898AB /* UserInterfaceMode.swift */,
 				6957604F24BED49100A97F09 /* WeightType.swift */,
 			);
 			name = Enums;
@@ -506,6 +523,7 @@
 				69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */,
 				69693CEC247DF30300E87133 /* LabelTableViewCell.swift */,
 				69693CEA247D087A00E87133 /* MultipleSelectionTableViewCell.swift */,
+				6965C216254BF28500A898AB /* SelectionTableViewCell.swift */,
 				690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */,
 				69C1BCC8245F67E000D23556 /* SwipableImageViewTableViewCell.swift */,
 				69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */,
@@ -678,6 +696,7 @@
 			files = (
 				6972E402249F26E700479E91 /* ExercisesDelegate.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTabBarController.swift in Sources */,
+				6930ACEF254EA80B002F2F80 /* SelectionTableViewController.swift in Sources */,
 				697D461523F3B58A002ACDA7 /* ExercisesViewController.swift in Sources */,
 				6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTableViewCell.swift in Sources */,
@@ -714,7 +733,9 @@
 				6972E425249F2D4A00479E91 /* StartSessionButtonDelegate.swift in Sources */,
 				6972E3EE249F237C00479E91 /* CornerStyle.swift in Sources */,
 				6972E423249F2CF100479E91 /* SessionHeaderViewModel.swift in Sources */,
+				6965C213254BE76100A898AB /* SettingsTableViewController.swift in Sources */,
 				69DAD821247E01580023E967 /* TextViewTableViewCell.swift in Sources */,
+				6965C20C254BCC5D00A898AB /* UserInterfaceMode.swift in Sources */,
 				6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */,
 				6972E3F0249F244200479E91 /* PresentationStyle.swift in Sources */,
 				695070932497522400942078 /* Session.swift in Sources */,
@@ -736,11 +757,13 @@
 				6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */,
 				69A7392324CAB69E00AAD965 /* OnboardingPage.swift in Sources */,
 				6972E406249F276A00479E91 /* UpdateDelegate.swift in Sources */,
+				6965C217254BF28500A898AB /* SelectionTableViewCell.swift in Sources */,
 				6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */,
 				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
 				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
 				6972E408249F288100479E91 /* ImagesTableViewCellDelegate.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */,
+				6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */,
 				6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */,
 				6972E41D249F2B5600479E91 /* TextViewTableViewCellDelegate.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTableViewCell.swift in Sources */,
@@ -777,6 +800,7 @@
 				6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */,
 				6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */,
 				6972E40F249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift in Sources */,
+				6965C210254BD7B600A898AB /* ProfileViewController.swift in Sources */,
 				695D4C0522D4508C00E3FB1F /* SessionDataModel.swift in Sources */,
 				6972E419249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift in Sources */,
 			);
