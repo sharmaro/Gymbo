@@ -89,6 +89,7 @@ extension SelectionTableViewController {
 
         let item = items[indexPath.row]
         cell.configure(text: item)
+        cell.accessoryView = nil
 
         if item == selected {
             let imageView = UIImageView(frame: CGRect(origin: .zero,
@@ -97,8 +98,6 @@ extension SelectionTableViewController {
             imageView.tintColor = .mainBlack
             imageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
             cell.accessoryView = imageView
-        } else {
-            cell.accessoryView = nil
         }
         return cell
     }
