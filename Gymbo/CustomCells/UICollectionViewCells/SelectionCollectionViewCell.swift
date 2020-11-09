@@ -48,6 +48,12 @@ extension SelectionCollectionViewCell {
         }
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        selectionLabel.text?.removeAll()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

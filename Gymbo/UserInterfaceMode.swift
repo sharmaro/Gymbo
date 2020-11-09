@@ -51,10 +51,8 @@ extension UserInterfaceMode {
     }
 
     static func setUserInterfaceMode(with mode: UserInterfaceMode) {
-        if #available(iOS 13.0, *),
-           let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.window?.overrideUserInterfaceStyle = mode.interfaceStyle
-
             UserDefaults.standard.set(mode.interfaceStyle.rawValue, forKey: UserDefaultKeys.INTERFACE_STYLE)
         }
     }

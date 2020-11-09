@@ -251,12 +251,6 @@ extension SessionsCollectionViewController {
 
         let modalNavigationController = UINavigationController(
             rootViewController: sessionPreviewViewController)
-        if #available(iOS 13.0, *) {
-            // No op
-        } else {
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
-        }
         present(modalNavigationController, animated: true)
     }
 }
@@ -403,15 +397,6 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
                                 }
                             }
                            })
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-extension SessionsCollectionViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        ModalPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 

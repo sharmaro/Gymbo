@@ -144,6 +144,7 @@ extension ExercisesViewController: ViewAdding {
     func setupViews() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.sectionFooterHeight = 0
         tableView.register(ExercisesHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
         tableView.register(ExerciseTableViewCell.self,
@@ -542,17 +543,6 @@ extension ExercisesViewController: SessionStateConstraintsUpdating {
                 self?.view.layoutIfNeeded()
             }
         }
-    }
-}
-
-// MARK: - DimmedViewDelegate
-extension ExercisesViewController: DimmedViewDelegate {
-    func addView() {
-        navigationController?.view.addDimmedView(animated: true)
-    }
-
-    func removeView() {
-        navigationController?.view.removeDimmedView(animated: true)
     }
 }
 

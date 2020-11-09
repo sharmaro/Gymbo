@@ -54,6 +54,15 @@ class SelectionTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension SelectionTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        [titleLabel, valueLabel].forEach {
+            $0.text?.removeAll()
+        }
+        rightImageView.image = nil
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

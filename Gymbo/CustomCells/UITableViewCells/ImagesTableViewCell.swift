@@ -18,11 +18,18 @@ class ImagesTableViewCell: UITableViewCell {
     private var defaultImage = UIImage()
     var images: [UIImage] {
         var images = [UIImage]()
-        buttons.forEach {
-            if let image = $0.image(for: .normal),
-                image != defaultImage {
-                images.append(image)
+        let views: [UIView] = buttons.isEmpty ? imageViews : buttons
+        views.forEach {
+            var image = UIImage()
+            if let button = $0 as? UIButton,
+               let buttonImage = button.image(for: .normal),
+                  buttonImage != defaultImage {
+                image = buttonImage
+            } else if let imageView = $0 as? UIImageView,
+                      let imageViewImage = imageView.image {
+                image = imageViewImage
             }
+            images.append(image)
         }
         return images
     }

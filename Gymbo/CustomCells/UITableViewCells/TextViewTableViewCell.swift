@@ -42,6 +42,11 @@ class TextViewTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension TextViewTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        textView.text?.removeAll()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

@@ -30,7 +30,7 @@ class ActivityIndicatorView: UIView {
     }()
 
     private let activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView(style: .gray)
+        let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.startAnimating()
         return activityIndicatorView
     }()
@@ -90,7 +90,7 @@ extension ActivityIndicatorView: ViewAdding {
         label.text = text
 
         if text == nil {
-            activityIndicatorView.style = .whiteLarge
+            activityIndicatorView.style = .large
             contentBlurEffectView.effect = nil
         }
     }

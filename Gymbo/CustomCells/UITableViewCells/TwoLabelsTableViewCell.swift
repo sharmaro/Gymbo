@@ -41,6 +41,14 @@ class TwoLabelsTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension TwoLabelsTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        [topLabel, bottomLabel].forEach {
+            $0.text?.removeAll()
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

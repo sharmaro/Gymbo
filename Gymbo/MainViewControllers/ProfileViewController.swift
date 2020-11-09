@@ -168,18 +168,6 @@ extension ProfileViewController: KeyboardObserving {
     }
 }
 
-// MARK: - SetAlphaDelegate
-extension ProfileViewController: SetAlphaDelegate {
-    func setAlpha(alpha: CGFloat) {
-        UIView.animate(withDuration: .defaultAnimationTime,
-                       delay: .defaultAnimationTime,
-                       options: .curveEaseIn,
-                       animations: { [weak self] in
-            self?.navigationController?.view.alpha = alpha
-        })
-    }
-}
-
 // MARK: - SessionProgressDelegate
 extension ProfileViewController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {

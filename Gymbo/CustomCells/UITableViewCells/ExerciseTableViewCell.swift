@@ -51,6 +51,15 @@ class ExerciseTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension ExerciseTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        muscleImageView.image = nil
+        [nameLabel, groupsLabel].forEach {
+            $0.text?.removeAll()
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

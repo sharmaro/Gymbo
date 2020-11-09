@@ -35,6 +35,12 @@ class ButtonTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension ButtonTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        button.title.removeAll()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

@@ -84,6 +84,14 @@ extension ExerciseDetailTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        [setsLabel, lastLabel].forEach {
+            $0.text?.removeAll()
+        }
+
+        [repsTextField, weightTextField].forEach {
+            $0.text?.removeAll()
+        }
+
         didSelect = false
     }
 
