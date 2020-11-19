@@ -120,10 +120,10 @@ extension AlertViewController: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            containerView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            containerView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
 

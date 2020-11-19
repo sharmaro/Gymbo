@@ -136,10 +136,10 @@ extension OnboardingViewController: ViewAdding {
                 titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 
                 infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                infoLabel.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                infoLabel.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 infoLabel.heightAnchor.constraint(equalToConstant: 100)
@@ -152,34 +152,34 @@ extension OnboardingViewController: ViewAdding {
             imageViewTopConstraint?.isActive = true
 
             infoLabelBottomConstraint =
-                infoLabel.safeAreaLayoutGuide.bottomAnchor.constraint(
+                infoLabel.bottomAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                     constant: -40)
 
             NSLayoutConstraint.activate([
-                titleLabel.safeAreaLayoutGuide.topAnchor.constraint(
+                titleLabel.topAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.topAnchor,
                     constant: 20),
-                titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                titleLabel.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                titleLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                titleLabel.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
 
-                imageView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                imageView.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                imageView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                imageView.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 imageView.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -20),
 
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
+                infoLabel.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
+                infoLabel.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 infoLabel.heightAnchor.constraint(equalToConstant: 100)

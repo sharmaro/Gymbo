@@ -100,11 +100,11 @@ extension ProfileViewController: ViewAdding {
         NSLayoutConstraint.activate([
             // Using top anchor instead of safe area to get smooth navigation title size change animation
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            tableView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            tableView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+            tableView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

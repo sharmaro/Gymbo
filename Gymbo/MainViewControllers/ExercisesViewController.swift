@@ -170,25 +170,25 @@ extension ExercisesViewController: ViewAdding {
         NSLayoutConstraint.activate([
             // Using top anchor instead of safe area to get smooth navigation title size change animation
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            tableView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            tableView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+            tableView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         if presentationStyle == .modal {
-            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+            addExerciseButtonBottomConstraint = addExerciseButton.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: Constants.sessionEndedConstraintConstant)
             addExerciseButtonBottomConstraint?.isActive = true
 
             NSLayoutConstraint.activate([
-                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+                addExerciseButton.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+                addExerciseButton.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.addExerciseButtonHeight)

@@ -252,17 +252,17 @@ extension StopwatchViewController: ViewAdding {
         let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
 
         buttonsStackViewBottomConstraint =
-            buttonsStackView.safeAreaLayoutGuide.bottomAnchor.constraint(
+            buttonsStackView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: Constants.sessionEndedConstraintConstant)
         buttonsStackViewBottomConstraint?.isActive = true
 
         NSLayoutConstraint.activate([
-            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(
+            timeStackView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor),
-            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            timeStackView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            timeStackView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight),
 
@@ -279,17 +279,17 @@ extension StopwatchViewController: ViewAdding {
                 equalToConstant: Constants.timeStackViewHeight / 2),
 
             tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            tableView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            tableView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+            tableView.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            buttonsStackView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 15),
-            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            buttonsStackView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -15),
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)

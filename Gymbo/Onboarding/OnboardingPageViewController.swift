@@ -66,7 +66,7 @@ extension OnboardingPageViewController: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageControl.safeAreaLayoutGuide.bottomAnchor.constraint(
+            pageControl.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: -10)
         ])

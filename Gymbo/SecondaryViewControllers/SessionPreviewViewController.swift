@@ -146,23 +146,23 @@ extension SessionPreviewViewController: ViewAdding {
         tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            tableView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
 
-            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+            startSessionButton.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+            startSessionButton.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+            startSessionButton.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: Constants.startButtonBottomSpacing),
             startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)

@@ -141,20 +141,20 @@ extension ExercisePreviewViewController: ViewAdding {
     func addConstraints() {
         let viewToUse = exercise.isUserMade ? editButton : editDisclaimerLabel
         NSLayoutConstraint.activate([
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+            tableView.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: viewToUse.topAnchor),
 
-            viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
+            viewToUse.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            viewToUse.safeAreaLayoutGuide.trailingAnchor.constraint(
+            viewToUse.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(
+            viewToUse.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: -15),
             viewToUse.heightAnchor.constraint(equalToConstant: 45)
