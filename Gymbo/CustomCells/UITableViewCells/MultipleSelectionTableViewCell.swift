@@ -18,11 +18,7 @@ class MultipleSelectionTableViewCell: UITableViewCell {
         return collectionView
     }()
 
-    private var selectionTitles = [String]() {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    private var selectionTitles = [String]()
     private var initiallySelectedIndexPathsSet = Set<IndexPath>()
 
     weak var multipleSelectionTableViewCellDelegate: MultipleSelectionTableViewCellDelegate?
@@ -98,12 +94,14 @@ extension MultipleSelectionTableViewCell {
 
     func configure(titles: [String], selectedTitles: [String] = []) {
         selectionTitles = titles
+        initiallySelectedIndexPathsSet.removeAll()
 
         for selected in selectedTitles {
             if let row = titles.firstIndex(of: selected) {
                 initiallySelectedIndexPathsSet.insert(IndexPath(row: row, section: 0))
             }
         }
+        collectionView.reloadData()
     }
 }
 
@@ -123,12 +121,15 @@ extension MultipleSelectionTableViewCell: UICollectionViewDataSource {
 
         let group = selectionTitles[indexPath.row]
         selectionCollectionViewCell.configure(title: group)
-        // Setting the tapped state to cells that are initially selected, then removing them from the set
+        // Setting the tapped state to cells that are initially selected
         if initiallySelectedIndexPathsSet.contains(indexPath) {
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
             selectionCollectionViewCell.isSelected = true
             selectionCollectionViewCell.tapped()
-            initiallySelectedIndexPathsSet.remove(indexPath)
+        } else {
+            collectionView.deselectItem(at: indexPath, animated: false)
+            selectionCollectionViewCell.isSelected = false
+            selectionCollectionViewCell.tapped()
         }
         return selectionCollectionViewCell
     }

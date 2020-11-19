@@ -41,14 +41,6 @@ class StopwatchTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension StopwatchTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        [descriptionLabel, valueLabel].forEach {
-            $0.text?.removeAll()
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

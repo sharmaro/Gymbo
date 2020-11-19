@@ -51,15 +51,6 @@ class ExerciseTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension ExerciseTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        muscleImageView.image = nil
-        [nameLabel, groupsLabel].forEach {
-            $0.text?.removeAll()
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -124,9 +115,13 @@ extension ExerciseTableViewCell {
         nameLabel.text = dataModel.name
         groupsLabel.text = dataModel.groups
 
-        let imagesData = dataModel.imagesData
-        if let firstImageData = imagesData.first,
-            let image = UIImage(data: firstImageData) {
+        // Only want the first image for the thumbnail
+        let directory: Directory = dataModel.isUserMade ?
+            .userThumbnails : .stockThumbnails
+        let thumbnailNames = dataModel.imageNames
+        if let firstThumbnailName = thumbnailNames.first,
+           let image = Utility.getImageFrom(name: firstThumbnailName,
+                                            directory: directory) {
             muscleImageView.contentMode = .scaleToFill
             muscleImageView.image = image
         } else if let emptyImage = UIImage(named: "empty") {

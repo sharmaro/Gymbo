@@ -17,7 +17,10 @@ class ExerciseDataModel: NSObject {
     private let exerciseGroups = ["Abs", "Arms", "Back", "Chest",
                                   "Glutes", "Hips", "Legs", "Other", "Shoulders"]
 
-    private var isFirstTimeLoad = true
+    private var isFirstTimeLoad: Bool {
+        realm?.objects(ExercisesList.self).first == nil
+    }
+
     private var firstTimeLoadExercises = List<Exercise>()
 
     private var exercises: [Exercise] {
@@ -60,7 +63,6 @@ extension ExerciseDataModel {
             guard let self = self else { return }
 
             if self.realm?.objects(ExercisesList.self).first != nil {
-                self.isFirstTimeLoad = false
                 self.sectionTitles =
                     Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
 
@@ -94,7 +96,6 @@ extension ExerciseDataModel {
                 try? self.realm?.write {
                     self.realm?.add(exercisesList)
                 }
-                self.isFirstTimeLoad = false
 
                 /*
                  Updating realm again in case the user adds
@@ -126,7 +127,7 @@ extension ExerciseDataModel {
                                              groups: newExercise.groups,
                                              instructions: newExercise.instructions,
                                              tips: newExercise.tips,
-                                             imagesData: newExercise.imagesData,
+                                             imageNames: newExercise.imageNames,
                                              isUserMade: newExercise.isUserMade,
                                              weightType: newExercise.weightType,
                                              sets: newExercise.sets,
@@ -142,84 +143,72 @@ extension ExerciseDataModel {
         }
     }
 
-    //swiftlint:disable:next cyclomatic_complexity
     private func createExerciseFromStorage(name: String, groups: String) -> Exercise {
         let lowercased = name.lowercased().replacingOccurrences(of: "/", with: "_")
-        let exerciseFolderPathString = "Workout Info/\(lowercased)"
 
         // Getting path of resources for app
-        guard let resourcePath = Bundle.main.resourcePath else {
-            fatalError("Couldn't get resource path for exercise: \(name)")
+        guard let resourcePath = Directory.exercises.url?.path else {
+            fatalError("Couldn't get main resource path")
         }
 
         // Creating exercise name folder path
-        //swiftlint:disable:next line_length
-        let exerciseFolderPath = URL(fileURLWithPath: resourcePath).appendingPathComponent(exerciseFolderPathString).path
+        let exerciseFolderPath = URL(fileURLWithPath: resourcePath)
+            .appendingPathComponent(lowercased).path
         guard let contents = try? FileManager().contentsOfDirectory(atPath: exerciseFolderPath) else {
             fatalError("Couldn't get contents for exercise: \(name)")
         }
 
-        var imageFileNames = [String]()
+        var imageNames = List<String>()
         var instructions = "No instructions"
         var tips = "No tips"
         // Contents contains all the file names in the exercise name folder
-        for content in contents {
-            if content.contains(".txt") {
+        contents.forEach {
+            if $0.contains(".txt") {
                 // Creating a file path for each file name in the exercise name folder
-                // ex: /ab roller crunch/ab roller crunch_0.png
-                //swiftlint:disable:next line_length
-                let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(content).path
+                // Ex: /ab roller crunch/ab roller crunch_0.png
+                // Ex: /ab roller crunch/ab roller crunch_1.jpg
+                let contentFilePath = URL(fileURLWithPath: exerciseFolderPath)
+                    .appendingPathComponent($0).path
 
                 // Getting the data from that file
                 guard let data = FileManager().contents(atPath: contentFilePath) else {
-                    fatalError("Couldn't get text data for exercise: \(name)")
+                    fatalError("Couldn't get data for exercise: \(name)")
                 }
 
                 // Getting raw text array by separating all text by new line character
                 let rawText = (String(data: data, encoding: .utf8) ?? "").components(separatedBy: "\n")
-                var formattedText = ""
-                // Looping through raw text to add 2 new line vertical spacing between each line of text
-                // Ignoring the last line that's empty
-                for (index, line) in rawText.enumerated() where !line.isEmpty {
-                    // The last line should only get 1 new line vertical spacing
-                    if index < rawText.count - 2 {
-                        formattedText.append("\(line)\n\n")
-                    } else {
-                        formattedText.append("\(line)\n")
-                    }
-                }
+                let formattedText = format(text: rawText)
 
-                if content.contains("info.txt") {
+                if $0.contains("info.txt") {
                     instructions = formattedText
-                } else if content.contains("tips.txt") {
+                } else if $0.contains("tips.txt") {
                     tips = formattedText
                 }
             // Storing image file names first so it can be sorted after
-            } else if content.contains(".png") || content.contains(".jpg") {
-                imageFileNames.append(content)
+            } else if $0.contains(".png") || $0.contains(".jpg") {
+                imageNames.append($0)
             }
         }
 
-        imageFileNames.sort()
-        let imagesData = List<Data>()
-        // Getting image data and appending it to imagesData array
-        // Can't store data as [UIImage] because [UIImage] doesn't conform to Codable
-        for imageName in imageFileNames {
-            //swiftlint:disable:next line_length
-            let contentFilePath = URL(fileURLWithPath: exerciseFolderPath).appendingPathComponent(imageName).path
-
-            guard let data = FileManager().contents(atPath: contentFilePath) else {
-                fatalError("Couldn't get image data for exercise: \(name)")
-            }
-
-            imagesData.append(data)
-        }
+        imageNames.sort()
 
         return Exercise(name: name,
                         groups: groups,
                         instructions: instructions,
                         tips: tips,
-                        imagesData: imagesData)
+                        imageNames: imageNames)
+    }
+
+    private func format(text: [String]) -> String {
+        // Looping through raw text to add 2 new line vertical spacing between each line of text
+        // Ignoring the last line that's empty
+        var formattedText = ""
+        for (index, line) in text.enumerated() where !line.isEmpty {
+            // The last line should only get 1 new line vertical spacing
+            let newLine = index < text.count - 2 ? "\n\n" : "\n"
+            formattedText.append("\(line)\(newLine)")
+        }
+        return formattedText
     }
 
     private func getFirstCharacter(of text: String) -> String? {
@@ -297,11 +286,11 @@ extension ExerciseDataModel {
         return exerciseArray[indexPath.row]
     }
 
-    func defaultExerciseGroupCount() -> Int {
+    var defaultExerciseGroupCount: Int {
         exerciseGroups.count
     }
 
-    func defaultExerciseGroups() -> [String] {
+    var defaultExerciseGroups: [String] {
         exerciseGroups
     }
 
@@ -390,6 +379,9 @@ extension ExerciseDataModel {
         }
 
         updateSearchResultsWithExercise(name: name, action: .remove)
+
+        let exercise = exercises[index]
+        Utility.removeImages(names: Array(exercise.imageNames))
 
         try? realm?.write {
             realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)

@@ -200,8 +200,9 @@ extension ExercisePreviewViewController {
             fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
         }
 
-        let imagesDataArray = Array(exercise.imagesData)
-        swipableImageViewCell.configure(imagesData: imagesDataArray)
+        let imageFileNames = Array(exercise.imageNames)
+        swipableImageViewCell.configure(imageFileNames: imageFileNames,
+                                        isUserMade: exercise.isUserMade)
         return swipableImageViewCell
     }
 
@@ -241,7 +242,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
         case .imagesTitle, .instructionsTitle, .tipsTitle:
             cell = getLabelTableViewCell(for: indexPath, text: tableRow.rawValue, font: UIFont.large.medium)
         case .images:
-            if exercise.imagesData.isEmpty {
+            if exercise.imageNames.isEmpty {
                 cell = getLabelTableViewCell(for: indexPath, text: Constants.noImagesText)
             } else {
                 cell = getSwipableImageViewTableViewCell(for: indexPath)
@@ -261,7 +262,7 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exercise.imagesData.isEmpty ?
+            return exercise.imageNames.isEmpty ?
                 UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension
@@ -271,7 +272,7 @@ extension ExercisePreviewViewController: UITableViewDelegate {
         let tableItem = tableData[indexPath.row]
         switch tableItem {
         case .images:
-            return exercise.imagesData.isEmpty ?
+            return exercise.imageNames.isEmpty ?
                 UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
         default:
             return UITableView.automaticDimension

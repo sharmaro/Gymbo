@@ -34,12 +34,6 @@ class TextFieldTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension TextFieldTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        textField.text?.removeAll()
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -57,7 +51,7 @@ extension TextFieldTableViewCell: ViewAdding {
         selectionStyle = .none
 
         textField.delegate = self
-        textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldEditingDidEnd), for: .editingDidEnd)
     }
 
     func setupColors() {
@@ -85,8 +79,8 @@ extension TextFieldTableViewCell {
         addConstraints()
     }
 
-    @objc private func textFieldEditingChanged(textField: UITextField) {
-        textFieldTableViewCellDelegate?.textFieldEditingChanged(textField: textField)
+    @objc private func textFieldEditingDidEnd(textField: UITextField) {
+        textFieldTableViewCellDelegate?.textFieldEditingDidEnd(textField: textField)
     }
 
     func configure(text: String, placeHolder: String, returnKeyType: UIReturnKeyType = .done) {

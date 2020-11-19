@@ -89,16 +89,18 @@ extension SwipableImageViewTableViewCell {
         addConstraints()
     }
 
-    func configure(imagesData: [Data]?) {
-        guard let imagesData = imagesData else {
+    func configure(imageFileNames: [String]?, isUserMade: Bool) {
+        guard let imageFileNames = imageFileNames else {
             return
         }
 
-        pageControl.numberOfPages = imagesData.count
-        horizontalScrollView.contentSize.width = frame.width * CGFloat(imagesData.count)
+        pageControl.numberOfPages = imageFileNames.count
+        horizontalScrollView.contentSize.width = frame.width * CGFloat(imageFileNames.count)
 
-        for (index, data) in imagesData.enumerated() {
-            if let image = UIImage(data: data) {
+        let directory: Directory = isUserMade ? .userImages : .exercises
+        for (index, fileName) in imageFileNames.enumerated() {
+            if let image = Utility.getImageFrom(name: fileName,
+                                                directory: directory) {
                 let imageView = UIImageView(frame: CGRect(origin:
                     CGPoint(x: frame.width * CGFloat(index),
                             y: 0), size:

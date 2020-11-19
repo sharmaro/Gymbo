@@ -34,12 +34,6 @@ class LabelTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension LabelTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        detailLabel.text?.removeAll()
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

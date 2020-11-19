@@ -48,12 +48,6 @@ extension SelectionCollectionViewCell {
         }
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        selectionLabel.text?.removeAll()
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -90,20 +84,6 @@ extension SelectionCollectionViewCell {
         addConstraints()
     }
 
-    private func transform(type: Transform) {
-        UIView.animate(withDuration: .defaultAnimationTime,
-                       delay: 0,
-                       options: [.curveEaseInOut],
-                       animations: { [weak self] in
-            switch type {
-            case .shrink:
-                self?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-            case .inflate:
-                self?.transform = CGAffineTransform.identity
-            }
-        })
-    }
-
     func configure(title: String) {
         selectionLabel.text = title
     }
@@ -121,8 +101,22 @@ extension SelectionCollectionViewCell {
             } else {
                 self.selectionLabel.textColor = .systemBlue
                 self.containerView.backgroundColor = .dimmedDarkGray
-                self.containerView.layer.sublayers?.removeFirst()
+                self.containerView.removeGradient()
             }
         }
+    }
+
+    private func transform(type: Transform) {
+        UIView.animate(withDuration: .defaultAnimationTime,
+                       delay: 0,
+                       options: [.curveEaseInOut],
+                       animations: { [weak self] in
+            switch type {
+            case .shrink:
+                self?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            case .inflate:
+                self?.transform = CGAffineTransform.identity
+            }
+        })
     }
 }

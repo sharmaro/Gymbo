@@ -10,10 +10,13 @@ import UIKit
 
 protocol TextFieldTableViewCellDelegate: class {
     func textFieldEditingChanged(textField: UITextField)
+    func textFieldEditingDidEnd(textField: UITextField)
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
 }
 
 extension TextFieldTableViewCellDelegate {
+    func textFieldEditingChanged(textField: UITextField) {}
+    func textFieldEditingDidEnd(textField: UITextField) {}
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         true
     }

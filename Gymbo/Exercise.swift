@@ -15,7 +15,7 @@ import RealmSwift
     dynamic var groups: String?
     dynamic var instructions: String?
     dynamic var tips: String?
-    let imagesData = List<Data>()
+    let imageNames = List<String>()
     dynamic var isUserMade = false
 
     // User-related exercise information
@@ -27,7 +27,7 @@ import RealmSwift
                      groups: String? = nil,
                      instructions: String? = nil,
                      tips: String? = nil,
-                     imagesData: List<Data> = List<Data>(),
+                     imageNames: List<String> = List<String>(),
                      isUserMade: Bool = false,
                      weightType: Int = 0,
                      sets: Int = 1,
@@ -39,9 +39,11 @@ import RealmSwift
         self.groups = groups
         self.instructions = instructions
         self.tips = tips
-        for imageData in imagesData {
-            self.imagesData.append(imageData)
+
+        for imageName in imageNames {
+            self.imageNames.append(imageName)
         }
+
         self.isUserMade = isUserMade
 
         self.sets = sets

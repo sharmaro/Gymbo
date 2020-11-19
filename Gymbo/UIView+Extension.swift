@@ -219,6 +219,10 @@ extension UIView {
     }
 
     func addGradient(axis: Axis = .horizontal, colors: [UIColor]) {
+        guard !(layer.sublayers?.first is CAGradientLayer) else {
+            return
+        }
+
         layer.masksToBounds = true
 
         let gradientLayer = CAGradientLayer()
@@ -234,5 +238,12 @@ extension UIView {
         }
         gradientLayer.addCorner(style: .small)
         layer.insertSublayer(gradientLayer, at: 0)
+    }
+
+    func removeGradient() {
+        guard let gradientLayer = layer.sublayers?.first as? CAGradientLayer else {
+            return
+        }
+        gradientLayer.removeFromSuperlayer()
     }
 }

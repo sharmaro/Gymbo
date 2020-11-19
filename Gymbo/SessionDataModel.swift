@@ -146,7 +146,7 @@ extension SessionDataModel {
                 success?()
             }
         } else {
-            // Using self because `index` is already used here
+            // Using self because 'index' is already used here
             guard self.index(of: newName) == nil else {
                 fail?()
                 return

@@ -11,14 +11,11 @@ import UIKit
 // MARK: - Properties
 class ImagesTableViewCell: UITableViewCell {
     private let horizontalScrollView = UIScrollView()
-
-    private var buttons = [CustomButton]()
-    private var imageViews = [UIImageView]()
+    private var views = [UIView]()
 
     private var defaultImage = UIImage()
     var images: [UIImage] {
         var images = [UIImage]()
-        let views: [UIView] = buttons.isEmpty ? imageViews : buttons
         views.forEach {
             var image = UIImage()
             if let button = $0 as? UIButton,
@@ -93,7 +90,7 @@ extension ImagesTableViewCell {
         addConstraints()
     }
 
-    private func setupHorizontalScrollView(count: Int, imageType: ImageType, image: UIImage) {
+    private func setupHorizontalScrollView(count: Int, imageType: ImageRepresentationType, image: UIImage) {
         let squareBound = frame.height * 0.9
         let viewSize = CGSize(width: squareBound, height: squareBound)
         let spacing = CGFloat(20)
@@ -115,7 +112,6 @@ extension ImagesTableViewCell {
                 button.contentMode = .scaleAspectFit
                 button.tag = i
                 button.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
-                buttons.append(button)
                 view = button
             case .image:
                 let imageView = UIImageView(frame:
@@ -126,9 +122,9 @@ extension ImagesTableViewCell {
                 imageView.image = image
                 imageView.contentMode = .scaleAspectFit
                 imageView.layoutIfNeeded()
-                imageViews.append(imageView)
                 view = imageView
             }
+            views.append(view)
             view.addCorner(style: .circle(length: view.frame.height))
             previousX += viewSize.width + spacing
             horizontalScrollView.addSubview(view)
@@ -139,7 +135,7 @@ extension ImagesTableViewCell {
     func configure(count: Int = 2,
                    existingImages: [UIImage?],
                    defaultImage: UIImage?,
-                   type: ImageType) {
+                   type: ImageRepresentationType) {
         /*
          - Preventing adding subviews to horizontalScrollView multiple times.
          - UIScrollView has 2 subviews (two scroll view indicators).
@@ -160,23 +156,29 @@ extension ImagesTableViewCell {
         let endIndex = min(count, existingImages.count)
         for i in 0..<endIndex {
             let image = existingImages[i]
-            if !buttons.isEmpty {
-                buttons[i].setImage(image, for: .normal)
-            } else if !imageViews.isEmpty {
-                imageViews[i].image = image
+            let view = views[i]
+
+            if let button = view as? CustomButton {
+                button.setImage(image, for: .normal)
+            } else if let imageView = view as? UIImageView {
+                imageView.image = image
             }
         }
     }
 
     func update(image: UIImage? = nil, for index: Int) {
         let imageToUse = image ?? defaultImage
-        let button = buttons[index]
+        let view = views[index]
 
-        UIView.transition(with: button,
+        UIView.transition(with: view,
                           duration: .defaultAnimationTime,
                           options: .transitionCrossDissolve,
                           animations: {
-            button.setImage(imageToUse, for: .normal)
+            if let button = view as? CustomButton {
+                button.setImage(imageToUse, for: .normal)
+            } else if let imageView = view as? UIImageView {
+                imageView.image = imageToUse
+            }
         })
     }
 

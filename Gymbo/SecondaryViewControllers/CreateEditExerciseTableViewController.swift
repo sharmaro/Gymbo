@@ -168,30 +168,41 @@ extension CreateEditExerciseTableViewController {
 
     private func setupFromExistingExercise() {
         exerciseName = exercise.name ?? ""
-        groups = Utility.getStringArraySeparated(by: ",", text: exercise.groups)
-        images = getUIImageFromData(list: exercise.imagesData)
+        groups = (exercise.groups ?? "").components(separatedBy: ",").map {
+            $0.trimmingCharacters(in: .whitespaces)
+        }
+        images = getUIImageFromImageNames(list: exercise.imageNames)
         instructions = exercise.instructions ?? ""
         tips = exercise.tips ?? ""
     }
 
-    private func getUIImageFromData(list: List<Data>) -> [UIImage] {
+    private func getUIImageFromImageNames(list: List<String>) -> [UIImage] {
         var images = [UIImage]()
-        for data in list {
-            if let imageToAdd = UIImage(data: data) {
+        for imageName in list {
+            if let imageToAdd = Utility.getImageFrom(name: imageName,
+                                                     directory: .userImages) {
                 images.append(imageToAdd)
             }
         }
         return images
     }
 
-    private func createDataList(from images: [UIImage]) -> List<Data> {
-        let imagesData = List<Data>()
-        for image in images {
-            if let data = image.jpegData(compressionQuality: 0.5) {
-                imagesData.append(data)
-            }
-        }
-        return imagesData
+    private func getImageNamesAfterSave(from exerciseName: String,
+                                        and images: [UIImage]) -> List<String> {
+        let imageNames = Utility.saveImages(name: exerciseName,
+                                                images: images,
+                                                isUserMade: true,
+                                                directory: .userImages) ?? [""]
+
+        let thumbnails = images.map { $0.thumbnail ?? UIImage() }
+        Utility.saveImages(name: exerciseName,
+                           images: thumbnails,
+                           isUserMade: true,
+                           directory: .userThumbnails)
+
+        let imageFilePathsList = List<String>()
+        imageFilePathsList.append(objectsIn: imageNames)
+        return imageFilePathsList
     }
 
     private func getInstructionsAndTipsFromCell() -> (instructions: String?, tips: String?) {
@@ -235,7 +246,8 @@ extension CreateEditExerciseTableViewController {
             fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
         }
 
-        textFieldTableViewCell.configure(text: exercise.name ?? "", placeHolder: "Exercise name...")
+        textFieldTableViewCell.configure(text: exercise.name ?? exerciseName,
+                                         placeHolder: "Exercise name...")
         textFieldTableViewCell.textFieldTableViewCellDelegate = self
         return textFieldTableViewCell
     }
@@ -248,11 +260,12 @@ extension CreateEditExerciseTableViewController {
             fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
         }
 
-        let selectedTitlesArray = Utility.getStringArraySeparated(by: ",", text: exercise.groups).map {
-            $0.capitalized
+        let selectedTitlesArray = (exercise.groups ?? "").components(separatedBy: ",").map {
+            $0.capitalized.trimmingCharacters(in: .whitespaces)
         }
-        multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups(),
-                                                 selectedTitles: selectedTitlesArray)
+        let selectedGroups = selectedTitlesArray.isEmpty ? groups : selectedTitlesArray
+        multipleSelectionTableViewCell.configure(titles: exerciseDataModel.defaultExerciseGroups,
+                                                 selectedTitles: selectedGroups)
         multipleSelectionTableViewCell.multipleSelectionTableViewCellDelegate = self
         return multipleSelectionTableViewCell
     }
@@ -265,7 +278,7 @@ extension CreateEditExerciseTableViewController {
             fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
         }
 
-        let existingImages = getUIImageFromData(list: exercise.imagesData)
+        let existingImages = getUIImageFromImageNames(list: exercise.imageNames)
         let defaultImage = UIImage(named: "add")
         imagesTableViewCell.configure(existingImages: existingImages,
                                       defaultImage: defaultImage,
@@ -282,7 +295,12 @@ extension CreateEditExerciseTableViewController {
             fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
         }
 
-        let text = tableRow == .instructions ? exercise.instructions : exercise.tips
+        let text: String
+        if tableRow == .instructions {
+            text = exercise.instructions ?? instructions
+        } else {
+            text = exercise.tips ?? tips
+        }
         textViewTableViewCell.configure(text: text)
         textViewTableViewCell.textViewTableViewCellDelegate = self
         return textViewTableViewCell
@@ -306,13 +324,14 @@ extension CreateEditExerciseTableViewController {
             }
         }
 
-        let imagesData = createDataList(from: images)
+        let imageNames = getImageNamesAfterSave(from: exerciseName,
+                                                and: images)
         let instructionsAndTips = getInstructionsAndTipsFromCell()
         let exercise = Exercise(name: exerciseName,
                                 groups: groups,
                                 instructions: instructionsAndTips.instructions,
                                 tips: instructionsAndTips.tips,
-                                imagesData: imagesData,
+                                imageNames: imageNames,
                                 isUserMade: true)
         let exerciseName = self.exerciseName
         switch exerciseState {
@@ -392,17 +411,30 @@ extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
                                             toWidth: .defaultSelectedBorder)
     }
 
-    func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell) {
         tableView.performBatchUpdates({
             textView.sizeToFit()
         })
 
-        if let indexPathOfCell = tableView.indexPath(for: cell) {
-            tableView.scrollToRow(at: indexPathOfCell, at: .bottom, animated: true)
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            fatalError("Couldn't get indexPath of cell: \(cell)")
         }
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell) {
+        guard let cellRow = tableView.indexPath(for: cell)?.row else {
+            fatalError("Couldn't get indexPath of cell: \(cell)")
+        }
+
+        let tableRow = tableData[cellRow]
+        let text = textView.text ?? ""
+        if tableRow == .instructions {
+            instructions = text
+        } else if tableRow == .tips {
+            tips = text
+        }
+
         textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder,
                                             toColor: .defaultUnselectedBorder,
                                             fromWidth: .defaultSelectedBorder,
@@ -412,7 +444,7 @@ extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
 
 // MARK: TextFieldTableViewCellDelegate
 extension CreateEditExerciseTableViewController: TextFieldTableViewCellDelegate {
-    func textFieldEditingChanged(textField: UITextField) {
+    func textFieldEditingDidEnd(textField: UITextField) {
         exerciseName = textField.text ?? ""
         updateSaveButton()
     }

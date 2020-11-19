@@ -20,7 +20,7 @@ class TextViewTableViewCell: UITableViewCell {
         return textView
     }()
 
-    // Can't override text property
+    // Can't override 'text' property
     var textViewText: String? {
         textView.text
     }
@@ -42,11 +42,6 @@ class TextViewTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension TextViewTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        textView.text?.removeAll()
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -128,6 +123,6 @@ extension TextViewTableViewCell: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        textViewTableViewCellDelegate?.textViewDidEndEditing(textView)
+        textViewTableViewCellDelegate?.textViewDidEndEditing(textView, cell: self)
     }
 }

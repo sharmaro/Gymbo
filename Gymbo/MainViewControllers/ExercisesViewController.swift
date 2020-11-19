@@ -221,7 +221,7 @@ extension ExercisesViewController {
                                     groups: referenceExercise.groups,
                                     instructions: referenceExercise.instructions,
                                     tips: referenceExercise.tips,
-                                    imagesData: referenceExercise.imagesData,
+                                    imageNames: referenceExercise.imageNames,
                                     isUserMade: referenceExercise.isUserMade,
                                     weightType: referenceExercise.weightType,
                                     sets: referenceExercise.sets,

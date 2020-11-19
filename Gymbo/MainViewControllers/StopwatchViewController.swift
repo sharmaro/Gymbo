@@ -401,7 +401,7 @@ extension StopwatchViewController {
             switch button.tag {
             case 0: // lapAndReset button tapped
                 if stopwatchState == .started {
-                    // User selected `Lap` functionality
+                    // User selected 'Lap' functionality
                     if laps == nil {
                         laps = [newLap]
                     } else {
@@ -417,7 +417,7 @@ extension StopwatchViewController {
                         self?.tableView.reloadData()
                     })
                 } else if stopwatchState == .stopped {
-                    // User selected `Reset` functionality
+                    // User selected 'Reset' functionality
                     minInt = 0
                     secInt = 0
                     centiSecInt = 0

@@ -91,12 +91,6 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
 // MARK: - UITableViewCell Var/Funcs
 extension ExerciseHeaderTableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        nameLabel.text?.removeAll()
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
 

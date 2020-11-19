@@ -84,14 +84,6 @@ extension SessionsCollectionViewCell {
         }
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        [titleLabel, infoLabel].forEach {
-            $0.text?.removeAll()
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

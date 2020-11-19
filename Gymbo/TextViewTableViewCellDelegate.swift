@@ -10,12 +10,12 @@ import UIKit
 
 protocol TextViewTableViewCellDelegate: class {
     func textViewDidBeginEditing(_ textView: UITextView)
-    func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell)
-    func textViewDidEndEditing(_ textView: UITextView)
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell)
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell)
 }
 
 extension TextViewTableViewCellDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {}
-    func textViewDidChange(_ textView: UITextView, cell: TextViewTableViewCell) {}
-    func textViewDidEndEditing(_ textView: UITextView) {}
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell) {}
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell) {}
 }

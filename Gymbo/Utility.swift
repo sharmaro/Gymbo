@@ -6,6 +6,8 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
+import UIKit
+
 // MARK: - Properties
 struct Utility {
 }
@@ -61,18 +63,90 @@ extension Utility {
         return correctSuffix
     }
 
-    static func getStringArraySeparated(by separator: String, text: String?) -> [String] {
-        guard let text = text else {
-            return []
+    static func getImageFrom(name: String,
+                             directory: Directory) -> UIImage? {
+        // Get exercise folder name without the file extension
+        // Ex: ab roller crunch_0.jpg -> ab roller crunch
+        var lastPathComponent = name
+        if directory == .exercises {
+            let exerciseFolder = name.split(separator: "_").first ?? ""
+            lastPathComponent = "\(exerciseFolder)/\(name)"
         }
 
-        if !text.contains(separator) {
-            return text.components(separatedBy: " ")
-        } else {
-            let stringArray = text.components(separatedBy: ",").map {
-                $0.trimmingCharacters(in: .whitespaces)
+        guard let contentPath = directory.url?.appendingPathComponent(lastPathComponent).path,
+              let fileData = FileManager().contents(atPath: contentPath) else {
+            fatalError("Couldn't get image: \(name)")
+        }
+
+        return UIImage(data: fileData)
+    }
+
+    @discardableResult static func saveImages(name: String,
+                                              images: [UIImage],
+                                              isUserMade: Bool,
+                                              directory: Directory) -> [String]? {
+        let lowercasedName = name.lowercased()
+        guard let contentURL = directory.url else {
+            fatalError("Couldn't get URL for document directory")
+        }
+
+        var urls = [URL]()
+        for index in 0 ..< images.count {
+            let pathExtension = isUserMade ? "\(lowercasedName)_\(index).jpg" : name
+            let url = contentURL.appendingPathComponent(pathExtension)
+            urls.append(url)
+        }
+
+        Utility.createDirectory(at: contentURL.path)
+
+        for (image, url) in zip(images, urls) {
+            Utility.saveImage(image: image, url: url, compressionQuality: 1)
+        }
+        return urls.map { "\($0.path)".replacingOccurrences(of: "\(contentURL.path)/", with: "") }
+    }
+
+    private static func createDirectory(at path: String) {
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: path) {
+            do {
+                try fileManager.createDirectory(atPath: path,
+                                                withIntermediateDirectories: true,
+                                                attributes: nil)
+            } catch {
+                fatalError(error.localizedDescription)
             }
-            return stringArray
+        }
+    }
+
+    private static func saveImage(image: UIImage,
+                                  url: URL,
+                                  compressionQuality: CGFloat) {
+        guard let jpegRepresentation = image.jpegData(compressionQuality: 1) else {
+            fatalError("Couldn't get jpegData")
+        }
+
+        do {
+            try jpegRepresentation.write(to: url,
+                                        options: .atomic)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+
+    static func removeImages(names: [String]) {
+        guard let userImageURL = Directory.userImages.url,
+              let userThumbnailsURL = Directory.userThumbnails.url else {
+            fatalError("Couldn't get URL to delete: \(names.first ?? "")")
+        }
+
+        names.forEach {
+            let imagePath = URL(fileURLWithPath: userImageURL.path)
+                .appendingPathComponent($0).path
+            try? FileManager().removeItem(atPath: imagePath)
+
+            let thumbnailPath = URL(fileURLWithPath: userThumbnailsURL.path)
+                .appendingPathComponent($0).path
+            try? FileManager().removeItem(atPath: thumbnailPath)
         }
     }
 }
