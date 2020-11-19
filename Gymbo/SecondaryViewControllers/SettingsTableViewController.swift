@@ -141,6 +141,8 @@ extension SettingsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        Haptic.sendSelectionFeedback()
+
         let item = tableData[indexPath.row]
         let tableViewController = SelectionTableViewController(items: item.selectionItems,
                                                                selected: item.value,
