@@ -779,7 +779,7 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
     func addExercise() {
         modallyPresenting = .exercisesViewController
 
-        let exercisesViewController = ExercisesViewController()
+        let exercisesViewController = ExercisesTableViewController()
         exercisesViewController.presentationStyle = .modal
         exercisesViewController.exercisesDelegate = self
 

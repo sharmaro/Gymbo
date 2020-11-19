@@ -1,5 +1,5 @@
 //
-//  ExercisesViewController.swift
+//  ExercisesTableViewController.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 2/11/20.
@@ -10,16 +10,7 @@ import UIKit
 import RealmSwift
 
 // MARK: - Properties
-class ExercisesViewController: UIViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
-
+class ExercisesTableViewController: UITableViewController {
     private let addExerciseButton: CustomButton = {
         let button = CustomButton()
         button.title = "Add"
@@ -46,7 +37,7 @@ class ExercisesViewController: UIViewController {
 }
 
 // MARK: - Structs/Enums
-extension ExercisesViewController {
+extension ExercisesTableViewController {
     private struct Constants {
         static let addExerciseButtonHeight = CGFloat(45)
         static let exerciseCellHeight = CGFloat(70)
@@ -56,7 +47,7 @@ extension ExercisesViewController {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension ExercisesViewController {
+extension ExercisesTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -103,7 +94,7 @@ extension ExercisesViewController {
 }
 
 // MARK: - ViewAdding
-extension ExercisesViewController: ViewAdding {
+extension ExercisesTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = presentationStyle == .normal ? "My Exercises" : "Add Exercises"
 
@@ -135,7 +126,6 @@ extension ExercisesViewController: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [tableView])
         if presentationStyle == .modal {
             view.add(subviews: [addExerciseButton])
         }
@@ -144,7 +134,11 @@ extension ExercisesViewController: ViewAdding {
     func setupViews() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
         tableView.sectionFooterHeight = 0
+        tableView.tableFooterView = UIView()
         tableView.register(ExercisesHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
         tableView.register(ExerciseTableViewCell.self,
@@ -198,7 +192,7 @@ extension ExercisesViewController: ViewAdding {
 }
 
 // MARK: - Funcs
-extension ExercisesViewController {
+extension ExercisesTableViewController {
     private func setupExerciseDataModel() {
         exerciseDataModel.dataFetchDelegate = self
         exerciseDataModel.fetchData()
@@ -287,16 +281,16 @@ extension ExercisesViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension ExercisesViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension ExercisesTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         exerciseDataModel.numberOfSections
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         exerciseDataModel.numberOfRows(in: section)
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ExerciseTableViewCell.reuseIdentifier,
             for: indexPath) as? ExerciseTableViewCell else {
@@ -325,7 +319,7 @@ extension ExercisesViewController: UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard presentationStyle == .normal else {
             return false
         }
@@ -334,8 +328,8 @@ extension ExercisesViewController: UITableViewDataSource {
         return exercise.isUserMade
     }
 
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
         -> UISwipeActionsConfiguration? {
         guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
             let exerciseName = exerciseCell.exerciseName else {
@@ -357,22 +351,23 @@ extension ExercisesViewController: UITableViewDataSource {
         return configuration
     }
 
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         exerciseDataModel.sectionTitles
     }
 }
 
 // MARK: - UITableViewDelegate
-extension ExercisesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+extension ExercisesTableViewController {
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         exerciseDataModel.heightForHeaderIn(section: section)
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         exerciseDataModel.heightForHeaderIn(section: section)
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
             return nil
@@ -383,11 +378,11 @@ extension ExercisesViewController: UITableViewDelegate {
         return headerView
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         Constants.exerciseCellHeight
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Haptic.sendSelectionFeedback()
         switch presentationStyle {
         case .normal:
@@ -414,7 +409,7 @@ extension ExercisesViewController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         Haptic.sendSelectionFeedback()
         guard presentationStyle != .normal,
             let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTableViewCell,
@@ -434,7 +429,7 @@ extension ExercisesViewController: UITableViewDelegate {
 }
 
 // MARK: - UISearchResultsUpdating
-extension ExercisesViewController: UISearchResultsUpdating {
+extension ExercisesTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
 
@@ -457,7 +452,7 @@ extension ExercisesViewController: UISearchResultsUpdating {
 }
 
 // MARK: - ExerciseDataModelDelegate
-extension ExercisesViewController: ExerciseDataModelDelegate {
+extension ExercisesTableViewController: ExerciseDataModelDelegate {
     func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
         exerciseDataModel.create(exercise, success: { [weak self] in
             DispatchQueue.main.async {
@@ -469,7 +464,7 @@ extension ExercisesViewController: ExerciseDataModelDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension ExercisesViewController: UIViewControllerTransitioningDelegate {
+extension ExercisesTableViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {
@@ -483,7 +478,7 @@ extension ExercisesViewController: UIViewControllerTransitioningDelegate {
 }
 
 // MARK: - KeyboardObserving
-extension ExercisesViewController: KeyboardObserving {
+extension ExercisesTableViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let mainTabBarController = navigationController?.mainTabBarController,
             let keyboardHeight = notification.keyboardSize?.height else {
@@ -500,7 +495,7 @@ extension ExercisesViewController: KeyboardObserving {
 }
 
 // MARK: - SetAlphaDelegate
-extension ExercisesViewController: SetAlphaDelegate {
+extension ExercisesTableViewController: SetAlphaDelegate {
     func setAlpha(alpha: CGFloat) {
         if presentationStyle == .modal {
             UIView.animate(withDuration: .defaultAnimationTime,
@@ -514,7 +509,7 @@ extension ExercisesViewController: SetAlphaDelegate {
 }
 
 // MARK: - SessionProgressDelegate
-extension ExercisesViewController: SessionProgressDelegate {
+extension ExercisesTableViewController: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         renewConstraints()
     }
@@ -525,7 +520,7 @@ extension ExercisesViewController: SessionProgressDelegate {
 }
 
 // MARK: - SessionStateConstraintsUpdating
-extension ExercisesViewController: SessionStateConstraintsUpdating {
+extension ExercisesTableViewController: SessionStateConstraintsUpdating {
     func renewConstraints() {
         guard presentationStyle == .modal,
             let mainTabBarController = mainTabBarController else {
@@ -547,7 +542,7 @@ extension ExercisesViewController: SessionStateConstraintsUpdating {
 }
 
 // MARK: - DataFetchDelegate
-extension ExercisesViewController: DataFetchDelegate {
+extension ExercisesTableViewController: DataFetchDelegate {
     func didEndFetch() {
         tableView.reloadData()
         hideActivityIndicator()

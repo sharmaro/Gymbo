@@ -243,7 +243,7 @@ extension CreateEditSessionTableViewController {
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
-        let exercisesViewController = ExercisesViewController()
+        let exercisesViewController = ExercisesTableViewController()
         exercisesViewController.presentationStyle = .modal
         exercisesViewController.exercisesDelegate = self
 
