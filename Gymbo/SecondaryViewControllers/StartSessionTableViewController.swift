@@ -783,7 +783,8 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
         exercisesTableViewController.presentationStyle = .modal
         exercisesTableViewController.exercisesDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: exercisesTableViewController)
+        let modalNavigationController = UINavigationController(rootViewController:
+                                                                exercisesTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
         navigationController?.present(modalNavigationController, animated: true)

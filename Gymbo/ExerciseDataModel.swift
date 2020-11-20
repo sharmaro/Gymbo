@@ -15,7 +15,8 @@ class ExerciseDataModel: NSObject {
     }
 
     private let exerciseGroups = ["Abs", "Arms", "Back", "Chest",
-                                  "Glutes", "Hips", "Legs", "Other", "Shoulders"]
+                                  "Glutes", "Hips", "Legs", "Other",
+                                  "Shoulders"]
 
     private var isFirstTimeLoad: Bool {
         realm?.objects(ExercisesList.self).first == nil
@@ -52,8 +53,6 @@ private extension ExerciseDataModel {
 
 // MARK: - Funcs
 extension ExerciseDataModel {
-    // MARK: - Helper
-
     func fetchData() {
         DispatchQueue.main.async { [weak self] in
             self?.dataFetchDelegate?.didBeginFetch()
