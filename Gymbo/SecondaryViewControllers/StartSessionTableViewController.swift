@@ -107,7 +107,7 @@ private extension StartSessionTableViewController {
 
     enum ModallyPresenting {
         case restViewController
-        case exercisesViewController
+        case exercisesTableViewController
         case none
     }
 }
@@ -777,13 +777,13 @@ extension StartSessionTableViewController: ExercisesDelegate {
 // MARK: - StartSessionButtonDelegate
 extension StartSessionTableViewController: StartSessionButtonDelegate {
     func addExercise() {
-        modallyPresenting = .exercisesViewController
+        modallyPresenting = .exercisesTableViewController
 
-        let exercisesViewController = ExercisesTableViewController()
-        exercisesViewController.presentationStyle = .modal
-        exercisesViewController.exercisesDelegate = self
+        let exercisesTableViewController = ExercisesTableViewController()
+        exercisesTableViewController.presentationStyle = .modal
+        exercisesTableViewController.exercisesDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
+        let modalNavigationController = UINavigationController(rootViewController: exercisesTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
         navigationController?.present(modalNavigationController, animated: true)
@@ -849,7 +849,7 @@ extension StartSessionTableViewController: UIViewControllerTransitioningDelegate
         switch modallyPresenting {
         case .restViewController:
             modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
-        case .exercisesViewController:
+        case .exercisesTableViewController:
             modalPresentationController.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.8)
         case .none:
             break

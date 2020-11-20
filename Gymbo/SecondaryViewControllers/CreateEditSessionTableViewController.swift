@@ -243,11 +243,11 @@ extension CreateEditSessionTableViewController {
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
-        let exercisesViewController = ExercisesTableViewController()
-        exercisesViewController.presentationStyle = .modal
-        exercisesViewController.exercisesDelegate = self
+        let exercisesTableViewController = ExercisesTableViewController()
+        exercisesTableViewController.presentationStyle = .modal
+        exercisesTableViewController.exercisesDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController: exercisesViewController)
+        let modalNavigationController = UINavigationController(rootViewController: exercisesTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
         navigationController?.present(modalNavigationController, animated: true)

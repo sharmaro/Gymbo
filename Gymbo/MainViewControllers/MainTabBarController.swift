@@ -94,9 +94,9 @@ extension MainTabBarController {
                                                         image: profileTab.image,
                                                         tag: profileTab.rawValue)
 
-        let exercisesViewController = ExercisesTableViewController()
+        let exercisesTableViewController = ExercisesTableViewController()
         let exercisesTab = Tabs.exercises
-        exercisesViewController.tabBarItem = UITabBarItem(title: exercisesTab.title,
+        exercisesTableViewController.tabBarItem = UITabBarItem(title: exercisesTab.title,
                                                           image: exercisesTab.image,
                                                           tag: exercisesTab.rawValue)
 
@@ -115,7 +115,7 @@ extension MainTabBarController {
                                                           tag: stopwatchTab.rawValue)
 
         viewControllers = [profileViewController,
-                           exercisesViewController,
+                           exercisesTableViewController,
                            sessionsCollectionViewController,
                            stopwatchViewController].map {
             UINavigationController(rootViewController: $0)
