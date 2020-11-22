@@ -176,7 +176,7 @@ extension ExercisePreviewViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return exercisePreviewDataModel.cellForRow(in: tableView, at: indexPath)
+        exercisePreviewDataModel.cellForRow(in: tableView, at: indexPath)
     }
 }
 

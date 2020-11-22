@@ -10,47 +10,14 @@ import UIKit
 
 // MARK: - Properties
 class SettingsTableViewController: UITableViewController {
-    private var tableData: [TableRow] = [.theme]
+    private let settingsDataModel = SettingsDataModel()
+
     private var selectedIndexPath: IndexPath?
     private var didUpdateSelection = false
 }
 
 // MARK: - Structs/Enums
 private extension SettingsTableViewController {
-    struct Constants {
-        static let settingsCellHeight = CGFloat(70)
-    }
-
-    enum TableRow: String {
-        case theme = "Theme"
-
-        var value: String {
-            let response: String
-            switch self {
-            case .theme:
-                response = UserInterfaceMode.currentMode.rawValue
-            }
-            return response
-        }
-
-        var selectionItems: [String] {
-            let response: [String]
-            switch self {
-            case .theme:
-                response = UserInterfaceMode.allCases.map { $0.rawValue }
-            }
-            return response
-        }
-
-        var height: CGFloat {
-            let response: CGFloat
-            switch self {
-            case .theme:
-                response = Constants.settingsCellHeight
-            }
-            return response
-        }
-    }
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -110,20 +77,12 @@ extension SettingsTableViewController {
 // MARK: - UITableViewDataSource
 extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableData.count
+        settingsDataModel.numberOfRows(in: section)
     }
 
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: SelectionTableViewCell.reuseIdentifier,
-                for: indexPath) as? SelectionTableViewCell else {
-            fatalError("Could not dequeue \(SelectionTableViewCell.reuseIdentifier)")
-        }
-
-        let item = tableData[indexPath.row]
-        cell.configure(title: item.rawValue, value: item.value, imageName: "right_arrow")
-        return cell
+        settingsDataModel.cellForRow(in: tableView, at: indexPath)
     }
 }
 
@@ -131,19 +90,17 @@ extension SettingsTableViewController {
 extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = tableData[indexPath.row]
-        return item.height
+        settingsDataModel.heightForRow(at: indexPath)
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = tableData[indexPath.row]
-        return item.height
+        settingsDataModel.heightForRow(at: indexPath)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Haptic.sendSelectionFeedback()
 
-        let item = tableData[indexPath.row]
+        let item = settingsDataModel.tableItem(at: indexPath)
         let tableViewController = SelectionTableViewController(items: item.selectionItems,
                                                                selected: item.value,
                                                                title: item.rawValue)
@@ -161,7 +118,7 @@ extension SettingsTableViewController: SelectionDelegate {
             fatalError("Incorrect index path selected.")
         }
 
-        let tableItem = tableData[indexPath.row]
+        let tableItem = settingsDataModel.tableItem(at: indexPath)
         guard tableItem.value != item else {
             didUpdateSelection = false
             selectedIndexPath = nil
@@ -175,7 +132,6 @@ extension SettingsTableViewController: SelectionDelegate {
             }
             UserInterfaceMode.setUserInterfaceMode(with: mode)
         }
-
         didUpdateSelection = true
     }
 }
