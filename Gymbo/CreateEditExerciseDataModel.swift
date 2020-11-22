@@ -11,7 +11,7 @@ import RealmSwift
 
 // MARK: - Properties
 struct CreateEditExerciseDataModel {
-    private let tableItem: [[TableItem]] = [
+    private let tableItems: [[TableItem]] = [
         [
             .nameTitle, .name, .muscleGroupsTitle,
             .muscleGroups, .imagesTitle, .images,
@@ -68,7 +68,7 @@ extension CreateEditExerciseDataModel {
 extension CreateEditExerciseDataModel {
     func indexOf(item: TableItem) -> Int? {
         var index: Int?
-        tableItem.forEach {
+        tableItems.forEach {
             if $0.contains(item) {
                 index = $0.firstIndex(of: item)
                 return
@@ -178,30 +178,30 @@ extension CreateEditExerciseDataModel {
 
     // Helpers
     private func validateSection(section: Int) -> Bool {
-        section < tableItem.count
+        section < tableItems.count
     }
 }
 
 // MARK: - UITableViewDataSource
 extension CreateEditExerciseDataModel {
     var numberOfSections: Int {
-        tableItem.count
+        tableItems.count
     }
 
     func numberOfRows(in section: Int) -> Int {
         guard validateSection(section: section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItem.count)")
+            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
         }
-        return tableItem[section].count
+        return tableItems[section].count
     }
 
     func cellForRow(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItem.count)")
+            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
         }
 
         let cell: UITableViewCell
-        let item = tableItem[indexPath.section][indexPath.row]
+        let item = tableItems[indexPath.section][indexPath.row]
 
         switch item {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
@@ -220,15 +220,15 @@ extension CreateEditExerciseDataModel {
 
     func tableItem(at indexPath: IndexPath) -> TableItem {
         guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItem.count)")
+            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
         }
-        return tableItem[indexPath.section][indexPath.row]
+        return tableItems[indexPath.section][indexPath.row]
     }
 
     func heightForRow(at indexPath: IndexPath) -> CGFloat {
         guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItem.count)")
+            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
         }
-        return tableItem[indexPath.section][indexPath.row].height
+        return tableItems[indexPath.section][indexPath.row].height
     }
 }

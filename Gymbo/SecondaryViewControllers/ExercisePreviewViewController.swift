@@ -37,19 +37,16 @@ class ExercisePreviewViewController: UIViewController {
     }()
 
     private let exerciseDataModel = ExerciseDataModel()
-    private var exercise: Exercise
-
-    private let tableData: [TableRow] = [ .title, .imagesTitle, .images, .instructionsTitle,
-                                         .instructions, .tipsTitle, .tips]
+    private var exercisePreviewDataModel = ExercisePreviewDataModel()
 
     init(exercise: Exercise) {
-        self.exercise = exercise
+        self.exercisePreviewDataModel.exercise = exercise
 
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
-        self.exercise = Exercise()
+        self.exercisePreviewDataModel.exercise = Exercise()
 
         super.init(coder: coder)
     }
@@ -59,23 +56,7 @@ class ExercisePreviewViewController: UIViewController {
 private extension ExercisePreviewViewController {
     struct Constants {
         static let title = "Exercise"
-
-        static let swipableImageViewTableViewCellHeight = CGFloat(200)
-
-        static let noImagesText = "No images\n"
-        static let noInstructionsText = "No instructions\n"
-        static let noTipsText = "No tips\n"
         static let editDisclaimerText = "*Only exercises made by you can be edited."
-    }
-
-    enum TableRow: String {
-        case imagesTitle = "Images"
-        case images
-        case instructionsTitle = "Instructions"
-        case instructions
-        case tipsTitle = "Tips"
-        case tips
-        case title
     }
 }
 
@@ -113,7 +94,7 @@ extension ExercisePreviewViewController: ViewAdding {
 
     func addViews() {
         view.add(subviews: [tableView])
-        if exercise.isUserMade {
+        if exercisePreviewDataModel.exercise.isUserMade {
             view.add(subviews: [editButton])
         } else {
             view.add(subviews: [editDisclaimerLabel])
@@ -139,7 +120,7 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func addConstraints() {
-        let viewToUse = exercise.isUserMade ? editButton : editDisclaimerLabel
+        let viewToUse = exercisePreviewDataModel.exercise.isUserMade ? editButton : editDisclaimerLabel
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(
@@ -168,51 +149,13 @@ extension ExercisePreviewViewController {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 
-    private func getTwoLabelsTableViewCell(for indexPath: IndexPath) -> TwoLabelsTableViewCell {
-        guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: TwoLabelsTableViewCell.reuseIdentifier,
-            for: indexPath) as? TwoLabelsTableViewCell else {
-            fatalError("Could not dequeue \(TwoLabelsTableViewCell.reuseIdentifier)")
-        }
-
-        twoLabelsTableViewCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
-        return twoLabelsTableViewCell
-    }
-
-    private func getLabelTableViewCell(for indexPath: IndexPath,
-                                       text: String,
-                                       font: UIFont = .normal) -> LabelTableViewCell {
-        guard let labelTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: LabelTableViewCell.reuseIdentifier,
-            for: indexPath) as? LabelTableViewCell else {
-            fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
-        }
-
-        labelTableViewCell.configure(text: text, font: font)
-        return labelTableViewCell
-    }
-
-    private func getSwipableImageViewTableViewCell(
-        for indexPath: IndexPath) -> SwipableImageViewTableViewCell {
-        guard let swipableImageViewCell = tableView.dequeueReusableCell(
-            withIdentifier: SwipableImageViewTableViewCell.reuseIdentifier,
-            for: indexPath) as? SwipableImageViewTableViewCell else {
-            fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
-        }
-
-        let imageFileNames = Array(exercise.imageNames)
-        swipableImageViewCell.configure(imageFileNames: imageFileNames,
-                                        isUserMade: exercise.isUserMade)
-        return swipableImageViewCell
-    }
-
     @objc private func closeButtonTapped(sender: Any) {
         dismiss(animated: true)
     }
 
     @objc private func editButtonTapped(sender: Any) {
         let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
-        createEditExerciseTableViewController.exercise = exercise
+        createEditExerciseTableViewController.exercise = exercisePreviewDataModel.exercise
         createEditExerciseTableViewController.exerciseState = .edit
         createEditExerciseTableViewController.exerciseDataModelDelegate = self
 
@@ -228,55 +171,22 @@ extension ExercisePreviewViewController {
 // MARK: - UITableViewDataSource
 extension ExercisePreviewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableData.count
+        exercisePreviewDataModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        let tableRow = tableData[indexPath.row]
-
-        switch tableRow {
-        case .title:
-            cell = getTwoLabelsTableViewCell(for: indexPath)
-        case .imagesTitle, .instructionsTitle, .tipsTitle:
-            cell = getLabelTableViewCell(for: indexPath, text: tableRow.rawValue, font: UIFont.large.medium)
-        case .images:
-            if exercise.imageNames.isEmpty {
-                cell = getLabelTableViewCell(for: indexPath, text: Constants.noImagesText)
-            } else {
-                cell = getSwipableImageViewTableViewCell(for: indexPath)
-            }
-        case .instructions, .tips:
-            let text = tableRow == .instructions ? exercise.instructions : exercise.tips
-            let emptyText = tableRow == .instructions ? Constants.noInstructionsText : Constants.noTipsText
-            cell = getLabelTableViewCell(for: indexPath, text: text ?? emptyText)
-        }
-        return cell
+        return exercisePreviewDataModel.cellForRow(in: tableView, at: indexPath)
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ExercisePreviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let tableItem = tableData[indexPath.row]
-        switch tableItem {
-        case .images:
-            return exercise.imageNames.isEmpty ?
-                UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
-        default:
-            return UITableView.automaticDimension
-        }
+        exercisePreviewDataModel.heightForRow(at: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let tableItem = tableData[indexPath.row]
-        switch tableItem {
-        case .images:
-            return exercise.imageNames.isEmpty ?
-                UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
-        default:
-            return UITableView.automaticDimension
-        }
+        exercisePreviewDataModel.heightForRow(at: indexPath)
     }
 }
 
@@ -289,7 +199,7 @@ extension ExercisePreviewViewController: ExerciseDataModelDelegate {
         exerciseDataModel.update(currentName, exercise: exercise, success: { [weak self] in
             DispatchQueue.main.async {
                 success()
-                self?.exercise = exercise
+                self?.exercisePreviewDataModel.exercise = exercise
                 self?.refreshTitleLabels()
                 self?.tableView.reloadData()
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)

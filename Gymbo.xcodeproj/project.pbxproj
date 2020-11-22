@@ -110,6 +110,7 @@
 		69C1BCC7245D570800D23556 /* ExercisePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */; };
 		69C1BCC9245F67E000D23556 /* SwipableImageViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC8245F67E000D23556 /* SwipableImageViewTableViewCell.swift */; };
 		69C6BD13256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */; };
+		69C6BD16256A675200B247C7 /* ExercisePreviewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */; };
 		69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */; };
 		69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D9023CD6D9F00603363 /* RestViewController.swift */; };
 		69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */; };
@@ -234,6 +235,7 @@
 		69C1BCC6245D570800D23556 /* ExercisePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewViewController.swift; sourceTree = "<group>"; };
 		69C1BCC8245F67E000D23556 /* SwipableImageViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableImageViewTableViewCell.swift; sourceTree = "<group>"; };
 		69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseDataModel.swift; sourceTree = "<group>"; };
+		69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewDataModel.swift; sourceTree = "<group>"; };
 		69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionFooterView.swift; sourceTree = "<group>"; };
 		69CB2D9023CD6D9F00603363 /* RestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestViewController.swift; sourceTree = "<group>"; };
 		69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -411,9 +413,10 @@
 		696A751F2361630300FA605F /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
-				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
-				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
 				69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */,
+				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
+				69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */,
+				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
 			);
 			name = DataModels;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
 				69693CE5247D012A00E87133 /* ImagesTableViewCell.swift in Sources */,
+				69C6BD16256A675200B247C7 /* ExercisePreviewDataModel.swift in Sources */,
 				6972E43324BEAF7E00479E91 /* UIColor+Extension.swift in Sources */,
 				692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */,
 				6972E3E3249F22B100479E91 /* UITableView+Extension.swift in Sources */,
