@@ -161,17 +161,6 @@ extension ExercisesTableViewController: ViewAdding {
     }
 
     func addConstraints() {
-        NSLayoutConstraint.activate([
-            // Using top anchor instead of safe area to get smooth navigation title size change animation
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-
         if presentationStyle == .modal {
             addExerciseButtonBottomConstraint = addExerciseButton.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,

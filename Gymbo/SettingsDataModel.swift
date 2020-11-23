@@ -12,7 +12,9 @@ import UIKit
 struct SettingsDataModel {
     private let tableItems: [[TableItem]] = [
         [
-            .theme,
+            .theme
+        ],
+        [
             .contactUs
         ]
     ]
@@ -50,13 +52,24 @@ extension SettingsDataModel {
             return response
         }
 
-        var image: UIImage? {
+        var leftImage: UIImage? {
+            let imageName: String
+            switch self {
+            case .theme:
+                return nil
+            case .contactUs:
+                imageName = "mail"
+            }
+            return UIImage(named: imageName)
+        }
+
+        var rightImage: UIImage? {
             let imageName: String
             switch self {
             case .theme:
                 imageName = "right_arrow"
             case .contactUs:
-                return UIImage()
+                return nil
             }
             return UIImage(named: imageName)
         }
@@ -79,9 +92,10 @@ extension SettingsDataModel {
         }
 
         let item = tableItems[indexPath.section][indexPath.row]
-        cell.configure(title: item.rawValue,
+        cell.configure(leftImage: item.leftImage,
+                       title: item.rawValue,
                        value: item.value,
-                       image: item.image)
+                       rightImage: item.rightImage)
         return cell
     }
 

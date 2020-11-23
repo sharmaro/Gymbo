@@ -114,6 +114,10 @@ extension SettingsTableViewController {
 
 // MARK: - UITableViewDataSource
 extension SettingsTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        settingsDataModel.numberOfSections
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         settingsDataModel.numberOfRows(in: section)
     }

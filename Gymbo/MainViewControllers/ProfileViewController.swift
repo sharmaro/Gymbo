@@ -116,7 +116,7 @@ extension ProfileViewController {
     @objc private func settingsButtonTapped() {
         Haptic.sendSelectionFeedback()
 
-        let settingsTableViewController = SettingsTableViewController()
+        let settingsTableViewController = SettingsTableViewController(style: .grouped)
         let navigationController = UINavigationController(rootViewController: settingsTableViewController)
         self.navigationController?.present(navigationController, animated: true)
     }

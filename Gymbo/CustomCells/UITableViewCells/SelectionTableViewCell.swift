@@ -10,11 +10,20 @@ import UIKit
 
 // MARK: - Properties
 class SelectionTableViewCell: UITableViewCell {
+    private let leftImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.tintColor = .mainBlack
+        return imageView
+    }()
+
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         return stackView
     }()
+    private var stackViewLeadingConstraintToContentView = NSLayoutConstraint()
+    private var stackViewLeadingConstraintToImageView = NSLayoutConstraint()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,7 +73,7 @@ extension SelectionTableViewCell {
 // MARK: - ViewAdding
 extension SelectionTableViewCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [stackView, rightImageView])
+        contentView.add(subviews: [leftImageView, stackView, rightImageView])
         [titleLabel, valueLabel].forEach {
             stackView.addArrangedSubview($0)
         }
@@ -82,9 +91,22 @@ extension SelectionTableViewCell: ViewAdding {
     }
 
     func addConstraints() {
+        stackViewLeadingConstraintToContentView = stackView.leadingAnchor
+            .constraint(equalTo: contentView.leadingAnchor,
+                        constant: 20)
+        stackViewLeadingConstraintToImageView = stackView.leadingAnchor
+            .constraint(equalTo: leftImageView.trailingAnchor,
+                        constant: 10)
+
         NSLayoutConstraint.activate([
+            leftImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            leftImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                   constant: 20),
+            leftImageView.widthAnchor.constraint(equalToConstant: 30),
+            leftImageView.heightAnchor.constraint(equalToConstant: 30),
+
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackViewLeadingConstraintToImageView,
             stackView.trailingAnchor.constraint(equalTo: rightImageView.leadingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
@@ -105,9 +127,21 @@ extension SelectionTableViewCell {
         addConstraints()
     }
 
-    func configure(title: String, value: String, image: UIImage?) {
+    func configure(leftImage: UIImage? = nil,
+                   title: String,
+                   value: String,
+                   rightImage: UIImage?) {
+        if leftImage == nil {
+            stackViewLeadingConstraintToImageView.isActive = false
+            stackViewLeadingConstraintToContentView.isActive = true
+        } else {
+            stackViewLeadingConstraintToContentView.isActive = false
+            stackViewLeadingConstraintToImageView.isActive = true
+            leftImageView.image = leftImage?.withRenderingMode(.alwaysTemplate)
+        }
+
         titleLabel.text = title
         valueLabel.text = value
-        rightImageView.image = image?.withRenderingMode(.alwaysTemplate)
+        rightImageView.image = rightImage?.withRenderingMode(.alwaysTemplate)
     }
 }
