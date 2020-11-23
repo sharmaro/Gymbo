@@ -19,7 +19,7 @@ struct LapDataModel {
 // MARK: - Structs/Enums
 extension LapDataModel {
     private struct Constants {
-        static let lapCellHeight = CGFloat(50)
+        static let cellHeight = CGFloat(50)
     }
 }
 
@@ -98,6 +98,6 @@ extension LapDataModel {
     }
 
     func heightForRow(at indexPath: IndexPath) -> CGFloat {
-        Constants.lapCellHeight
+        Constants.cellHeight
     }
 }

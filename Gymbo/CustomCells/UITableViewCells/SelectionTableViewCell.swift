@@ -70,6 +70,11 @@ extension SelectionTableViewCell: ViewAdding {
         }
     }
 
+    func setupViews() {
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = .mainLightGray
+    }
+
     func setupColors() {
         backgroundColor = .mainWhite
         contentView.backgroundColor = .clear
@@ -95,13 +100,14 @@ extension SelectionTableViewCell: ViewAdding {
 extension SelectionTableViewCell {
     private func setup() {
         addViews()
+        setupViews()
         setupColors()
         addConstraints()
     }
 
-    func configure(title: String, value: String, imageName: String) {
+    func configure(title: String, value: String, image: UIImage?) {
         titleLabel.text = title
         valueLabel.text = value
-        rightImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+        rightImageView.image = image?.withRenderingMode(.alwaysTemplate)
     }
 }

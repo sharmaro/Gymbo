@@ -12,7 +12,8 @@ import UIKit
 struct SettingsDataModel {
     private let tableItems: [[TableItem]] = [
         [
-            .theme
+            .theme,
+            .contactUs
         ]
     ]
 }
@@ -20,17 +21,20 @@ struct SettingsDataModel {
 // MARK: - Structs/Enums
 extension SettingsDataModel {
     private struct Constants {
-        static let settingsCellHeight = CGFloat(70)
+        static let cellHeight = CGFloat(70)
     }
 
     enum TableItem: String {
         case theme = "Theme"
+        case contactUs = "Contact Us"
 
         var value: String {
             let response: String
             switch self {
             case .theme:
                 response = UserInterfaceMode.currentMode.rawValue
+            case .contactUs:
+                response = ""
             }
             return response
         }
@@ -40,17 +44,25 @@ extension SettingsDataModel {
             switch self {
             case .theme:
                 response = UserInterfaceMode.allCases.map { $0.rawValue }
+            case .contactUs:
+                response = []
             }
             return response
         }
 
-        var height: CGFloat {
-            let response: CGFloat
+        var image: UIImage? {
+            let imageName: String
             switch self {
             case .theme:
-                response = Constants.settingsCellHeight
+                imageName = "right_arrow"
+            case .contactUs:
+                return UIImage()
             }
-            return response
+            return UIImage(named: imageName)
+        }
+
+        var height: CGFloat {
+            Constants.cellHeight
         }
     }
 }
@@ -67,7 +79,9 @@ extension SettingsDataModel {
         }
 
         let item = tableItems[indexPath.section][indexPath.row]
-        cell.configure(title: item.rawValue, value: item.value, imageName: "right_arrow")
+        cell.configure(title: item.rawValue,
+                       value: item.value,
+                       image: item.image)
         return cell
     }
 
@@ -110,7 +124,7 @@ extension SettingsDataModel {
         let item = tableItems[indexPath.section][indexPath.row]
 
         switch item {
-        case .theme:
+        case .theme, .contactUs:
             cell = getSelectionCell(in: tableView, for: indexPath)
         }
         return cell

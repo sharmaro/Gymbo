@@ -20,9 +20,8 @@ class ProfileViewController: UIViewController {
     }()
 
     private let settingsButton = CustomButton()
-
     private let settingsView: UIView = {
-        let frame = CGRect(origin: .zero, size: CGSize(width: 20, height: 20))
+        let frame = CGRect(origin: .zero, size: CGSize(width: 25, height: 25))
         let containerView = UIView(frame: frame)
 
         let button = CustomButton(frame: frame)

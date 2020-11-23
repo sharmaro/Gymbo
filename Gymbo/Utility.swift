@@ -147,4 +147,26 @@ extension Utility {
             try? FileManager().removeItem(atPath: thumbnailPath)
         }
     }
+
+    static var iOSVersion: String {
+        let os = ProcessInfo().operatingSystemVersion
+        return "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
+    }
+
+    static var formattedDeviceInfo: String {
+        let device = UIDevice.current
+        let nameArray = device.name.components(separatedBy: " ")
+        guard nameArray.count > 1 else {
+            return ""
+        }
+
+        let userDevice = nameArray[nameArray.count - 2]
+        let userDeviceVersion = nameArray[nameArray.count - 1]
+
+        var formattedText = "\(device.systemName): "
+        formattedText.append("\(userDevice) ")
+        formattedText.append("\(userDeviceVersion) ")
+        formattedText.append("(\(iOSVersion))")
+        return formattedText
+    }
 }

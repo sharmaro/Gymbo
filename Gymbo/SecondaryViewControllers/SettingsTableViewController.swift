@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 // MARK: - Properties
 class SettingsTableViewController: UITableViewController {
@@ -18,6 +19,10 @@ class SettingsTableViewController: UITableViewController {
 
 // MARK: - Structs/Enums
 private extension SettingsTableViewController {
+    struct Constants {
+        static let gymboEmail = "gymbo.feedback@gmail.com"
+        static let emailSubject = "Support"
+    }
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -72,6 +77,39 @@ extension SettingsTableViewController: ViewAdding {
 
 // MARK: - Funcs
 extension SettingsTableViewController {
+    private func presentSelectionScreen(with item: SettingsDataModel.TableItem) {
+        let tableViewController = SelectionTableViewController(items: item.selectionItems,
+                                                               selected: item.value,
+                                                               title: item.rawValue)
+        tableViewController.selectionDelegate = self
+        navigationController?.pushViewController(tableViewController, animated: true)
+    }
+
+    func contactUsSelected() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailViewController = MFMailComposeViewController()
+            mailViewController.mailComposeDelegate = self
+            mailViewController.setToRecipients([Constants.gymboEmail])
+            mailViewController.setSubject(Constants.emailSubject)
+            mailViewController.setMessageBody(emailBody, isHTML: false)
+            navigationController?.present(mailViewController, animated: true)
+        } else {
+            presentCustomAlert(title: "Oops",
+                               content: "Sorry, we can't send mail right now",
+                               usesBothButtons: false,
+                               rightButtonTitle: "Sounds good")
+        }
+    }
+
+    private var emailBody: String {
+        var body = "\n\n\n"
+        for _ in 0 ..< 20 {
+            body.append("-")
+        }
+        body.append("\n")
+        body.append(Utility.formattedDeviceInfo)
+        return body
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -101,12 +139,14 @@ extension SettingsTableViewController {
         Haptic.sendSelectionFeedback()
 
         let item = settingsDataModel.tableItem(at: indexPath)
-        let tableViewController = SelectionTableViewController(items: item.selectionItems,
-                                                               selected: item.value,
-                                                               title: item.rawValue)
-        tableViewController.selectionDelegate = self
+        switch item {
+        case .theme:
+            presentSelectionScreen(with: item)
+        case .contactUs:
+            contactUsSelected()
+        }
+
         selectedIndexPath = indexPath
-        navigationController?.pushViewController(tableViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -131,7 +171,18 @@ extension SettingsTableViewController: SelectionDelegate {
                 fatalError("Incorrect raw value used to initialize UserInterfaceMode.")
             }
             UserInterfaceMode.setUserInterfaceMode(with: mode)
+        case .contactUs:
+            break
         }
         didUpdateSelection = true
+    }
+}
+
+// MARK: - MFMailComposeViewControllerDelegate
+extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                               error: Error?) {
+        controller.dismiss(animated: true)
     }
 }
