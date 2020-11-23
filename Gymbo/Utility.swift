@@ -36,13 +36,11 @@ extension Utility {
             suffix = Utility.formatPluralString(inputString: string, suffixBase: "lb")
         case .time:
             suffix = Utility.formatPluralString(inputString: string, suffixBase: "sec")
-        case .info:
-            suffix = ""
         }
         return "\(string) \(suffix)"
     }
 
-    private static func formatPluralString(inputString: String, suffixBase: String) -> String {
+    static func formatPluralString(inputString: String, suffixBase: String) -> String {
         let isDouble = inputString.contains(".")
 
         let correctSuffix: String

@@ -48,7 +48,7 @@ class StartSessionTableViewController: UITableViewController {
 
     private var sessionSeconds = 0 {
         didSet {
-            title = sessionSeconds.getMinutesAndSecondsString()
+            title = sessionSeconds.minutesAndSecondsString
         }
     }
     private var sessionTimer: Timer?
@@ -58,7 +58,7 @@ class StartSessionTableViewController: UITableViewController {
     private var restTimeRemaining = 0 {
         didSet {
             timerButton.title = restTimeRemaining > 0 ?
-            restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
+            restTimeRemaining.minutesAndSecondsString : 0.minutesAndSecondsString
         }
     }
 
@@ -164,7 +164,7 @@ extension StartSessionTableViewController {
 // MARK: - ViewAdding
 extension StartSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
-        title = 0.getMinutesAndSecondsString()
+        title = 0.minutesAndSecondsString
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
                                                            style: .plain,

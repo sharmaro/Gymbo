@@ -12,5 +12,4 @@ enum SessionDetailType {
     case reps(areUnique: Bool)
     case weight
     case time
-    case info
 }

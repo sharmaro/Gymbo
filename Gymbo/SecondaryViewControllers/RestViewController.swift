@@ -79,7 +79,7 @@ class RestViewController: UIViewController {
             }
 
             circleProgressView.totalTimeText = totalRestTime > 0 ?
-            totalRestTime.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
+            totalRestTime.minutesAndSecondsString : 0.minutesAndSecondsString
         }
     }
     private var restTimeRemaining = 0 {
@@ -89,7 +89,7 @@ class RestViewController: UIViewController {
             }
 
             circleProgressView.timeRemainingText = restTimeRemaining > 0 ?
-            restTimeRemaining.getMinutesAndSecondsString() : 0.getMinutesAndSecondsString()
+            restTimeRemaining.minutesAndSecondsString : 0.minutesAndSecondsString
         }
     }
 
@@ -245,7 +245,7 @@ extension RestViewController: ViewAdding {
 extension RestViewController {
     private func createPickerViewData() {
         for i in 1...120 {
-            let timeString = (i * 5).getMinutesAndSecondsString()
+            let timeString = (i * 5).minutesAndSecondsString
             restTimes.append(timeString)
         }
     }
@@ -274,7 +274,7 @@ extension RestViewController {
                                                   timeRemaining: restTimeRemaining)
             } else {
                 let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
-                totalRestTime = restTimes[selectedPickerRow].getSecondsFromTime() ?? 0
+                totalRestTime = restTimes[selectedPickerRow].secondsFromTime ?? 0
                 restTimeRemaining = totalRestTime
 
                 circleProgressView.startAnimation(duration: restTimeRemaining)

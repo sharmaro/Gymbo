@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func getSecondsFromTime() -> Int? {
+    var secondsFromTime: Int? {
         let times = Array(self)
         guard times.count == 5 else {
             return nil
@@ -17,7 +17,6 @@ extension String {
 
         let minutes = Int("\(times[0])\(times[1])") ?? 0
         let seconds = Int("\(times[3])\(times[4])") ?? 0
-
         return (minutes * 60) + seconds
     }
 }

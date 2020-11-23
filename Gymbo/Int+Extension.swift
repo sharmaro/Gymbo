@@ -13,13 +13,13 @@ extension Int {
         CGFloat(self)
     }
 
-    func twoDigits() -> String {
+    var twoDigitsString: String {
         String(format: "%02d", self)
     }
 
-    func getMinutesAndSecondsString() -> String {
-        let minutes = (self / 60).twoDigits()
-        let seconds = (self % 60).twoDigits()
+    var minutesAndSecondsString: String {
+        let minutes = (self / 60).twoDigitsString
+        let seconds = (self % 60).twoDigitsString
         return "\(minutes):\(seconds)"
     }
 }
