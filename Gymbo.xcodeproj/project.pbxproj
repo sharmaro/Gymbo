@@ -112,6 +112,8 @@
 		69C6BD13256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */; };
 		69C6BD16256A675200B247C7 /* ExercisePreviewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */; };
 		69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */; };
+		69C6BD25256A725C00B247C7 /* GymboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD24256A725C00B247C7 /* GymboTests.swift */; };
+		69C6BD2F256B5EDB00B247C7 /* ProfileDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */; };
 		69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */; };
 		69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D9023CD6D9F00603363 /* RestViewController.swift */; };
 		69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */; };
@@ -127,6 +129,16 @@
 		69F8ED7123E9391800600BBA /* ExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		69C6BD27256A725C00B247C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 695D4BD722CB28B800E3FB1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 695D4BDE22CB28B800E3FB1F;
+			remoteInfo = Gymbo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0760852446B766F739525C2A /* Pods-Gymbo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -238,6 +250,10 @@
 		69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseDataModel.swift; sourceTree = "<group>"; };
 		69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewDataModel.swift; sourceTree = "<group>"; };
 		69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataModel.swift; sourceTree = "<group>"; };
+		69C6BD22256A725C00B247C7 /* GymboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		69C6BD24256A725C00B247C7 /* GymboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymboTests.swift; sourceTree = "<group>"; };
+		69C6BD26256A725C00B247C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataModel.swift; sourceTree = "<group>"; };
 		69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionFooterView.swift; sourceTree = "<group>"; };
 		69CB2D9023CD6D9F00603363 /* RestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestViewController.swift; sourceTree = "<group>"; };
 		69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -260,6 +276,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69C6BD1F256A725C00B247C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				695D4BE122CB28B800E3FB1F /* Gymbo */,
+				69C6BD23256A725C00B247C7 /* GymboTests */,
 				695D4BE022CB28B800E3FB1F /* Products */,
 				35CDB5E7D8BDFC5A640EE010 /* Pods */,
 				F10FA9A541B75089E75BAEE2 /* Frameworks */,
@@ -342,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				695D4BDF22CB28B800E3FB1F /* Gymbo.app */,
+				69C6BD22256A725C00B247C7 /* GymboTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -418,6 +443,7 @@
 				69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */,
 				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
 				69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */,
+				69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
 				69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */,
 			);
@@ -563,6 +589,15 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		69C6BD23256A725C00B247C7 /* GymboTests */ = {
+			isa = PBXGroup;
+			children = (
+				69C6BD24256A725C00B247C7 /* GymboTests.swift */,
+				69C6BD26256A725C00B247C7 /* Info.plist */,
+			);
+			path = GymboTests;
+			sourceTree = "<group>";
+		};
 		F10FA9A541B75089E75BAEE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,18 +629,40 @@
 			productReference = 695D4BDF22CB28B800E3FB1F /* Gymbo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		69C6BD21256A725C00B247C7 /* GymboTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69C6BD2B256A725C00B247C7 /* Build configuration list for PBXNativeTarget "GymboTests" */;
+			buildPhases = (
+				69C6BD1E256A725C00B247C7 /* Sources */,
+				69C6BD1F256A725C00B247C7 /* Frameworks */,
+				69C6BD20256A725C00B247C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				69C6BD28256A725C00B247C7 /* PBXTargetDependency */,
+			);
+			name = GymboTests;
+			productName = GymboTests;
+			productReference = 69C6BD22256A725C00B247C7 /* GymboTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		695D4BD722CB28B800E3FB1F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Rohan Sharma";
 				TargetAttributes = {
 					695D4BDE22CB28B800E3FB1F = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					69C6BD21256A725C00B247C7 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 695D4BDE22CB28B800E3FB1F;
 					};
 				};
 			};
@@ -623,6 +680,7 @@
 			projectRoot = "";
 			targets = (
 				695D4BDE22CB28B800E3FB1F /* Gymbo */,
+				69C6BD21256A725C00B247C7 /* GymboTests */,
 			);
 		};
 /* End PBXProject section */
@@ -637,6 +695,13 @@
 				695D4BED22CB28B800E3FB1F /* LaunchScreen.storyboard in Resources */,
 				695D4BEA22CB28B800E3FB1F /* Assets.xcassets in Resources */,
 				69C1BCC324594B1300D23556 /* Workout Info in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69C6BD20256A725C00B247C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +858,7 @@
 				6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */,
 				6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
+				69C6BD2F256B5EDB00B247C7 /* ProfileDataModel.swift in Sources */,
 				6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
 				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
@@ -822,7 +888,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69C6BD1E256A725C00B247C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69C6BD25256A725C00B247C7 /* GymboTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		69C6BD28256A725C00B247C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 695D4BDE22CB28B800E3FB1F /* Gymbo */;
+			targetProxy = 69C6BD27256A725C00B247C7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */ = {
@@ -996,6 +1078,48 @@
 			};
 			name = Release;
 		};
+		69C6BD29256A725C00B247C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W3TQD9VLAQ;
+				INFOPLIST_FILE = GymboTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Rohan-Sharma.GymboTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gymbo.app/Gymbo";
+			};
+			name = Debug;
+		};
+		69C6BD2A256A725C00B247C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W3TQD9VLAQ;
+				INFOPLIST_FILE = GymboTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Rohan-Sharma.GymboTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gymbo.app/Gymbo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1013,6 +1137,15 @@
 			buildConfigurations = (
 				695D4BF222CB28B800E3FB1F /* Debug */,
 				695D4BF322CB28B800E3FB1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69C6BD2B256A725C00B247C7 /* Build configuration list for PBXNativeTarget "GymboTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69C6BD29256A725C00B247C7 /* Debug */,
+				69C6BD2A256A725C00B247C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

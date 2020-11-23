@@ -33,6 +33,8 @@ class ProfileViewController: UIViewController {
         containerView.addSubview(button)
         return containerView
     }()
+
+    private var profileDataModel = ProfileDataModel()
 }
 
 // MARK: - Structs/Enums
@@ -124,22 +126,26 @@ extension ProfileViewController {
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        0
+        profileDataModel.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        profileDataModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        profileDataModel.cellForRow(in: tableView, at: indexPath)
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        profileDataModel.heightForRow(at: indexPath)
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        0
+        profileDataModel.heightForRow(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
