@@ -114,6 +114,8 @@
 		69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */; };
 		69C6BD25256A725C00B247C7 /* GymboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD24256A725C00B247C7 /* GymboTests.swift */; };
 		69C6BD2F256B5EDB00B247C7 /* ProfileDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */; };
+		69C6BD35256B77CD00B247C7 /* LapDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD34256B77CD00B247C7 /* LapDataModel.swift */; };
+		69C6BD39256B784C00B247C7 /* Lap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD38256B784C00B247C7 /* Lap.swift */; };
 		69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */; };
 		69CB2D9123CD6D9F00603363 /* RestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB2D9023CD6D9F00603363 /* RestViewController.swift */; };
 		69DAD81B247DF3E00023E967 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */; };
@@ -254,6 +256,8 @@
 		69C6BD24256A725C00B247C7 /* GymboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymboTests.swift; sourceTree = "<group>"; };
 		69C6BD26256A725C00B247C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataModel.swift; sourceTree = "<group>"; };
+		69C6BD34256B77CD00B247C7 /* LapDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapDataModel.swift; sourceTree = "<group>"; };
+		69C6BD38256B784C00B247C7 /* Lap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lap.swift; sourceTree = "<group>"; };
 		69CB2D8B23CC035100603363 /* StartSessionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionFooterView.swift; sourceTree = "<group>"; };
 		69CB2D9023CD6D9F00603363 /* RestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestViewController.swift; sourceTree = "<group>"; };
 		69DAD81A247DF3E00023E967 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -443,6 +447,7 @@
 				69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */,
 				69F8ED7023E9391800600BBA /* ExerciseDataModel.swift */,
 				69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */,
+				69C6BD34256B77CD00B247C7 /* LapDataModel.swift */,
 				69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
 				69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */,
@@ -536,6 +541,7 @@
 				6972E41E249F2BA100479E91 /* CustomBounds.swift */,
 				696664FC24F3812A0049507A /* Gradient.swift */,
 				6972E42E24A029E000479E91 /* Haptic.swift */,
+				69C6BD38256B784C00B247C7 /* Lap.swift */,
 				6972E427249F2E1A00479E91 /* UserDefaultKeys.swift */,
 				69A7392424CABE3600AAD965 /* User.swift */,
 				6972E429249F2E3D00479E91 /* Utility.swift */,
@@ -792,6 +798,7 @@
 				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */,
+				69C6BD39256B784C00B247C7 /* Lap.swift in Sources */,
 				69C1BCC9245F67E000D23556 /* SwipableImageViewTableViewCell.swift in Sources */,
 				6972E421249F2BDB00479E91 /* CustomTextViewDelegate.swift in Sources */,
 				691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */,
@@ -878,6 +885,7 @@
 				69693CEB247D087A00E87133 /* MultipleSelectionTableViewCell.swift in Sources */,
 				6972E3F4249F24A800479E91 /* SessionState.swift in Sources */,
 				6972E43524BEB03800479E91 /* TimeInterval+Extension.swift in Sources */,
+				69C6BD35256B77CD00B247C7 /* LapDataModel.swift in Sources */,
 				6972E40C249F28DE00479E91 /* ExerciseTableViewCellDelegate.swift in Sources */,
 				6962F35E244410AA00CB6DAE /* SessionsCollectionViewController.swift in Sources */,
 				6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */,

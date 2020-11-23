@@ -80,36 +80,7 @@ class StopwatchViewController: UIViewController {
         }
     }
 
-    private var laps: [Lap]?
-    private var previousLap: Lap?
-    private var fastestLap: Lap?
-    private var slowestLap: Lap?
-    private var newLap: Lap {
-        var lap = Lap(minutes: minInt, seconds: secInt, centiSeconds: centiSecInt)
-
-        if let previousLap = previousLap {
-            lap.minutes = abs(previousLap.minutes - minInt)
-            lap.seconds = abs(previousLap.seconds - secInt)
-            lap.centiSeconds = abs(previousLap.centiSeconds - centiSecInt)
-        }
-
-        if let fastestLap = fastestLap {
-            if lap.totalTime <= fastestLap.totalTime {
-                self.fastestLap = lap
-            }
-        } else {
-            self.fastestLap = lap
-        }
-
-        if let slowestLap = slowestLap {
-            if lap.totalTime >= slowestLap.totalTime {
-                self.slowestLap = lap
-            }
-        } else {
-            self.slowestLap = lap
-        }
-        return lap
-    }
+    private var lapDataModel = LapDataModel()
 }
 
 // MARK: - Structs/Enums
@@ -124,33 +95,11 @@ private extension StopwatchViewController {
 
         static let timerInterval = TimeInterval(0.01)
 
-        static let stopWatchTableViewCellHeight = CGFloat(50)
         static let timeStackViewHeight = CGFloat(100)
         static let buttonsStackViewHeight = CGFloat(45)
         static let sessionStartedConstraintConstant = CGFloat(-64)
         static let sessionEndedConstraintConstant = CGFloat(-20)
         static let cellSpacingToButtons = CGFloat(15)
-    }
-
-    // Codable is for encoding/decoding
-    //swiftlint:disable:next type_name
-    struct Lap: Codable {
-        var minutes: Int
-        var seconds: Int
-        var centiSeconds: Int
-
-        var totalTime: Int {
-            let minutesConverted = minutes * 6000
-            let secondsConverted = seconds * 100
-            return minutesConverted + secondsConverted + centiSeconds
-        }
-
-        var text: String {
-            let minuteText = String(format: "%02d", minutes)
-            let secondsText = String(format: "%02d", seconds)
-            let centiSecondsText = String(format: "%02d", centiSeconds)
-            return "\(minuteText):\(secondsText).\(centiSecondsText)"
-        }
     }
 
     enum StopwatchState: Int {
@@ -402,13 +351,18 @@ extension StopwatchViewController {
             case 0: // lapAndReset button tapped
                 if stopwatchState == .started {
                     // User selected 'Lap' functionality
-                    if laps == nil {
-                        laps = [newLap]
+                    let newLap = lapDataModel.newLap(minutes: minInt,
+                                                     seconds: secInt,
+                                                     centiSeconds: centiSecInt)
+                    if lapDataModel.laps == nil {
+                        lapDataModel.laps = [newLap]
                     } else {
-                        laps?.insert(newLap, at: 0)
+                        lapDataModel.laps?.insert(newLap, at: 0)
                     }
 
-                    previousLap = Lap(minutes: minInt, seconds: secInt, centiSeconds: centiSecInt)
+                    lapDataModel.previousLap = Lap(minutes: minInt,
+                                                   seconds: secInt,
+                                                   centiSeconds: centiSecInt)
 
                     UIView.transition(with: tableView,
                                       duration: .defaultAnimationTime,
@@ -422,14 +376,14 @@ extension StopwatchViewController {
                     secInt = 0
                     centiSecInt = 0
 
-                    previousLap = nil
-                    fastestLap = nil
-                    slowestLap = nil
+                    lapDataModel.previousLap = nil
+                    lapDataModel.fastestLap = nil
+                    lapDataModel.slowestLap = nil
 
                     stopwatchState = .initial
                     updateStopWatchButtons(animated: true)
 
-                    laps?.removeAll()
+                    lapDataModel.laps?.removeAll()
                     tableView.reloadData()
                 }
             case 1: // startAndStop button tapped
@@ -449,7 +403,7 @@ extension StopwatchViewController {
 // MARK: - UITableViewDataSource
 extension StopwatchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        laps?.count ?? 0
+        lapDataModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -459,7 +413,7 @@ extension StopwatchViewController: UITableViewDataSource {
             fatalError("Could not dequeue \(StopwatchTableViewCell.reuseIdentifier)")
         }
 
-        guard let laps = laps else {
+        guard let laps = lapDataModel.laps else {
             fatalError("Laps array is nil")
         }
 
@@ -468,8 +422,8 @@ extension StopwatchViewController: UITableViewDataSource {
 
         if laps.count > 2 {
             cell.checkLapComparison(timeToCheck: lap.totalTime,
-                                    fastestTime: fastestLap?.totalTime ?? 0,
-                                    slowestTime: slowestLap?.totalTime ?? 0)
+                                    fastestTime: lapDataModel.fastestLap?.totalTime ?? 0,
+                                    slowestTime: lapDataModel.slowestLap?.totalTime ?? 0)
         }
         return cell
     }
@@ -478,7 +432,7 @@ extension StopwatchViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension StopwatchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.stopWatchTableViewCellHeight
+        lapDataModel.heightForRow(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
@@ -515,11 +469,13 @@ extension StopwatchViewController: ApplicationStateObserving {
         let defaults = UserDefaults.standard
         let encoder = JSONEncoder()
 
-        if let encodedData = try? encoder.encode(laps) {
+        if let encodedData = try? encoder.encode(lapDataModel.laps) {
             defaults.set(encodedData, forKey: Constants.LAPS_KEY)
         }
 
-        let lapsInfo = [previousLap, fastestLap, slowestLap]
+        let lapsInfo = [lapDataModel.previousLap,
+                        lapDataModel.fastestLap,
+                        lapDataModel.slowestLap]
         if let encodedData = try? encoder.encode(lapsInfo) {
             defaults.set(encodedData, forKey: Constants.LAPS_INFO_KEy)
         }
@@ -531,16 +487,16 @@ extension StopwatchViewController: ApplicationStateObserving {
 
         if let data = defaults.data(forKey: Constants.LAPS_KEY),
             let laps = try? decoder.decode(Array<Lap>.self, from: data) {
-            self.laps = laps
+            lapDataModel.laps = laps
         } else {
-            laps = nil
+            lapDataModel.laps = nil
         }
 
         if let data = defaults.data(forKey: Constants.LAPS_INFO_KEy),
             let lapsInfo = try? decoder.decode(Array<Lap>.self, from: data) {
-            previousLap = lapsInfo[0]
-            fastestLap = lapsInfo[1]
-            slowestLap = lapsInfo[2]
+            lapDataModel.previousLap = lapsInfo[0]
+            lapDataModel.fastestLap = lapsInfo[1]
+            lapDataModel.slowestLap = lapsInfo[2]
         }
 
         tableView.reloadData()

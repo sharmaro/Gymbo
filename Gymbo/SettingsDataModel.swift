@@ -57,17 +57,7 @@ extension SettingsDataModel {
 
 // MARK: - Funcs
 extension SettingsDataModel {
-    func indexOf(item: TableItem) -> Int? {
-        var index: Int?
-        tableItems.forEach {
-            if $0.contains(item) {
-                index = $0.firstIndex(of: item)
-                return
-            }
-        }
-        return index
-    }
-
+    // MARK: - UITableViewCells
     private func getSelectionCell(in tableView: UITableView,
                                   for indexPath: IndexPath) -> SelectionTableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -81,9 +71,20 @@ extension SettingsDataModel {
         return cell
     }
 
-    // Helpers
+    // MARK: - Helpers
     private func validateSection(section: Int) -> Bool {
         section < tableItems.count
+    }
+
+    func indexOf(item: TableItem) -> Int? {
+        var index: Int?
+        tableItems.forEach {
+            if $0.contains(item) {
+                index = $0.firstIndex(of: item)
+                return
+            }
+        }
+        return index
     }
 }
 

@@ -66,17 +66,6 @@ extension CreateEditExerciseDataModel {
 
 // MARK: - Funcs
 extension CreateEditExerciseDataModel {
-    func indexOf(item: TableItem) -> Int? {
-        var index: Int?
-        tableItems.forEach {
-            if $0.contains(item) {
-                index = $0.firstIndex(of: item)
-                return
-            }
-        }
-        return index
-    }
-
     mutating func setupFromExistingExercise() {
         exerciseName = exercise.name ?? ""
         groups = (exercise.groups ?? "").components(separatedBy: ",").map {
@@ -98,6 +87,7 @@ extension CreateEditExerciseDataModel {
         return images
     }
 
+    // MARK: - UITableViewCells
     private func getLabelTableViewCell(in tableView: UITableView,
                                        for indexPath: IndexPath,
                                        item: TableItem) -> LabelTableViewCell {
@@ -176,9 +166,20 @@ extension CreateEditExerciseDataModel {
         return textViewTableViewCell
     }
 
-    // Helpers
+    // MARK: - Helpers
     private func validateSection(section: Int) -> Bool {
         section < tableItems.count
+    }
+
+    func indexOf(item: TableItem) -> Int? {
+        var index: Int?
+        tableItems.forEach {
+            if $0.contains(item) {
+                index = $0.firstIndex(of: item)
+                return
+            }
+        }
+        return index
     }
 }
 

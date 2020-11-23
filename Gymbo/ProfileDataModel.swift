@@ -35,6 +35,11 @@ extension ProfileDataModel {
 
 // MARK: - Funcs
 extension ProfileDataModel {
+    // MARK: - Helpers
+    private func validateSection(section: Int) -> Bool {
+        section < tableItems.count
+    }
+
     func indexOf(item: TableItem) -> Int? {
         var index: Int?
         tableItems.forEach {
@@ -44,11 +49,6 @@ extension ProfileDataModel {
             }
         }
         return index
-    }
-
-    // Helpers
-    private func validateSection(section: Int) -> Bool {
-        section < tableItems.count
     }
 }
 

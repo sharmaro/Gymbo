@@ -38,6 +38,7 @@ private extension SessionsCollectionViewController {
     struct Constants {
         static let title = "Sessions"
 
+        static let cellMinimumSpacing = CGFloat(10)
         static let sessionCellHeight = CGFloat(120)
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
@@ -207,13 +208,13 @@ extension SessionsCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        10
+        Constants.cellMinimumSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        10
+        Constants.cellMinimumSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView,

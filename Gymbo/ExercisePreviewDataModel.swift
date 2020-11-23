@@ -45,17 +45,7 @@ extension ExercisePreviewDataModel {
 
 // MARK: - Funcs
 extension ExercisePreviewDataModel {
-    func indexOf(item: TableItem) -> Int? {
-        var index: Int?
-        tableItems.forEach {
-            if $0.contains(item) {
-                index = $0.firstIndex(of: item)
-                return
-            }
-        }
-        return index
-    }
-
+    // MARK: - UITableViewCells
     private func getTwoLabelsCell(in tableView: UITableView,
                                   for indexPath: IndexPath) -> TwoLabelsTableViewCell {
         guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(
@@ -96,9 +86,20 @@ extension ExercisePreviewDataModel {
         return swipableImageViewCell
     }
 
-    // Helpers
+    // MARK: - Helpers
     private func validateSection(section: Int) -> Bool {
         section < tableItems.count
+    }
+
+    func indexOf(item: TableItem) -> Int? {
+        var index: Int?
+        tableItems.forEach {
+            if $0.contains(item) {
+                index = $0.firstIndex(of: item)
+                return
+            }
+        }
+        return index
     }
 }
 
