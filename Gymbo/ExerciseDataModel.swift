@@ -18,15 +18,7 @@ class ExerciseDataModel: NSObject {
                                   "Glutes", "Hips", "Legs", "Other",
                                   "Shoulders"]
 
-    private var isFirstTimeLoad: Bool {
-        realm?.objects(ExercisesList.self).first == nil
-    }
-
-    private var firstTimeLoadExercises = List<Exercise>()
-
     private var exercises: [Exercise] {
-        isFirstTimeLoad ?
-        Array(firstTimeLoadExercises) :
         Array(realm?.objects(ExercisesList.self).first?.exercises ?? List<Exercise>())
     }
 
@@ -85,10 +77,6 @@ extension ExerciseDataModel {
                                    realmCopyExercises: &realmCopyExercises,
                                    realmCopySectionTitles: &realmCopySectionTitles)
 
-                DispatchQueue.main.async {
-                    self.dataFetchDelegate?.didEndFetch()
-                }
-
                 let exercisesList = ExercisesList()
                 exercisesList.exercises = realmCopyExercises
                 exercisesList.sectionTitles = realmCopySectionTitles
@@ -96,17 +84,8 @@ extension ExerciseDataModel {
                     self.realm?.add(exercisesList)
                 }
 
-                /*
-                 Updating realm again in case the user adds
-                 any exercises while the original exercises
-                 array is still being written to realm
-                 */
                 DispatchQueue.main.async {
-                    let updatedExercisesList = List<Exercise>()
-                    updatedExercisesList.append(objectsIn: self.exercises)
-                    try? self.realm?.write {
-                        self.realm?.objects(ExercisesList.self).first?.exercises = updatedExercisesList
-                    }
+                    self.dataFetchDelegate?.didEndFetch()
                 }
             }
         }
@@ -131,7 +110,6 @@ extension ExerciseDataModel {
                                              weightType: newExercise.weightType,
                                              sets: newExercise.sets,
                                              exerciseDetails: newExercise.exerciseDetails)
-            self.firstTimeLoadExercises.append(newExercise)
             realmCopyExercises.append(realmCopyExercise)
 
             if let title = self.getFirstCharacter(of: name)?.capitalized,
