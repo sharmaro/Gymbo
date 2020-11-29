@@ -24,7 +24,10 @@ class ExerciseDataModel: NSObject {
 
     // Used to store the filtered results based on user search
     private var searchResults = ""
-    private(set) var sectionTitles = [String]()
+
+    var sectionTitles: [String] {
+        Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
+    }
 
     weak var dataFetchDelegate: DataFetchDelegate?
 }
@@ -36,7 +39,7 @@ private extension ExerciseDataModel {
         static let headerHeight = CGFloat(25)
     }
 
-    enum SearchResultsAction {
+    enum DataActionType {
         case create
         case remove
         case update
@@ -53,14 +56,7 @@ extension ExerciseDataModel {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
 
-            if self.realm?.objects(ExercisesList.self).first != nil {
-                self.sectionTitles =
-                    Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
-
-                DispatchQueue.main.async {
-                    self.dataFetchDelegate?.didEndFetch()
-                }
-            } else {
+            if self.realm?.objects(ExercisesList.self).first == nil {
                 let fileName = "all_workouts"
                 let fileType = "txt"
                 guard let filePath = Bundle.main.path(forResource: fileName, ofType: fileType),
@@ -83,10 +79,10 @@ extension ExerciseDataModel {
                 try? self.realm?.write {
                     self.realm?.add(exercisesList)
                 }
+            }
 
-                DispatchQueue.main.async {
-                    self.dataFetchDelegate?.didEndFetch()
-                }
+            DispatchQueue.main.async {
+                self.dataFetchDelegate?.didEndFetch()
             }
         }
     }
@@ -100,7 +96,7 @@ extension ExerciseDataModel {
             let name = String(exerciseSplitList[0])
             let groups =  String(exerciseSplitList[1])
 
-            let newExercise = self.createExerciseFromStorage(name: name, groups: groups)
+            let newExercise = createExerciseFromStorage(name: name, groups: groups)
             let realmCopyExercise = Exercise(name: newExercise.name,
                                              groups: newExercise.groups,
                                              instructions: newExercise.instructions,
@@ -112,9 +108,8 @@ extension ExerciseDataModel {
                                              exerciseDetails: newExercise.exerciseDetails)
             realmCopyExercises.append(realmCopyExercise)
 
-            if let title = self.getFirstCharacter(of: name)?.capitalized,
-                !self.sectionTitles.contains(title) {
-                self.sectionTitles.append(title)
+            if let title = getFirstCharacter(of: name)?.capitalized,
+                !realmCopySectionTitles.contains(title) {
                 realmCopySectionTitles.append(title)
             }
         }
@@ -213,6 +208,54 @@ extension ExerciseDataModel {
         }
     }
 
+    private func updateSectionTitles(with exerciseName: String,
+                                     action: DataActionType) {
+        guard let title = getFirstCharacter(of: exerciseName) else {
+            fatalError("Couldn't update section title with \(exerciseName)")
+        }
+
+        switch action {
+        case .create:
+            createSectionTitle(from: title)
+        case .remove:
+            removeSectionTitle(from: title)
+        default:
+            break
+        }
+
+        let sectionTitlesList = List<String>()
+        sectionTitlesList.append(objectsIn: sectionTitles)
+        updateSectionTitlesInRealm(titles: sectionTitlesList)
+    }
+
+    private func createSectionTitle(from title: String) {
+        if !sectionTitles.contains(title) {
+            try? realm?.write {
+                self.realm?.objects(ExercisesList.self).first?.sectionTitles.append(title)
+                self.realm?.objects(ExercisesList.self).first?.sectionTitles.sort()
+            }
+        }
+    }
+
+    private func removeSectionTitle(from title: String) {
+        let filteredExercises = exercises.filter {
+            $0.name?.hasPrefix(title) ?? false
+        }
+
+        if filteredExercises.isEmpty,
+           let index = sectionTitles.firstIndex(of: title) {
+            try? realm?.write {
+                self.realm?.objects(ExercisesList.self).first?.sectionTitles.remove(at: index)
+            }
+        }
+    }
+
+    private func updateSectionTitlesInRealm(titles: List<String>) {
+        try? realm?.write {
+            realm?.objects(ExercisesList.self).first?.sectionTitles = titles
+        }
+    }
+
     // MARK: - UITableView
 
     var numberOfSections: Int {
@@ -305,13 +348,13 @@ extension ExerciseDataModel {
             return
         }
 
-        DispatchQueue.main.async {
-            try? self.realm?.write {
-                self.realm?.objects(ExercisesList.self).first?.exercises.append(exercise)
-                self.realm?.objects(ExercisesList.self).first?.exercises.sort()
-                success?()
-            }
+        try? realm?.write {
+            realm?.objects(ExercisesList.self).first?.exercises.append(exercise)
+            realm?.objects(ExercisesList.self).first?.exercises.sort()
         }
+
+        updateSectionTitles(with: name, action: .create)
+        success?()
     }
 
     func update(_ currentName: String,
@@ -344,8 +387,11 @@ extension ExerciseDataModel {
                 realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
                 realm?.objects(ExercisesList.self).first?.exercises.append(exercise)
                 realm?.objects(ExercisesList.self).first?.exercises.sort()
-                success?()
             }
+
+            updateSectionTitles(with: newName, action: .create)
+            updateSectionTitles(with: currentName, action: .remove)
+            success?()
         }
     }
 
@@ -363,11 +409,13 @@ extension ExerciseDataModel {
         try? realm?.write {
             realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
         }
+
+        updateSectionTitles(with: name, action: .remove)
     }
 
     private func updateSearchResultsWithExercise(name: String = "",
                                                  newExercise: Exercise = Exercise(),
-                                                 action: SearchResultsAction) {
+                                                 action: DataActionType) {
         guard !searchResults.isEmpty else {
             return
         }

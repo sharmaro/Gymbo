@@ -327,10 +327,15 @@ extension ExercisesTableViewController {
 
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "Delete") { [weak self] _, _, completion in
+            Haptic.sendImpactFeedback(.medium)
+
             self?.sessionDataModel.removeInstancesOfExercise(name: exerciseName)
             self?.exerciseDataModel.removeExercise(named: exerciseName)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            Haptic.sendImpactFeedback(.medium)
+            if tableView.numberOfRows(inSection: indexPath.section) > 1 {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            } else {
+                tableView.deleteSections([indexPath.section], with: .automatic)
+            }
             completion(true)
         }
         deleteAction.backgroundColor = .systemRed

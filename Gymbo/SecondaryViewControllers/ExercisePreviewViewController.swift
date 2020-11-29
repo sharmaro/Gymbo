@@ -202,6 +202,8 @@ extension ExercisePreviewViewController: ExerciseDataModelDelegate {
                 self?.exercisePreviewDataModel.exercise = exercise
                 self?.refreshTitleLabels()
                 self?.tableView.reloadData()
+
+                // Updates ExercisesTableViewController
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)
             }
         }, fail: fail)
