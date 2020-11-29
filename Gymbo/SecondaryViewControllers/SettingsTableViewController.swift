@@ -22,6 +22,8 @@ private extension SettingsTableViewController {
     struct Constants {
         static let gymboEmail = "gymbo.feedback@gmail.com"
         static let emailSubject = "Support"
+
+        static let headerHeight = CGFloat(40)
     }
 }
 
@@ -65,7 +67,10 @@ extension SettingsTableViewController: ViewAdding {
 
     func setupViews() {
         tableView.delaysContentTouches = false
+        tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
+        tableView.register(ExercisesHeaderFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
         tableView.register(SelectionTableViewCell.self,
                            forCellReuseIdentifier: SelectionTableViewCell.reuseIdentifier)
     }
@@ -130,6 +135,25 @@ extension SettingsTableViewController {
 
 // MARK: - UITableViewDelegate
 extension SettingsTableViewController {
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? 0 : Constants.headerHeight
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? 0 : Constants.headerHeight
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section > 0,
+              let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+            return nil
+        }
+        return headerView
+    }
+
     override func tableView(_ tableView: UITableView,
                             estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         settingsDataModel.heightForRow(at: indexPath)
