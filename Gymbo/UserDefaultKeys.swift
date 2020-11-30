@@ -19,5 +19,6 @@ struct UserDefaultKeys {
 
     // MARK: - User
     static let IS_FIRST_TIME_LOAD = "isFirstTimeLoad"
+    static let IS_EXERCISES_FIRST_TIME_LOAD = "isExercisesFirstTimeLoad"
     static let INTERFACE_STYLE = "interfaceStyle"
 }

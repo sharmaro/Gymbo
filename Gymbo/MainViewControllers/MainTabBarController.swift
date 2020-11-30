@@ -128,9 +128,7 @@ extension MainTabBarController {
             let onboardingPageViewController = OnboardingPageViewController(
                 transitionStyle: .scroll,
                 navigationOrientation: .horizontal)
-            present(onboardingPageViewController, animated: true, completion: {
-                User.firstTimeLoadComplete()
-            })
+            present(onboardingPageViewController, animated: true)
         }
     }
 }

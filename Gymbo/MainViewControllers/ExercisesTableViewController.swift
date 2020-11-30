@@ -56,7 +56,6 @@ extension ExercisesTableViewController {
         setupViews()
         setupColors()
         addConstraints()
-        showActivityIndicator(withText: "Loading Exercises")
         setupExerciseDataModel()
         registerForKeyboardNotifications()
 
@@ -536,8 +535,18 @@ extension ExercisesTableViewController: SessionStateConstraintsUpdating {
 
 // MARK: - DataFetchDelegate
 extension ExercisesTableViewController: DataFetchDelegate {
+    func didBeginFetch() {
+        if User.isFirstTimeExercisesLoad {
+            showActivityIndicator(withText: "Loading Exercises")
+        }
+    }
+
     func didEndFetch() {
         tableView.reloadData()
-        hideActivityIndicator()
+
+        if User.isFirstTimeExercisesLoad {
+            hideActivityIndicator()
+            User.firstTimeExercisesLoadComplete()
+        }
     }
 }
