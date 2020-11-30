@@ -135,9 +135,9 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .mainBlack }
+        [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .dynamicBlack }
     }
 
     func addConstraints() {

@@ -36,7 +36,7 @@ class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
 // MARK: - Structs/Enums
 extension ExercisesHeaderFooterView {
     private struct Constants {
-        static var dividerHeight = CGFloat(0.5)
+        static var dividerHeight = CGFloat(0.2)
     }
 }
 
@@ -57,13 +57,13 @@ extension ExercisesHeaderFooterView: ViewAdding {
 
     func setupColors() {
         let customBackgroundView = UIView()
-        customBackgroundView.backgroundColor = .mainLightGray
+        customBackgroundView.backgroundColor = .dynamicLightGray
         backgroundView = customBackgroundView
 
         [topDivider, bottomDivider].forEach {
-            $0.backgroundColor = .mainDarkGray
+            $0.backgroundColor = .dynamicDarkGray
         }
-        label.textColor = .mainBlack
+        label.textColor = .dynamicBlack
     }
 
     func addConstraints() {

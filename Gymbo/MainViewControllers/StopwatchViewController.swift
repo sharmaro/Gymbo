@@ -190,9 +190,9 @@ extension StopwatchViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
-        tableView.backgroundColor = .mainWhite
-        [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .mainBlack }
+        view.backgroundColor = .dynamicWhite
+        tableView.backgroundColor = .dynamicWhite
+        [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .dynamicBlack }
     }
 
     //swiftlint:disable:next function_body_length

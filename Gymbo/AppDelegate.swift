@@ -84,10 +84,10 @@ extension AppDelegate {
 
     private func setupUINavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .mainWhite
+        appearance.backgroundColor = .dynamicWhite
         appearance.shadowColor = .clear
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.mainBlack]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.mainBlack]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.dynamicBlack]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.dynamicBlack]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance

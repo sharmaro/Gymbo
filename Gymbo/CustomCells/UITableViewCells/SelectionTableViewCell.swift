@@ -13,7 +13,7 @@ class SelectionTableViewCell: UITableViewCell {
     private let leftImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.tintColor = .mainBlack
+        imageView.tintColor = .dynamicBlack
         return imageView
     }()
 
@@ -27,7 +27,7 @@ class SelectionTableViewCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainBlack
+        label.textColor = .dynamicBlack
         label.font = .medium
         label.textAlignment = .left
         return label
@@ -35,7 +35,7 @@ class SelectionTableViewCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainDarkGray
+        label.textColor = .dynamicDarkGray
         label.font = UIFont.medium.light
         label.textAlignment = .right
         return label
@@ -44,7 +44,7 @@ class SelectionTableViewCell: UITableViewCell {
     private var rightImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainBlack
+        imageView.tintColor = .dynamicBlack
         return imageView
     }()
 
@@ -81,11 +81,11 @@ extension SelectionTableViewCell: ViewAdding {
 
     func setupViews() {
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = .mainLightGray
+        selectedBackgroundView?.backgroundColor = .dynamicLightGray
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
         [titleLabel, valueLabel].forEach { $0.textColor = $0.textColor }
     }

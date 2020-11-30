@@ -66,7 +66,7 @@ extension ImagesTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
     }
 

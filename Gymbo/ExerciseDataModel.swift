@@ -36,7 +36,7 @@ class ExerciseDataModel: NSObject {
 private extension ExerciseDataModel {
     struct Constants {
         static let searchResultsKey = "searchResultsKey"
-        static let headerHeight = CGFloat(25)
+        static let headerHeight = CGFloat(40)
     }
 
     enum DataActionType {

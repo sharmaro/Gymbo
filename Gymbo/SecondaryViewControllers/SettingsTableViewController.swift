@@ -76,7 +76,7 @@ extension SettingsTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 }
 

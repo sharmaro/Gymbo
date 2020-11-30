@@ -121,9 +121,9 @@ extension OnboardingViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
-        titleLabel.textColor = .mainBlack
-        infoLabel.textColor = .mainDarkGray
+        view.backgroundColor = .dynamicWhite
+        titleLabel.textColor = .dynamicBlack
+        infoLabel.textColor = .dynamicDarkGray
     }
 
     //swiftlint:disable:next function_body_length

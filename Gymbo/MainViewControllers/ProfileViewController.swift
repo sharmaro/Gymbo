@@ -94,7 +94,7 @@ extension ProfileViewController: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .mainWhite }
+        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
     }
 
     func addConstraints() {

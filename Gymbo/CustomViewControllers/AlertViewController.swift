@@ -112,9 +112,9 @@ extension AlertViewController: ViewAdding {
     }
 
     func setupColors() {
-        containerView.backgroundColor = .mainLightGray
-        titleLabel.textColor = .mainWhite
-        contentLabel.textColor = .mainBlack
+        containerView.backgroundColor = .dynamicLightGray
+        titleLabel.textColor = .dynamicWhite
+        contentLabel.textColor = .dynamicBlack
     }
 
     func addConstraints() {

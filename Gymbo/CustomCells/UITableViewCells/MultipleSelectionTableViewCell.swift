@@ -68,9 +68,9 @@ extension MultipleSelectionTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        collectionView.backgroundColor = .mainWhite
+        collectionView.backgroundColor = .dynamicWhite
     }
 
     func addConstraints() {

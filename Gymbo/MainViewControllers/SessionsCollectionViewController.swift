@@ -128,8 +128,8 @@ extension SessionsCollectionViewController: ViewAdding {
     }
 
     func setupColors() {
-        navigationController?.view.backgroundColor = .mainWhite
-        collectionView.backgroundColor = .mainWhite
+        navigationController?.view.backgroundColor = .dynamicWhite
+        collectionView.backgroundColor = .dynamicWhite
     }
 }
 

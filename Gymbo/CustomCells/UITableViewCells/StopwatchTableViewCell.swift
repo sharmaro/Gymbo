@@ -12,7 +12,7 @@ import UIKit
 class StopwatchTableViewCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainBlack
+        label.textColor = .dynamicBlack
         label.font = .medium
         label.textAlignment = .left
         return label
@@ -20,7 +20,7 @@ class StopwatchTableViewCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainBlack
+        label.textColor = .dynamicBlack
         label.font = .medium
         label.textAlignment = .justified
         return label
@@ -55,7 +55,7 @@ extension StopwatchTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
         [descriptionLabel, valueLabel].forEach { $0.textColor = $0.textColor }
     }
@@ -95,8 +95,8 @@ extension StopwatchTableViewCell {
             descriptionLabel.textColor = .systemRed
             valueLabel.textColor = .systemRed
         } else {
-            descriptionLabel.textColor = .mainBlack
-            valueLabel.textColor = .mainBlack
+            descriptionLabel.textColor = .dynamicBlack
+            valueLabel.textColor = .dynamicBlack
         }
     }
 }

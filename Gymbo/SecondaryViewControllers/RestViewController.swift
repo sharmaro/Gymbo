@@ -46,7 +46,7 @@ class RestViewController: UIViewController {
 
     private let circleProgressView: CircleProgressView = {
         let view = CircleProgressView()
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
         return view
     }()
 
@@ -180,8 +180,8 @@ extension RestViewController: ViewAdding {
     }
 
     func setupColors() {
-        [view, topContainerView].forEach { $0.backgroundColor = .mainWhite }
-        restLabel.textColor = .mainDarkGray
+        [view, topContainerView].forEach { $0.backgroundColor = .dynamicWhite }
+        restLabel.textColor = .dynamicDarkGray
     }
 
     //swiftlint:disable:next function_body_length
@@ -353,7 +353,7 @@ extension RestViewController: UIPickerViewDelegate {
                                                 size: CGSize(width: pickerView.bounds.width,
                                                              height: Constants.pickerRowHeight)))
         pickerLabel.text = restTimes[row]
-        pickerLabel.textColor = .mainBlack
+        pickerLabel.textColor = .dynamicBlack
         pickerLabel.textAlignment = .center
         pickerLabel.font = .xLarge
         return pickerLabel

@@ -63,11 +63,16 @@ extension SelectionCollectionViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        containerView.backgroundColor = .dimmedDarkGray
-        selectionLabel.textColor = .systemBlue
         selectionLabel.backgroundColor = .clear
+
+        if isSelected {
+            selectionLabel.textColor = .dynamicWhite
+        } else {
+            selectionLabel.textColor = .systemBlue
+            containerView.backgroundColor = .dimmedDarkGray
+        }
     }
 
     func addConstraints() {
@@ -96,7 +101,7 @@ extension SelectionCollectionViewCell {
             guard let self = self else { return }
 
             if self.isSelected {
-                self.selectionLabel.textColor = .mainWhite
+                self.selectionLabel.textColor = .dynamicWhite
                 self.containerView.addGradient(colors: [.customBlue, .customLightGray])
             } else {
                 self.selectionLabel.textColor = .systemBlue

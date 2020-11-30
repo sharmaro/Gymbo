@@ -16,7 +16,7 @@ class CustomButton: UIButton {
         }
     }
 
-    var titleColor = UIColor.mainBlack {
+    var titleColor = UIColor.dynamicBlack {
         didSet {
             setTitleColor(titleColor, for: .normal)
         }
@@ -88,7 +88,7 @@ extension CustomButton {
         })
     }
 
-    func add(backgroundColor: UIColor, titleColor: UIColor = .mainWhite) {
+    func add(backgroundColor: UIColor, titleColor: UIColor = .dynamicWhite) {
         self.backgroundColor = backgroundColor
         self.titleColor = titleColor
     }

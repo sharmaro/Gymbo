@@ -99,17 +99,17 @@ extension SessionsCollectionViewCell: ViewAdding {
 
     func setupViews() {
         contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .mainDarkGray)
+        contentView.addBorder(1, color: .dynamicDarkGray)
         contentView.addShadow(direction: .downRight)
 
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        contentView.backgroundColor = .mainWhite
-        contentView.layer.borderColor = UIColor.mainDarkGray.cgColor
-        contentView.layer.shadowColor = UIColor.mainDarkGray.cgColor
-        [titleLabel, infoLabel].forEach { $0.textColor = .mainBlack }
+        contentView.backgroundColor = .dynamicWhite
+        contentView.layer.borderColor = UIColor.dynamicDarkGray.cgColor
+        contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
+        [titleLabel, infoLabel].forEach { $0.textColor = .dynamicBlack }
     }
 
     func addConstraints() {

@@ -104,7 +104,7 @@ extension CircleProgressView: ViewAdding {
 
     func setupColors() {
         backgroundColor = .clear
-        timeRemainingLabel.textColor = .mainLightGray
+        timeRemainingLabel.textColor = .dynamicLightGray
     }
 
     func addConstraints() {

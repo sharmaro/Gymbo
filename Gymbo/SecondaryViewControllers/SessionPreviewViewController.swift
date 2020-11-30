@@ -75,7 +75,7 @@ extension SessionPreviewViewController {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session.name
         dataModel.secondText = session.info
-        dataModel.textColor = .mainBlack
+        dataModel.textColor = .dynamicBlack
         tableHeaderView.configure(dataModel: dataModel)
 
         tableView.reloadWithoutAnimation()
@@ -138,7 +138,7 @@ extension SessionPreviewViewController: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = . mainWhite }
+        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
     }
 
     func addConstraints() {
@@ -176,7 +176,7 @@ extension SessionPreviewViewController {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .mainBlack
+        dataModel.textColor = .dynamicBlack
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false

@@ -66,7 +66,7 @@ extension SelectionTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 }
 
@@ -95,7 +95,7 @@ extension SelectionTableViewController {
             let imageView = UIImageView(frame: CGRect(origin: .zero,
                                                       size: CGSize(width: 15,
                                                                    height: 15)))
-            imageView.tintColor = .mainBlack
+            imageView.tintColor = .dynamicBlack
             imageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
             cell.accessoryView = imageView
         }

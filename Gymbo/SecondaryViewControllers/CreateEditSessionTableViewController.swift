@@ -149,7 +149,7 @@ extension CreateEditSessionTableViewController: ViewAdding {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session.name ?? Constants.namePlaceholderText
         dataModel.secondText = session.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = sessionState == .create ? .dimmedDarkGray : .mainBlack
+        dataModel.textColor = sessionState == .create ? .dimmedDarkGray : .dynamicBlack
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = true
@@ -157,7 +157,7 @@ extension CreateEditSessionTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 
     func addConstraints() {
@@ -243,7 +243,7 @@ extension CreateEditSessionTableViewController {
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         view.endEditing(true)
 
-        let exercisesTableViewController = ExercisesTableViewController()
+        let exercisesTableViewController = ExercisesTableViewController(style: .grouped)
         exercisesTableViewController.presentationStyle = .modal
         exercisesTableViewController.exercisesDelegate = self
 
@@ -521,7 +521,7 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .dimmedDarkGray {
             textView.text.removeAll()
-            textView.textColor = .mainBlack
+            textView.textColor = .dynamicBlack
         }
     }
 
@@ -533,7 +533,7 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
 
             if let text = textInfo[textView.tag] {
                 textView.text = text
-                textView.textColor = .mainBlack
+                textView.textColor = .dynamicBlack
             } else {
                 textView.text = textView.tag == 0 ?
                     Constants.namePlaceholderText : Constants.infoPlaceholderText

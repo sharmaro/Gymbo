@@ -55,9 +55,9 @@ extension TextFieldTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        textField.textColor = .mainBlack
+        textField.textColor = .dynamicBlack
     }
 
     func addConstraints() {

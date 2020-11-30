@@ -66,7 +66,7 @@ extension OnboardingPageViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 
     func addConstraints() {

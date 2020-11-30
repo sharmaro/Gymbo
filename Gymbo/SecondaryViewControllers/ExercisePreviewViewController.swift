@@ -115,8 +115,8 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .mainWhite }
-        editDisclaimerLabel.textColor = UIColor.mainBlack.withAlphaComponent(0.5)
+        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
+        editDisclaimerLabel.textColor = UIColor.dynamicBlack.withAlphaComponent(0.5)
     }
 
     func addConstraints() {

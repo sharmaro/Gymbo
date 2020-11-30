@@ -66,7 +66,7 @@ extension ExerciseTableViewCell: ViewAdding {
 
     func setupViews() {
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = .mainLightGray
+        selectedBackgroundView?.backgroundColor = .dynamicLightGray
 
         [nameLabel, groupsLabel].forEach {
             $0.backgroundColor = .clear
@@ -77,10 +77,10 @@ extension ExerciseTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        nameLabel.textColor = .mainBlack
-        groupsLabel.textColor = .mainDarkGray
+        nameLabel.textColor = .dynamicBlack
+        groupsLabel.textColor = .dynamicDarkGray
     }
 
     func addConstraints() {

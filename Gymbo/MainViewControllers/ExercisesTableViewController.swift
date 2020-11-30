@@ -136,6 +136,7 @@ extension ExercisesTableViewController: ViewAdding {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
+        tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
         tableView.register(ExercisesHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
@@ -155,7 +156,7 @@ extension ExercisesTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .mainWhite }
+        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
     }
 
     func addConstraints() {

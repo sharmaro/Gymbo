@@ -156,11 +156,11 @@ extension ExerciseDetailTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        [setsLabel, lastLabel].forEach { $0.textColor = .mainBlack }
+        [setsLabel, lastLabel].forEach { $0.textColor = .dynamicBlack }
         [repsTextField, weightTextField].forEach {
-            $0.textColor = .mainBlack
+            $0.textColor = .dynamicBlack
             $0.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
         }
     }

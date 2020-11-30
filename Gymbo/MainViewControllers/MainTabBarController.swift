@@ -94,7 +94,7 @@ extension MainTabBarController {
                                                         image: profileTab.image,
                                                         tag: profileTab.rawValue)
 
-        let exercisesTableViewController = ExercisesTableViewController()
+        let exercisesTableViewController = ExercisesTableViewController(style: .grouped)
         let exercisesTab = Tabs.exercises
         exercisesTableViewController.tabBarItem = UITabBarItem(title: exercisesTab.title,
                                                           image: exercisesTab.image,

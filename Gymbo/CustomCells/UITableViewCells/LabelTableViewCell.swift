@@ -52,9 +52,9 @@ extension LabelTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        detailLabel.textColor = .mainBlack
+        detailLabel.textColor = .dynamicBlack
     }
 
     func addConstraints() {

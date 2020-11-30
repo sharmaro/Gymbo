@@ -58,13 +58,13 @@ extension TwoLabelsTableViewCell: ViewAdding {
         selectionStyle = .none
     }
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
         [topLabel, bottomLabel].forEach {
-            $0.backgroundColor = .mainWhite
+            $0.backgroundColor = .dynamicWhite
         }
-        topLabel.textColor = .mainBlack
-        bottomLabel.textColor = .mainDarkGray
+        topLabel.textColor = .dynamicBlack
+        bottomLabel.textColor = .dynamicDarkGray
     }
 
     func addConstraints() {

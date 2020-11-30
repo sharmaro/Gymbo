@@ -73,9 +73,9 @@ extension TextViewTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
-        textView.textColor = .mainBlack
+        textView.textColor = .dynamicBlack
         textView.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
     }
 

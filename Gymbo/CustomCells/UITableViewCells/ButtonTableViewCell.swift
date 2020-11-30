@@ -55,7 +55,7 @@ extension ButtonTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .mainWhite
+        backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
     }
 
@@ -84,7 +84,7 @@ extension ButtonTableViewCell {
 
     func configure(title: String,
                    font: UIFont = .normal,
-                   titleColor: UIColor = .mainBlack,
+                   titleColor: UIColor = .dynamicBlack,
                    backgroundColor: UIColor = .systemBlue,
                    cornerStyle: CornerStyle = .none) {
         button.title = title

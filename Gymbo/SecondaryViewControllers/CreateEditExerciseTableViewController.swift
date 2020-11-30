@@ -114,7 +114,7 @@ extension CreateEditExerciseTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 }
 

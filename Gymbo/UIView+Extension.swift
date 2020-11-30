@@ -52,7 +52,7 @@ extension UIView {
 
     func addShadow(direction: Direction) {
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.mainDarkGray.cgColor
+        layer.shadowColor = UIColor.dynamicDarkGray.cgColor
         layer.shadowRadius = 2
         layer.shadowOpacity = 0.6
 
@@ -77,7 +77,7 @@ extension UIView {
     }
 
     func showShadow() {
-        layer.shadowColor = UIColor.mainDarkGray.cgColor
+        layer.shadowColor = UIColor.dynamicDarkGray.cgColor
     }
 
     func hideShadow() {

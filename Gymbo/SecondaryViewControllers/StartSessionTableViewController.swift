@@ -195,7 +195,7 @@ extension StartSessionTableViewController: ViewAdding {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .mainBlack
+        dataModel.textColor = .dynamicBlack
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false
@@ -210,7 +210,7 @@ extension StartSessionTableViewController: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .mainWhite
+        view.backgroundColor = .dynamicWhite
     }
 
     func addConstraints() {
@@ -779,7 +779,7 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
     func addExercise() {
         modallyPresenting = .exercisesTableViewController
 
-        let exercisesTableViewController = ExercisesTableViewController()
+        let exercisesTableViewController = ExercisesTableViewController(style: .grouped)
         exercisesTableViewController.presentationStyle = .modal
         exercisesTableViewController.exercisesDelegate = self
 
