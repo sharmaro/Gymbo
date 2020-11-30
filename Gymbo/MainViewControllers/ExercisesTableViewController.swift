@@ -99,7 +99,8 @@ extension ExercisesTableViewController: ViewAdding {
         title = presentationStyle == .normal ? "My Exercises" : "Add Exercises"
 
         switch presentationStyle {
-        case .normal: break
+        case .normal:
+            break
         case .modal:
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                                target: self,
@@ -116,7 +117,6 @@ extension ExercisesTableViewController: ViewAdding {
         searchController.obscuresBackgroundDuringPresentation = false
 
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
         // Hides the active search bar if a new view controller is presented
         definesPresentationContext = true
 
@@ -137,7 +137,6 @@ extension ExercisesTableViewController: ViewAdding {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
-        tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
         tableView.register(ExercisesHeaderFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
