@@ -515,7 +515,8 @@ extension ExercisesTableViewController: SessionProgressDelegate {
 // MARK: - SessionStateConstraintsUpdating
 extension ExercisesTableViewController: SessionStateConstraintsUpdating {
     func renewConstraints() {
-        guard presentationStyle == .modal,
+        guard isViewLoaded,
+              presentationStyle == .modal,
             let mainTabBarController = mainTabBarController else {
             return
         }

@@ -522,7 +522,8 @@ extension StopwatchViewController: SessionProgressDelegate {
 // MARK: - SessionStateConstraintsUpdating
 extension StopwatchViewController: SessionStateConstraintsUpdating {
     func renewConstraints() {
-        guard let mainTabBarController = mainTabBarController else {
+        guard isViewLoaded,
+              let mainTabBarController = mainTabBarController else {
             return
         }
 

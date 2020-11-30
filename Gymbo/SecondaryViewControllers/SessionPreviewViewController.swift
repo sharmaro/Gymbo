@@ -62,25 +62,6 @@ extension SessionPreviewViewController {
         addConstraints()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        guard isViewLoaded,
-            let session = session else {
-                return
-        }
-
-        title = Constants.title
-
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session.name
-        dataModel.secondText = session.info
-        dataModel.textColor = .dynamicBlack
-        tableHeaderView.configure(dataModel: dataModel)
-
-        tableView.reloadWithoutAnimation()
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -105,6 +86,8 @@ extension SessionPreviewViewController {
 // MARK: - ViewAdding
 extension SessionPreviewViewController: ViewAdding {
     func setupNavigationBar() {
+        title = Constants.title
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                            target: self,
                                                            action: #selector(cancelButtonTapped))
@@ -132,7 +115,7 @@ extension SessionPreviewViewController: ViewAdding {
                                         (-1 * Constants.startButtonBottomSpacing) +
                                         spacing
 
-        updateTableHeaderView()
+        setupTableHeaderView()
 
         startSessionButton.addTarget(self, action: #selector(startSessionButtonTapped), for: .touchUpInside)
     }
@@ -172,7 +155,7 @@ extension SessionPreviewViewController: ViewAdding {
 
 // MARK: - Funcs
 extension SessionPreviewViewController {
-    private func updateTableHeaderView() {
+    private func setupTableHeaderView() {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
@@ -246,7 +229,7 @@ extension SessionPreviewViewController: SessionDataModelDelegate {
             success()
             self?.session = session
             DispatchQueue.main.async {
-                self?.updateTableHeaderView()
+                self?.setupTableHeaderView()
                 // Updating collectionView in SessionsCollectionViewController
                 NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
             }

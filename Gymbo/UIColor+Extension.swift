@@ -36,8 +36,8 @@ extension UIColor {
     static let defaultSelectedBorder = UIColor.systemGreen
     static let defaultUnselectedBorder = UIColor.dynamicDarkGray
     static let dimmedBackgroundBlack = UIColor.black.withAlphaComponent(0.8)
-    static let dimmedDarkGray = UIColor.dynamicDarkGray.withAlphaComponent(0.2)
-    static let dimmedLightGray = UIColor.dynamicLightGray.withAlphaComponent(0.2)
+    static let dimmedDarkGray = UIColor.dynamicDarkGray.withAlphaComponent(0.3)
+    static let dimmedLightGray = UIColor.dynamicLightGray.withAlphaComponent(0.3)
 
     // Dynamic
     static let dynamicWhite = UIColor(named: "dynamicWhite") ?? .white

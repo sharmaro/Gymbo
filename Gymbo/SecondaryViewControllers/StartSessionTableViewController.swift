@@ -30,7 +30,6 @@ class StartSessionTableViewController: UITableViewController {
 
     private let tableHeaderView = SessionHeaderView()
     private var didLayoutTableHeaderView = false
-    private let tableFooterView = StartSessionFooterView()
 
     var session: Session?
     weak var sessionProgresssDelegate: SessionProgressDelegate?
@@ -63,9 +62,7 @@ class StartSessionTableViewController: UITableViewController {
     }
 
     private let realm = try? Realm()
-
     private var selectedRows = [IndexPath: Bool]()
-
     private let userDefault = UserDefaults.standard
 
     weak var updateDelegate: UpdateDelegate?
@@ -192,21 +189,8 @@ extension StartSessionTableViewController: ViewAdding {
         tableView.register(ButtonTableViewCell.self,
                            forCellReuseIdentifier: ButtonTableViewCell.reuseIdentifier)
 
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
-        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .dynamicBlack
-
-        tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = false
-
-        tableFooterView.frame = CGRect(origin: .zero,
-                                       size: CGSize(width: tableView.frame.width,
-                                                    height: Constants.tableFooterViewHeight))
-        tableFooterView.startSessionButtonDelegate = self
-        tableView.tableFooterView = tableFooterView
-        tableView.tableFooterView = tableView.tableFooterView
-        tableView.tableFooterView?.layoutIfNeeded()
+        setupTableHeaderView()
+        setupTableFooterView()
     }
 
     func setupColors() {
@@ -225,6 +209,26 @@ extension StartSessionTableViewController: ViewAdding {
 
 // MARK: - Funcs
 extension StartSessionTableViewController {
+    private func setupTableHeaderView() {
+        var dataModel = SessionHeaderViewModel()
+        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
+        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
+        dataModel.textColor = .dynamicBlack
+
+        tableHeaderView.configure(dataModel: dataModel)
+        tableHeaderView.isContentEditable = false
+    }
+
+    private func setupTableFooterView() {
+        let footerViewFrame = CGRect(origin: .zero,
+                                     size: CGSize(width: tableView.frame.width,
+                                                  height: Constants.tableFooterViewHeight))
+        let tableFooterView = StartSessionFooterView(frame: footerViewFrame)
+        tableFooterView.startSessionButtonDelegate = self
+        tableView.tableFooterView = tableFooterView
+        tableView.tableFooterView = tableView.tableFooterView
+    }
+
     private func startSessionTimer() {
         sessionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval,
                                             target: self,

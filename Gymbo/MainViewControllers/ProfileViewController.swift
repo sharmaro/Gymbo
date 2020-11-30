@@ -187,7 +187,8 @@ extension ProfileViewController: SessionProgressDelegate {
 // MARK: - SessionStateConstraintsUpdating
 extension ProfileViewController: SessionStateConstraintsUpdating {
     func renewConstraints() {
-        guard let mainTabBarController = mainTabBarController else {
+        guard isViewLoaded,
+              let mainTabBarController = mainTabBarController else {
             return
         }
 
