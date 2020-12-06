@@ -99,10 +99,11 @@ extension SettingsTableViewController {
             mailViewController.setMessageBody(emailBody, isHTML: false)
             navigationController?.present(mailViewController, animated: true)
         } else {
-            presentCustomAlert(title: "Oops",
-                               content: "Sorry, we can't send mail right now",
-                               usesBothButtons: false,
-                               rightButtonTitle: "Sounds good")
+            let alertData = AlertData(title: "Oops!",
+                                      content: "Sorry, we can't send mail right now",
+                                      usesBothButtons: false,
+                                      rightButtonTitle: "Sounds good")
+            presentCustomAlert(alertData: alertData)
         }
     }
 

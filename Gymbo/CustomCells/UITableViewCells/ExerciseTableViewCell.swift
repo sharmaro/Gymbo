@@ -43,9 +43,7 @@ class ExerciseTableViewCell: UITableViewCell {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-
-        setup()
+        fatalError("Not using storyboards")
     }
 }
 
@@ -85,11 +83,11 @@ extension ExerciseTableViewCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            muscleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            muscleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             muscleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -10),
             muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -10),
-            muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor),
 
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

@@ -49,7 +49,7 @@ extension SessionDataModel {
                                           groups: "sample groups",
                                           instructions: "Sample Instructions",
                                           tips: "Sample Tips",
-                                          isUserMade: true,
+                                          isUserMade: false,
                                           weightType: WeightType.lbs.rawValue)
             let sampleExerciseList = List<Exercise>()
             sampleExerciseList.append(sampleExercise)
@@ -115,47 +115,45 @@ extension SessionDataModel {
         return sessionInfoText
     }
 
-    func create(session: Session, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func create(session: Session, completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let list = sessionsList,
             !list.sessions.contains(where: {
             $0.name == session.name
         }) else {
-            fail?()
+            completion(.failure(.createFail))
             return
         }
 
         try? realm?.write {
             list.sessions.append(session)
-            success?()
+            completion(.success(nil))
         }
     }
 
     func update(_ currentName: String,
                 session: Session,
-                success: (() -> Void)? = nil,
-                fail: (() -> Void)? = nil) {
+                completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let newName = session.name,
             let index = index(of: currentName) else {
-                fail?()
-                return
+            completion(.failure(.updateFail))
+            return
         }
 
         if currentName == newName {
             try? realm?.write {
                 sessionsList?.sessions[index] = session
-                success?()
+                completion(.success(nil))
             }
         } else {
-            // Using self because 'index' is already used here
             guard self.index(of: newName) == nil else {
-                fail?()
+                completion(.failure(.updateFail))
                 return
             }
 
             try? realm?.write {
                 sessionsList?.sessions.remove(at: index)
                 sessionsList?.sessions.append(session)
-                success?()
+                completion(.success(nil))
             }
         }
     }

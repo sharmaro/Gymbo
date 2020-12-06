@@ -24,10 +24,7 @@ class SelectionTableViewController: UITableViewController {
     }
 
     required init?(coder: NSCoder) {
-        items = [String]()
-        selected = ""
-        super.init(coder: coder)
-        title = "Selection"
+        fatalError("Not using storyboards")
     }
 }
 // MARK: - Structs/Enums

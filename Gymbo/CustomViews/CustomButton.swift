@@ -28,8 +28,7 @@ class CustomButton: UIButton {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
+        fatalError("Not using storyboards")
     }
 
     override var isHighlighted: Bool {

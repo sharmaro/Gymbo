@@ -59,9 +59,7 @@ class ActivityIndicatorView: UIView {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-
-        setup()
+        fatalError("Not using storyboards")
     }
 }
 

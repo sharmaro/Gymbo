@@ -43,7 +43,7 @@ class SelectionTableViewCell: UITableViewCell {
 
     private var rightImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.tintColor = .dynamicBlack
         return imageView
     }()
@@ -55,9 +55,7 @@ class SelectionTableViewCell: UITableViewCell {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-
-        setup()
+        fatalError("Not using storyboards")
     }
 }
 
@@ -102,8 +100,8 @@ extension SelectionTableViewCell: ViewAdding {
             leftImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             leftImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                    constant: 20),
-            leftImageView.widthAnchor.constraint(equalToConstant: 30),
-            leftImageView.heightAnchor.constraint(equalToConstant: 30),
+            leftImageView.widthAnchor.constraint(equalToConstant: 25),
+            leftImageView.heightAnchor.constraint(equalTo: leftImageView.widthAnchor),
 
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackViewLeadingConstraintToImageView,

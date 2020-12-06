@@ -17,21 +17,8 @@ extension UIViewController {
         44
     }
 
-    func presentCustomAlert(title: String = "Alert",
-                            content: String,
-                            usesBothButtons: Bool = true,
-                            leftButtonTitle: String = "Cancel",
-                            rightButtonTitle: String = "Confirm",
-                            leftButtonAction: (() -> Void)? = nil,
-                            rightButtonAction: (() -> Void)? = nil) {
-        let alertViewController = AlertViewController()
-        alertViewController.setupAlert(title: title,
-                                       content: content,
-                                       usesBothButtons: usesBothButtons,
-                                       leftButtonTitle: leftButtonTitle,
-                                       rightButtonTitle: rightButtonTitle,
-                                       leftButtonAction: leftButtonAction,
-                                       rightButtonAction: rightButtonAction)
+    func presentCustomAlert(alertData: AlertData) {
+        let alertViewController = AlertViewController(alertData: alertData)
         alertViewController.modalTransitionStyle = .crossDissolve
         alertViewController.modalPresentationStyle = .overFullScreen
         present(alertViewController, animated: true)

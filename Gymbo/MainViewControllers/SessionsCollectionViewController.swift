@@ -63,7 +63,6 @@ extension SessionsCollectionViewController {
         setupNavigationBar()
         setupViews()
         setupColors()
-        showActivityIndicator(withText: "Loading Sessions")
         setupSessionDataModel()
 
         NotificationCenter.default.addObserver(self,
@@ -263,10 +262,11 @@ extension SessionsCollectionViewController: UICollectionViewDragDelegate {
                         at indexPath: IndexPath) -> [UIDragItem] {
 
         guard let session = sessionDataModel.session(for: indexPath.row) else {
-            presentCustomAlert(title: "Drag Not Allowed",
-                               content: "Cannot drag this session.",
-                               usesBothButtons: false,
-                               rightButtonTitle: "Sounds good")
+            let alertData = AlertData(title: "Drag Not Allowed",
+                                      content: "Cannot drag this session.",
+                                      usesBothButtons: false,
+                                      rightButtonTitle: "Sounds good")
+            presentCustomAlert(alertData: alertData)
             return [UIDragItem]()
         }
         let itemProvider = NSItemProvider(object: session)
@@ -334,29 +334,45 @@ extension SessionsCollectionViewController: UICollectionViewDropDelegate {
 
 // MARK: - SessionDataModelDelegate
 extension SessionsCollectionViewController: SessionDataModelDelegate {
-    func create(_ session: Session, success: @escaping (() -> Void), fail: @escaping (() -> Void)) {
-        sessionDataModel.create(session: session, success: { [weak self] in
-            guard let self = self else { return }
-
-            success()
-            DispatchQueue.main.async {
-                self.updateSessionsUI()
-                self.collectionView.reloadWithoutAnimation()
+    func create(_ session: Session, completion: @escaping (Result<Any?, DataError>) -> Void) {
+        sessionDataModel.create(session: session) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
+                DispatchQueue.main.async {
+                    self?.updateSessionsUI()
+                    self?.collectionView.reloadWithoutAnimation()
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                guard let alertData = error.alertData(data: session.name ?? "") else {
+                    return
+                }
+                self?.presentCustomAlert(alertData: alertData)
             }
-        }, fail: fail)
+        }
     }
 
     func update(_ currentName: String,
                 session: Session,
-                success: @escaping (() -> Void),
-                fail: @escaping (() -> Void)) {
-        sessionDataModel.update(currentName, session: session, success: { [weak self] in
-            success()
-            DispatchQueue.main.async {
-                self?.updateSessionsUI()
-                self?.collectionView.reloadData()
+                completion: @escaping (Result<Any?, DataError>) -> Void) {
+        sessionDataModel.update(currentName,
+                                session: session) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
+                DispatchQueue.main.async {
+                    self?.updateSessionsUI()
+                    self?.collectionView.reloadData()
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                guard let alertData = error.alertData(data: session.name ?? "") else {
+                    return
+                }
+                self?.presentCustomAlert(alertData: alertData)
             }
-        }, fail: fail)
+        }
     }
 }
 
@@ -379,25 +395,27 @@ extension SessionsCollectionViewController: SessionsCollectionViewCellDelegate {
         }
 
         let sessionName = sessionDataModel.sessionName(for: index)
-        presentCustomAlert(title: "Delete Session",
-                           content: "Are you sure you want to delete \(sessionName)?",
-                           rightButtonAction: { [weak self] in
-                            Haptic.sendImpactFeedback(.heavy)
-                            DispatchQueue.main.async {
-                                UIView.animate(withDuration: .defaultAnimationTime,
-                                               delay: 0.0,
-                                               options: [],
-                                               animations: {
-                                                cell.alpha = 0
-                                               }) { [weak self] (finished) in
-                                    if finished {
-                                        self?.sessionDataModel.remove(at: index)
-                                        self?.collectionView.deleteItems(at: [.init(row: index, section: 0)])
-                                        self?.updateSessionsUI()
-                                    }
-                                }
-                            }
-                           })
+        let rightButtonAction = { [weak self] in
+            Haptic.sendImpactFeedback(.heavy)
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: .defaultAnimationTime,
+                               delay: 0.0,
+                               options: [],
+                               animations: {
+                                cell.alpha = 0
+                               }) { [weak self] (finished) in
+                    if finished {
+                        self?.sessionDataModel.remove(at: index)
+                        self?.collectionView.deleteItems(at: [.init(row: index, section: 0)])
+                        self?.updateSessionsUI()
+                    }
+                }
+            }
+        }
+        let alertData = AlertData(title: "Delete Session",
+                                  content: "Are you sure you want to delete \(sessionName)?",
+                                  rightButtonAction: rightButtonAction)
+        presentCustomAlert(alertData: alertData)
     }
 }
 
@@ -406,6 +424,5 @@ extension SessionsCollectionViewController: DataFetchDelegate {
     func didEndFetch() {
         updateSessionsUI()
         collectionView.reloadData()
-        hideActivityIndicator()
     }
 }

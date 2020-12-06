@@ -33,9 +33,7 @@ class SelectionCollectionViewCell: UICollectionViewCell {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-
-        setup()
+        fatalError("Not using storyboards")
     }
 }
 

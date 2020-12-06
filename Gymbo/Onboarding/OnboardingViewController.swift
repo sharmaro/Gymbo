@@ -45,8 +45,7 @@ class OnboardingViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        self.onboardingPage = .myExercises
-        super.init(coder: coder)
+        fatalError("Not using storyboards")
     }
 }
 

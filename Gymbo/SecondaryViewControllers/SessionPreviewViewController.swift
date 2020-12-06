@@ -171,9 +171,10 @@ extension SessionPreviewViewController {
 
     @objc private func editButtonTapped() {
         guard let session = session else {
-            presentCustomAlert(content: "Can't edit current Session.",
-                               usesBothButtons: false,
-                               rightButtonTitle: "Sounds good")
+            let alertData = AlertData(content: "Can't edit current Session.",
+                                      usesBothButtons: false,
+                                      rightButtonTitle: "Sounds good")
+            presentCustomAlert(alertData: alertData)
             return
         }
 
@@ -223,16 +224,25 @@ extension SessionPreviewViewController: UITableViewDelegate {
 extension SessionPreviewViewController: SessionDataModelDelegate {
     func update(_ currentName: String,
                 session: Session,
-                success: @escaping (() -> Void),
-                fail: @escaping (() -> Void)) {
-        sessionDataModel.update(currentName, session: session, success: { [weak self] in
-            success()
-            self?.session = session
-            DispatchQueue.main.async {
-                self?.setupTableHeaderView()
-                // Updating collectionView in SessionsCollectionViewController
-                NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
+                completion: @escaping (Result<Any?, DataError>) -> Void) {
+        sessionDataModel.update(currentName,
+                                session: session) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
+                self?.session = session
+                DispatchQueue.main.async {
+                    self?.setupTableHeaderView()
+                    // Updating collectionView in SessionsCollectionViewController
+                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                guard let alertData = error.alertData(data: session.name ?? "") else {
+                    return
+                }
+                self?.presentCustomAlert(alertData: alertData)
             }
-        }, fail: fail)
+        }
     }
 }

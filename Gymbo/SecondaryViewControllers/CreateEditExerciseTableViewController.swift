@@ -213,27 +213,34 @@ extension CreateEditExerciseTableViewController {
         let exerciseName = createEditExerciseDataModel.exerciseName ?? ""
         switch exerciseState {
         case .create:
-            exerciseDataModelDelegate?.create(exercise, success: { [weak self] in
-                self?.dismiss(animated: true)
-                }, fail: { [weak self] in
-                    DispatchQueue.main.async {
-                        self?.presentCustomAlert(title: "Oops!",
-                                                 content: "\(exerciseName) already exists!",
-                                                 usesBothButtons: false,
-                                                 rightButtonTitle: "Sad!")
+            exerciseDataModelDelegate?.create(exercise, completion: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.dismiss(animated: true)
+                case .failure(let error):
+                    guard let alertData = error.alertData(data: exerciseName) else {
+                        return
                     }
+                    DispatchQueue.main.async {
+                        self?.presentCustomAlert(alertData: alertData)
+                    }
+                }
             })
         case .edit:
-            exerciseDataModelDelegate?.update(createEditExerciseDataModel.exercise.name ?? "",
+            let currentExerciseName = createEditExerciseDataModel.exercise.name ?? ""
+            exerciseDataModelDelegate?.update(currentExerciseName,
                                               exercise: exercise,
-                                              success: { [weak self] in
-                self?.dismiss(animated: true)
-            }, fail: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!",
-                                             content: "Couldn't edit exercise \(exerciseName).",
-                                             usesBothButtons: false,
-                                             rightButtonTitle: "Sad!")
+                                              completion: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.dismiss(animated: true)
+                case .failure(let error):
+                    guard let alertData = error.alertData(data: exerciseName) else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self?.presentCustomAlert(alertData: alertData)
+                    }
                 }
             })
         }

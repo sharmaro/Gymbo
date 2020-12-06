@@ -58,13 +58,16 @@ class AlertViewController: UIViewController {
         return button
     }()
 
-    private var alertTitle: String?
-    private var content: String?
-    private var usesBothButtons = true
-    private var leftButtonTitle: String?
-    private var rightButtonTitle: String?
-    private var leftButtonAction: (() -> Void)?
-    private var rightButtonAction: (() -> Void)?
+    private var alertData: AlertData
+
+    init(alertData: AlertData) {
+        self.alertData = alertData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("Not using storyboards")
+    }
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -90,7 +93,7 @@ extension AlertViewController: ViewAdding {
     func addViews() {
         view.add(subviews: [containerView])
         containerView.add(subviews: [titleLabel, contentLabel, buttonsStackView])
-        if usesBothButtons {
+        if alertData.usesBothButtons {
             buttonsStackView.addArrangedSubview(leftButton)
         }
         buttonsStackView.addArrangedSubview(rightButton)
@@ -99,16 +102,16 @@ extension AlertViewController: ViewAdding {
     func setupViews() {
         view.backgroundColor = .dimmedBackgroundBlack
 
-        titleLabel.text = alertTitle
-        contentLabel.text = content
+        titleLabel.text = alertData.title
+        contentLabel.text = alertData.content
 
-        if usesBothButtons {
+        if alertData.usesBothButtons {
             leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         }
         rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
 
-        leftButton.title = usesBothButtons ? (leftButtonTitle ?? "") : ""
-        rightButton.title = rightButtonTitle ?? ""
+        leftButton.title = alertData.usesBothButtons ? (alertData.leftButtonTitle ?? "") : ""
+        rightButton.title = alertData.rightButtonTitle ?? ""
     }
 
     func setupColors() {
@@ -152,29 +155,13 @@ extension AlertViewController: ViewAdding {
 
 // MARK: - Funcs
 extension AlertViewController {
-    func setupAlert(title: String = "Alert",
-                    content: String,
-                    usesBothButtons: Bool = true,
-                    leftButtonTitle: String = "Cancel",
-                    rightButtonTitle: String = "Confirm",
-                    leftButtonAction: (() -> Void)? = nil,
-                    rightButtonAction: (() -> Void)? = nil) {
-        alertTitle = title
-        self.content = content
-        self.usesBothButtons = usesBothButtons
-        self.leftButtonTitle = leftButtonTitle
-        self.rightButtonTitle = rightButtonTitle
-        self.leftButtonAction = leftButtonAction
-        self.rightButtonAction = rightButtonAction
-    }
-
     @objc private func leftButtonTapped(_ sender: Any) {
         dismiss(animated: true)
-        leftButtonAction?()
+        alertData.leftButtonAction?()
     }
 
     @objc private func rightButtonTapped(_ sender: Any) {
         dismiss(animated: true)
-        rightButtonAction?()
+        alertData.rightButtonAction?()
     }
 }

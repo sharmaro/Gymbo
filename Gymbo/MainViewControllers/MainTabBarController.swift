@@ -16,6 +16,7 @@ class MainTabBarController: UITabBarController {
 
     private var isReplacingSession = false
     private var startSessionViewController: StartSessionTableViewController?
+    private var sessionToReplace: Session?
 }
 
 // MARK: - Structs/Enums
@@ -131,6 +132,19 @@ extension MainTabBarController {
             present(onboardingPageViewController, animated: true)
         }
     }
+
+    private func updateSessionProgressObservingViewControllers(state: SessionState) {
+        viewControllers?.forEach {
+            if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+                switch state {
+                case .start:
+                    viewController.sessionDidStart(nil)
+                case .end:
+                    viewController.sessionDidEnd(nil)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - SessionProgressDelegate
@@ -141,15 +155,17 @@ extension MainTabBarController: SessionProgressDelegate {
                 return
             }
 
-            presentCustomAlert(title: "Another One?",
-                               content: "You already have a workout in progress!",
-                               usesBothButtons: true,
-                               leftButtonTitle: "You're right, I'll finish this one!",
-                               rightButtonTitle: "Start New Workout",
-                               rightButtonAction: { [weak self] in
-                                self?.isReplacingSession = true
-                                startSessionViewController.dismissAsChildViewController()
-                               })
+            let alertData = AlertData(title: "Another One?",
+                                      content: "You already have a workout in progress!",
+                                      usesBothButtons: true,
+                                      leftButtonTitle: "I'll finish this one!",
+                                      rightButtonTitle: "Start New Workout",
+                                      rightButtonAction: { [weak self] in
+                                        self?.isReplacingSession = true
+                                        self?.sessionToReplace = session
+                                        startSessionViewController.dismissAsChildViewController()
+                                      })
+            presentCustomAlert(alertData: alertData)
         } else {
             startSession(session)
         }
@@ -203,37 +219,21 @@ extension MainTabBarController: SessionProgressDelegate {
             shadowContainerView.frame.origin = CGPoint(x: 0, y: Constants.defaultYOffset)
             self.tabBar.frame.origin = CGPoint(x: 0, y: self.view.frame.height)
         })
+
+        if sessionToReplace != nil {
+            sessionToReplace = nil
+        }
     }
 
     func sessionDidEnd(_ session: Session?) {
         isSessionInProgress = false
         startSessionViewController = nil
 
-        if isReplacingSession {
+        if isReplacingSession, sessionToReplace != nil {
             isReplacingSession = false
-
-            startSession(session)
+            startSession(sessionToReplace)
         } else {
             updateSessionProgressObservingViewControllers(state: .end)
-        }
-    }
-
-    private func updateSessionProgressObservingViewControllers(state: SessionState) {
-        switch state {
-        case .start:
-            viewControllers?.forEach {
-                if let viewController =
-                    ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
-                    viewController.sessionDidStart(nil)
-                }
-            }
-        case .end:
-            viewControllers?.forEach {
-                if let viewController =
-                    ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
-                    viewController.sessionDidEnd(nil)
-                }
-            }
         }
     }
 }

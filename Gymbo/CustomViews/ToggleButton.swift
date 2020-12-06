@@ -22,10 +22,7 @@ class ToggleButton: CustomButton {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        items = []
-
-        super.init(coder: aDecoder)
-        setup()
+        fatalError("Not using storyboards")
     }
 }
 

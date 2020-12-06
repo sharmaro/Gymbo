@@ -340,11 +340,11 @@ extension ExerciseDataModel {
         searchResults.removeAll()
     }
 
-    func create(_ exercise: Exercise, success: (() -> Void)? = nil, fail: (() -> Void)? = nil) {
+    func create(_ exercise: Exercise, completion: @escaping(Result<Any?, DataError>) -> Void) {
         let name = exercise.name ?? ""
 
         guard !doesExerciseExist(name: name) else {
-            fail?()
+            completion(.failure(.createFail))
             return
         }
 
@@ -354,16 +354,15 @@ extension ExerciseDataModel {
         }
 
         updateSectionTitles(with: name, action: .create)
-        success?()
+        completion(.success(nil))
     }
 
     func update(_ currentName: String,
                 exercise: Exercise,
-                success: (() -> Void)? = nil,
-                fail: (() -> Void)? = nil) {
+                completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let newName = exercise.name,
             let index = index(of: currentName) else {
-            fail?()
+            completion(.failure(.updateFail))
             return
         }
 
@@ -372,11 +371,11 @@ extension ExerciseDataModel {
 
             try? realm?.write {
                 realm?.objects(ExercisesList.self).first?.exercises[index] = exercise
-                success?()
+                completion(.success(nil))
             }
         } else {
             guard !doesExerciseExist(name: newName) else {
-                fail?()
+                completion(.failure(.updateFail))
                 return
             }
 
@@ -391,7 +390,7 @@ extension ExerciseDataModel {
 
             updateSectionTitles(with: newName, action: .create)
             updateSectionTitles(with: currentName, action: .remove)
-            success?()
+            completion(.success(nil))
         }
     }
 

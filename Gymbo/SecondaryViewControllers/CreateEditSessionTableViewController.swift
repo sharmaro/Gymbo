@@ -65,33 +65,20 @@ extension CreateEditSessionTableViewController {
             return
         }
 
-        // Calls text field and text view didEndEditing() and saves data
+        // Calls text field and text view didEndEditing() to save data
         view.endEditing(true)
 
         let sessionToInteractWith = Session(name: sessionName,
                                             info: tableHeaderView.secondText,
                                             exercises: session.exercises)
         if sessionState == .create {
-            sessionDataModelDelegate?.create(sessionToInteractWith, success: {
-                // No op
-            }, fail: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!",
-                                             content: "\(sessionName) already exists!",
-                                             usesBothButtons: false,
-                                             rightButtonTitle: "Sad!")
-                }
+            sessionDataModelDelegate?.create(sessionToInteractWith,
+                                             completion: { _ in
             })
         } else {
-            sessionDataModelDelegate?.update(session.name ?? "", session: sessionToInteractWith, success: {
-                // No op
-            }, fail: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.presentCustomAlert(title: "Oops!",
-                                             content: "Couldn't update session \(self?.session.name ?? "").",
-                                             usesBothButtons: false,
-                                             rightButtonTitle: "Sad!")
-                }
+            sessionDataModelDelegate?.update(session.name ?? "",
+                                             session: sessionToInteractWith,
+                                             completion: { _ in
             })
         }
     }

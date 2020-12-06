@@ -446,13 +446,16 @@ extension ExercisesTableViewController: UISearchResultsUpdating {
 
 // MARK: - ExerciseDataModelDelegate
 extension ExercisesTableViewController: ExerciseDataModelDelegate {
-    func create(_ exercise: Exercise, success: @escaping(() -> Void), fail: @escaping(() -> Void)) {
-        exerciseDataModel.create(exercise, success: { [weak self] in
-            DispatchQueue.main.async {
-                success()
+    func create(_ exercise: Exercise, completion: @escaping (Result<Any?, DataError>) -> Void) {
+        exerciseDataModel.create(exercise) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
                 self?.tableView.reloadData()
+            case .failure(let error):
+                completion(.failure(error))
             }
-        }, fail: fail)
+        }
     }
 }
 

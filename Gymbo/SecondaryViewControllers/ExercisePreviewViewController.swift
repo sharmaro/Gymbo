@@ -46,9 +46,7 @@ class ExercisePreviewViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        self.exercisePreviewDataModel.exercise = Exercise()
-
-        super.init(coder: coder)
+        fatalError("Not using storyboards")
     }
 }
 
@@ -194,19 +192,22 @@ extension ExercisePreviewViewController: UITableViewDelegate {
 extension ExercisePreviewViewController: ExerciseDataModelDelegate {
     func update(_ currentName: String,
                 exercise: Exercise,
-                success: @escaping (() -> Void),
-                fail: @escaping (() -> Void)) {
-        exerciseDataModel.update(currentName, exercise: exercise, success: { [weak self] in
-            DispatchQueue.main.async {
-                success()
+                completion: @escaping (Result<Any?, DataError>) -> Void) {
+        exerciseDataModel.update(currentName,
+                                 exercise: exercise) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
                 self?.exercisePreviewDataModel.exercise = exercise
                 self?.refreshTitleLabels()
                 self?.tableView.reloadData()
 
                 // Updates ExercisesTableViewController
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)
+            case .failure(let error):
+                completion(.failure(error))
             }
-        }, fail: fail)
+        }
     }
 }
 

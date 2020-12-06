@@ -10,7 +10,6 @@ import RealmSwift
 
 // Need to create a List object that stores a List of objects if order is important
 // Realm will not store objects in order
-// MARK: - Properties
 @objcMembers class ExercisesList: Object {
     var exercises = List<Exercise>()
     var sectionTitles = List<String>()

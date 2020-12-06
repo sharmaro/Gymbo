@@ -472,35 +472,37 @@ extension StartSessionTableViewController {
 
     @objc private func finishButtonTapped() {
         Haptic.sendImpactFeedback(.heavy)
-        presentCustomAlert(title: "Finish Session",
-                           content: "Do you want to finish the session?",
-                           leftButtonTitle: "No",
-                           rightButtonTitle: "Yes",
-                           rightButtonAction: { [weak self] in
-                            Haptic.sendImpactFeedback(.heavy)
-                            if let session = self?.session {
-                                for exercise in session.exercises {
-                                    for detail in exercise.exerciseDetails {
-                                        let weight = Utility.formattedString(
-                                            stringToFormat: detail.weight,
-                                            type: .weight)
-                                        let reps = detail.reps ?? "--"
-                                        let last: String
-                                        if weight != "--" && reps != "--" {
-                                            last = "\(reps) x \(weight)"
-                                        } else {
-                                            last = "--"
-                                        }
-                                        try? self?.realm?.write {
-                                            detail.last = last
-                                        }
-                                    }
-                                }
-                            }
-                            DispatchQueue.main.async {
-                                self?.dismissAsChildViewController()
-                            }
-                           })
+        let rightButtonAction = { [weak self] in
+            Haptic.sendImpactFeedback(.heavy)
+            if let session = self?.session {
+                for exercise in session.exercises {
+                    for detail in exercise.exerciseDetails {
+                        let weight = Utility.formattedString(
+                            stringToFormat: detail.weight,
+                            type: .weight)
+                        let reps = detail.reps ?? "--"
+                        let last: String
+                        if weight != "--" && reps != "--" {
+                            last = "\(reps) x \(weight)"
+                        } else {
+                            last = "--"
+                        }
+                        try? self?.realm?.write {
+                            detail.last = last
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self?.dismissAsChildViewController()
+            }
+        }
+        let alertData = AlertData(title: "Finish Session",
+                                  content: "Do you want to finish the session?",
+                                  leftButtonTitle: "No",
+                                  rightButtonTitle: "Yes",
+                                  rightButtonAction: rightButtonAction)
+        presentCustomAlert(alertData: alertData)
     }
 
     @objc private func updateSessionTime() {
@@ -522,9 +524,10 @@ extension StartSessionTableViewController {
 extension StartSessionTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.",
-                               usesBothButtons: false,
-                               rightButtonTitle: "Sounds good")
+            let alertData = AlertData(content: "Could not start session.",
+                                      usesBothButtons: false,
+                                      rightButtonTitle: "Sounds good")
+            presentCustomAlert(alertData: alertData)
             return 0
         }
         return session.exercises.count
@@ -532,9 +535,10 @@ extension StartSessionTableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let session = session else {
-            presentCustomAlert(content: "Could not start session.",
-                               usesBothButtons: false,
-                               rightButtonTitle: "Sounds good")
+            let alertData = AlertData(content: "Could not start session.",
+                                      usesBothButtons: false,
+                                      rightButtonTitle: "Sounds good")
+            presentCustomAlert(alertData: alertData)
             return 0
         }
 
@@ -796,16 +800,18 @@ extension StartSessionTableViewController: StartSessionButtonDelegate {
 
     func cancelSession() {
         Haptic.sendImpactFeedback(.heavy)
-        presentCustomAlert(title: "Cancel Session",
-                           content: "Do you want to cancel the session?",
-                           leftButtonTitle: "No",
-                           rightButtonTitle: "Yes",
-                           rightButtonAction: { [weak self] in
-                            Haptic.sendImpactFeedback(.heavy)
-                            DispatchQueue.main.async {
-                                self?.dismissAsChildViewController()
-                            }
-                           })
+        let rightButtonAction = { [weak self] in
+            Haptic.sendImpactFeedback(.heavy)
+            DispatchQueue.main.async {
+                self?.dismissAsChildViewController()
+            }
+        }
+        let alertData = AlertData(title: "Cancel Session",
+                                  content: "Do you want to cancel the session?",
+                                  leftButtonTitle: "No",
+                                  rightButtonTitle: "Yes",
+                                  rightButtonAction: rightButtonAction)
+        presentCustomAlert(alertData: alertData)
     }
 }
 
