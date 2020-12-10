@@ -123,10 +123,10 @@ extension AlertViewController: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.leadingAnchor.constraint(
+            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            containerView.trailingAnchor.constraint(
+            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
 
@@ -140,14 +140,13 @@ extension AlertViewController: ViewAdding {
             contentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10),
 
-            buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-                       buttonsStackView.trailingAnchor.constraint(
-                        equalTo: containerView.trailingAnchor,
-                        constant: -20),
-                       buttonsStackView.bottomAnchor.constraint(
-                        equalTo: containerView.bottomAnchor,
-                        constant: -10),
-                       buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
+            buttonsStackView.leadingAnchor.constraint(
+                equalTo: containerView.leadingAnchor, constant: 20),
+            buttonsStackView.trailingAnchor.constraint(
+                equalTo: containerView.trailingAnchor, constant: -20),
+            buttonsStackView.bottomAnchor.constraint(
+                equalTo: containerView.bottomAnchor, constant: -10),
+            buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
         ])
         buttonsStackView.layoutIfNeeded()
     }

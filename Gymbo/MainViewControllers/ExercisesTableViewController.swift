@@ -161,16 +161,16 @@ extension ExercisesTableViewController: ViewAdding {
 
     func addConstraints() {
         if presentationStyle == .modal {
-            addExerciseButtonBottomConstraint = addExerciseButton.bottomAnchor.constraint(
+            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: Constants.sessionEndedConstraintConstant)
             addExerciseButtonBottomConstraint?.isActive = true
 
             NSLayoutConstraint.activate([
-                addExerciseButton.leadingAnchor.constraint(
+                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                     constant: 20),
-                addExerciseButton.trailingAnchor.constraint(
+                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                     constant: -20),
                 addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.addExerciseButtonHeight)

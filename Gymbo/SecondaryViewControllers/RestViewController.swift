@@ -187,16 +187,17 @@ extension RestViewController: ViewAdding {
     //swiftlint:disable:next function_body_length
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topContainerView.topAnchor.constraint(
+            topContainerView.safeAreaLayoutGuide.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
                 constant: 15),
-            topContainerView.leadingAnchor.constraint(
+            topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            topContainerView.trailingAnchor.constraint(
+            topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            topContainerView.bottomAnchor.constraint(equalTo: circleProgressView.topAnchor, constant: -15),
+            topContainerView.bottomAnchor.constraint(
+                equalTo: circleProgressView.topAnchor, constant: -15),
             topContainerView.heightAnchor.constraint(equalToConstant: 30),
 
             restLabel.topAnchor.constraint(equalTo: topContainerView.topAnchor),
@@ -214,26 +215,27 @@ extension RestViewController: ViewAdding {
             removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
             removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
 
-            circleProgressView.leadingAnchor.constraint(
+            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            circleProgressView.trailingAnchor.constraint(
+            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            circleProgressView.bottomAnchor.constraint(equalTo: mainButton.topAnchor, constant: -15),
+            circleProgressView.bottomAnchor.constraint(
+                equalTo: mainButton.topAnchor, constant: -15),
 
             pickerView.topAnchor.constraint(equalTo: circleProgressView.topAnchor),
             pickerView.leadingAnchor.constraint(equalTo: circleProgressView.leadingAnchor),
             pickerView.trailingAnchor.constraint(equalTo: circleProgressView.trailingAnchor),
             pickerView.bottomAnchor.constraint(equalTo: circleProgressView.bottomAnchor),
 
-            mainButton.leadingAnchor.constraint(
+            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            mainButton.trailingAnchor.constraint(
+            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            mainButton.bottomAnchor.constraint(
+            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: -15),
             mainButton.heightAnchor.constraint(equalToConstant: 45)

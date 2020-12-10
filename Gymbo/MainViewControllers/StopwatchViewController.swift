@@ -207,11 +207,11 @@ extension StopwatchViewController: ViewAdding {
         buttonsStackViewBottomConstraint?.isActive = true
 
         NSLayoutConstraint.activate([
-            timeStackView.topAnchor.constraint(
+            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor),
-            timeStackView.leadingAnchor.constraint(
+            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            timeStackView.trailingAnchor.constraint(
+            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight),
 
@@ -228,17 +228,17 @@ extension StopwatchViewController: ViewAdding {
                 equalToConstant: Constants.timeStackViewHeight / 2),
 
             tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
-            tableView.leadingAnchor.constraint(
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            buttonsStackView.leadingAnchor.constraint(
+            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 15),
-            buttonsStackView.trailingAnchor.constraint(
+            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -15),
             buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)

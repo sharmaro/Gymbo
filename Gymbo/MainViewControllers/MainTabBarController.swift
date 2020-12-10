@@ -135,7 +135,8 @@ extension MainTabBarController {
 
     private func updateSessionProgressObservingViewControllers(state: SessionState) {
         viewControllers?.forEach {
-            if let viewController = ($0 as? UINavigationController)?.viewControllers.first as? SessionProgressDelegate {
+            if let viewControllers = ($0 as? UINavigationController)?.viewControllers,
+               let viewController = viewControllers.first as? SessionProgressDelegate {
                 switch state {
                 case .start:
                     viewController.sessionDidStart(nil)

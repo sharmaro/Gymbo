@@ -129,23 +129,24 @@ extension SessionPreviewViewController: ViewAdding {
         tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(
+            tableView.safeAreaLayoutGuide.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
 
-            startSessionButton.leadingAnchor.constraint(
+            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
-            startSessionButton.trailingAnchor.constraint(
+            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -20),
-            startSessionButton.bottomAnchor.constraint(
+            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                 constant: Constants.startButtonBottomSpacing),
             startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
