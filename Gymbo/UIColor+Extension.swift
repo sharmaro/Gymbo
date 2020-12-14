@@ -44,6 +44,8 @@ extension UIColor {
     static let dynamicBlack = UIColor(named: "dynamicBlack") ?? .black
     static let dynamicLightGray = UIColor(named: "dynamicLightGray") ?? .gray
     static let dynamicDarkGray = UIColor(named: "dynamicDarkGray") ?? .gray
+    static let dynamicLightTabItem = UIColor(named: "dynamicLightTabItem") ?? .gray
+    static let dynamicDarkTabItem = UIColor(named: "dynamicDarkTabItem") ?? .gray
 
     // Normal
     static let customBlue = UIColor(rgb: 0x1565C0)
@@ -52,6 +54,5 @@ extension UIColor {
     static let customLightGray = UIColor(rgb: 0xBDC3C7)
 
     // Medium
-
     // Dark
 }

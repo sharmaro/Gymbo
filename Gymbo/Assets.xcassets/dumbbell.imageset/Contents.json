@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "gym.png",
-      "idiom" : "universal"
+      "filename" : "dumbbell.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "dumbbell@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "dumbbell@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

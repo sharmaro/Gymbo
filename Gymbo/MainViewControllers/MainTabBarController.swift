@@ -86,8 +86,13 @@ extension MainTabBarController {
 // MARK: - Funcs
 extension MainTabBarController {
     private func setupTabBar() {
-        tabBar.backgroundColor = .black
-        tabBar.barTintColor = .black
+        tabBar.backgroundColor = .dynamicWhite
+        tabBar.barTintColor = .dynamicWhite
+        // Color of selected item
+        tabBar.tintColor = .dynamicDarkTabItem
+        tabBar.unselectedItemTintColor = .dynamicLightTabItem
+        // Prevents tab bar color from being lighter than intended
+        tabBar.backgroundImage = UIImage()
 
         let profileViewController = ProfileViewController()
         let profileTab = Tabs.profile
