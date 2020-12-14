@@ -1,5 +1,5 @@
 //
-//  CreateEditExerciseTableViewController.swift
+//  CreateEditExerciseViewController.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 5/26/20.
@@ -10,7 +10,14 @@ import UIKit
 import RealmSwift
 
 // MARK: - Properties
-class CreateEditExerciseTableViewController: UITableViewController {
+class CreateEditExerciseViewController: UIViewController {
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delaysContentTouches = false
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+
     private let actionButton: CustomButton = {
         let button = CustomButton()
         button.add(backgroundColor: .systemGreen)
@@ -31,22 +38,24 @@ class CreateEditExerciseTableViewController: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-private extension CreateEditExerciseTableViewController {
+private extension CreateEditExerciseViewController {
     struct Constants {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
-        static let tableViewFooterHeight = CGFloat(60)
+        static let actionButtonHeight = CGFloat(45)
     }
 }
 
 // MARK: - UIViewController Var/Funcs
-extension CreateEditExerciseTableViewController {
+extension CreateEditExerciseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
+        addViews()
         setupViews()
         setupColors()
+        addConstraints()
 
         if exerciseState == .edit {
             createEditExerciseDataModel.exercise = exercise
@@ -68,7 +77,7 @@ extension CreateEditExerciseTableViewController {
 }
 
 // MARK: - ViewAdding
-extension CreateEditExerciseTableViewController: ViewAdding {
+extension CreateEditExerciseViewController: ViewAdding {
     func setupNavigationBar() {
         title = exerciseState.rawValue
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
@@ -80,9 +89,13 @@ extension CreateEditExerciseTableViewController: ViewAdding {
         edgesForExtendedLayout = .all
     }
 
+    func addViews() {
+        view.add(subviews: [tableView, actionButton])
+    }
+
     func setupViews() {
-        tableView.delaysContentTouches = false
-        tableView.separatorStyle = .none
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(LabelTableViewCell.self,
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
         tableView.register(TextFieldTableViewCell.self,
@@ -99,27 +112,38 @@ extension CreateEditExerciseTableViewController: ViewAdding {
             actionButton.makeInteractable(animated: false)
         actionButton.title = exerciseState == .create ? "Create" : "Save"
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
-
-        let tableFooterView = UIView(frame: CGRect(origin: .zero,
-                                                   size: CGSize(width: tableView.frame.width,
-                                                                height: Constants.tableViewFooterHeight)))
-        tableFooterView.add(subviews: [actionButton])
-        NSLayoutConstraint.activate([
-            actionButton.topAnchor.constraint(equalTo: tableFooterView.topAnchor, constant: 5),
-            actionButton.leadingAnchor.constraint(equalTo: tableFooterView.leadingAnchor, constant: 20),
-            actionButton.trailingAnchor.constraint(equalTo: tableFooterView.trailingAnchor, constant: -20),
-            actionButton.bottomAnchor.constraint(equalTo: tableFooterView.bottomAnchor, constant: -10)
-        ])
-        tableView.tableFooterView = tableFooterView
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
+        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
+    }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.safeAreaLayoutGuide.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: actionButton.topAnchor),
+
+            actionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 20),
+            actionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20),
+            actionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -10),
+            actionButton.heightAnchor.constraint(equalToConstant: Constants.actionButtonHeight)
+        ])
     }
 }
 
 // MARK: - Funcs
-extension CreateEditExerciseTableViewController {
+extension CreateEditExerciseViewController {
     private func updateSaveButton() {
         guard let exerciseName = createEditExerciseDataModel.exerciseName,
               !exerciseName.isEmpty,
@@ -248,13 +272,13 @@ extension CreateEditExerciseTableViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension CreateEditExerciseTableViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension CreateEditExerciseViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         createEditExerciseDataModel.numberOfRows(in: section)
     }
 
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = createEditExerciseDataModel.cellForRow(in: tableView, at: indexPath)
 
         if let textFieldTableViewCell = cell as? TextFieldTableViewCell {
@@ -272,25 +296,24 @@ extension CreateEditExerciseTableViewController {
         if let textViewTableViewCell = cell as? TextViewTableViewCell {
             textViewTableViewCell.textViewTableViewCellDelegate = self
         }
-
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
-extension CreateEditExerciseTableViewController {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+extension CreateEditExerciseViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView,
+                   estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         createEditExerciseDataModel.heightForRow(at: indexPath)
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         createEditExerciseDataModel.heightForRow(at: indexPath)
     }
 }
 
 // MARK: - TextViewTableViewCellDelegate
-extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
+extension CreateEditExerciseViewController: TextViewTableViewCellDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
                                             toColor: .defaultSelectedBorder,
@@ -330,7 +353,7 @@ extension CreateEditExerciseTableViewController: TextViewTableViewCellDelegate {
 }
 
 // MARK: TextFieldTableViewCellDelegate
-extension CreateEditExerciseTableViewController: TextFieldTableViewCellDelegate {
+extension CreateEditExerciseViewController: TextFieldTableViewCellDelegate {
     func textFieldEditingDidEnd(textField: UITextField) {
         createEditExerciseDataModel.exerciseName = textField.text ?? ""
         updateSaveButton()
@@ -343,7 +366,7 @@ extension CreateEditExerciseTableViewController: TextFieldTableViewCellDelegate 
 }
 
 // MARK: - MultipleSelectionTableViewCellDelegate
-extension CreateEditExerciseTableViewController: MultipleSelectionTableViewCellDelegate {
+extension CreateEditExerciseViewController: MultipleSelectionTableViewCellDelegate {
     func selected(items: [String]) {
         createEditExerciseDataModel.groups = items
         updateSaveButton()
@@ -351,7 +374,7 @@ extension CreateEditExerciseTableViewController: MultipleSelectionTableViewCellD
 }
 
 // MARK: - ImagesTableViewCellDelegate
-extension CreateEditExerciseTableViewController: ImagesTableViewCellDelegate {
+extension CreateEditExerciseViewController: ImagesTableViewCellDelegate {
     func buttonTapped(cell: ImagesTableViewCell, index: Int, function: ButtonFunction) {
         view.endEditing(true)
 
@@ -401,7 +424,7 @@ extension CreateEditExerciseTableViewController: ImagesTableViewCellDelegate {
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension CreateEditExerciseTableViewController: UIImagePickerControllerDelegate,
+extension CreateEditExerciseViewController: UIImagePickerControllerDelegate,
 UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

@@ -126,7 +126,7 @@ extension ExercisePreviewViewController: ViewAdding {
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
+            tableView.bottomAnchor.constraint(
                 equalTo: viewToUse.topAnchor),
 
             viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
@@ -154,17 +154,17 @@ extension ExercisePreviewViewController {
     }
 
     @objc private func editButtonTapped(sender: Any) {
-        let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
-        createEditExerciseTableViewController.exercise = exercisePreviewDataModel.exercise
-        createEditExerciseTableViewController.exerciseState = .edit
-        createEditExerciseTableViewController.exerciseDataModelDelegate = self
+        let createEditExerciseViewController = CreateEditExerciseViewController()
+        createEditExerciseViewController.exercise = exercisePreviewDataModel.exercise
+        createEditExerciseViewController.exerciseState = .edit
+        createEditExerciseViewController.exerciseDataModelDelegate = self
 
         let modalNavigationController = UINavigationController(
-            rootViewController: createEditExerciseTableViewController)
+            rootViewController: createEditExerciseViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
-        present(modalNavigationController, animated: true)
+        navigationController?.present(modalNavigationController, animated: true)
     }
 }
 
