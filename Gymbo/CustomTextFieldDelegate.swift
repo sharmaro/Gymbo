@@ -1,5 +1,5 @@
 //
-//  TextFieldTableViewCellDelegate.swift
+//  CustomTextFieldDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 6/20/20.
@@ -8,16 +8,14 @@
 
 import UIKit
 
-protocol TextFieldTableViewCellDelegate: class {
+protocol CustomTextFieldDelegate: class {
     func textFieldEditingChanged(textField: UITextField)
     func textFieldEditingDidEnd(textField: UITextField)
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
 }
 
-extension TextFieldTableViewCellDelegate {
+extension CustomTextFieldDelegate {
     func textFieldEditingChanged(textField: UITextField) {}
     func textFieldEditingDidEnd(textField: UITextField) {}
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        true
-    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { true }
 }

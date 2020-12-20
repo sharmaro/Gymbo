@@ -105,8 +105,7 @@ extension SessionsCollectionViewController: ViewAdding {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                            target: self,
                                                            action: #selector(editButtonTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Session",
-                                                            style: .plain,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addSessionButtonTapped))
 
@@ -153,10 +152,12 @@ extension SessionsCollectionViewController {
     }
 
     @objc private func editButtonTapped() {
+        Haptic.sendSelectionFeedback()
         dataState.toggle()
     }
 
     @objc private func addSessionButtonTapped() {
+        Haptic.sendSelectionFeedback()
         let createEditSessionTableViewController = CreateEditSessionTableViewController()
         createEditSessionTableViewController.sessionState = .create
         createEditSessionTableViewController.sessionDataModelDelegate = self
@@ -345,7 +346,7 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.alertData(data: session.name ?? "") else {
+                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
                     return
                 }
                 self?.presentCustomAlert(alertData: alertData)
@@ -367,7 +368,7 @@ extension SessionsCollectionViewController: SessionDataModelDelegate {
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.alertData(data: session.name ?? "") else {
+                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
                     return
                 }
                 self?.presentCustomAlert(alertData: alertData)

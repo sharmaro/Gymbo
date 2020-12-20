@@ -25,7 +25,7 @@ class TextViewTableViewCell: UITableViewCell {
         textView.text
     }
 
-    weak var textViewTableViewCellDelegate: TextViewTableViewCellDelegate?
+    weak var customTextViewDelegate: CustomTextViewDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -113,14 +113,14 @@ extension TextViewTableViewCell {
 // MARK: - UITextViewDelegate
 extension TextViewTableViewCell: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textViewTableViewCellDelegate?.textViewDidBeginEditing(textView)
+        customTextViewDelegate?.textViewDidBeginEditing(textView, cell: nil)
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        textViewTableViewCellDelegate?.textViewDidChange(textView, cell: self)
+        customTextViewDelegate?.textViewDidChange(textView, cell: self)
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        textViewTableViewCellDelegate?.textViewDidEndEditing(textView, cell: self)
+        customTextViewDelegate?.textViewDidEndEditing(textView, cell: self)
     }
 }

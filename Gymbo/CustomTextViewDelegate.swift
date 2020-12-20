@@ -9,7 +9,13 @@
 import UIKit
 
 protocol CustomTextViewDelegate: class {
-    func textViewDidChange(_ textView: UITextView)
-    func textViewDidBeginEditing(_ textView: UITextView)
-    func textViewDidEndEditing(_ textView: UITextView)
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell?)
+    func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?)
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell?)
+}
+
+extension CustomTextViewDelegate {
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell?) {}
+    func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {}
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell?) {}
 }

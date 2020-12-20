@@ -150,6 +150,7 @@ extension ExercisePreviewViewController {
     }
 
     @objc private func closeButtonTapped(sender: Any) {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
     }
 

@@ -10,20 +10,20 @@ import Foundation
 
 enum DataError: Error {
     case createSuccess
-    case createFail
     case updateSuccess
+    case createFail
     case updateFail
 
-    func alertData(data: String) -> AlertData? {
+    func exerciseAlertData(exerciseName: String) -> AlertData? {
         var alertData = AlertData(title: "Oops!",
                                   content: "",
                                   usesBothButtons: false,
                                   rightButtonTitle: "Sad!")
         switch self {
         case .createFail:
-            alertData.content = "\(data) already exists."
+            alertData.content = "\(exerciseName) already exists."
         case .updateFail:
-            alertData.content = "Couldn't edit exercise \(data)."
+            alertData.content = "Couldn't edit \(exerciseName)."
         default:
             return nil
         }

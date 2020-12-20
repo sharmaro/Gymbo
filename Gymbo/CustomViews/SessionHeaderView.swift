@@ -133,11 +133,11 @@ extension SessionHeaderView {
 // MARK: - UITextViewDelegate
 extension SessionHeaderView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        customTextViewDelegate?.textViewDidChange(textView)
+        customTextViewDelegate?.textViewDidChange(textView, cell: nil)
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        customTextViewDelegate?.textViewDidBeginEditing(textViews[textView.tag])
+        customTextViewDelegate?.textViewDidBeginEditing(textViews[textView.tag], cell: nil)
     }
 
     func textView(_ textView: UITextView,
@@ -161,6 +161,6 @@ extension SessionHeaderView: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        customTextViewDelegate?.textViewDidEndEditing(textViews[textView.tag])
+        customTextViewDelegate?.textViewDidEndEditing(textViews[textView.tag], cell: nil)
     }
 }

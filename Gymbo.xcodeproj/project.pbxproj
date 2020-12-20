@@ -84,8 +84,7 @@
 		6972E415249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */; };
 		6972E417249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E416249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift */; };
 		6972E419249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */; };
-		6972E41B249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */; };
-		6972E41D249F2B5600479E91 /* TextViewTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */; };
+		6972E41B249F2AF800479E91 /* CustomTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41A249F2AF800479E91 /* CustomTextFieldDelegate.swift */; };
 		6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E41E249F2BA100479E91 /* CustomBounds.swift */; };
 		6972E421249F2BDB00479E91 /* CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */; };
 		6972E423249F2CF100479E91 /* SessionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */; };
@@ -229,8 +228,7 @@
 		6972E414249F2A7400479E91 /* MultipleSelectionTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		6972E416249F2A9D00479E91 /* SessionsCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCellModel.swift; sourceTree = "<group>"; };
-		6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCellDelegate.swift; sourceTree = "<group>"; };
-		6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6972E41A249F2AF800479E91 /* CustomTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldDelegate.swift; sourceTree = "<group>"; };
 		6972E41E249F2BA100479E91 /* CustomBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBounds.swift; sourceTree = "<group>"; };
 		6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextViewDelegate.swift; sourceTree = "<group>"; };
 		6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -471,6 +469,7 @@
 			children = (
 				6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */,
 				6972E409249F28AB00479E91 /* ButtonTableViewCellDelegate.swift */,
+				6972E41A249F2AF800479E91 /* CustomTextFieldDelegate.swift */,
 				6972E420249F2BDB00479E91 /* CustomTextViewDelegate.swift */,
 				69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */,
 				69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */,
@@ -489,8 +488,6 @@
 				6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */,
 				6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */,
 				6972E424249F2D4A00479E91 /* StartSessionButtonDelegate.swift */,
-				6972E41A249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift */,
-				6972E41C249F2B5600479E91 /* TextViewTableViewCellDelegate.swift */,
 				6972E405249F276A00479E91 /* UpdateDelegate.swift */,
 				6972E3CC249F1FC600479E91 /* ViewAdding.swift */,
 			);
@@ -862,7 +859,7 @@
 				69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				6972E3FC249F25A100479E91 /* Transform.swift in Sources */,
-				6972E41B249F2AF800479E91 /* TextFieldTableViewCellDelegate.swift in Sources */,
+				6972E41B249F2AF800479E91 /* CustomTextFieldDelegate.swift in Sources */,
 				6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */,
 				69A7392324CAB69E00AAD965 /* OnboardingPage.swift in Sources */,
 				6972E406249F276A00479E91 /* UpdateDelegate.swift in Sources */,
@@ -876,7 +873,6 @@
 				69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */,
 				6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */,
 				6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */,
-				6972E41D249F2B5600479E91 /* TextViewTableViewCellDelegate.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTableViewCell.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTableViewCell.swift in Sources */,

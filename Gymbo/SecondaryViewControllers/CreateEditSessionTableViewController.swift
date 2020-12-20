@@ -108,8 +108,7 @@ extension CreateEditSessionTableViewController {
 extension CreateEditSessionTableViewController: ViewAdding {
     func setupNavigationBar() {
         title = sessionState.rawValue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+ Exercise",
-                                                            style: .plain,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addExerciseButtonTapped))
 
@@ -228,6 +227,7 @@ extension CreateEditSessionTableViewController {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
         let exercisesTableViewController = ExercisesTableViewController(style: .grouped)
@@ -455,10 +455,11 @@ extension CreateEditSessionTableViewController: ButtonTableViewCellDelegate {
             self?.tableView.insertRows(at: [lastIndexPath], with: .automatic)
             // Scrolling to addSetButton row
             self?.tableView.scrollToRow(
-                at: IndexPath(row: sets + 1, section: section),
-                at: .none,
+                at: IndexPath(row: sets, section: section),
+                at: .top,
                 animated: true)
         }
+        view.endEditing(true)
     }
 
     private func addSet(section: Int) {
@@ -499,20 +500,20 @@ extension CreateEditSessionTableViewController: UIViewControllerTransitioningDel
 
 // MARK: - CustomTextViewDelegate
 extension CreateEditSessionTableViewController: CustomTextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell?) {
         tableView.performBatchUpdates({
             textView.sizeToFit()
         })
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {
         if textView.textColor == .dimmedDarkGray {
             textView.text.removeAll()
             textView.textColor = .dynamicBlack
         }
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell?) {
         if textView.text.isEmpty {
             let name = session.name
             let info = session.info

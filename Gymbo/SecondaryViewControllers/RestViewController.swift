@@ -305,6 +305,7 @@ extension RestViewController {
     }
 
     @objc private func closeButtonTapped() {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
     }
 

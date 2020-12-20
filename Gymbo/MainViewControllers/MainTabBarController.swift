@@ -89,8 +89,7 @@ extension MainTabBarController {
         tabBar.backgroundColor = .dynamicWhite
         tabBar.barTintColor = .dynamicWhite
         // Color of selected item
-        tabBar.tintColor = .dynamicDarkTabItem
-        tabBar.unselectedItemTintColor = .dynamicLightTabItem
+        tabBar.unselectedItemTintColor = .dynamicDarkTabItem
         // Prevents tab bar color from being lighter than intended
         tabBar.backgroundImage = UIImage()
 

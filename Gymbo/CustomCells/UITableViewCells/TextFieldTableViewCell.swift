@@ -17,7 +17,7 @@ class TextFieldTableViewCell: UITableViewCell {
         return textField
     }()
 
-    weak var textFieldTableViewCellDelegate: TextFieldTableViewCellDelegate?
+    weak var customTextFieldDelegate: CustomTextFieldDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,7 +49,7 @@ extension TextFieldTableViewCell: ViewAdding {
         selectionStyle = .none
 
         textField.delegate = self
-        textField.addTarget(self, action: #selector(textFieldEditingDidEnd), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
 
     func setupColors() {
@@ -77,8 +77,8 @@ extension TextFieldTableViewCell {
         addConstraints()
     }
 
-    @objc private func textFieldEditingDidEnd(textField: UITextField) {
-        textFieldTableViewCellDelegate?.textFieldEditingDidEnd(textField: textField)
+    @objc private func textFieldEditingChanged(textField: UITextField) {
+        customTextFieldDelegate?.textFieldEditingChanged(textField: textField)
     }
 
     func configure(text: String, placeHolder: String, returnKeyType: UIReturnKeyType = .done) {
@@ -92,7 +92,11 @@ extension TextFieldTableViewCell {
 
 // MARK: - UITextFieldDelegate
 extension TextFieldTableViewCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        customTextFieldDelegate?.textFieldEditingDidEnd(textField: textField)
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return textFieldTableViewCellDelegate?.textFieldShouldReturn(textField) ?? true
+        customTextFieldDelegate?.textFieldShouldReturn(textField) ?? true
     }
 }

@@ -105,8 +105,7 @@ extension ExercisesTableViewController: ViewAdding {
                                                                target: self,
                                                                action: #selector(cancelButtonTapped))
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create",
-                                                            style: .plain,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(createExerciseButtonTapped))
 
@@ -229,10 +228,12 @@ extension ExercisesTableViewController {
     }
 
     @objc private func cancelButtonTapped() {
+        Haptic.sendSelectionFeedback()
         navigationController?.dismiss(animated: true)
     }
 
     @objc private func createExerciseButtonTapped() {
+        Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
         let createEditExerciseViewController = CreateEditExerciseViewController()

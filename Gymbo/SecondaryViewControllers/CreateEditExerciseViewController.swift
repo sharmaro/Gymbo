@@ -215,6 +215,7 @@ extension CreateEditExerciseViewController {
     }
 
     @objc private func cancelButtonTapped() {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
         setAlphaDelegate?.setAlpha(alpha: 1)
     }
@@ -241,8 +242,9 @@ extension CreateEditExerciseViewController {
                 switch result {
                 case .success:
                     self?.dismiss(animated: true)
+                    self?.setAlphaDelegate?.setAlpha(alpha: 1)
                 case .failure(let error):
-                    guard let alertData = error.alertData(data: exerciseName) else {
+                    guard let alertData = error.exerciseAlertData(exerciseName: exerciseName) else {
                         return
                     }
                     DispatchQueue.main.async {
@@ -259,7 +261,7 @@ extension CreateEditExerciseViewController {
                 case .success:
                     self?.dismiss(animated: true)
                 case .failure(let error):
-                    guard let alertData = error.alertData(data: exerciseName) else {
+                    guard let alertData = error.exerciseAlertData(exerciseName: exerciseName) else {
                         return
                     }
                     DispatchQueue.main.async {
@@ -282,7 +284,7 @@ extension CreateEditExerciseViewController: UITableViewDataSource {
         let cell = createEditExerciseDataModel.cellForRow(in: tableView, at: indexPath)
 
         if let textFieldTableViewCell = cell as? TextFieldTableViewCell {
-            textFieldTableViewCell.textFieldTableViewCellDelegate = self
+            textFieldTableViewCell.customTextFieldDelegate = self
         }
 
         if let multipleSelectionTableViewCell = cell as? MultipleSelectionTableViewCell {
@@ -294,7 +296,7 @@ extension CreateEditExerciseViewController: UITableViewDataSource {
         }
 
         if let textViewTableViewCell = cell as? TextViewTableViewCell {
-            textViewTableViewCell.textViewTableViewCellDelegate = self
+            textViewTableViewCell.customTextViewDelegate = self
         }
         return cell
     }
@@ -312,29 +314,31 @@ extension CreateEditExerciseViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - TextViewTableViewCellDelegate
-extension CreateEditExerciseViewController: TextViewTableViewCellDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
+// MARK: - CustomTextViewDelegate
+extension CreateEditExerciseViewController: CustomTextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {
         textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
                                             toColor: .defaultSelectedBorder,
                                             fromWidth: .defaultUnselectedBorder,
                                             toWidth: .defaultSelectedBorder)
     }
 
-    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell) {
+    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell?) {
         tableView.performBatchUpdates({
             textView.sizeToFit()
         })
 
-        guard let indexPath = tableView.indexPath(for: cell) else {
-            fatalError("Couldn't get indexPath of cell: \(cell)")
+        guard let cell = cell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            fatalError("Couldn't get indexPath")
         }
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
 
-    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else {
-            fatalError("Couldn't get indexPath of cell: \(cell)")
+    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell?) {
+        guard let cell = cell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            fatalError("Couldn't get indexPath")
         }
 
         let tableRow = createEditExerciseDataModel.tableItem(at: indexPath)
@@ -352,9 +356,9 @@ extension CreateEditExerciseViewController: TextViewTableViewCellDelegate {
     }
 }
 
-// MARK: TextFieldTableViewCellDelegate
-extension CreateEditExerciseViewController: TextFieldTableViewCellDelegate {
-    func textFieldEditingDidEnd(textField: UITextField) {
+// MARK: CustomTextFieldDelegate
+extension CreateEditExerciseViewController: CustomTextFieldDelegate {
+    func textFieldEditingChanged(textField: UITextField) {
         createEditExerciseDataModel.exerciseName = textField.text ?? ""
         updateSaveButton()
     }

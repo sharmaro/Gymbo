@@ -167,10 +167,12 @@ extension SessionPreviewViewController {
     }
 
     @objc private func cancelButtonTapped() {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
     }
 
     @objc private func editButtonTapped() {
+        Haptic.sendSelectionFeedback()
         guard let session = session else {
             let alertData = AlertData(content: "Can't edit current Session.",
                                       usesBothButtons: false,
@@ -234,12 +236,13 @@ extension SessionPreviewViewController: SessionDataModelDelegate {
                 self?.session = session
                 DispatchQueue.main.async {
                     self?.setupTableHeaderView()
+                    self?.tableView.reloadData()
                     // Updating collectionView in SessionsCollectionViewController
                     NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.alertData(data: session.name ?? "") else {
+                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
                     return
                 }
                 self?.presentCustomAlert(alertData: alertData)

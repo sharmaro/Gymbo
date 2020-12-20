@@ -116,7 +116,7 @@ extension AlertViewController: ViewAdding {
 
     func setupColors() {
         containerView.backgroundColor = .dynamicLightGray
-        titleLabel.textColor = .dynamicWhite
+        titleLabel.textColor = .white
         contentLabel.textColor = .dynamicBlack
     }
 

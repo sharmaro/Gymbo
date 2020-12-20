@@ -454,6 +454,7 @@ extension StartSessionTableViewController {
     }
 
     @objc private func restButtonTapped() {
+        Haptic.sendSelectionFeedback()
         modallyPresenting = .restViewController
 
         let restViewController = RestViewController()
