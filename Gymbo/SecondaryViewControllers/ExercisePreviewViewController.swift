@@ -36,7 +36,7 @@ class ExercisePreviewViewController: UIViewController {
         return button
     }()
 
-    private let exerciseDataModel = ExerciseDataModel()
+    private let exerciseDataModel = ExerciseDataModel.shared
     private var exercisePreviewDataModel = ExercisePreviewDataModel()
 
     init(exercise: Exercise) {

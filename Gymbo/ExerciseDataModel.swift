@@ -10,6 +10,8 @@ import RealmSwift
 
 // MARK: - Properties
 class ExerciseDataModel: NSObject {
+    static var shared = ExerciseDataModel()
+
     private var realm: Realm? {
         try? Realm()
     }
@@ -18,9 +20,7 @@ class ExerciseDataModel: NSObject {
                                   "Glutes", "Hips", "Legs", "Other",
                                   "Shoulders"]
 
-    private var exercises: [Exercise] {
-        Array(realm?.objects(ExercisesList.self).first?.exercises ?? List<Exercise>())
-    }
+    private var exercises = [Exercise]()
 
     // Used to store the filtered results based on user search
     private var searchResults = ""
@@ -80,10 +80,7 @@ extension ExerciseDataModel {
                     self.realm?.add(exercisesList)
                 }
             }
-
-            DispatchQueue.main.async {
-                self.dataFetchDelegate?.didEndFetch()
-            }
+            self.updateExercisesProperty()
         }
     }
 
@@ -169,6 +166,28 @@ extension ExerciseDataModel {
                         instructions: instructions,
                         tips: tips,
                         imageNames: imageNames)
+    }
+
+    private func updateExercisesProperty() {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            let backgroundExercises = self?.realm?.objects(ExercisesList.self)
+                .first?.exercises ?? List<Exercise>()
+            let threadSafeExercises = ThreadSafeReference(to: backgroundExercises)
+
+            DispatchQueue.main.async {
+                guard let mainThreadExercises = self?.realm?.resolve(threadSafeExercises) else {
+                    return
+                }
+
+                self?.exercises = Array(mainThreadExercises)
+                self?.dataFetchDelegate?.didEndFetch()
+            }
+        }
+    }
+
+    private func setExercises() {
+        exercises = Array(realm?.objects(ExercisesList.self)
+                            .first?.exercises ?? List<Exercise>())
     }
 
     private func format(text: [String]) -> String {
@@ -354,6 +373,7 @@ extension ExerciseDataModel {
         }
 
         updateSectionTitles(with: name, action: .create)
+        setExercises()
         completion(.success(nil))
     }
 
@@ -367,20 +387,16 @@ extension ExerciseDataModel {
         }
 
         if currentName == newName {
-            updateSearchResultsWithExercise(name: newName, newExercise: exercise, action: .update)
-
             try? realm?.write {
                 realm?.objects(ExercisesList.self).first?.exercises[index] = exercise
-                completion(.success(nil))
             }
+            setExercises()
+            completion(.success(nil))
         } else {
             guard !doesExerciseExist(name: newName) else {
                 completion(.failure(.updateFail))
                 return
             }
-
-            updateSearchResultsWithExercise(name: currentName, action: .remove)
-            updateSearchResultsWithExercise(newExercise: exercise, action: .create)
 
             try? realm?.write {
                 realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
@@ -390,6 +406,7 @@ extension ExerciseDataModel {
 
             updateSectionTitles(with: newName, action: .create)
             updateSectionTitles(with: currentName, action: .remove)
+            setExercises()
             completion(.success(nil))
         }
     }
@@ -400,8 +417,6 @@ extension ExerciseDataModel {
             return
         }
 
-        updateSearchResultsWithExercise(name: name, action: .remove)
-
         let exercise = exercises[index]
         Utility.removeImages(names: Array(exercise.imageNames))
 
@@ -410,37 +425,6 @@ extension ExerciseDataModel {
         }
 
         updateSectionTitles(with: name, action: .remove)
-    }
-
-    private func updateSearchResultsWithExercise(name: String = "",
-                                                 newExercise: Exercise = Exercise(),
-                                                 action: DataActionType) {
-        guard !searchResults.isEmpty else {
-            return
-        }
-
-        switch action {
-        case .create:
-            try? realm?.write {
-                realm?.objects(ExercisesList.self).first?.exercises.append(newExercise)
-                realm?.objects(ExercisesList.self).first?.exercises.sort()
-            }
-        case .remove, .update:
-            guard let firstIndex = exercises.firstIndex(where: { (exercise) -> Bool in
-                exercise.name == name
-            }) else {
-                return
-            }
-
-            if action == .remove {
-                try? realm?.write {
-                    realm?.objects(ExercisesList.self).first?.exercises.remove(at: firstIndex)
-                }
-            } else if action == .update {
-                try? realm?.write {
-                    realm?.objects(ExercisesList.self).first?.exercises[firstIndex] = newExercise
-                }
-            }
-        }
+        setExercises()
     }
 }

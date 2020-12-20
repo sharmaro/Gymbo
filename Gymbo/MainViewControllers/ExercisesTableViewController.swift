@@ -27,7 +27,7 @@ class ExercisesTableViewController: UITableViewController {
 
     private var didViewAppear = false
 
-    private let exerciseDataModel = ExerciseDataModel()
+    private let exerciseDataModel = ExerciseDataModel.shared
     private var selectedExerciseNamesAndIndices = [String: Int]()
     private var selectedExerciseNames = [String]()
 
@@ -56,7 +56,6 @@ extension ExercisesTableViewController {
         setupViews()
         setupColors()
         addConstraints()
-        setupExerciseDataModel()
         registerForKeyboardNotifications()
 
         NotificationCenter.default.addObserver(self,
@@ -180,11 +179,6 @@ extension ExercisesTableViewController: ViewAdding {
 
 // MARK: - Funcs
 extension ExercisesTableViewController {
-    private func setupExerciseDataModel() {
-        exerciseDataModel.dataFetchDelegate = self
-        exerciseDataModel.fetchData()
-    }
-
     private func saveExercise() {
         // Get exercise info from the selected exercises
         guard !selectedExerciseNamesAndIndices.isEmpty else {
@@ -535,24 +529,6 @@ extension ExercisesTableViewController: SessionStateConstraintsUpdating {
             UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
                 self?.view.layoutIfNeeded()
             }
-        }
-    }
-}
-
-// MARK: - DataFetchDelegate
-extension ExercisesTableViewController: DataFetchDelegate {
-    func didBeginFetch() {
-        if User.isFirstTimeExercisesLoad {
-            showActivityIndicator(withText: "Loading Exercises")
-        }
-    }
-
-    func didEndFetch() {
-        tableView.reloadData()
-
-        if User.isFirstTimeExercisesLoad {
-            hideActivityIndicator()
-            User.firstTimeExercisesLoadComplete()
         }
     }
 }
