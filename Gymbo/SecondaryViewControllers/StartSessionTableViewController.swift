@@ -873,7 +873,8 @@ extension StartSessionTableViewController: UIViewControllerTransitioningDelegate
 // MARK: - KeyboardObserving
 extension StartSessionTableViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardHeight = notification.keyboardSize?.height else {
+        guard let keyboardHeight = notification.keyboardSize?.height,
+              tableView.numberOfSections > 0 else {
             return
         }
         tableView.contentInset.bottom = keyboardHeight

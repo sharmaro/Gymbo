@@ -471,13 +471,11 @@ extension ExercisesTableViewController: UIViewControllerTransitioningDelegate {
 // MARK: - KeyboardObserving
 extension ExercisesTableViewController: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
-        guard let mainTabBarController = navigationController?.mainTabBarController,
-            let keyboardHeight = notification.keyboardSize?.height else {
+        guard let keyboardHeight = notification.keyboardSize?.height,
+              tableView.numberOfSections > 0 else {
             return
         }
-
-        let bottomInset = abs(mainTabBarController.view.frame.height - keyboardHeight - tableView.frame.maxY)
-        tableView.contentInset.bottom = bottomInset
+        tableView.contentInset.bottom = keyboardHeight
     }
 
     func keyboardWillHide(_ notification: Notification) {

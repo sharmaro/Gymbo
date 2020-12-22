@@ -536,13 +536,11 @@ extension CreateEditSessionTableViewController: CustomTextViewDelegate {
 extension CreateEditSessionTableViewController: KeyboardObserving {
     // Using didShow and didHide to prevent tableHeaderView flickering on keyboard dismissal
     func keyboardDidShow(_ notification: Notification) {
-        guard let navigationController = navigationController,
-            let keyboardHeight = notification.keyboardSize?.height else {
+        guard let keyboardHeight = notification.keyboardSize?.height,
+              tableView.numberOfSections > 0 else {
             return
         }
-
-        let offset = abs(navigationController.view.frame.height - keyboardHeight - tableView.frame.maxY)
-        tableView.contentInset.bottom = offset
+        tableView.contentInset.bottom = keyboardHeight
     }
 
     func keyboardDidHide(_ notification: Notification) {
