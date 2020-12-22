@@ -101,7 +101,7 @@ extension CreateEditExerciseTableViewController: ViewAdding {
                            forCellReuseIdentifier: ImagesTableViewCell.reuseIdentifier)
         tableView.register(TextViewTableViewCell.self,
                            forCellReuseIdentifier: TextViewTableViewCell.reuseIdentifier)
-        let verticalSpacing = CGFloat(10)
+        let verticalSpacing = CGFloat(15)
         tableView.contentInset.bottom = Constants.actionButtonHeight + verticalSpacing
 
         exerciseState == .create ?
@@ -125,7 +125,7 @@ extension CreateEditExerciseTableViewController: ViewAdding {
                 constant: -20),
             actionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -10),
+                constant: -15),
             actionButton.heightAnchor.constraint(equalToConstant: Constants.actionButtonHeight)
         ])
     }
