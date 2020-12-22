@@ -1,5 +1,5 @@
 //
-//  ExercisePreviewViewController.swift
+//  ExercisePreviewTableViewController.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 5/2/20.
@@ -9,21 +9,14 @@
 import UIKit
 
 // MARK: - Properties
-class ExercisePreviewViewController: UIViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.allowsSelection = false
-        tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
-
+class ExercisePreviewTableViewController: UITableViewController {
     private let editDisclaimerLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.editDisclaimerText
         label.textAlignment = .center
         label.font = UIFont.medium.light
         label.adjustsFontSizeToFitWidth = true
+        label.backgroundColor = .dynamicWhite
         return label
     }()
 
@@ -36,7 +29,6 @@ class ExercisePreviewViewController: UIViewController {
         return button
     }()
 
-    private let exerciseDataModel = ExerciseDataModel.shared
     private var exercisePreviewDataModel = ExercisePreviewDataModel()
 
     init(exercise: Exercise) {
@@ -51,15 +43,17 @@ class ExercisePreviewViewController: UIViewController {
 }
 
 // MARK: - Structs/Enums
-private extension ExercisePreviewViewController {
+private extension ExercisePreviewTableViewController {
     struct Constants {
         static let title = "Exercise"
         static let editDisclaimerText = "*Only exercises made by you can be edited."
+
+        static let viewToUseHeight = CGFloat(45)
     }
 }
 
 // MARK: - UIViewController Var/Funcs
-extension ExercisePreviewViewController {
+extension ExercisePreviewTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -78,7 +72,7 @@ extension ExercisePreviewViewController {
 }
 
 // MARK: - ViewAdding
-extension ExercisePreviewViewController: ViewAdding {
+extension ExercisePreviewTableViewController: ViewAdding {
     func setupNavigationBar() {
         navigationItem.title = Constants.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
@@ -91,7 +85,6 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [tableView])
         if exercisePreviewDataModel.exercise.isUserMade {
             view.add(subviews: [editButton])
         } else {
@@ -100,35 +93,31 @@ extension ExercisePreviewViewController: ViewAdding {
     }
 
     func setupViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView()
         tableView.register(TwoLabelsTableViewCell.self,
                            forCellReuseIdentifier: TwoLabelsTableViewCell.reuseIdentifier)
         tableView.register(SwipableImageViewTableViewCell.self,
                            forCellReuseIdentifier: SwipableImageViewTableViewCell.reuseIdentifier)
         tableView.register(LabelTableViewCell.self,
                            forCellReuseIdentifier: LabelTableViewCell.reuseIdentifier)
+        let spacing: CGFloat = exercisePreviewDataModel.exercise.isUserMade ? 15 : 0
+        tableView.contentInset.bottom = Constants.viewToUseHeight + spacing
 
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
+        [view, tableView, editDisclaimerLabel].forEach { $0.backgroundColor = .dynamicWhite }
         editDisclaimerLabel.textColor = UIColor.dynamicBlack.withAlphaComponent(0.5)
     }
 
     func addConstraints() {
-        let viewToUse = exercisePreviewDataModel.exercise.isUserMade ? editButton : editDisclaimerLabel
-        NSLayoutConstraint.activate([
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(
-                equalTo: viewToUse.topAnchor),
+        let isUserMade = exercisePreviewDataModel.exercise.isUserMade
+        let viewToUse = isUserMade ? editButton : editDisclaimerLabel
+        let bottomSpacing: CGFloat = isUserMade ? -15 : 0
 
+        NSLayoutConstraint.activate([
             viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 20),
@@ -137,14 +126,14 @@ extension ExercisePreviewViewController: ViewAdding {
                 constant: -20),
             viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -15),
-            viewToUse.heightAnchor.constraint(equalToConstant: 45)
+                constant: bottomSpacing),
+            viewToUse.heightAnchor.constraint(equalToConstant: Constants.viewToUseHeight)
         ])
     }
 }
 
 // MARK: - Funcs
-extension ExercisePreviewViewController {
+extension ExercisePreviewTableViewController {
     private func refreshTitleLabels() {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
@@ -170,34 +159,38 @@ extension ExercisePreviewViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension ExercisePreviewViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension ExercisePreviewTableViewController {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
         exercisePreviewDataModel.numberOfRows(in: section)
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         exercisePreviewDataModel.cellForRow(in: tableView, at: indexPath)
     }
 }
 
 // MARK: - UITableViewDelegate
-extension ExercisePreviewViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+extension ExercisePreviewTableViewController {
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         exercisePreviewDataModel.heightForRow(at: indexPath)
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+    override func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
         exercisePreviewDataModel.heightForRow(at: indexPath)
     }
 }
 
 // MARK: - ExerciseDataModelDelegate
-extension ExercisePreviewViewController: ExerciseDataModelDelegate {
+extension ExercisePreviewTableViewController: ExerciseDataModelDelegate {
     func update(_ currentName: String,
                 exercise: Exercise,
                 completion: @escaping (Result<Any?, DataError>) -> Void) {
-        exerciseDataModel.update(currentName,
-                                 exercise: exercise) { [weak self] result in
+        ExerciseDataModel.shared.update(currentName,
+                                        exercise: exercise) { [weak self] result in
             switch result {
             case .success(let value):
                 completion(.success(value))
@@ -215,7 +208,7 @@ extension ExercisePreviewViewController: ExerciseDataModelDelegate {
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
-extension ExercisePreviewViewController: UIViewControllerTransitioningDelegate {
+extension ExercisePreviewTableViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {

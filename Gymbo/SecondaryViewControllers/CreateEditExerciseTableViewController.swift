@@ -87,8 +87,6 @@ extension CreateEditExerciseTableViewController: ViewAdding {
     }
 
     func setupViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
         tableView.register(LabelTableViewCell.self,

@@ -377,9 +377,9 @@ extension ExercisesTableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
 
             let exercise = exerciseDataModel.exercise(for: indexPath)
-            let exercisePreviewViewController = ExercisePreviewViewController(exercise: exercise)
+            let exercisePreviewTableViewController = ExercisePreviewTableViewController(exercise: exercise)
             let modalNavigationController = UINavigationController(
-                rootViewController: exercisePreviewViewController)
+                rootViewController: exercisePreviewTableViewController)
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
             mainTabBarController?.present(modalNavigationController, animated: true)
