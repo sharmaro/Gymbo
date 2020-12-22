@@ -155,13 +155,13 @@ extension ExercisePreviewViewController {
     }
 
     @objc private func editButtonTapped(sender: Any) {
-        let createEditExerciseViewController = CreateEditExerciseViewController()
-        createEditExerciseViewController.exercise = exercisePreviewDataModel.exercise
-        createEditExerciseViewController.exerciseState = .edit
-        createEditExerciseViewController.exerciseDataModelDelegate = self
+        let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
+        createEditExerciseTableViewController.exercise = exercisePreviewDataModel.exercise
+        createEditExerciseTableViewController.exerciseState = .edit
+        createEditExerciseTableViewController.exerciseDataModelDelegate = self
 
         let modalNavigationController = UINavigationController(
-            rootViewController: createEditExerciseViewController)
+            rootViewController: createEditExerciseTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self

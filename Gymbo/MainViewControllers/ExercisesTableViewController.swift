@@ -230,13 +230,13 @@ extension ExercisesTableViewController {
         Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
-        let createEditExerciseViewController = CreateEditExerciseViewController()
-        createEditExerciseViewController.exerciseState = .create
-        createEditExerciseViewController.exerciseDataModelDelegate = self
-        createEditExerciseViewController.setAlphaDelegate = self
+        let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
+        createEditExerciseTableViewController.exerciseState = .create
+        createEditExerciseTableViewController.exerciseDataModelDelegate = self
+        createEditExerciseTableViewController.setAlphaDelegate = self
 
         let modalNavigationController = UINavigationController(
-            rootViewController: createEditExerciseViewController)
+            rootViewController: createEditExerciseTableViewController)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
