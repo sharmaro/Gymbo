@@ -15,9 +15,9 @@ class ExercisesTableViewController: UITableViewController {
         let button = CustomButton()
         button.title = "Add"
         button.titleLabel?.textAlignment = .center
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.makeUninteractable(animated: false)
+        button.set(state: .disabled, animated: false)
         return button
     }()
 
@@ -217,7 +217,8 @@ extension ExercisesTableViewController {
             title = "Add (\(selectedExerciseNames.count))"
             isEnabled = true
         }
-        isEnabled ? addExerciseButton.makeInteractable() : addExerciseButton.makeUninteractable()
+        let state: InteractionState = isEnabled ? .enabled : .disabled
+        addExerciseButton.set(state: state)
         addExerciseButton.title = title
     }
 

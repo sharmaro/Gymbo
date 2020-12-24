@@ -38,6 +38,7 @@ extension UIColor {
     static let dimmedBackgroundBlack = UIColor.black.withAlphaComponent(0.8)
     static let dimmedDarkGray = UIColor.dynamicDarkGray.withAlphaComponent(0.3)
     static let dimmedLightGray = UIColor.dynamicLightGray.withAlphaComponent(0.3)
+    static let disabledBlack = UIColor.black.withAlphaComponent(0.6)
 
     // Dynamic
     static let dynamicWhite = UIColor(named: "dynamicWhite") ?? .white

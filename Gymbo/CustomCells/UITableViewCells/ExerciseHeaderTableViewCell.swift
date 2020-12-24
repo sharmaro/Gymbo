@@ -41,7 +41,7 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
     private let weightButton: ToggleButton = {
         let button = ToggleButton(items: WeightType.textItems)
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .xSmall)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

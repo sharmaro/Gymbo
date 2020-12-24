@@ -13,7 +13,7 @@ import RealmSwift
 class CreateEditExerciseTableViewController: UITableViewController {
     private let actionButton: CustomButton = {
         let button = CustomButton()
-        button.add(backgroundColor: .systemGreen)
+        button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
         return button
     }()
@@ -102,9 +102,9 @@ extension CreateEditExerciseTableViewController: ViewAdding {
         let verticalSpacing = CGFloat(15)
         tableView.contentInset.bottom = Constants.actionButtonHeight + verticalSpacing
 
-        exerciseState == .create ?
-            actionButton.makeUninteractable(animated: false) :
-            actionButton.makeInteractable(animated: false)
+        let state: InteractionState = exerciseState == .create ?
+            .disabled : .enabled
+        actionButton.set(state: state, animated: false)
         actionButton.title = exerciseState == .create ? "Create" : "Save"
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
     }
@@ -136,10 +136,10 @@ extension CreateEditExerciseTableViewController {
               !exerciseName.isEmpty,
               let groups = createEditExerciseDataModel.groups,
               !groups.isEmpty else {
-                actionButton.makeUninteractable(animated: true)
+                actionButton.set(state: .disabled)
                 return
         }
-        actionButton.makeInteractable(animated: true)
+        actionButton.set(state: .enabled)
     }
 
     private func getImageNamesAfterSave(from exerciseName: String,

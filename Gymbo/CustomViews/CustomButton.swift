@@ -22,6 +22,9 @@ class CustomButton: UIButton {
         }
     }
 
+    private var interactionState = InteractionState.enabled
+    private let disabledView = DisabledView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -36,7 +39,6 @@ class CustomButton: UIButton {
             guard isEnabled else {
                 return
             }
-            alpha = isHighlighted ? Constants.dimmedAlpha : Constants.normalAlpha
             transform(condition: Transform.caseFromBool(bool: isHighlighted))
         }
     }
@@ -45,8 +47,6 @@ class CustomButton: UIButton {
 // MARK: - Structs/Enums
 private extension CustomButton {
     struct Constants {
-        static let dimmedAlpha = CGFloat(0.4)
-        static let normalAlpha = CGFloat(1)
         static let transformScale = CGFloat(0.95)
     }
 }
@@ -87,30 +87,28 @@ extension CustomButton {
         })
     }
 
-    func add(backgroundColor: UIColor, titleColor: UIColor = .white) {
+    private func addDisabledView() {
+        add(subviews: [disabledView])
+        disabledView.autoPinEdges(to: self)
+    }
+
+    func set(backgroundColor: UIColor, titleColor: UIColor = .white) {
         self.backgroundColor = backgroundColor
         self.titleColor = titleColor
     }
 
-    func makeUninteractable(animated: Bool = true) {
-        if animated {
-            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-                self?.alpha = Constants.dimmedAlpha
-            }
-        } else {
-            alpha = Constants.dimmedAlpha
+    func set(state: InteractionState, animated: Bool = true) {
+        guard interactionState != state else {
+            return
         }
-        isEnabled = false
-    }
 
-    func makeInteractable(animated: Bool = true) {
-        if animated {
-            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-                self?.alpha = Constants.normalAlpha
-            }
-        } else {
-            alpha = Constants.normalAlpha
+        if let lastSubview = subviews.last,
+           lastSubview != disabledView {
+            addDisabledView()
         }
-        isEnabled = true
+
+        isEnabled = state == .enabled
+        interactionState = state
+        disabledView.set(state: state, animated: animated)
     }
 }

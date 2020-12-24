@@ -44,7 +44,7 @@ class AlertViewController: UIViewController {
         let button = CustomButton()
         button.title = "Cancel"
         button.titleLabel?.font = .normal
-        button.add(backgroundColor: .systemRed)
+        button.set(backgroundColor: .systemRed)
         button.addCorner(style: .small)
         return button
     }()
@@ -53,7 +53,7 @@ class AlertViewController: UIViewController {
         let button = CustomButton()
         button.title = "Confirm"
         button.titleLabel?.font = .normal
-        button.add(backgroundColor: .systemGreen)
+        button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
         return button
     }()

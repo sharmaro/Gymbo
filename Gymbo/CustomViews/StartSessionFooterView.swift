@@ -13,7 +13,7 @@ class StartSessionFooterView: UIView {
     private let addExerciseButton: CustomButton = {
         let button = CustomButton()
         button.title = "+ Exercise"
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         return button
     }()
@@ -21,7 +21,7 @@ class StartSessionFooterView: UIView {
     private let cancelButton: CustomButton = {
         let button = CustomButton()
         button.title = "Cancel"
-        button.add(backgroundColor: .systemRed)
+        button.set(backgroundColor: .systemRed)
         button.addCorner(style: .small)
         return button
     }()

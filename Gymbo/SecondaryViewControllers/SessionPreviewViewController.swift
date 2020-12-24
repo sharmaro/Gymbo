@@ -24,7 +24,7 @@ class SessionPreviewViewController: UIViewController {
         let button = CustomButton()
         button.title = "Start Session"
         button.titleLabel?.textAlignment = .center
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         return button
     }()

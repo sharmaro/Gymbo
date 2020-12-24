@@ -12,12 +12,6 @@ import UIKit
 class ButtonTableViewCell: UITableViewCell {
     private let button = CustomButton()
 
-    var isButtonInteractable: Bool = true {
-        didSet {
-            isButtonInteractable ? button.makeInteractable() : button.makeUninteractable()
-        }
-    }
-
     weak var buttonTableViewCellDelegate: ButtonTableViewCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -86,7 +80,11 @@ extension ButtonTableViewCell {
                    backgroundColor: UIColor = .systemBlue,
                    cornerStyle: CornerStyle = .none) {
         button.title = title
-        button.add(backgroundColor: backgroundColor, titleColor: titleColor)
+        button.set(backgroundColor: backgroundColor, titleColor: titleColor)
         button.addCorner(style: cornerStyle)
+    }
+
+    func set(state: InteractionState, animated: Bool = true) {
+        button.set(state: state, animated: animated)
     }
 }

@@ -24,7 +24,7 @@ class ExercisePreviewTableViewController: UITableViewController {
         let button = CustomButton()
         button.title = "Edit"
         button.titleLabel?.font = .normal
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         return button
     }()
@@ -144,6 +144,7 @@ extension ExercisePreviewTableViewController {
     }
 
     @objc private func editButtonTapped(sender: Any) {
+        Haptic.sendSelectionFeedback()
         let createEditExerciseTableViewController = CreateEditExerciseTableViewController()
         createEditExerciseTableViewController.exercise = exercisePreviewDataModel.exercise
         createEditExerciseTableViewController.exerciseState = .edit

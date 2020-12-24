@@ -14,7 +14,7 @@ class StartSessionTableViewController: UITableViewController {
     private let timerButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.titleLabel?.font = .small
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         return button
     }()
@@ -23,7 +23,7 @@ class StartSessionTableViewController: UITableViewController {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.title = "Finish"
         button.titleLabel?.font = .small
-        button.add(backgroundColor: .systemGreen)
+        button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
         return button
     }()

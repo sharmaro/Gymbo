@@ -28,7 +28,7 @@ class RestViewController: UIViewController {
         let button = CustomButton()
         button.title = "+ 5s"
         button.titleLabel?.font = .small
-        button.add(backgroundColor: .systemGray)
+        button.set(backgroundColor: .systemGray)
         button.addCorner(style: .small)
         button.isHidden = true
         return button
@@ -38,7 +38,7 @@ class RestViewController: UIViewController {
         let button = CustomButton()
         button.title = "- 5s"
         button.titleLabel?.font = .small
-        button.add(backgroundColor: .systemGray)
+        button.set(backgroundColor: .systemGray)
         button.addCorner(style: .small)
         button.isHidden = true
         return button
@@ -55,7 +55,7 @@ class RestViewController: UIViewController {
     private let mainButton: CustomButton = {
         let button = CustomButton()
         button.title = "Start Timer"
-        button.add(backgroundColor: .systemBlue)
+        button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         return button
     }()
@@ -63,7 +63,7 @@ class RestViewController: UIViewController {
     private var mainButtonState: MainButtonState = .startTimer {
         didSet {
             mainButton.title = mainButtonState.rawValue
-            mainButton.add(backgroundColor: mainButtonState.backgroundColor())
+            mainButton.set(backgroundColor: mainButtonState.backgroundColor())
         }
     }
 

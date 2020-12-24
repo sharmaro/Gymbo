@@ -39,7 +39,7 @@ class StopwatchViewController: UIViewController {
     private let lapAndResetButton: CustomButton = {
         let button = CustomButton()
         button.title = "Lap"
-        button.add(backgroundColor: .systemGray)
+        button.set(backgroundColor: .systemGray)
         button.addCorner(style: .small)
         button.tag = 0
         return button
@@ -48,7 +48,7 @@ class StopwatchViewController: UIViewController {
     private let startAndStopButton: CustomButton = {
         let button = CustomButton()
         button.title = "Start"
-        button.add(backgroundColor: .systemGreen)
+        button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
         button.tag = 1
         return button
@@ -272,16 +272,16 @@ extension StopwatchViewController {
     private func updateStopWatchButtons(animated: Bool) {
         switch stopwatchState {
         case .initial:
-            lapAndResetButton.makeUninteractable(animated: animated)
+            lapAndResetButton.set(state: .disabled, animated: animated)
             lapAndResetButton.title = "Lap"
 
-            startAndStopButton.makeInteractable(animated: animated)
+            startAndStopButton.set(state: .enabled, animated: animated)
         case .started:
-            lapAndResetButton.makeInteractable(animated: animated)
+            lapAndResetButton.set(state: .enabled, animated: animated)
             lapAndResetButton.title = "Lap"
 
             startAndStopButton.title = "Stop"
-            startAndStopButton.add(backgroundColor: .systemRed)
+            startAndStopButton.set(backgroundColor: .systemRed)
 
             timer = Timer.scheduledTimer(timeInterval: Constants.timerInterval,
                                          target: self,
@@ -294,7 +294,7 @@ extension StopwatchViewController {
             }
         case .stopped:
             startAndStopButton.title = "Start"
-            startAndStopButton.add(backgroundColor: .systemGreen)
+            startAndStopButton.set(backgroundColor: .systemGreen)
 
             lapAndResetButton.title = "Reset"
 
@@ -346,6 +346,7 @@ extension StopwatchViewController {
     }
 
     @objc private func stopWatchButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
         if let button = sender as? UIButton {
             switch button.tag {
             case 0: // lapAndReset button tapped
