@@ -332,6 +332,43 @@ extension StopwatchViewController {
         updateStopWatchButtons(animated: false)
     }
 
+    private func saveLaps() {
+        let defaults = UserDefaults.standard
+        let encoder = JSONEncoder()
+
+        if let encodedData = try? encoder.encode(lapDataModel.laps) {
+            defaults.set(encodedData, forKey: Constants.LAPS_KEY)
+        }
+
+        let lapsInfo = [lapDataModel.previousLap,
+                        lapDataModel.fastestLap,
+                        lapDataModel.slowestLap]
+        if let encodedData = try? encoder.encode(lapsInfo) {
+            defaults.set(encodedData, forKey: Constants.LAPS_INFO_KEy)
+        }
+    }
+
+    private func loadLaps() {
+        let defaults = UserDefaults.standard
+        let decoder = JSONDecoder()
+
+        if let data = defaults.data(forKey: Constants.LAPS_KEY),
+            let laps = try? decoder.decode(Array<Lap>.self, from: data) {
+            lapDataModel.laps = laps
+        } else {
+            lapDataModel.laps = nil
+        }
+
+        if let data = defaults.data(forKey: Constants.LAPS_INFO_KEy),
+            let lapsInfo = try? decoder.decode(Array<Lap>.self, from: data) {
+            lapDataModel.previousLap = lapsInfo[0]
+            lapDataModel.fastestLap = lapsInfo[1]
+            lapDataModel.slowestLap = lapsInfo[2]
+        }
+
+        tableView.reloadData()
+    }
+
     @objc private func updateTimeLabels() {
         if centiSecInt + 1 < 100 {
             centiSecInt += 1
@@ -464,43 +501,6 @@ extension StopwatchViewController: ApplicationStateObserving {
         userDefault.set(timeDictionary, forKey: UserDefaultKeys.STOPWATCH_TIME_DICTIONARY)
 
         saveLaps()
-    }
-
-    private func saveLaps() {
-        let defaults = UserDefaults.standard
-        let encoder = JSONEncoder()
-
-        if let encodedData = try? encoder.encode(lapDataModel.laps) {
-            defaults.set(encodedData, forKey: Constants.LAPS_KEY)
-        }
-
-        let lapsInfo = [lapDataModel.previousLap,
-                        lapDataModel.fastestLap,
-                        lapDataModel.slowestLap]
-        if let encodedData = try? encoder.encode(lapsInfo) {
-            defaults.set(encodedData, forKey: Constants.LAPS_INFO_KEy)
-        }
-    }
-
-    private func loadLaps() {
-        let defaults = UserDefaults.standard
-        let decoder = JSONDecoder()
-
-        if let data = defaults.data(forKey: Constants.LAPS_KEY),
-            let laps = try? decoder.decode(Array<Lap>.self, from: data) {
-            lapDataModel.laps = laps
-        } else {
-            lapDataModel.laps = nil
-        }
-
-        if let data = defaults.data(forKey: Constants.LAPS_INFO_KEy),
-            let lapsInfo = try? decoder.decode(Array<Lap>.self, from: data) {
-            lapDataModel.previousLap = lapsInfo[0]
-            lapDataModel.fastestLap = lapsInfo[1]
-            lapDataModel.slowestLap = lapsInfo[2]
-        }
-
-        tableView.reloadData()
     }
 
     func willEnterForeground(_ notification: Notification) {
