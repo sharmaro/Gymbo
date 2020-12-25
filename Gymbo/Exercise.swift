@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-@objcMembers class Exercise: Object, Comparable {
+@objcMembers class Exercise: Object {
     // Exercise information
     dynamic var name: String?
     dynamic var groups: String?
@@ -62,7 +62,9 @@ import RealmSwift
             }
         }
     }
+}
 
+extension Exercise: Comparable {
     static func < (lhs: Exercise, rhs: Exercise) -> Bool {
         guard let lhsName = lhs.name,
             let rhsName = rhs.name else {

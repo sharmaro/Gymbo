@@ -50,9 +50,10 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
     private let doneButton: UIButton = {
         let button = UIButton(frame: .zero)
         button.setTitle("", for: .normal)
-        let image = UIImage(named: "checkmark")
+        let image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.dynamicBlack, for: .normal)
+        button.tintColor = .dynamicBlack
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -61,7 +62,9 @@ class ExerciseHeaderTableViewCell: UITableViewCell {
 
     private var isDoneButtonImageHidden = false {
         didSet {
-            let image = isDoneButtonImageHidden ? nil : UIImage(named: "checkmark")
+            let checkmarkImage = UIImage(named: "checkmark")?
+                .withRenderingMode(.alwaysTemplate)
+            let image = isDoneButtonImageHidden ? nil : checkmarkImage
             let text = isDoneButtonImageHidden ? "-" : nil
 
             doneButton.setImage(image, for: .normal)
@@ -136,6 +139,8 @@ extension ExerciseHeaderTableViewCell: ViewAdding {
         backgroundColor = .dynamicWhite
         contentView.backgroundColor = .clear
         [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .dynamicBlack }
+        doneButton.setTitleColor(.dynamicBlack, for: .normal)
+        doneButton.tintColor = .dynamicBlack
     }
 
     func addConstraints() {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 // MARK: - Properties
 class MainTabBarController: UITabBarController {
@@ -15,7 +16,6 @@ class MainTabBarController: UITabBarController {
     private var selectedTab = Tabs.sessions
 
     private var isReplacingSession = false
-    private var startSessionViewController: StartSessionTableViewController?
     private var sessionToReplace: Session?
 }
 
@@ -80,6 +80,7 @@ extension MainTabBarController {
         super.viewDidAppear(animated)
 
         showOnboardingIfNeeded()
+        resumeStartedSession()
     }
 }
 
@@ -150,31 +151,6 @@ extension MainTabBarController {
             }
         }
     }
-}
-
-// MARK: - SessionProgressDelegate
-extension MainTabBarController: SessionProgressDelegate {
-    func sessionDidStart(_ session: Session?) {
-        if isSessionInProgress {
-            guard let startSessionViewController = startSessionViewController else {
-                return
-            }
-
-            let alertData = AlertData(title: "Another One?",
-                                      content: "You already have a workout in progress!",
-                                      usesBothButtons: true,
-                                      leftButtonTitle: "I'll finish this one!",
-                                      rightButtonTitle: "Start New Workout",
-                                      rightButtonAction: { [weak self] in
-                                        self?.isReplacingSession = true
-                                        self?.sessionToReplace = session
-                                        startSessionViewController.dismissAsChildViewController()
-                                      })
-            presentCustomAlert(alertData: alertData)
-        } else {
-            startSession(session)
-        }
-    }
 
     private func startSession(_ session: Session?) {
         isSessionInProgress = true
@@ -207,8 +183,6 @@ extension MainTabBarController: SessionProgressDelegate {
         shadowContainerView.addSubview(containerNavigationController.view)
         containerNavigationController.view.autoPinSafeEdges(to: shadowContainerView)
 
-        self.startSessionViewController = startSessionViewController
-
         view.insertSubview(shadowContainerView, belowSubview: tabBar)
         addChild(containerNavigationController)
         containerNavigationController.didMove(toParent: self)
@@ -230,9 +204,49 @@ extension MainTabBarController: SessionProgressDelegate {
         }
     }
 
+    private func resumeStartedSession() {
+        let realm = try? Realm()
+        guard let startedSession = realm?.objects(StartedSession.self).first else {
+            return
+        }
+
+        let sessionToStart = Session(name: startedSession.name,
+                                     info: startedSession.info,
+                                     exercises: startedSession.exercises)
+        startSession(sessionToStart)
+    }
+}
+
+// MARK: - SessionProgressDelegate
+extension MainTabBarController: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        if isSessionInProgress {
+            guard let navigationController = (children.last as? UINavigationController),
+                  let startSessionViewController = navigationController.viewControllers.first as? StartSessionTableViewController else {
+                return
+            }
+
+            let alertData = AlertData(title: "Another One?",
+                                      content: "You already have a workout in progress!",
+                                      usesBothButtons: true,
+                                      leftButtonTitle: "I'll finish this one!",
+                                      rightButtonTitle: "Start New Workout",
+                                      rightButtonAction: { [weak self] in
+                                        self?.isReplacingSession = true
+                                        self?.sessionToReplace = session
+
+                                        DispatchQueue.main.async {
+                                            startSessionViewController.dismissAsChildViewController()
+                                        }
+                                      })
+            presentCustomAlert(alertData: alertData)
+        } else {
+            startSession(session)
+        }
+    }
+
     func sessionDidEnd(_ session: Session?) {
         isSessionInProgress = false
-        startSessionViewController = nil
 
         if isReplacingSession, sessionToReplace != nil {
             isReplacingSession = false

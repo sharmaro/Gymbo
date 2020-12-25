@@ -36,8 +36,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
 
     private let doneButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.dynamicBlack, for: .normal)
         button.titleLabel?.text?.removeAll()
+        button.tintColor = .dynamicBlack
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -60,7 +61,9 @@ class ExerciseDetailTableViewCell: UITableViewCell {
 
     private var isDoneButtonEnabled = false {
         didSet {
-            let image = isDoneButtonEnabled ? UIImage(named: "checkmark") : nil
+            let checkmarkImage = UIImage(named: "checkmark")?
+                .withRenderingMode(.alwaysTemplate)
+            let image = isDoneButtonEnabled ? checkmarkImage : nil
             doneButton.setImage(image, for: .normal)
             doneButton.isUserInteractionEnabled = isDoneButtonEnabled
         }
@@ -154,13 +157,15 @@ extension ExerciseDetailTableViewCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = didSelect ? .systemGreen : .clear
         contentView.backgroundColor = .clear
         [setsLabel, lastLabel].forEach { $0.textColor = .dynamicBlack }
         [repsTextField, weightTextField].forEach {
             $0.textColor = .dynamicBlack
             $0.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
         }
+        doneButton.setTitleColor(.dynamicBlack, for: .normal)
+        doneButton.tintColor = .dynamicBlack
     }
 
     func addConstraints() {

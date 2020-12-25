@@ -61,8 +61,11 @@ class StartSessionTableViewController: UITableViewController {
         }
     }
 
-    private let realm = try? Realm()
-    private var selectedRows = [IndexPath: Bool]()
+    private var realm: Realm? {
+        try? Realm()
+    }
+
+    private var selectedRows = Set<IndexPath>()
     private let userDefault = UserDefaults.standard
 
     weak var updateDelegate: UpdateDelegate?
@@ -118,7 +121,7 @@ extension StartSessionTableViewController {
         setupViews()
         setupColors()
         addConstraints()
-        startSessionTimer()
+        resumeSessionIfNecessary()
         registerForKeyboardNotifications()
         registerForApplicationStateNotifications()
     }
@@ -254,29 +257,22 @@ extension StartSessionTableViewController {
         }
     }
 
-    @objc func dismissAsChildViewController() {
-        UIView.animate(withDuration: 0.4, animations: { [weak self] in
-            guard let navigationController = self?.navigationController,
-                let defaultTabBarFrame = self?.initialTabBarFrame else {
-                return
-            }
+    private func cleanupProperties() {
+        dimmedView?.removeFromSuperview()
+        panView?.removeFromSuperview()
+        session = nil
+        initialTabBarFrame = nil
+        sessionTimer?.invalidate()
+        restTimer?.invalidate()
+    }
 
-            self?.dimmedView?.alpha = 0
-
-            navigationController.view.frame = CGRect(
-                origin: CGPoint(x: 0,
-                                y: navigationController.view.frame.height),
-                size: navigationController.view.frame.size)
-            navigationController.mainTabBarController?.tabBar.frame = defaultTabBarFrame
-        }) { [weak self] (finished) in
-            if finished {
-                self?.dimmedView?.removeFromSuperview()
-                self?.panView?.willMove(toWindow: nil)
-                self?.panView?.removeFromSuperview()
-                self?.navigationController?.removeFromParent()
-                self?.sessionProgresssDelegate?.sessionDidEnd(self?.session)
-            }
-        }
+    private func childDismissal() {
+        willMove(toParent: nil)
+        view.removeFromSuperview()
+        removeFromParent()
+        navigationController?.willMove(toParent: nil)
+        navigationController?.view.removeFromSuperview()
+        navigationController?.removeFromParent()
     }
 
     //swiftlint:disable:next cyclomatic_complexity
@@ -304,14 +300,10 @@ extension StartSessionTableViewController {
 
                 let tabBarHeight = mainTabBarController.tabBar.frame.height
                 let newLocation = mainTabBarController.view.frame.height -
-                    tabBarHeight -
-                    minimizedHeight +
-                    location.y
+                    tabBarHeight - minimizedHeight + location.y
                 if newLocation <= mainTabBarController.view.frame.height -
                     tabBarHeight -
-                    minimizedHeight &&
-                    newLocation >=
-                    Constants.defaultYOffset {
+                    minimizedHeight && newLocation >= Constants.defaultYOffset {
                     view.frame.origin.y = newLocation
                 }
             }
@@ -449,7 +441,7 @@ extension StartSessionTableViewController {
 
         exerciseDetailCell.configure(dataModel: dataModel)
         exerciseDetailCell.exerciseDetailCellDelegate = self
-        exerciseDetailCell.didSelect = selectedRows[indexPath] ?? false
+        exerciseDetailCell.didSelect = selectedRows.contains(indexPath)
         return exerciseDetailCell
     }
 
@@ -519,6 +511,83 @@ extension StartSessionTableViewController {
             ended()
         }
     }
+
+    @objc func dismissAsChildViewController() {
+        if let startedSession = realm?.objects(StartedSession.self).first {
+            try? realm?.write {
+                realm?.delete(startedSession)
+            }
+        }
+
+        UIView.animate(withDuration: .defaultAnimationTime, animations: { [weak self] in
+            guard let navigationController = self?.navigationController,
+                let defaultTabBarFrame = self?.initialTabBarFrame else {
+                return
+            }
+
+            self?.dimmedView?.alpha = 0
+
+            navigationController.view.frame = CGRect(
+                origin: CGPoint(x: 0,
+                                y: navigationController.view.frame.height),
+                size: navigationController.view.frame.size)
+            navigationController.mainTabBarController?.tabBar.frame = defaultTabBarFrame
+        }) { [weak self] (finished) in
+            if finished {
+                self?.sessionProgresssDelegate?.sessionDidEnd(self?.session)
+                self?.cleanupProperties()
+                self?.childDismissal()
+            }
+        }
+    }
+
+    private func resumeSessionIfNecessary() {
+        if let startedSession = realm?.objects(StartedSession.self).first {
+            selectedRows.removeAll()
+            let selectedRowsList = startedSession.selectedRows
+            for row in selectedRowsList {
+                selectedRows.insert(row.indexPath)
+            }
+            resumeSessionTimer()
+        } else {
+            startSessionTimer()
+        }
+    }
+
+    private func resumeSessionTimer() {
+        if let date = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_DATE) as? Date,
+            let timeDictionary = userDefault.object(
+                forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY) as? [String: Int],
+            let sessionSeconds = timeDictionary[Constants.SESSION_SECONDS_KEY] {
+
+            let secondsElapsed = Int(Date().timeIntervalSince(date))
+
+            self.sessionSeconds = sessionSeconds
+            self.sessionSeconds += secondsElapsed
+            startSessionTimer()
+
+            let restTotalTime = timeDictionary[Constants.REST_TOTAL_TIME_KEY] ?? 0
+            let restRemainingTime = timeDictionary[Constants.REST_REMAINING_TIME_KEY] ?? 0
+            let newTimeRemaining = restRemainingTime - secondsElapsed
+
+            if newTimeRemaining > 0 {
+                totalRestTime = restTotalTime
+                restTimeRemaining = newTimeRemaining
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
+                timerButton.addMovingLayerAnimation(duration: restTimeRemaining,
+                                                    totalTime: totalRestTime,
+                                                    timeRemaining: restTimeRemaining)
+
+                startRestTimer()
+            } else {
+                timerButton.removeMovingLayerAnimation()
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
+                                                                   style: .plain,
+                                                                   target: self,
+                                                                   action: #selector(restButtonTapped))
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -586,7 +655,7 @@ extension StartSessionTableViewController {
             try? self?.realm?.write {
                 self?.removeSet(indexPath: indexPath)
             }
-            self?.selectedRows[indexPath] = nil
+            self?.selectedRows.remove(indexPath)
 
             let rowsInSection = tableView.numberOfRows(inSection: indexPath.section)
             let indexToStartAt = indexPath.row + 1
@@ -595,8 +664,8 @@ extension StartSessionTableViewController {
                     let currentIndexPath = IndexPath(row: i, section: indexPath.section)
                     let newIndexPath = IndexPath(row: i - 1, section: indexPath.section)
 
-                    self?.selectedRows[newIndexPath] = self?.selectedRows[currentIndexPath] ?? false
-                    self?.selectedRows[currentIndexPath] = nil
+                    self?.selectedRows.remove(currentIndexPath)
+                    self?.selectedRows.insert(newIndexPath)
                 }
             }
 
@@ -646,13 +715,13 @@ extension StartSessionTableViewController {
             return
         }
 
-        if let state = selectedRows[indexPath] {
-            selectedRows[indexPath] = !state
-            exerciseDetailCell.didSelect = !state
+        let containsIndexPath = selectedRows.contains(indexPath)
+        if containsIndexPath {
+            selectedRows.remove(indexPath)
         } else {
-            selectedRows[indexPath] = !exerciseDetailCell.didSelect
-            exerciseDetailCell.didSelect = !exerciseDetailCell.didSelect
+            selectedRows.insert(indexPath)
         }
+        exerciseDetailCell.didSelect = !containsIndexPath
     }
 }
 
@@ -693,7 +762,7 @@ extension StartSessionTableViewController: ExerciseHeaderCellDelegate {
         for i in 0..<rows {
             let indexPath = IndexPath(row: i, section: section)
             if let cell = tableView.cellForRow(at: indexPath) as? ExerciseDetailTableViewCell {
-                selectedRows[indexPath] = true
+                selectedRows.insert(indexPath)
                 cell.didSelect = true
             }
         }
@@ -899,39 +968,31 @@ extension StartSessionTableViewController: ApplicationStateObserving {
 
         userDefault.set(Date(), forKey: UserDefaultKeys.STARTSESSION_DATE)
         userDefault.set(timeDictionary, forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY)
+
+        if let session = session {
+            let selectedRowsList = List<RealmIndexPath>()
+            let convertedObjects = selectedRows.map { RealmIndexPath(indexPath: $0) }
+            selectedRowsList.append(objectsIn: convertedObjects)
+            let updatedStartedSession = StartedSession(name: session.name,
+                                                info: session.info,
+                                                selectedRows: selectedRowsList,
+                                                exercises: session.exercises)
+
+            if let startedSession = realm?.objects(StartedSession.self).first {
+                try? realm?.write {
+                    realm?.delete(startedSession)
+                    realm?.add(updatedStartedSession)
+                }
+            } else {
+                try? realm?.write {
+                    realm?.add(updatedStartedSession)
+                }
+            }
+        }
     }
 
     func willEnterForeground(_ notification: Notification) {
-        if let date = userDefault.object(forKey: UserDefaultKeys.STARTSESSION_DATE) as? Date,
-            let timeDictionary = userDefault.object(
-                forKey: UserDefaultKeys.STARTSESSION_TIME_DICTIONARY) as? [String: Int] {
-
-            let secondsElapsed = Int(Date().timeIntervalSince(date))
-
-            sessionSeconds += secondsElapsed
-            startSessionTimer()
-
-            let restTotalTime = timeDictionary[Constants.REST_TOTAL_TIME_KEY] ?? 0
-            let restRemainingTime = timeDictionary[Constants.REST_REMAINING_TIME_KEY] ?? 0
-            let newTimeRemaining = restRemainingTime - secondsElapsed
-
-            if newTimeRemaining > 0 {
-                totalRestTime = restTotalTime
-                restTimeRemaining = newTimeRemaining
-                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
-                timerButton.addMovingLayerAnimation(duration: restTimeRemaining,
-                                                    totalTime: totalRestTime,
-                                                    timeRemaining: restTimeRemaining)
-
-                startRestTimer()
-            } else {
-                timerButton.removeMovingLayerAnimation()
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
-                                                                   style: .plain,
-                                                                   target: self,
-                                                                   action: #selector(restButtonTapped))
-            }
-        }
+        resumeSessionTimer()
     }
 }
 

@@ -10,6 +10,8 @@
 		6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */; };
 		690B5693244804ED00E9CB93 /* StopwatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */; };
 		691054E8234301DD00E306F1 /* SessionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */; };
+		691405352595C65800DED7C7 /* IndexPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691405342595C65800DED7C7 /* IndexPath+Extensions.swift */; };
+		6914053B2595C6BD00DED7C7 /* RealmIndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914053A2595C6BD00DED7C7 /* RealmIndexPath.swift */; };
 		691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */; };
 		6929673D22F77DC200832C68 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929673C22F77DC200832C68 /* CustomButton.swift */; };
 		692D982222FE9E890032514D /* ExerciseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */; };
@@ -19,6 +21,7 @@
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */; };
+		694E1E6E2595AF43000F8358 /* RealmInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E1E6D2595AF43000F8358 /* RealmInstance.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
 		695070952497525E00942078 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070942497525E00942078 /* SessionsList.swift */; };
 		695070972497528200942078 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070962497528200942078 /* Exercise.swift */; };
@@ -101,6 +104,7 @@
 		698A5FE42563B59500578D50 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A5FE32563B59500578D50 /* Directory.swift */; };
 		698BD48D25933A4A007F78C6 /* InteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BD48C25933A4A007F78C6 /* InteractionState.swift */; };
 		698E934D259400E000B5A03E /* DisabledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698E934C259400E000B5A03E /* DisabledView.swift */; };
+		698E935F259559D300B5A03E /* StartedSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698E935E259559D300B5A03E /* StartedSession.swift */; };
 		699F887A25100E7B0085267C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699F887925100E7B0085267C /* Colors.xcassets */; };
 		69A39B2724C821F900ECEA25 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A39B2624C821F800ECEA25 /* OnboardingPageViewController.swift */; };
 		69A7392124CAA37A00AAD965 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7392024CAA37A00AAD965 /* OnboardingViewController.swift */; };
@@ -154,6 +158,8 @@
 		6901E4762387B4DC0051D1B2 /* SessionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHeaderView.swift; sourceTree = "<group>"; };
 		690B5692244804ED00E9CB93 /* StopwatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTableViewCell.swift; sourceTree = "<group>"; };
 		691054E6234301DD00E306F1 /* SessionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCollectionViewCell.swift; sourceTree = "<group>"; };
+		691405342595C65800DED7C7 /* IndexPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extensions.swift"; sourceTree = "<group>"; };
+		6914053A2595C6BD00DED7C7 /* RealmIndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmIndexPath.swift; sourceTree = "<group>"; };
 		691D5F4C23D0272200DB9D4E /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		6929673C22F77DC200832C68 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		692D982022FE9E890032514D /* ExerciseDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -163,6 +169,7 @@
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTableViewController.swift; sourceTree = "<group>"; };
+		694E1E6D2595AF43000F8358 /* RealmInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmInstance.swift; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		695070942497525E00942078 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
 		695070962497528200942078 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -247,6 +254,7 @@
 		698A5FE32563B59500578D50 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		698BD48C25933A4A007F78C6 /* InteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionState.swift; sourceTree = "<group>"; };
 		698E934C259400E000B5A03E /* DisabledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledView.swift; sourceTree = "<group>"; };
+		698E935E259559D300B5A03E /* StartedSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartedSession.swift; sourceTree = "<group>"; };
 		699F887925100E7B0085267C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		69A39B2624C821F800ECEA25 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		69A7392024CAA37A00AAD965 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -361,10 +369,13 @@
 				6972E40E249F29AC00479E91 /* ExerciseDetailTableViewCellModel.swift */,
 				6972E412249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift */,
 				69507098249752A300942078 /* ExercisesList.swift */,
+				6914053A2595C6BD00DED7C7 /* RealmIndexPath.swift */,
+				694E1E6D2595AF43000F8358 /* RealmInstance.swift */,
 				695070922497522400942078 /* Session.swift */,
 				6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */,
 				6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */,
 				695070942497525E00942078 /* SessionsList.swift */,
+				698E935E259559D300B5A03E /* StartedSession.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -504,6 +515,7 @@
 			children = (
 				6972E3DE249F223000479E91 /* CALayer+Extension.swift */,
 				6972E3E6249F22E600479E91 /* CGFloat+Extension.swift */,
+				691405342595C65800DED7C7 /* IndexPath+Extensions.swift */,
 				69C6BD60256B88AD00B247C7 /* Int+Extension.swift */,
 				6972E3D9249F215400479E91 /* Notification+Extension.swift */,
 				6972E3D7249F213900479E91 /* String+Extension.swift */,
@@ -821,6 +833,7 @@
 				69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
 				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
+				694E1E6E2595AF43000F8358 /* RealmInstance.swift in Sources */,
 				69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */,
@@ -859,6 +872,7 @@
 				695E66B424C52E90004C06A4 /* TwoLabelsTableViewCell.swift in Sources */,
 				69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */,
 				698BD48D25933A4A007F78C6 /* InteractionState.swift in Sources */,
+				6914053B2595C6BD00DED7C7 /* RealmIndexPath.swift in Sources */,
 				6972E3E1249F225200479E91 /* UIViewController+Extension.swift in Sources */,
 				69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */,
 				69659C0924039C680054F655 /* AlertViewController.swift in Sources */,
@@ -877,6 +891,7 @@
 				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
 				6972E408249F288100479E91 /* ImagesTableViewCellDelegate.swift in Sources */,
 				69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */,
+				698E935F259559D300B5A03E /* StartedSession.swift in Sources */,
 				698A5FE42563B59500578D50 /* Directory.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCollectionViewCell.swift in Sources */,
 				6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */,
@@ -902,6 +917,7 @@
 				6972E40A249F28AB00479E91 /* ButtonTableViewCellDelegate.swift in Sources */,
 				6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */,
 				6972E3EC249F236700479E91 /* Direction.swift in Sources */,
+				691405352595C65800DED7C7 /* IndexPath+Extensions.swift in Sources */,
 				6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */,
 				69A7392124CAA37A00AAD965 /* OnboardingViewController.swift in Sources */,
 				696664FB24F37FD70049507A /* Axis.swift in Sources */,
