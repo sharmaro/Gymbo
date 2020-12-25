@@ -7,7 +7,7 @@
 //
 
 protocol ExerciseHeaderCellDelegate: class {
-    func deleteButtonTapped(cell: ExerciseHeaderTableViewCell)
-    func weightButtonTapped(cell: ExerciseHeaderTableViewCell)
-    func doneButtonTapped(cell: ExerciseHeaderTableViewCell)
+    func deleteButtonTapped(cell: ExerciseHeaderTVCell)
+    func weightButtonTapped(cell: ExerciseHeaderTVCell)
+    func doneButtonTapped(cell: ExerciseHeaderTVCell)
 }

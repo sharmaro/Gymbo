@@ -56,11 +56,11 @@ extension LapDataModel {
 
     // MARK: - UITableViewCells
     private func getStopWatchCell(in tableView: UITableView,
-                                  for indexPath: IndexPath) -> StopwatchTableViewCell {
+                                  for indexPath: IndexPath) -> StopwatchTVCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: StopwatchTableViewCell.reuseIdentifier,
-            for: indexPath) as? StopwatchTableViewCell else {
-            fatalError("Could not dequeue \(StopwatchTableViewCell.reuseIdentifier)")
+            withIdentifier: StopwatchTVCell.reuseIdentifier,
+            for: indexPath) as? StopwatchTVCell else {
+            fatalError("Could not dequeue \(StopwatchTVCell.reuseIdentifier)")
         }
 
         guard let laps = laps else {

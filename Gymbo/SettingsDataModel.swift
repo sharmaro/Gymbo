@@ -84,11 +84,11 @@ extension SettingsDataModel {
 extension SettingsDataModel {
     // MARK: - UITableViewCells
     private func getSelectionCell(in tableView: UITableView,
-                                  for indexPath: IndexPath) -> SelectionTableViewCell {
+                                  for indexPath: IndexPath) -> SelectionTVCell {
         guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: SelectionTableViewCell.reuseIdentifier,
-                for: indexPath) as? SelectionTableViewCell else {
-            fatalError("Could not dequeue \(SelectionTableViewCell.reuseIdentifier)")
+                withIdentifier: SelectionTVCell.reuseIdentifier,
+                for: indexPath) as? SelectionTVCell else {
+            fatalError("Could not dequeue \(SelectionTVCell.reuseIdentifier)")
         }
 
         let item = tableItems[indexPath.section][indexPath.row]

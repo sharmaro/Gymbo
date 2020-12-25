@@ -8,7 +8,7 @@
 
 // MARK: - Properties
 struct UserDefaultKeys {
-    // MARK: - StopWatchViewController
+    // MARK: - StopwatchVC
     static let STOPWATCH_STATE = "stopwatchState"
     static let STOPWATCH_DATE = "stopwatchDate"
     static let STOPWATCH_TIME_DICTIONARY = "stopwatchTimeDictionary"

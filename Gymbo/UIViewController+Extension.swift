@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-    var mainTabBarController: MainTabBarController? {
-        (tabBarController as? MainTabBarController)
+    var mainTBC: MainTBC? {
+        (tabBarController as? MainTBC)
     }
 
     var minimizedHeight: CGFloat {
@@ -18,10 +18,10 @@ extension UIViewController {
     }
 
     func presentCustomAlert(alertData: AlertData) {
-        let alertViewController = AlertViewController(alertData: alertData)
-        alertViewController.modalTransitionStyle = .crossDissolve
-        alertViewController.modalPresentationStyle = .overFullScreen
-        present(alertViewController, animated: true)
+        let alertVC = AlertVC(alertData: alertData)
+        alertVC.modalTransitionStyle = .crossDissolve
+        alertVC.modalPresentationStyle = .overFullScreen
+        present(alertVC, animated: true)
     }
 
     func showActivityIndicator(withText text: String? = nil) {

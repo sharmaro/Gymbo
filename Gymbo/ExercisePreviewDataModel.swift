@@ -25,7 +25,7 @@ struct ExercisePreviewDataModel {
 // MARK: - Structs/Enums
 extension ExercisePreviewDataModel {
     private struct Constants {
-        static let swipableImageViewTableViewCellHeight = CGFloat(200)
+        static let swipableImageVTVCellHeight = CGFloat(200)
 
         static let noImagesText = "No images\n"
         static let noInstructionsText = "No instructions\n"
@@ -46,44 +46,44 @@ extension ExercisePreviewDataModel {
 // MARK: - Funcs
 extension ExercisePreviewDataModel {
     // MARK: - UITableViewCells
-    private func getTwoLabelsCell(in tableView: UITableView,
-                                  for indexPath: IndexPath) -> TwoLabelsTableViewCell {
-        guard let twoLabelsTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: TwoLabelsTableViewCell.reuseIdentifier,
-            for: indexPath) as? TwoLabelsTableViewCell else {
-            fatalError("Could not dequeue \(TwoLabelsTableViewCell.reuseIdentifier)")
+    private func getTwoLabelsTVCell(in tableView: UITableView,
+                                    for indexPath: IndexPath) -> TwoLabelsTVCell {
+        guard let twoLabelsTVCell = tableView.dequeueReusableCell(
+                withIdentifier: TwoLabelsTVCell.reuseIdentifier,
+                for: indexPath) as? TwoLabelsTVCell else {
+            fatalError("Could not dequeue \(TwoLabelsTVCell.reuseIdentifier)")
         }
 
-        twoLabelsTableViewCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
-        return twoLabelsTableViewCell
+        twoLabelsTVCell.configure(topText: exercise.name ?? "", bottomText: exercise.groups ?? "")
+        return twoLabelsTVCell
     }
 
     private func getLabelCell(in tableView: UITableView,
                               for indexPath: IndexPath,
                               text: String,
-                              font: UIFont = .normal) -> LabelTableViewCell {
-        guard let labelTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: LabelTableViewCell.reuseIdentifier,
-            for: indexPath) as? LabelTableViewCell else {
-            fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
+                              font: UIFont = .normal) -> LabelTVCell {
+        guard let labelTVCell = tableView.dequeueReusableCell(
+                withIdentifier: LabelTVCell.reuseIdentifier,
+                for: indexPath) as? LabelTVCell else {
+            fatalError("Could not dequeue \(LabelTVCell.reuseIdentifier)")
         }
 
-        labelTableViewCell.configure(text: text, font: font)
-        return labelTableViewCell
+        labelTVCell.configure(text: text, font: font)
+        return labelTVCell
     }
 
     private func getSwipableImageViewCell(in tableView: UITableView,
-                                          for indexPath: IndexPath) -> SwipableImageViewTableViewCell {
-        guard let swipableImageViewCell = tableView.dequeueReusableCell(
-            withIdentifier: SwipableImageViewTableViewCell.reuseIdentifier,
-            for: indexPath) as? SwipableImageViewTableViewCell else {
-            fatalError("Could not dequeue \(SwipableImageViewTableViewCell.reuseIdentifier)")
+                                          for indexPath: IndexPath) -> SwipableImageVTVCell {
+        guard let swipableImageVTVCell = tableView.dequeueReusableCell(
+            withIdentifier: SwipableImageVTVCell.reuseIdentifier,
+            for: indexPath) as? SwipableImageVTVCell else {
+            fatalError("Could not dequeue \(SwipableImageVTVCell.reuseIdentifier)")
         }
 
         let imageFileNames = Array(exercise.imageNames)
-        swipableImageViewCell.configure(imageFileNames: imageFileNames,
-                                        isUserMade: exercise.isUserMade)
-        return swipableImageViewCell
+        swipableImageVTVCell.configure(imageFileNames: imageFileNames,
+                                       isUserMade: exercise.isUserMade)
+        return swipableImageVTVCell
     }
 
     // MARK: - Helpers
@@ -126,7 +126,7 @@ extension ExercisePreviewDataModel {
 
         switch item {
         case .title:
-            cell = getTwoLabelsCell(in: tableView, for: indexPath)
+            cell = getTwoLabelsTVCell(in: tableView, for: indexPath)
         case .imagesTitle, .instructionsTitle, .tipsTitle:
             cell = getLabelCell(in: tableView,
                                 for: indexPath,
@@ -164,7 +164,7 @@ extension ExercisePreviewDataModel {
         switch item {
         case .images:
             return exercise.imageNames.isEmpty ?
-                UITableView.automaticDimension : Constants.swipableImageViewTableViewCellHeight
+                UITableView.automaticDimension : Constants.swipableImageVTVCellHeight
         default:
             return UITableView.automaticDimension
         }

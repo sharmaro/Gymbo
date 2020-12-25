@@ -88,72 +88,72 @@ extension CreateEditExerciseDataModel {
     }
 
     // MARK: - UITableViewCells
-    private func getLabelTableViewCell(in tableView: UITableView,
-                                       for indexPath: IndexPath,
-                                       item: TableItem) -> LabelTableViewCell {
-        guard let labelTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: LabelTableViewCell.reuseIdentifier,
-            for: indexPath) as? LabelTableViewCell else {
-            fatalError("Could not dequeue \(LabelTableViewCell.reuseIdentifier)")
+    private func getLabelTVCell(in tableView: UITableView,
+                                for indexPath: IndexPath,
+                                item: TableItem) -> LabelTVCell {
+        guard let labelTVCell = tableView.dequeueReusableCell(
+                withIdentifier: LabelTVCell.reuseIdentifier,
+                for: indexPath) as? LabelTVCell else {
+            fatalError("Could not dequeue \(LabelTVCell.reuseIdentifier)")
         }
 
-        labelTableViewCell.configure(text: item.rawValue, font: UIFont.large.medium)
-        return labelTableViewCell
+        labelTVCell.configure(text: item.rawValue, font: UIFont.large.medium)
+        return labelTVCell
     }
 
-    private func getTextFieldCell(in tableView: UITableView,
-                                  for indexPath: IndexPath) -> TextFieldTableViewCell {
-        guard let textFieldTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: TextFieldTableViewCell.reuseIdentifier,
-            for: indexPath) as? TextFieldTableViewCell else {
-            fatalError("Could not dequeue \(TextFieldTableViewCell.reuseIdentifier)")
+    private func getTextFieldTVCell(in tableView: UITableView,
+                                    for indexPath: IndexPath) -> TextFieldTVCell {
+        guard let textFieldTVCell = tableView.dequeueReusableCell(
+            withIdentifier: TextFieldTVCell.reuseIdentifier,
+            for: indexPath) as? TextFieldTVCell else {
+            fatalError("Could not dequeue \(TextFieldTVCell.reuseIdentifier)")
         }
 
-        textFieldTableViewCell.configure(text: exerciseName ?? (exercise.name ?? ""),
-                                         placeHolder: "Exercise name...")
-        return textFieldTableViewCell
+        textFieldTVCell.configure(text: exerciseName ?? (exercise.name ?? ""),
+                                  placeHolder: "Exercise name...")
+        return textFieldTVCell
     }
 
     private func getMultipleSelectionCell(in tableView: UITableView,
-                                          for indexPath: IndexPath) -> MultipleSelectionTableViewCell {
-        guard let multipleSelectionTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: MultipleSelectionTableViewCell.reuseIdentifier,
-            for: indexPath) as? MultipleSelectionTableViewCell else {
-            fatalError("Could not dequeue \(MultipleSelectionTableViewCell.reuseIdentifier)")
+                                          for indexPath: IndexPath) -> MultipleSelectionTVCell {
+        guard let multipleSelectionTVCell = tableView.dequeueReusableCell(
+                withIdentifier: MultipleSelectionTVCell.reuseIdentifier,
+                for: indexPath) as? MultipleSelectionTVCell else {
+            fatalError("Could not dequeue \(MultipleSelectionTVCell.reuseIdentifier)")
         }
 
         let selectedTitlesArray = (exercise.groups ?? "").components(separatedBy: ",").map {
             $0.capitalized.trimmingCharacters(in: .whitespaces)
         }
         let selectedGroups = groups ?? selectedTitlesArray
-        multipleSelectionTableViewCell.configure(titles: ExerciseDataModel().defaultExerciseGroups,
-                                                 selectedTitles: selectedGroups)
-        return multipleSelectionTableViewCell
+        multipleSelectionTVCell.configure(titles: ExerciseDataModel().defaultExerciseGroups,
+                                          selectedTitles: selectedGroups)
+        return multipleSelectionTVCell
     }
 
     private func getImagesCell(in tableView: UITableView,
-                               for indexPath: IndexPath) -> ImagesTableViewCell {
-        guard let imagesTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: ImagesTableViewCell.reuseIdentifier,
-            for: indexPath) as? ImagesTableViewCell else {
-            fatalError("Could not dequeue \(ImagesTableViewCell.reuseIdentifier)")
+                               for indexPath: IndexPath) -> ImagesTVCell {
+        guard let imagesTVCell = tableView.dequeueReusableCell(
+            withIdentifier: ImagesTVCell.reuseIdentifier,
+            for: indexPath) as? ImagesTVCell else {
+            fatalError("Could not dequeue \(ImagesTVCell.reuseIdentifier)")
         }
 
         let existingImages = getUIImageFromImageNames(list: exercise.imageNames)
         let defaultImage = UIImage(named: "add")
-        imagesTableViewCell.configure(existingImages: existingImages,
-                                      defaultImage: defaultImage,
-                                      type: .button)
-        return imagesTableViewCell
+        imagesTVCell.configure(existingImages: existingImages,
+                               defaultImage: defaultImage,
+                               type: .button)
+        return imagesTVCell
     }
 
     private func getTextViewCell(in tableView: UITableView,
                                  for indexPath: IndexPath,
-                                 item: TableItem) -> TextViewTableViewCell {
-        guard let textViewTableViewCell = tableView.dequeueReusableCell(
-            withIdentifier: TextViewTableViewCell.reuseIdentifier,
-            for: indexPath) as? TextViewTableViewCell else {
-            fatalError("Could not dequeue \(TextViewTableViewCell.reuseIdentifier)")
+                                 item: TableItem) -> TextViewTVCell {
+        guard let textViewTVCell = tableView.dequeueReusableCell(
+                withIdentifier: TextViewTVCell.reuseIdentifier,
+                for: indexPath) as? TextViewTVCell else {
+            fatalError("Could not dequeue \(TextViewTVCell.reuseIdentifier)")
         }
 
         let text: String
@@ -162,8 +162,8 @@ extension CreateEditExerciseDataModel {
         } else {
             text = tips ?? (exercise.tips ?? "")
         }
-        textViewTableViewCell.configure(text: text)
-        return textViewTableViewCell
+        textViewTVCell.configure(text: text)
+        return textViewTVCell
     }
 
     // MARK: - Helpers
@@ -206,9 +206,9 @@ extension CreateEditExerciseDataModel {
 
         switch item {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
-            cell = getLabelTableViewCell(in: tableView, for: indexPath, item: item)
+            cell = getLabelTVCell(in: tableView, for: indexPath, item: item)
         case .name:
-            cell = getTextFieldCell(in: tableView, for: indexPath)
+            cell = getTextFieldTVCell(in: tableView, for: indexPath)
         case .muscleGroups:
             cell = getMultipleSelectionCell(in: tableView, for: indexPath)
         case .images:
