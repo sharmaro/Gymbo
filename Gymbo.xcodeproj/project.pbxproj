@@ -335,7 +335,7 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
-		6929674022F9E0F800832C68 /* SecondaryViewControllers */ = {
+		6929674022F9E0F800832C68 /* SecondaryVCs */ = {
 			isa = PBXGroup;
 			children = (
 				69DAD81E247DF6860023E967 /* CreateEditExerciseTVC.swift */,
@@ -346,14 +346,14 @@
 				6965C212254BE76100A898AB /* SettingsTVC.swift */,
 				69695698245013C3007FADC2 /* StartSessionTVC.swift */,
 			);
-			path = SecondaryViewControllers;
+			path = SecondaryVCs;
 			sourceTree = "<group>";
 		};
 		692D981F22FE9E640032514D /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
-				699F889B251062600085267C /* UITableViewCells */,
-				699F889D251062750085267C /* UICollectionViewCells */,
+				699F889B251062600085267C /* UITVCells */,
+				699F889D251062750085267C /* UICVCells */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -403,10 +403,10 @@
 				695D4BEB22CB28B800E3FB1F /* LaunchScreen.storyboard */,
 				695D4BE222CB28B800E3FB1F /* AppDelegate.swift */,
 				69A39B2524C821A600ECEA25 /* Onboarding */,
-				695D4C0722D450A800E3FB1F /* MainViewControllers */,
-				6929674022F9E0F800832C68 /* SecondaryViewControllers */,
+				695D4C0722D450A800E3FB1F /* MainVCs */,
+				6929674022F9E0F800832C68 /* SecondaryVCs */,
 				692D981F22FE9E640032514D /* CustomCells */,
-				69659C0624039C460054F655 /* CustomViewControllers */,
+				69659C0624039C460054F655 /* CustomVCs */,
 				6901E4752387B4C20051D1B2 /* CustomViews */,
 				69507091249751FD00942078 /* Models */,
 				696A751F2361630300FA605F /* DataModels */,
@@ -419,7 +419,7 @@
 			path = Gymbo;
 			sourceTree = "<group>";
 		};
-		695D4C0722D450A800E3FB1F /* MainViewControllers */ = {
+		695D4C0722D450A800E3FB1F /* MainVCs */ = {
 			isa = PBXGroup;
 			children = (
 				695D4C0022D30B1D00E3FB1F /* MainTBC.swift */,
@@ -428,7 +428,7 @@
 				6962F35D244410AA00CB6DAE /* SessionsCVC.swift */,
 				695D4BFE22D30AFE00E3FB1F /* StopwatchVC.swift */,
 			);
-			path = MainViewControllers;
+			path = MainVCs;
 			sourceTree = "<group>";
 		};
 		695D4C0822D450CD00E3FB1F /* Helpers */ = {
@@ -453,14 +453,14 @@
 			name = WorkoutsData;
 			sourceTree = "<group>";
 		};
-		69659C0624039C460054F655 /* CustomViewControllers */ = {
+		69659C0624039C460054F655 /* CustomVCs */ = {
 			isa = PBXGroup;
 			children = (
 				69659C0724039C680054F655 /* AlertVC.swift */,
 				6956292C234463EF00E0AA96 /* ModalPresentationC.swift */,
 				6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */,
 			);
-			path = CustomViewControllers;
+			path = CustomVCs;
 			sourceTree = "<group>";
 		};
 		696A751F2361630300FA605F /* DataModels */ = {
@@ -581,7 +581,7 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		699F889B251062600085267C /* UITableViewCells */ = {
+		699F889B251062600085267C /* UITVCells */ = {
 			isa = PBXGroup;
 			children = (
 				69693CE4247D012A00E87133 /* ImagesTVCell.swift */,
@@ -598,16 +598,16 @@
 				69DAD820247E01580023E967 /* TextViewTVCell.swift */,
 				695E66B324C52E90004C06A4 /* TwoLabelsTVCell.swift */,
 			);
-			path = UITableViewCells;
+			path = UITVCells;
 			sourceTree = "<group>";
 		};
-		699F889D251062750085267C /* UICollectionViewCells */ = {
+		699F889D251062750085267C /* UICVCells */ = {
 			isa = PBXGroup;
 			children = (
 				69693CE8247D07CE00E87133 /* SelectionCVCell.swift */,
 				691054E6234301DD00E306F1 /* SessionsCVCell.swift */,
 			);
-			path = UICollectionViewCells;
+			path = UICVCells;
 			sourceTree = "<group>";
 		};
 		69A39B2524C821A600ECEA25 /* Onboarding */ = {
