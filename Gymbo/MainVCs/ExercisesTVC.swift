@@ -236,8 +236,7 @@ extension ExercisesTVC {
         createEditExerciseTVC.exerciseDataModelDelegate = self
         createEditExerciseTVC.setAlphaDelegate = self
 
-        let modalNavigationController = UINavigationController(
-            rootViewController: createEditExerciseTVC)
+        let modalNavigationController = MainNC(rootVC: createEditExerciseTVC)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self
@@ -379,8 +378,7 @@ extension ExercisesTVC {
 
             let exercise = exerciseDataModel.exercise(for: indexPath)
             let exercisePreviewTVC = ExercisePreviewTVC(exercise: exercise)
-            let modalNavigationController = UINavigationController(
-                rootViewController: exercisePreviewTVC)
+            let modalNavigationController = MainNC(rootVC: exercisePreviewTVC)
             modalNavigationController.modalPresentationStyle = .custom
             modalNavigationController.transitioningDelegate = self
             mainTBC?.present(modalNavigationController, animated: true)

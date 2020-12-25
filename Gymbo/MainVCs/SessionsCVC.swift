@@ -249,8 +249,7 @@ extension SessionsCVC {
         sessionPreviewVC.session = selectedSession
         sessionPreviewVC.sessionProgressDelegate = mainTBC
 
-        let modalNavigationController = UINavigationController(
-            rootViewController: sessionPreviewVC)
+        let modalNavigationController = MainNC(rootVC: sessionPreviewVC)
         present(modalNavigationController, animated: true)
     }
 }

@@ -26,6 +26,7 @@ class SelectionTVC: UITableViewController {
         fatalError("Not using storyboards")
     }
 }
+
 // MARK: - Structs/Enums
 extension SelectionTVC {
     private struct Constants {

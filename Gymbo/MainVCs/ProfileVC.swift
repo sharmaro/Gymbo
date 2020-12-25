@@ -117,7 +117,7 @@ extension ProfileVC {
         Haptic.sendSelectionFeedback()
 
         let settingsTVC = SettingsTVC(style: .grouped)
-        let navigationController = UINavigationController(rootViewController: settingsTVC)
+        let navigationController = MainNC(rootVC: settingsTVC)
         self.navigationController?.present(navigationController, animated: true)
     }
 }

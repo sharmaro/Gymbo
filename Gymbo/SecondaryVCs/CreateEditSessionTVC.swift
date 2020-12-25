@@ -236,8 +236,7 @@ extension CreateEditSessionTVC {
         exercisesTVC.presentationStyle = .modal
         exercisesTVC.exercisesDelegate = self
 
-        let modalNavigationController = UINavigationController(rootViewController:
-                                                                exercisesTVC)
+        let modalNavigationController = MainNC(rootVC: exercisesTVC)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.transitioningDelegate = self
         navigationController?.present(modalNavigationController, animated: true)

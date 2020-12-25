@@ -150,8 +150,7 @@ extension ExercisePreviewTVC {
         createEditExerciseTVC.exerciseState = .edit
         createEditExerciseTVC.exerciseDataModelDelegate = self
 
-        let modalNavigationController = UINavigationController(
-            rootViewController: createEditExerciseTVC)
+        let modalNavigationController = MainNC(rootVC: createEditExerciseTVC)
         modalNavigationController.modalPresentationStyle = .custom
         modalNavigationController.modalTransitionStyle = .crossDissolve
         modalNavigationController.transitioningDelegate = self

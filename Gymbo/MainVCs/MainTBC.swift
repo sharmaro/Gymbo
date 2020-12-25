@@ -124,7 +124,7 @@ extension MainTBC {
                            exercisesTVC,
                            sessionsCVC,
                            stopwatchVC].map {
-            UINavigationController(rootViewController: $0)
+            MainNC(rootVC: $0)
         }
         selectedIndex = selectedTab.rawValue
     }
@@ -175,8 +175,7 @@ extension MainTBC {
         // This allows startSessionViewController to extend over the bottom tab bar
         startSessionTVC.extendedLayoutIncludesOpaqueBars = true
 
-        let containerNavigationController = UINavigationController(
-            rootViewController: startSessionTVC)
+        let containerNavigationController = MainNC(rootVC: startSessionTVC)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
         containerNavigationController.view.addCorner(style: .small)
 
