@@ -14,7 +14,9 @@ class CreateEditSessionTableViewController: UITableViewController {
     private let tableHeaderView = SessionHeaderView()
     private var didLayoutTableHeaderView = false
 
-    private let realm = try? Realm()
+    private var realm: Realm? {
+        try? Realm()
+    }
 
     var session = Session()
     var sessionState = SessionState.create

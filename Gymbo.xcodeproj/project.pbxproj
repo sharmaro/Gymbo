@@ -21,7 +21,6 @@
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */; };
-		694E1E6E2595AF43000F8358 /* RealmInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E1E6D2595AF43000F8358 /* RealmInstance.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
 		695070952497525E00942078 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070942497525E00942078 /* SessionsList.swift */; };
 		695070972497528200942078 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070962497528200942078 /* Exercise.swift */; };
@@ -169,7 +168,6 @@
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewViewController.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTableViewController.swift; sourceTree = "<group>"; };
-		694E1E6D2595AF43000F8358 /* RealmInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmInstance.swift; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		695070942497525E00942078 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
 		695070962497528200942078 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -370,7 +368,6 @@
 				6972E412249F2A0000479E91 /* ExerciseHeaderTableViewCellModel.swift */,
 				69507098249752A300942078 /* ExercisesList.swift */,
 				6914053A2595C6BD00DED7C7 /* RealmIndexPath.swift */,
-				694E1E6D2595AF43000F8358 /* RealmInstance.swift */,
 				695070922497522400942078 /* Session.swift */,
 				6972E422249F2CF100479E91 /* SessionHeaderViewModel.swift */,
 				6972E418249F2ABC00479E91 /* SessionsCollectionViewCellModel.swift */,
@@ -833,7 +830,6 @@
 				69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationController.swift in Sources */,
 				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
-				694E1E6E2595AF43000F8358 /* RealmInstance.swift in Sources */,
 				69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */,
