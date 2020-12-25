@@ -151,9 +151,9 @@ extension ExerciseHeaderTVCell: ViewAdding {
 
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
-            nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -2),
+            nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
             nameLabel.heightAnchor.constraint(equalToConstant: 22),
 
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),

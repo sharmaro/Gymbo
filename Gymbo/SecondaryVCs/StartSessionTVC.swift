@@ -83,7 +83,7 @@ private extension StartSessionTVC {
 
         static let characterLimit = 5
 
-        static let exerciseHeaderCellHeight = CGFloat(59)
+        static let exerciseHeaderCellHeight = CGFloat(67)
         static let exerciseDetailCellHeight = CGFloat(40)
         static let buttonCellHeight = CGFloat(65)
         static let tableFooterViewHeight = CGFloat(120)

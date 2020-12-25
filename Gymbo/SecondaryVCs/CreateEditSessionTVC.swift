@@ -30,7 +30,7 @@ class CreateEditSessionTVC: UITableViewController {
 // MARK: - Structs/Enums
 private extension CreateEditSessionTVC {
     struct Constants {
-        static let exerciseHeaderCellHeight = CGFloat(59)
+        static let exerciseHeaderCellHeight = CGFloat(67)
         static let exerciseDetailCellHeight = CGFloat(40)
         static let buttonCellHeight = CGFloat(65)
 

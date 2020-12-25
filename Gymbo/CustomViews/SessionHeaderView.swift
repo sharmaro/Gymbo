@@ -98,11 +98,11 @@ extension SessionHeaderView: ViewAdding {
     func addConstraints() {
         NSLayoutConstraint.activate([
             firstTextView.topAnchor.constraint(equalTo: topAnchor),
-            firstTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            firstTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             firstTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             firstTextView.bottomAnchor.constraint(equalTo: secondTextView.topAnchor),
 
-            secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             secondTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
         ])
