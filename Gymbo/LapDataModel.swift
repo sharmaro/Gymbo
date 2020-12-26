@@ -17,8 +17,8 @@ struct LapDataModel {
 }
 
 // MARK: - Structs/Enums
-extension LapDataModel {
-    private struct Constants {
+private extension LapDataModel {
+    struct Constants {
         static let cellHeight = CGFloat(50)
     }
 }

@@ -119,8 +119,8 @@ final class ModalPresentationC: UIPresentationController {
 }
 
 // MARK: - Structs/Enums
-extension ModalPresentationC {
-    private struct Constants {
+private extension ModalPresentationC {
+    struct Constants {
         static let animationDuration = TimeInterval(0.4)
         static let delayDuration = TimeInterval(0)
 

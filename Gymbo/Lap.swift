@@ -9,6 +9,7 @@
 import Foundation
 
 // Codable is for encoding/decoding
+// MARK: - Properties
 //swiftlint:disable:next type_name
 struct Lap: Codable {
     var minutes: Int

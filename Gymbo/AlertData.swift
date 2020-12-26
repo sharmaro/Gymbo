@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - Properties
 struct AlertData {
     var title: String?
     var content: String?

@@ -12,6 +12,11 @@ import UIKit
 class MainNC: UINavigationController {
     weak var rootVC: UIViewController?
 
+    init() {
+        self.rootVC = nil
+        super.init(rootViewController: UIViewController())
+    }
+
     init(rootVC: UIViewController) {
         self.rootVC = rootVC
         super.init(rootViewController: rootVC)
@@ -23,8 +28,8 @@ class MainNC: UINavigationController {
 }
 
 // MARK: - Structs/Enums
-extension MainNC {
-    private struct Constants {
+private extension MainNC {
+    struct Constants {
     }
 }
 

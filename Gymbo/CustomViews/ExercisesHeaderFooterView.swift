@@ -32,8 +32,8 @@ class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
 }
 
 // MARK: - Structs/Enums
-extension ExercisesHeaderFooterView {
-    private struct Constants {
+private extension ExercisesHeaderFooterView {
+    struct Constants {
         static var dividerHeight = CGFloat(0.2)
     }
 }

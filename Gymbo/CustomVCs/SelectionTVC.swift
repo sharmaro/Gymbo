@@ -28,8 +28,8 @@ class SelectionTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-extension SelectionTVC {
-    private struct Constants {
+private extension SelectionTVC {
+    struct Constants {
         static let labelTVCellHeight = CGFloat(70)
     }
 }

@@ -8,6 +8,7 @@
 
 import RealmSwift
 
+// MARK: - Properties
 @objcMembers class Exercise: Object {
     // Exercise information
     dynamic var name: String?

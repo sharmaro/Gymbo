@@ -2,7 +2,7 @@
 //  OnboardingVC.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 7/23/20.
+//  Created by Rohan Sharma on 12/25/20.
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
@@ -10,49 +10,59 @@ import UIKit
 
 // MARK: - Properties
 class OnboardingVC: UIViewController {
-    private let titleLabel: UILabel = {
-         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle).bold
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
+    private var arrowImageView: UIImageView = {
+        let size = CGSize(width: 100, height: 100)
+        let origin = CGPoint(x: -size.width, y: -size.height)
+        let imageView = UIImageView(frame: CGRect(origin: origin,
+                                                  size: size))
+        let image = UIImage(named: "pointer_arrow")?
+            .withRenderingMode(.alwaysTemplate)
+        imageView.image = image
         imageView.contentMode = .scaleToFill
+        imageView.tintColor = .systemRed
         return imageView
     }()
 
-    private let infoLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
-        label.font = .xLarge
-        return label
+    private var infoTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .normal
+        textView.textColor = .white
+        textView.textAlignment = .center
+        textView.textContainer.lineBreakMode = .byWordWrapping
+        textView.backgroundColor = .black
+        textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = false
+        textView.addCorner(style: .small)
+        textView.addBorder(color: .darkGray)
+        return textView
     }()
 
-    private var onboardingPage: OnboardingPage
+    private var continueButton: CustomButton = {
+        let button = CustomButton(frame: CGRect(
+                                    origin: CGPoint(x: -100,
+                                                    y: -45),
+                                    size: CGSize(width: 100,
+                                                 height: 45)))
+        button.title = "Next"
+        button.titleLabel?.textAlignment = .center
+        button.set(backgroundColor: .systemGreen)
+        button.addCorner(style: .small)
+        return button
+    }()
 
-    private var imageViewTopConstraint: NSLayoutConstraint?
-    private var infoLabelBottomConstraint: NSLayoutConstraint?
+    private var onboardingStepIndex = -1
+    private let onboardingSteps = OnboardingStep.defaultOrder
 
-    init(_ onboardingPage: OnboardingPage) {
-        self.onboardingPage = onboardingPage
-        super.init(nibName: nil, bundle: nil)
+    private var currentOnboardingStep: OnboardingStep {
+        onboardingSteps[onboardingStepIndex]
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("Not using storyboards")
-    }
-}
-
-// MARK: - Structs/Enums
-extension OnboardingVC {
-    private struct Constants {
-        static var titleLabelHeight = CGFloat(41)
+    private var windowMainTBC: MainTBC? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+              let mainTBC = appDelegate.window?.rootViewController as? MainTBC else {
+            return nil
+        }
+        return mainTBC
     }
 }
 
@@ -64,40 +74,36 @@ extension OnboardingVC {
         addViews()
         setupViews()
         setupColors()
-        addConstraints()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        guard onboardingPage != .welcome,
-            onboardingPage != .finish else {
-            return
-        }
-
-        imageView.alpha = 0
-        infoLabel.alpha = 0
-
-        imageViewTopConstraint?.constant = view.frame.height
-        infoLabelBottomConstraint?.isActive = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        guard onboardingPage != .welcome,
-            onboardingPage != .finish else {
-            return
+        let leftButtonAction: (() -> Void)? = { [weak self] in
+            DispatchQueue.main.async {
+                self?.dismiss(animated: true) {
+                    User.firstTimeLoadComplete()
+                }
+            }
         }
 
-        imageViewTopConstraint?.constant = 20
-        infoLabelBottomConstraint?.isActive = true
-
-        UIView.animate(withDuration: 0.4) {
-            self.imageView.alpha = 1
-            self.infoLabel.alpha = 1
-            self.view.layoutIfNeeded()
+        let rightButtonAction: (() -> Void)? = { [weak self] in
+            DispatchQueue.main.async {
+                self?.view.backgroundColor = UIColor
+                    .dynamicBlack.withAlphaComponent(0.3)
+                UIView.animate(withDuration: .defaultAnimationTime) {
+                    self?.view.alpha = 1
+                } completion: { _ in
+                    self?.implementStep()
+                }
+            }
         }
+        presentCustomAlert(alertData: AlertData(title: "Tour",
+                                                content: "Hi there! Would you like to take a quick tour?",
+                                                leftButtonTitle: "No thanks",
+                                                rightButtonTitle: "Sounds good",
+                                                leftButtonAction: leftButtonAction,
+                                                rightButtonAction: rightButtonAction))
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -110,78 +116,109 @@ extension OnboardingVC {
 // MARK: - ViewAdding
 extension OnboardingVC: ViewAdding {
     func addViews() {
-        view.add(subviews: [titleLabel, imageView, infoLabel])
+        view.addSubview(arrowImageView)
+        view.addSubview(infoTextView)
+        view.addSubview(continueButton)
     }
 
     func setupViews() {
-        titleLabel.text = onboardingPage.rawValue
-        imageView.image = onboardingPage.image
-        infoLabel.text = onboardingPage.info
+        view.backgroundColor = .clear
+        view.alpha = 0
+
+        continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
-        titleLabel.textColor = .dynamicBlack
-        infoLabel.textColor = .dynamicDarkGray
+        view.backgroundColor = view.backgroundColor
+        continueButton.set(backgroundColor: .systemGreen)
+    }
+}
+
+// MARK: - Funcs
+extension OnboardingVC {
+    private func implementStep() {
+        onboardingStepIndex += 1
+
+        if onboardingStepIndex < onboardingSteps.count {
+            moveViews(with: currentOnboardingStep.data)
+        } else {
+            windowMainTBC?.selectedIndex = 2
+            User.firstTimeLoadComplete()
+            dismiss(animated: true)
+        }
     }
 
-    //swiftlint:disable:next function_body_length
-    func addConstraints() {
-        if onboardingPage == .welcome || onboardingPage == .finish {
-            titleLabel.textAlignment = .center
-            NSLayoutConstraint.activate([
-                titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-                titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
-
-                infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                    constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                    constant: -20),
-                infoLabel.heightAnchor.constraint(equalToConstant: 100)
-            ])
-        } else {
-            imageViewTopConstraint = imageView.topAnchor.constraint(
-                equalTo: titleLabel.bottomAnchor,
-                constant: view.frame.height)
-            imageViewTopConstraint?.isActive = true
-
-            infoLabelBottomConstraint =
-                infoLabel.safeAreaLayoutGuide.bottomAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                    constant: -40)
-
-            NSLayoutConstraint.activate([
-                titleLabel.safeAreaLayoutGuide.topAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.topAnchor,
-                    constant: 20),
-                titleLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                    constant: 20),
-                titleLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                    constant: -20),
-                titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleLabelHeight),
-
-                imageView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                    constant: 20),
-                imageView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                    constant: -20),
-                imageView.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -20),
-
-                infoLabel.safeAreaLayoutGuide.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                    constant: 20),
-                infoLabel.safeAreaLayoutGuide.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                    constant: -20),
-                infoLabel.heightAnchor.constraint(equalToConstant: 100)
-            ])
+    private func moveViews(with stepData: OnboardingStepData) {
+        DispatchQueue.main.async { [weak self] in
+            UIView.animate(withDuration: .defaultAnimationTime) {
+                self?.moveArrowImageView(with: stepData)
+                self?.moveInfoTextView(with: stepData)
+                self?.moveContinueButton(with: stepData)
+            } completion: { _ in
+                self?.selectTab()
+            }
         }
+    }
+
+    private func moveArrowImageView(with stepData: OnboardingStepData) {
+        arrowImageView.frame.origin = stepData.imageOrigin
+        arrowImageView.transform = arrowImageView
+            .transform.rotated(by: stepData.transformAngle)
+    }
+
+    private func moveInfoTextView(with stepData: OnboardingStepData) {
+        infoTextView.frame.size.width = arrowImageView.frame.width
+        infoTextView.text = stepData.textViewText
+        infoTextView.sizeToFit()
+        let textViewOriginX = stepData.imageOrigin.x
+        let textViewOriginY: CGFloat
+        if stepData.arrowOnTop {
+            textViewOriginY = stepData.imageOrigin.y +
+                              arrowImageView.frame.height
+        } else {
+            textViewOriginY = stepData.imageOrigin.y -
+                              infoTextView.frame.height
+        }
+        infoTextView.frame.origin = CGPoint(x: textViewOriginX,
+                                            y: textViewOriginY)
+    }
+
+    private func moveContinueButton(with stepData: OnboardingStepData) {
+        let continueButtonX = infoTextView.frame.origin.x
+        let continueButtonY: CGFloat
+        if stepData.arrowOnTop {
+            continueButtonY = infoTextView.frame.origin.y +
+                              infoTextView.frame.height + 1
+        } else {
+            continueButtonY = infoTextView.frame.origin.y -
+                              continueButton.frame.height - 1
+        }
+        continueButton.frame.origin = CGPoint(x: continueButtonX,
+                                              y: continueButtonY)
+        continueButton.frame.size.width = arrowImageView.frame.width
+        let buttonTitle = stepData.continueButtonText
+        continueButton.setTitle(buttonTitle, for: .normal)
+    }
+
+    private func selectTab() {
+        let index: Int
+        switch currentOnboardingStep {
+        case .profileTab:
+            index = 0
+        case .exercisesTab:
+            index = 1
+        case .sessionsTab:
+            index = 2
+        case .stopwatchTab:
+            index = 3
+        default:
+            return
+        }
+        windowMainTBC?.selectedIndex = index
+    }
+
+    @objc private func continueButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
+        implementStep()
     }
 }

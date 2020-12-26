@@ -8,6 +8,7 @@
 
 import RealmSwift
 
+// MARK: - Properties
 @objcMembers class Session: Object {
     dynamic var name: String?
     dynamic var info: String?

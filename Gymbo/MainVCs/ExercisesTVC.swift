@@ -37,8 +37,8 @@ class ExercisesTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-extension ExercisesTVC {
-    private struct Constants {
+private extension ExercisesTVC {
+    struct Constants {
         static let addExerciseButtonHeight = CGFloat(45)
         static let exerciseCellHeight = CGFloat(70)
         static let sessionStartedConstraintConstant = CGFloat(-64)
@@ -129,8 +129,6 @@ extension ExercisesTVC: ViewAdding {
     }
 
     func setupViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive

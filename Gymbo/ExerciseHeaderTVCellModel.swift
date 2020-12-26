@@ -6,6 +6,7 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
+// MARK: - Properties
 struct ExerciseHeaderTVCellModel {
     var name: String?
     var weightType: Int?

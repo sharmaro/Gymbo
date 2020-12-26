@@ -155,11 +155,13 @@ extension AlertVC: ViewAdding {
 // MARK: - Funcs
 extension AlertVC {
     @objc private func leftButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
         alertData.leftButtonAction?()
     }
 
     @objc private func rightButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
         dismiss(animated: true)
         alertData.rightButtonAction?()
     }

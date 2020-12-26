@@ -103,9 +103,9 @@ private extension StopwatchVC {
     }
 
     enum StopwatchState: Int {
-        case initial = 0
-        case stopped = 1
-        case started = 2
+        case initial
+        case stopped
+        case started
     }
 }
 

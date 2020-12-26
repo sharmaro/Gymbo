@@ -37,8 +37,8 @@ class ProfileVC: UIViewController {
 }
 
 // MARK: - Structs/Enums
-extension ProfileVC {
-    private struct Constants {
+private extension ProfileVC {
+    struct Constants {
     }
 }
 

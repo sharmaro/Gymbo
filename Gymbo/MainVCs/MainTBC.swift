@@ -13,20 +13,21 @@ import RealmSwift
 class MainTBC: UITabBarController {
     var isSessionInProgress = false
 
-    private var selectedTab = Tabs.sessions
+    private var selectedTab = Tab.sessions
 
     private var isReplacingSession = false
     private var sessionToReplace: Session?
 }
 
 // MARK: - Structs/Enums
-private extension MainTBC {
-    struct Constants {
+extension MainTBC {
+    private struct Constants {
         static let defaultYOffset = CGFloat(60)
     }
 
-    enum Tabs: Int {
-        case profile = 0
+    //swiftlint:disable:next type_name
+    enum Tab: Int {
+        case profile
         case exercises
         case sessions
         case stopwatch
@@ -87,6 +88,8 @@ extension MainTBC {
 // MARK: - Funcs
 extension MainTBC {
     private func setupTabBar() {
+        delegate = self
+
         tabBar.backgroundColor = .dynamicWhite
         tabBar.barTintColor = .dynamicWhite
         // Color of selected item
@@ -95,13 +98,13 @@ extension MainTBC {
         tabBar.backgroundImage = UIImage()
 
         let profileVC = ProfileVC()
-        let profileTab = Tabs.profile
+        let profileTab = Tab.profile
         profileVC.tabBarItem = UITabBarItem(title: profileTab.title,
                                             image: profileTab.image,
                                             tag: profileTab.rawValue)
 
         let exercisesTVC = ExercisesTVC(style: .grouped)
-        let exercisesTab = Tabs.exercises
+        let exercisesTab = Tab.exercises
         exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
                                                image: exercisesTab.image,
                                                tag: exercisesTab.rawValue)
@@ -109,13 +112,13 @@ extension MainTBC {
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: UICollectionViewFlowLayout())
-        let sessionsTab = Tabs.sessions
+        let sessionsTab = Tab.sessions
         sessionsCVC.tabBarItem = UITabBarItem(title: sessionsTab.title,
                                               image: sessionsTab.image,
                                               tag: sessionsTab.rawValue)
 
         let stopwatchVC = StopwatchVC()
-        let stopwatchTab = Tabs.stopwatch
+        let stopwatchTab = Tab.stopwatch
         stopwatchVC.tabBarItem = UITabBarItem(title: stopwatchTab.title,
                                               image: stopwatchTab.image,
                                               tag: stopwatchTab.rawValue)
@@ -131,10 +134,10 @@ extension MainTBC {
 
     private func showOnboardingIfNeeded() {
         if User.isFirstTimeLoad {
-            let onboardingPageVC = OnboardingPageVC(
-                transitionStyle: .scroll,
-                navigationOrientation: .horizontal)
-            present(onboardingPageVC, animated: true)
+            let onboardingVC = OnboardingVC()
+            onboardingVC.modalPresentationStyle = .overCurrentContext
+            onboardingVC.modalTransitionStyle = .crossDissolve
+            present(onboardingVC, animated: true)
         }
     }
 
@@ -254,5 +257,13 @@ extension MainTBC: SessionProgressDelegate {
         } else {
             updateSessionProgressObservingViewControllers(state: .end)
         }
+    }
+}
+
+// MARK: - UITabBarControllerDelegate
+extension MainTBC: UITabBarControllerDelegate {
+    public func tabBarController(_ tabBarController: UITabBarController,
+                                 didSelect viewController: UIViewController) {
+        selectedTab = Tab(rawValue: selectedIndex) ?? .sessions
     }
 }

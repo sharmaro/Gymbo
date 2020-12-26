@@ -8,6 +8,7 @@
 
 import RealmSwift
 
+// MARK: - Properties
 @objcMembers class RealmIndexPath: Object {
     dynamic var section: String?
     dynamic var row: String?

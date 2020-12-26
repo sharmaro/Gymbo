@@ -6,6 +6,7 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
+// MARK: - Properties
 struct ExerciseDetailTVCellModel {
     var sets: String?
     var last: String?

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Properties
 struct SessionHeaderViewModel {
     var firstText: String?
     var secondText: String?
