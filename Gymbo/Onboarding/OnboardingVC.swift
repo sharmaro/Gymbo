@@ -26,14 +26,14 @@ class OnboardingVC: UIViewController {
     private var infoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .normal
-        textView.textColor = .white
+        textView.textColor = .dynamicBlack
         textView.textAlignment = .center
         textView.textContainer.lineBreakMode = .byWordWrapping
-        textView.backgroundColor = .black
+        textView.backgroundColor = .customLightBlue
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.addCorner(style: .small)
-        textView.addBorder(color: .darkGray)
+        textView.addBorder(color: .dynamicBlack)
         return textView
     }()
 
@@ -44,6 +44,7 @@ class OnboardingVC: UIViewController {
                                     size: CGSize(width: 100,
                                                  height: 45)))
         button.title = "Next"
+        button.titleColor = .dynamicBlack
         button.titleLabel?.textAlignment = .center
         button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
@@ -130,7 +131,9 @@ extension OnboardingVC: ViewAdding {
 
     func setupColors() {
         view.backgroundColor = view.backgroundColor
-        continueButton.set(backgroundColor: .systemGreen)
+        infoTextView.layer.borderColor = UIColor.dynamicBlack.cgColor
+        infoTextView.textColor = .dynamicBlack
+        continueButton.titleColor = .dynamicBlack
     }
 }
 
