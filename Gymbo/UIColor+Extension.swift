@@ -49,6 +49,7 @@ extension UIColor {
 
     // Normal
     static let customBlue = UIColor(rgb: 0x1565C0)
+    static let customOrange = UIColor(rgb: 0xFF7400)
 
     // Light
     static let customLightGray = UIColor(rgb: 0xBDC3C7)

@@ -19,7 +19,7 @@ class OnboardingVC: UIViewController {
             .withRenderingMode(.alwaysTemplate)
         imageView.image = image
         imageView.contentMode = .scaleToFill
-        imageView.tintColor = .systemRed
+        imageView.tintColor = .customOrange
         return imageView
     }()
 
