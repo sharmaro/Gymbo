@@ -487,7 +487,7 @@ extension StartSessionTVC {
                 }
             }
             DispatchQueue.main.async {
-                self?.dismissAsChildViewController()
+                self?.dismissAsChildViewController(endType: .finish)
             }
         }
         let alertData = AlertData(title: "Finish Session",
@@ -512,7 +512,7 @@ extension StartSessionTVC {
         }
     }
 
-    @objc func dismissAsChildViewController() {
+    @objc func dismissAsChildViewController(endType: EndType) {
         if let startedSession = realm?.objects(StartedSession.self).first {
             try? realm?.write {
                 realm?.delete(startedSession)
@@ -534,7 +534,7 @@ extension StartSessionTVC {
             navigationController.mainTBC?.tabBar.frame = defaultTabBarFrame
         }) { [weak self] (finished) in
             if finished {
-                self?.sessionProgresssDelegate?.sessionDidEnd(self?.session)
+                self?.sessionProgresssDelegate?.sessionDidEnd(self?.session, endType: endType)
                 self?.cleanupProperties()
                 self?.childDismissal()
             }
@@ -872,7 +872,7 @@ extension StartSessionTVC: StartSessionButtonDelegate {
         let rightButtonAction = { [weak self] in
             Haptic.sendImpactFeedback(.heavy)
             DispatchQueue.main.async {
-                self?.dismissAsChildViewController()
+                self?.dismissAsChildViewController(endType: .cancel)
             }
         }
         let alertData = AlertData(title: "Cancel Session",

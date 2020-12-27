@@ -515,7 +515,7 @@ extension StopwatchVC: SessionProgressDelegate {
         renewConstraints()
     }
 
-    func sessionDidEnd(_ session: Session?) {
+    func sessionDidEnd(_ session: Session?, endType: EndType) {
         renewConstraints()
     }
 }

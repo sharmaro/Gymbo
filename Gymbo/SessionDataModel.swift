@@ -44,7 +44,7 @@ extension SessionDataModel {
         dataFetchDelegate?.didBeginFetch()
 
         // Add a sample session for first time downloads
-        if User.isFirstTimeLoad {
+        if UserDataModel.shared.isFirstTimeLoad {
             let sampleExercise = Exercise(name: "Sample Exercise",
                                           groups: "sample groups",
                                           instructions: "Sample Instructions",

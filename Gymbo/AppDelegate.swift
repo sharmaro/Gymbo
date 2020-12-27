@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
         setupUserInterfaceMode()
+        loadUser()
         loadExercises()
 
         return true
@@ -105,7 +106,11 @@ extension AppDelegate {
         UserInterfaceMode.setUserInterfaceMode(with: .currentMode)
     }
 
+    private func loadUser() {
+        UserDataModel.shared.loadUser()
+    }
+
     private func loadExercises() {
-        ExerciseDataModel.shared.fetchData()
+        ExerciseDataModel.shared.loadExercises()
     }
 }

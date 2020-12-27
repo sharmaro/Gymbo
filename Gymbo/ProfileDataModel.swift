@@ -25,10 +25,7 @@ extension ProfileDataModel {
         case none
 
         var height: CGFloat {
-//            switch self {
-//            case .:
-//            }
-            return 0
+            0
         }
     }
 }
@@ -69,14 +66,6 @@ extension ProfileDataModel {
         guard validateSection(section: indexPath.section) else {
             fatalError("Section is greater than tableItem.count of \(tableItems.count)")
         }
-
-//        let cell: UITableViewCell
-//        let item = tableItems[indexPath.section][indexPath.row]
-//
-//        switch item {
-//        case .:
-//        }
-//        return cell
         return UITableViewCell()
     }
 

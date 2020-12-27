@@ -8,5 +8,5 @@
 
 protocol SessionProgressDelegate: class {
     func sessionDidStart(_ session: Session?)
-    func sessionDidEnd(_ session: Session?)
+    func sessionDidEnd(_ session: Session?, endType: EndType)
 }

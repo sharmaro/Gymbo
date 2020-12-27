@@ -28,8 +28,6 @@ class ExerciseDataModel: NSObject {
     var sectionTitles: [String] {
         Array(self.realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
     }
-
-    weak var dataFetchDelegate: DataFetchDelegate?
 }
 
 // MARK: - Structs/Enums
@@ -48,11 +46,7 @@ private extension ExerciseDataModel {
 
 // MARK: - Funcs
 extension ExerciseDataModel {
-    func fetchData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.dataFetchDelegate?.didBeginFetch()
-        }
-
+    func loadExercises() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
 
@@ -178,9 +172,7 @@ extension ExerciseDataModel {
                 guard let mainThreadExercises = self?.realm?.resolve(threadSafeExercises) else {
                     return
                 }
-
                 self?.exercises = Array(mainThreadExercises)
-                self?.dataFetchDelegate?.didEndFetch()
             }
         }
     }

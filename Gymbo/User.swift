@@ -6,27 +6,25 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import Foundation
+import RealmSwift
 
 // MARK: - Properties
-struct User {
-}
+@objcMembers class User: Object {
+    dynamic var isFirstTimeLoad = true
+    let canceledExercises = List<Exercise>()
+    let finishedExercises = List<Exercise>()
 
-// MARK: - Funcs
-extension User {
-    static var isFirstTimeLoad: Bool {
-        (UserDefaults.standard.object(forKey: UserDefaultKeys.IS_FIRST_TIME_LOAD) as? Bool) ?? true
-    }
+    convenience init(isFirstTimeLoad: Bool = true,
+                     canceledExercises: List<Exercise> = List<Exercise>(),
+                     finishedExercises: List<Exercise> = List<Exercise>()) {
+        self.init()
 
-    static func firstTimeLoadComplete() {
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.IS_FIRST_TIME_LOAD)
-    }
+        for exercise in canceledExercises {
+            self.canceledExercises.append(exercise)
+        }
 
-    static var isFirstTimeExercisesLoad: Bool {
-        (UserDefaults.standard.object(forKey: UserDefaultKeys.IS_EXERCISES_FIRST_TIME_LOAD) as? Bool) ?? true
-    }
-
-    static func firstTimeExercisesLoadComplete() {
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.IS_EXERCISES_FIRST_TIME_LOAD)
+        for exercise in finishedExercises {
+            self.finishedExercises.append(exercise)
+        }
     }
 }

@@ -17,6 +17,10 @@ class MainTBC: UITabBarController {
 
     private var isReplacingSession = false
     private var sessionToReplace: Session?
+
+    private var realm: Realm? {
+        try? Realm()
+    }
 }
 
 // MARK: - Structs/Enums
@@ -28,8 +32,9 @@ extension MainTBC {
     //swiftlint:disable:next type_name
     enum Tab: Int {
         case profile
-        case exercises
+        case dashboard
         case sessions
+        case exercises
         case stopwatch
 
         var title: String {
@@ -37,10 +42,12 @@ extension MainTBC {
             switch self {
             case .profile:
                 text = "Profile"
-            case .exercises:
-                text = "My Exercises"
+            case .dashboard:
+                text = "Dashboard"
             case .sessions:
                 text = "Sessions"
+            case .exercises:
+                text = "My Exercises"
             case .stopwatch:
                 text = "Stopwatch"
             }
@@ -52,10 +59,12 @@ extension MainTBC {
             switch self {
             case .profile:
                 imageName = "profile"
-            case .exercises:
-                imageName = "my_exercises"
+            case .dashboard:
+                imageName = "dashboard"
             case .sessions:
                 imageName = "dumbbell"
+            case .exercises:
+                imageName = "my_exercises"
             case .stopwatch:
                 imageName = "stopwatch"
             }
@@ -103,11 +112,12 @@ extension MainTBC {
                                             image: profileTab.image,
                                             tag: profileTab.rawValue)
 
-        let exercisesTVC = ExercisesTVC(style: .grouped)
-        let exercisesTab = Tab.exercises
-        exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
-                                               image: exercisesTab.image,
-                                               tag: exercisesTab.rawValue)
+        let dashboardCVC = DashboardCVC(
+            collectionViewLayout: UICollectionViewFlowLayout())
+        let dashboardTab = Tab.dashboard
+        dashboardCVC.tabBarItem = UITabBarItem(title: dashboardTab.title,
+                                              image: dashboardTab.image,
+                                              tag: dashboardTab.rawValue)
 
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let sessionsCVC = SessionsCVC(
@@ -117,6 +127,12 @@ extension MainTBC {
                                               image: sessionsTab.image,
                                               tag: sessionsTab.rawValue)
 
+        let exercisesTVC = ExercisesTVC(style: .grouped)
+        let exercisesTab = Tab.exercises
+        exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
+                                               image: exercisesTab.image,
+                                               tag: exercisesTab.rawValue)
+
         let stopwatchVC = StopwatchVC()
         let stopwatchTab = Tab.stopwatch
         stopwatchVC.tabBarItem = UITabBarItem(title: stopwatchTab.title,
@@ -124,8 +140,9 @@ extension MainTBC {
                                               tag: stopwatchTab.rawValue)
 
         viewControllers = [profileVC,
-                           exercisesTVC,
+                           dashboardCVC,
                            sessionsCVC,
+                           exercisesTVC,
                            stopwatchVC].map {
             MainNC(rootVC: $0)
         }
@@ -133,7 +150,7 @@ extension MainTBC {
     }
 
     private func showOnboardingIfNeeded() {
-        if User.isFirstTimeLoad {
+        if UserDataModel.shared.isFirstTimeLoad {
             let onboardingVC = OnboardingVC()
             onboardingVC.modalPresentationStyle = .overCurrentContext
             onboardingVC.modalTransitionStyle = .crossDissolve
@@ -141,7 +158,8 @@ extension MainTBC {
         }
     }
 
-    private func updateSessionProgressObservingViewControllers(state: SessionState) {
+    private func updateSessionProgressObservingViewControllers(state: SessionState,
+                                                               endType: EndType = .cancel) {
         viewControllers?.forEach {
             if let viewControllers = ($0 as? UINavigationController)?.viewControllers,
                let viewController = viewControllers.first as? SessionProgressDelegate {
@@ -149,7 +167,7 @@ extension MainTBC {
                 case .start:
                     viewController.sessionDidStart(nil)
                 case .end:
-                    viewController.sessionDidEnd(nil)
+                    viewController.sessionDidEnd(nil, endType: endType)
                 }
             }
         }
@@ -207,7 +225,6 @@ extension MainTBC {
     }
 
     private func resumeStartedSession() {
-        let realm = try? Realm()
         guard let startedSession = realm?.objects(StartedSession.self).first else {
             return
         }
@@ -216,6 +233,25 @@ extension MainTBC {
                                      info: startedSession.info,
                                      exercises: startedSession.exercises)
         startSession(sessionToStart)
+    }
+
+    private func saveCompletedSessionData(session: Session?, endType: EndType) {
+        guard let session = session else {
+            return
+        }
+
+        switch endType {
+        case .cancel:
+            try? realm?.write {
+                UserDataModel.shared.user?
+                    .canceledExercises.append(objectsIn: session.exercises)
+            }
+        case .finish:
+            try? realm?.write {
+                UserDataModel.shared.user?
+                    .finishedExercises.append(objectsIn: session.exercises)
+            }
+        }
     }
 }
 
@@ -239,7 +275,8 @@ extension MainTBC: SessionProgressDelegate {
                                         self?.sessionToReplace = session
 
                                         DispatchQueue.main.async {
-                                            startSessionTVC.dismissAsChildViewController()
+                                            startSessionTVC.dismissAsChildViewController(
+                                                endType: .cancel)
                                         }
                                       })
             presentCustomAlert(alertData: alertData)
@@ -248,14 +285,18 @@ extension MainTBC: SessionProgressDelegate {
         }
     }
 
-    func sessionDidEnd(_ session: Session?) {
+    func sessionDidEnd(_ session: Session?, endType: EndType) {
         isSessionInProgress = false
+
+        saveCompletedSessionData(session: session,
+                                 endType: endType)
 
         if isReplacingSession, sessionToReplace != nil {
             isReplacingSession = false
             startSession(sessionToReplace)
         } else {
-            updateSessionProgressObservingViewControllers(state: .end)
+            updateSessionProgressObservingViewControllers(state: .end,
+                                                          endType: endType)
         }
     }
 }

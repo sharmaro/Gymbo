@@ -381,7 +381,7 @@ extension SessionsCVC: SessionProgressDelegate {
         collectionView.contentInset.bottom = Constants.sessionStartedInsetConstant
     }
 
-    func sessionDidEnd(_ session: Session?) {
+    func sessionDidEnd(_ session: Session?, endType: EndType) {
         collectionView.contentInset = .zero
     }
 }

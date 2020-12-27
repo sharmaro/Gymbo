@@ -83,7 +83,7 @@ extension OnboardingVC {
         let leftButtonAction: (() -> Void)? = { [weak self] in
             DispatchQueue.main.async {
                 self?.dismiss(animated: true) {
-                    User.firstTimeLoadComplete()
+                    UserDataModel.shared.isFirstTimeLoad = false
                 }
             }
         }
@@ -146,7 +146,7 @@ extension OnboardingVC {
             moveViews(with: currentOnboardingStep.data)
         } else {
             windowMainTBC?.selectedIndex = 2
-            User.firstTimeLoadComplete()
+            UserDataModel.shared.isFirstTimeLoad = false
             dismiss(animated: true)
         }
     }
