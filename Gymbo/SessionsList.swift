@@ -12,5 +12,5 @@ import RealmSwift
 // Realm will not store objects in order
 // MARK: - Properties
 @objcMembers class SessionsList: Object {
-    let sessions = List<Session>()
+    var sessions = List<Session>()
 }

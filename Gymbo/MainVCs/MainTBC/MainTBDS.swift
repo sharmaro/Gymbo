@@ -84,8 +84,8 @@ extension MainTBDS {
                                               tag: dashboardTab.rawValue)
 
         let sessionsTab = Tab.sessions
-        let sessionsCVC = SessionsCVC(
-            collectionViewLayout: UICollectionViewFlowLayout())
+        let sessionsCVC = VCFactory.makeSessionsCVC(
+            layout: UICollectionViewFlowLayout())
         sessionsCVC.tabBarItem = UITabBarItem(title: sessionsTab.title,
                                               image: sessionsTab.image,
                                               tag: sessionsTab.rawValue)

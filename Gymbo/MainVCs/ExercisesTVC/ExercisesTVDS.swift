@@ -61,7 +61,7 @@ extension ExercisesTVDS {
 
 // MARK: - Funcs
 extension ExercisesTVDS {
-    func loadExercises() {
+    private func loadExercises() {
         ExerciseLoader.shared.loadExercises { [weak self] in
             self?.updateExercisesProperty()
             self?.updateSectionsProperty()
@@ -215,7 +215,6 @@ extension ExercisesTVDS {
     }
 
     // MARK: - CRUD
-
     func create(_ exercise: Exercise, completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let name = exercise.name,
               !doesExerciseExist(name: name) else {
@@ -333,11 +332,11 @@ extension ExercisesTVDS: UISearchResultsUpdating {
         guard let filtered = searchBar.text?.uppercased(),
             !filtered.isEmpty else {
             filter.removeAll()
-            listDataSource?.updateSearchResults()
+            listDataSource?.reloadData()
             return
         }
 
         filter = filtered
-        listDataSource?.updateSearchResults()
+        listDataSource?.reloadData()
     }
 }

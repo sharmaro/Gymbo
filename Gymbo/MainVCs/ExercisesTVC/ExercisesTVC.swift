@@ -21,7 +21,7 @@ class ExercisesTVC: UITableViewController {
         return button
     }()
 
-    private let sessionDataModel = SessionDataModel()
+//    private let sessionDataModel = SessionDataModel()
 
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
 
@@ -123,9 +123,9 @@ extension ExercisesTVC: ViewAdding {
     func setupViews() {
         customDataSource?.presentationStyle = presentationStyle
         customDelegate?.presentationStyle = presentationStyle
-
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
+
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.sectionFooterHeight = 0
@@ -244,7 +244,7 @@ extension ExercisesTVC {
 
 // MARK: ListDataSource
 extension ExercisesTVC: ListDataSource {
-    func updateSearchResults() {
+    func reloadData() {
         tableView.reloadData()
     }
 }
@@ -281,7 +281,7 @@ extension ExercisesTVC: ListDelegate {
             return
         }
 
-        sessionDataModel.removeInstancesOfExercise(name: exerciseName)
+//        sessionDataModel.removeInstancesOfExercise(name: exerciseName)
         customDataSource?.removeExercise(named: exerciseName)
     }
 }

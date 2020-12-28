@@ -73,4 +73,14 @@ extension VCFactory {
             listDelegate: profileTVC)
         return profileTVC
     }
+
+    static func makeSessionsCVC(layout: UICollectionViewLayout) -> SessionsCVC {
+        let sessionsCVC = SessionsCVC(
+            collectionViewLayout: layout)
+        sessionsCVC.customDataSource = SessionsCVDS(
+            listDataSource: sessionsCVC)
+        sessionsCVC.customDelegate = SessionsCVD(
+            listDelegate: sessionsCVC)
+        return sessionsCVC
+    }
 }

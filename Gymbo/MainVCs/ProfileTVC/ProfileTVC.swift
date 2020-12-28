@@ -73,6 +73,7 @@ extension ProfileTVC: ViewAdding {
 
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
+
         tableView.tableFooterView = UIView()
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false

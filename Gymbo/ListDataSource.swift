@@ -9,9 +9,13 @@
 import UIKit
 
 protocol ListDataSource: class {
-    func updateSearchResults()
+    func reloadData()
+    func deleteCell(tvCell: UITableViewCell)
+    func deleteCell(cvCell: UICollectionViewCell)
 }
 
 extension ListDataSource {
-    func updateSearchResults() {}
+    func reloadData() {}
+    func deleteCell(tvCell: UITableViewCell) {}
+    func deleteCell(cvCell: UICollectionViewCell) {}
 }

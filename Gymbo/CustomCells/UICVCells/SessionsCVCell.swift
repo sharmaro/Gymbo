@@ -51,6 +51,10 @@ class SessionsCVCell: UICollectionViewCell {
         }
     }
 
+    var sessionName: String? {
+        titleLabel.text
+    }
+
     weak var sessionsCVCellDelegate: SessionsCVCellDelegate?
 
     override init(frame: CGRect) {

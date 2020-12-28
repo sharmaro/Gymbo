@@ -29,8 +29,6 @@ class SessionPreviewVC: UIViewController {
         return button
     }()
 
-    private let sessionDataModel = SessionDataModel()
-
     var session: Session?
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
@@ -228,25 +226,25 @@ extension SessionPreviewVC: SessionDataModelDelegate {
     func update(_ currentName: String,
                 session: Session,
                 completion: @escaping (Result<Any?, DataError>) -> Void) {
-        sessionDataModel.update(currentName,
-                                session: session) { [weak self] result in
-            switch result {
-            case .success(let value):
-                completion(.success(value))
-                self?.session = session
-                DispatchQueue.main.async {
-                    self?.setupTableHeaderView()
-                    self?.tableView.reloadData()
-                    // Updating collectionView in SessionsCVC
-                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
-                }
-            case .failure(let error):
-                completion(.failure(error))
-                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
-                    return
-                }
-                self?.presentCustomAlert(alertData: alertData)
-            }
-        }
+//        sessionDataModel.update(currentName,
+//                                session: session) { [weak self] result in
+//            switch result {
+//            case .success(let value):
+//                completion(.success(value))
+//                self?.session = session
+//                DispatchQueue.main.async {
+//                    self?.setupTableHeaderView()
+//                    self?.tableView.reloadData()
+//                    // Updating collectionView in SessionsCVC
+//                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
+//                }
+//            case .failure(let error):
+//                completion(.failure(error))
+//                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
+//                    return
+//                }
+//                self?.presentCustomAlert(alertData: alertData)
+//            }
+//        }
     }
 }
