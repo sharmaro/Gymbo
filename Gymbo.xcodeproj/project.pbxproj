@@ -44,7 +44,6 @@
 		6963D8B024961990003A359C /* ExercisesHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */; };
 		69659C0924039C680054F655 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69659C0724039C680054F655 /* AlertVC.swift */; };
 		6965C20C254BCC5D00A898AB /* UserInterfaceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C20B254BCC5D00A898AB /* UserInterfaceMode.swift */; };
-		6965C210254BD7B600A898AB /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C20F254BD7B600A898AB /* ProfileVC.swift */; };
 		6965C213254BE76100A898AB /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C212254BE76100A898AB /* SettingsTVC.swift */; };
 		6965C217254BF28500A898AB /* SelectionTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965C216254BF28500A898AB /* SelectionTVCell.swift */; };
 		696664FB24F37FD70049507A /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FA24F37FD70049507A /* Axis.swift */; };
@@ -117,6 +116,9 @@
 		69777A5325996F3B00ED25CC /* ExerciseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69777A5225996F3B00ED25CC /* ExerciseLoader.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */; };
 		6984DC1A2599BC3400254FC8 /* MainTBDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC192599BC3400254FC8 /* MainTBDS.swift */; };
+		6984DC1F2599C9C800254FC8 /* ProfileTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC1E2599C9C800254FC8 /* ProfileTVDS.swift */; };
+		6984DC232599C9D800254FC8 /* ProfileTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC222599C9D800254FC8 /* ProfileTVD.swift */; };
+		6984DC272599C9F500254FC8 /* ProfileTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC262599C9F500254FC8 /* ProfileTVC.swift */; };
 		698A5FE42563B59500578D50 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A5FE32563B59500578D50 /* Directory.swift */; };
 		698BD48D25933A4A007F78C6 /* InteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BD48C25933A4A007F78C6 /* InteractionState.swift */; };
 		698E934D259400E000B5A03E /* DisabledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698E934C259400E000B5A03E /* DisabledView.swift */; };
@@ -129,7 +131,6 @@
 		69C6BD13256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */; };
 		69C6BD16256A675200B247C7 /* ExercisePreviewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */; };
 		69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */; };
-		69C6BD2F256B5EDB00B247C7 /* ProfileDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */; };
 		69C6BD35256B77CD00B247C7 /* LapDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD34256B77CD00B247C7 /* LapDataModel.swift */; };
 		69C6BD39256B784C00B247C7 /* Lap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD38256B784C00B247C7 /* Lap.swift */; };
 		69C6BD49256B818D00B247C7 /* LapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD48256B818D00B247C7 /* LapTests.swift */; };
@@ -206,7 +207,6 @@
 		6963D8AF24961990003A359C /* ExercisesHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExercisesHeaderFooterView.swift; path = Gymbo/CustomViews/ExercisesHeaderFooterView.swift; sourceTree = SOURCE_ROOT; };
 		69659C0724039C680054F655 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
 		6965C20B254BCC5D00A898AB /* UserInterfaceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceMode.swift; sourceTree = "<group>"; };
-		6965C20F254BD7B600A898AB /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		6965C212254BE76100A898AB /* SettingsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		6965C216254BF28500A898AB /* SelectionTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVCell.swift; sourceTree = "<group>"; };
 		696664FA24F37FD70049507A /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
@@ -279,6 +279,9 @@
 		69777A5225996F3B00ED25CC /* ExerciseLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseLoader.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesTVC.swift; sourceTree = "<group>"; };
 		6984DC192599BC3400254FC8 /* MainTBDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBDS.swift; sourceTree = "<group>"; };
+		6984DC1E2599C9C800254FC8 /* ProfileTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVDS.swift; sourceTree = "<group>"; };
+		6984DC222599C9D800254FC8 /* ProfileTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVD.swift; sourceTree = "<group>"; };
+		6984DC262599C9F500254FC8 /* ProfileTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVC.swift; sourceTree = "<group>"; };
 		698A5FE32563B59500578D50 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		698BD48C25933A4A007F78C6 /* InteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionState.swift; sourceTree = "<group>"; };
 		698E934C259400E000B5A03E /* DisabledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledView.swift; sourceTree = "<group>"; };
@@ -293,7 +296,6 @@
 		69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataModel.swift; sourceTree = "<group>"; };
 		69C6BD22256A725C00B247C7 /* GymboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C6BD26256A725C00B247C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataModel.swift; sourceTree = "<group>"; };
 		69C6BD34256B77CD00B247C7 /* LapDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapDataModel.swift; sourceTree = "<group>"; };
 		69C6BD38256B784C00B247C7 /* Lap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lap.swift; sourceTree = "<group>"; };
 		69C6BD48256B818D00B247C7 /* LapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapTests.swift; sourceTree = "<group>"; };
@@ -456,7 +458,7 @@
 				697575DC259852F80063BE74 /* DashboardCVC */,
 				697575ED259855B30063BE74 /* ExercisesTVC */,
 				6984DC162599BBE800254FC8 /* MainTBC */,
-				6965C20F254BD7B600A898AB /* ProfileVC.swift */,
+				6984DC1D2599C9A500254FC8 /* ProfileTVC */,
 				6962F35D244410AA00CB6DAE /* SessionsCVC.swift */,
 				695D4BFE22D30AFE00E3FB1F /* StopwatchVC.swift */,
 			);
@@ -503,7 +505,6 @@
 				69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */,
 				69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */,
 				69C6BD34256B77CD00B247C7 /* LapDataModel.swift */,
-				69C6BD2E256B5EDB00B247C7 /* ProfileDataModel.swift */,
 				695D4C0422D4508C00E3FB1F /* SessionDataModel.swift */,
 				69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */,
 				697575C0259801460063BE74 /* UserDataModel.swift */,
@@ -643,6 +644,16 @@
 				6984DC192599BC3400254FC8 /* MainTBDS.swift */,
 			);
 			path = MainTBC;
+			sourceTree = "<group>";
+		};
+		6984DC1D2599C9A500254FC8 /* ProfileTVC */ = {
+			isa = PBXGroup;
+			children = (
+				6984DC262599C9F500254FC8 /* ProfileTVC.swift */,
+				6984DC1E2599C9C800254FC8 /* ProfileTVDS.swift */,
+				6984DC222599C9D800254FC8 /* ProfileTVD.swift */,
+			);
+			path = ProfileTVC;
 			sourceTree = "<group>";
 		};
 		699F889B251062600085267C /* UITVCells */ = {
@@ -941,6 +952,7 @@
 				6914053B2595C6BD00DED7C7 /* RealmIndexPath.swift in Sources */,
 				691405C52597037600DED7C7 /* OnboardingStep.swift in Sources */,
 				691405B125969CD200DED7C7 /* OnboardingVC.swift in Sources */,
+				6984DC1F2599C9C800254FC8 /* ProfileTVDS.swift in Sources */,
 				6972E3E1249F225200479E91 /* UIViewController+Extension.swift in Sources */,
 				69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */,
 				69659C0924039C680054F655 /* AlertVC.swift in Sources */,
@@ -952,6 +964,7 @@
 				6972E41B249F2AF800479E91 /* CustomTextFieldDelegate.swift in Sources */,
 				6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */,
 				6972E406249F276A00479E91 /* UpdateDelegate.swift in Sources */,
+				6984DC272599C9F500254FC8 /* ProfileTVC.swift in Sources */,
 				6965C217254BF28500A898AB /* SelectionTVCell.swift in Sources */,
 				6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */,
 				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
@@ -977,7 +990,6 @@
 				6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */,
 				6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
-				69C6BD2F256B5EDB00B247C7 /* ProfileDataModel.swift in Sources */,
 				6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
 				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
@@ -1005,8 +1017,8 @@
 				697575BB2597FD970063BE74 /* EndType.swift in Sources */,
 				6962F35E244410AA00CB6DAE /* SessionsCVC.swift in Sources */,
 				6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */,
+				6984DC232599C9D800254FC8 /* ProfileTVD.swift in Sources */,
 				6972E40F249F29AC00479E91 /* ExerciseDetailTVCellModel.swift in Sources */,
-				6965C210254BD7B600A898AB /* ProfileVC.swift in Sources */,
 				697575C1259801460063BE74 /* UserDataModel.swift in Sources */,
 				695D4C0522D4508C00E3FB1F /* SessionDataModel.swift in Sources */,
 				6972E419249F2ABC00479E91 /* SessionsCVCellModel.swift in Sources */,

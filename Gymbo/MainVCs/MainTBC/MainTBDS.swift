@@ -70,8 +70,8 @@ extension MainTBDS {
 extension MainTBDS {
     private func setupVCs() {
         let profileTab = Tab.profile
-        let profileVC = ProfileVC()
-        profileVC.tabBarItem = UITabBarItem(title: profileTab.title,
+        let profileTVC = VCFactory.makeProfileTVC()
+        profileTVC.tabBarItem = UITabBarItem(title: profileTab.title,
                                             image: profileTab.image,
                                             tag: profileTab.rawValue)
 
@@ -104,7 +104,7 @@ extension MainTBDS {
                                               tag: stopwatchTab.rawValue)
 
         viewControllers = [
-            profileVC,
+            profileTVC,
             dashboardCVC,
             sessionsCVC,
             exercisesTVC,

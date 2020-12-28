@@ -64,4 +64,13 @@ extension VCFactory {
         onboardingVC.modalTransitionStyle = .crossDissolve
         return onboardingVC
     }
+
+    static func makeProfileTVC() -> ProfileTVC {
+        let profileTVC = ProfileTVC()
+        profileTVC.customDataSource = ProfileTVDS(
+            listDataSource: profileTVC)
+        profileTVC.customDelegate = ProfileTVD(
+            listDelegate: profileTVC)
+        return profileTVC
+    }
 }

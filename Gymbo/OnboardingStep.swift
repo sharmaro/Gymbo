@@ -26,12 +26,12 @@ enum OnboardingStep: CaseIterable {
         return mainTBC
     }
 
-    private var profileVC: ProfileVC? {
+    private var profileTVC: ProfileTVC? {
         guard let mainNC = windowMainTBC?
                 .viewControllers?.first as? MainNC else {
             return nil
         }
-        return mainNC.viewControllers.first as? ProfileVC
+        return mainNC.viewControllers.first as? ProfileTVC
     }
 
     private var exercisesTVC: ExercisesTVC? {

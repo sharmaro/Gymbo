@@ -1,23 +1,17 @@
 //
-//  ProfileVC.swift
+//  ProfileTVC.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 10/29/20.
+//  Created by Rohan Sharma on 12/28/20.
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
 
 // MARK: - Properties
-class ProfileVC: UIViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
+class ProfileTVC: UITableViewController {
+    var customDataSource: ProfileTVDS?
+    var customDelegate: ProfileTVD?
 
     private let settingsButton = CustomButton()
     private let settingsView: UIView = {
@@ -32,18 +26,14 @@ class ProfileVC: UIViewController {
         containerView.addSubview(button)
         return containerView
     }()
-
-    private var profileDataModel = ProfileDataModel()
 }
 
 // MARK: - Structs/Enums
-private extension ProfileVC {
-    struct Constants {
-    }
+private extension ProfileTVC {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension ProfileVC {
+extension ProfileTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,13 +42,6 @@ extension ProfileVC {
         setupViews()
         setupColors()
         addConstraints()
-        registerForKeyboardNotifications()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        view.endEditing(true)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -69,7 +52,7 @@ extension ProfileVC {
 }
 
 // MARK: - ViewAdding
-extension ProfileVC: ViewAdding {
+extension ProfileTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Profile"
 
@@ -81,7 +64,6 @@ extension ProfileVC: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [tableView])
     }
 
     func setupViews() {
@@ -89,8 +71,12 @@ extension ProfileVC: ViewAdding {
             settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         }
 
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+        tableView.tableFooterView = UIView()
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.keyboardDismissMode = .interactive
     }
 
     func setupColors() {
@@ -98,21 +84,11 @@ extension ProfileVC: ViewAdding {
     }
 
     func addConstraints() {
-        NSLayoutConstraint.activate([
-            // Using top anchor instead of safe area to get smooth navigation title size change animation
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
     }
 }
 
 // MARK: - Funcs
-extension ProfileVC {
+extension ProfileTVC {
     @objc private func settingsButtonTapped() {
         Haptic.sendSelectionFeedback()
 
@@ -122,42 +98,16 @@ extension ProfileVC {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension ProfileVC: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        profileDataModel.numberOfSections
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        profileDataModel.numberOfRows(in: section)
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        profileDataModel.cellForRow(in: tableView, at: indexPath)
-    }
+// MARK: ListDataSource
+extension ProfileTVC: ListDataSource {
 }
 
-// MARK: - UITableViewDelegate
-extension ProfileVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        profileDataModel.heightForRow(at: indexPath)
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        profileDataModel.heightForRow(at: indexPath)
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
-    }
+// MARK: - ListDelegate
+extension ProfileTVC: ListDelegate {
 }
 
 // MARK: - KeyboardObserving
-extension ProfileVC: KeyboardObserving {
+extension ProfileTVC: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let keyboardHeight = notification.keyboardSize?.height,
               tableView.numberOfSections > 0 else {
@@ -172,7 +122,7 @@ extension ProfileVC: KeyboardObserving {
 }
 
 // MARK: - SessionProgressDelegate
-extension ProfileVC: SessionProgressDelegate {
+extension ProfileTVC: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         renewConstraints()
     }
@@ -183,7 +133,7 @@ extension ProfileVC: SessionProgressDelegate {
 }
 
 // MARK: - SessionStateConstraintsUpdating
-extension ProfileVC: SessionStateConstraintsUpdating {
+extension ProfileTVC: SessionStateConstraintsUpdating {
     func renewConstraints() {
         guard isViewLoaded,
               let mainTBC = mainTBC else {
