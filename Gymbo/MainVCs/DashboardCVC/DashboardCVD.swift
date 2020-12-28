@@ -1,5 +1,5 @@
 //
-//  DashboardDelegate.swift
+//  DashboardCVD.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/26/20.
@@ -9,8 +9,8 @@
 import UIKit
 
 // MARK: - Properties
-class DashboardDelegate: NSObject {
-    weak var listDelegate: ListDelegate?
+class DashboardCVD: NSObject {
+    private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
         self.listDelegate = listDelegate
@@ -18,14 +18,15 @@ class DashboardDelegate: NSObject {
 }
 
 // MARK: - Structs/Enums
-private extension DashboardDelegate {
+private extension DashboardCVD {
 }
 
 // MARK: - Funcs
-extension DashboardDelegate {
+extension DashboardCVD {
 }
 
-extension DashboardDelegate: UICollectionViewDelegate {
+// MARK: - UICollectionViewDelegate
+extension DashboardCVD: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         listDelegate?.didSelectItem(at: indexPath)
     }
@@ -35,7 +36,8 @@ extension DashboardDelegate: UICollectionViewDelegate {
     }
 }
 
-extension DashboardDelegate: UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDelegateFlowLayout
+extension DashboardCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

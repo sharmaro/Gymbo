@@ -34,8 +34,6 @@ class ExerciseTVCell: UITableViewCell {
         return nameLabel.text
     }
 
-    var didSelect = false
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 

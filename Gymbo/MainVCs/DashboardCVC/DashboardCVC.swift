@@ -10,8 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class DashboardCVC: UICollectionViewController {
-    private var customDataSource: DashboardDataSource?
-    private var customDelegate: DashboardDelegate?
+    var customDataSource: DashboardCVDS?
+    var customDelegate: DashboardCVD?
 }
 
 // MARK: - Structs/Enums
@@ -22,12 +22,6 @@ private extension DashboardCVC {
 extension DashboardCVC {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        customDataSource = DashboardDataSource()
-        customDelegate = DashboardDelegate(listDelegate: self)
-
-        collectionView.dataSource = customDataSource
-        collectionView.delegate = customDelegate
 
         setupNavigationBar()
         addViews()
@@ -57,6 +51,8 @@ extension DashboardCVC: ViewAdding {
     }
 
     func setupViews() {
+        collectionView.dataSource = customDataSource
+        collectionView.delegate = customDelegate
     }
 
     func setupColors() {
@@ -71,9 +67,13 @@ extension DashboardCVC: ViewAdding {
 extension DashboardCVC {
 }
 
+// MARK: - ListDataSource
+extension DashboardCVC: ListDataSource {
+}
+
 // MARK: - ListDelegate
 extension DashboardCVC: ListDelegate {
-    func didSelectItem(at IndexPath: IndexPath) {
+    func didSelectItem(at indexPath: IndexPath) {
         Haptic.sendSelectionFeedback()
     }
 }

@@ -9,6 +9,13 @@
 import Foundation
 
 extension String {
+    var firstCharacter: String? {
+        guard let firstCharacter = first else {
+            return nil
+        }
+        return String(firstCharacter)
+    }
+
     var secondsFromTime: Int? {
         let times = Array(self)
         guard times.count == 5 else {

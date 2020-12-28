@@ -29,9 +29,11 @@ class ExercisePreviewTVC: UITableViewController {
         return button
     }()
 
+    private var exercisesTVDS: ExercisesTVDS?
     private var exercisePreviewDataModel = ExercisePreviewDataModel()
 
-    init(exercise: Exercise) {
+    init(exercisesTVDS: ExercisesTVDS?, exercise: Exercise) {
+        self.exercisesTVDS = exercisesTVDS
         self.exercisePreviewDataModel.exercise = exercise
 
         super.init(nibName: nil, bundle: nil)
@@ -150,11 +152,9 @@ extension ExercisePreviewTVC {
         createEditExerciseTVC.exerciseState = .edit
         createEditExerciseTVC.exerciseDataModelDelegate = self
 
-        let modalNavigationController = MainNC(rootVC: createEditExerciseTVC)
-        modalNavigationController.modalPresentationStyle = .custom
-        modalNavigationController.modalTransitionStyle = .crossDissolve
-        modalNavigationController.transitioningDelegate = self
-        navigationController?.present(modalNavigationController, animated: true)
+        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
+                                       transitioningDelegate: self)
+        navigationController?.present(modalNC, animated: true)
     }
 }
 
@@ -189,8 +189,8 @@ extension ExercisePreviewTVC: ExerciseDataModelDelegate {
     func update(_ currentName: String,
                 exercise: Exercise,
                 completion: @escaping (Result<Any?, DataError>) -> Void) {
-        ExerciseDataModel.shared.update(currentName,
-                                        exercise: exercise) { [weak self] result in
+        exercisesTVDS?.update(currentName,
+                              exercise: exercise) { [weak self] result in
             switch result {
             case .success(let value):
                 completion(.success(value))

@@ -27,20 +27,18 @@ class ExercisesTVC: UITableViewController {
 
     private var didViewAppear = false
 
-    private let exerciseDataModel = ExerciseDataModel.shared
-    private var selectedExerciseNamesAndIndices = [String: Int]()
-    private var selectedExerciseNames = [String]()
+    var customDataSource: ExercisesTVDS?
+    var customDelegate: ExercisesTVD?
 
     var presentationStyle = PresentationStyle.normal
 
-    weak var exercisesDelegate: ExercisesDelegate?
+    weak var exerciseUpdatingDelegate: ExerciseUpdatingDelegate?
 }
 
 // MARK: - Structs/Enums
 private extension ExercisesTVC {
     struct Constants {
         static let addExerciseButtonHeight = CGFloat(45)
-        static let exerciseCellHeight = CGFloat(70)
         static let sessionStartedConstraintConstant = CGFloat(-64)
         static let sessionEndedConstraintConstant = CGFloat(-20)
     }
@@ -71,17 +69,10 @@ extension ExercisesTVC {
         renewConstraints()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        view.endEditing(true)
-    }
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         didViewAppear = false
-        exerciseDataModel.removeSearchedResults()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -110,7 +101,8 @@ extension ExercisesTVC: ViewAdding {
 
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Search exercises"
-        searchController.searchResultsUpdater = self
+        searchController.searchBar.returnKeyType = .done
+        searchController.searchResultsUpdater = customDataSource
         searchController.obscuresBackgroundDuringPresentation = false
 
         navigationItem.searchController = searchController
@@ -129,9 +121,13 @@ extension ExercisesTVC: ViewAdding {
     }
 
     func setupViews() {
+        customDataSource?.presentationStyle = presentationStyle
+        customDelegate?.presentationStyle = presentationStyle
+
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
-        tableView.keyboardDismissMode = .interactive
         tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
         tableView.register(ExercisesHeaderFooterView.self,
@@ -179,43 +175,30 @@ extension ExercisesTVC: ViewAdding {
 extension ExercisesTVC {
     private func saveExercise() {
         // Get exercise info from the selected exercises
-        guard !selectedExerciseNamesAndIndices.isEmpty else {
+        guard let selectedExerciseNames = customDelegate?
+                .selectedExerciseNames,
+              !selectedExerciseNames.isEmpty,
+              let customDataSource = customDataSource else {
             return
         }
 
-        var selectedExercises = [Exercise]()
-        for exerciseName in selectedExerciseNames {
-            /*
-             Need to create a new exercise object to be passed into selectedExercises
-             so the existing exercise isn't updated in Realm
-             */
-            let referenceExercise = exerciseDataModel.exercise(for: exerciseName)
-            let exercise = Exercise(name: referenceExercise.name,
-                                    groups: referenceExercise.groups,
-                                    instructions: referenceExercise.instructions,
-                                    tips: referenceExercise.tips,
-                                    imageNames: referenceExercise.imageNames,
-                                    isUserMade: referenceExercise.isUserMade,
-                                    weightType: referenceExercise.weightType,
-                                    sets: referenceExercise.sets,
-                                    exerciseDetails: referenceExercise.exerciseDetails)
-            selectedExercises.append(exercise)
+        let selectedExercises = selectedExerciseNames.map {
+            customDataSource.exercise(for: $0).safeCopy
         }
-        exercisesDelegate?.updateExercises(selectedExercises)
+        exerciseUpdatingDelegate?.updateExercises(selectedExercises)
     }
 
     private func updateAddButtonTitle() {
-        var title = ""
-        let isEnabled: Bool
-
-        if selectedExerciseNames.isEmpty {
-            title = "Add"
-            isEnabled = false
-        } else {
-            title = "Add (\(selectedExerciseNames.count))"
-            isEnabled = true
+        guard let selectedExerciseNames = customDelegate?
+                .selectedExerciseNames else {
+            return
         }
-        let state: InteractionState = isEnabled ? .enabled : .disabled
+
+        let isEnabled = selectedExerciseNames.isEmpty
+        let title = isEnabled ? "Add (\(selectedExerciseNames.count))" :
+                                "Add"
+        let state = InteractionState.stateFromBool(isEnabled)
+
         addExerciseButton.set(state: state)
         addExerciseButton.title = title
     }
@@ -234,11 +217,9 @@ extension ExercisesTVC {
         createEditExerciseTVC.exerciseDataModelDelegate = self
         createEditExerciseTVC.setAlphaDelegate = self
 
-        let modalNavigationController = MainNC(rootVC: createEditExerciseTVC)
-        modalNavigationController.modalPresentationStyle = .custom
-        modalNavigationController.modalTransitionStyle = .crossDissolve
-        modalNavigationController.transitioningDelegate = self
-        navigationController?.present(modalNavigationController, animated: true)
+        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
+                                       transitioningDelegate: self)
+        navigationController?.present(modalNC, animated: true)
 
         if presentationStyle == .modal {
             UIView.animate(withDuration: .defaultAnimationTime,
@@ -261,185 +242,54 @@ extension ExercisesTVC {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension ExercisesTVC {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        exerciseDataModel.numberOfSections
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        exerciseDataModel.numberOfRows(in: section)
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ExerciseTVCell.reuseIdentifier,
-            for: indexPath) as? ExerciseTVCell else {
-            fatalError("Could not dequeue \(ExerciseTVCell.reuseIdentifier)")
-        }
-
-        let exercise = exerciseDataModel.exercise(for: indexPath)
-        cell.configure(dataModel: exercise)
-
-        if presentationStyle == .modal {
-            handleCellSelection(cell: cell, model: exercise, indexPath: indexPath)
-        }
-        return cell
-    }
-
-    private func handleCellSelection(cell: UITableViewCell, model: Exercise, indexPath: IndexPath) {
-        if let exerciseCell = cell as? ExerciseTVCell {
-            if let exerciseName = model.name,
-                !selectedExerciseNamesAndIndices.isEmpty,
-                selectedExerciseNamesAndIndices[exerciseName] != nil {
-                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-                exerciseCell.didSelect = true
-            } else {
-                exerciseCell.didSelect = false
-            }
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard presentationStyle == .normal else {
-            return false
-        }
-
-        let exercise = exerciseDataModel.exercise(for: indexPath)
-        return exercise.isUserMade
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
-        -> UISwipeActionsConfiguration? {
-        guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTVCell,
-            let exerciseName = exerciseCell.exerciseName else {
-            return nil
-        }
-
-        let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "Delete") { [weak self] _, _, completion in
-            Haptic.sendImpactFeedback(.medium)
-
-            self?.sessionDataModel.removeInstancesOfExercise(name: exerciseName)
-            self?.exerciseDataModel.removeExercise(named: exerciseName)
-            if tableView.numberOfRows(inSection: indexPath.section) > 1 {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-            } else {
-                tableView.deleteSections([indexPath.section], with: .automatic)
-            }
-            completion(true)
-        }
-        deleteAction.backgroundColor = .systemRed
-
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
-    }
-
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        exerciseDataModel.sectionTitles
+// MARK: ListDataSource
+extension ExercisesTVC: ListDataSource {
+    func updateSearchResults() {
+        tableView.reloadData()
     }
 }
 
-// MARK: - UITableViewDelegate
-extension ExercisesTVC {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        exerciseDataModel.heightForHeaderIn(section: section)
-    }
-
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        exerciseDataModel.heightForHeaderIn(section: section)
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
-            return nil
-        }
-
-        let title = exerciseDataModel.titleForHeaderIn(section: section)
-        headerView.configure(title: title)
-        return headerView
-    }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.exerciseCellHeight
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
+// MARK: - ListDelegate
+extension ExercisesTVC: ListDelegate {
+    func didSelectItem(at indexPath: IndexPath) {
         switch presentationStyle {
         case .normal:
-            tableView.deselectRow(at: indexPath, animated: true)
-
-            let exercise = exerciseDataModel.exercise(for: indexPath)
-            let exercisePreviewTVC = ExercisePreviewTVC(exercise: exercise)
-            let modalNavigationController = MainNC(rootVC: exercisePreviewTVC)
-            modalNavigationController.modalPresentationStyle = .custom
-            modalNavigationController.transitioningDelegate = self
-            mainTBC?.present(modalNavigationController, animated: true)
-        case .modal:
-            guard let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTVCell,
-                let exerciseName = exerciseCell.exerciseName,
-                let index = exerciseDataModel.index(of: exerciseName) else {
+            Haptic.sendSelectionFeedback()
+            guard let exercise = customDataSource?.exercise(for: indexPath) else {
                 return
             }
+            tableView.deselectRow(at: indexPath, animated: true)
 
-            selectedExerciseNamesAndIndices[exerciseName] = index
-            selectedExerciseNames.append(exerciseName)
-            exerciseCell.didSelect = true
+            let exercisePreviewTVC = ExercisePreviewTVC(exercisesTVDS: customDataSource,
+                                                        exercise: exercise)
+            let modalNC = VCFactory.makeMainNC(rootVC: exercisePreviewTVC,
+                                           transitioningDelegate: self)
+            mainTBC?.present(modalNC, animated: true)
+        case .modal:
             updateAddButtonTitle()
         }
     }
 
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
-        guard presentationStyle != .normal,
-            let exerciseCell = tableView.cellForRow(at: indexPath) as? ExerciseTVCell,
-            let exerciseName = exerciseCell.exerciseName else {
+    func didDeselectItem(at indexPath: IndexPath) {
+        updateAddButtonTitle()
+    }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfiguration indexPath: IndexPath) {
+        guard let exerciseName = customDataSource?
+                .exercise(for: indexPath).name else {
             return
         }
 
-        selectedExerciseNamesAndIndices[exerciseName] = nil
-        if let index = selectedExerciseNames.firstIndex(where: { (name) -> Bool in
-            return name == exerciseName
-        }) {
-            selectedExerciseNames.remove(at: index)
-        }
-        exerciseCell.didSelect = false
-        updateAddButtonTitle()
-    }
-}
-
-// MARK: - UISearchResultsUpdating
-extension ExercisesTVC: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchBar = searchController.searchBar
-
-        guard let filter = searchBar.text?.lowercased(),
-            !filter.isEmpty else {
-                exerciseDataModel.removeSearchedResults()
-                tableView.reloadData()
-                return
-        }
-
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let self = self else { return }
-            self.exerciseDataModel.filterResults(filter: filter)
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        sessionDataModel.removeInstancesOfExercise(name: exerciseName)
+        customDataSource?.removeExercise(named: exerciseName)
     }
 }
 
 // MARK: - ExerciseDataModelDelegate
 extension ExercisesTVC: ExerciseDataModelDelegate {
     func create(_ exercise: Exercise, completion: @escaping (Result<Any?, DataError>) -> Void) {
-        exerciseDataModel.create(exercise) { [weak self] result in
+        customDataSource?.create(exercise) { [weak self] result in
             switch result {
             case .success(let value):
                 completion(.success(value))

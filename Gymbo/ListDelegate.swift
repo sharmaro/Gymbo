@@ -9,11 +9,15 @@
 import UIKit
 
 protocol ListDelegate: class {
-    func didSelectItem(at IndexPath: IndexPath)
-    func didDeselectItem(at IndexPath: IndexPath)
+    func didSelectItem(at indexPath: IndexPath)
+    func didDeselectItem(at indexPath: IndexPath)
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfiguration indexPath: IndexPath)
 }
 
 extension ListDelegate {
-    func didSelectItem(at IndexPath: IndexPath) {}
-    func didDeselectItem(at IndexPath: IndexPath) {}
+    func didSelectItem(at indexPath: IndexPath) {}
+    func didDeselectItem(at indexPath: IndexPath) {}
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfiguration indexPath: IndexPath) {}
 }

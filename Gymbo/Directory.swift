@@ -35,7 +35,9 @@ enum Directory {
     }
 
     var isStockDirectory: Bool {
-        self == .workoutInfo || self == .exercises || self == .stockThumbnails
+        self == .workoutInfo ||
+        self == .exercises ||
+        self == .stockThumbnails
     }
 
     var url: URL? {

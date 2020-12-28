@@ -106,35 +106,36 @@ extension MainTBC {
         // Prevents tab bar color from being lighter than intended
         tabBar.backgroundImage = UIImage()
 
-        let profileVC = ProfileVC()
         let profileTab = Tab.profile
+        let profileVC = ProfileVC()
         profileVC.tabBarItem = UITabBarItem(title: profileTab.title,
                                             image: profileTab.image,
                                             tag: profileTab.rawValue)
 
-        let dashboardCVC = DashboardCVC(
-            collectionViewLayout: UICollectionViewFlowLayout())
+        // Need to initialize a UICollectionView with a UICollectionViewLayout
         let dashboardTab = Tab.dashboard
+        let dashboardCVC = VCFactory.makeDashboardCVC(
+            layout: UICollectionViewFlowLayout())
         dashboardCVC.tabBarItem = UITabBarItem(title: dashboardTab.title,
                                               image: dashboardTab.image,
                                               tag: dashboardTab.rawValue)
 
-        // Need to initialize a UICollectionView with a UICollectionViewLayout
+        let sessionsTab = Tab.sessions
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: UICollectionViewFlowLayout())
-        let sessionsTab = Tab.sessions
         sessionsCVC.tabBarItem = UITabBarItem(title: sessionsTab.title,
                                               image: sessionsTab.image,
                                               tag: sessionsTab.rawValue)
 
-        let exercisesTVC = ExercisesTVC(style: .grouped)
         let exercisesTab = Tab.exercises
+        let exercisesTVC = VCFactory.makeExercisesTVC(
+            style: .grouped)
         exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
                                                image: exercisesTab.image,
                                                tag: exercisesTab.rawValue)
 
-        let stopwatchVC = StopwatchVC()
         let stopwatchTab = Tab.stopwatch
+        let stopwatchVC = StopwatchVC()
         stopwatchVC.tabBarItem = UITabBarItem(title: stopwatchTab.title,
                                               image: stopwatchTab.image,
                                               tag: stopwatchTab.rawValue)

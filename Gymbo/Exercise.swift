@@ -63,8 +63,21 @@ import RealmSwift
             }
         }
     }
+
+    var safeCopy: Exercise {
+        Exercise(name: name,
+                 groups: groups,
+                 instructions: instructions,
+                 tips: tips,
+                 imageNames: imageNames,
+                 isUserMade: isUserMade,
+                 weightType: weightType,
+                 sets: sets,
+                 exerciseDetails: exerciseDetails)
+    }
 }
 
+// MARK: - Comparable
 extension Exercise: Comparable {
     static func < (lhs: Exercise, rhs: Exercise) -> Bool {
         guard let lhsName = lhs.name,

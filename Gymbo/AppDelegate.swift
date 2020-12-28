@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupUITableViewAppearance()
         setupUserInterfaceMode()
         loadUser()
-        loadExercises()
 
         return true
     }
@@ -108,9 +107,5 @@ extension AppDelegate {
 
     private func loadUser() {
         UserDataModel.shared.loadUser()
-    }
-
-    private func loadExercises() {
-        ExerciseDataModel.shared.loadExercises()
     }
 }

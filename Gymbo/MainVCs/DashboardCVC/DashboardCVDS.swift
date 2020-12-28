@@ -1,5 +1,5 @@
 //
-//  DashboardDataSource.swift
+//  DashboardCVDS.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/26/20.
@@ -9,16 +9,22 @@
 import UIKit
 
 // MARK: - Properties
-class DashboardDataSource: NSObject {
+class DashboardCVDS: NSObject {
     private let collectionItems: [[CollectionItem]] = [
         [
             .history
         ]
     ]
+
+    private weak var listDataSource: ListDataSource?
+
+    init(listDataSource: ListDataSource?) {
+        self.listDataSource = listDataSource
+    }
 }
 
 // MARK: - Structs/Enums
-extension DashboardDataSource {
+extension DashboardCVDS {
     private struct Constants {
     }
 
@@ -32,33 +38,11 @@ extension DashboardDataSource {
 }
 
 // MARK: - Funcs
-extension DashboardDataSource {
-    // MARK: - Helpers
-    private func validateSection(section: Int) -> Bool {
-        section < collectionItems.count
-    }
-
-    func indexOf(item: CollectionItem) -> Int? {
-        var index: Int?
-        collectionItems.forEach {
-            if $0.contains(item) {
-                index = $0.firstIndex(of: item)
-                return
-            }
-        }
-        return index
-    }
+extension DashboardCVDS {
 }
 
 // MARK: - UICollectionViewDataSource
-extension DashboardDataSource: UICollectionViewDataSource {
-    func tableItem(at indexPath: IndexPath) -> CollectionItem {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(collectionItems.count)")
-        }
-        return collectionItems[indexPath.section][indexPath.row]
-    }
-
+extension DashboardCVDS: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         collectionItems.count
     }
@@ -70,7 +54,8 @@ extension DashboardDataSource: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath)
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView,

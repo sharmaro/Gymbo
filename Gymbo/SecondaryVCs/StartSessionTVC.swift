@@ -457,10 +457,9 @@ extension StartSessionTVC {
 
         updateDelegate = restVC
 
-        let modalNavigationController = MainNC(rootVC: restVC)
-        modalNavigationController.modalPresentationStyle = .custom
-        modalNavigationController.transitioningDelegate = self
-        navigationController?.present(modalNavigationController, animated: true)
+        let modalNC = VCFactory.makeMainNC(rootVC: restVC,
+                                           transitioningDelegate: self)
+        navigationController?.present(modalNC, animated: true)
     }
 
     @objc private func finishButtonTapped() {
@@ -837,8 +836,8 @@ extension StartSessionTVC: ButtonTVCellDelegate {
     }
 }
 
-// MARK: - ExercisesDelegate
-extension StartSessionTVC: ExercisesDelegate {
+// MARK: - ExerciseUpdatingDelegate
+extension StartSessionTVC: ExerciseUpdatingDelegate {
     func updateExercises(_ exercises: [Exercise]) {
         exercises.forEach {
             let newExercise = $0
@@ -859,12 +858,11 @@ extension StartSessionTVC: StartSessionButtonDelegate {
 
         let exercisesTVC = ExercisesTVC(style: .grouped)
         exercisesTVC.presentationStyle = .modal
-        exercisesTVC.exercisesDelegate = self
+        exercisesTVC.exerciseUpdatingDelegate = self
 
-        let modalNavigationController = MainNC(rootVC: exercisesTVC)
-        modalNavigationController.modalPresentationStyle = .custom
-        modalNavigationController.transitioningDelegate = self
-        navigationController?.present(modalNavigationController, animated: true)
+        let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
+                                           transitioningDelegate: self)
+        navigationController?.present(modalNC, animated: true)
     }
 
     func cancelSession() {

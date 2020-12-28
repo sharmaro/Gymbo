@@ -234,12 +234,11 @@ extension CreateEditSessionTVC {
 
         let exercisesTVC = ExercisesTVC(style: .grouped)
         exercisesTVC.presentationStyle = .modal
-        exercisesTVC.exercisesDelegate = self
+        exercisesTVC.exerciseUpdatingDelegate = self
 
-        let modalNavigationController = MainNC(rootVC: exercisesTVC)
-        modalNavigationController.modalPresentationStyle = .custom
-        modalNavigationController.transitioningDelegate = self
-        navigationController?.present(modalNavigationController, animated: true)
+        let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
+                                           transitioningDelegate: self)
+        navigationController?.present(modalNC, animated: true)
     }
 }
 
@@ -469,8 +468,8 @@ extension CreateEditSessionTVC: ButtonTVCellDelegate {
     }
 }
 
-// MARK: - ExercisesDelegate
-extension CreateEditSessionTVC: ExercisesDelegate {
+// MARK: - ExerciseUpdatingDelegate
+extension CreateEditSessionTVC: ExerciseUpdatingDelegate {
     func updateExercises(_ exercises: [Exercise]) {
         exercises.forEach {
             let newExercise = $0

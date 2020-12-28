@@ -126,7 +126,8 @@ extension CreateEditExerciseDataModel {
             $0.capitalized.trimmingCharacters(in: .whitespaces)
         }
         let selectedGroups = groups ?? selectedTitlesArray
-        multipleSelectionTVCell.configure(titles: ExerciseDataModel().defaultExerciseGroups,
+        let defaultGroups = ExerciseLoader.shared.exerciseGroups
+        multipleSelectionTVCell.configure(titles: defaultGroups,
                                           selectedTitles: selectedGroups)
         return multipleSelectionTVCell
     }
