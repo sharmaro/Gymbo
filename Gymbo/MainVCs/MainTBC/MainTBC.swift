@@ -13,13 +13,22 @@ import RealmSwift
 class MainTBC: UITabBarController {
     var isSessionInProgress = false
 
-    private var selectedTab = Tab.sessions
-
     private var isReplacingSession = false
     private var sessionToReplace: Session?
 
     private var realm: Realm? {
         try? Realm()
+    }
+
+    var customDataSource: MainTBDS?
+
+    init(customDataSource: MainTBDS?) {
+        self.customDataSource = customDataSource
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("Not using storyboards")
     }
 }
 
@@ -27,49 +36,6 @@ class MainTBC: UITabBarController {
 extension MainTBC {
     private struct Constants {
         static let defaultYOffset = CGFloat(60)
-    }
-
-    //swiftlint:disable:next type_name
-    enum Tab: Int {
-        case profile
-        case dashboard
-        case sessions
-        case exercises
-        case stopwatch
-
-        var title: String {
-            let text: String
-            switch self {
-            case .profile:
-                text = "Profile"
-            case .dashboard:
-                text = "Dashboard"
-            case .sessions:
-                text = "Sessions"
-            case .exercises:
-                text = "My Exercises"
-            case .stopwatch:
-                text = "Stopwatch"
-            }
-            return text
-        }
-
-        var image: UIImage {
-            let imageName: String
-            switch self {
-            case .profile:
-                imageName = "profile"
-            case .dashboard:
-                imageName = "dashboard"
-            case .sessions:
-                imageName = "dumbbell"
-            case .exercises:
-                imageName = "my_exercises"
-            case .stopwatch:
-                imageName = "stopwatch"
-            }
-            return UIImage(named: imageName) ?? UIImage()
-        }
     }
 
     enum SessionState {
@@ -97,7 +63,7 @@ extension MainTBC {
 // MARK: - Funcs
 extension MainTBC {
     private func setupTabBar() {
-        delegate = self
+        delegate = customDataSource
 
         tabBar.backgroundColor = .dynamicWhite
         tabBar.barTintColor = .dynamicWhite
@@ -106,55 +72,16 @@ extension MainTBC {
         // Prevents tab bar color from being lighter than intended
         tabBar.backgroundImage = UIImage()
 
-        let profileTab = Tab.profile
-        let profileVC = ProfileVC()
-        profileVC.tabBarItem = UITabBarItem(title: profileTab.title,
-                                            image: profileTab.image,
-                                            tag: profileTab.rawValue)
-
-        // Need to initialize a UICollectionView with a UICollectionViewLayout
-        let dashboardTab = Tab.dashboard
-        let dashboardCVC = VCFactory.makeDashboardCVC(
-            layout: UICollectionViewFlowLayout())
-        dashboardCVC.tabBarItem = UITabBarItem(title: dashboardTab.title,
-                                              image: dashboardTab.image,
-                                              tag: dashboardTab.rawValue)
-
-        let sessionsTab = Tab.sessions
-        let sessionsCVC = SessionsCVC(
-            collectionViewLayout: UICollectionViewFlowLayout())
-        sessionsCVC.tabBarItem = UITabBarItem(title: sessionsTab.title,
-                                              image: sessionsTab.image,
-                                              tag: sessionsTab.rawValue)
-
-        let exercisesTab = Tab.exercises
-        let exercisesTVC = VCFactory.makeExercisesTVC(
-            style: .grouped)
-        exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
-                                               image: exercisesTab.image,
-                                               tag: exercisesTab.rawValue)
-
-        let stopwatchTab = Tab.stopwatch
-        let stopwatchVC = StopwatchVC()
-        stopwatchVC.tabBarItem = UITabBarItem(title: stopwatchTab.title,
-                                              image: stopwatchTab.image,
-                                              tag: stopwatchTab.rawValue)
-
-        viewControllers = [profileVC,
-                           dashboardCVC,
-                           sessionsCVC,
-                           exercisesTVC,
-                           stopwatchVC].map {
-            MainNC(rootVC: $0)
+        guard let customDataSource = customDataSource else {
+            fatalError("custom data source not set up for MainTBC")
         }
-        selectedIndex = selectedTab.rawValue
+        viewControllers = customDataSource.viewControllers
+        selectedIndex = customDataSource.selectedTab.rawValue
     }
 
     private func showOnboardingIfNeeded() {
         if UserDataModel.shared.isFirstTimeLoad {
-            let onboardingVC = OnboardingVC()
-            onboardingVC.modalPresentationStyle = .overCurrentContext
-            onboardingVC.modalTransitionStyle = .crossDissolve
+            let onboardingVC = VCFactory.makeOnboardingVC()
             present(onboardingVC, animated: true)
         }
     }
@@ -299,13 +226,5 @@ extension MainTBC: SessionProgressDelegate {
             updateSessionProgressObservingViewControllers(state: .end,
                                                           endType: endType)
         }
-    }
-}
-
-// MARK: - UITabBarControllerDelegate
-extension MainTBC: UITabBarControllerDelegate {
-    public func tabBarController(_ tabBarController: UITabBarController,
-                                 didSelect viewController: UIViewController) {
-        selectedTab = Tab(rawValue: selectedIndex) ?? .sessions
     }
 }

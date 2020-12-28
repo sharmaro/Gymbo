@@ -236,8 +236,7 @@ extension ExercisesTVDS {
                 exercise: Exercise,
                 completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let newName = exercise.name,
-            let index = allExercisesIndex(of: currentName),
-            !doesExerciseExist(name: newName) else {
+            let index = allExercisesIndex(of: currentName) else {
             completion(.failure(.updateFail))
             return
         }
@@ -249,6 +248,11 @@ extension ExercisesTVDS {
             updateExerciseDictionary(exercise: exercise, updateType: .replace)
             completion(.success(nil))
         } else {
+            guard !doesExerciseExist(name: newName) else {
+                completion(.failure(.updateFail))
+                return
+            }
+
             try? realm?.write {
                 realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)
                 realm?.objects(ExercisesList.self).first?.exercises.append(exercise)

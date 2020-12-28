@@ -19,17 +19,6 @@ private extension VCFactory {
 
 // MARK: - Funcs
 extension VCFactory {
-    static func makeMainNC(rootVC: UIViewController,
-                           transitioningDelegate: TransitioningDelegate? = nil) -> MainNC {
-        let mainNC = MainNC(rootVC: rootVC)
-        if transitioningDelegate != nil {
-            mainNC.modalPresentationStyle = .custom
-            mainNC.modalTransitionStyle = .crossDissolve
-            mainNC.transitioningDelegate = transitioningDelegate
-        }
-        return mainNC
-    }
-
     static func makeDashboardCVC(layout: UICollectionViewLayout) -> DashboardCVC {
         let dashboardCVC = DashboardCVC(
             collectionViewLayout: layout)
@@ -47,5 +36,32 @@ extension VCFactory {
         exercisesTVC.customDelegate = ExercisesTVD(
             listDelegate: exercisesTVC)
         return exercisesTVC
+    }
+
+    static func makeMainNC(rootVC: UIViewController,
+                           transitioningDelegate: TransitioningDelegate? = nil) -> MainNC {
+        let mainNC = MainNC(rootVC: rootVC)
+        if transitioningDelegate != nil {
+            mainNC.modalPresentationStyle = .custom
+            mainNC.modalTransitionStyle = .crossDissolve
+            mainNC.transitioningDelegate = transitioningDelegate
+        }
+        return mainNC
+    }
+
+    static func makeMainTBC() -> MainTBC {
+        /**
+         Not initializing MainTBC with data source leads to viewDidLoad()
+         being called before data source has been assigned.
+         */
+        let mainTBC = MainTBC(customDataSource: MainTBDS())
+        return mainTBC
+    }
+
+    static func makeOnboardingVC() -> OnboardingVC {
+        let onboardingVC = OnboardingVC()
+        onboardingVC.modalPresentationStyle = .overCurrentContext
+        onboardingVC.modalTransitionStyle = .crossDissolve
+        return onboardingVC
     }
 }

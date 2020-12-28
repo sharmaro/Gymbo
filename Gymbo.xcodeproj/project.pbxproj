@@ -116,6 +116,7 @@
 		6975760F259881C20063BE74 /* ListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6975760E259881C20063BE74 /* ListDataSource.swift */; };
 		69777A5325996F3B00ED25CC /* ExerciseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69777A5225996F3B00ED25CC /* ExerciseLoader.swift */; };
 		697D461523F3B58A002ACDA7 /* ExercisesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */; };
+		6984DC1A2599BC3400254FC8 /* MainTBDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC192599BC3400254FC8 /* MainTBDS.swift */; };
 		698A5FE42563B59500578D50 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A5FE32563B59500578D50 /* Directory.swift */; };
 		698BD48D25933A4A007F78C6 /* InteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BD48C25933A4A007F78C6 /* InteractionState.swift */; };
 		698E934D259400E000B5A03E /* DisabledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698E934C259400E000B5A03E /* DisabledView.swift */; };
@@ -277,6 +278,7 @@
 		6975760E259881C20063BE74 /* ListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataSource.swift; sourceTree = "<group>"; };
 		69777A5225996F3B00ED25CC /* ExerciseLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseLoader.swift; sourceTree = "<group>"; };
 		697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesTVC.swift; sourceTree = "<group>"; };
+		6984DC192599BC3400254FC8 /* MainTBDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBDS.swift; sourceTree = "<group>"; };
 		698A5FE32563B59500578D50 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		698BD48C25933A4A007F78C6 /* InteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionState.swift; sourceTree = "<group>"; };
 		698E934C259400E000B5A03E /* DisabledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledView.swift; sourceTree = "<group>"; };
@@ -453,7 +455,7 @@
 			children = (
 				697575DC259852F80063BE74 /* DashboardCVC */,
 				697575ED259855B30063BE74 /* ExercisesTVC */,
-				695D4C0022D30B1D00E3FB1F /* MainTBC.swift */,
+				6984DC162599BBE800254FC8 /* MainTBC */,
 				6965C20F254BD7B600A898AB /* ProfileVC.swift */,
 				6962F35D244410AA00CB6DAE /* SessionsCVC.swift */,
 				695D4BFE22D30AFE00E3FB1F /* StopwatchVC.swift */,
@@ -632,6 +634,15 @@
 				6975760025985ABC0063BE74 /* ExercisesTVD.swift */,
 			);
 			path = ExercisesTVC;
+			sourceTree = "<group>";
+		};
+		6984DC162599BBE800254FC8 /* MainTBC */ = {
+			isa = PBXGroup;
+			children = (
+				695D4C0022D30B1D00E3FB1F /* MainTBC.swift */,
+				6984DC192599BC3400254FC8 /* MainTBDS.swift */,
+			);
+			path = MainTBC;
 			sourceTree = "<group>";
 		};
 		699F889B251062600085267C /* UITVCells */ = {
@@ -902,6 +913,7 @@
 				69777A5325996F3B00ED25CC /* ExerciseLoader.swift in Sources */,
 				692D982222FE9E890032514D /* ExerciseDetailTVCell.swift in Sources */,
 				6972E3E3249F22B100479E91 /* UITableView+Extension.swift in Sources */,
+				6984DC1A2599BC3400254FC8 /* MainTBDS.swift in Sources */,
 				697575D925981BB00063BE74 /* ListDelegate.swift in Sources */,
 				69C1BCC7245D570800D23556 /* ExercisePreviewTVC.swift in Sources */,
 				6972E3F8249F254800479E91 /* ImageRepresentationType.swift in Sources */,

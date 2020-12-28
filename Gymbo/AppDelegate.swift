@@ -79,7 +79,8 @@ extension AppDelegate {
     private func setupKeyWindow() {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        window?.rootViewController = MainTBC()
+        let mainTBC = VCFactory.makeMainTBC()
+        window?.rootViewController = mainTBC
         window?.makeKeyAndVisible()
     }
 
