@@ -27,10 +27,6 @@ private extension SessionsCVD {
     }
 }
 
-// MARK: - Funcs
-extension SessionsCVD {
-}
-
 // MARK: - UICollectionViewDelegateFlowLayout
 extension SessionsCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,

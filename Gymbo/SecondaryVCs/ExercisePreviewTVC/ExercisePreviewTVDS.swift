@@ -1,17 +1,18 @@
 //
-//  ExercisePreviewDataModel.swift
+//  ExercisePreviewTVDS.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 11/22/20.
+//  Created by Rohan Sharma on 12/29/20.
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
-import RealmSwift
 
 // MARK: - Properties
-struct ExercisePreviewDataModel {
-    private let tableItems: [[TableItem]] = [
+class ExercisePreviewTVDS: NSObject {
+    var exercise = Exercise()
+
+    private let items: [[Item]] = [
         [
             .title, .imagesTitle, .images,
             .instructionsTitle, .instructions, .tipsTitle,
@@ -19,20 +20,24 @@ struct ExercisePreviewDataModel {
         ]
     ]
 
-    var exercise = Exercise()
+    private weak var listDataSource: ListDataSource?
+
+    init(listDataSource: ListDataSource?) {
+        super.init()
+
+        self.listDataSource = listDataSource
+    }
 }
 
 // MARK: - Structs/Enums
-extension ExercisePreviewDataModel {
+extension ExercisePreviewTVDS {
     private struct Constants {
-        static let swipableImageVTVCellHeight = CGFloat(200)
-
         static let noImagesText = "No images\n"
         static let noInstructionsText = "No instructions\n"
         static let noTipsText = "No tips\n"
     }
 
-    enum TableItem: String {
+    enum Item: String {
         case imagesTitle = "Images"
         case images
         case instructionsTitle = "Instructions"
@@ -44,8 +49,7 @@ extension ExercisePreviewDataModel {
 }
 
 // MARK: - Funcs
-extension ExercisePreviewDataModel {
-    // MARK: - UITableViewCells
+extension ExercisePreviewTVDS {
     private func getTwoLabelsTVCell(in tableView: UITableView,
                                     for indexPath: IndexPath) -> TwoLabelsTVCell {
         guard let twoLabelsTVCell = tableView.dequeueReusableCell(
@@ -86,14 +90,9 @@ extension ExercisePreviewDataModel {
         return swipableImageVTVCell
     }
 
-    // MARK: - Helpers
-    private func validateSection(section: Int) -> Bool {
-        section < tableItems.count
-    }
-
-    func indexOf(item: TableItem) -> Int? {
+    func indexOf(item: Item) -> Int? {
         var index: Int?
-        tableItems.forEach {
+        items.forEach {
             if $0.contains(item) {
                 index = $0.firstIndex(of: item)
                 return
@@ -104,25 +103,20 @@ extension ExercisePreviewDataModel {
 }
 
 // MARK: - UITableViewDataSource
-extension ExercisePreviewDataModel {
-    var numberOfSections: Int {
-        tableItems.count
+extension ExercisePreviewTVDS: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        items.count
     }
 
-    func numberOfRows(in section: Int) -> Int {
-        guard validateSection(section: section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-        return tableItems[section].count
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        items[section].count
     }
 
-    func cellForRow(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let item = tableItems[indexPath.section][indexPath.row]
+        let item = items[indexPath.section][indexPath.row]
 
         switch item {
         case .title:
@@ -146,27 +140,5 @@ extension ExercisePreviewDataModel {
                                 text: text ?? emptyText)
         }
         return cell
-    }
-
-    func tableItem(at indexPath: IndexPath) -> TableItem {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-        return tableItems[indexPath.section][indexPath.row]
-    }
-
-    func heightForRow(at indexPath: IndexPath) -> CGFloat {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-
-        let item = tableItems[indexPath.section][indexPath.row]
-        switch item {
-        case .images:
-            return exercise.imageNames.isEmpty ?
-                UITableView.automaticDimension : Constants.swipableImageVTVCellHeight
-        default:
-            return UITableView.automaticDimension
-        }
     }
 }

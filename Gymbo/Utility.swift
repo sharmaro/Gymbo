@@ -9,8 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-struct Utility {
-}
+struct Utility {}
 
 // MARK: - Funcs
 extension Utility {

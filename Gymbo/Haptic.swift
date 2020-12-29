@@ -9,8 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-struct Haptic {
-}
+struct Haptic {}
 
 // MARK: - Funcs
 extension Haptic {

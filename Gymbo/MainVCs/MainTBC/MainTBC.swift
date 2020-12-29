@@ -6,7 +6,6 @@
 //  Copyright © 2019 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 // MARK: - Properties

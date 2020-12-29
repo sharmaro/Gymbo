@@ -6,7 +6,6 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 // MARK: - Properties
@@ -40,8 +39,6 @@ class SessionsCVC: UICollectionViewController {
 // MARK: - Structs/Enums
 private extension SessionsCVC {
     struct Constants {
-        static let title = "Sessions"
-
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
         static let sessionStartedInsetConstant = CGFloat(50)
@@ -91,7 +88,7 @@ extension SessionsCVC {
 // MARK: - ViewAdding
 extension SessionsCVC: ViewAdding {
     func setupNavigationBar() {
-        title = Constants.title
+        title = "Sessions"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                            target: self,

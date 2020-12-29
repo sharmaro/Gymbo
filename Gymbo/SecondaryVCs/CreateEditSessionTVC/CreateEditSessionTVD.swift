@@ -27,8 +27,7 @@ private extension CreateEditSessionTVD {
 }
 
 // MARK: - Funcs
-extension CreateEditSessionTVD {
-}
+extension CreateEditSessionTVD {}
 
 // MARK: - UITableViewDelegate
 extension CreateEditSessionTVD: UITableViewDelegate {

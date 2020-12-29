@@ -6,7 +6,6 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 // MARK: - Properties
@@ -232,8 +231,8 @@ extension ExercisesTVC {
         Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
-        let createEditExerciseTVC = VCFactory.makeCreateEditExerciseTVC()
-        createEditExerciseTVC.exerciseDataModelDelegate = self
+        let createEditExerciseTVC = VCFactory
+            .makeCreateEditExerciseTVC(delegate: self)
         createEditExerciseTVC.setAlphaDelegate = self
 
         let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
@@ -279,8 +278,8 @@ extension ExercisesTVC: ListDelegate {
             }
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let exercisePreviewTVC = ExercisePreviewTVC(exercisesTVDS: customDataSource,
-                                                        exercise: exercise)
+            let exercisePreviewTVC = VCFactory.makeExercisePreviewTVC(exercise: exercise,
+                                             exercisesTVDS: customDataSource)
             let modalNC = VCFactory.makeMainNC(rootVC: exercisePreviewTVC,
                                            transitioningDelegate: self)
             mainTBC?.present(modalNC, animated: true)

@@ -13,19 +13,21 @@ struct VCFactory {
     typealias TransitioningDelegate = UIViewControllerTransitioningDelegate
 }
 
-// MARK: - Structs/Enums
-private extension VCFactory {
-}
-
 // MARK: - Funcs
 extension VCFactory {
-    static func makeCreateEditExerciseTVC(state: ExerciseState = .create) -> CreateEditExerciseTVC {
+    static func makeCreateEditExerciseTVC(
+        exercise: Exercise = Exercise(),
+        state: ExerciseState = .create,
+        delegate: ExerciseDataModelDelegate? = nil
+    ) -> CreateEditExerciseTVC {
         let createEditExerciseTVC = CreateEditExerciseTVC()
+        createEditExerciseTVC.exercise = exercise
+        createEditExerciseTVC.exerciseState = state
+        createEditExerciseTVC.exerciseDataModelDelegate = delegate
         createEditExerciseTVC.customDataSource = CreateEditExerciseTVDS(
             listDataSource: createEditExerciseTVC)
         createEditExerciseTVC.customDelegate = CreateEditExerciseTVD(
             listDelegate: createEditExerciseTVC)
-        createEditExerciseTVC.exerciseState = state
         return createEditExerciseTVC
     }
 
@@ -49,6 +51,18 @@ extension VCFactory {
         dashboardCVC.customDelegate = DashboardCVD(
             listDelegate: dashboardCVC)
         return dashboardCVC
+    }
+
+    static func makeExercisePreviewTVC(exercise: Exercise,
+                                       exercisesTVDS: ExercisesTVDS?) -> ExercisePreviewTVC {
+        let exercisePreviewTVC = ExercisePreviewTVC(exercisesTVDS: exercisesTVDS)
+        exercisePreviewTVC.customDataSource = ExercisePreviewTVDS(
+            listDataSource: exercisePreviewTVC)
+        exercisePreviewTVC.customDataSource?.exercise = exercise
+        exercisePreviewTVC.customDelegate = ExercisePreviewTVD(
+            listDelegate: exercisePreviewTVC)
+        exercisePreviewTVC.customDelegate?.exercise = exercise
+        return exercisePreviewTVC
     }
 
     static func makeExercisesTVC(style: UITableView.Style) -> ExercisesTVC {

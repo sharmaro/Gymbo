@@ -37,8 +37,6 @@ class SessionPreviewVC: UIViewController {
 // MARK: - Structs/Enums
 private extension SessionPreviewVC {
     struct Constants {
-        static let title = "Preview"
-
         static let startButtonHeight = CGFloat(45)
         static let startButtonBottomSpacing = CGFloat(-20)
         static let exerciseCellHeight = CGFloat(70)
@@ -84,7 +82,7 @@ extension SessionPreviewVC {
 // MARK: - ViewAdding
 extension SessionPreviewVC: ViewAdding {
     func setupNavigationBar() {
-        title = Constants.title
+        title = "Preview"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                            target: self,

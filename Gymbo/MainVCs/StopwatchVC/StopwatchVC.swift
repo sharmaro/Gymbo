@@ -88,8 +88,6 @@ class StopwatchVC: UIViewController {
 // MARK: - Structs/Enums
 private extension StopwatchVC {
     struct Constants {
-        static let title = "Stopwatch"
-
         static let timerInterval = TimeInterval(0.01)
 
         static let timeStackViewHeight = CGFloat(100)
@@ -143,7 +141,7 @@ extension StopwatchVC {
 // MARK: - ViewAdding
 extension StopwatchVC: ViewAdding {
     func setupNavigationBar() {
-        title = Constants.title
+        title = "Stopwatch"
     }
 
     func addViews() {
@@ -390,8 +388,7 @@ extension StopwatchVC: ListDataSource {
 }
 
 // MARK: - ListDelegate
-extension StopwatchVC: ListDelegate {
-}
+extension StopwatchVC: ListDelegate {}
 
 // MARK: - ApplicationStateObserving
 extension StopwatchVC: ApplicationStateObserving {

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 // MARK: - Properties
@@ -255,8 +254,7 @@ extension CreateEditExerciseTVC: ListDataSource {
 }
 
 // MARK: - ListDelegate
-extension CreateEditExerciseTVC: ListDelegate {
-}
+extension CreateEditExerciseTVC: ListDelegate {}
 
 // MARK: - CustomTextViewDelegate
 extension CreateEditExerciseTVC: CustomTextViewDelegate {

@@ -21,10 +21,6 @@ class ExerciseLoader {
                           "Legs", "Other", "Shoulders"]
 }
 
-// MARK: - Structs/Enums
-private extension ExerciseLoader {
-}
-
 // MARK: - Funcs
 extension ExerciseLoader {
     func loadExercises(completion: (() -> Void)? = nil) {

@@ -29,13 +29,17 @@ class ExercisePreviewTVC: UITableViewController {
         return button
     }()
 
-    private var exercisesTVDS: ExercisesTVDS?
-    private var exercisePreviewDataModel = ExercisePreviewDataModel()
+    private var isExerciseUserMade: Bool {
+        customDataSource?.exercise.isUserMade ?? false
+    }
 
-    init(exercisesTVDS: ExercisesTVDS?, exercise: Exercise) {
+    private let exercisesTVDS: ExercisesTVDS?
+
+    var customDataSource: ExercisePreviewTVDS?
+    var customDelegate: ExercisePreviewTVD?
+
+    init(exercisesTVDS: ExercisesTVDS?) {
         self.exercisesTVDS = exercisesTVDS
-        self.exercisePreviewDataModel.exercise = exercise
-
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -47,7 +51,6 @@ class ExercisePreviewTVC: UITableViewController {
 // MARK: - Structs/Enums
 private extension ExercisePreviewTVC {
     struct Constants {
-        static let title = "Exercise"
         static let editDisclaimerText = "*Only exercises made by you can be edited."
 
         static let viewToUseHeight = CGFloat(45)
@@ -76,7 +79,7 @@ extension ExercisePreviewTVC {
 // MARK: - ViewAdding
 extension ExercisePreviewTVC: ViewAdding {
     func setupNavigationBar() {
-        navigationItem.title = Constants.title
+        title = "Exercise"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))
@@ -87,7 +90,7 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func addViews() {
-        if exercisePreviewDataModel.exercise.isUserMade {
+        if isExerciseUserMade {
             view.add(subviews: [editButton])
         } else {
             view.add(subviews: [editDisclaimerLabel])
@@ -95,6 +98,9 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func setupViews() {
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.register(TwoLabelsTVCell.self,
@@ -103,7 +109,7 @@ extension ExercisePreviewTVC: ViewAdding {
                            forCellReuseIdentifier: SwipableImageVTVCell.reuseIdentifier)
         tableView.register(LabelTVCell.self,
                            forCellReuseIdentifier: LabelTVCell.reuseIdentifier)
-        let spacing: CGFloat = exercisePreviewDataModel.exercise.isUserMade ? 15 : 0
+        let spacing: CGFloat = isExerciseUserMade ? 15 : 0
         tableView.contentInset.bottom = Constants.viewToUseHeight + spacing
 
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
@@ -115,9 +121,8 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func addConstraints() {
-        let isUserMade = exercisePreviewDataModel.exercise.isUserMade
-        let viewToUse = isUserMade ? editButton : editDisclaimerLabel
-        let bottomSpacing: CGFloat = isUserMade ? -15 : 0
+        let viewToUse = isExerciseUserMade ? editButton : editDisclaimerLabel
+        let bottomSpacing: CGFloat = isExerciseUserMade ? -15 : 0
 
         NSLayoutConstraint.activate([
             viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
@@ -147,41 +152,22 @@ extension ExercisePreviewTVC {
 
     @objc private func editButtonTapped(sender: Any) {
         Haptic.sendSelectionFeedback()
-        let createEditExerciseTVC = VCFactory.makeCreateEditExerciseTVC(state: .edit)
-        createEditExerciseTVC.exercise = exercisePreviewDataModel.exercise
-        createEditExerciseTVC.exerciseDataModelDelegate = self
-
+        let exercise = customDataSource?.exercise ?? Exercise()
+        let createEditExerciseTVC = VCFactory
+            .makeCreateEditExerciseTVC(exercise: exercise,
+                                       state: .edit,
+                                       delegate: self)
         let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
                                        transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
     }
 }
 
-// MARK: - UITableViewDataSource
-extension ExercisePreviewTVC {
-    override func tableView(_ tableView: UITableView,
-                            numberOfRowsInSection section: Int) -> Int {
-        exercisePreviewDataModel.numberOfRows(in: section)
-    }
+// MARK: - ListDataSource
+extension ExercisePreviewTVC: ListDataSource {}
 
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        exercisePreviewDataModel.cellForRow(in: tableView, at: indexPath)
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension ExercisePreviewTVC {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        exercisePreviewDataModel.heightForRow(at: indexPath)
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            heightForRowAt indexPath: IndexPath) -> CGFloat {
-        exercisePreviewDataModel.heightForRow(at: indexPath)
-    }
-}
+// MARK: - ListDelegate
+extension ExercisePreviewTVC: ListDelegate {}
 
 // MARK: - ExerciseDataModelDelegate
 extension ExercisePreviewTVC: ExerciseDataModelDelegate {
@@ -193,7 +179,7 @@ extension ExercisePreviewTVC: ExerciseDataModelDelegate {
             switch result {
             case .success(let value):
                 completion(.success(value))
-                self?.exercisePreviewDataModel.exercise = exercise
+                self?.customDataSource?.exercise = exercise
                 self?.refreshTitleLabels()
                 self?.tableView.reloadData()
 

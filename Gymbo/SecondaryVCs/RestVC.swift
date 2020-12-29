@@ -99,8 +99,6 @@ class RestVC: UIViewController {
 // MARK: - Structs/Enums
 private extension RestVC {
     struct Constants {
-        static let title = "Rest"
-
         static let timeDelta = 5
         static let defaultRow = 11
 
@@ -154,7 +152,7 @@ extension RestVC {
 // MARK: - ViewAdding
 extension RestVC: ViewAdding {
     func setupNavigationBar() {
-        title = Constants.title
+        title = "Rest"
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                                            target: self,
