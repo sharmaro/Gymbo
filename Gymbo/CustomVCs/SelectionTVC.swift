@@ -118,7 +118,6 @@ extension SelectionTVC {
         Haptic.sendSelectionFeedback()
 
         let item = items[indexPath.row]
-
         selectionDelegate?.selected(item: item)
         navigationController?.popViewController(animated: true)
     }

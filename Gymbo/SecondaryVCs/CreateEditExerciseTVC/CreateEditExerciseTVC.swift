@@ -186,11 +186,11 @@ extension CreateEditExerciseTVC {
     }
 
     @objc private func actionButtonTapped(sender: Any) {
-        Haptic.sendImpactFeedback(.medium)
         guard let groups = customDataSource?.getFormattedGroups(),
               let customDataSource = customDataSource else {
             return
         }
+        Haptic.sendImpactFeedback(.medium)
 
         let imageNames = customDataSource.getImageNamesAfterSave()
         let instructionsAndTips = getInstructionsAndTipsFromCell()

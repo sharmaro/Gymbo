@@ -168,11 +168,11 @@ extension MultipleSelectionTVCell: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDelegate
 extension MultipleSelectionTVCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
         guard let selectionCVCell = collectionView.cellForItem(
                 at: indexPath) as? SelectionCVCell else {
             return
         }
+        Haptic.sendSelectionFeedback()
 
         selectionCVCell.tapped()
         let selectedText = getTextFrom(indexPaths: collectionView.indexPathsForSelectedItems)
@@ -180,11 +180,11 @@ extension MultipleSelectionTVCell: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
         guard let selectionCVCell = collectionView.cellForItem(
                 at: indexPath) as? SelectionCVCell else {
             return
         }
+        Haptic.sendSelectionFeedback()
 
         selectionCVCell.tapped()
         let selectedText = getTextFrom(indexPaths: collectionView.indexPathsForSelectedItems)

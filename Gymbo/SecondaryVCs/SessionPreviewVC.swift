@@ -170,7 +170,6 @@ extension SessionPreviewVC {
     }
 
     @objc private func editButtonTapped() {
-        Haptic.sendSelectionFeedback()
         guard let session = session else {
             let alertData = AlertData(content: "Can't edit current Session.",
                                       usesBothButtons: false,
@@ -178,11 +177,11 @@ extension SessionPreviewVC {
             presentCustomAlert(alertData: alertData)
             return
         }
+        Haptic.sendSelectionFeedback()
 
-        let createEditSessionTVC = CreateEditSessionTVC()
-        createEditSessionTVC.sessionState = .edit
-        createEditSessionTVC.session = session
-        createEditSessionTVC.sessionDataModelDelegate = self
+        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(session: session,
+                                                                      state: .edit)
+        createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTVC, animated: true)
     }
 

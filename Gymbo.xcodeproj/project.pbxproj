@@ -29,6 +29,10 @@
 		6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */; };
 		6930AD2E255E526C002F2F80 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */; };
 		693E45D5237D1BF400ED8EC1 /* SessionPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */; };
+		69403781259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */; };
+		69403785259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */; };
+		6940C852259B040100594066 /* CreateEditSessionTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6940C851259B040100594066 /* CreateEditSessionTVDS.swift */; };
+		6940C858259B040900594066 /* CreateEditSessionTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6940C857259B040900594066 /* CreateEditSessionTVD.swift */; };
 		69477B7E2454F73000FB6F73 /* ExerciseTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69477B7D2454F72F00FB6F73 /* ExerciseTVCell.swift */; };
 		69488E1D236F82D000C3A04C /* CreateEditSessionTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69488E1C236F82D000C3A04C /* CreateEditSessionTVC.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
@@ -193,6 +197,10 @@
 		6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionDelegate.swift; sourceTree = "<group>"; };
 		6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewVC.swift; sourceTree = "<group>"; };
+		69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+CustomTextViewDelegate.swift"; sourceTree = "<group>"; };
+		69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+ExerciseTVCellDelegate.swift"; sourceTree = "<group>"; };
+		6940C851259B040100594066 /* CreateEditSessionTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTVDS.swift; sourceTree = "<group>"; };
+		6940C857259B040900594066 /* CreateEditSessionTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTVD.swift; sourceTree = "<group>"; };
 		69477B7D2454F72F00FB6F73 /* ExerciseTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTVCell.swift; sourceTree = "<group>"; };
 		69488E1C236F82D000C3A04C /* CreateEditSessionTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditSessionTVC.swift; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -373,7 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				69AD4831259AEFCE0092311D /* CreateEditExerciseTVC */,
-				69488E1C236F82D000C3A04C /* CreateEditSessionTVC.swift */,
+				6940C850259B03F400594066 /* CreateEditSessionTVC */,
 				69C1BCC6245D570800D23556 /* ExercisePreviewTVC.swift */,
 				69CB2D9023CD6D9F00603363 /* RestVC.swift */,
 				693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */,
@@ -400,6 +408,18 @@
 				6930081A259A8300005D2578 /* StopwatchTVD.swift */,
 			);
 			path = StopwatchVC;
+			sourceTree = "<group>";
+		};
+		6940C850259B03F400594066 /* CreateEditSessionTVC */ = {
+			isa = PBXGroup;
+			children = (
+				69488E1C236F82D000C3A04C /* CreateEditSessionTVC.swift */,
+				69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */,
+				69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */,
+				6940C851259B040100594066 /* CreateEditSessionTVDS.swift */,
+				6940C857259B040900594066 /* CreateEditSessionTVD.swift */,
+			);
+			path = CreateEditSessionTVC;
 			sourceTree = "<group>";
 		};
 		69507091249751FD00942078 /* Models */ = {
@@ -969,6 +989,7 @@
 				6972E425249F2D4A00479E91 /* StartSessionButtonDelegate.swift in Sources */,
 				6972E3EE249F237C00479E91 /* CornerStyle.swift in Sources */,
 				6972E423249F2CF100479E91 /* SessionHeaderViewModel.swift in Sources */,
+				69403781259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift in Sources */,
 				6965C213254BE76100A898AB /* SettingsTVC.swift in Sources */,
 				69DAD821247E01580023E967 /* TextViewTVCell.swift in Sources */,
 				6965C20C254BCC5D00A898AB /* UserInterfaceMode.swift in Sources */,
@@ -980,6 +1001,7 @@
 				6972E415249F2A7400479E91 /* MultipleSelectionTVCellDelegate.swift in Sources */,
 				695E66B424C52E90004C06A4 /* TwoLabelsTVCell.swift in Sources */,
 				697575F12598593A0063BE74 /* ExercisesTVDS.swift in Sources */,
+				6940C852259B040100594066 /* CreateEditSessionTVDS.swift in Sources */,
 				69488E1D236F82D000C3A04C /* CreateEditSessionTVC.swift in Sources */,
 				6975760F259881C20063BE74 /* ListDataSource.swift in Sources */,
 				698BD48D25933A4A007F78C6 /* InteractionState.swift in Sources */,
@@ -1003,6 +1025,7 @@
 				6984DC272599C9F500254FC8 /* ProfileTVC.swift in Sources */,
 				6965C217254BF28500A898AB /* SelectionTVCell.swift in Sources */,
 				6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */,
+				69403785259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift in Sources */,
 				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
 				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
 				6972E408249F288100479E91 /* ImagesTVCellDelegate.swift in Sources */,
@@ -1016,6 +1039,7 @@
 				6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTVCell.swift in Sources */,
 				6975760125985ABC0063BE74 /* ExercisesTVD.swift in Sources */,
+				6940C858259B040900594066 /* CreateEditSessionTVD.swift in Sources */,
 				6930081B259A8300005D2578 /* StopwatchTVD.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewVC.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTVCell.swift in Sources */,

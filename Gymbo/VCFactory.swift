@@ -29,6 +29,18 @@ extension VCFactory {
         return createEditExerciseTVC
     }
 
+    static func makeCreateEditSessionTVC(session: Session = Session(),
+                                         state: SessionState) -> CreateEditSessionTVC {
+        let createEditSessionTVC = CreateEditSessionTVC()
+        createEditSessionTVC.customDataSource = CreateEditSessionTVDS(
+            listDataSource: createEditSessionTVC)
+        createEditSessionTVC.customDataSource?.session = session
+        createEditSessionTVC.customDataSource?.sessionState = state
+        createEditSessionTVC.customDelegate = CreateEditSessionTVD(
+            listDelegate: createEditSessionTVC)
+        return createEditSessionTVC
+    }
+
     static func makeDashboardCVC(layout: UICollectionViewLayout) -> DashboardCVC {
         let dashboardCVC = DashboardCVC(
             collectionViewLayout: layout)
