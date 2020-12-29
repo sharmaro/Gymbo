@@ -23,7 +23,7 @@ class MainTBDS: NSObject {
 // MARK: - Structs/Enums
 extension MainTBDS {
     //swiftlint:disable:next type_name
-    enum Tab: Int {
+    enum Tab: Int, CaseIterable {
         case profile
         case dashboard
         case sessions
@@ -69,48 +69,25 @@ extension MainTBDS {
 // MARK: - Funcs
 extension MainTBDS {
     private func setupVCs() {
-        let profileTab = Tab.profile
         let profileTVC = VCFactory.makeProfileTVC()
-        profileTVC.tabBarItem = UITabBarItem(title: profileTab.title,
-                                            image: profileTab.image,
-                                            tag: profileTab.rawValue)
-
         // Need to initialize a UICollectionView with a UICollectionViewLayout
-        let dashboardTab = Tab.dashboard
         let dashboardCVC = VCFactory.makeDashboardCVC(
             layout: UICollectionViewFlowLayout())
-        dashboardCVC.tabBarItem = UITabBarItem(title: dashboardTab.title,
-                                              image: dashboardTab.image,
-                                              tag: dashboardTab.rawValue)
-
-        let sessionsTab = Tab.sessions
         let sessionsCVC = VCFactory.makeSessionsCVC(
             layout: UICollectionViewFlowLayout())
-        sessionsCVC.tabBarItem = UITabBarItem(title: sessionsTab.title,
-                                              image: sessionsTab.image,
-                                              tag: sessionsTab.rawValue)
-
-        let exercisesTab = Tab.exercises
         let exercisesTVC = VCFactory.makeExercisesTVC(
             style: .grouped)
-        exercisesTVC.tabBarItem = UITabBarItem(title: exercisesTab.title,
-                                               image: exercisesTab.image,
-                                               tag: exercisesTab.rawValue)
+        let stopwatchVC = VCFactory.makeStopwatchVC()
 
-        let stopwatchTab = Tab.stopwatch
-        let stopwatchVC = StopwatchVC()
-        stopwatchVC.tabBarItem = UITabBarItem(title: stopwatchTab.title,
-                                              image: stopwatchTab.image,
-                                              tag: stopwatchTab.rawValue)
-
-        viewControllers = [
-            profileTVC,
-            dashboardCVC,
-            sessionsCVC,
-            exercisesTVC,
-            stopwatchVC].map {
-                MainNC(rootVC: $0)
+        let vcs = [profileTVC, dashboardCVC, sessionsCVC,
+                   exercisesTVC, stopwatchVC]
+        for (index, tab) in Tab.allCases.enumerated() {
+            let vc = vcs[index]
+            vc.tabBarItem = UITabBarItem(title: tab.title,
+                                         image: tab.image,
+                                         tag: tab.rawValue)
         }
+        viewControllers = vcs.map { MainNC(rootVC: $0) }
     }
 }
 

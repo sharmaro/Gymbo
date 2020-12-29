@@ -83,4 +83,13 @@ extension VCFactory {
             listDelegate: sessionsCVC)
         return sessionsCVC
     }
+
+    static func makeStopwatchVC() -> StopwatchVC {
+        let stopwatchVC = StopwatchVC()
+        stopwatchVC.customDataSource = StopwatchTVDS(
+            listDataSource: stopwatchVC)
+        stopwatchVC.customDelegate = StopwatchTVD(
+            listDelegate: stopwatchVC)
+        return stopwatchVC
+    }
 }

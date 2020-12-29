@@ -85,16 +85,9 @@ extension StopwatchTVCell {
         valueLabel.text = valueText
     }
 
-    func checkLapComparison(timeToCheck: Int, fastestTime: Int, slowestTime: Int) {
-        if timeToCheck <= fastestTime {
-            descriptionLabel.textColor = .systemGreen
-            valueLabel.textColor = .systemGreen
-        } else if timeToCheck >= slowestTime {
-            descriptionLabel.textColor = .systemRed
-            valueLabel.textColor = .systemRed
-        } else {
-            descriptionLabel.textColor = .dynamicBlack
-            valueLabel.textColor = .dynamicBlack
+    func updateColors(color: UIColor) {
+        [descriptionLabel, valueLabel].forEach {
+            $0.textColor = color
         }
     }
 }

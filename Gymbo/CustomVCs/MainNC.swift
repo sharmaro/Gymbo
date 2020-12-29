@@ -27,12 +27,6 @@ class MainNC: UINavigationController {
     }
 }
 
-// MARK: - Structs/Enums
-private extension MainNC {
-    struct Constants {
-    }
-}
-
 // MARK: - UIViewController Var/Funcs
 extension MainNC {
     override func viewDidLoad() {
@@ -56,9 +50,6 @@ extension MainNC: ViewAdding {
         // This allows there to be a smooth transition from large title to small and vice-versa
 //        extendedLayoutIncludesOpaqueBars = true
 //        edgesForExtendedLayout = .all
-    }
-
-    func setupViews() {
     }
 
     func setupColors() {

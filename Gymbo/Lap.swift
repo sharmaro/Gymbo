@@ -16,6 +16,18 @@ struct Lap: Codable {
     var seconds: Int
     var centiSeconds: Int
 
+    init() {
+        self.minutes = 0
+        self.seconds = 0
+        self.centiSeconds = 0
+    }
+
+    init(minutes: Int, seconds: Int, centiSeconds: Int) {
+        self.minutes = minutes
+        self.seconds = seconds
+        self.centiSeconds = centiSeconds
+    }
+
     var totalTime: Int {
         let minutesConverted = minutes * 6000
         let secondsConverted = seconds * 100

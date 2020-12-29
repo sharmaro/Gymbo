@@ -23,6 +23,8 @@
 		693008042599CF47005D2578 /* SessionsCVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693008032599CF47005D2578 /* SessionsCVDS.swift */; };
 		693008082599CF57005D2578 /* SessionsCVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693008072599CF57005D2578 /* SessionsCVD.swift */; };
 		6930080C2599D557005D2578 /* DataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930080B2599D557005D2578 /* DataState.swift */; };
+		69300817259A82F2005D2578 /* StopwatchTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69300816259A82F2005D2578 /* StopwatchTVDS.swift */; };
+		6930081B259A8300005D2578 /* StopwatchTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930081A259A8300005D2578 /* StopwatchTVD.swift */; };
 		6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */; };
 		6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */; };
 		6930AD2E255E526C002F2F80 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */; };
@@ -58,7 +60,6 @@
 		6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */; };
 		6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */; };
 		6972E3C9249F1F8900479E91 /* SessionProgressObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */; };
-		6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */; };
 		6972E3CD249F1FC600479E91 /* ViewAdding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3CC249F1FC600479E91 /* ViewAdding.swift */; };
 		6972E3D8249F213900479E91 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3D7249F213900479E91 /* String+Extension.swift */; };
 		6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3D9249F215400479E91 /* Notification+Extension.swift */; };
@@ -133,7 +134,6 @@
 		69C6BD13256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */; };
 		69C6BD16256A675200B247C7 /* ExercisePreviewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */; };
 		69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */; };
-		69C6BD35256B77CD00B247C7 /* LapDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD34256B77CD00B247C7 /* LapDataModel.swift */; };
 		69C6BD39256B784C00B247C7 /* Lap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD38256B784C00B247C7 /* Lap.swift */; };
 		69C6BD49256B818D00B247C7 /* LapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD48256B818D00B247C7 /* LapTests.swift */; };
 		69C6BD4F256B843A00B247C7 /* UtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD4E256B843A00B247C7 /* UtilityTests.swift */; };
@@ -186,6 +186,8 @@
 		693008032599CF47005D2578 /* SessionsCVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCVDS.swift; sourceTree = "<group>"; };
 		693008072599CF57005D2578 /* SessionsCVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCVD.swift; sourceTree = "<group>"; };
 		6930080B2599D557005D2578 /* DataState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataState.swift; sourceTree = "<group>"; };
+		69300816259A82F2005D2578 /* StopwatchTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTVDS.swift; sourceTree = "<group>"; };
+		6930081A259A8300005D2578 /* StopwatchTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchTVD.swift; sourceTree = "<group>"; };
 		6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVC.swift; sourceTree = "<group>"; };
 		6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionDelegate.swift; sourceTree = "<group>"; };
 		6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -223,7 +225,6 @@
 		6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserving.swift; sourceTree = "<group>"; };
 		6972E3C6249F1F5C00479E91 /* ApplicationStateObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStateObserving.swift; sourceTree = "<group>"; };
 		6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProgressObserving.swift; sourceTree = "<group>"; };
-		6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStateConstraintsUpdating.swift; sourceTree = "<group>"; };
 		6972E3CC249F1FC600479E91 /* ViewAdding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAdding.swift; sourceTree = "<group>"; };
 		6972E3D7249F213900479E91 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		6972E3D9249F215400479E91 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
@@ -300,7 +301,6 @@
 		69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataModel.swift; sourceTree = "<group>"; };
 		69C6BD22256A725C00B247C7 /* GymboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C6BD26256A725C00B247C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69C6BD34256B77CD00B247C7 /* LapDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapDataModel.swift; sourceTree = "<group>"; };
 		69C6BD38256B784C00B247C7 /* Lap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lap.swift; sourceTree = "<group>"; };
 		69C6BD48256B818D00B247C7 /* LapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapTests.swift; sourceTree = "<group>"; };
 		69C6BD4E256B843A00B247C7 /* UtilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityTests.swift; sourceTree = "<group>"; };
@@ -390,6 +390,16 @@
 			path = CustomCells;
 			sourceTree = "<group>";
 		};
+		69300813259A82D7005D2578 /* StopwatchVC */ = {
+			isa = PBXGroup;
+			children = (
+				695D4BFE22D30AFE00E3FB1F /* StopwatchVC.swift */,
+				69300816259A82F2005D2578 /* StopwatchTVDS.swift */,
+				6930081A259A8300005D2578 /* StopwatchTVD.swift */,
+			);
+			path = StopwatchVC;
+			sourceTree = "<group>";
+		};
 		69507091249751FD00942078 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,7 +474,7 @@
 				6984DC162599BBE800254FC8 /* MainTBC */,
 				6984DC1D2599C9A500254FC8 /* ProfileTVC */,
 				6984DC322599CE1C00254FC8 /* SessionsCVC */,
-				695D4BFE22D30AFE00E3FB1F /* StopwatchVC.swift */,
+				69300813259A82D7005D2578 /* StopwatchVC */,
 			);
 			path = MainVCs;
 			sourceTree = "<group>";
@@ -508,7 +518,6 @@
 			children = (
 				69C6BD12256A4D6B00B247C7 /* CreateEditExerciseDataModel.swift */,
 				69C6BD15256A675200B247C7 /* ExercisePreviewDataModel.swift */,
-				69C6BD34256B77CD00B247C7 /* LapDataModel.swift */,
 				69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */,
 				697575C0259801460063BE74 /* UserDataModel.swift */,
 			);
@@ -538,7 +547,6 @@
 				6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */,
 				6972E3C8249F1F8900479E91 /* SessionProgressObserving.swift */,
 				6972E416249F2A9D00479E91 /* SessionsCVCellDelegate.swift */,
-				6972E3CA249F1FB200479E91 /* SessionStateConstraintsUpdating.swift */,
 				6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */,
 				6972E424249F2D4A00479E91 /* StartSessionButtonDelegate.swift */,
 				6972E405249F276A00479E91 /* UpdateDelegate.swift */,
@@ -901,6 +909,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69300817259A82F2005D2578 /* StopwatchTVDS.swift in Sources */,
 				6972E402249F26E700479E91 /* ExerciseUpdatingDelegate.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTBC.swift in Sources */,
 				6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */,
@@ -995,6 +1004,7 @@
 				6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */,
 				69693CED247DF30300E87133 /* LabelTVCell.swift in Sources */,
 				6975760125985ABC0063BE74 /* ExercisesTVD.swift in Sources */,
+				6930081B259A8300005D2578 /* StopwatchTVD.swift in Sources */,
 				693E45D5237D1BF400ED8EC1 /* SessionPreviewVC.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTVCell.swift in Sources */,
 				6972E413249F2A0000479E91 /* ExerciseHeaderTVCellModel.swift in Sources */,
@@ -1006,7 +1016,6 @@
 				6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */,
 				6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
-				6972E3CB249F1FB200479E91 /* SessionStateConstraintsUpdating.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
 				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
 				6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */,
@@ -1028,7 +1037,6 @@
 				6972E3F4249F24A800479E91 /* SessionState.swift in Sources */,
 				692CB4082599A9B700E7B4C9 /* VCFactory.swift in Sources */,
 				6972E43524BEB03800479E91 /* TimeInterval+Extension.swift in Sources */,
-				69C6BD35256B77CD00B247C7 /* LapDataModel.swift in Sources */,
 				6972E40C249F28DE00479E91 /* ExerciseTVCellDelegate.swift in Sources */,
 				697575D3259811D00063BE74 /* DashboardCVDS.swift in Sources */,
 				697575BB2597FD970063BE74 /* EndType.swift in Sources */,

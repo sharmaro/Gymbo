@@ -34,12 +34,6 @@ class SessionsCVDS: NSObject {
     }
 }
 
-// MARK: - Structs/Enums
-extension SessionsCVDS {
-    private struct Constants {
-    }
-}
-
 // MARK: - Funcs
 extension SessionsCVDS {
     private func loadSessions() {

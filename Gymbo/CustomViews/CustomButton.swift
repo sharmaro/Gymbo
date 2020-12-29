@@ -92,9 +92,18 @@ extension CustomButton {
         disabledView.autoPinEdges(to: self)
     }
 
-    func set(backgroundColor: UIColor, titleColor: UIColor = .white) {
-        self.backgroundColor = backgroundColor
-        self.titleColor = titleColor
+    func set(backgroundColor: UIColor,
+             titleColor: UIColor = .white,
+             animated: Bool = false) {
+        if animated {
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
+                self?.backgroundColor = backgroundColor
+                self?.titleColor = titleColor
+            }
+        } else {
+            self.backgroundColor = backgroundColor
+            self.titleColor = titleColor
+        }
     }
 
     func set(state: InteractionState, animated: Bool = true) {

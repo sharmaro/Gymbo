@@ -203,6 +203,26 @@ extension ExercisesTVC {
         addExerciseButton.title = title
     }
 
+    private func renewConstraints() {
+        guard isViewLoaded,
+              presentationStyle == .modal,
+            let mainTBC = mainTBC else {
+            return
+        }
+
+        if mainTBC.isSessionInProgress {
+            addExerciseButtonBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
+        } else {
+            addExerciseButtonBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
+        }
+
+        if didViewAppear {
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+        }
+    }
+
     @objc private func cancelButtonTapped() {
         Haptic.sendSelectionFeedback()
         navigationController?.dismiss(animated: true)
@@ -352,28 +372,5 @@ extension ExercisesTVC: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
         renewConstraints()
-    }
-}
-
-// MARK: - SessionStateConstraintsUpdating
-extension ExercisesTVC: SessionStateConstraintsUpdating {
-    func renewConstraints() {
-        guard isViewLoaded,
-              presentationStyle == .modal,
-            let mainTBC = mainTBC else {
-            return
-        }
-
-        if mainTBC.isSessionInProgress {
-            addExerciseButtonBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
-        } else {
-            addExerciseButtonBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
-        }
-
-        if didViewAppear {
-            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-                self?.view.layoutIfNeeded()
-            }
-        }
     }
 }

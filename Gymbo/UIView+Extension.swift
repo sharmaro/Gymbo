@@ -248,4 +248,11 @@ extension UIView {
         }
         gradientLayer.removeFromSuperlayer()
     }
+
+    static var verticalSeparator: UIView {
+        let verticalSeparatorView = UIView(frame: .zero)
+        verticalSeparatorView.backgroundColor = .systemGray
+        verticalSeparatorView.translatesAutoresizingMaskIntoConstraints = false
+        return verticalSeparatorView
+    }
 }

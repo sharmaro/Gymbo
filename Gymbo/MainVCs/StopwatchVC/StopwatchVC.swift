@@ -60,38 +60,35 @@ class StopwatchVC: UIViewController {
     private var stopwatchState = StopwatchState.initial
     private var timer: Timer?
 
-    private let userDefault = UserDefaults.standard
-
     private var minInt = 0 {
         didSet {
+            customDataSource?.minInt = minInt
             minuteLabel.text = String(format: "%02d", minInt)
         }
     }
 
     private var secInt = 0 {
         didSet {
+            customDataSource?.secInt = secInt
             secondLabel.text = String(format: "%02d", secInt)
         }
     }
 
     private var centiSecInt = 0 {
         didSet {
+            customDataSource?.centiSecInt = centiSecInt
             centiSecondLabel.text = String(format: "%02d", centiSecInt)
         }
     }
 
-    private var lapDataModel = LapDataModel()
+    var customDataSource: StopwatchTVDS?
+    var customDelegate: StopwatchTVD?
 }
 
 // MARK: - Structs/Enums
 private extension StopwatchVC {
     struct Constants {
         static let title = "Stopwatch"
-        static let CENTISECONDS_KEY = "centiseconds"
-        static let SECONDS_KEY = "seconds"
-        static let MINUTES_KEY = "minutes"
-        static let LAPS_KEY = "laps"
-        static let LAPS_INFO_KEy = "lapsInfo"
 
         static let timerInterval = TimeInterval(0.01)
 
@@ -119,7 +116,7 @@ extension StopwatchVC {
         setupViews()
         setupColors()
         addConstraints()
-        loadFromUserDefaults()
+        loadData()
         registerForApplicationStateNotifications()
     }
 
@@ -152,9 +149,8 @@ extension StopwatchVC: ViewAdding {
     func addViews() {
         view.add(subviews: [timeStackView, tableView, buttonsStackView])
 
-        let verticalSeparatorView1 = createVerticalSeparatorView()
-        let verticalSeparatorView2 = createVerticalSeparatorView()
-        [minuteLabel, verticalSeparatorView1, secondLabel, verticalSeparatorView2, centiSecondLabel].forEach {
+        [minuteLabel, UIView.verticalSeparator, secondLabel,
+         UIView.verticalSeparator, centiSecondLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             timeStackView.addArrangedSubview($0)
         }
@@ -175,8 +171,9 @@ extension StopwatchVC: ViewAdding {
             $0.adjustsFontSizeToFitWidth = true
         }
 
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
         tableView.register(StopwatchTVCell.self,
                            forCellReuseIdentifier: StopwatchTVCell.reuseIdentifier)
 
@@ -190,8 +187,7 @@ extension StopwatchVC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
-        tableView.backgroundColor = .dynamicWhite
+        [view, tableView].forEach { $0?.backgroundColor = .dynamicWhite }
         [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .dynamicBlack }
     }
 
@@ -249,39 +245,32 @@ extension StopwatchVC: ViewAdding {
 
 // MARK: - Funcs
 extension StopwatchVC {
-    private func loadFromUserDefaults() {
-        if let stopwatchStateInt = userDefault.object(forKey: UserDefaultKeys.STOPWATCH_STATE) as? Int,
+    private func loadData() {
+        if let stopwatchStateInt = UserDefaults.standard.object(
+            forKey: UserDefaultKeys.STOPWATCH_STATE) as? Int,
             let oldState = StopwatchState(rawValue: stopwatchStateInt) {
             stopwatchState = oldState
-            updateFromOldValues()
-            updateFromOldState()
+            customDataSource?.loadData()
+            updateIntValues()
         } else {
             stopwatchState = .initial
-            updateStopWatchButtons(animated: false)
         }
+        updateStopWatchButtons()
     }
 
-    private func createVerticalSeparatorView() -> UIView {
-        let verticalSeparatorView = UIView(frame: .zero)
-        verticalSeparatorView.backgroundColor = .systemGray
-        verticalSeparatorView.translatesAutoresizingMaskIntoConstraints = false
-
-        return verticalSeparatorView
-    }
-
-    private func updateStopWatchButtons(animated: Bool) {
+    private func updateStopWatchButtons() {
         switch stopwatchState {
         case .initial:
-            lapAndResetButton.set(state: .disabled, animated: animated)
+            lapAndResetButton.set(state: .disabled, animated: false)
             lapAndResetButton.title = "Lap"
 
-            startAndStopButton.set(state: .enabled, animated: animated)
+            startAndStopButton.set(state: .enabled, animated: false)
         case .started:
-            lapAndResetButton.set(state: .enabled, animated: animated)
+            lapAndResetButton.set(state: .enabled, animated: true)
             lapAndResetButton.title = "Lap"
 
             startAndStopButton.title = "Stop"
-            startAndStopButton.set(backgroundColor: .systemRed)
+            startAndStopButton.set(backgroundColor: .systemRed, animated: true)
 
             timer = Timer.scheduledTimer(timeInterval: Constants.timerInterval,
                                          target: self,
@@ -294,7 +283,7 @@ extension StopwatchVC {
             }
         case .stopped:
             startAndStopButton.title = "Start"
-            startAndStopButton.set(backgroundColor: .systemGreen)
+            startAndStopButton.set(backgroundColor: .systemGreen, animated: true)
 
             lapAndResetButton.title = "Reset"
 
@@ -302,71 +291,56 @@ extension StopwatchVC {
         }
     }
 
-    private func updateFromOldValues() {
-        if let timeDictionary =
-            userDefault.object(forKey: UserDefaultKeys.STOPWATCH_TIME_DICTIONARY) as? [String: Int] {
-            centiSecInt = timeDictionary[Constants.CENTISECONDS_KEY] ?? 0
-            secInt = timeDictionary[Constants.SECONDS_KEY] ?? 0
-            minInt = timeDictionary[Constants.MINUTES_KEY] ?? 0
-        }
-        loadLaps()
+    private func updateIntValues() {
+        centiSecInt = customDataSource?.centiSecInt ?? 0
+        secInt = customDataSource?.secInt ?? 0
+        minInt = customDataSource?.minInt ?? 0
     }
 
-    private func updateFromOldState() {
-        if stopwatchState == .started,
-            let date = userDefault.object(forKey: UserDefaultKeys.STOPWATCH_DATE) as? Date {
+    private func addLap() {
+        let newLap = Lap(minutes: minInt,
+                         seconds: secInt,
+                         centiSeconds: centiSecInt)
+        customDataSource?.add(lap: newLap)
 
-            var oldTimeInCentiSecs = 0
-            oldTimeInCentiSecs += centiSecInt
-            oldTimeInCentiSecs += (secInt * 100)
-            oldTimeInCentiSecs += (minInt * 6000)
-
-            // Converting seconds from date to centiseconds
-            let centiSecElapsed = Int(Date().timeIntervalSince(date) * 100) + oldTimeInCentiSecs
-            centiSecInt = centiSecElapsed % 100
-
-            let totalSeconds = centiSecElapsed / 100
-            secInt = totalSeconds % 60
-            minInt = totalSeconds / 60
-        }
-        updateStopWatchButtons(animated: false)
-    }
-
-    private func saveLaps() {
-        let defaults = UserDefaults.standard
-        let encoder = JSONEncoder()
-
-        if let encodedData = try? encoder.encode(lapDataModel.laps) {
-            defaults.set(encodedData, forKey: Constants.LAPS_KEY)
-        }
-
-        let lapsInfo = [lapDataModel.previousLap,
-                        lapDataModel.fastestLap,
-                        lapDataModel.slowestLap]
-        if let encodedData = try? encoder.encode(lapsInfo) {
-            defaults.set(encodedData, forKey: Constants.LAPS_INFO_KEy)
+        UIView.transition(with: tableView,
+                          duration: .defaultAnimationTime,
+                          options: .transitionCrossDissolve) { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 
-    private func loadLaps() {
-        let defaults = UserDefaults.standard
-        let decoder = JSONDecoder()
+    private func resetStopwatch() {
+        minInt = 0
+        secInt = 0
+        centiSecInt = 0
 
-        if let data = defaults.data(forKey: Constants.LAPS_KEY),
-            let laps = try? decoder.decode(Array<Lap>.self, from: data) {
-            lapDataModel.laps = laps
-        } else {
-            lapDataModel.laps = nil
-        }
-
-        if let data = defaults.data(forKey: Constants.LAPS_INFO_KEy),
-            let lapsInfo = try? decoder.decode(Array<Lap>.self, from: data) {
-            lapDataModel.previousLap = lapsInfo[0]
-            lapDataModel.fastestLap = lapsInfo[1]
-            lapDataModel.slowestLap = lapsInfo[2]
-        }
-
+        customDataSource?.clearLapInfo()
+        stopwatchState = .initial
+        updateStopWatchButtons()
         tableView.reloadData()
+    }
+
+    private func renewConstraints() {
+        guard isViewLoaded,
+              let mainTBC = mainTBC else {
+            return
+        }
+
+        let constantToUse = mainTBC.isSessionInProgress ?
+            Constants.sessionStartedConstraintConstant :
+            Constants.sessionEndedConstraintConstant
+        buttonsStackViewBottomConstraint?.constant = constantToUse
+
+        if didViewAppear {
+            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
+                self?.tableView.contentInset.bottom =
+                    Constants.buttonsStackViewHeight +
+                    (-1 * constantToUse) +
+                    Constants.cellSpacingToButtons
+                self?.view.layoutIfNeeded()
+            }
+        }
     }
 
     @objc private func updateTimeLabels() {
@@ -389,40 +363,10 @@ extension StopwatchVC {
             case 0: // lapAndReset button tapped
                 if stopwatchState == .started {
                     // User selected 'Lap' functionality
-                    let newLap = lapDataModel.newLap(minutes: minInt,
-                                                     seconds: secInt,
-                                                     centiSeconds: centiSecInt)
-                    if lapDataModel.laps == nil {
-                        lapDataModel.laps = [newLap]
-                    } else {
-                        lapDataModel.laps?.insert(newLap, at: 0)
-                    }
-
-                    lapDataModel.previousLap = Lap(minutes: minInt,
-                                                   seconds: secInt,
-                                                   centiSeconds: centiSecInt)
-
-                    UIView.transition(with: tableView,
-                                      duration: .defaultAnimationTime,
-                                      options: .transitionCrossDissolve,
-                                      animations: { [weak self] in
-                        self?.tableView.reloadData()
-                    })
+                    addLap()
                 } else if stopwatchState == .stopped {
                     // User selected 'Reset' functionality
-                    minInt = 0
-                    secInt = 0
-                    centiSecInt = 0
-
-                    lapDataModel.previousLap = nil
-                    lapDataModel.fastestLap = nil
-                    lapDataModel.slowestLap = nil
-
-                    stopwatchState = .initial
-                    updateStopWatchButtons(animated: true)
-
-                    lapDataModel.laps?.removeAll()
-                    tableView.reloadData()
+                    resetStopwatch()
                 }
             case 1: // startAndStop button tapped
                 if stopwatchState == .started {
@@ -430,7 +374,7 @@ extension StopwatchVC {
                 } else if stopwatchState == .initial || stopwatchState == .stopped {
                     stopwatchState = .started
                 }
-                updateStopWatchButtons(animated: true)
+                updateStopWatchButtons()
             default:
                 fatalError("Unrecognized tag in stopWatchButtonTapped")
             }
@@ -438,74 +382,26 @@ extension StopwatchVC {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension StopwatchVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        lapDataModel.numberOfRows(in: section)
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: StopwatchTVCell.reuseIdentifier,
-                for: indexPath) as? StopwatchTVCell else {
-            fatalError("Could not dequeue \(StopwatchTVCell.reuseIdentifier)")
-        }
-
-        guard let laps = lapDataModel.laps else {
-            fatalError("Laps array is nil")
-        }
-
-        let lap = laps[indexPath.row]
-        cell.configure(descriptionText: "Lap \(laps.count - indexPath.row)", valueText: lap.text)
-
-        if laps.count > 2 {
-            cell.checkLapComparison(timeToCheck: lap.totalTime,
-                                    fastestTime: lapDataModel.fastestLap?.totalTime ?? 0,
-                                    slowestTime: lapDataModel.slowestLap?.totalTime ?? 0)
-        }
-        return cell
+// MARK: - ListDataSource
+extension StopwatchVC: ListDataSource {
+    func reloadData() {
+        tableView.reloadData()
     }
 }
 
-// MARK: - UITableViewDelegate
-extension StopwatchVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        lapDataModel.heightForRow(at: indexPath)
-    }
-
-    func tableView(_ tableView: UITableView,
-                   willDisplay cell: UITableViewCell,
-                   forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        UIView.animate(withDuration: .defaultAnimationTime) {
-            cell.alpha = 1
-        }
-    }
+// MARK: - ListDelegate
+extension StopwatchVC: ListDelegate {
 }
 
 // MARK: - ApplicationStateObserving
 extension StopwatchVC: ApplicationStateObserving {
     func didEnterBackground(_ notification: Notification) {
         timer?.invalidate()
-        let timeDictionary: [String: Int] = [
-            Constants.CENTISECONDS_KEY: centiSecInt,
-            Constants.SECONDS_KEY: secInt,
-            Constants.MINUTES_KEY: minInt
-        ]
-
-        if stopwatchState == .started {
-            userDefault.set(Date(), forKey: UserDefaultKeys.STOPWATCH_DATE)
-        }
-        userDefault.set(stopwatchState.rawValue, forKey: UserDefaultKeys.STOPWATCH_STATE)
-        userDefault.set(timeDictionary, forKey: UserDefaultKeys.STOPWATCH_TIME_DICTIONARY)
-
-        saveLaps()
+        customDataSource?.saveData(stateRawValue: stopwatchState.rawValue)
     }
 
     func willEnterForeground(_ notification: Notification) {
-        updateFromOldState()
-        loadLaps()
+        loadData()
     }
 }
 
@@ -517,31 +413,5 @@ extension StopwatchVC: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
         renewConstraints()
-    }
-}
-
-// MARK: - SessionStateConstraintsUpdating
-extension StopwatchVC: SessionStateConstraintsUpdating {
-    func renewConstraints() {
-        guard isViewLoaded,
-              let mainTBC = mainTBC else {
-            return
-        }
-
-        let constantToUse =
-            mainTBC.isSessionInProgress ?
-            Constants.sessionStartedConstraintConstant :
-            Constants.sessionEndedConstraintConstant
-        buttonsStackViewBottomConstraint?.constant = constantToUse
-
-        if didViewAppear {
-            UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-                self?.tableView.contentInset.bottom =
-                    Constants.buttonsStackViewHeight +
-                    (-1 * constantToUse) +
-                    Constants.cellSpacingToButtons
-                self?.view.layoutIfNeeded()
-            }
-        }
     }
 }

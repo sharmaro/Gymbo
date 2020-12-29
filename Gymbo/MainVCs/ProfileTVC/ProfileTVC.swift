@@ -90,6 +90,21 @@ extension ProfileTVC: ViewAdding {
 
 // MARK: - Funcs
 extension ProfileTVC {
+    private func renewConstraints() {
+        guard isViewLoaded,
+              let mainTBC = mainTBC else {
+            return
+        }
+
+        if mainTBC.isSessionInProgress {
+        } else {
+        }
+
+        UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+
     @objc private func settingsButtonTapped() {
         Haptic.sendSelectionFeedback()
 
@@ -130,23 +145,5 @@ extension ProfileTVC: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
         renewConstraints()
-    }
-}
-
-// MARK: - SessionStateConstraintsUpdating
-extension ProfileTVC: SessionStateConstraintsUpdating {
-    func renewConstraints() {
-        guard isViewLoaded,
-              let mainTBC = mainTBC else {
-            return
-        }
-
-        if mainTBC.isSessionInProgress {
-        } else {
-        }
-
-        UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
     }
 }

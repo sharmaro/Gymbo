@@ -18,8 +18,8 @@ class ProfileTVD: NSObject {
 }
 
 // MARK: - Structs/Enums
-extension ProfileTVD {
-    private struct Constants {
+private extension ProfileTVD {
+    struct Constants {
     }
 }
 
