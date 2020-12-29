@@ -19,12 +19,6 @@ class CreateEditExerciseTVD: NSObject {
             UITableView.automaticDimension, UITableView.automaticDimension
         ]
     ]
-
-    private weak var listDelegate: ListDelegate?
-
-    init(listDelegate: ListDelegate?) {
-        self.listDelegate = listDelegate
-    }
 }
 
 // MARK: - Structs/Enums

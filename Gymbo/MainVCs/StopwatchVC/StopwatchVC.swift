@@ -387,9 +387,6 @@ extension StopwatchVC: ListDataSource {
     }
 }
 
-// MARK: - ListDelegate
-extension StopwatchVC: ListDelegate {}
-
 // MARK: - ApplicationStateObserving
 extension StopwatchVC: ApplicationStateObserving {
     func didEnterBackground(_ notification: Notification) {

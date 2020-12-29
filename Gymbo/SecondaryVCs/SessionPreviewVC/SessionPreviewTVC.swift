@@ -1,22 +1,15 @@
 //
-//  SessionPreviewVC.swift
+//  SessionPreviewTVC.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 10/23/19.
-//  Copyright © 2019 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 12/29/20.
+//  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
 
 // MARK: - Properties
-class SessionPreviewVC: UIViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.allowsSelection = false
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
-
+class SessionPreviewTVC: UITableViewController {
     private let tableHeaderView = SessionHeaderView()
     private var didLayoutTableHeaderView = false
 
@@ -29,25 +22,24 @@ class SessionPreviewVC: UIViewController {
         return button
     }()
 
-    var session: Session?
+    var customDataSource: SessionPreviewTVDS?
+    var customDelegate: SessionPreviewTVD?
+    var sessionsCVDS: SessionsCVDS?
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
 }
 
 // MARK: - Structs/Enums
-private extension SessionPreviewVC {
+private extension SessionPreviewTVC {
     struct Constants {
         static let startButtonHeight = CGFloat(45)
         static let startButtonBottomSpacing = CGFloat(-20)
         static let exerciseCellHeight = CGFloat(70)
-
-        static let namePlaceholderText = "Session name"
-        static let infoPlaceholderText = "No Info"
     }
 }
 
 // MARK: - UIViewController Var/Funcs
-extension SessionPreviewVC {
+extension SessionPreviewTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,7 +72,7 @@ extension SessionPreviewVC {
 }
 
 // MARK: - ViewAdding
-extension SessionPreviewVC: ViewAdding {
+extension SessionPreviewTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Preview"
 
@@ -97,12 +89,15 @@ extension SessionPreviewVC: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [tableView, startSessionButton])
+        view.add(subviews: [startSessionButton])
     }
 
     func setupViews() {
-        tableView.delegate = self
-        tableView.dataSource = self
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
         tableView.register(ExerciseTVCell.self,
                            forCellReuseIdentifier: ExerciseTVCell.reuseIdentifier)
 
@@ -125,14 +120,6 @@ extension SessionPreviewVC: ViewAdding {
         tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            tableView.safeAreaLayoutGuide.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
             tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
 
@@ -151,13 +138,10 @@ extension SessionPreviewVC: ViewAdding {
 }
 
 // MARK: - Funcs
-extension SessionPreviewVC {
+extension SessionPreviewTVC {
     private func setupTableHeaderView() {
-        var dataModel = SessionHeaderViewModel()
-        dataModel.firstText = session?.name ?? Constants.namePlaceholderText
-        dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .dynamicBlack
-
+        let dataModel = customDataSource?
+            .getSessionHeaderViewModel() ?? SessionHeaderViewModel()
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.isContentEditable = false
     }
@@ -168,7 +152,7 @@ extension SessionPreviewVC {
     }
 
     @objc private func editButtonTapped() {
-        guard let session = session else {
+        guard let session = customDataSource?.session else {
             let alertData = AlertData(content: "Can't edit current Session.",
                                       usesBothButtons: false,
                                       rightButtonTitle: "Sounds good")
@@ -186,62 +170,39 @@ extension SessionPreviewVC {
     @objc private func startSessionButtonTapped(_ sender: Any) {
         Haptic.sendImpactFeedback(.heavy)
         dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.sessionProgressDelegate?.sessionDidStart(self.session)
+            guard let self = self,
+                  let session = self.customDataSource?.session else {
+                return
+            }
+            self.sessionProgressDelegate?.sessionDidStart(session)
         }
     }
 }
 
-// MARK: - UITableViewDataSource
-extension SessionPreviewVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        session?.exercises.count ?? 0
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let exerciseTVCell = tableView.dequeueReusableCell(
-            withIdentifier: ExerciseTVCell.reuseIdentifier,
-            for: indexPath) as? ExerciseTVCell,
-            let exercise = session?.exercises[indexPath.row] else {
-            fatalError("Could not dequeue \(ExerciseTVCell.reuseIdentifier)")
-        }
-
-        exerciseTVCell.configure(dataModel: exercise)
-        return exerciseTVCell
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension SessionPreviewVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.exerciseCellHeight
-    }
-}
-
-// MARK: -
-extension SessionPreviewVC: SessionDataModelDelegate {
+// MARK: - SessionDataModelDelegate
+extension SessionPreviewTVC: SessionDataModelDelegate {
     func update(_ currentName: String,
                 session: Session,
                 completion: @escaping (Result<Any?, DataError>) -> Void) {
-//        sessionDataModel.update(currentName,
-//                                session: session) { [weak self] result in
-//            switch result {
-//            case .success(let value):
-//                completion(.success(value))
-//                self?.session = session
-//                DispatchQueue.main.async {
-//                    self?.setupTableHeaderView()
-//                    self?.tableView.reloadData()
-//                    // Updating collectionView in SessionsCVC
-//                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
-//                }
-//            case .failure(let error):
-//                completion(.failure(error))
-//                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
-//                    return
-//                }
-//                self?.presentCustomAlert(alertData: alertData)
-//            }
-//        }
+        sessionsCVDS?.update(currentName,
+                                session: session) { [weak self] result in
+            switch result {
+            case .success(let value):
+                completion(.success(value))
+                self?.customDataSource?.session = session
+                DispatchQueue.main.async {
+                    self?.setupTableHeaderView()
+                    self?.tableView.reloadData()
+                    // Updating collectionView in SessionsCVC
+                    NotificationCenter.default.post(name: .reloadDataWithoutAnimation, object: nil)
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
+                    return
+                }
+                self?.presentCustomAlert(alertData: alertData)
+            }
+        }
     }
 }

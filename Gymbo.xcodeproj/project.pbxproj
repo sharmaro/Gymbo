@@ -28,7 +28,6 @@
 		6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */; };
 		6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */; };
 		6930AD2E255E526C002F2F80 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */; };
-		693E45D5237D1BF400ED8EC1 /* SessionPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */; };
 		69403781259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */; };
 		69403785259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */; };
 		6940378A259B1C1F009D4A05 /* ExercisePreviewTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403789259B1C1F009D4A05 /* ExercisePreviewTVDS.swift */; };
@@ -153,6 +152,9 @@
 		69DAD81F247DF6860023E967 /* CreateEditExerciseTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81E247DF6860023E967 /* CreateEditExerciseTVC.swift */; };
 		69DAD821247E01580023E967 /* TextViewTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD820247E01580023E967 /* TextViewTVCell.swift */; };
 		69DF27EB259BD7F200BDF65B /* RestDSAndD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27EA259BD7F200BDF65B /* RestDSAndD.swift */; };
+		69DF27F8259BE27600BDF65B /* SessionPreviewTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27F7259BE27600BDF65B /* SessionPreviewTVC.swift */; };
+		69DF27FE259BE28800BDF65B /* SessionPreviewTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27FD259BE28800BDF65B /* SessionPreviewTVDS.swift */; };
+		69DF2802259BE2A000BDF65B /* SessionPreviewTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF2801259BE2A000BDF65B /* SessionPreviewTVD.swift */; };
 		69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B47C249B331800E4DD99 /* NotificationHelper.swift */; };
 		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
 		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
@@ -198,7 +200,6 @@
 		6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVC.swift; sourceTree = "<group>"; };
 		6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionDelegate.swift; sourceTree = "<group>"; };
 		6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPreviewVC.swift; sourceTree = "<group>"; };
 		69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+CustomTextViewDelegate.swift"; sourceTree = "<group>"; };
 		69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+ExerciseTVCellDelegate.swift"; sourceTree = "<group>"; };
 		69403789259B1C1F009D4A05 /* ExercisePreviewTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewTVDS.swift; sourceTree = "<group>"; };
@@ -327,6 +328,9 @@
 		69DAD81E247DF6860023E967 /* CreateEditExerciseTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseTVC.swift; sourceTree = "<group>"; };
 		69DAD820247E01580023E967 /* TextViewTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTVCell.swift; sourceTree = "<group>"; };
 		69DF27EA259BD7F200BDF65B /* RestDSAndD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestDSAndD.swift; sourceTree = "<group>"; };
+		69DF27F7259BE27600BDF65B /* SessionPreviewTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVC.swift; sourceTree = "<group>"; };
+		69DF27FD259BE28800BDF65B /* SessionPreviewTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVDS.swift; sourceTree = "<group>"; };
+		69DF2801259BE2A000BDF65B /* SessionPreviewTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVD.swift; sourceTree = "<group>"; };
 		69E3B47C249B331800E4DD99 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
@@ -388,7 +392,7 @@
 				6940C850259B03F400594066 /* CreateEditSessionTVC */,
 				69403788259B1C14009D4A05 /* ExercisePreviewTVC */,
 				69DF27E7259BD7DB00BDF65B /* RestVC */,
-				693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */,
+				69DF27F6259BE26B00BDF65B /* SessionPreviewVC */,
 				6965C212254BE76100A898AB /* SettingsTVC.swift */,
 				69695698245013C3007FADC2 /* StartSessionTVC.swift */,
 			);
@@ -780,6 +784,16 @@
 			path = RestVC;
 			sourceTree = "<group>";
 		};
+		69DF27F6259BE26B00BDF65B /* SessionPreviewVC */ = {
+			isa = PBXGroup;
+			children = (
+				69DF27F7259BE27600BDF65B /* SessionPreviewTVC.swift */,
+				69DF27FD259BE28800BDF65B /* SessionPreviewTVDS.swift */,
+				69DF2801259BE2A000BDF65B /* SessionPreviewTVD.swift */,
+			);
+			path = SessionPreviewVC;
+			sourceTree = "<group>";
+		};
 		69F23C44257CA9BF00453580 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,6 +983,7 @@
 				697D461523F3B58A002ACDA7 /* ExercisesTVC.swift in Sources */,
 				6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTVCell.swift in Sources */,
+				69DF27F8259BE27600BDF65B /* SessionPreviewTVC.swift in Sources */,
 				6972E3FE249F268500479E91 /* SessionProgressDelegate.swift in Sources */,
 				6972E42A249F2E3D00479E91 /* Utility.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTVCell.swift in Sources */,
@@ -1039,6 +1054,7 @@
 				69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				6972E3FC249F25A100479E91 /* Transform.swift in Sources */,
+				69DF2802259BE2A000BDF65B /* SessionPreviewTVD.swift in Sources */,
 				6972E41B249F2AF800479E91 /* CustomTextFieldDelegate.swift in Sources */,
 				6972E3E5249F22C500479E91 /* UICollectionView+Extension.swift in Sources */,
 				693008042599CF47005D2578 /* SessionsCVDS.swift in Sources */,
@@ -1063,7 +1079,6 @@
 				6975760125985ABC0063BE74 /* ExercisesTVD.swift in Sources */,
 				6940C858259B040900594066 /* CreateEditSessionTVD.swift in Sources */,
 				6930081B259A8300005D2578 /* StopwatchTVD.swift in Sources */,
-				693E45D5237D1BF400ED8EC1 /* SessionPreviewVC.swift in Sources */,
 				69DAD81D247DF59E0023E967 /* ButtonTVCell.swift in Sources */,
 				6972E413249F2A0000479E91 /* ExerciseHeaderTVCellModel.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
@@ -1075,6 +1090,7 @@
 				6972E404249F273F00479E91 /* RestTimerDelegate.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
+				69DF27FE259BE28800BDF65B /* SessionPreviewTVDS.swift in Sources */,
 				6972E3D8249F213900479E91 /* String+Extension.swift in Sources */,
 				6972E43124B59D7000479E91 /* ActivityIndicatorView.swift in Sources */,
 				6972E40A249F28AB00479E91 /* ButtonTVCellDelegate.swift in Sources */,

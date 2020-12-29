@@ -163,12 +163,6 @@ extension ExercisePreviewTVC {
     }
 }
 
-// MARK: - ListDataSource
-extension ExercisePreviewTVC: ListDataSource {}
-
-// MARK: - ListDelegate
-extension ExercisePreviewTVC: ListDelegate {}
-
 // MARK: - ExerciseDataModelDelegate
 extension ExercisePreviewTVC: ExerciseDataModelDelegate {
     func update(_ currentName: String,

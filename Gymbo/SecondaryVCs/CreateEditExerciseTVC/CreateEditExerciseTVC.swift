@@ -253,9 +253,6 @@ extension CreateEditExerciseTVC: ListDataSource {
     }
 }
 
-// MARK: - ListDelegate
-extension CreateEditExerciseTVC: ListDelegate {}
-
 // MARK: - CustomTextViewDelegate
 extension CreateEditExerciseTVC: CustomTextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {

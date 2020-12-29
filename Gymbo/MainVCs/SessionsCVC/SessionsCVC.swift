@@ -195,11 +195,10 @@ extension SessionsCVC: ListDelegate {
         }
         Haptic.sendSelectionFeedback()
 
-        let sessionPreviewVC = SessionPreviewVC()
-        sessionPreviewVC.session = selectedSession
-        sessionPreviewVC.sessionProgressDelegate = mainTBC
-
-        let modalNavigationController = MainNC(rootVC: sessionPreviewVC)
+        let sessionPreviewTVC = VCFactory.makeSessionPreviewTVC(session: selectedSession,
+                                                                delegate: mainTBC,
+                                                                sessionsCVDS: customDataSource)
+        let modalNavigationController = MainNC(rootVC: sessionPreviewTVC)
         present(modalNavigationController, animated: true)
     }
 }

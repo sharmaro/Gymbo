@@ -26,8 +26,7 @@ extension VCFactory {
         createEditExerciseTVC.exerciseDataModelDelegate = delegate
         createEditExerciseTVC.customDataSource = CreateEditExerciseTVDS(
             listDataSource: createEditExerciseTVC)
-        createEditExerciseTVC.customDelegate = CreateEditExerciseTVD(
-            listDelegate: createEditExerciseTVC)
+        createEditExerciseTVC.customDelegate = CreateEditExerciseTVD()
         return createEditExerciseTVC
     }
 
@@ -56,11 +55,9 @@ extension VCFactory {
     static func makeExercisePreviewTVC(exercise: Exercise,
                                        exercisesTVDS: ExercisesTVDS?) -> ExercisePreviewTVC {
         let exercisePreviewTVC = ExercisePreviewTVC(exercisesTVDS: exercisesTVDS)
-        exercisePreviewTVC.customDataSource = ExercisePreviewTVDS(
-            listDataSource: exercisePreviewTVC)
+        exercisePreviewTVC.customDataSource = ExercisePreviewTVDS()
         exercisePreviewTVC.customDataSource?.exercise = exercise
-        exercisePreviewTVC.customDelegate = ExercisePreviewTVD(
-            listDelegate: exercisePreviewTVC)
+        exercisePreviewTVC.customDelegate = ExercisePreviewTVD()
         exercisePreviewTVC.customDelegate?.exercise = exercise
         return exercisePreviewTVC
     }
@@ -123,6 +120,18 @@ extension VCFactory {
         return restVC
     }
 
+    static func makeSessionPreviewTVC(session: Session,
+                                      delegate: SessionProgressDelegate?,
+                                      sessionsCVDS: SessionsCVDS?) -> SessionPreviewTVC {
+        let sessionPreviewTVC = SessionPreviewTVC()
+        sessionPreviewTVC.sessionProgressDelegate = delegate
+        sessionPreviewTVC.sessionsCVDS = sessionsCVDS
+        sessionPreviewTVC.customDataSource = SessionPreviewTVDS()
+        sessionPreviewTVC.customDataSource?.session = session
+        sessionPreviewTVC.customDelegate = SessionPreviewTVD()
+        return sessionPreviewTVC
+    }
+
     static func makeSessionsCVC(layout: UICollectionViewLayout) -> SessionsCVC {
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: layout)
@@ -137,8 +146,7 @@ extension VCFactory {
         let stopwatchVC = StopwatchVC()
         stopwatchVC.customDataSource = StopwatchTVDS(
             listDataSource: stopwatchVC)
-        stopwatchVC.customDelegate = StopwatchTVD(
-            listDelegate: stopwatchVC)
+        stopwatchVC.customDelegate = StopwatchTVD()
         return stopwatchVC
     }
 }

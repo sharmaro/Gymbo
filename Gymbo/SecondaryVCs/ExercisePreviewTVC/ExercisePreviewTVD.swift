@@ -11,12 +11,6 @@ import UIKit
 // MARK: - Properties
 class ExercisePreviewTVD: NSObject {
     var exercise = Exercise()
-
-    private weak var listDelegate: ListDelegate?
-
-    init(listDelegate: ListDelegate?) {
-        self.listDelegate = listDelegate
-    }
 }
 
 // MARK: - Structs/Enums

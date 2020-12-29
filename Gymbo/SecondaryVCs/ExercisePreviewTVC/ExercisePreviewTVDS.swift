@@ -19,14 +19,6 @@ class ExercisePreviewTVDS: NSObject {
             .tips
         ]
     ]
-
-    private weak var listDataSource: ListDataSource?
-
-    init(listDataSource: ListDataSource?) {
-        super.init()
-
-        self.listDataSource = listDataSource
-    }
 }
 
 // MARK: - Structs/Enums

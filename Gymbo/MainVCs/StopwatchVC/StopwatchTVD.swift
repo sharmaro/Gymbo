@@ -11,10 +11,6 @@ import UIKit
 // MARK: - Properties
 class StopwatchTVD: NSObject {
     private weak var listDelegate: ListDelegate?
-
-    init(listDelegate: ListDelegate?) {
-        self.listDelegate = listDelegate
-    }
 }
 
 // MARK: - Structs/Enums
