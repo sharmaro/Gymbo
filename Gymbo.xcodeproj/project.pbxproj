@@ -138,7 +138,6 @@
 		69C1BCC324594B1300D23556 /* Workout Info in Resources */ = {isa = PBXBuildFile; fileRef = 69C1BCC224594B1300D23556 /* Workout Info */; };
 		69C1BCC7245D570800D23556 /* ExercisePreviewTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC6245D570800D23556 /* ExercisePreviewTVC.swift */; };
 		69C1BCC9245F67E000D23556 /* SwipableImageVTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1BCC8245F67E000D23556 /* SwipableImageVTVCell.swift */; };
-		69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */; };
 		69C6BD39256B784C00B247C7 /* Lap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD38256B784C00B247C7 /* Lap.swift */; };
 		69C6BD49256B818D00B247C7 /* LapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD48256B818D00B247C7 /* LapTests.swift */; };
 		69C6BD4F256B843A00B247C7 /* UtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C6BD4E256B843A00B247C7 /* UtilityTests.swift */; };
@@ -155,6 +154,8 @@
 		69DF27F8259BE27600BDF65B /* SessionPreviewTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27F7259BE27600BDF65B /* SessionPreviewTVC.swift */; };
 		69DF27FE259BE28800BDF65B /* SessionPreviewTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27FD259BE28800BDF65B /* SessionPreviewTVDS.swift */; };
 		69DF2802259BE2A000BDF65B /* SessionPreviewTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF2801259BE2A000BDF65B /* SessionPreviewTVD.swift */; };
+		69DF280E259BEA5A00BDF65B /* SettingsTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF280D259BEA5A00BDF65B /* SettingsTVDS.swift */; };
+		69DF2814259BEA6500BDF65B /* SettingsTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF2813259BEA6500BDF65B /* SettingsTVD.swift */; };
 		69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B47C249B331800E4DD99 /* NotificationHelper.swift */; };
 		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
 		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
@@ -312,7 +313,6 @@
 		69C1BCC224594B1300D23556 /* Workout Info */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Workout Info"; sourceTree = "<group>"; };
 		69C1BCC6245D570800D23556 /* ExercisePreviewTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewTVC.swift; sourceTree = "<group>"; };
 		69C1BCC8245F67E000D23556 /* SwipableImageVTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableImageVTVCell.swift; sourceTree = "<group>"; };
-		69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataModel.swift; sourceTree = "<group>"; };
 		69C6BD22256A725C00B247C7 /* GymboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C6BD26256A725C00B247C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69C6BD38256B784C00B247C7 /* Lap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lap.swift; sourceTree = "<group>"; };
@@ -331,6 +331,8 @@
 		69DF27F7259BE27600BDF65B /* SessionPreviewTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVC.swift; sourceTree = "<group>"; };
 		69DF27FD259BE28800BDF65B /* SessionPreviewTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVDS.swift; sourceTree = "<group>"; };
 		69DF2801259BE2A000BDF65B /* SessionPreviewTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPreviewTVD.swift; sourceTree = "<group>"; };
+		69DF280D259BEA5A00BDF65B /* SettingsTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVDS.swift; sourceTree = "<group>"; };
+		69DF2813259BEA6500BDF65B /* SettingsTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVD.swift; sourceTree = "<group>"; };
 		69E3B47C249B331800E4DD99 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
@@ -393,7 +395,7 @@
 				69403788259B1C14009D4A05 /* ExercisePreviewTVC */,
 				69DF27E7259BD7DB00BDF65B /* RestVC */,
 				69DF27F6259BE26B00BDF65B /* SessionPreviewVC */,
-				6965C212254BE76100A898AB /* SettingsTVC.swift */,
+				69DF280C259BEA4F00BDF65B /* SettingsTVC */,
 				69695698245013C3007FADC2 /* StartSessionTVC.swift */,
 			);
 			path = SecondaryVCs;
@@ -548,7 +550,7 @@
 				69659C0724039C680054F655 /* AlertVC.swift */,
 				691405A62595EB3100DED7C7 /* MainNC.swift */,
 				6956292C234463EF00E0AA96 /* ModalPresentationC.swift */,
-				6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */,
+				69DF2809259BEA4100BDF65B /* SelectionTVC */,
 			);
 			path = CustomVCs;
 			sourceTree = "<group>";
@@ -556,7 +558,6 @@
 		696A751F2361630300FA605F /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
-				69C6BD19256A6D0100B247C7 /* SettingsDataModel.swift */,
 				697575C0259801460063BE74 /* UserDataModel.swift */,
 			);
 			name = DataModels;
@@ -794,6 +795,24 @@
 			path = SessionPreviewVC;
 			sourceTree = "<group>";
 		};
+		69DF2809259BEA4100BDF65B /* SelectionTVC */ = {
+			isa = PBXGroup;
+			children = (
+				6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */,
+			);
+			path = SelectionTVC;
+			sourceTree = "<group>";
+		};
+		69DF280C259BEA4F00BDF65B /* SettingsTVC */ = {
+			isa = PBXGroup;
+			children = (
+				6965C212254BE76100A898AB /* SettingsTVC.swift */,
+				69DF280D259BEA5A00BDF65B /* SettingsTVDS.swift */,
+				69DF2813259BEA6500BDF65B /* SettingsTVD.swift */,
+			);
+			path = SettingsTVC;
+			sourceTree = "<group>";
+		};
 		69F23C44257CA9BF00453580 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1017,7 @@
 				69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
 				6972E41F249F2BA100479E91 /* CustomBounds.swift in Sources */,
+				69DF280E259BEA5A00BDF65B /* SettingsTVDS.swift in Sources */,
 				69C6BD39256B784C00B247C7 /* Lap.swift in Sources */,
 				698E934D259400E000B5A03E /* DisabledView.swift in Sources */,
 				69C1BCC9245F67E000D23556 /* SwipableImageVTVCell.swift in Sources */,
@@ -1006,6 +1026,7 @@
 				6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */,
 				69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */,
 				6972E3FA249F257700479E91 /* TextFieldType.swift in Sources */,
+				69DF2814259BEA6500BDF65B /* SettingsTVD.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHeaderView.swift in Sources */,
 				69CB2D8C23CC035100603363 /* StartSessionFooterView.swift in Sources */,
 				693008082599CF57005D2578 /* SessionsCVD.swift in Sources */,
@@ -1066,7 +1087,6 @@
 				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
 				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
 				6972E408249F288100479E91 /* ImagesTVCellDelegate.swift in Sources */,
-				69C6BD1A256A6D0100B247C7 /* SettingsDataModel.swift in Sources */,
 				698E935F259559D300B5A03E /* StartedSession.swift in Sources */,
 				698A5FE42563B59500578D50 /* Directory.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCVCell.swift in Sources */,

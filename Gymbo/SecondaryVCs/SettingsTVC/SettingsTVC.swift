@@ -11,10 +11,8 @@ import MessageUI
 
 // MARK: - Properties
 class SettingsTVC: UITableViewController {
-    private let settingsDataModel = SettingsDataModel()
-
-    private var selectedIndexPath: IndexPath?
-    private var didUpdateSelection = false
+    var customDataSource: SettingsTVDS?
+    var customDelegate: SettingsTVD?
 }
 
 // MARK: - Structs/Enums
@@ -22,8 +20,6 @@ private extension SettingsTVC {
     struct Constants {
         static let gymboEmail = "gymbo.feedback@gmail.com"
         static let emailSubject = "Support"
-
-        static let headerHeight = CGFloat(40)
     }
 }
 
@@ -40,10 +36,14 @@ extension SettingsTVC {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if didUpdateSelection,
-           let selectedIndexPath = selectedIndexPath {
-            didUpdateSelection = false
-            self.selectedIndexPath = nil
+        guard let customDataSource = customDataSource else {
+            return
+        }
+
+        if customDataSource.didUpdateSelection,
+           let selectedIndexPath = customDataSource.selectedIndexPath {
+            customDataSource.didUpdateSelection = false
+            customDataSource.selectedIndexPath = nil
             tableView.reloadRows(at: [selectedIndexPath], with: .none)
         }
     }
@@ -66,6 +66,9 @@ extension SettingsTVC: ViewAdding {
     }
 
     func setupViews() {
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
         tableView.delaysContentTouches = false
         tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
@@ -82,7 +85,7 @@ extension SettingsTVC: ViewAdding {
 
 // MARK: - Funcs
 extension SettingsTVC {
-    private func presentSelectionScreen(with item: SettingsDataModel.TableItem) {
+    private func presentSelectionTVC(with item: SettingsTVDS.Item) {
         let selectionTVC = SelectionTVC(items: item.selectionItems,
                                         selected: item.value,
                                         title: item.rawValue)
@@ -118,64 +121,22 @@ extension SettingsTVC {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension SettingsTVC {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        settingsDataModel.numberOfSections
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        settingsDataModel.numberOfRows(in: section)
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        settingsDataModel.cellForRow(in: tableView, at: indexPath)
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension SettingsTVC {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0 : Constants.headerHeight
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            heightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0 : Constants.headerHeight
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard section > 0,
-              let headerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
-            return nil
+// MARK: - ListDelegate
+extension SettingsTVC: ListDelegate {
+    func didSelectItem(at indexPath: IndexPath) {
+        guard let customDataSource = customDataSource else {
+            return
         }
-        return headerView
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        settingsDataModel.heightForRow(at: indexPath)
-    }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        settingsDataModel.heightForRow(at: indexPath)
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Haptic.sendSelectionFeedback()
 
-        let item = settingsDataModel.tableItem(at: indexPath)
+        let item = customDataSource.item(at: indexPath)
         switch item {
         case .theme:
-            presentSelectionScreen(with: item)
+            presentSelectionTVC(with: item)
         case .contactUs:
             contactUsSelected()
         }
-
-        selectedIndexPath = indexPath
+        customDataSource.selectedIndexPath = indexPath
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -183,14 +144,15 @@ extension SettingsTVC {
 // MARK: - SelectionDelegate
 extension SettingsTVC: SelectionDelegate {
     func selected(item: String) {
-        guard let indexPath = selectedIndexPath else {
+        guard let indexPath = customDataSource?.selectedIndexPath,
+              let customDataSource = customDataSource else {
             fatalError("Incorrect index path selected.")
         }
 
-        let tableItem = settingsDataModel.tableItem(at: indexPath)
+        let tableItem = customDataSource.item(at: indexPath)
         guard tableItem.value != item else {
-            didUpdateSelection = false
-            selectedIndexPath = nil
+            customDataSource.didUpdateSelection = false
+            customDataSource.selectedIndexPath = nil
             return
         }
 
@@ -203,7 +165,7 @@ extension SettingsTVC: SelectionDelegate {
         case .contactUs:
             break
         }
-        didUpdateSelection = true
+        customDataSource.didUpdateSelection = true
     }
 }
 

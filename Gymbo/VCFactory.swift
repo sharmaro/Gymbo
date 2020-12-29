@@ -142,6 +142,14 @@ extension VCFactory {
         return sessionsCVC
     }
 
+    static func makeSettingsTVC(style: UITableView.Style) -> SettingsTVC {
+        let settingsTVC = SettingsTVC(style: style)
+        settingsTVC.customDataSource = SettingsTVDS()
+        settingsTVC.customDelegate = SettingsTVD(
+            listDelegate: settingsTVC)
+        return settingsTVC
+    }
+
     static func makeStopwatchVC() -> StopwatchVC {
         let stopwatchVC = StopwatchVC()
         stopwatchVC.customDataSource = StopwatchTVDS(
