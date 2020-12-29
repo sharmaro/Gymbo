@@ -110,6 +110,19 @@ extension VCFactory {
         return profileTVC
     }
 
+    static func makeRestVC(isTimerActive: Bool,
+                           totalRestTime: Int,
+                           restTimeRemaining: Int,
+                           delegate: RestTimerDelegate?) -> RestVC {
+        let restVC = RestVC()
+        restVC.isTimerActive = isTimerActive
+        restVC.startSessionTotalRestTime = totalRestTime
+        restVC.startSessionRestTimeRemaining = restTimeRemaining
+        restVC.restTimerDelegate = delegate
+        restVC.customDSAndD = RestDSAndD()
+        return restVC
+    }
+
     static func makeSessionsCVC(layout: UICollectionViewLayout) -> SessionsCVC {
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: layout)

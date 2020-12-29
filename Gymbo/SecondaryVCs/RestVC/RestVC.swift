@@ -10,10 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class RestVC: UIViewController {
-    private let topContainerView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let topContainerView = UIView()
 
     private let restLabel: UILabel = {
         let label = UILabel()
@@ -24,32 +21,9 @@ class RestVC: UIViewController {
         return label
     }()
 
-    private let addTimeButton: CustomButton = {
-        let button = CustomButton()
-        button.title = "+ 5s"
-        button.titleLabel?.font = .small
-        button.set(backgroundColor: .systemGray)
-        button.addCorner(style: .small)
-        button.isHidden = true
-        return button
-    }()
-
-    private let removeTimeButton: CustomButton = {
-        let button = CustomButton()
-        button.title = "- 5s"
-        button.titleLabel?.font = .small
-        button.set(backgroundColor: .systemGray)
-        button.addCorner(style: .small)
-        button.isHidden = true
-        return button
-    }()
-
-    private let circleProgressView: CircleProgressView = {
-        let view = CircleProgressView()
-        view.backgroundColor = .dynamicWhite
-        return view
-    }()
-
+    private let addTimeButton = CustomButton()
+    private let removeTimeButton = CustomButton()
+    private let circleProgressView = CircleProgressView()
     private let pickerView = UIPickerView()
 
     private let mainButton: CustomButton = {
@@ -67,11 +41,6 @@ class RestVC: UIViewController {
         }
     }
 
-    private var restTimes = [String]()
-
-    var isTimerActive = false
-    var startSessionTotalRestTime = 0
-    var startSessionRestTimeRemaining = 0
     private var totalRestTime = 0 {
         didSet {
             guard isViewLoaded else {
@@ -93,6 +62,12 @@ class RestVC: UIViewController {
         }
     }
 
+    var isTimerActive = false
+    var startSessionTotalRestTime = 0
+    var startSessionRestTimeRemaining = 0
+
+    var customDSAndD: RestDSAndD?
+
     weak var restTimerDelegate: RestTimerDelegate?
 }
 
@@ -101,8 +76,6 @@ private extension RestVC {
     struct Constants {
         static let timeDelta = 5
         static let defaultRow = 11
-
-        static let pickerRowHeight = CGFloat(38)
 
         static let timeButtonSize = CGSize(width: 100, height: 30)
     }
@@ -166,19 +139,30 @@ extension RestVC: ViewAdding {
     }
 
     func setupViews() {
+        [addTimeButton, removeTimeButton].forEach {
+            $0.titleLabel?.font = .small
+            $0.set(backgroundColor: .systemGray)
+            $0.addCorner(style: .small)
+            $0.isHidden = true
+        }
+
+        addTimeButton.title = "+ 5s"
         addTimeButton.addTarget(self, action: #selector(addTimeButtonTapped), for: .touchUpInside)
+
+        removeTimeButton.title = "- 5s"
         removeTimeButton.addTarget(self, action: #selector(removeTimeButtonTapped), for: .touchUpInside)
 
-        createPickerViewData()
-        pickerView.dataSource = self
-        pickerView.delegate = self
+        pickerView.dataSource = customDSAndD
+        pickerView.delegate = customDSAndD
         pickerView.selectRow(Constants.defaultRow, inComponent: 0, animated: false)
 
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        [view, topContainerView].forEach { $0.backgroundColor = .dynamicWhite }
+        [view, topContainerView, circleProgressView].forEach {
+            $0.backgroundColor = .dynamicWhite
+        }
         restLabel.textColor = .dynamicDarkGray
     }
 
@@ -243,13 +227,6 @@ extension RestVC: ViewAdding {
 
 // MARK: - Funcs
 extension RestVC {
-    private func createPickerViewData() {
-        for i in 1...120 {
-            let timeString = (i * 5).minutesAndSecondsString
-            restTimes.append(timeString)
-        }
-    }
-
     private func showHideCustomViews() {
         pickerView.isHidden.toggle()
         circleProgressView.shouldHideText.toggle()
@@ -274,7 +251,8 @@ extension RestVC {
                                                   timeRemaining: restTimeRemaining)
             } else {
                 let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
-                totalRestTime = restTimes[selectedPickerRow].secondsFromTime ?? 0
+                totalRestTime = customDSAndD?
+                    .totalRestTime(for: selectedPickerRow) ?? 0
                 restTimeRemaining = totalRestTime
 
                 circleProgressView.startAnimation(duration: restTimeRemaining)
@@ -302,66 +280,28 @@ extension RestVC {
         }
     }
 
+    private func changeTime(delta: Int) {
+        Haptic.sendSelectionFeedback()
+        totalRestTime += delta
+        restTimeRemaining += delta
+        updateAnimation()
+    }
+
     @objc private func closeButtonTapped() {
         Haptic.sendSelectionFeedback()
         dismiss(animated: true)
     }
 
     @objc private func addTimeButtonTapped() {
-        Haptic.sendSelectionFeedback()
-        totalRestTime += Constants.timeDelta
-        restTimeRemaining += Constants.timeDelta
-        updateAnimation()
+        changeTime(delta: Constants.timeDelta)
     }
 
     @objc private func removeTimeButtonTapped() {
-        Haptic.sendSelectionFeedback()
-        totalRestTime -= Constants.timeDelta
-        restTimeRemaining -= Constants.timeDelta
-        updateAnimation()
+        changeTime(delta: -Constants.timeDelta)
     }
 
     @objc private func mainButtonTapped(_ sender: Any) {
         mainButtonInteraction()
-    }
-}
-
-// MARK: - UIPickerViewDataSource
-extension RestVC: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        hideSelectorLines()
-        return 1
-    }
-
-    private func hideSelectorLines() {
-        pickerView.subviews.forEach {
-            $0.isHidden = $0.frame.height < 1.0
-        }
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        restTimes.count
-    }
-}
-
-// MARK: - UIPickerViewDelegate
-extension RestVC: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView,
-                    viewForRow row: Int,
-                    forComponent component: Int,
-                    reusing view: UIView?) -> UIView {
-        let pickerLabel = UILabel(frame: CGRect(origin: .zero,
-                                                size: CGSize(width: pickerView.bounds.width,
-                                                             height: Constants.pickerRowHeight)))
-        pickerLabel.text = restTimes[row]
-        pickerLabel.textColor = .dynamicBlack
-        pickerLabel.textAlignment = .center
-        pickerLabel.font = .xLarge
-        return pickerLabel
-    }
-
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        Constants.pickerRowHeight
     }
 }
 

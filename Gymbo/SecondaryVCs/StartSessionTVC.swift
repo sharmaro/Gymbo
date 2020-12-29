@@ -448,11 +448,11 @@ extension StartSessionTVC {
         Haptic.sendSelectionFeedback()
         modallyPresenting = .restVC
 
-        let restVC = RestVC()
-        restVC.isTimerActive = restTimer?.isValid ?? false
-        restVC.startSessionTotalRestTime = totalRestTime
-        restVC.startSessionRestTimeRemaining = restTimeRemaining
-        restVC.restTimerDelegate = self
+        let isTimerActive = restTimer?.isValid ?? false
+        let restVC = VCFactory.makeRestVC(isTimerActive: isTimerActive,
+                                          totalRestTime: totalRestTime,
+                                          restTimeRemaining: restTimeRemaining,
+                                          delegate: self)
 
         updateDelegate = restVC
 

@@ -152,6 +152,7 @@
 		69DAD81D247DF59E0023E967 /* ButtonTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81C247DF59E0023E967 /* ButtonTVCell.swift */; };
 		69DAD81F247DF6860023E967 /* CreateEditExerciseTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD81E247DF6860023E967 /* CreateEditExerciseTVC.swift */; };
 		69DAD821247E01580023E967 /* TextViewTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DAD820247E01580023E967 /* TextViewTVCell.swift */; };
+		69DF27EB259BD7F200BDF65B /* RestDSAndD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF27EA259BD7F200BDF65B /* RestDSAndD.swift */; };
 		69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B47C249B331800E4DD99 /* NotificationHelper.swift */; };
 		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
 		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
@@ -325,6 +326,7 @@
 		69DAD81C247DF59E0023E967 /* ButtonTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTVCell.swift; sourceTree = "<group>"; };
 		69DAD81E247DF6860023E967 /* CreateEditExerciseTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEditExerciseTVC.swift; sourceTree = "<group>"; };
 		69DAD820247E01580023E967 /* TextViewTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTVCell.swift; sourceTree = "<group>"; };
+		69DF27EA259BD7F200BDF65B /* RestDSAndD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestDSAndD.swift; sourceTree = "<group>"; };
 		69E3B47C249B331800E4DD99 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
@@ -385,7 +387,7 @@
 				69AD4831259AEFCE0092311D /* CreateEditExerciseTVC */,
 				6940C850259B03F400594066 /* CreateEditSessionTVC */,
 				69403788259B1C14009D4A05 /* ExercisePreviewTVC */,
-				69CB2D9023CD6D9F00603363 /* RestVC.swift */,
+				69DF27E7259BD7DB00BDF65B /* RestVC */,
 				693E45D4237D1BF400ED8EC1 /* SessionPreviewVC.swift */,
 				6965C212254BE76100A898AB /* SettingsTVC.swift */,
 				69695698245013C3007FADC2 /* StartSessionTVC.swift */,
@@ -769,6 +771,15 @@
 			path = GymboTests;
 			sourceTree = "<group>";
 		};
+		69DF27E7259BD7DB00BDF65B /* RestVC */ = {
+			isa = PBXGroup;
+			children = (
+				69CB2D9023CD6D9F00603363 /* RestVC.swift */,
+				69DF27EA259BD7F200BDF65B /* RestDSAndD.swift */,
+			);
+			path = RestVC;
+			sourceTree = "<group>";
+		};
 		69F23C44257CA9BF00453580 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1091,6 +1102,7 @@
 				6972E3C7249F1F5C00479E91 /* ApplicationStateObserving.swift in Sources */,
 				69403790259B1C26009D4A05 /* ExercisePreviewTVD.swift in Sources */,
 				6984DC232599C9D800254FC8 /* ProfileTVD.swift in Sources */,
+				69DF27EB259BD7F200BDF65B /* RestDSAndD.swift in Sources */,
 				6972E40F249F29AC00479E91 /* ExerciseDetailTVCellModel.swift in Sources */,
 				697575C1259801460063BE74 /* UserDataModel.swift in Sources */,
 				6972E419249F2ABC00479E91 /* SessionsCVCellModel.swift in Sources */,
