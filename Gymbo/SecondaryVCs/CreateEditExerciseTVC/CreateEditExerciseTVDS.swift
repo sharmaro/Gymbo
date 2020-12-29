@@ -1,17 +1,29 @@
 //
-//  CreateEditExerciseDataModel.swift
+//  CreateEditExerciseTVDS.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 11/21/20.
+//  Created by Rohan Sharma on 12/28/20.
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 // MARK: - Properties
-struct CreateEditExerciseDataModel {
-    private let tableItems: [[TableItem]] = [
+class CreateEditExerciseTVDS: NSObject {
+    // Data stored from cell inputs
+    var exerciseName: String?
+    var groups: [String]?
+    var images: [UIImage]?
+    var instructions: String?
+    var tips: String?
+
+    var exercise = Exercise() {
+        didSet {
+            setupFromExercise()
+        }
+    }
+
+    private let items: [[Item]] = [
         [
             .nameTitle, .name, .muscleGroupsTitle,
             .muscleGroups, .imagesTitle, .images,
@@ -20,24 +32,18 @@ struct CreateEditExerciseDataModel {
         ]
     ]
 
-    var exercise = Exercise()
+    private weak var listDataSource: ListDataSource?
 
-    // Data stored from cell inputs
-    var exerciseName: String?
-    var groups: [String]?
-    var images: [UIImage]?
-    var instructions: String?
-    var tips: String?
+    init(listDataSource: ListDataSource?) {
+        super.init()
+
+        self.listDataSource = listDataSource
+    }
 }
 
 // MARK: - Structs/Enums
-extension CreateEditExerciseDataModel {
-    private struct Constants {
-        static let muscleGroupsCellHeight = CGFloat(150)
-        static let imagesCellHeight = CGFloat(100)
-    }
-
-    enum TableItem: String {
+extension CreateEditExerciseTVDS {
+    enum Item: String {
         case nameTitle = "Exercise Name"
         case name
         case muscleGroupsTitle = "Muscle Groups"
@@ -48,25 +54,12 @@ extension CreateEditExerciseDataModel {
         case instructions
         case tipsTitle = "Tips (Optional)"
         case tips
-
-        var height: CGFloat {
-            switch self {
-            case .nameTitle, .name, .muscleGroupsTitle,
-                 .imagesTitle, .instructionsTitle, .instructions,
-                 .tipsTitle, .tips:
-                return UITableView.automaticDimension
-            case .muscleGroups:
-                return Constants.muscleGroupsCellHeight
-            case .images:
-                return Constants.imagesCellHeight
-            }
-        }
     }
 }
 
 // MARK: - Funcs
-extension CreateEditExerciseDataModel {
-    mutating func setupFromExistingExercise() {
+extension CreateEditExerciseTVDS {
+    private func setupFromExercise() {
         exerciseName = exercise.name ?? ""
         groups = (exercise.groups ?? "").components(separatedBy: ",").map {
             $0.capitalized.trimmingCharacters(in: .whitespaces)
@@ -90,7 +83,7 @@ extension CreateEditExerciseDataModel {
     // MARK: - UITableViewCells
     private func getLabelTVCell(in tableView: UITableView,
                                 for indexPath: IndexPath,
-                                item: TableItem) -> LabelTVCell {
+                                item: Item) -> LabelTVCell {
         guard let labelTVCell = tableView.dequeueReusableCell(
                 withIdentifier: LabelTVCell.reuseIdentifier,
                 for: indexPath) as? LabelTVCell else {
@@ -150,7 +143,7 @@ extension CreateEditExerciseDataModel {
 
     private func getTextViewCell(in tableView: UITableView,
                                  for indexPath: IndexPath,
-                                 item: TableItem) -> TextViewTVCell {
+                                 item: Item) -> TextViewTVCell {
         guard let textViewTVCell = tableView.dequeueReusableCell(
                 withIdentifier: TextViewTVCell.reuseIdentifier,
                 for: indexPath) as? TextViewTVCell else {
@@ -167,14 +160,9 @@ extension CreateEditExerciseDataModel {
         return textViewTVCell
     }
 
-    // MARK: - Helpers
-    private func validateSection(section: Int) -> Bool {
-        section < tableItems.count
-    }
-
-    func indexOf(item: TableItem) -> Int? {
+    func indexOf(item: Item) -> Int? {
         var index: Int?
-        tableItems.forEach {
+        items.forEach {
             if $0.contains(item) {
                 index = $0.firstIndex(of: item)
                 return
@@ -182,28 +170,68 @@ extension CreateEditExerciseDataModel {
         }
         return index
     }
+
+    func item(at indexPath: IndexPath) -> Item {
+        return items[indexPath.section][indexPath.row]
+    }
+
+    func getImageNamesAfterSave() -> List<String> {
+        guard let exerciseName = exerciseName,
+              let images = images else {
+            return List<String>()
+        }
+
+        let imageNames = Utility.saveImages(name: exerciseName,
+                                                images: images,
+                                                isUserMade: true,
+                                                directory: .userImages) ?? [""]
+
+        let thumbnails = images.map { $0.thumbnail ?? UIImage() }
+        Utility.saveImages(name: exerciseName,
+                           images: thumbnails,
+                           isUserMade: true,
+                           directory: .userThumbnails)
+
+        let imageFilePathsList = List<String>()
+        imageFilePathsList.append(objectsIn: imageNames)
+        return imageFilePathsList
+    }
+
+    func getFormattedGroups() -> String? {
+        guard var dataModelGroups = groups else {
+            return nil
+        }
+
+        dataModelGroups.sort()
+
+        var groups = ""
+        for (index, name) in dataModelGroups.enumerated() {
+            let groupName = name.lowercased()
+            if index < dataModelGroups.count - 1 {
+                groups += "\(groupName), "
+            } else {
+                groups += "\(groupName)"
+            }
+        }
+        return groups
+    }
 }
 
 // MARK: - UITableViewDataSource
-extension CreateEditExerciseDataModel {
-    var numberOfSections: Int {
-        tableItems.count
+extension CreateEditExerciseTVDS: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        items.count
     }
 
-    func numberOfRows(in section: Int) -> Int {
-        guard validateSection(section: section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-        return tableItems[section].count
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        items[section].count
     }
 
-    func cellForRow(in tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let item = tableItems[indexPath.section][indexPath.row]
+        let item = items[indexPath.section][indexPath.row]
 
         switch item {
         case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
@@ -217,20 +245,8 @@ extension CreateEditExerciseDataModel {
         case .instructions, .tips:
             cell = getTextViewCell(in: tableView, for: indexPath, item: item)
         }
+
+        listDataSource?.cellForRowAt(tvCell: cell)
         return cell
-    }
-
-    func tableItem(at indexPath: IndexPath) -> TableItem {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-        return tableItems[indexPath.section][indexPath.row]
-    }
-
-    func heightForRow(at indexPath: IndexPath) -> CGFloat {
-        guard validateSection(section: indexPath.section) else {
-            fatalError("Section is greater than tableItem.count of \(tableItems.count)")
-        }
-        return tableItems[indexPath.section][indexPath.row].height
     }
 }

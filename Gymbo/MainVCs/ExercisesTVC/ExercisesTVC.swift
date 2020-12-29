@@ -232,8 +232,7 @@ extension ExercisesTVC {
         Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
-        let createEditExerciseTVC = CreateEditExerciseTVC()
-        createEditExerciseTVC.exerciseState = .create
+        let createEditExerciseTVC = VCFactory.makeCreateEditExerciseTVC()
         createEditExerciseTVC.exerciseDataModelDelegate = self
         createEditExerciseTVC.setAlphaDelegate = self
 

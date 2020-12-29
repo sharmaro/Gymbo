@@ -12,10 +12,12 @@ protocol ListDataSource: class {
     func reloadData()
     func deleteCell(tvCell: UITableViewCell)
     func deleteCell(cvCell: UICollectionViewCell)
+    func cellForRowAt(tvCell: UITableViewCell)
 }
 
 extension ListDataSource {
     func reloadData() {}
     func deleteCell(tvCell: UITableViewCell) {}
     func deleteCell(cvCell: UICollectionViewCell) {}
+    func cellForRowAt(tvCell: UITableViewCell) {}
 }

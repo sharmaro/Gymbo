@@ -19,6 +19,16 @@ private extension VCFactory {
 
 // MARK: - Funcs
 extension VCFactory {
+    static func makeCreateEditExerciseTVC(state: ExerciseState = .create) -> CreateEditExerciseTVC {
+        let createEditExerciseTVC = CreateEditExerciseTVC()
+        createEditExerciseTVC.customDataSource = CreateEditExerciseTVDS(
+            listDataSource: createEditExerciseTVC)
+        createEditExerciseTVC.customDelegate = CreateEditExerciseTVD(
+            listDelegate: createEditExerciseTVC)
+        createEditExerciseTVC.exerciseState = state
+        return createEditExerciseTVC
+    }
+
     static func makeDashboardCVC(layout: UICollectionViewLayout) -> DashboardCVC {
         let dashboardCVC = DashboardCVC(
             collectionViewLayout: layout)

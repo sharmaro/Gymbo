@@ -18,13 +18,14 @@ class CreateEditExerciseTVC: UITableViewController {
         return button
     }()
 
-    private var createEditExerciseDataModel = CreateEditExerciseDataModel()
-
     private var imagesTVCell: ImagesTVCell?
     private var imagesTVCellSelectedIndex: Int?
 
     var exercise = Exercise()
     var exerciseState = ExerciseState.create
+
+    var customDataSource: CreateEditExerciseTVDS?
+    var customDelegate: CreateEditExerciseTVD?
 
     weak var exerciseDataModelDelegate: ExerciseDataModelDelegate?
     weak var setAlphaDelegate: SetAlphaDelegate?
@@ -51,8 +52,7 @@ extension CreateEditExerciseTVC {
         addConstraints()
 
         if exerciseState == .edit {
-            createEditExerciseDataModel.exercise = exercise
-            createEditExerciseDataModel.setupFromExistingExercise()
+            customDataSource?.exercise = exercise
         }
     }
 
@@ -87,6 +87,9 @@ extension CreateEditExerciseTVC: ViewAdding {
     }
 
     func setupViews() {
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
         tableView.register(LabelTVCell.self,
@@ -132,9 +135,9 @@ extension CreateEditExerciseTVC: ViewAdding {
 // MARK: - Funcs
 extension CreateEditExerciseTVC {
     private func updateSaveButton() {
-        guard let exerciseName = createEditExerciseDataModel.exerciseName,
+        guard let exerciseName = customDataSource?.exerciseName,
               !exerciseName.isEmpty,
-              let groups = createEditExerciseDataModel.groups,
+              let groups = customDataSource?.groups,
               !groups.isEmpty else {
                 actionButton.set(state: .disabled)
                 return
@@ -142,29 +145,11 @@ extension CreateEditExerciseTVC {
         actionButton.set(state: .enabled)
     }
 
-    private func getImageNamesAfterSave(from exerciseName: String,
-                                        and images: [UIImage]) -> List<String> {
-        let imageNames = Utility.saveImages(name: exerciseName,
-                                                images: images,
-                                                isUserMade: true,
-                                                directory: .userImages) ?? [""]
-
-        let thumbnails = images.map { $0.thumbnail ?? UIImage() }
-        Utility.saveImages(name: exerciseName,
-                           images: thumbnails,
-                           isUserMade: true,
-                           directory: .userThumbnails)
-
-        let imageFilePathsList = List<String>()
-        imageFilePathsList.append(objectsIn: imageNames)
-        return imageFilePathsList
-    }
-
     private func getInstructionsAndTipsFromCell() -> (instructions: String?, tips: String?) {
         var instructions: String?
         var tips: String?
-        if let instructionsCellRow = createEditExerciseDataModel.indexOf(item: .instructions),
-            let tipsCellRow = createEditExerciseDataModel.indexOf(item: .tips),
+        if let instructionsCellRow = customDataSource?.indexOf(item: .instructions),
+            let tipsCellRow = customDataSource?.indexOf(item: .tips),
             let instructionsCell = tableView.cellForRow(at: IndexPath(row: instructionsCellRow, section: 0))
                 as? TextViewTVCell,
             let tipsCell = tableView.cellForRow(at: IndexPath(row: tipsCellRow, section: 0))
@@ -182,23 +167,16 @@ extension CreateEditExerciseTVC {
         return (instructions, tips)
     }
 
-    private func getFormattedGroups() -> String? {
-        guard var dataModelGroups = createEditExerciseDataModel.groups else {
-            return nil
+    private func getImage(fromSourceType sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = sourceType
+            navigationController?.present(imagePickerController, animated: true)
+        } else {
+            imagesTVCell = nil
+            imagesTVCellSelectedIndex = nil
         }
-
-        dataModelGroups.sort()
-
-        var groups = ""
-        for (index, name) in dataModelGroups.enumerated() {
-            let groupName = name.lowercased()
-            if index < dataModelGroups.count - 1 {
-                groups += "\(groupName), "
-            } else {
-                groups += "\(groupName)"
-            }
-        }
-        return groups
     }
 
     @objc private func cancelButtonTapped() {
@@ -209,20 +187,21 @@ extension CreateEditExerciseTVC {
 
     @objc private func actionButtonTapped(sender: Any) {
         Haptic.sendImpactFeedback(.medium)
-        guard let groups = getFormattedGroups() else {
+        guard let groups = customDataSource?.getFormattedGroups(),
+              let customDataSource = customDataSource else {
             return
         }
 
-        let imageNames = getImageNamesAfterSave(from: createEditExerciseDataModel.exerciseName ?? "",
-                                                and: createEditExerciseDataModel.images ?? [])
+        let imageNames = customDataSource.getImageNamesAfterSave()
         let instructionsAndTips = getInstructionsAndTipsFromCell()
-        let exercise = Exercise(name: createEditExerciseDataModel.exerciseName,
+        let exerciseName = customDataSource.exerciseName ?? ""
+        let exercise = Exercise(name: exerciseName,
                                 groups: groups,
                                 instructions: instructionsAndTips.instructions,
                                 tips: instructionsAndTips.tips,
                                 imageNames: imageNames,
                                 isUserMade: true)
-        let exerciseName = createEditExerciseDataModel.exerciseName ?? ""
+
         switch exerciseState {
         case .create:
             exerciseDataModelDelegate?.create(exercise, completion: { [weak self] result in
@@ -240,7 +219,7 @@ extension CreateEditExerciseTVC {
                 }
             })
         case .edit:
-            let currentExerciseName = createEditExerciseDataModel.exercise.name ?? ""
+            let currentExerciseName = customDataSource.exercise.name ?? ""
             exerciseDataModelDelegate?.update(currentExerciseName,
                                               exercise: exercise,
                                               completion: { [weak self] result in
@@ -260,41 +239,23 @@ extension CreateEditExerciseTVC {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension CreateEditExerciseTVC {
-    override func tableView(_ tableView: UITableView,
-                            numberOfRowsInSection section: Int) -> Int {
-        createEditExerciseDataModel.numberOfRows(in: section)
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = createEditExerciseDataModel.cellForRow(in: tableView, at: indexPath)
-
-        if let textFieldTVCell = cell as? TextFieldTVCell {
+// MARK: - ListDataSource
+extension CreateEditExerciseTVC: ListDataSource {
+    func cellForRowAt(tvCell: UITableViewCell) {
+        if let textFieldTVCell = tvCell as? TextFieldTVCell {
             textFieldTVCell.customTextFieldDelegate = self
-        } else if let multipleSelectionTVCell = cell as? MultipleSelectionTVCell {
+        } else if let multipleSelectionTVCell = tvCell as? MultipleSelectionTVCell {
             multipleSelectionTVCell.multipleSelectionTVCellDelegate = self
-        } else if let imagesTVCell = cell as? ImagesTVCell {
+        } else if let imagesTVCell = tvCell as? ImagesTVCell {
             imagesTVCell.imagesTVCellDelegate = self
-        } else if let textViewTVCell = cell as? TextViewTVCell {
+        } else if let textViewTVCell = tvCell as? TextViewTVCell {
             textViewTVCell.customTextViewDelegate = self
         }
-        return cell
     }
 }
 
-// MARK: - UITableViewDelegate
-extension CreateEditExerciseTVC {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        createEditExerciseDataModel.heightForRow(at: indexPath)
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            heightForRowAt indexPath: IndexPath) -> CGFloat {
-        createEditExerciseDataModel.heightForRow(at: indexPath)
-    }
+// MARK: - ListDelegate
+extension CreateEditExerciseTVC: ListDelegate {
 }
 
 // MARK: - CustomTextViewDelegate
@@ -324,12 +285,12 @@ extension CreateEditExerciseTVC: CustomTextViewDelegate {
             fatalError("Couldn't get indexPath")
         }
 
-        let tableRow = createEditExerciseDataModel.tableItem(at: indexPath)
+        let tableRow = customDataSource?.item(at: indexPath)
         let text = textView.text ?? ""
         if tableRow == .instructions {
-            createEditExerciseDataModel.instructions = text
+            customDataSource?.instructions = text
         } else if tableRow == .tips {
-            createEditExerciseDataModel.tips = text
+            customDataSource?.tips = text
         }
 
         textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder,
@@ -342,7 +303,7 @@ extension CreateEditExerciseTVC: CustomTextViewDelegate {
 // MARK: CustomTextFieldDelegate
 extension CreateEditExerciseTVC: CustomTextFieldDelegate {
     func textFieldEditingChanged(textField: UITextField) {
-        createEditExerciseDataModel.exerciseName = textField.text ?? ""
+        customDataSource?.exerciseName = textField.text ?? ""
         updateSaveButton()
     }
 
@@ -355,7 +316,7 @@ extension CreateEditExerciseTVC: CustomTextFieldDelegate {
 // MARK: - MultipleSelectionTVCellDelegate
 extension CreateEditExerciseTVC: MultipleSelectionTVCellDelegate {
     func selected(items: [String]) {
-        createEditExerciseDataModel.groups = items
+        customDataSource?.groups = items
         updateSaveButton()
     }
 }
@@ -396,18 +357,6 @@ extension CreateEditExerciseTVC: ImagesTVCellDelegate {
         }))
         navigationController?.present(alertController, animated: true)
     }
-
-    private func getImage(fromSourceType sourceType: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.delegate = self
-            imagePickerController.sourceType = sourceType
-            navigationController?.present(imagePickerController, animated: true)
-        } else {
-            imagesTVCell = nil
-            imagesTVCellSelectedIndex = nil
-        }
-    }
 }
 
 // MARK: - UIImagePickerControllerDelegate
@@ -423,7 +372,7 @@ UINavigationControllerDelegate {
             }
 
             cell.update(image: image, for: selectedIndex)
-            self?.createEditExerciseDataModel.images = cell.images
+            self?.customDataSource?.images = cell.images
             self?.imagesTVCell = nil
             self?.imagesTVCellSelectedIndex = nil
         }
