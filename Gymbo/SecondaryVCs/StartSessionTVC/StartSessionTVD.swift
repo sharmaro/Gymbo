@@ -1,15 +1,15 @@
 //
-//  CreateEditSessionTVD.swift
+//  StartSessionTVD.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 12/28/20.
+//  Created by Rohan Sharma on 12/29/20.
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
 
 // MARK: - Properties
-class CreateEditSessionTVD: NSObject {
+class StartSessionTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
@@ -17,50 +17,42 @@ class CreateEditSessionTVD: NSObject {
     }
 }
 
-// MARK: - Structs/Enums
-private extension CreateEditSessionTVD {
-    struct Constants {
-        static let exerciseHeaderCellHeight = CGFloat(67)
-        static let exerciseDetailCellHeight = CGFloat(40)
-        static let buttonCellHeight = CGFloat(65)
-    }
-}
-
 // MARK: - Funcs
-extension CreateEditSessionTVD {
-    private func heightForRow(in tableView: UITableView,
-                              at indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
-            return Constants.exerciseHeaderCellHeight
-        case tableView.numberOfRows(inSection: indexPath.section) - 1:
-            return Constants.buttonCellHeight
-        default:
-            return Constants.exerciseDetailCellHeight
-        }
-    }
+extension StartSessionTVD {
 }
 
 // MARK: - UITableViewDelegate
-extension CreateEditSessionTVD: UITableViewDelegate {
+extension StartSessionTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        heightForRow(in: tableView, at: indexPath)
+        listDelegate?.heightForRow(at: indexPath) ?? 0
     }
 
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        heightForRow(in: tableView, at: indexPath)
+        listDelegate?.heightForRow(at: indexPath) ?? 0
+    }
+
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        Haptic.sendSelectionFeedback()
+        listDelegate?.didSelectItem(at: indexPath)
+    }
+
+    func tableView(_ tableView: UITableView,
+                   didDeselectRowAt indexPath: IndexPath) {
+        Haptic.sendSelectionFeedback()
+        listDelegate?.didDeselectItem(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt
                     indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // Calls text field and text view didEndEditing() and saves data
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "Delete") { [weak self] _, _, completion in
             Haptic.sendImpactFeedback(.medium)
-            self?.listDelegate?.tableView(tableView, trailingSwipeActionsConfiguration: indexPath)
+            self?.listDelegate?.tableView(tableView,
+                                          trailingSwipeActionsConfiguration: indexPath)
 
             tableView.performBatchUpdates({
                 tableView.deleteRows(at: [indexPath], with: .automatic)

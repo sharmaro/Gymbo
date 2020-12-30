@@ -11,6 +11,7 @@ import UIKit
 protocol ListDelegate: class {
     func didSelectItem(at indexPath: IndexPath)
     func didDeselectItem(at indexPath: IndexPath)
+    func heightForRow(at indexPath: IndexPath) -> CGFloat
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfiguration indexPath: IndexPath)
 }
@@ -18,6 +19,7 @@ protocol ListDelegate: class {
 extension ListDelegate {
     func didSelectItem(at indexPath: IndexPath) {}
     func didDeselectItem(at indexPath: IndexPath) {}
+    func heightForRow(at indexPath: IndexPath) -> CGFloat { 0 }
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfiguration indexPath: IndexPath) {}
 }

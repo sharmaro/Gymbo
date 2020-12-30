@@ -145,9 +145,9 @@ extension CreateEditSessionTVC {
         Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
-        let exercisesTVC = ExercisesTVC(style: .grouped)
-        exercisesTVC.presentationStyle = .modal
-        exercisesTVC.exerciseUpdatingDelegate = self
+        let exercisesTVC = VCFactory.makeExercisesTVC(style: .grouped,
+                                                      presentationStyle: .modal,
+                                                      exerciseUpdatingDelegate: self)
 
         let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
                                            transitioningDelegate: self)

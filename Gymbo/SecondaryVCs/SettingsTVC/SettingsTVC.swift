@@ -137,7 +137,6 @@ extension SettingsTVC: ListDelegate {
             contactUsSelected()
         }
         customDataSource.selectedIndexPath = indexPath
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

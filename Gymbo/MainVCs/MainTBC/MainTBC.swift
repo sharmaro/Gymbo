@@ -114,12 +114,11 @@ extension MainTBC {
         shadowContainerView.addShadow(direction: .up)
         shadowContainerView.hideShadow()
 
-        let startSessionTVC = StartSessionTVC()
-        startSessionTVC.session = session
-        startSessionTVC.sessionProgresssDelegate = self
-        startSessionTVC.dimmedView = dimmedView
-        startSessionTVC.panView = shadowContainerView
-        startSessionTVC.initialTabBarFrame = tabBar.frame
+        let startSessionTVC = VCFactory.makeStartSessionTVC(session: session,
+                                                            delegate: self,
+                                                            dimmedView: dimmedView,
+                                                            panView: shadowContainerView,
+                                                            initialTabBarFrame: tabBar.frame)
         // This allows startSessionViewController to extend over the bottom tab bar
         startSessionTVC.extendedLayoutIncludesOpaqueBars = true
 

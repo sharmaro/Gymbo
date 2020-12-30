@@ -62,8 +62,14 @@ extension VCFactory {
         return exercisePreviewTVC
     }
 
-    static func makeExercisesTVC(style: UITableView.Style) -> ExercisesTVC {
+    static func makeExercisesTVC(
+        style: UITableView.Style,
+        presentationStyle: PresentationStyle = .normal,
+        exerciseUpdatingDelegate: ExerciseUpdatingDelegate? = nil
+    ) -> ExercisesTVC {
         let exercisesTVC = ExercisesTVC(style: style)
+        exercisesTVC.presentationStyle = presentationStyle
+        exercisesTVC.exerciseUpdatingDelegate = exerciseUpdatingDelegate
         exercisesTVC.customDataSource = ExercisesTVDS(
             listDataSource: exercisesTVC)
         exercisesTVC.customDelegate = ExercisesTVD(
@@ -107,15 +113,10 @@ extension VCFactory {
         return profileTVC
     }
 
-    static func makeRestVC(isTimerActive: Bool,
-                           totalRestTime: Int,
-                           restTimeRemaining: Int,
-                           delegate: RestTimerDelegate?) -> RestVC {
+    static func makeRestVC(startSessionTimers: StartSessionTimers?) -> RestVC {
         let restVC = RestVC()
-        restVC.isTimerActive = isTimerActive
-        restVC.startSessionTotalRestTime = totalRestTime
-        restVC.startSessionRestTimeRemaining = restTimeRemaining
-        restVC.restTimerDelegate = delegate
+        restVC.startSessionTimers = startSessionTimers
+        restVC.startSessionTimers?.startedSessionTimerDelegate = restVC
         restVC.customDSAndD = RestDSAndD()
         return restVC
     }
@@ -156,5 +157,25 @@ extension VCFactory {
             listDataSource: stopwatchVC)
         stopwatchVC.customDelegate = StopwatchTVD()
         return stopwatchVC
+    }
+
+    static func makeStartSessionTVC(session: Session?,
+                                    delegate: SessionProgressDelegate?,
+                                    dimmedView: UIView,
+                                    panView: UIView,
+                                    initialTabBarFrame: CGRect) -> StartSessionTVC {
+        let startSessionTVC = StartSessionTVC()
+        startSessionTVC.dimmedView = dimmedView
+        startSessionTVC.panView = panView
+        startSessionTVC.initialTabBarFrame = initialTabBarFrame
+        startSessionTVC.startSessionTimers = StartSessionTimers()
+        startSessionTVC.startSessionTimers?.startedSessionTimerDelegate = startSessionTVC
+        startSessionTVC.customDataSource = StartSessionTVDS(
+            listDataSource: startSessionTVC)
+        startSessionTVC.customDataSource?.session = session
+        startSessionTVC.customDataSource?.sessionProgresssDelegate = delegate
+        startSessionTVC.customDelegate = StartSessionTVD(
+            listDelegate: startSessionTVC)
+        return startSessionTVC
     }
 }

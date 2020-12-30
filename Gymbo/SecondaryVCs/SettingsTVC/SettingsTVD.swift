@@ -20,8 +20,8 @@ class SettingsTVD: NSObject {
 // MARK: - Structs/Enums
 private extension SettingsTVD {
     struct Constants {
-        static let cellHeight = CGFloat(70)
         static let headerHeight = CGFloat(40)
+        static let cellHeight = CGFloat(70)
     }
 }
 
@@ -41,7 +41,8 @@ extension SettingsTVD: UITableViewDelegate {
                    viewForHeaderInSection section: Int) -> UIView? {
         guard section > 0,
               let headerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+                withIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
+                as? ExercisesHeaderFooterView else {
             return nil
         }
         return headerView
@@ -58,6 +59,7 @@ extension SettingsTVD: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         listDelegate?.didSelectItem(at: indexPath)
     }
 }

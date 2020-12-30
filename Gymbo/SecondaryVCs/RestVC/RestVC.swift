@@ -41,34 +41,12 @@ class RestVC: UIViewController {
         }
     }
 
-    private var totalRestTime = 0 {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-
-            circleProgressView.totalTimeText = totalRestTime > 0 ?
-            totalRestTime.minutesAndSecondsString : 0.minutesAndSecondsString
-        }
+    private var isTimerActive: Bool {
+        startSessionTimers?.restTimer?.isValid ?? false
     }
-    private var restTimeRemaining = 0 {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-
-            circleProgressView.timeRemainingText = restTimeRemaining > 0 ?
-            restTimeRemaining.minutesAndSecondsString : 0.minutesAndSecondsString
-        }
-    }
-
-    var isTimerActive = false
-    var startSessionTotalRestTime = 0
-    var startSessionRestTimeRemaining = 0
 
     var customDSAndD: RestDSAndD?
-
-    weak var restTimerDelegate: RestTimerDelegate?
+    var startSessionTimers: StartSessionTimers?
 }
 
 // MARK: - Structs/Enums
@@ -243,38 +221,46 @@ extension RestVC {
             showHideCustomViews()
 
             if isTimerActive {
-                totalRestTime = startSessionTotalRestTime
-                restTimeRemaining = startSessionRestTimeRemaining
+                let totalRestTime = startSessionTimers?.totalRestTime ?? 0
+                let restTimeRemaining = startSessionTimers?.restTimeRemaining ?? 0
 
+                circleProgressView.totalTimeText = totalRestTime > 0 ?
+                    totalRestTime.minutesAndSecondsString :
+                    0.minutesAndSecondsString
+                circleProgressView.timeRemainingText = restTimeRemaining > 0 ?
+                    restTimeRemaining.minutesAndSecondsString :
+                    0.minutesAndSecondsString
                 circleProgressView.startAnimation(duration: restTimeRemaining,
                                                   totalTime: totalRestTime,
                                                   timeRemaining: restTimeRemaining)
             } else {
                 let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
-                totalRestTime = customDSAndD?
+                let totalRestTime = customDSAndD?
                     .totalRestTime(for: selectedPickerRow) ?? 0
-                restTimeRemaining = totalRestTime
+                startSessionTimers?.totalRestTime = totalRestTime
+                startSessionTimers?.restTimeRemaining = totalRestTime
 
-                circleProgressView.startAnimation(duration: restTimeRemaining)
-                restTimerDelegate?.started(totalTime: restTimeRemaining)
+                circleProgressView.startAnimation(duration: totalRestTime)
+                startSessionTimers?.startedRestTimer(totalTime: totalRestTime)
             }
             mainButtonState = .done
         case .done:
             Haptic.sendNotificationFeedback(.success)
             circleProgressView.stopAnimation()
-            restTimerDelegate?.ended()
+            startSessionTimers?.stopRestTimer()
             dismiss(animated: true)
         }
     }
 
     private func updateAnimation() {
+        let totalRestTime = startSessionTimers?.totalRestTime ?? 0
+        let restTimeRemaining = startSessionTimers?.restTimeRemaining ?? 0
         circleProgressView.startAnimation(duration: restTimeRemaining,
                                           totalTime: totalRestTime,
                                           timeRemaining: restTimeRemaining)
-        restTimerDelegate?.timeUpdated(totalTime: totalRestTime, timeRemaining: restTimeRemaining)
 
         if restTimeRemaining <= 0 {
-            restTimerDelegate?.ended()
+            startSessionTimers?.stopRestTimer()
             circleProgressView.stopAnimation()
             dismiss(animated: true)
         }
@@ -282,8 +268,8 @@ extension RestVC {
 
     private func changeTime(delta: Int) {
         Haptic.sendSelectionFeedback()
-        totalRestTime += delta
-        restTimeRemaining += delta
+        startSessionTimers?.totalRestTime += delta
+        startSessionTimers?.restTimeRemaining += delta
         updateAnimation()
     }
 
@@ -305,15 +291,32 @@ extension RestVC {
     }
 }
 
-// MARK: - UpdateDelegate
-extension RestVC: UpdateDelegate {
-    // Using StartSessionViewController's timer to update the time in this presented view controller
-    func update() {
-        restTimeRemaining -= 1
-        if restTimeRemaining <= 0 {
-            restTimerDelegate?.ended()
-            circleProgressView.stopAnimation()
-            dismiss(animated: true)
+// MARK: - StartedSessionTimerDelegate
+extension RestVC: StartedSessionTimerDelegate {
+    func totalRestTimeUpdated() {
+        guard isViewLoaded,
+              let startSessionTimers = startSessionTimers else {
+            return
         }
+
+        circleProgressView.totalTimeText = startSessionTimers.totalRestTime > 0 ?
+            startSessionTimers.totalRestTime.minutesAndSecondsString :
+            0.minutesAndSecondsString
+    }
+
+    func restTimeRemainingUpdated() {
+        guard isViewLoaded,
+              let startSessionTimers = startSessionTimers else {
+            return
+        }
+
+        circleProgressView.timeRemainingText = startSessionTimers.restTimeRemaining > 0 ?
+            startSessionTimers.restTimeRemaining.minutesAndSecondsString :
+            0.minutesAndSecondsString
+    }
+
+    func ended() {
+        circleProgressView.stopAnimation()
+        dismiss(animated: true)
     }
 }
