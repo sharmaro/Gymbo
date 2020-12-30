@@ -121,6 +121,19 @@ extension VCFactory {
         return restVC
     }
 
+    static func makeSelectionTVC(items: [String],
+                                 selected: String,
+                                 title: String = "Selection",
+                                 delegate: SelectionDelegate?) -> SelectionTVC {
+        let selectionTVC = SelectionTVC(title: title)
+        selectionTVC.customDataSource = SelectionTVDS(items: items,
+                                                      selected: selected)
+        selectionTVC.customDataSource?.selectionDelegate = delegate
+        selectionTVC.customDelegate = SelectionTVD(
+            listDelegate: selectionTVC)
+        return selectionTVC
+    }
+
     static func makeSessionPreviewTVC(session: Session,
                                       delegate: SessionProgressDelegate?,
                                       sessionsCVDS: SessionsCVDS?) -> SessionPreviewTVC {

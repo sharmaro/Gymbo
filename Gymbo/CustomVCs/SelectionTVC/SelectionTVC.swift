@@ -10,27 +10,17 @@ import UIKit
 
 // MARK: - Properties
 class SelectionTVC: UITableViewController {
-    private var items: [String]
-    private var selected: String
+    var customDataSource: SelectionTVDS?
+    var customDelegate: SelectionTVD?
 
-    weak var selectionDelegate: SelectionDelegate?
+    init(title: String = "Selection") {
+        super.init(nibName: nil, bundle: nil)
 
-    init(items: [String], selected: String, title: String = "Selection") {
-        self.items = items
-        self.selected = selected
-        super.init(style: .plain)
         self.title = title
     }
 
     required init?(coder: NSCoder) {
         fatalError("Not using storyboards")
-    }
-}
-
-// MARK: - Structs/Enums
-private extension SelectionTVC {
-    struct Constants {
-        static let labelTVCellHeight = CGFloat(70)
     }
 }
 
@@ -60,6 +50,9 @@ extension SelectionTVC: ViewAdding {
     }
 
     func setupViews() {
+        tableView.dataSource = customDataSource
+        tableView.delegate = customDelegate
+
         tableView.delaysContentTouches = false
         tableView.tableFooterView = UIView()
         tableView.register(LabelTVCell.self,
@@ -67,58 +60,6 @@ extension SelectionTVC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
-    }
-}
-
-// MARK: - Funcs
-extension SelectionTVC {}
-
-// MARK: - UITableViewDataSource
-extension SelectionTVC {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items.count
-    }
-
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: LabelTVCell.reuseIdentifier,
-                for: indexPath) as? LabelTVCell else {
-            fatalError("Could not dequeue \(LabelTVCell.reuseIdentifier)")
-        }
-
-        let item = items[indexPath.row]
-        cell.configure(text: item)
-        cell.accessoryView = nil
-
-        if item == selected {
-            let imageView = UIImageView(frame: CGRect(origin: .zero,
-                                                      size: CGSize(width: 15,
-                                                                   height: 15)))
-            imageView.tintColor = .dynamicBlack
-            imageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
-            cell.accessoryView = imageView
-        }
-        return cell
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension SelectionTVC {
-    override func tableView(_ tableView: UITableView,
-                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.labelTVCellHeight
-    }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.labelTVCellHeight
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
-
-        let item = items[indexPath.row]
-        selectionDelegate?.selected(item: item)
-        navigationController?.popViewController(animated: true)
+        [view, tableView].forEach { $0?.backgroundColor = .dynamicWhite }
     }
 }

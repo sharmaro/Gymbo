@@ -48,6 +48,9 @@
 		694DE890259D25BC00F1A512 /* StartSessionTVC+ApplicationStateObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE88F259D25BC00F1A512 /* StartSessionTVC+ApplicationStateObserving.swift */; };
 		694DE896259D262F00F1A512 /* StartSessionTVC+ListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE895259D262F00F1A512 /* StartSessionTVC+ListDataSource.swift */; };
 		694DE89C259D266D00F1A512 /* StartSessionTVC+ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE89B259D266D00F1A512 /* StartSessionTVC+ListDelegate.swift */; };
+		694DE8A8259D2EAC00F1A512 /* SelectionTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8A7259D2EAC00F1A512 /* SelectionTVDS.swift */; };
+		694DE8AC259D2EB600F1A512 /* SelectionTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8AB259D2EB600F1A512 /* SelectionTVD.swift */; };
+		694DE8B0259D33B800F1A512 /* SelectionTVC+ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8AF259D33B800F1A512 /* SelectionTVC+ListDelegate.swift */; };
 		695070932497522400942078 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070922497522400942078 /* Session.swift */; };
 		695070952497525E00942078 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070942497525E00942078 /* SessionsList.swift */; };
 		695070972497528200942078 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695070962497528200942078 /* Exercise.swift */; };
@@ -233,6 +236,9 @@
 		694DE88F259D25BC00F1A512 /* StartSessionTVC+ApplicationStateObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartSessionTVC+ApplicationStateObserving.swift"; sourceTree = "<group>"; };
 		694DE895259D262F00F1A512 /* StartSessionTVC+ListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartSessionTVC+ListDataSource.swift"; sourceTree = "<group>"; };
 		694DE89B259D266D00F1A512 /* StartSessionTVC+ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartSessionTVC+ListDelegate.swift"; sourceTree = "<group>"; };
+		694DE8A7259D2EAC00F1A512 /* SelectionTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVDS.swift; sourceTree = "<group>"; };
+		694DE8AB259D2EB600F1A512 /* SelectionTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVD.swift; sourceTree = "<group>"; };
+		694DE8AF259D33B800F1A512 /* SelectionTVC+ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectionTVC+ListDelegate.swift"; sourceTree = "<group>"; };
 		695070922497522400942078 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		695070942497525E00942078 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
 		695070962497528200942078 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -843,6 +849,9 @@
 			isa = PBXGroup;
 			children = (
 				6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */,
+				694DE8A7259D2EAC00F1A512 /* SelectionTVDS.swift */,
+				694DE8AB259D2EB600F1A512 /* SelectionTVD.swift */,
+				694DE8AF259D33B800F1A512 /* SelectionTVC+ListDelegate.swift */,
 			);
 			path = SelectionTVC;
 			sourceTree = "<group>";
@@ -1040,6 +1049,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69300817259A82F2005D2578 /* StopwatchTVDS.swift in Sources */,
+				694DE8AC259D2EB600F1A512 /* SelectionTVD.swift in Sources */,
 				6972E402249F26E700479E91 /* ExerciseUpdatingDelegate.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTBC.swift in Sources */,
 				6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */,
@@ -1059,7 +1069,9 @@
 				694DE84E259C11F400F1A512 /* StartSessionTVC+ExerciseHeaderCellDelegate.swift in Sources */,
 				69CB2D9123CD6D9F00603363 /* RestVC.swift in Sources */,
 				69DAD81F247DF6860023E967 /* CreateEditExerciseTVC.swift in Sources */,
+				694DE8B0259D33B800F1A512 /* SelectionTVC+ListDelegate.swift in Sources */,
 				69E3B486249F15C400E4DD99 /* SessionDataModelDelegate.swift in Sources */,
+				694DE8A8259D2EAC00F1A512 /* SelectionTVDS.swift in Sources */,
 				6956292D234463EF00E0AA96 /* ModalPresentationC.swift in Sources */,
 				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
 				69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */,

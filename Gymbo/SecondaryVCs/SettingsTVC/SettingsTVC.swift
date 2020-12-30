@@ -86,10 +86,10 @@ extension SettingsTVC: ViewAdding {
 // MARK: - Funcs
 extension SettingsTVC {
     private func presentSelectionTVC(with item: SettingsTVDS.Item) {
-        let selectionTVC = SelectionTVC(items: item.selectionItems,
-                                        selected: item.value,
-                                        title: item.rawValue)
-        selectionTVC.selectionDelegate = self
+        let selectionTVC = VCFactory.makeSelectionTVC(items: item.selectionItems,
+                                                      selected: item.value,
+                                                      title: item.rawValue,
+                                                      delegate: self)
         navigationController?.pushViewController(selectionTVC, animated: true)
     }
 
