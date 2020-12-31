@@ -170,6 +170,10 @@ extension CreateEditSessionTVC: ListDataSource {
 
 // MARK: - ListDelegate
 extension CreateEditSessionTVC: ListDelegate {
+    func heightForRow(at indexPath: IndexPath) -> CGFloat {
+        customDataSource?.heightForRow(at: indexPath) ?? 0
+    }
+
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfiguration indexPath: IndexPath) {
         view.endEditing(true)

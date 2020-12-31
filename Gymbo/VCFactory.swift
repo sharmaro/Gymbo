@@ -65,13 +65,15 @@ extension VCFactory {
     static func makeExercisesTVC(
         style: UITableView.Style,
         presentationStyle: PresentationStyle = .normal,
-        exerciseUpdatingDelegate: ExerciseUpdatingDelegate? = nil
+        exerciseUpdatingDelegate: ExerciseUpdatingDelegate? = nil,
+        sessionsCVDS: SessionsCVDS? = nil
     ) -> ExercisesTVC {
         let exercisesTVC = ExercisesTVC(style: style)
-        exercisesTVC.presentationStyle = presentationStyle
         exercisesTVC.exerciseUpdatingDelegate = exerciseUpdatingDelegate
+        exercisesTVC.sessionsCVDS = sessionsCVDS
         exercisesTVC.customDataSource = ExercisesTVDS(
             listDataSource: exercisesTVC)
+        exercisesTVC.customDataSource?.presentationStyle = presentationStyle
         exercisesTVC.customDelegate = ExercisesTVD(
             listDelegate: exercisesTVC)
         return exercisesTVC

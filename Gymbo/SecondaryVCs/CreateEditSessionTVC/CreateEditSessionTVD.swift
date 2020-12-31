@@ -17,40 +17,16 @@ class CreateEditSessionTVD: NSObject {
     }
 }
 
-// MARK: - Structs/Enums
-private extension CreateEditSessionTVD {
-    struct Constants {
-        static let exerciseHeaderCellHeight = CGFloat(67)
-        static let exerciseDetailCellHeight = CGFloat(40)
-        static let buttonCellHeight = CGFloat(65)
-    }
-}
-
-// MARK: - Funcs
-extension CreateEditSessionTVD {
-    private func heightForRow(in tableView: UITableView,
-                              at indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
-            return Constants.exerciseHeaderCellHeight
-        case tableView.numberOfRows(inSection: indexPath.section) - 1:
-            return Constants.buttonCellHeight
-        default:
-            return Constants.exerciseDetailCellHeight
-        }
-    }
-}
-
 // MARK: - UITableViewDelegate
 extension CreateEditSessionTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        heightForRow(in: tableView, at: indexPath)
+        listDelegate?.heightForRow(at: indexPath) ?? 0
     }
 
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        heightForRow(in: tableView, at: indexPath)
+        listDelegate?.heightForRow(at: indexPath) ?? 0
     }
 
     func tableView(_ tableView: UITableView,

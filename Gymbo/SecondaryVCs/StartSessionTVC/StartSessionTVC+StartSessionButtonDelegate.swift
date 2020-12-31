@@ -10,6 +10,7 @@ import UIKit
 
 extension StartSessionTVC: StartSessionButtonDelegate {
     func addExercise() {
+        Haptic.sendSelectionFeedback()
         customDataSource?.modallyPresenting = .exercisesTVC
 
         let exercisesTVC = VCFactory.makeExercisesTVC(style: .grouped,

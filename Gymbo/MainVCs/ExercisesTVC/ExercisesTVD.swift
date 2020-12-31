@@ -10,9 +10,6 @@ import RealmSwift
 
 // MARK: - Properties
 class ExercisesTVD: NSObject {
-    var presentationStyle = PresentationStyle.normal
-    var selectedExerciseNames = [String]()
-
     private var sectionTitles: [String] {
         Array(realm?.objects(ExercisesList.self).first?.sectionTitles ?? List<String>())
     }
@@ -79,35 +76,11 @@ extension ExercisesTVD: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        guard presentationStyle == .modal,
-              let exerciseCell = tableView
-                .cellForRow(at: indexPath) as? ExerciseTVCell,
-              let exerciseName = exerciseCell.exerciseName else {
-            listDelegate?.didSelectItem(at: indexPath)
-            return
-        }
-        Haptic.sendSelectionFeedback()
-
-        if !selectedExerciseNames.contains(exerciseName) {
-            selectedExerciseNames.append(exerciseName)
-        }
+        listDelegate?.didSelectItem(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    didDeselectRowAt indexPath: IndexPath) {
-        guard presentationStyle != .normal,
-              let exerciseCell = tableView
-                .cellForRow(at: indexPath) as? ExerciseTVCell,
-              let exerciseName = exerciseCell.exerciseName else {
-            return
-        }
-        Haptic.sendSelectionFeedback()
-
-        if let index = selectedExerciseNames.firstIndex(where: { (name) -> Bool in
-            return name == exerciseName
-        }) {
-            selectedExerciseNames.remove(at: index)
-        }
         listDelegate?.didDeselectItem(at: indexPath)
     }
 

@@ -34,6 +34,10 @@ class CreateEditSessionTVDS: NSObject {
 private extension CreateEditSessionTVDS {
     struct Constants {
         static let buttonText = "+ Set"
+
+        static let exerciseHeaderCellHeight = CGFloat(67)
+        static let exerciseDetailCellHeight = CGFloat(40)
+        static let buttonCellHeight = CGFloat(65)
     }
 }
 
@@ -126,6 +130,18 @@ extension CreateEditSessionTVDS {
     private func deleteSet(indexPath: IndexPath) {
         session.exercises[indexPath.section].sets -= 1
         session.exercises[indexPath.section].exerciseDetails.remove(at: indexPath.row - 1)
+    }
+
+    func heightForRow(at indexPath: IndexPath) -> CGFloat {
+        let sets = session.exercises[indexPath.section].sets
+        switch indexPath.row {
+        case 0:
+            return Constants.exerciseHeaderCellHeight
+        case sets + 1:
+            return Constants.buttonCellHeight
+        default:
+            return Constants.exerciseDetailCellHeight
+        }
     }
 
     func saveTextFieldsWithOrWithoutRealm(text: String?,

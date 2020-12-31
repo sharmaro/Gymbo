@@ -11,6 +11,7 @@ import RealmSwift
 // MARK: - Properties
 class ExercisesTVDS: NSObject {
     var presentationStyle = PresentationStyle.normal
+    var selectedExerciseNames = [String]()
 
     private var sections = [String]()
     private var filteredDictionary = [String: [Exercise]]()
@@ -63,33 +64,33 @@ extension ExercisesTVDS {
 extension ExercisesTVDS {
     private func loadExercises() {
         ExerciseLoader.shared.loadExercises { [weak self] in
-            self?.updateExercisesProperty()
-            self?.updateSectionsProperty()
+            DispatchQueue.main.async {
+                self?.updateExercisesProperty()
+                self?.updateSectionsProperty()
+                self?.listDataSource?.reloadData()
+            }
         }
     }
 
     private func updateExercisesProperty() {
-        DispatchQueue.main.async { [weak self] in
-            guard let exercises = self?.realm?.objects(ExercisesList.self)
-                    .first?.exercises else {
-                return
-            }
+        guard let exercises = realm?.objects(ExercisesList.self)
+                .first?.exercises else {
+            return
+        }
 
-            let exercisesArray = Array(exercises)
-            for exercise in exercisesArray {
-                self?.updateExerciseDictionary(exercise: exercise, updateType: .create)
-            }
+        let exercisesArray = Array(exercises)
+        for exercise in exercisesArray {
+            let section = exercise.name?.firstCharacter ?? ""
+            add(exercise: exercise, section: section)
         }
     }
 
     private func updateSectionsProperty() {
-        DispatchQueue.main.async { [weak self] in
-            guard let sections = self?.realm?.objects(ExercisesList.self)
-                    .first?.sectionTitles else {
-                return
-            }
-            self?.sections = Array(sections)
+        guard let sections = realm?.objects(ExercisesList.self)
+                .first?.sectionTitles else {
+            return
         }
+        self.sections = Array(sections)
     }
 
     private func updateExerciseDictionary(exercise: Exercise,
@@ -183,6 +184,42 @@ extension ExercisesTVDS {
         getCorrectArray(for: name).contains(where: { (exercise) -> Bool in
             exercise.name == name
         })
+    }
+
+    func selectCell(exerciseName: String?,
+                    in tableView: UITableView,
+                    indexPath: IndexPath) {
+        guard let exerciseName = exerciseName else {
+            return
+        }
+
+        if selectedExerciseNames.contains(exerciseName) {
+            guard let index = selectedExerciseNames.firstIndex(where: {
+                $0 == exerciseName
+            }) else {
+                return
+            }
+            selectedExerciseNames.remove(at: index)
+            tableView.deselectRow(at: indexPath, animated: false)
+        } else {
+            selectedExerciseNames.append(exerciseName)
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        }
+    }
+
+    func handleCellSelectionState(exerciseName: String,
+                                  in tableView: UITableView,
+                                  indexPath: IndexPath) {
+        guard presentationStyle == .modal,
+              !selectedExerciseNames.isEmpty else {
+            return
+        }
+
+        if selectedExerciseNames.contains(exerciseName) {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
     }
 
     func exercise(for name: String) -> Exercise {
@@ -304,9 +341,9 @@ extension ExercisesTVDS: UITableViewDataSource {
         let exercise = self.exercise(for: indexPath)
         cell.configure(dataModel: exercise)
 
-        if presentationStyle == .modal {
-//            handleCellSelection(cell: cell, model: exercise, indexPath: indexPath)
-        }
+        handleCellSelectionState(exerciseName: exercise.name ?? "",
+                                 in: tableView,
+                                 indexPath: indexPath)
         return cell
     }
 

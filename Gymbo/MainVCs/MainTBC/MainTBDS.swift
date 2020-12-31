@@ -76,7 +76,8 @@ extension MainTBDS {
         let sessionsCVC = VCFactory.makeSessionsCVC(
             layout: UICollectionViewFlowLayout())
         let exercisesTVC = VCFactory.makeExercisesTVC(
-            style: .grouped)
+            style: .grouped,
+            sessionsCVDS: sessionsCVC.customDataSource)
         let stopwatchVC = VCFactory.makeStopwatchVC()
 
         let vcs = [profileTVC, dashboardCVC, sessionsCVC,

@@ -20,16 +20,17 @@ class ExercisesTVC: UITableViewController {
         return button
     }()
 
-//    private let sessionDataModel = SessionDataModel()
-
     private var addExerciseButtonBottomConstraint: NSLayoutConstraint?
 
     private var didViewAppear = false
 
+    private var presentationStyle: PresentationStyle {
+        customDataSource?.presentationStyle ?? .normal
+    }
+
     var customDataSource: ExercisesTVDS?
     var customDelegate: ExercisesTVD?
-
-    var presentationStyle = PresentationStyle.normal
+    var sessionsCVDS: SessionsCVDS?
 
     weak var exerciseUpdatingDelegate: ExerciseUpdatingDelegate?
 }
@@ -120,8 +121,6 @@ extension ExercisesTVC: ViewAdding {
     }
 
     func setupViews() {
-        customDataSource?.presentationStyle = presentationStyle
-        customDelegate?.presentationStyle = presentationStyle
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
@@ -174,7 +173,7 @@ extension ExercisesTVC: ViewAdding {
 extension ExercisesTVC {
     private func saveExercise() {
         // Get exercise info from the selected exercises
-        guard let selectedExerciseNames = customDelegate?
+        guard let selectedExerciseNames = customDataSource?
                 .selectedExerciseNames,
               !selectedExerciseNames.isEmpty,
               let customDataSource = customDataSource else {
@@ -188,12 +187,12 @@ extension ExercisesTVC {
     }
 
     private func updateAddButtonTitle() {
-        guard let selectedExerciseNames = customDelegate?
+        guard let selectedExerciseNames = customDataSource?
                 .selectedExerciseNames else {
             return
         }
 
-        let isEnabled = selectedExerciseNames.isEmpty
+        let isEnabled = !selectedExerciseNames.isEmpty
         let title = isEnabled ? "Add (\(selectedExerciseNames.count))" :
                                 "Add"
         let state = InteractionState.stateFromBool(isEnabled)
@@ -260,7 +259,7 @@ extension ExercisesTVC {
     }
 }
 
-// MARK: ListDataSource
+// MARK: - ListDataSource
 extension ExercisesTVC: ListDataSource {
     func reloadData() {
         tableView.reloadData()
@@ -270,25 +269,39 @@ extension ExercisesTVC: ListDataSource {
 // MARK: - ListDelegate
 extension ExercisesTVC: ListDelegate {
     func didSelectItem(at indexPath: IndexPath) {
+        guard let exercise = customDataSource?.exercise(for: indexPath),
+              let exerciseName = exercise.name else {
+            return
+        }
+        Haptic.sendSelectionFeedback()
+
         switch presentationStyle {
         case .normal:
-            Haptic.sendSelectionFeedback()
-            guard let exercise = customDataSource?.exercise(for: indexPath) else {
-                return
-            }
             tableView.deselectRow(at: indexPath, animated: true)
 
             let exercisePreviewTVC = VCFactory.makeExercisePreviewTVC(exercise: exercise,
                                              exercisesTVDS: customDataSource)
             let modalNC = VCFactory.makeMainNC(rootVC: exercisePreviewTVC,
                                            transitioningDelegate: self)
-            mainTBC?.present(modalNC, animated: true)
+            navigationController?.present(modalNC, animated: true)
         case .modal:
+            customDataSource?.selectCell(exerciseName: exerciseName,
+                                         in: tableView,
+                                         indexPath: indexPath)
             updateAddButtonTitle()
         }
     }
 
     func didDeselectItem(at indexPath: IndexPath) {
+        guard let exercise = customDataSource?.exercise(for: indexPath),
+              let exerciseName = exercise.name else {
+            return
+        }
+        Haptic.sendSelectionFeedback()
+
+        customDataSource?.selectCell(exerciseName: exerciseName,
+                                     in: tableView,
+                                     indexPath: indexPath)
         updateAddButtonTitle()
     }
 
@@ -299,66 +312,8 @@ extension ExercisesTVC: ListDelegate {
             return
         }
 
-//        sessionDataModel.removeInstancesOfExercise(name: exerciseName)
+        sessionsCVDS?.removeInstancesOfExercise(name: exerciseName)
         customDataSource?.removeExercise(named: exerciseName)
-    }
-}
-
-// MARK: - ExerciseDataModelDelegate
-extension ExercisesTVC: ExerciseDataModelDelegate {
-    func create(_ exercise: Exercise, completion: @escaping (Result<Any?, DataError>) -> Void) {
-        customDataSource?.create(exercise) { [weak self] result in
-            switch result {
-            case .success(let value):
-                completion(.success(value))
-                self?.tableView.reloadData()
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-extension ExercisesTVC: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        let modalPresentationC = ModalPresentationC(
-            presentedViewController: presented,
-            presenting: presenting)
-        modalPresentationC.showDimmingView = presentationStyle == .normal
-        modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
-        return modalPresentationC
-    }
-}
-
-// MARK: - KeyboardObserving
-extension ExercisesTVC: KeyboardObserving {
-    func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardHeight = notification.keyboardSize?.height,
-              tableView.numberOfSections > 0 else {
-            return
-        }
-        tableView.contentInset.bottom = keyboardHeight
-    }
-
-    func keyboardWillHide(_ notification: Notification) {
-        tableView.contentInset = .zero
-    }
-}
-
-// MARK: - SetAlphaDelegate
-extension ExercisesTVC: SetAlphaDelegate {
-    func setAlpha(alpha: CGFloat) {
-        if presentationStyle == .modal {
-            UIView.animate(withDuration: .defaultAnimationTime,
-                           delay: .defaultAnimationTime,
-                           options: .curveEaseIn,
-                           animations: { [weak self] in
-                self?.navigationController?.view.alpha = alpha
-            })
-        }
     }
 }
 
