@@ -77,3 +77,15 @@ extension DashboardCVC: ListDelegate {
         Haptic.sendSelectionFeedback()
     }
 }
+
+// MARK: - SessionProgressDelegate
+extension DashboardCVC: SessionProgressDelegate {
+    func sessionDidStart(_ session: Session?) {
+        // Implement this
+        collectionView.contentInset.bottom = .zero
+    }
+
+    func sessionDidEnd(_ session: Session?, endType: EndType) {
+        collectionView.contentInset = .zero
+    }
+}
