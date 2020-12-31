@@ -186,6 +186,13 @@ extension ExercisesTVDS {
         })
     }
 
+    func prepareForReuse(newListDataSource: ListDataSource?) {
+        presentationStyle = .normal
+        selectedExerciseNames.removeAll()
+        filter.removeAll()
+        self.listDataSource = newListDataSource
+    }
+
     func selectCell(exerciseName: String?,
                     in tableView: UITableView,
                     indexPath: IndexPath) {

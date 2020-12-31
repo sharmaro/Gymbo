@@ -48,6 +48,7 @@ class StartSessionTVC: UITableViewController {
     var customDataSource: StartSessionTVDS?
     var customDelegate: StartSessionTVD?
     var startSessionTimers: StartSessionTimers?
+    var exercisesTVDS: ExercisesTVDS?
 
     deinit {
         startSessionTimers?.invalidateAll()

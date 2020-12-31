@@ -31,8 +31,11 @@ extension VCFactory {
     }
 
     static func makeCreateEditSessionTVC(session: Session = Session(),
-                                         state: SessionState) -> CreateEditSessionTVC {
+                                         state: SessionState,
+                                         exercisesTVDS: ExercisesTVDS?
+    ) -> CreateEditSessionTVC {
         let createEditSessionTVC = CreateEditSessionTVC()
+        createEditSessionTVC.exercisesTVDS = exercisesTVDS
         createEditSessionTVC.customDataSource = CreateEditSessionTVDS(
             listDataSource: createEditSessionTVC)
         createEditSessionTVC.customDataSource?.session = session
@@ -53,7 +56,8 @@ extension VCFactory {
     }
 
     static func makeExercisePreviewTVC(exercise: Exercise,
-                                       exercisesTVDS: ExercisesTVDS?) -> ExercisePreviewTVC {
+                                       exercisesTVDS: ExercisesTVDS?
+    ) -> ExercisePreviewTVC {
         let exercisePreviewTVC = ExercisePreviewTVC(exercisesTVDS: exercisesTVDS)
         exercisePreviewTVC.customDataSource = ExercisePreviewTVDS()
         exercisePreviewTVC.customDataSource?.exercise = exercise
@@ -66,13 +70,19 @@ extension VCFactory {
         style: UITableView.Style,
         presentationStyle: PresentationStyle = .normal,
         exerciseUpdatingDelegate: ExerciseUpdatingDelegate? = nil,
+        exercisesTVDS: ExercisesTVDS? = nil,
         sessionsCVDS: SessionsCVDS? = nil
     ) -> ExercisesTVC {
         let exercisesTVC = ExercisesTVC(style: style)
         exercisesTVC.exerciseUpdatingDelegate = exerciseUpdatingDelegate
         exercisesTVC.sessionsCVDS = sessionsCVDS
-        exercisesTVC.customDataSource = ExercisesTVDS(
-            listDataSource: exercisesTVC)
+        if exercisesTVDS == nil {
+            exercisesTVC.customDataSource = ExercisesTVDS(
+                listDataSource: exercisesTVC)
+        } else {
+            exercisesTVC.customDataSource = exercisesTVDS
+            exercisesTVDS?.prepareForReuse(newListDataSource: exercisesTVC)
+        }
         exercisesTVC.customDataSource?.presentationStyle = presentationStyle
         exercisesTVC.customDelegate = ExercisesTVD(
             listDelegate: exercisesTVC)
@@ -138,9 +148,11 @@ extension VCFactory {
 
     static func makeSessionPreviewTVC(session: Session,
                                       delegate: SessionProgressDelegate?,
+                                      exercisesTVDS: ExercisesTVDS?,
                                       sessionsCVDS: SessionsCVDS?) -> SessionPreviewTVC {
         let sessionPreviewTVC = SessionPreviewTVC()
         sessionPreviewTVC.sessionProgressDelegate = delegate
+        sessionPreviewTVC.exercisesTVDS = exercisesTVDS
         sessionPreviewTVC.sessionsCVDS = sessionsCVDS
         sessionPreviewTVC.customDataSource = SessionPreviewTVDS()
         sessionPreviewTVC.customDataSource?.session = session
@@ -175,11 +187,13 @@ extension VCFactory {
     }
 
     static func makeStartSessionTVC(session: Session?,
+                                    exercisesTVDS: ExercisesTVDS?,
                                     delegate: SessionProgressDelegate?,
                                     dimmedView: UIView,
                                     panView: UIView,
                                     initialTabBarFrame: CGRect) -> StartSessionTVC {
         let startSessionTVC = StartSessionTVC()
+        startSessionTVC.exercisesTVDS = exercisesTVDS
         startSessionTVC.dimmedView = dimmedView
         startSessionTVC.panView = panView
         startSessionTVC.initialTabBarFrame = initialTabBarFrame

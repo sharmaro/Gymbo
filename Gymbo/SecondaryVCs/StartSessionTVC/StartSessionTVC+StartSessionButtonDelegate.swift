@@ -15,7 +15,8 @@ extension StartSessionTVC: StartSessionButtonDelegate {
 
         let exercisesTVC = VCFactory.makeExercisesTVC(style: .grouped,
                                                       presentationStyle: .modal,
-                                                      exerciseUpdatingDelegate: self)
+                                                      exerciseUpdatingDelegate: self,
+                                                      exercisesTVDS: exercisesTVDS)
         let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
                                            transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)

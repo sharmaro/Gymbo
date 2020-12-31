@@ -114,7 +114,9 @@ extension MainTBC {
         shadowContainerView.addShadow(direction: .up)
         shadowContainerView.hideShadow()
 
+        let exercisesTVDS = customDataSource?.exercisesTVDS
         let startSessionTVC = VCFactory.makeStartSessionTVC(session: session,
+                                                            exercisesTVDS: exercisesTVDS,
                                                             delegate: self,
                                                             dimmedView: dimmedView,
                                                             panView: shadowContainerView,

@@ -19,6 +19,7 @@ class CreateEditSessionTVC: UITableViewController {
 
     var customDataSource: CreateEditSessionTVDS?
     var customDelegate: CreateEditSessionTVD?
+    var exercisesTVDS: ExercisesTVDS?
 }
 
 // MARK: - Structs/Enums
@@ -147,7 +148,8 @@ extension CreateEditSessionTVC {
 
         let exercisesTVC = VCFactory.makeExercisesTVC(style: .grouped,
                                                       presentationStyle: .modal,
-                                                      exerciseUpdatingDelegate: self)
+                                                      exerciseUpdatingDelegate: self,
+                                                      exercisesTVDS: exercisesTVDS)
 
         let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
                                            transitioningDelegate: self)

@@ -13,6 +13,20 @@ class MainTBDS: NSObject {
     var selectedTab = Tab.sessions
     var viewControllers: [MainNC]?
 
+    private(set)var exercisesTVDS: ExercisesTVDS? {
+        get {
+            exercisesTVC?.customDataSource
+        }
+        set {
+            exercisesTVC?.customDataSource = newValue
+        }
+    }
+
+    private var exercisesTVC: ExercisesTVC? {
+        let mainNC = viewControllers?[Tab.exercises.rawValue]
+        return (mainNC?.rootVC as? ExercisesTVC)
+    }
+
     override init() {
         super.init()
 
@@ -78,6 +92,7 @@ extension MainTBDS {
         let exercisesTVC = VCFactory.makeExercisesTVC(
             style: .grouped,
             sessionsCVDS: sessionsCVC.customDataSource)
+        sessionsCVC.exercisesTVDS = exercisesTVC.customDataSource
         let stopwatchVC = VCFactory.makeStopwatchVC()
 
         let vcs = [profileTVC, dashboardCVC, sessionsCVC,
@@ -97,5 +112,11 @@ extension MainTBDS: UITabBarControllerDelegate {
     public func tabBarController(_ tabBarController: UITabBarController,
                                  didSelect viewController: UIViewController) {
         selectedTab = Tab(rawValue: tabBarController.selectedIndex) ?? .sessions
+
+        guard let exercisesTVC = exercisesTVC,
+              selectedTab == .exercises else {
+            return
+        }
+        exercisesTVDS?.prepareForReuse(newListDataSource: exercisesTVC)
     }
 }

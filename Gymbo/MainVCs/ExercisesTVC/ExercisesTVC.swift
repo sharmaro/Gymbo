@@ -17,6 +17,7 @@ class ExercisesTVC: UITableViewController {
         button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         button.set(state: .disabled, animated: false)
+        button.layer.zPosition = 1
         return button
     }()
 
@@ -66,6 +67,7 @@ extension ExercisesTVC {
         super.viewDidAppear(animated)
 
         didViewAppear = true
+        tableView.reloadData()
         renewConstraints()
     }
 
@@ -251,6 +253,7 @@ extension ExercisesTVC {
     @objc private func addExerciseButtonTapped(_ sender: Any) {
         Haptic.sendImpactFeedback(.medium)
         saveExercise()
+        navigationItem.searchController?.isActive = false
         dismiss(animated: true)
     }
 

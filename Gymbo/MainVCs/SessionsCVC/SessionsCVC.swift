@@ -34,6 +34,7 @@ class SessionsCVC: UICollectionViewController {
 
     var customDataSource: SessionsCVDS?
     var customDelegate: SessionsCVD?
+    var exercisesTVDS: ExercisesTVDS?
 }
 
 // MARK: - Structs/Enums
@@ -141,7 +142,8 @@ extension SessionsCVC {
 
     @objc private func addSessionButtonTapped() {
         Haptic.sendSelectionFeedback()
-        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(state: .create)
+        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(state: .create,
+                                                                      exercisesTVDS: exercisesTVDS)
         createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTVC, animated: true)
     }
@@ -197,6 +199,7 @@ extension SessionsCVC: ListDelegate {
 
         let sessionPreviewTVC = VCFactory.makeSessionPreviewTVC(session: selectedSession,
                                                                 delegate: mainTBC,
+                                                                exercisesTVDS: exercisesTVDS,
                                                                 sessionsCVDS: customDataSource)
         let modalNavigationController = MainNC(rootVC: sessionPreviewTVC)
         present(modalNavigationController, animated: true)

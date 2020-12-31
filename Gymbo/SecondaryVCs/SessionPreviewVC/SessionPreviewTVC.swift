@@ -24,6 +24,7 @@ class SessionPreviewTVC: UITableViewController {
 
     var customDataSource: SessionPreviewTVDS?
     var customDelegate: SessionPreviewTVD?
+    var exercisesTVDS: ExercisesTVDS?
     var sessionsCVDS: SessionsCVDS?
 
     weak var sessionProgressDelegate: SessionProgressDelegate?
@@ -162,7 +163,8 @@ extension SessionPreviewTVC {
         Haptic.sendSelectionFeedback()
 
         let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(session: session,
-                                                                      state: .edit)
+                                                                      state: .edit,
+                                                                      exercisesTVDS: exercisesTVDS)
         createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTVC, animated: true)
     }
