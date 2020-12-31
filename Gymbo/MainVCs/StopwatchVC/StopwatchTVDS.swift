@@ -15,9 +15,9 @@ class StopwatchTVDS: NSObject {
     var minInt = 0
 
     private var laps = [Lap]()
+    private var timeWhenLapped = [Lap]()
     private var fastestLap: Lap?
     private var slowestLap: Lap?
-    private var timeWhenLapped = [Lap]()
 
     private let defaults = UserDefaults.standard
 
@@ -136,19 +136,19 @@ extension StopwatchTVDS {
         timeWhenLapped.insert(lapTimeWhenLapped, at: 0)
 
         if let fastestLap = fastestLap {
-            if lap.totalTime <= fastestLap.totalTime {
-                self.fastestLap = lap
+            if lapCopy.totalTime <= fastestLap.totalTime {
+                self.fastestLap = lapCopy
             }
         } else {
-            self.fastestLap = lap
+            self.fastestLap = lapCopy
         }
 
         if let slowestLap = slowestLap {
-            if lap.totalTime >= slowestLap.totalTime {
-                self.slowestLap = lap
+            if lapCopy.totalTime >= slowestLap.totalTime {
+                self.slowestLap = lapCopy
             }
         } else {
-            self.slowestLap = lap
+            self.slowestLap = lapCopy
         }
         laps.insert(lapCopy, at: 0)
     }
@@ -192,6 +192,8 @@ extension StopwatchTVDS: UITableViewDataSource {
                                       fastestTime: fastestLap?.totalTime ?? 0,
                                       slowestTime: slowestLap?.totalTime ?? 0)
             cell.updateColors(color: color)
+        } else {
+            cell.updateColors(color: .dynamicBlack)
         }
         return cell
     }
