@@ -460,7 +460,7 @@
 				69DF27E7259BD7DB00BDF65B /* RestVC */,
 				69DF27F6259BE26B00BDF65B /* SessionPreviewVC */,
 				69DF280C259BEA4F00BDF65B /* SettingsTVC */,
-				69B0F248259BF35E006F360A /* StartSessionTVC */,
+				69B0F248259BF35E006F360A /* StartedSessionTVC */,
 			);
 			path = SecondaryVCs;
 			sourceTree = "<group>";
@@ -843,7 +843,7 @@
 			path = CreateEditExerciseTVC;
 			sourceTree = "<group>";
 		};
-		69B0F248259BF35E006F360A /* StartSessionTVC */ = {
+		69B0F248259BF35E006F360A /* StartedSessionTVC */ = {
 			isa = PBXGroup;
 			children = (
 				69695698245013C3007FADC2 /* StartedSessionTVC.swift */,
@@ -861,7 +861,7 @@
 				694DE85F259C14E300F1A512 /* StartedSessionTVC+StartSessionButtonDelegate.swift */,
 				694DE873259C462600F1A512 /* StartedSessionTVC+TransitioningDelegate.swift */,
 			);
-			path = StartSessionTVC;
+			path = StartedSessionTVC;
 			sourceTree = "<group>";
 		};
 		69C6BD23256A725C00B247C7 /* GymboTests */ = {
