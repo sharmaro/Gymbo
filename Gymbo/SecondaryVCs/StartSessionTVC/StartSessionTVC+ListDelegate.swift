@@ -14,7 +14,23 @@ extension StartSessionTVC: ListDelegate {
                 .cellForRow(at: indexPath) as? ExerciseDetailTVCell else {
             return
         }
-        customDataSource?.didSelect(cell: exerciseDetailCell, at: indexPath)
+        Haptic.sendSelectionFeedback()
+
+        customDataSource?.didSelect(cell: exerciseDetailCell,
+                                    in: tableView,
+                                    at: indexPath)
+    }
+
+    func didDeselectItem(at indexPath: IndexPath) {
+        guard let exerciseDetailCell = tableView
+                .cellForRow(at: indexPath) as? ExerciseDetailTVCell else {
+            return
+        }
+        Haptic.sendSelectionFeedback()
+
+        customDataSource?.didSelect(cell: exerciseDetailCell,
+                                    in: tableView,
+                                    at: indexPath)
     }
 
     func heightForRow(at indexPath: IndexPath) -> CGFloat {

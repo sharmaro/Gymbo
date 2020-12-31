@@ -186,6 +186,21 @@ extension ExercisesTVDS {
         })
     }
 
+    private func handleCellSelectionState(exerciseName: String,
+                                          in tableView: UITableView,
+                                          indexPath: IndexPath) {
+        guard presentationStyle == .modal,
+              !selectedExerciseNames.isEmpty else {
+            return
+        }
+
+        if selectedExerciseNames.contains(exerciseName) {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+
     func prepareForReuse(newListDataSource: ListDataSource?) {
         presentationStyle = .normal
         selectedExerciseNames.removeAll()
@@ -211,21 +226,6 @@ extension ExercisesTVDS {
         } else {
             selectedExerciseNames.append(exerciseName)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        }
-    }
-
-    func handleCellSelectionState(exerciseName: String,
-                                  in tableView: UITableView,
-                                  indexPath: IndexPath) {
-        guard presentationStyle == .modal,
-              !selectedExerciseNames.isEmpty else {
-            return
-        }
-
-        if selectedExerciseNames.contains(exerciseName) {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        } else {
-            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
 

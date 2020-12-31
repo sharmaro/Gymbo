@@ -35,13 +35,11 @@ extension StartSessionTVD: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
         listDelegate?.didSelectItem(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    didDeselectRowAt indexPath: IndexPath) {
-        Haptic.sendSelectionFeedback()
         listDelegate?.didDeselectItem(at: indexPath)
     }
 

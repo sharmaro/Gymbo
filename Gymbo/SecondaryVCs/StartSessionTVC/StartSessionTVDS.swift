@@ -106,7 +106,18 @@ extension StartSessionTVDS {
         return exerciseDetailTVCell
     }
 
-    func didSelect(cell: UITableViewCell, at indexPath: IndexPath) {
+    private func handleCellSelectionState(in tableView: UITableView,
+                                          indexPath: IndexPath) {
+        if selectedRows.contains(indexPath) {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+
+    func didSelect(cell: UITableViewCell,
+                   in tableView: UITableView,
+                   at indexPath: IndexPath) {
         guard let exerciseDetailCell = cell as? ExerciseDetailTVCell else {
             return
         }
@@ -114,8 +125,10 @@ extension StartSessionTVDS {
         let containsIndexPath = selectedRows.contains(indexPath)
         if containsIndexPath {
             selectedRows.remove(indexPath)
+            tableView.deselectRow(at: indexPath, animated: false)
         } else {
             selectedRows.insert(indexPath)
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
         exerciseDetailCell.didSelect = !containsIndexPath
     }
@@ -297,6 +310,7 @@ extension StartSessionTVDS: UITableViewDataSource {
             cell = getButtonTVCell(in: tableView, for: indexPath)
         default: // Exercise detail cell
             cell = getExerciseDetailTVCell(in: tableView, for: indexPath, session: session)
+            handleCellSelectionState(in: tableView, indexPath: indexPath)
         }
 
         listDataSource?.cellForRowAt(tvCell: cell)

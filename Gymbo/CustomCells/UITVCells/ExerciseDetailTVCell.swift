@@ -208,7 +208,7 @@ extension ExerciseDetailTVCell {
     }
 
     @objc private func doneButtonTapped(_ sender: Any) {
-        Haptic.sendImpactFeedback(.medium)
+        Haptic.sendSelectionFeedback()
         didSelect.toggle()
     }
 
