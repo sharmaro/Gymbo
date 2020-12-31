@@ -167,12 +167,3 @@ extension SettingsTVC: SelectionDelegate {
         customDataSource.didUpdateSelection = true
     }
 }
-
-// MARK: - MFMailComposeViewControllerDelegate
-extension SettingsTVC: MFMailComposeViewControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController,
-                               didFinishWith result: MFMailComposeResult,
-                               error: Error?) {
-        controller.dismiss(animated: true)
-    }
-}

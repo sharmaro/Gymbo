@@ -42,11 +42,11 @@ class RestVC: UIViewController {
     }
 
     private var isTimerActive: Bool {
-        startSessionTimers?.restTimer?.isValid ?? false
+        startedSessionTimers?.restTimer?.isValid ?? false
     }
 
     var customDSAndD: RestDSAndD?
-    var startSessionTimers: StartSessionTimers?
+    var startedSessionTimers: StartedSessionTimers?
 }
 
 // MARK: - Structs/Enums
@@ -221,8 +221,8 @@ extension RestVC {
             showHideCustomViews()
 
             if isTimerActive {
-                let totalRestTime = startSessionTimers?.totalRestTime ?? 0
-                let restTimeRemaining = startSessionTimers?.restTimeRemaining ?? 0
+                let totalRestTime = startedSessionTimers?.totalRestTime ?? 0
+                let restTimeRemaining = startedSessionTimers?.restTimeRemaining ?? 0
 
                 circleProgressView.totalTimeText = totalRestTime > 0 ?
                     totalRestTime.minutesAndSecondsString :
@@ -237,30 +237,30 @@ extension RestVC {
                 let selectedPickerRow = pickerView.selectedRow(inComponent: 0)
                 let totalRestTime = customDSAndD?
                     .totalRestTime(for: selectedPickerRow) ?? 0
-                startSessionTimers?.totalRestTime = totalRestTime
-                startSessionTimers?.restTimeRemaining = totalRestTime
+                startedSessionTimers?.totalRestTime = totalRestTime
+                startedSessionTimers?.restTimeRemaining = totalRestTime
 
                 circleProgressView.startAnimation(duration: totalRestTime)
-                startSessionTimers?.startedRestTimer(totalTime: totalRestTime)
+                startedSessionTimers?.startedRestTimer(totalTime: totalRestTime)
             }
             mainButtonState = .done
         case .done:
             Haptic.sendNotificationFeedback(.success)
             circleProgressView.stopAnimation()
-            startSessionTimers?.stopRestTimer()
+            startedSessionTimers?.stopRestTimer()
             dismiss(animated: true)
         }
     }
 
     private func updateAnimation() {
-        let totalRestTime = startSessionTimers?.totalRestTime ?? 0
-        let restTimeRemaining = startSessionTimers?.restTimeRemaining ?? 0
+        let totalRestTime = startedSessionTimers?.totalRestTime ?? 0
+        let restTimeRemaining = startedSessionTimers?.restTimeRemaining ?? 0
         circleProgressView.startAnimation(duration: restTimeRemaining,
                                           totalTime: totalRestTime,
                                           timeRemaining: restTimeRemaining)
 
         if restTimeRemaining <= 0 {
-            startSessionTimers?.stopRestTimer()
+            startedSessionTimers?.stopRestTimer()
             circleProgressView.stopAnimation()
             dismiss(animated: true)
         }
@@ -268,8 +268,8 @@ extension RestVC {
 
     private func changeTime(delta: Int) {
         Haptic.sendSelectionFeedback()
-        startSessionTimers?.totalRestTime += delta
-        startSessionTimers?.restTimeRemaining += delta
+        startedSessionTimers?.totalRestTime += delta
+        startedSessionTimers?.restTimeRemaining += delta
         updateAnimation()
     }
 
@@ -295,23 +295,23 @@ extension RestVC {
 extension RestVC: StartedSessionTimerDelegate {
     func totalRestTimeUpdated() {
         guard isViewLoaded,
-              let startSessionTimers = startSessionTimers else {
+              let startedSessionTimers = startedSessionTimers else {
             return
         }
 
-        circleProgressView.totalTimeText = startSessionTimers.totalRestTime > 0 ?
-            startSessionTimers.totalRestTime.minutesAndSecondsString :
+        circleProgressView.totalTimeText = startedSessionTimers.totalRestTime > 0 ?
+            startedSessionTimers.totalRestTime.minutesAndSecondsString :
             0.minutesAndSecondsString
     }
 
     func restTimeRemainingUpdated() {
         guard isViewLoaded,
-              let startSessionTimers = startSessionTimers else {
+              let startedSessionTimers = startedSessionTimers else {
             return
         }
 
-        circleProgressView.timeRemainingText = startSessionTimers.restTimeRemaining > 0 ?
-            startSessionTimers.restTimeRemaining.minutesAndSecondsString :
+        circleProgressView.timeRemainingText = startedSessionTimers.restTimeRemaining > 0 ?
+            startedSessionTimers.restTimeRemaining.minutesAndSecondsString :
             0.minutesAndSecondsString
     }
 

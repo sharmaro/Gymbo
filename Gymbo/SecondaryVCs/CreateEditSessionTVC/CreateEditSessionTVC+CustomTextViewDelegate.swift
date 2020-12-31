@@ -8,7 +8,6 @@
 
 import UIKit
 
-// MARK: - CustomTextViewDelegate
 extension CreateEditSessionTVC: CustomTextViewDelegate {
     private struct Constants {
         static let namePlaceholderText = "Session name"

@@ -238,63 +238,6 @@ extension CreateEditExerciseTVC {
     }
 }
 
-// MARK: - ListDataSource
-extension CreateEditExerciseTVC: ListDataSource {
-    func cellForRowAt(tvCell: UITableViewCell) {
-        if let textFieldTVCell = tvCell as? TextFieldTVCell {
-            textFieldTVCell.customTextFieldDelegate = self
-        } else if let multipleSelectionTVCell = tvCell as? MultipleSelectionTVCell {
-            multipleSelectionTVCell.multipleSelectionTVCellDelegate = self
-        } else if let imagesTVCell = tvCell as? ImagesTVCell {
-            imagesTVCell.imagesTVCellDelegate = self
-        } else if let textViewTVCell = tvCell as? TextViewTVCell {
-            textViewTVCell.customTextViewDelegate = self
-        }
-    }
-}
-
-// MARK: - CustomTextViewDelegate
-extension CreateEditExerciseTVC: CustomTextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {
-        textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
-                                            toColor: .defaultSelectedBorder,
-                                            fromWidth: .defaultUnselectedBorder,
-                                            toWidth: .defaultSelectedBorder)
-    }
-
-    func textViewDidChange(_ textView: UITextView, cell: UITableViewCell?) {
-        tableView.performBatchUpdates({
-            textView.sizeToFit()
-        })
-
-        guard let cell = cell,
-              let indexPath = tableView.indexPath(for: cell) else {
-            fatalError("Couldn't get indexPath")
-        }
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView, cell: UITableViewCell?) {
-        guard let cell = cell,
-              let indexPath = tableView.indexPath(for: cell) else {
-            fatalError("Couldn't get indexPath")
-        }
-
-        let tableRow = customDataSource?.item(at: indexPath)
-        let text = textView.text ?? ""
-        if tableRow == .instructions {
-            customDataSource?.instructions = text
-        } else if tableRow == .tips {
-            customDataSource?.tips = text
-        }
-
-        textView.animateBorderColorAndWidth(fromColor: .defaultSelectedBorder,
-                                            toColor: .defaultUnselectedBorder,
-                                            fromWidth: .defaultSelectedBorder,
-                                            toWidth: .defaultUnselectedBorder)
-    }
-}
-
 // MARK: CustomTextFieldDelegate
 extension CreateEditExerciseTVC: CustomTextFieldDelegate {
     func textFieldEditingChanged(textField: UITextField) {

@@ -1,5 +1,5 @@
 //
-//  StartSessionFooterView.swift
+//  StartedSessionFooterView.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 1/12/20.
@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class StartSessionFooterView: UIView {
+class StartedSessionFooterView: UIView {
     private let addExerciseButton: CustomButton = {
         let button = CustomButton()
         button.title = "+ Exercise"
@@ -26,7 +26,7 @@ class StartSessionFooterView: UIView {
         return button
     }()
 
-    weak var startSessionButtonDelegate: StartSessionButtonDelegate?
+    weak var startedSessionButtonDelegate: StartedSessionButtonDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,7 +40,7 @@ class StartSessionFooterView: UIView {
 }
 
 // MARK: - UIView Var/Funcs
-extension StartSessionFooterView {
+extension StartedSessionFooterView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -49,7 +49,7 @@ extension StartSessionFooterView {
 }
 
 // MARK: - ViewAdding
-extension StartSessionFooterView: ViewAdding {
+extension StartedSessionFooterView: ViewAdding {
     func addViews() {
         add(subviews: [addExerciseButton, cancelButton])
     }
@@ -79,7 +79,7 @@ extension StartSessionFooterView: ViewAdding {
 }
 
 // MARK: - Funcs
-extension StartSessionFooterView {
+extension StartedSessionFooterView {
     private func setup() {
         addViews()
         setupViews()
@@ -88,10 +88,10 @@ extension StartSessionFooterView {
     }
 
     @objc private func addExerciseButtonTapped(_ sender: Any) {
-        startSessionButtonDelegate?.addExercise()
+        startedSessionButtonDelegate?.addExercise()
     }
 
     @objc private func cancelButtonTapped(_ sender: Any) {
-        startSessionButtonDelegate?.cancelSession()
+        startedSessionButtonDelegate?.cancelSession()
     }
 }

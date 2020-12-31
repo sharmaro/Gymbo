@@ -185,17 +185,3 @@ extension ExercisePreviewTVC: ExerciseDataModelDelegate {
         }
     }
 }
-
-// MARK: - UIViewControllerTransitioningDelegate
-extension ExercisePreviewTVC: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        let modalPresentationC = ModalPresentationC(
-            presentedViewController: presented,
-            presenting: presenting)
-        modalPresentationC.showDimmingView = false
-        modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
-        return modalPresentationC
-    }
-}

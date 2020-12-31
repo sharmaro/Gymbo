@@ -10,13 +10,13 @@ import Foundation
 
 extension StartSessionTVC: ApplicationStateObserving {
     func didEnterBackground(_ notification: Notification) {
-        startSessionTimers?.invalidateAll()
+        startedSessionTimers?.invalidateAll()
         customDataSource?.saveSession()
-        startSessionTimers?.saveTimes()
+        startedSessionTimers?.saveTimes()
     }
 
     func willEnterForeground(_ notification: Notification) {
         customDataSource?.loadData()
-        startSessionTimers?.loadData()
+        startedSessionTimers?.loadData()
     }
 }

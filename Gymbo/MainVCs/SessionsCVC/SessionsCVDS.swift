@@ -14,7 +14,11 @@ class SessionsCVDS: NSObject {
         try? Realm()
     }
 
-    var dataState: DataState = .notEditing
+    var dataState = DataState.notEditing {
+        didSet {
+            listDataSource?.dataStateChanged()
+        }
+    }
 
     private var sessionsList: SessionsList? {
         realm?.objects(SessionsList.self).first

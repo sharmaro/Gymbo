@@ -10,24 +10,6 @@ import RealmSwift
 
 // MARK: - Properties
 class SessionsCVC: UICollectionViewController {
-    private var dataState: DataState = .notEditing {
-        didSet {
-            customDataSource?.dataState = dataState
-
-            let itemType: UIBarButtonItem.SystemItem = dataState == .editing ? .done : .edit
-
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType,
-                                                               target: self,
-                                                               action: #selector(editButtonTapped))
-            navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
-            navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ?
-                Constants.inactiveAlpha : Constants.activeAlpha
-
-            // Reloading data so it can toggle the shaking animation.
-            collectionView.reloadWithoutAnimation()
-        }
-    }
-
     private var isDataEmpty: Bool {
         customDataSource?.isEmpty ?? true
     }
@@ -42,7 +24,6 @@ private extension SessionsCVC {
     struct Constants {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
-        static let sessionStartedInsetConstant = CGFloat(50)
     }
 }
 
@@ -76,7 +57,7 @@ extension SessionsCVC {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        dataState = .notEditing
+        customDataSource?.dataState = .notEditing
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -127,7 +108,7 @@ extension SessionsCVC: ViewAdding {
 extension SessionsCVC {
     @objc private func updateSessionsUI() {
         if isDataEmpty {
-            dataState = .notEditing
+            customDataSource?.dataState = .notEditing
         }
 
         navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
@@ -137,7 +118,7 @@ extension SessionsCVC {
 
     @objc private func editButtonTapped() {
         Haptic.sendSelectionFeedback()
-        dataState.toggle()
+        customDataSource?.dataState.toggle()
     }
 
     @objc private func addSessionButtonTapped() {
@@ -157,6 +138,21 @@ extension SessionsCVC {
 extension SessionsCVC: ListDataSource {
     func reloadData() {
         collectionView.reloadData()
+    }
+
+    func dataStateChanged() {
+        let dataState = customDataSource?.dataState ?? .notEditing
+        let itemType: UIBarButtonItem.SystemItem = dataState == .editing ? .done : .edit
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: itemType,
+                                                           target: self,
+                                                           action: #selector(editButtonTapped))
+        navigationItem.leftBarButtonItem?.isEnabled = !isDataEmpty
+        navigationItem.leftBarButtonItem?.customView?.alpha = isDataEmpty ?
+            Constants.inactiveAlpha : Constants.activeAlpha
+
+        // Reloading data so it can toggle the shaking animation.
+        collectionView.reloadWithoutAnimation()
     }
 
     func deleteCell(cvCell: UICollectionViewCell) {
@@ -184,25 +180,6 @@ extension SessionsCVC: ListDataSource {
                                   content: "Are you sure you want to delete \(sessionName)?",
                                   rightButtonAction: rightButtonAction)
         presentCustomAlert(alertData: alertData)
-    }
-}
-
-// MARK: - ListDelegate
-extension SessionsCVC: ListDelegate {
-    func didSelectItem(at indexPath: IndexPath) {
-        guard dataState == .notEditing,
-              let selectedSession = customDataSource?.session(for: indexPath.row) else {
-                Haptic.sendNotificationFeedback(.warning)
-                return
-        }
-        Haptic.sendSelectionFeedback()
-
-        let sessionPreviewTVC = VCFactory.makeSessionPreviewTVC(session: selectedSession,
-                                                                delegate: mainTBC,
-                                                                exercisesTVDS: exercisesTVDS,
-                                                                sessionsCVDS: customDataSource)
-        let modalNavigationController = MainNC(rootVC: sessionPreviewTVC)
-        present(modalNavigationController, animated: true)
     }
 }
 
@@ -247,17 +224,6 @@ extension SessionsCVC: SessionDataModelDelegate {
                 self?.presentCustomAlert(alertData: alertData)
             }
         }
-    }
-}
-
-// MARK: - SessionProgressDelegate
-extension SessionsCVC: SessionProgressDelegate {
-    func sessionDidStart(_ session: Session?) {
-        collectionView.contentInset.bottom = Constants.sessionStartedInsetConstant
-    }
-
-    func sessionDidEnd(_ session: Session?, endType: EndType) {
-        collectionView.contentInset = .zero
     }
 }
 

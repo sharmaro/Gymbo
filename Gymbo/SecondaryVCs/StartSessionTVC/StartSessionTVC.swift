@@ -47,11 +47,11 @@ class StartSessionTVC: UITableViewController {
 
     var customDataSource: StartSessionTVDS?
     var customDelegate: StartSessionTVD?
-    var startSessionTimers: StartSessionTimers?
+    var startedSessionTimers: StartedSessionTimers?
     var exercisesTVDS: ExercisesTVDS?
 
     deinit {
-        startSessionTimers?.invalidateAll()
+        startedSessionTimers?.invalidateAll()
     }
 }
 
@@ -177,7 +177,7 @@ extension StartSessionTVC: ViewAdding {
 extension StartSessionTVC {
     private func loadData() {
         customDataSource?.loadData()
-        startSessionTimers?.loadData()
+        startedSessionTimers?.loadData()
     }
 
     private func setupTableHeaderView() {
@@ -191,8 +191,8 @@ extension StartSessionTVC {
         let footerViewFrame = CGRect(origin: .zero,
                                      size: CGSize(width: tableView.frame.width,
                                                   height: Constants.tableFooterViewHeight))
-        let tableFooterView = StartSessionFooterView(frame: footerViewFrame)
-        tableFooterView.startSessionButtonDelegate = self
+        let tableFooterView = StartedSessionFooterView(frame: footerViewFrame)
+        tableFooterView.startedSessionButtonDelegate = self
         tableView.tableFooterView = tableFooterView
         tableView.tableFooterView = tableView.tableFooterView
     }
@@ -202,7 +202,7 @@ extension StartSessionTVC {
         panView?.removeFromSuperview()
         customDataSource?.session = nil
         initialTabBarFrame = nil
-        startSessionTimers?.invalidateAll()
+        startedSessionTimers?.invalidateAll()
     }
 
     private func childDismissal() {
@@ -329,13 +329,14 @@ extension StartSessionTVC {
     }
 
     @objc private func restButtonTapped() {
-        guard let startSessionTimers = startSessionTimers else {
+        guard let startedSessionTimers = startedSessionTimers else {
             return
         }
         Haptic.sendSelectionFeedback()
 
         customDataSource?.modallyPresenting = .restVC
-        let restVC = VCFactory.makeRestVC(startSessionTimers: startSessionTimers)
+        let restVC = VCFactory.makeRestVC(
+            startedSessionTimers: startedSessionTimers)
         let modalNC = VCFactory.makeMainNC(rootVC: restVC,
                                            transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
@@ -385,26 +386,26 @@ extension StartSessionTVC {
 // MARK: StartedSessionTimerDelegate
 extension StartSessionTVC: StartedSessionTimerDelegate {
     func sessionSecondsUpdated() {
-        let sessionSeconds = startSessionTimers?.sessionSeconds ?? 0
+        let sessionSeconds = startedSessionTimers?.sessionSeconds ?? 0
         title = sessionSeconds.minutesAndSecondsString
     }
 
     func restTimeRemainingUpdated() {
-        guard let startSessionTimers = startSessionTimers else {
+        guard let startedSessionTimers = startedSessionTimers else {
             return
         }
-        timerButton.title = startSessionTimers.restTimeRemaining > 0 ?
-            startSessionTimers.restTimeRemaining.minutesAndSecondsString :
+        timerButton.title = startedSessionTimers.restTimeRemaining > 0 ?
+            startedSessionTimers.restTimeRemaining.minutesAndSecondsString :
             0.minutesAndSecondsString
-        timerButton.addMovingLayerAnimation(duration: startSessionTimers.restTimeRemaining,
-                                            totalTime: startSessionTimers.totalRestTime,
-                                            timeRemaining: startSessionTimers.restTimeRemaining)
+        timerButton.addMovingLayerAnimation(duration: startedSessionTimers.restTimeRemaining,
+                                            totalTime: startedSessionTimers.totalRestTime,
+                                            timeRemaining: startedSessionTimers.restTimeRemaining)
     }
 
     func restTimerStarted() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: timerButton)
         timerButton.addMovingLayerAnimation(
-            duration: startSessionTimers?.restTimeRemaining ?? 0)
+            duration: startedSessionTimers?.restTimeRemaining ?? 0)
     }
 
     func resumeRestTimer() {
@@ -412,8 +413,8 @@ extension StartSessionTVC: StartedSessionTimerDelegate {
     }
 
     func totalRestTimeUpdated() {
-        let totalRestTime = startSessionTimers?.totalRestTime ?? 0
-        let restTimeRemaining = startSessionTimers?.restTimeRemaining ?? 0
+        let totalRestTime = startedSessionTimers?.totalRestTime ?? 0
+        let restTimeRemaining = startedSessionTimers?.restTimeRemaining ?? 0
         timerButton.addMovingLayerAnimation(duration: restTimeRemaining,
                                             totalTime: totalRestTime,
                                             timeRemaining: restTimeRemaining)

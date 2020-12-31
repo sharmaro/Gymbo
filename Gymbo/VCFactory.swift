@@ -125,10 +125,12 @@ extension VCFactory {
         return profileTVC
     }
 
-    static func makeRestVC(startSessionTimers: StartSessionTimers?) -> RestVC {
+    static func makeRestVC(
+        startedSessionTimers: StartedSessionTimers?
+    ) -> RestVC {
         let restVC = RestVC()
-        restVC.startSessionTimers = startSessionTimers
-        restVC.startSessionTimers?.startedSessionTimerDelegate = restVC
+        restVC.startedSessionTimers = startedSessionTimers
+        restVC.startedSessionTimers?.startedSessionTimerDelegate = restVC
         restVC.customDSAndD = RestDSAndD()
         return restVC
     }
@@ -197,8 +199,8 @@ extension VCFactory {
         startSessionTVC.dimmedView = dimmedView
         startSessionTVC.panView = panView
         startSessionTVC.initialTabBarFrame = initialTabBarFrame
-        startSessionTVC.startSessionTimers = StartSessionTimers()
-        startSessionTVC.startSessionTimers?.startedSessionTimerDelegate = startSessionTVC
+        startSessionTVC.startedSessionTimers = StartedSessionTimers()
+        startSessionTVC.startedSessionTimers?.startedSessionTimerDelegate = startSessionTVC
         startSessionTVC.customDataSource = StartSessionTVDS(
             listDataSource: startSessionTVC)
         startSessionTVC.customDataSource?.session = session

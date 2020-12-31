@@ -1,5 +1,5 @@
 //
-//  StartSessionTimers.swift
+//  StartedSessionTimers.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -9,7 +9,7 @@
 import RealmSwift
 
 // MARK: - Properties
-class StartSessionTimers: NSObject {
+class StartedSessionTimers: NSObject {
     var sessionSeconds = 0 {
         didSet {
             startedSessionTimerDelegate?.sessionSecondsUpdated()
@@ -37,7 +37,7 @@ class StartSessionTimers: NSObject {
 }
 
 // MARK: - Structs/Enums
-private extension StartSessionTimers {
+private extension StartedSessionTimers {
     struct Constants {
         static let timeInterval = TimeInterval(1)
 
@@ -48,7 +48,7 @@ private extension StartSessionTimers {
 }
 
 // MARK: - Funcs
-extension StartSessionTimers {
+extension StartedSessionTimers {
     @objc private func updateSessionTime() {
         sessionSeconds += 1
     }
