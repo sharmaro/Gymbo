@@ -189,25 +189,26 @@ extension VCFactory {
     }
 
     //swiftlint:disable:next function_parameter_count
-    static func makeStartSessionTVC(session: Session?,
-                                    exercisesTVDS: ExercisesTVDS?,
-                                    delegate: SessionProgressDelegate?,
-                                    dimmedView: UIView,
-                                    panView: UIView,
-                                    initialTabBarFrame: CGRect) -> StartSessionTVC {
-        let startSessionTVC = StartSessionTVC()
-        startSessionTVC.exercisesTVDS = exercisesTVDS
-        startSessionTVC.dimmedView = dimmedView
-        startSessionTVC.panView = panView
-        startSessionTVC.initialTabBarFrame = initialTabBarFrame
-        startSessionTVC.startedSessionTimers = StartedSessionTimers()
-        startSessionTVC.startedSessionTimers?.startedSessionTimerDelegate = startSessionTVC
-        startSessionTVC.customDataSource = StartSessionTVDS(
-            listDataSource: startSessionTVC)
-        startSessionTVC.customDataSource?.session = session
-        startSessionTVC.customDataSource?.sessionProgresssDelegate = delegate
-        startSessionTVC.customDelegate = StartSessionTVD(
-            listDelegate: startSessionTVC)
-        return startSessionTVC
+    static func makeStartedSessionTVC(session: Session?,
+                                      exercisesTVDS: ExercisesTVDS?,
+                                      delegate: SessionProgressDelegate?,
+                                      dimmedView: UIView,
+                                      panView: UIView,
+                                      initialTabBarFrame: CGRect) -> StartedSessionTVC {
+        let startedSessionTVC = StartedSessionTVC()
+        startedSessionTVC.exercisesTVDS = exercisesTVDS
+        startedSessionTVC.dimmedView = dimmedView
+        startedSessionTVC.panView = panView
+        startedSessionTVC.initialTabBarFrame = initialTabBarFrame
+        startedSessionTVC.startedSessionTimers = StartedSessionTimers()
+        startedSessionTVC.startedSessionTimers?
+            .startedSessionTimerDelegate = startedSessionTVC
+        startedSessionTVC.customDataSource = StartedSessionTVDS(
+            listDataSource: startedSessionTVC)
+        startedSessionTVC.customDataSource?.session = session
+        startedSessionTVC.customDataSource?.sessionProgresssDelegate = delegate
+        startedSessionTVC.customDelegate = StartedSessionTVD(
+            listDelegate: startedSessionTVC)
+        return startedSessionTVC
     }
 }

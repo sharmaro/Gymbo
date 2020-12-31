@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+KeyboardObserving.swift
+//  StartedSessionTVC+KeyboardObserving.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: KeyboardObserving {
+extension StartedSessionTVC: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let keyboardHeight = notification.keyboardSize?.height,
               tableView.numberOfSections > 0 else {

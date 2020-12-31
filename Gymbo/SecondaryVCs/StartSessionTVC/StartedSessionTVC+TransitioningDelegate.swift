@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+TransitioningDelegate.swift
+//  StartedSessionTVC+TransitioningDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: UIViewControllerTransitioningDelegate {
+extension StartedSessionTVC: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {

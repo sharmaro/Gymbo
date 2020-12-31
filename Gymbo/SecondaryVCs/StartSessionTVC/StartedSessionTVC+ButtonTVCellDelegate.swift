@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ButtonTVCellDelegate.swift
+//  StartedSessionTVC+ButtonTVCellDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ButtonTVCellDelegate {
+extension StartedSessionTVC: ButtonTVCellDelegate {
     func buttonTapped(cell: ButtonTVCell) {
         guard let section = tableView.indexPath(for: cell)?.section,
               let session = customDataSource?.session else {

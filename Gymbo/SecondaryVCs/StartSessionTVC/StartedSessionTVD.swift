@@ -1,5 +1,5 @@
 //
-//  StartSessionTVD.swift
+//  StartedSessionTVD.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class StartSessionTVD: NSObject {
+class StartedSessionTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
@@ -18,11 +18,11 @@ class StartSessionTVD: NSObject {
 }
 
 // MARK: - Funcs
-extension StartSessionTVD {
+extension StartedSessionTVD {
 }
 
 // MARK: - UITableViewDelegate
-extension StartSessionTVD: UITableViewDelegate {
+extension StartedSessionTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         listDelegate?.heightForRow(at: indexPath) ?? 0

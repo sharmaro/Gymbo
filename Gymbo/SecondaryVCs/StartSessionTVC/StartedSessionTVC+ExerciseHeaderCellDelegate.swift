@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ExerciseHeaderCellDelegate.swift
+//  StartedSessionTVC+ExerciseHeaderCellDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ExerciseHeaderCellDelegate {
+extension StartedSessionTVC: ExerciseHeaderCellDelegate {
     func deleteButtonTapped(cell: ExerciseHeaderTVCell) {
         guard let section = tableView.indexPath(for: cell)?.section else {
             return

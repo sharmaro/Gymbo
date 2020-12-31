@@ -115,16 +115,16 @@ extension MainTBC {
         shadowContainerView.hideShadow()
 
         let exercisesTVDS = customDataSource?.exercisesTVDS
-        let startSessionTVC = VCFactory.makeStartSessionTVC(session: session,
+        let startedSessionTVC = VCFactory.makeStartedSessionTVC(session: session,
                                                             exercisesTVDS: exercisesTVDS,
                                                             delegate: self,
                                                             dimmedView: dimmedView,
                                                             panView: shadowContainerView,
                                                             initialTabBarFrame: tabBar.frame)
         // This allows startSessionViewController to extend over the bottom tab bar
-        startSessionTVC.extendedLayoutIncludesOpaqueBars = true
+        startedSessionTVC.extendedLayoutIncludesOpaqueBars = true
 
-        let containerNavigationController = MainNC(rootVC: startSessionTVC)
+        let containerNavigationController = MainNC(rootVC: startedSessionTVC)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
         containerNavigationController.view.addCorner(style: .small)
 
@@ -188,8 +188,8 @@ extension MainTBC: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         if isSessionInProgress {
             guard let navigationController = (children.last as? UINavigationController),
-                  let startSessionTVC = navigationController
-                    .viewControllers.first as? StartSessionTVC else {
+                  let startedSessionTVC = navigationController
+                    .viewControllers.first as? StartedSessionTVC else {
                 return
             }
 
@@ -203,7 +203,7 @@ extension MainTBC: SessionProgressDelegate {
                                         self?.sessionToReplace = session
 
                                         DispatchQueue.main.async {
-                                            startSessionTVC.dismissAsChildViewController(
+                                            startedSessionTVC.dismissAsChildViewController(
                                                 endType: .cancel)
                                         }
                                       })

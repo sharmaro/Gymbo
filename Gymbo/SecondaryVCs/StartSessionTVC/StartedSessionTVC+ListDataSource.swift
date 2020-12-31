@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ListDataSource.swift
+//  StartedSessionTVC+ListDataSource.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ListDataSource {
+extension StartedSessionTVC: ListDataSource {
     func cellForRowAt(tvCell: UITableViewCell) {
         if let exerciseHeaderTVCell = tvCell as? ExerciseHeaderTVCell {
             exerciseHeaderTVCell.exerciseHeaderCellDelegate = self

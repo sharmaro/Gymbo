@@ -1,5 +1,5 @@
 //
-//  StartSessionTVDS.swift
+//  StartedSessionTVDS.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -9,7 +9,7 @@
 import RealmSwift
 
 // MARK: - Properties
-class StartSessionTVDS: NSObject {
+class StartedSessionTVDS: NSObject {
     var session: Session?
     var selectedRows = Set<IndexPath>()
     var modallyPresenting = ModallyPresenting.none
@@ -30,7 +30,7 @@ class StartSessionTVDS: NSObject {
 }
 
 // MARK: - Structs/Enums
-extension StartSessionTVDS {
+extension StartedSessionTVDS {
     private struct Constants {
         static let buttonText = "+ Set"
         static let namePlaceholderText = "Session name"
@@ -49,7 +49,7 @@ extension StartSessionTVDS {
 }
 
 // MARK: - Funcs
-extension StartSessionTVDS {
+extension StartedSessionTVDS {
     private func getExerciseHeaderTVCell(in tableView: UITableView,
                                          for indexPath: IndexPath,
                                          session: Session) -> ExerciseHeaderTVCell {
@@ -285,7 +285,7 @@ extension StartSessionTVDS {
 }
 
 // MARK: - UITableViewDataSource
-extension StartSessionTVDS: UITableViewDataSource {
+extension StartedSessionTVDS: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         session?.exercises.count ?? 0
     }

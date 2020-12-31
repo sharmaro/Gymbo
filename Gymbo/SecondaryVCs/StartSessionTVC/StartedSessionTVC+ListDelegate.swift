@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ListDelegate.swift
+//  StartedSessionTVC+ListDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ListDelegate {
+extension StartedSessionTVC: ListDelegate {
     func didSelectItem(at indexPath: IndexPath) {
         guard let exerciseDetailCell = tableView
                 .cellForRow(at: indexPath) as? ExerciseDetailTVCell else {

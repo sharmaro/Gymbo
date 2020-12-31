@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ApplicationStateObserving.swift
+//  StartedSessionTVC+ApplicationStateObserving.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension StartSessionTVC: ApplicationStateObserving {
+extension StartedSessionTVC: ApplicationStateObserving {
     func didEnterBackground(_ notification: Notification) {
         startedSessionTimers?.invalidateAll()
         customDataSource?.saveSession()

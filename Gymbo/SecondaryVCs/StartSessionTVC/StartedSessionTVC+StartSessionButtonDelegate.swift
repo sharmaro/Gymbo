@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+StartedSessionButtonDelegate.swift
+//  StartedSessionTVC+StartedSessionButtonDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: StartedSessionButtonDelegate {
+extension StartedSessionTVC: StartedSessionButtonDelegate {
     func addExercise() {
         Haptic.sendSelectionFeedback()
         customDataSource?.modallyPresenting = .exercisesTVC

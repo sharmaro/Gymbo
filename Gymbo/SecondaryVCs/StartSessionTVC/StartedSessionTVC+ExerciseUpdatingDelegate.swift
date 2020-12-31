@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ExerciseUpdatingDelegate.swift
+//  StartedSessionTVC+ExerciseUpdatingDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ExerciseUpdatingDelegate {
+extension StartedSessionTVC: ExerciseUpdatingDelegate {
     func updateExercises(_ exercises: [Exercise]) {
         customDataSource?.updateExercises(exercises)
         tableView.reloadWithoutAnimation()

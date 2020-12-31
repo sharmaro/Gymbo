@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC+ExerciseTVCellDelegate.swift
+//  StartedSessionTVC+ExerciseTVCellDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension StartSessionTVC: ExerciseTVCellDelegate {
+extension StartedSessionTVC: ExerciseTVCellDelegate {
     private struct Constants {
         static let characterLimit = 5
     }

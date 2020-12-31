@@ -1,5 +1,5 @@
 //
-//  StartSessionTVC.swift
+//  StartedSessionTVC.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 4/21/20.
@@ -9,7 +9,7 @@
 import RealmSwift
 
 // MARK: - Properties
-class StartSessionTVC: UITableViewController {
+class StartedSessionTVC: UITableViewController {
     private let timerButton: CustomButton = {
         let button = CustomButton(frame: CGRect(origin: .zero, size: Constants.barButtonSize))
         button.titleLabel?.font = .small
@@ -45,8 +45,8 @@ class StartSessionTVC: UITableViewController {
     weak var dimmedView: UIView?
     weak var panView: UIView?
 
-    var customDataSource: StartSessionTVDS?
-    var customDelegate: StartSessionTVD?
+    var customDataSource: StartedSessionTVDS?
+    var customDelegate: StartedSessionTVD?
     var startedSessionTimers: StartedSessionTimers?
     var exercisesTVDS: ExercisesTVDS?
 
@@ -56,7 +56,7 @@ class StartSessionTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-private extension StartSessionTVC {
+private extension StartedSessionTVC {
     struct Constants {
         static let timeInterval = TimeInterval(1)
 
@@ -73,7 +73,7 @@ private extension StartSessionTVC {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension StartSessionTVC {
+extension StartedSessionTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -122,7 +122,7 @@ extension StartSessionTVC {
 }
 
 // MARK: - ViewAdding
-extension StartSessionTVC: ViewAdding {
+extension StartedSessionTVC: ViewAdding {
     func setupNavigationBar() {
         title = 0.minutesAndSecondsString
 
@@ -174,7 +174,7 @@ extension StartSessionTVC: ViewAdding {
 }
 
 // MARK: - Funcs
-extension StartSessionTVC {
+extension StartedSessionTVC {
     private func loadData() {
         customDataSource?.loadData()
         startedSessionTimers?.loadData()
@@ -384,7 +384,7 @@ extension StartSessionTVC {
 }
 
 // MARK: StartedSessionTimerDelegate
-extension StartSessionTVC: StartedSessionTimerDelegate {
+extension StartedSessionTVC: StartedSessionTimerDelegate {
     func sessionSecondsUpdated() {
         let sessionSeconds = startedSessionTimers?.sessionSeconds ?? 0
         title = sessionSeconds.minutesAndSecondsString
@@ -433,7 +433,7 @@ extension StartSessionTVC: StartedSessionTimerDelegate {
 }
 
 // MARK: - UIGestureRecognizerDelegate
-extension StartSessionTVC: UIGestureRecognizerDelegate {
+extension StartedSessionTVC: UIGestureRecognizerDelegate {
     // Preventing panGesture eating up table view gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
