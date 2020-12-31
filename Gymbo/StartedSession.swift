@@ -12,8 +12,8 @@ import RealmSwift
 @objcMembers class StartedSession: Object {
     dynamic var name: String?
     dynamic var info: String?
-    let selectedRows = List<RealmIndexPath>()
-    let exercises = List<Exercise>()
+    var selectedRows = List<RealmIndexPath>()
+    var exercises = List<Exercise>()
 
     convenience init(name: String? = nil,
                      info: String? = nil,

@@ -15,13 +15,13 @@ import RealmSwift
     dynamic var groups: String?
     dynamic var instructions: String?
     dynamic var tips: String?
-    let imageNames = List<String>()
+    var imageNames = List<String>()
     dynamic var isUserMade = false
 
     // User-related exercise information
     dynamic var weightType = 0
     dynamic var sets = 1
-    let exerciseDetails = List<ExerciseDetails>()
+    var exerciseDetails = List<ExerciseDetails>()
 
     convenience init(name: String? = nil,
                      groups: String? = nil,

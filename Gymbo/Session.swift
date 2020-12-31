@@ -12,7 +12,7 @@ import RealmSwift
 @objcMembers class Session: Object {
     dynamic var name: String?
     dynamic var info: String?
-    let exercises = List<Exercise>()
+    var exercises = List<Exercise>()
 
     convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {
         self.init()
