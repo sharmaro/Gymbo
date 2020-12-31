@@ -48,6 +48,7 @@ extension MainNC {
 extension MainNC: ViewAdding {
     func setupNavigationBar() {
         // This allows there to be a smooth transition from large title to small and vice-versa
+//        navigationController?.navigationBar.prefersLargeTitles = true
 //        extendedLayoutIncludesOpaqueBars = true
 //        edgesForExtendedLayout = .all
     }

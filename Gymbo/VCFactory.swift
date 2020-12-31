@@ -188,6 +188,7 @@ extension VCFactory {
         return stopwatchVC
     }
 
+    //swiftlint:disable:next function_parameter_count
     static func makeStartSessionTVC(session: Session?,
                                     exercisesTVDS: ExercisesTVDS?,
                                     delegate: SessionProgressDelegate?,

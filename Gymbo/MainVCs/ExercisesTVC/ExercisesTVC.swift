@@ -205,15 +205,22 @@ extension ExercisesTVC {
 
     private func renewConstraints() {
         guard isViewLoaded,
-              presentationStyle == .modal,
             let mainTBC = mainTBC else {
             return
         }
 
-        if mainTBC.isSessionInProgress {
-            addExerciseButtonBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
+        if presentationStyle == .modal {
+            if mainTBC.isSessionInProgress {
+                addExerciseButtonBottomConstraint?.constant = Constants.sessionStartedConstraintConstant
+            } else {
+                addExerciseButtonBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
+            }
         } else {
-            addExerciseButtonBottomConstraint?.constant = Constants.sessionEndedConstraintConstant
+            if mainTBC.isSessionInProgress {
+                tableView.contentInset.bottom = minimizedHeight
+            } else {
+                tableView.contentInset.bottom = .zero
+            }
         }
 
         if didViewAppear {
