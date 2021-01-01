@@ -14,6 +14,10 @@ import RealmSwift
     dynamic var info: String?
     var exercises = List<Exercise>()
 
+    // Useful info
+    dynamic var sessionSeconds: Int?
+    dynamic var dateCompleted: Date?
+
     convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {
         self.init()
 

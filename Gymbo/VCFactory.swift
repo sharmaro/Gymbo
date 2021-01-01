@@ -45,11 +45,13 @@ extension VCFactory {
         return createEditSessionTVC
     }
 
-    static func makeDashboardCVC(layout: UICollectionViewLayout) -> DashboardCVC {
+    static func makeDashboardCVC(layout: UICollectionViewLayout,
+                                 user: User?) -> DashboardCVC {
         let dashboardCVC = DashboardCVC(
             collectionViewLayout: layout)
         dashboardCVC.customDataSource = DashboardCVDS(
-            listDataSource: dashboardCVC)
+            listDataSource: dashboardCVC,
+            user: user)
         dashboardCVC.customDelegate = DashboardCVD(
             listDelegate: dashboardCVC)
         return dashboardCVC
@@ -116,10 +118,11 @@ extension VCFactory {
         return onboardingVC
     }
 
-    static func makeProfileTVC() -> ProfileTVC {
+    static func makeProfileTVC(user: User?) -> ProfileTVC {
         let profileTVC = ProfileTVC()
         profileTVC.customDataSource = ProfileTVDS(
-            listDataSource: profileTVC)
+            listDataSource: profileTVC,
+            user: user)
         profileTVC.customDelegate = ProfileTVD(
             listDelegate: profileTVC)
         return profileTVC

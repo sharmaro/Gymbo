@@ -109,7 +109,6 @@ extension SessionsCVDS {
         return sessionInfoText
     }
 
-    // MARK: - CRud
     func create(session: Session, completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let list = sessionsList,
               index(of: session.name ?? "") == nil else {

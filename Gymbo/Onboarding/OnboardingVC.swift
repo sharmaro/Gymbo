@@ -65,6 +65,8 @@ class OnboardingVC: UIViewController {
         }
         return mainTBC
     }
+
+    var user: User?
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -83,7 +85,7 @@ extension OnboardingVC {
         let leftButtonAction: (() -> Void)? = { [weak self] in
             DispatchQueue.main.async {
                 self?.dismiss(animated: true) {
-                    UserDataModel.shared.isFirstTimeLoad = false
+                    self?.user?.firstTimeLoadComplete()
                 }
             }
         }
@@ -146,7 +148,7 @@ extension OnboardingVC {
             moveViews(with: currentOnboardingStep.data)
         } else {
             windowMainTBC?.selectedIndex = 2
-            UserDataModel.shared.isFirstTimeLoad = false
+            user?.firstTimeLoadComplete()
             dismiss(animated: true)
         }
     }

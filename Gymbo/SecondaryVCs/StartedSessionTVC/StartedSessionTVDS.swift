@@ -257,7 +257,13 @@ extension StartedSessionTVDS {
         }
     }
 
-    func sessionDidEnd(endType: EndType) {
+    func sessionDidEnd(sessionSeconds: Int?, endType: EndType) {
+        guard let sessionSeconds = sessionSeconds else {
+            return
+        }
+        try? realm?.write {
+            session?.sessionSeconds = sessionSeconds
+        }
         sessionProgresssDelegate?.sessionDidEnd(session, endType: endType)
     }
 

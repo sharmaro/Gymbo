@@ -41,12 +41,14 @@ class ExercisesTVDS: NSObject {
         try? Realm()
     }
 
-    private weak var listDataSource: ListDataSource?
+    private var listDataSources: [ListDataSource]?
 
     init(listDataSource: ListDataSource?) {
         super.init()
 
-        self.listDataSource = listDataSource
+        guard let listDataSource = listDataSource else { return }
+        self.listDataSources = []
+        self.listDataSources?.append(listDataSource)
         loadExercises()
     }
 }
@@ -67,7 +69,7 @@ extension ExercisesTVDS {
             DispatchQueue.main.async {
                 self?.updateExercisesProperty()
                 self?.updateSectionsProperty()
-                self?.listDataSource?.reloadData()
+                self?.listDataSources?.last?.reloadData()
             }
         }
     }
@@ -121,6 +123,17 @@ extension ExercisesTVDS {
             }
         }
         updateSections()
+        guard let listDataSources = listDataSources else {
+            return
+        }
+        /*
+         - Only reloading data for the VCs that are not in view
+         - The VC in view will automatically update the UI once data changes
+         */
+        for index in 0 ..< listDataSources.count - 1 {
+            let listDataSource = listDataSources[index]
+            listDataSource.reloadData()
+        }
     }
 
     private func add(exercise: Exercise,
@@ -201,11 +214,18 @@ extension ExercisesTVDS {
         }
     }
 
+    func removeLastDS() {
+        listDataSources?.removeLast()
+    }
+
     func prepareForReuse(newListDataSource: ListDataSource?) {
         presentationStyle = .normal
         selectedExerciseNames.removeAll()
         filter.removeAll()
-        self.listDataSource = newListDataSource
+
+        if let newListDataSource = newListDataSource {
+            listDataSources?.append(newListDataSource)
+        }
     }
 
     func selectCell(exerciseName: String?,
@@ -258,7 +278,6 @@ extension ExercisesTVDS {
         })
     }
 
-    // MARK: - CRUD
     func create(_ exercise: Exercise, completion: @escaping(Result<Any?, DataError>) -> Void) {
         guard let name = exercise.name,
               !doesExerciseExist(name: name) else {
@@ -376,11 +395,11 @@ extension ExercisesTVDS: UISearchResultsUpdating {
         guard let filtered = searchBar.text?.uppercased(),
             !filtered.isEmpty else {
             filter.removeAll()
-            listDataSource?.reloadData()
+            listDataSources?.last?.reloadData()
             return
         }
 
         filter = filtered
-        listDataSource?.reloadData()
+        listDataSources?.last?.reloadData()
     }
 }

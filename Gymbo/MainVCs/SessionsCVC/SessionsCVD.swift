@@ -22,8 +22,8 @@ class SessionsCVD: NSObject {
 // MARK: - Structs/Enums
 private extension SessionsCVD {
     struct Constants {
-        static let cellMinimumSpacing = CGFloat(10)
         static let sessionCellHeight = CGFloat(120)
+        static let cellMinimumSpacing = CGFloat(10)
     }
 }
 

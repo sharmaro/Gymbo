@@ -53,6 +53,9 @@ extension DashboardCVC: ViewAdding {
     func setupViews() {
         collectionView.dataSource = customDataSource
         collectionView.delegate = customDelegate
+
+        collectionView.register(DashboardCVCell.self,
+                                forCellWithReuseIdentifier: DashboardCVCell.reuseIdentifier)
     }
 
     func setupColors() {
@@ -87,5 +90,6 @@ extension DashboardCVC: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
         collectionView.contentInset = .zero
+        collectionView.reloadData()
     }
 }

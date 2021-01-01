@@ -67,7 +67,6 @@ extension ExercisesTVC {
         super.viewDidAppear(animated)
 
         didViewAppear = true
-        tableView.reloadData()
         renewConstraints()
     }
 
@@ -232,6 +231,12 @@ extension ExercisesTVC {
 
     @objc private func cancelButtonTapped() {
         Haptic.sendSelectionFeedback()
+        /*
+         - Because the DS is reused
+         - It's important to remove the last one when the VC is dismissed
+         - so there's no retain cycle
+         */
+        customDataSource?.removeLastDS()
         navigationController?.dismiss(animated: true)
     }
 

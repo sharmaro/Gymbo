@@ -10,6 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class ProfileTVDS: NSObject {
+    var user: User?
+
     private let items: [[Item]] = [
         [
         ]
@@ -17,7 +19,8 @@ class ProfileTVDS: NSObject {
 
     private weak var listDataSource: ListDataSource?
 
-    init(listDataSource: ListDataSource?) {
+    init(listDataSource: ListDataSource?, user: User?) {
+        self.user = user
         super.init()
 
         self.listDataSource = listDataSource

@@ -6,12 +6,13 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
+import RealmSwift
 
 // MARK: - Properties
 class MainTBDS: NSObject {
     var selectedTab = Tab.sessions
     var viewControllers: [MainNC]?
+    var user: User?
 
     private(set)var exercisesTVDS: ExercisesTVDS? {
         get {
@@ -30,6 +31,7 @@ class MainTBDS: NSObject {
     override init() {
         super.init()
 
+        setupUser()
         setupVCs()
     }
 }
@@ -82,11 +84,24 @@ extension MainTBDS {
 
 // MARK: - Funcs
 extension MainTBDS {
+    private func setupUser() {
+        let realm = try? Realm()
+        if let user = realm?.objects(User.self).first {
+            self.user = user
+        } else {
+            try? realm?.write {
+                realm?.add(User())
+            }
+            self.user = realm?.objects(User.self).first
+        }
+    }
+
     private func setupVCs() {
-        let profileTVC = VCFactory.makeProfileTVC()
+        let profileTVC = VCFactory.makeProfileTVC(user: user)
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let dashboardCVC = VCFactory.makeDashboardCVC(
-            layout: UICollectionViewFlowLayout())
+            layout: UICollectionViewFlowLayout(),
+            user: user)
         let sessionsCVC = VCFactory.makeSessionsCVC(
             layout: UICollectionViewFlowLayout())
         let exercisesTVC = VCFactory.makeExercisesTVC(
@@ -113,10 +128,10 @@ extension MainTBDS: UITabBarControllerDelegate {
                                  didSelect viewController: UIViewController) {
         selectedTab = Tab(rawValue: tabBarController.selectedIndex) ?? .sessions
 
-        guard let exercisesTVC = exercisesTVC,
+        guard exercisesTVC != nil,
               selectedTab == .exercises else {
             return
         }
-        exercisesTVDS?.prepareForReuse(newListDataSource: exercisesTVC)
+        exercisesTVDS?.prepareForReuse(newListDataSource: nil)
     }
 }

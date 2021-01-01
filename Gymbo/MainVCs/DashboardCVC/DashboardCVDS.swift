@@ -6,20 +6,18 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-import UIKit
+import RealmSwift
 
 // MARK: - Properties
 class DashboardCVDS: NSObject {
-    private let collectionItems: [[CollectionItem]] = [
-        [
-            .history
-        ]
-    ]
+    private(set)var user: User?
+    private let items = Item.allCases
 
     private weak var listDataSource: ListDataSource?
 
-    init(listDataSource: ListDataSource?) {
+    init(listDataSource: ListDataSource?, user: User?) {
         self.listDataSource = listDataSource
+        self.user = user
     }
 }
 
@@ -28,39 +26,48 @@ extension DashboardCVDS {
     private struct Constants {
     }
 
-    enum CollectionItem: String {
-        case history
-
-        var height: CGFloat {
-            0
-        }
+    enum Item: String, CaseIterable {
+        case pastSessions = "Past Sessions"
+        case workouts = "Workouts Per Week"
     }
 }
 
 // MARK: - Funcs
 extension DashboardCVDS {
+    private func content(for item: Item) -> String {
+        let response: String
+        switch item {
+        case .pastSessions:
+            var pastSessionNames = ""
+            if let allPastSessionNames = user?.pastSessionNames {
+                pastSessionNames = allPastSessionNames.joined(separator: ", ")
+            }
+            response = pastSessionNames
+        case .workouts:
+            response = "Nothing yet..."
+        }
+        return response
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 extension DashboardCVDS: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        collectionItems.count
-    }
-
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        collectionItems[section].count
+        items.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath)
-        return cell
-    }
+        guard let dashboardCVCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: DashboardCVCell.reuseIdentifier,
+                for: indexPath) as? DashboardCVCell else {
+            fatalError("Could not dequeue \(DashboardCVCell.reuseIdentifier)")
+        }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        UICollectionReusableView()
+        let item = items[indexPath.row]
+        let content = self.content(for: item)
+        dashboardCVCell.configure(title: item.rawValue, content: content)
+        return dashboardCVCell
     }
 }

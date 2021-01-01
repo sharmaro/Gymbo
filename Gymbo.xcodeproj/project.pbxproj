@@ -142,7 +142,6 @@
 		6972E43524BEB03800479E91 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43424BEB03800479E91 /* TimeInterval+Extension.swift */; };
 		6972E43724BEB26400479E91 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E43624BEB26400479E91 /* ToggleButton.swift */; };
 		697575BB2597FD970063BE74 /* EndType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697575BA2597FD970063BE74 /* EndType.swift */; };
-		697575C1259801460063BE74 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697575C0259801460063BE74 /* UserDataModel.swift */; };
 		697575CD259810320063BE74 /* DashboardCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697575CC259810320063BE74 /* DashboardCVC.swift */; };
 		697575D3259811D00063BE74 /* DashboardCVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697575D2259811D00063BE74 /* DashboardCVDS.swift */; };
 		697575D925981BB00063BE74 /* ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697575D825981BB00063BE74 /* ListDelegate.swift */; };
@@ -196,6 +195,7 @@
 		69F012E22383A1BD008B4225 /* ExerciseHeaderTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F012E02383A1BD008B4225 /* ExerciseHeaderTVCell.swift */; };
 		69F23C46257CA9D900453580 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F23C45257CA9D900453580 /* DataError.swift */; };
 		69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F390AC257C9E7900A9B513 /* AlertData.swift */; };
+		69F3B975259E76DB008ACE32 /* DashboardCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
 
@@ -349,7 +349,6 @@
 		6972E43424BEB03800479E91 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		6972E43624BEB26400479E91 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		697575BA2597FD970063BE74 /* EndType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndType.swift; sourceTree = "<group>"; };
-		697575C0259801460063BE74 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		697575CC259810320063BE74 /* DashboardCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCVC.swift; sourceTree = "<group>"; };
 		697575D2259811D00063BE74 /* DashboardCVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCVDS.swift; sourceTree = "<group>"; };
 		697575D825981BB00063BE74 /* ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDelegate.swift; sourceTree = "<group>"; };
@@ -405,6 +404,7 @@
 		69F012E02383A1BD008B4225 /* ExerciseHeaderTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHeaderTVCell.swift; sourceTree = "<group>"; };
 		69F23C45257CA9D900453580 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		69F390AC257C9E7900A9B513 /* AlertData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertData.swift; sourceTree = "<group>"; };
+		69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCVCell.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -571,7 +571,6 @@
 				69659C0624039C460054F655 /* CustomVCs */,
 				6901E4752387B4C20051D1B2 /* CustomViews */,
 				69507091249751FD00942078 /* Models */,
-				696A751F2361630300FA605F /* DataModels */,
 				695D4C0822D450CD00E3FB1F /* Helpers */,
 				6962945F235D58D400E681C7 /* WorkoutsData */,
 				695D4BE922CB28B800E3FB1F /* Assets.xcassets */,
@@ -626,14 +625,6 @@
 				69DF2809259BEA4100BDF65B /* SelectionTVC */,
 			);
 			path = CustomVCs;
-			sourceTree = "<group>";
-		};
-		696A751F2361630300FA605F /* DataModels */ = {
-			isa = PBXGroup;
-			children = (
-				697575C0259801460063BE74 /* UserDataModel.swift */,
-			);
-			name = DataModels;
 			sourceTree = "<group>";
 		};
 		6972E3C3249F1F0700479E91 /* Protocols */ = {
@@ -818,6 +809,7 @@
 		699F889D251062750085267C /* UICVCells */ = {
 			isa = PBXGroup;
 			children = (
+				69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */,
 				69693CE8247D07CE00E87133 /* SelectionCVCell.swift */,
 				691054E6234301DD00E306F1 /* SessionsCVCell.swift */,
 			);
@@ -1100,6 +1092,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69300817259A82F2005D2578 /* StopwatchTVDS.swift in Sources */,
+				69F3B975259E76DB008ACE32 /* DashboardCVCell.swift in Sources */,
 				694DE906259D6A5700F1A512 /* CreateEditSessionTVC+ExerciseHeaderCellDelegate.swift in Sources */,
 				694DE8AC259D2EB600F1A512 /* SelectionTVD.swift in Sources */,
 				6972E402249F26E700479E91 /* ExerciseUpdatingDelegate.swift in Sources */,
@@ -1276,7 +1269,6 @@
 				6984DC232599C9D800254FC8 /* ProfileTVD.swift in Sources */,
 				69DF27EB259BD7F200BDF65B /* RestDSAndD.swift in Sources */,
 				6972E40F249F29AC00479E91 /* ExerciseDetailTVCellModel.swift in Sources */,
-				697575C1259801460063BE74 /* UserDataModel.swift in Sources */,
 				6972E419249F2ABC00479E91 /* SessionsCVCellModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

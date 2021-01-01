@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        NotificationHelper.requestPermission()
         setupUINavigationBarAppearance()
         setupUITableViewAppearance()
+        setupUICollectionViewAppearance()
         setupUserInterfaceMode()
-        loadUser()
 
         return true
     }
@@ -102,11 +102,12 @@ extension AppDelegate {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
 
-    private func setupUserInterfaceMode() {
-        UserInterfaceMode.setUserInterfaceMode(with: .currentMode)
+    private func setupUICollectionViewAppearance() {
+        UICollectionView.appearance().showsHorizontalScrollIndicator = false
+        UICollectionView.appearance().showsVerticalScrollIndicator = false
     }
 
-    private func loadUser() {
-        UserDataModel.shared.loadUser()
+    private func setupUserInterfaceMode() {
+        UserInterfaceMode.setUserInterfaceMode(with: .currentMode)
     }
 }

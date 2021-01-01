@@ -79,8 +79,9 @@ extension MainTBC {
     }
 
     private func showOnboardingIfNeeded() {
-        if UserDataModel.shared.isFirstTimeLoad {
+        if customDataSource?.user?.isFirstTimeLoad ?? true {
             let onboardingVC = VCFactory.makeOnboardingVC()
+            onboardingVC.user = customDataSource?.user
             present(onboardingVC, animated: true)
         }
     }
@@ -162,25 +163,6 @@ extension MainTBC {
                                      exercises: startedSession.exercises)
         startSession(sessionToStart)
     }
-
-    private func saveCompletedSessionData(session: Session?, endType: EndType) {
-        guard let session = session else {
-            return
-        }
-
-        switch endType {
-        case .cancel:
-            try? realm?.write {
-                UserDataModel.shared.user?
-                    .canceledExercises.append(objectsIn: session.exercises)
-            }
-        case .finish:
-            try? realm?.write {
-                UserDataModel.shared.user?
-                    .finishedExercises.append(objectsIn: session.exercises)
-            }
-        }
-    }
 }
 
 // MARK: - SessionProgressDelegate
@@ -214,10 +196,12 @@ extension MainTBC: SessionProgressDelegate {
     }
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
-        isSessionInProgress = false
+        guard let session = session else {
+            return
+        }
 
-        saveCompletedSessionData(session: session,
-                                 endType: endType)
+        isSessionInProgress = false
+        customDataSource?.user?.addSession(session: session, endType: endType)
 
         if isReplacingSession, sessionToReplace != nil {
             isReplacingSession = false

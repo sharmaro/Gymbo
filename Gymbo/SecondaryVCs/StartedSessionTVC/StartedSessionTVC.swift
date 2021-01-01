@@ -375,7 +375,10 @@ extension StartedSessionTVC {
             navigationController.mainTBC?.tabBar.frame = defaultTabBarFrame
         }) { [weak self] (finished) in
             if finished {
-                self?.customDataSource?.sessionDidEnd(endType: endType)
+                self?.customDataSource?
+                    .sessionDidEnd(
+                        sessionSeconds: self?.startedSessionTimers?.sessionSeconds,
+                        endType: endType)
                 self?.cleanupProperties()
                 self?.childDismissal()
             }

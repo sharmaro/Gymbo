@@ -19,6 +19,10 @@ class DashboardCVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension DashboardCVD {
+    struct Constants {
+        static let sessionCellHeight = CGFloat(120)
+        static let cellMinimumSpacing = CGFloat(10)
+    }
 }
 
 // MARK: - Funcs
@@ -47,24 +51,21 @@ extension DashboardCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        Constants.cellMinimumSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        Constants.cellMinimumSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .zero
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .zero
+        let totalWidth = collectionView.frame.width
+        let cellWidth = totalWidth - 40
+        return CGSize(width: cellWidth,
+                      height: Constants.sessionCellHeight)
     }
 }
