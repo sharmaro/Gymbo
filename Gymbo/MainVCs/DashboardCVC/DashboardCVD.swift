@@ -21,7 +21,7 @@ class DashboardCVD: NSObject {
 private extension DashboardCVD {
     struct Constants {
         static let sessionCellHeight = CGFloat(120)
-        static let cellMinimumSpacing = CGFloat(10)
+        static let cellMinimumSpacing = CGFloat(20)
     }
 }
 
@@ -45,7 +45,7 @@ extension DashboardCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        .zero
+        UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView,

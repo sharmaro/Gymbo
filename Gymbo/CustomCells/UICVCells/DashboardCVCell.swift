@@ -41,6 +41,12 @@ private extension DashboardCVCell {
 
 // MARK: - UIView Var/Funcs
 extension DashboardCVCell {
+    override var isHighlighted: Bool {
+        didSet {
+            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

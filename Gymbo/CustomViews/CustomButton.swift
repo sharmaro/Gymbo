@@ -39,7 +39,7 @@ class CustomButton: UIButton {
             guard isEnabled else {
                 return
             }
-            transform(condition: Transform.caseFromBool(bool: isHighlighted))
+            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
         }
     }
 }
@@ -70,21 +70,6 @@ extension CustomButton {
     private func setupColors() {
         backgroundColor = backgroundColor
         setTitleColor(titleColor, for: .normal)
-    }
-
-    private func transform(condition: Transform) {
-        UIView.animate(withDuration: .defaultAnimationTime,
-                       delay: 0,
-                       options: [.allowUserInteraction],
-                       animations: { [weak self] in
-            switch condition {
-            case .shrink:
-                self?.transform = CGAffineTransform(scaleX: Constants.transformScale,
-                                                    y: Constants.transformScale)
-            case .inflate:
-                self?.transform = CGAffineTransform.identity
-            }
-        })
     }
 
     private func addDisabledView() {

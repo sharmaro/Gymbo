@@ -41,8 +41,7 @@ class SelectionCVCell: UICollectionViewCell {
 extension SelectionCVCell {
     override var isHighlighted: Bool {
         didSet {
-            let action: Transform = isHighlighted ? .shrink : .inflate
-            transform(type: action)
+            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
         }
     }
 
@@ -107,19 +106,5 @@ extension SelectionCVCell {
                 self.containerView.removeGradient()
             }
         }
-    }
-
-    private func transform(type: Transform) {
-        UIView.animate(withDuration: .defaultAnimationTime,
-                       delay: 0,
-                       options: [.curveEaseInOut],
-                       animations: { [weak self] in
-            switch type {
-            case .shrink:
-                self?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-            case .inflate:
-                self?.transform = CGAffineTransform.identity
-            }
-        })
     }
 }

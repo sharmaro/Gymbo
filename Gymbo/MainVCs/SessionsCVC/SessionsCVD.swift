@@ -23,7 +23,7 @@ class SessionsCVD: NSObject {
 private extension SessionsCVD {
     struct Constants {
         static let sessionCellHeight = CGFloat(120)
-        static let cellMinimumSpacing = CGFloat(10)
+        static let cellMinimumSpacing = CGFloat(15)
     }
 }
 
@@ -32,7 +32,7 @@ extension SessionsCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -50,11 +50,11 @@ extension SessionsCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        let sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
 
         let totalWidth = collectionView.frame.width
         let columns = CGFloat(2)
-        let columnSpacing = CGFloat(10)
+        let columnSpacing = CGFloat(5)
         let itemWidth = (totalWidth -
             sectionInset.left -
             sectionInset.right -

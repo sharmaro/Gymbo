@@ -80,8 +80,7 @@ extension SessionsCVCell {
     override var isHighlighted: Bool {
         didSet {
             if !isEditing {
-                let action: Transform = isHighlighted ? .shrink : .inflate
-                transform(type: action)
+                Transform.caseFromBool(bool: isHighlighted).transform(view: self)
             }
         }
     }
@@ -140,21 +139,6 @@ extension SessionsCVCell {
         setupViews()
         setupColors()
         addConstraints()
-    }
-
-    private func transform(type: Transform) {
-        UIView.animate(withDuration: .defaultAnimationTime,
-                       delay: 0,
-                       options: [.allowUserInteraction],
-                       animations: { [weak self] in
-            switch type {
-            case .shrink:
-                self?.transform = CGAffineTransform(scaleX: Constants.transformScale,
-                                                    y: Constants.transformScale)
-            case .inflate:
-                self?.transform = CGAffineTransform.identity
-            }
-        })
     }
 
     func configure(dataModel: SessionsCVCellModel) {
