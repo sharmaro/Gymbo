@@ -22,6 +22,7 @@ class SelectionTVCell: UITableViewCell {
         stackView.alignment = .fill
         return stackView
     }()
+
     private var stackViewLeadingConstraintToContentView = NSLayoutConstraint()
     private var stackViewLeadingConstraintToImageView = NSLayoutConstraint()
 
@@ -35,7 +36,7 @@ class SelectionTVCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .dynamicDarkGray
+        label.textColor = .systemBlue
         label.font = UIFont.medium.light
         label.textAlignment = .right
         return label
