@@ -72,9 +72,9 @@ extension CreateEditExerciseTVC {
 extension CreateEditExerciseTVC: ViewAdding {
     func setupNavigationBar() {
         title = exerciseState.rawValue
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
-                                                           action: #selector(cancelButtonTapped))
+                                                           action: #selector(closeButtonTapped))
     }
 
     func addViews() {
@@ -174,7 +174,7 @@ extension CreateEditExerciseTVC {
         }
     }
 
-    @objc private func cancelButtonTapped() {
+    @objc private func closeButtonTapped() {
         Haptic.sendSelectionFeedback()
         dismiss(animated: true)
         setAlphaDelegate?.setAlpha(alpha: 1)

@@ -80,7 +80,7 @@ extension ExercisePreviewTVC {
 extension ExercisePreviewTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Exercise"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))
     }

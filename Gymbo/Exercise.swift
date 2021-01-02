@@ -26,7 +26,7 @@ import RealmSwift
     // Helpers
     var safeCopy: Exercise {
         let exerciseDetails = List<ExerciseDetails>()
-        for exerciseDetail in exerciseDetails {
+        for exerciseDetail in self.exerciseDetails {
             exerciseDetails.append(exerciseDetail.safeCopy)
         }
 
@@ -42,7 +42,7 @@ import RealmSwift
         for exerciseDetail in exerciseDetails {
             totalCount += exerciseDetail.totalWeight
         }
-        return totalCount * sets
+        return totalCount
     }
 
     convenience init(name: String? = nil,

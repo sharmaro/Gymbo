@@ -15,16 +15,16 @@ import RealmSwift
     dynamic var weight: String?
 
     // Helpers
-    var totalWeight: Int {
-        let reps = Int(self.reps ?? "0") ?? 0
-        let weight = Int(self.weight ?? "0") ?? 0
-        return reps * weight
-    }
-
     var safeCopy: ExerciseDetails {
         ExerciseDetails(last: last,
                         reps: reps,
                         weight: weight)
+    }
+
+    var totalWeight: Int {
+        let reps = Int(self.reps ?? "0") ?? 0
+        let weight = Int(self.weight ?? "0") ?? 0
+        return reps * weight
     }
 
     convenience init(last: String? = nil, reps: String? = nil, weight: String? = nil) {

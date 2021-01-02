@@ -32,7 +32,9 @@ class AllSessionsCVCell: UICollectionViewCell {
     private var labelsHStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
 
@@ -72,6 +74,10 @@ extension AllSessionsCVCell {
 
         nameLabel.text?.removeAll()
         dateLabel.text?.removeAll()
+        imageAndTimeView.imageView.image = nil
+        imageAndTimeView.label.text?.removeAll()
+        imageAndWeightView.imageView.image = nil
+        imageAndWeightView.label.text?.removeAll()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -128,8 +134,8 @@ extension AllSessionsCVCell: ViewAdding {
             containerVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                       constant: -15),
 
-            labelsHStackView.widthAnchor.constraint(equalTo: containerVStack.widthAnchor,
-                                                    multiplier: 0.5)
+            labelsHStackView.leadingAnchor.constraint(equalTo: containerVStack.leadingAnchor),
+            labelsHStackView.trailingAnchor.constraint(equalTo: containerVStack.trailingAnchor)
         ])
     }
 }
