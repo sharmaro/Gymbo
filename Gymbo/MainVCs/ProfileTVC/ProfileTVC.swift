@@ -19,7 +19,9 @@ class ProfileTVC: UITableViewController {
         let containerView = UIView(frame: frame)
 
         let button = CustomButton(frame: frame)
-        let settingsImage = UIImage(named: "settings")
+        button.tintColor = .dynamicBlack
+        let settingsImage = UIImage(named: "settings")?
+            .withRenderingMode(.alwaysTemplate)
         button.setImage(settingsImage, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
 
