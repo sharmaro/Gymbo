@@ -69,7 +69,6 @@ extension ExercisesTVDS {
             DispatchQueue.main.async {
                 self?.updateExercisesProperty()
                 self?.updateSectionsProperty()
-                self?.listDataSources?.last?.reloadData()
             }
         }
     }
