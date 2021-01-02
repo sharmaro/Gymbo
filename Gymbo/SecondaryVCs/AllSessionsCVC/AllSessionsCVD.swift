@@ -1,17 +1,15 @@
 //
-//  SessionsCVD.swift
+//  AllSessionsCVD.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 12/28/20.
-//  Copyright © 2020 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 1/1/21.
+//  Copyright © 2021 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
 
 // MARK: - Properties
-class SessionsCVD: NSObject {
-    var dataState: DataState = .notEditing
-
+class AllSessionsCVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
@@ -20,19 +18,23 @@ class SessionsCVD: NSObject {
 }
 
 // MARK: - Structs/Enums
-private extension SessionsCVD {
+private extension AllSessionsCVD {
     struct Constants {
-        static let sessionCellHeight = CGFloat(120)
-        static let cellMinimumSpacing = CGFloat(15)
+        static let cellHeight = CGFloat(150)
+        static let cellMinimumSpacing = CGFloat(20)
     }
 }
 
+// MARK: - Funcs
+extension AllSessionsCVD {
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
-extension SessionsCVD: UICollectionViewDelegateFlowLayout {
+extension AllSessionsCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -50,31 +52,16 @@ extension SessionsCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-
         let totalWidth = collectionView.frame.width
-        let columns = CGFloat(2)
-        let columnSpacing = CGFloat(5)
-        let itemWidth = (totalWidth -
-            sectionInset.left -
-            sectionInset.right -
-            (columnSpacing * (columns - 1))) /
-            columns
-
-        return CGSize(width: itemWidth, height: Constants.sessionCellHeight)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .zero
+        let cellWidth = totalWidth - 40
+        return CGSize(width: cellWidth,
+                      height: Constants.cellHeight)
     }
 }
 
 // MARK: - UICollectionViewDelegate
-extension SessionsCVD: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
+extension AllSessionsCVD: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         listDelegate?.didSelectItem(at: indexPath)
     }

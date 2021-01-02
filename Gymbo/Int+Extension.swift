@@ -22,4 +22,20 @@ extension Int {
         let seconds = (self % 60).twoDigitsString
         return "\(minutes):\(seconds)"
     }
+
+    var neatTimeString: String {
+        let response: String
+        if self < 60 {
+            response = "\(self)s"
+        } else if self >= 60 && self < 3600 {
+            let minutes = self / 60
+            let seconds = self % 60
+            response = "\(minutes)m \(seconds)s"
+        } else {
+            let hours = self / 3600
+            let minutes = self / 7200
+            response = "\(hours)h \(minutes)m"
+        }
+        return response
+    }
 }

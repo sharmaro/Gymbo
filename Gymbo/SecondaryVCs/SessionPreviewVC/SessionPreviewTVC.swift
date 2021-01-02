@@ -77,9 +77,9 @@ extension SessionPreviewTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Preview"
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
-                                                           action: #selector(cancelButtonTapped))
+                                                           action: #selector(closeButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                             target: self,
                                                             action: #selector(editButtonTapped))
@@ -143,7 +143,7 @@ extension SessionPreviewTVC {
         tableHeaderView.isContentEditable = false
     }
 
-    @objc private func cancelButtonTapped() {
+    @objc private func closeButtonTapped() {
         Haptic.sendSelectionFeedback()
         dismiss(animated: true)
     }

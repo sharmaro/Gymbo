@@ -12,7 +12,7 @@ import RealmSwift
 class MainTBDS: NSObject {
     var selectedTab = Tab.sessions
     var viewControllers: [MainNC]?
-    var user: User?
+    private(set)var user: User?
 
     private(set)var exercisesTVDS: ExercisesTVDS? {
         get {

@@ -10,7 +10,7 @@ import RealmSwift
 
 // MARK: - Properties
 class ProfileTVDS: NSObject {
-    var user: User?
+    private(set)var user: User?
 
     private let items: [[Item]] = [
         [.profileTitle],
@@ -81,7 +81,7 @@ extension ProfileTVDS {
 
         let firstName = user?.firstName ?? "Me"
         let lastName = user?.lastName ?? ""
-        let totalSessions = "\(user?.totalSessions.count ?? 0) total | "
+        let totalSessions = "\(user?.allSessions.count ?? 0) total | "
         let canceledSessions = "\(user?.canceledSessions.count ?? 0) canceled | "
         let finishedSessions = "\(user?.finishedSessions.count ?? 0) finished"
         let description = "\(totalSessions)\(canceledSessions)\(finishedSessions)"

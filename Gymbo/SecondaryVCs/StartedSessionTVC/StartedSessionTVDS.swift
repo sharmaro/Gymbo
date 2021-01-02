@@ -258,13 +258,13 @@ extension StartedSessionTVDS {
     }
 
     func sessionDidEnd(sessionSeconds: Int?, endType: EndType) {
-        guard let sessionSeconds = sessionSeconds else {
+        guard let sessionCopy = session?.safeCopy,
+              let sessionSeconds = sessionSeconds else {
             return
         }
-        try? realm?.write {
-            session?.sessionSeconds = sessionSeconds
-        }
-        sessionProgresssDelegate?.sessionDidEnd(session, endType: endType)
+
+        sessionCopy.sessionSeconds = sessionSeconds
+        sessionProgresssDelegate?.sessionDidEnd(sessionCopy, endType: endType)
     }
 
     func setLastExerciseDetail() {

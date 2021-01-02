@@ -70,6 +70,7 @@ extension DashboardCVCell: ViewAdding {
         contentView.layer.borderColor = UIColor.dynamicDarkGray.cgColor
         contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
         contentView.backgroundColor = .dynamicWhite
+
         titleLabel.textColor = .dynamicBlack
         contentLabel.textColor = .dynamicDarkGray
     }

@@ -20,7 +20,7 @@ import RealmSwift
 
     // Additional Info
     dynamic var isFirstTimeLoad = true
-    var totalSessions = List<Session>()
+    var allSessions = List<Session>()
     var canceledSessions = List<Session>()
     var finishedSessions = List<Session>()
 
@@ -42,7 +42,7 @@ import RealmSwift
 extension User {
     var uniqueDates: [Date] {
         var dates = [Date]()
-        for session in totalSessions {
+        for session in allSessions {
             if let completedDate = session.dateCompleted {
                 if !dates.contains(where: { (date) -> Bool in
                     completedDate.isSameCalendarDate(as: date)
@@ -58,7 +58,7 @@ extension User {
     }
 
     var allSessionNames: [String] {
-        Array(totalSessions).map { $0.name ?? "" }
+        Array(allSessions).map { $0.name ?? "" }
     }
 
     var canceledSessionNames: [String]? {
@@ -86,10 +86,10 @@ extension User {
                 }
                 finishedSessions.insert(session, at: 0)
             }
-            if totalSessions.count == sessionLimit {
-                totalSessions.removeLast()
+            if allSessions.count == sessionLimit {
+                allSessions.removeLast()
             }
-            totalSessions.insert(session, at: 0)
+            allSessions.insert(session, at: 0)
         }
     }
 

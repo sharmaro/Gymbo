@@ -15,7 +15,7 @@ import RealmSwift
     var exercises = List<Exercise>()
 
     // Useful info
-    dynamic var sessionSeconds: Int?
+    dynamic var sessionSeconds: Int = 0
     dynamic var dateCompleted: Date?
 
     // Helpers
@@ -30,6 +30,14 @@ import RealmSwift
             }
         }
         return totalCount
+    }
+
+    var safeCopy: Session {
+        let exercises = List<Exercise>()
+        for exercise in self.exercises {
+            exercises.append(exercise.safeCopy)
+        }
+        return Session(name: name, info: info, exercises: exercises)
     }
 
     convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {

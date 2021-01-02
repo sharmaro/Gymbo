@@ -15,6 +15,15 @@ struct VCFactory {
 
 // MARK: - Funcs
 extension VCFactory {
+    static func makeAllSessionsCVC(layout: UICollectionViewLayout,
+                                   user: User?) -> AllSessionsCVC {
+        let allSessionsCVC = AllSessionsCVC(collectionViewLayout: layout)
+        allSessionsCVC.customDataSource = AllSessionsCVDS(
+            listDataSource: allSessionsCVC, user: user)
+        allSessionsCVC.customDelegate = AllSessionsCVD(listDelegate: allSessionsCVC)
+        return allSessionsCVC
+    }
+
     static func makeCreateEditExerciseTVC(
         exercise: Exercise = Exercise(),
         state: ExerciseState = .create,
@@ -111,8 +120,8 @@ extension VCFactory {
         return mainTBC
     }
 
-    static func makeOnboardingVC() -> OnboardingVC {
-        let onboardingVC = OnboardingVC()
+    static func makeOnboardingVC(user: User?) -> OnboardingVC {
+        let onboardingVC = OnboardingVC(user: user)
         onboardingVC.modalPresentationStyle = .overCurrentContext
         onboardingVC.modalTransitionStyle = .crossDissolve
         return onboardingVC

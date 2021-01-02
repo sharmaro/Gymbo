@@ -25,14 +25,15 @@ import RealmSwift
 
     // Helpers
     var safeCopy: Exercise {
-        Exercise(name: name,
-                 groups: groups,
-                 instructions: instructions,
-                 tips: tips,
-                 imageNames: imageNames,
-                 isUserMade: isUserMade,
-                 weightType: weightType,
-                 sets: sets,
+        let exerciseDetails = List<ExerciseDetails>()
+        for exerciseDetail in exerciseDetails {
+            exerciseDetails.append(exerciseDetail.safeCopy)
+        }
+
+        return Exercise(name: name, groups: groups,
+                 instructions: instructions, tips: tips,
+                 imageNames: imageNames, isUserMade: isUserMade,
+                 weightType: weightType, sets: sets,
                  exerciseDetails: exerciseDetails)
     }
 

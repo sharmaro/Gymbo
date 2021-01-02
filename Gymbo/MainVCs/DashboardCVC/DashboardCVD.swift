@@ -20,24 +20,13 @@ class DashboardCVD: NSObject {
 // MARK: - Structs/Enums
 private extension DashboardCVD {
     struct Constants {
-        static let sessionCellHeight = CGFloat(120)
+        static let cellHeight = CGFloat(120)
         static let cellMinimumSpacing = CGFloat(20)
     }
 }
 
 // MARK: - Funcs
 extension DashboardCVD {
-}
-
-// MARK: - UICollectionViewDelegate
-extension DashboardCVD: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        listDelegate?.didSelectItem(at: indexPath)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        listDelegate?.didDeselectItem(at: indexPath)
-    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -66,6 +55,14 @@ extension DashboardCVD: UICollectionViewDelegateFlowLayout {
         let totalWidth = collectionView.frame.width
         let cellWidth = totalWidth - 40
         return CGSize(width: cellWidth,
-                      height: Constants.sessionCellHeight)
+                      height: Constants.cellHeight)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension DashboardCVD: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+        listDelegate?.didSelectItem(at: indexPath)
     }
 }

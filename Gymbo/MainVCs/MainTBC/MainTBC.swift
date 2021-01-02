@@ -80,8 +80,8 @@ extension MainTBC {
 
     private func showOnboardingIfNeeded() {
         if customDataSource?.user?.isFirstTimeLoad ?? true {
-            let onboardingVC = VCFactory.makeOnboardingVC()
-            onboardingVC.user = customDataSource?.user
+            let onboardingVC = VCFactory.makeOnboardingVC(
+                user: customDataSource?.user)
             present(onboardingVC, animated: true)
         }
     }

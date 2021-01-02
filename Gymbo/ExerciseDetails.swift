@@ -21,6 +21,12 @@ import RealmSwift
         return reps * weight
     }
 
+    var safeCopy: ExerciseDetails {
+        ExerciseDetails(last: last,
+                        reps: reps,
+                        weight: weight)
+    }
+
     convenience init(last: String? = nil, reps: String? = nil, weight: String? = nil) {
         self.init()
 

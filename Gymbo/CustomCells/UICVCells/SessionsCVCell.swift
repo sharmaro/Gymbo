@@ -107,9 +107,10 @@ extension SessionsCVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.backgroundColor = .dynamicWhite
         contentView.layer.borderColor = UIColor.dynamicDarkGray.cgColor
         contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
+        contentView.backgroundColor = .dynamicWhite
+
         [titleLabel, infoLabel].forEach { $0.textColor = .dynamicBlack }
     }
 

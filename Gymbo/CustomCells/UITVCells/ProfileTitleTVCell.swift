@@ -75,7 +75,12 @@ extension ProfileTitleTVCell: ViewAdding {
     func setupViews() {
         profileImageButton.addTarget(self, action: #selector(imageButtonTapped),
                                      for: .touchUpInside)
-        [nameLabel, descriptionLabel].forEach { $0.backgroundColor = .clear }
+        [nameLabel, descriptionLabel].forEach {
+            $0.backgroundColor = .clear
+            $0.minimumScaleFactor = 0.7
+            $0.adjustsFontSizeToFitWidth = true
+            $0.lineBreakMode = .byCharWrapping
+        }
     }
 
     func setupColors() {

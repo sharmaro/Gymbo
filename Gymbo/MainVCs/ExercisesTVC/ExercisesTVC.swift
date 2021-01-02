@@ -92,9 +92,9 @@ extension ExercisesTVC: ViewAdding {
         case .normal:
             break
         case .modal:
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                                target: self,
-                                                               action: #selector(cancelButtonTapped))
+                                                               action: #selector(closeButtonTapped))
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
@@ -225,7 +225,7 @@ extension ExercisesTVC {
         }
     }
 
-    @objc private func cancelButtonTapped() {
+    @objc private func closeButtonTapped() {
         Haptic.sendSelectionFeedback()
         /*
          - Because the DS is reused

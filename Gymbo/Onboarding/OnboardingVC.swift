@@ -66,7 +66,16 @@ class OnboardingVC: UIViewController {
         return mainTBC
     }
 
-    var user: User?
+    private let user: User?
+
+    init(user: User?) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("Not using storyboards")
+    }
 }
 
 // MARK: - UIViewController Var/Funcs

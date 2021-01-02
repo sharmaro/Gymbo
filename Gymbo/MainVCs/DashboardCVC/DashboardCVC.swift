@@ -64,6 +64,13 @@ extension DashboardCVC: ViewAdding {
 
 // MARK: - Funcs
 extension DashboardCVC {
+    private func presentAllSessionsCVC() {
+        let allSessionsCVC = VCFactory.makeAllSessionsCVC(
+            layout: UICollectionViewFlowLayout(),
+            user: customDataSource?.user)
+        let mainNC = MainNC(rootVC: allSessionsCVC)
+        navigationController?.present(mainNC, animated: true)
+    }
 }
 
 // MARK: - ListDataSource
@@ -73,7 +80,17 @@ extension DashboardCVC: ListDataSource {
 // MARK: - ListDelegate
 extension DashboardCVC: ListDelegate {
     func didSelectItem(at indexPath: IndexPath) {
+        guard let item = customDataSource?.item(for: indexPath) else {
+            return
+        }
         Haptic.sendSelectionFeedback()
+
+        switch item {
+        case .pastSessions:
+            presentAllSessionsCVC()
+        case .sessionDays:
+            print(item.rawValue)
+        }
     }
 }
 

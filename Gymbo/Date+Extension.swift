@@ -14,11 +14,11 @@ extension Date {
         let dateFormatter = DateFormatter()
         switch type {
         case .short:
-            dateFormatter.dateFormat = "MMM dd, YY"
+            dateFormatter.dateFormat = "EE., MMM. dd, YY"
         case .medium:
-            dateFormatter.dateFormat = "MMMM dd, YYYY"
+            dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY"
         case .long:
-            dateFormatter.dateFormat = "MMMM dd, YYYY | hh:mm:ss a"
+            dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY | hh:mm:ss a"
         }
         return dateFormatter.string(from: date)
     }

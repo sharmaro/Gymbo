@@ -27,7 +27,7 @@ extension DashboardCVDS {
     }
 
     enum Item: String, CaseIterable {
-        case pastSessions = "Past Sessions"
+        case pastSessions = "All Sessions"
         case sessionDays = "Session Days"
     }
 }
@@ -38,14 +38,16 @@ extension DashboardCVDS {
         let response: String
         switch item {
         case .pastSessions:
-            var pastSessionNames = ""
-            if let allPastSessionNames = user?.allSessionNames {
+            var pastSessionNames = "No sessions yet..."
+            if let allPastSessionNames = user?.allSessionNames,
+               !allPastSessionNames.isEmpty {
                 pastSessionNames = allPastSessionNames.joined(separator: ", ")
             }
             response = pastSessionNames
         case .sessionDays:
-            var dates = ""
-            if let uniqueDates = user?.uniqueDates {
+            var dates = "No dates yet..."
+            if let uniqueDates = user?.uniqueDates,
+               !uniqueDates.isEmpty {
                 dates = uniqueDates.map {
                     $0.formattedString(type: .short)
                 }.joined(separator: ", ")
@@ -53,6 +55,10 @@ extension DashboardCVDS {
             response = dates
         }
         return response
+    }
+
+    func item(for indexPath: IndexPath) -> Item {
+        items[indexPath.row]
     }
 }
 
