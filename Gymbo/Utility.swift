@@ -72,7 +72,7 @@ extension Utility {
 
         guard let contentPath = directory.url?.appendingPathComponent(lastPathComponent).path,
               let fileData = FileManager().contents(atPath: contentPath) else {
-            fatalError("Couldn't get image: \(name)")
+            return nil
         }
 
         return UIImage(data: fileData)
@@ -130,10 +130,20 @@ extension Utility {
         }
     }
 
-    static func removeImages(names: [String]) {
+    static func removeImage(name: String, directory: Directory) {
+        guard let imageURL = directory.url else {
+            return
+        }
+
+        let imagePath = URL(fileURLWithPath: imageURL.path)
+            .appendingPathComponent(name).path
+        try? FileManager().removeItem(atPath: imagePath)
+    }
+
+    static func removeExerciseImages(names: [String]) {
         guard let userImageURL = Directory.userImages.url,
               let userThumbnailsURL = Directory.userThumbnails.url else {
-            fatalError("Couldn't get URL to delete: \(names.first ?? "")")
+            return
         }
 
         names.forEach {

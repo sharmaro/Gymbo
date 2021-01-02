@@ -11,6 +11,7 @@ import UIKit
 protocol ListDataSource: class {
     func reloadData()
     func dataStateChanged()
+    func buttonTapped(cell: UITableViewCell, index: Int, function: ButtonFunction)
     func deleteCell(tvCell: UITableViewCell)
     func deleteCell(cvCell: UICollectionViewCell)
     func cellForRowAt(tvCell: UITableViewCell)
@@ -19,6 +20,7 @@ protocol ListDataSource: class {
 extension ListDataSource {
     func reloadData() {}
     func dataStateChanged() {}
+    func buttonTapped(cell: UITableViewCell, index: Int, function: ButtonFunction) {}
     func deleteCell(tvCell: UITableViewCell) {}
     func deleteCell(cvCell: UICollectionViewCell) {}
     func cellForRowAt(tvCell: UITableViewCell) {}

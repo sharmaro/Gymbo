@@ -20,38 +20,55 @@ class ProfileTVD: NSObject {
 // MARK: - Structs/Enums
 private extension ProfileTVD {
     struct Constants {
+        static let headerHeight = CGFloat(40)
+        static let titleCellHeight = CGFloat(100)
+        static let infoCellHeight = CGFloat(55)
     }
 }
 
 // MARK: - Funcs
 extension ProfileTVD {
+    private func heightFor(section: Int) -> CGFloat {
+        let height: CGFloat
+        switch section {
+        case 0:
+            height = Constants.titleCellHeight
+        default:
+            height = Constants.infoCellHeight
+        }
+        return height
+    }
 }
 
 // MARK: - UITableViewDelegate
 extension ProfileTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        0
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
     }
 
     func tableView(_ tableView: UITableView,
                    heightForHeaderInSection section: Int) -> CGFloat {
-        0
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
     }
 
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
-        nil
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+            return nil
+        }
+        return headerView
     }
 
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        0
+        heightFor(section: indexPath.section)
     }
 
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        0
+        heightFor(section: indexPath.section)
     }
 
     func tableView(_ tableView: UITableView,

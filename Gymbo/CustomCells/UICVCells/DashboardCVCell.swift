@@ -12,13 +12,13 @@ import UIKit
 class DashboardCVCell: UICollectionViewCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .large
+        label.font = UIFont.large.bold
         return label
     }()
 
     private var contentLabel: UILabel = {
         let label = UILabel()
-        label.font = .normal
+        label.font = UIFont.normal.light
         label.numberOfLines = 0
         label.lineBreakMode = .byTruncatingTail
         return label

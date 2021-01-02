@@ -14,6 +14,7 @@ class ImagesTVCell: UITableViewCell {
     private var views = [UIView]()
 
     private var defaultImage = UIImage()
+
     var images: [UIImage] {
         var images = [UIImage]()
         views.forEach {
@@ -31,7 +32,7 @@ class ImagesTVCell: UITableViewCell {
         return images
     }
 
-    weak var imagesTVCellDelegate: ImagesTVCellDelegate?
+    weak var imageButtonDelegate: ImageButtonDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -88,7 +89,9 @@ extension ImagesTVCell {
         addConstraints()
     }
 
-    private func setupHorizontalScrollView(count: Int, imageType: ImageRepresentationType, image: UIImage) {
+    private func setupHorizontalScrollView(count: Int,
+                                           imageType: ImageRepresentationType,
+                                           image: UIImage) {
         let squareBound = frame.height * 0.9
         let viewSize = CGSize(width: squareBound, height: squareBound)
         let spacing = CGFloat(20)
@@ -186,6 +189,6 @@ extension ImagesTVCell {
         }
 
         let function: ButtonFunction = button.image(for: .normal) == defaultImage ? .add : .update
-        imagesTVCellDelegate?.buttonTapped(cell: self, index: button.tag, function: function)
+        imageButtonDelegate?.buttonTapped(cell: self, index: button.tag, function: function)
     }
 }

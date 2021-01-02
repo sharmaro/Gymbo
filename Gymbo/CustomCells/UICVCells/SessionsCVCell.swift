@@ -12,7 +12,7 @@ import UIKit
 class SessionsCVCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.normal.semibold
+        label.font = UIFont.normal.bold
         label.numberOfLines = 0
         return label
     }()
@@ -26,7 +26,7 @@ class SessionsCVCell: UICollectionViewCell {
 
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.font = .small
+        label.font = UIFont.small.light
         label.numberOfLines = 0
         return label
     }()

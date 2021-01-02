@@ -14,6 +14,13 @@ import RealmSwift
     dynamic var reps: String?
     dynamic var weight: String?
 
+    // Helpers
+    var totalWeight: Int {
+        let reps = Int(self.reps ?? "0") ?? 0
+        let weight = Int(self.weight ?? "0") ?? 0
+        return reps * weight
+    }
+
     convenience init(last: String? = nil, reps: String? = nil, weight: String? = nil) {
         self.init()
 

@@ -18,6 +18,20 @@ import RealmSwift
     dynamic var sessionSeconds: Int?
     dynamic var dateCompleted: Date?
 
+    // Helpers
+    var totalWeight: Int {
+        var totalCount = 0
+        for exercise in exercises {
+            // kg
+            if exercise.weightType == 1 {
+                totalCount += (exercise.totalWeight * 2)
+            } else {
+                totalCount += exercise.totalWeight
+            }
+        }
+        return totalCount
+    }
+
     convenience init(name: String? = nil, info: String? = nil, exercises: List<Exercise>) {
         self.init()
 

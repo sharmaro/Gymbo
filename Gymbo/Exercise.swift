@@ -23,6 +23,27 @@ import RealmSwift
     dynamic var sets = 1
     var exerciseDetails = List<ExerciseDetails>()
 
+    // Helpers
+    var safeCopy: Exercise {
+        Exercise(name: name,
+                 groups: groups,
+                 instructions: instructions,
+                 tips: tips,
+                 imageNames: imageNames,
+                 isUserMade: isUserMade,
+                 weightType: weightType,
+                 sets: sets,
+                 exerciseDetails: exerciseDetails)
+    }
+
+    var totalWeight: Int {
+        var totalCount = 0
+        for exerciseDetail in exerciseDetails {
+            totalCount += exerciseDetail.totalWeight
+        }
+        return totalCount * sets
+    }
+
     convenience init(name: String? = nil,
                      groups: String? = nil,
                      instructions: String? = nil,
@@ -62,18 +83,6 @@ import RealmSwift
                 self.exerciseDetails.append(newExerciseDetail)
             }
         }
-    }
-
-    var safeCopy: Exercise {
-        Exercise(name: name,
-                 groups: groups,
-                 instructions: instructions,
-                 tips: tips,
-                 imageNames: imageNames,
-                 isUserMade: isUserMade,
-                 weightType: weightType,
-                 sets: sets,
-                 exerciseDetails: exerciseDetails)
     }
 }
 

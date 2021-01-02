@@ -259,12 +259,15 @@ extension CreateEditExerciseTVC: MultipleSelectionTVCellDelegate {
     }
 }
 
-// MARK: - ImagesTVCellDelegate
-extension CreateEditExerciseTVC: ImagesTVCellDelegate {
-    func buttonTapped(cell: ImagesTVCell, index: Int, function: ButtonFunction) {
+// MARK: - ImageButtonDelegate
+extension CreateEditExerciseTVC: ImageButtonDelegate {
+    func buttonTapped(cell: UITableViewCell, index: Int, function: ButtonFunction) {
+        guard let imagesTVCell = cell as? ImagesTVCell else {
+            return
+        }
         view.endEditing(true)
 
-        imagesTVCell = cell
+        self.imagesTVCell = imagesTVCell
         imagesTVCellSelectedIndex = index
 
         let alertController = UIAlertController()

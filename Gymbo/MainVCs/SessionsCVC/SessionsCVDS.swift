@@ -65,10 +65,12 @@ extension SessionsCVDS {
 
     // Delete this eventually
     private func printConfigFileLocation() {
-        realm?.configuration.fileURL != nil ?
-            NSLog("SUCCESS: Realm location exists.") :
+        if let fileURL = realm?.configuration.fileURL {
+            NSLog("SUCCESS: Realm location exists.")
+            print("\(fileURL)\n")
+        } else {
             NSLog("FAILURE: Realm location does not exist.")
-        print("\(String(describing: realm?.configuration.fileURL))\n")
+        }
     }
 
     private func check(_ index: Int) -> SessionsList {

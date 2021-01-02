@@ -9,8 +9,8 @@
 import Foundation
 
 enum WeightType: Int, CaseIterable {
-    case lbs = 0
-    case kgs = 1
+    case lbs
+    case kgs
 
     var text: String {
         switch self {

@@ -26,6 +26,8 @@ class ProfileTVC: UITableViewController {
         containerView.addSubview(button)
         return containerView
     }()
+
+    private var profileTitleTVCell: ProfileTitleTVCell?
 }
 
 // MARK: - Structs/Enums
@@ -74,10 +76,15 @@ extension ProfileTVC: ViewAdding {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
-        tableView.tableFooterView = UIView()
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
+        tableView.allowsSelection = false
         tableView.keyboardDismissMode = .interactive
+        tableView.tableFooterView = UIView()
+        tableView.register(ExercisesHeaderFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
+        tableView.register(ProfileTitleTVCell.self,
+                           forCellReuseIdentifier: ProfileTitleTVCell.reuseIdentifier)
+        tableView.register(ProfileInfoTVCell.self,
+                           forCellReuseIdentifier: ProfileInfoTVCell.reuseIdentifier)
     }
 
     func setupColors() {
@@ -97,11 +104,23 @@ extension ProfileTVC {
         }
 
         if mainTBC.isSessionInProgress {
+            tableView.contentInset.bottom = minimizedHeight
         } else {
+            tableView.contentInset.bottom = .zero
         }
-
         UIView.animate(withDuration: .defaultAnimationTime) { [weak self] in
             self?.view.layoutIfNeeded()
+        }
+    }
+
+    private func getImage(fromSourceType sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = sourceType
+            navigationController?.present(imagePickerController, animated: true)
+        } else {
+            profileTitleTVCell = nil
         }
     }
 
@@ -116,6 +135,46 @@ extension ProfileTVC {
 
 // MARK: ListDataSource
 extension ProfileTVC: ListDataSource {
+    func reloadData() {
+        tableView.reloadData()
+    }
+
+    func buttonTapped(cell: UITableViewCell, index: Int, function: ButtonFunction) {
+        guard let profileTitleTVCell = cell as? ProfileTitleTVCell else {
+            return
+        }
+
+        self.profileTitleTVCell = profileTitleTVCell
+        let alertController = UIAlertController()
+        alertController.addAction(UIAlertAction(title: "Camera",
+                                                style: .default,
+                                                handler: { [weak self] _ in
+            self?.getImage(fromSourceType: .camera)
+        }))
+        alertController.addAction(UIAlertAction(title: "Photo Library",
+                                                style: .default,
+                                                handler: { [weak self] _ in
+            self?.getImage(fromSourceType: .photoLibrary)
+        }))
+
+        if function == .update {
+            alertController.addAction(UIAlertAction(title: "Remove Photo",
+                                                    style: .destructive,
+                                                    handler: { [weak self] _ in
+                self?.profileTitleTVCell?.update()
+                self?.profileTitleTVCell = nil
+                self?.customDataSource?.removeProfileImage()
+            }))
+        }
+
+        alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: .destructive,
+                                                handler: { [weak self] _ in
+            self?.profileTitleTVCell = nil
+        }))
+        navigationController?.present(alertController, animated: true)
+
+    }
 }
 
 // MARK: - ListDelegate
@@ -144,6 +203,30 @@ extension ProfileTVC: SessionProgressDelegate {
     }
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
+        tableView.reloadData()
         renewConstraints()
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension ProfileTVC: UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true) { [weak self] in
+            guard let cell = self?.profileTitleTVCell,
+                let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+                return
+            }
+
+            cell.update(image: image)
+            self?.customDataSource?.saveProfileImage(image)
+            self?.profileTitleTVCell = nil
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        profileTitleTVCell = nil
+        picker.dismiss(animated: true)
     }
 }

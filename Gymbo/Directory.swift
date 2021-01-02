@@ -14,6 +14,7 @@ enum Directory {
     case stockThumbnails
     case userImages
     case userThumbnails
+    case profileImage
 
     var directory: String {
         let baseStockPath = "Workout Info"
@@ -30,6 +31,8 @@ enum Directory {
             response = "User Images"
         case .userThumbnails:
             response = "User Thumbnails"
+        case .profileImage:
+            response = "Profile Image"
         }
         return response
     }

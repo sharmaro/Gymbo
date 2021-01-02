@@ -335,7 +335,7 @@ extension ExercisesTVDS {
         }
 
         let exercise = self.exercise(for: name)
-        Utility.removeImages(names: Array(exercise.imageNames))
+        Utility.removeExerciseImages(names: Array(exercise.imageNames))
 
         try? realm?.write {
             realm?.objects(ExercisesList.self).first?.exercises.remove(at: index)

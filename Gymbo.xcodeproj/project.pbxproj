@@ -119,7 +119,7 @@
 		6972E3FE249F268500479E91 /* SessionProgressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */; };
 		6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */; };
 		6972E402249F26E700479E91 /* ExerciseUpdatingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E401249F26E700479E91 /* ExerciseUpdatingDelegate.swift */; };
-		6972E408249F288100479E91 /* ImagesTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E407249F288100479E91 /* ImagesTVCellDelegate.swift */; };
+		6972E408249F288100479E91 /* ImageButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E407249F288100479E91 /* ImageButtonDelegate.swift */; };
 		6972E40A249F28AB00479E91 /* ButtonTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E409249F28AB00479E91 /* ButtonTVCellDelegate.swift */; };
 		6972E40C249F28DE00479E91 /* ExerciseTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E40B249F28DE00479E91 /* ExerciseTVCellDelegate.swift */; };
 		6972E40F249F29AC00479E91 /* ExerciseDetailTVCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6972E40E249F29AC00479E91 /* ExerciseDetailTVCellModel.swift */; };
@@ -196,6 +196,8 @@
 		69F23C46257CA9D900453580 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F23C45257CA9D900453580 /* DataError.swift */; };
 		69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F390AC257C9E7900A9B513 /* AlertData.swift */; };
 		69F3B975259E76DB008ACE32 /* DashboardCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */; };
+		69F3B987259F05EF008ACE32 /* ProfileTitleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B986259F05EF008ACE32 /* ProfileTitleTVCell.swift */; };
+		69F3B995259F12B5008ACE32 /* ProfileInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B994259F12B5008ACE32 /* ProfileInfoTVCell.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
 
@@ -326,7 +328,7 @@
 		6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProgressDelegate.swift; sourceTree = "<group>"; };
 		6972E3FF249F26D100479E91 /* SetAlphaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAlphaDelegate.swift; sourceTree = "<group>"; };
 		6972E401249F26E700479E91 /* ExerciseUpdatingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseUpdatingDelegate.swift; sourceTree = "<group>"; };
-		6972E407249F288100479E91 /* ImagesTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesTVCellDelegate.swift; sourceTree = "<group>"; };
+		6972E407249F288100479E91 /* ImageButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButtonDelegate.swift; sourceTree = "<group>"; };
 		6972E409249F28AB00479E91 /* ButtonTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTVCellDelegate.swift; sourceTree = "<group>"; };
 		6972E40B249F28DE00479E91 /* ExerciseTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTVCellDelegate.swift; sourceTree = "<group>"; };
 		6972E40E249F29AC00479E91 /* ExerciseDetailTVCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailTVCellModel.swift; sourceTree = "<group>"; };
@@ -405,6 +407,8 @@
 		69F23C45257CA9D900453580 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		69F390AC257C9E7900A9B513 /* AlertData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertData.swift; sourceTree = "<group>"; };
 		69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCVCell.swift; sourceTree = "<group>"; };
+		69F3B986259F05EF008ACE32 /* ProfileTitleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTitleTVCell.swift; sourceTree = "<group>"; };
+		69F3B994259F12B5008ACE32 /* ProfileInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoTVCell.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -639,7 +643,7 @@
 				6972E410249F29E100479E91 /* ExerciseHeaderCellDelegate.swift */,
 				6972E401249F26E700479E91 /* ExerciseUpdatingDelegate.swift */,
 				6972E40B249F28DE00479E91 /* ExerciseTVCellDelegate.swift */,
-				6972E407249F288100479E91 /* ImagesTVCellDelegate.swift */,
+				6972E407249F288100479E91 /* ImageButtonDelegate.swift */,
 				6972E3C4249F1F2700479E91 /* KeyboardObserving.swift */,
 				6975760E259881C20063BE74 /* ListDataSource.swift */,
 				697575D825981BB00063BE74 /* ListDelegate.swift */,
@@ -796,6 +800,8 @@
 				69477B7D2454F72F00FB6F73 /* ExerciseTVCell.swift */,
 				69693CEC247DF30300E87133 /* LabelTVCell.swift */,
 				69693CEA247D087A00E87133 /* MultipleSelectionTVCell.swift */,
+				69F3B994259F12B5008ACE32 /* ProfileInfoTVCell.swift */,
+				69F3B986259F05EF008ACE32 /* ProfileTitleTVCell.swift */,
 				6965C216254BF28500A898AB /* SelectionTVCell.swift */,
 				690B5692244804ED00E9CB93 /* StopwatchTVCell.swift */,
 				69C1BCC8245F67E000D23556 /* SwipableImageVTVCell.swift */,
@@ -1111,6 +1117,8 @@
 				694DE85C259C137200F1A512 /* StartedSessionTVC+ExerciseUpdatingDelegate.swift in Sources */,
 				690B5693244804ED00E9CB93 /* StopwatchTVCell.swift in Sources */,
 				696664FD24F3812A0049507A /* Gradient.swift in Sources */,
+				69F3B995259F12B5008ACE32 /* ProfileInfoTVCell.swift in Sources */,
+				69F3B987259F05EF008ACE32 /* ProfileTitleTVCell.swift in Sources */,
 				6972E42F24A029E000479E91 /* Haptic.swift in Sources */,
 				69DAD81B247DF3E00023E967 /* TextFieldTVCell.swift in Sources */,
 				694DE84E259C11F400F1A512 /* StartedSessionTVC+ExerciseHeaderCellDelegate.swift in Sources */,
@@ -1207,7 +1215,7 @@
 				69403785259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift in Sources */,
 				6972E3F2249F246E00479E91 /* ExerciseState.swift in Sources */,
 				6972E3DD249F21E700479E91 /* UIView+Extension.swift in Sources */,
-				6972E408249F288100479E91 /* ImagesTVCellDelegate.swift in Sources */,
+				6972E408249F288100479E91 /* ImageButtonDelegate.swift in Sources */,
 				698E935F259559D300B5A03E /* StartedSession.swift in Sources */,
 				698A5FE42563B59500578D50 /* Directory.swift in Sources */,
 				69693CE9247D07CF00E87133 /* SelectionCVCell.swift in Sources */,

@@ -15,7 +15,7 @@ extension CreateEditExerciseTVC: ListDataSource {
         } else if let multipleSelectionTVCell = tvCell as? MultipleSelectionTVCell {
             multipleSelectionTVCell.multipleSelectionTVCellDelegate = self
         } else if let imagesTVCell = tvCell as? ImagesTVCell {
-            imagesTVCell.imagesTVCellDelegate = self
+            imagesTVCell.imageButtonDelegate = self
         } else if let textViewTVCell = tvCell as? TextViewTVCell {
             textViewTVCell.customTextViewDelegate = self
         }

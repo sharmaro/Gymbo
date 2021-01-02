@@ -10,8 +10,17 @@ import RealmSwift
 
 // MARK: - Properties
 @objcMembers class User: Object {
+    // Personal Info
+    dynamic var profileImageName: String?
+    dynamic var firstName: String?
+    dynamic var lastName: String?
+    dynamic var age: String?
+    dynamic var weight: String?
+    dynamic var height: String?
+
+    // Additional Info
     dynamic var isFirstTimeLoad = true
-    var allPastSessions = List<Session>()
+    var totalSessions = List<Session>()
     var canceledSessions = List<Session>()
     var finishedSessions = List<Session>()
 
@@ -31,8 +40,8 @@ import RealmSwift
 
 // MARK: Funcs
 extension User {
-    var pastSessionNames: [String] {
-        Array(allPastSessions).map { $0.name ?? "" }
+    var allSessionNames: [String] {
+        Array(totalSessions).map { $0.name ?? "" }
     }
 
     var canceledSessionNames: [String]? {
@@ -44,15 +53,26 @@ extension User {
     }
 
     func addSession(session: Session, endType: EndType) {
+        let sessionLimit = 50
         try? realm?.write {
             session.dateCompleted = Date()
+
             switch endType {
             case .cancel:
-                canceledSessions.append(session)
+                if canceledSessions.count == sessionLimit {
+                    canceledSessions.removeLast()
+                }
+                canceledSessions.insert(session, at: 0)
             case .finish:
-                finishedSessions.append(session)
+                if finishedSessions.count == sessionLimit {
+                    finishedSessions.removeLast()
+                }
+                finishedSessions.insert(session, at: 0)
             }
-            allPastSessions.append(session)
+            if totalSessions.count == sessionLimit {
+                totalSessions.removeLast()
+            }
+            totalSessions.insert(session, at: 0)
         }
     }
 

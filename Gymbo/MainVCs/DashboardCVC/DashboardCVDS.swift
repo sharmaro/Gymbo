@@ -28,7 +28,7 @@ extension DashboardCVDS {
 
     enum Item: String, CaseIterable {
         case pastSessions = "Past Sessions"
-        case workouts = "Workouts Per Week"
+        case sessionDays = "Session Days"
     }
 }
 
@@ -39,11 +39,11 @@ extension DashboardCVDS {
         switch item {
         case .pastSessions:
             var pastSessionNames = ""
-            if let allPastSessionNames = user?.pastSessionNames {
+            if let allPastSessionNames = user?.allSessionNames {
                 pastSessionNames = allPastSessionNames.joined(separator: ", ")
             }
             response = pastSessionNames
-        case .workouts:
+        case .sessionDays:
             response = "Nothing yet..."
         }
         return response
