@@ -42,12 +42,6 @@ extension CreateEditSessionTVC {
         registerForKeyboardNotifications()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        tableHeaderView.makeFirstResponder()
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -90,10 +84,6 @@ extension CreateEditSessionTVC: ViewAdding {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addExerciseButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func setupViews() {

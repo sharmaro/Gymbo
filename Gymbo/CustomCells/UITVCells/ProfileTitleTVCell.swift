@@ -12,9 +12,9 @@ import UIKit
 class ProfileTitleTVCell: UITableViewCell {
     private var profileImageButton: CustomButton = {
         let button = CustomButton()
-        button.contentMode = .scaleToFill
+        button.contentMode = .scaleAspectFit
         button.addCorner(style: .circle(length: 70))
-        button.addBorder(1, color: .white)
+        button.addBorder(1, color: .systemRed)
         return button
     }()
 

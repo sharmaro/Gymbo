@@ -41,10 +41,6 @@ extension DashboardCVC {
 extension DashboardCVC: ViewAdding {
     func setupNavigationBar() {
         title = "Dashboard"
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func addViews() {
@@ -90,6 +86,6 @@ extension DashboardCVC: SessionProgressDelegate {
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
         collectionView.contentInset = .zero
-        collectionView.reloadData()
+        collectionView.reloadWithoutAnimation()
     }
 }

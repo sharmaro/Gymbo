@@ -90,11 +90,18 @@ extension AppDelegate {
         appearance.shadowColor = .clear
         appearance.titleTextAttributes = [.foregroundColor: UIColor.dynamicBlack]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.dynamicBlack]
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().prefersLargeTitles = true
-        UINavigationBar.appearance().isTranslucent = false
+
+        /*
+         - Don't want to mess up delegate UINavigationControllers for
+         - things like the email VC and the Photo Library image picker
+         */
+        let navigationBarAppearance = UINavigationBar.appearance(
+            whenContainedInInstancesOf: [MainNC.self])
+        navigationBarAppearance.standardAppearance = appearance
+        navigationBarAppearance.compactAppearance = appearance
+        navigationBarAppearance.scrollEdgeAppearance = appearance
+        navigationBarAppearance.prefersLargeTitles = true
+        navigationBarAppearance.isTranslucent = false
     }
 
     private func setupUITableViewAppearance() {

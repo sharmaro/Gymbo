@@ -75,10 +75,6 @@ extension CreateEditExerciseTVC: ViewAdding {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                                            target: self,
                                                            action: #selector(cancelButtonTapped))
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func addViews() {

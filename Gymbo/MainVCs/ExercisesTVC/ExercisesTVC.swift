@@ -109,10 +109,6 @@ extension ExercisesTVC: ViewAdding {
         navigationItem.searchController = searchController
         // Hides the active search bar if a new view controller is presented
         definesPresentationContext = true
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func addViews() {

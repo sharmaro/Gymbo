@@ -47,10 +47,14 @@ extension MainNC {
 // MARK: - ViewAdding
 extension MainNC: ViewAdding {
     func setupNavigationBar() {
+        navigationBar.prefersLargeTitles = true
         // This allows there to be a smooth transition from large title to small and vice-versa
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        extendedLayoutIncludesOpaqueBars = true
-//        edgesForExtendedLayout = .all
+        rootVC?.extendedLayoutIncludesOpaqueBars = true
+        rootVC?.edgesForExtendedLayout = .all
+    }
+
+    func setupViews() {
+        delegate = self
     }
 
     func setupColors() {
@@ -60,3 +64,12 @@ extension MainNC: ViewAdding {
 
 // MARK: - Funcs
 extension MainNC {}
+
+// MARK: - UINavigationControllerDelegate
+extension MainNC: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              willShow viewController: UIViewController, animated: Bool) {
+        viewController.extendedLayoutIncludesOpaqueBars = true
+        viewController.edgesForExtendedLayout = .all
+    }
+}

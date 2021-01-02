@@ -131,10 +131,6 @@ extension StartedSessionTVC: ViewAdding {
                                                            target: self,
                                                            action: #selector(restButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: finishButton)
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func setupViews() {

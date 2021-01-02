@@ -40,6 +40,23 @@ import RealmSwift
 
 // MARK: Funcs
 extension User {
+    var uniqueDates: [Date] {
+        var dates = [Date]()
+        for session in totalSessions {
+            if let completedDate = session.dateCompleted {
+                if !dates.contains(where: { (date) -> Bool in
+                    completedDate.isSameCalendarDate(as: date)
+                }) {
+                    dates.append(completedDate)
+                }
+                if dates.count == 10 {
+                    return dates
+                }
+            }
+        }
+        return dates
+    }
+
     var allSessionNames: [String] {
         Array(totalSessions).map { $0.name ?? "" }
     }

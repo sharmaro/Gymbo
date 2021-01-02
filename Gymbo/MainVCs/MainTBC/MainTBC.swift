@@ -89,13 +89,12 @@ extension MainTBC {
     private func updateSessionProgressObservingViewControllers(state: SessionState,
                                                                endType: EndType = .cancel) {
         viewControllers?.forEach {
-            if let viewControllers = ($0 as? UINavigationController)?.viewControllers,
-               let viewController = viewControllers.first as? SessionProgressDelegate {
+            if let rootVC = ($0 as? MainNC)?.rootVC as? SessionProgressDelegate {
                 switch state {
                 case .start:
-                    viewController.sessionDidStart(nil)
+                    rootVC.sessionDidStart(nil)
                 case .end:
-                    viewController.sessionDidEnd(nil, endType: endType)
+                    rootVC.sessionDidEnd(nil, endType: endType)
                 }
             }
         }
@@ -122,8 +121,6 @@ extension MainTBC {
                                                             dimmedView: dimmedView,
                                                             panView: shadowContainerView,
                                                             initialTabBarFrame: tabBar.frame)
-        // This allows startSessionViewController to extend over the bottom tab bar
-        startedSessionTVC.extendedLayoutIncludesOpaqueBars = true
 
         let containerNavigationController = MainNC(rootVC: startedSessionTVC)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -169,9 +166,8 @@ extension MainTBC {
 extension MainTBC: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         if isSessionInProgress {
-            guard let navigationController = (children.last as? UINavigationController),
-                  let startedSessionTVC = navigationController
-                    .viewControllers.first as? StartedSessionTVC else {
+            guard let startedSessionTVC = (children.last as? MainNC)?
+                    .rootVC as? StartedSessionTVC else {
                 return
             }
 

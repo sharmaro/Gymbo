@@ -1,5 +1,5 @@
 //
-//  IndexPath+Extensions.swift
+//  IndexPath+Extension.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/24/20.

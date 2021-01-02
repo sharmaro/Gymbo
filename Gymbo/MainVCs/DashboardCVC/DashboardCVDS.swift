@@ -44,7 +44,13 @@ extension DashboardCVDS {
             }
             response = pastSessionNames
         case .sessionDays:
-            response = "Nothing yet..."
+            var dates = ""
+            if let uniqueDates = user?.uniqueDates {
+                dates = uniqueDates.map {
+                    $0.formattedString(type: .short)
+                }.joined(separator: ", ")
+            }
+            response = dates
         }
         return response
     }

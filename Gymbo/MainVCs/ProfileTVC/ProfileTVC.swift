@@ -59,10 +59,6 @@ extension ProfileTVC: ViewAdding {
         title = "Profile"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsView)
-
-        // This allows there to be a smooth transition from large title to small and vice-versa
-        extendedLayoutIncludesOpaqueBars = true
-        edgesForExtendedLayout = .all
     }
 
     func addViews() {
@@ -203,7 +199,7 @@ extension ProfileTVC: SessionProgressDelegate {
     }
 
     func sessionDidEnd(_ session: Session?, endType: EndType) {
-        tableView.reloadData()
+        tableView.reloadWithoutAnimation()
         renewConstraints()
     }
 }
