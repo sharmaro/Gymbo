@@ -11,12 +11,7 @@ import RealmSwift
 // MARK: - Properties
 class AllSessionsCVDS: NSObject {
     private(set)var user: User?
-
-    private var itemMode = ItemMode.all {
-        didSet {
-            listDataSource?.reloadData()
-        }
-    }
+    private var itemMode = ItemMode.all
 
     private var items: [Session] {
         let sessions: [Session]

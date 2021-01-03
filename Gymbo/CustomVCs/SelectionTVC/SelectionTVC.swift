@@ -29,7 +29,6 @@ extension SelectionTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
         setupViews()
         setupColors()
     }
@@ -43,9 +42,6 @@ extension SelectionTVC {
 
 // MARK: - ViewAdding
 extension SelectionTVC: ViewAdding {
-    func setupNavigationBar() {
-    }
-
     func setupViews() {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate

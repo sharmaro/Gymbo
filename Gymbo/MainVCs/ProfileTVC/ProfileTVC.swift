@@ -59,7 +59,6 @@ extension ProfileTVC {
 extension ProfileTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Profile"
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: settingsView)
     }
 

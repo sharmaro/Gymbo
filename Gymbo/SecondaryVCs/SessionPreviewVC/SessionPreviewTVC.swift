@@ -76,7 +76,6 @@ extension SessionPreviewTVC {
 extension SessionPreviewTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Preview"
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))

@@ -125,7 +125,6 @@ extension StartedSessionTVC {
 extension StartedSessionTVC: ViewAdding {
     func setupNavigationBar() {
         title = 0.minutesAndSecondsString
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Rest",
                                                            style: .plain,
                                                            target: self,

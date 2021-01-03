@@ -37,7 +37,6 @@ extension AllSessionsCVC {
 extension AllSessionsCVC: ViewAdding {
     func setupNavigationBar() {
         title = "Past Sessions"
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))
@@ -65,6 +64,16 @@ extension AllSessionsCVC: ViewAdding {
 
 // MARK: - Funcs
 extension AllSessionsCVC {
+    private func reloadCVAndScrollToTop() {
+        collectionView.reloadData()
+        if collectionView.numberOfSections > 0,
+           collectionView.numberOfItems(inSection: 0) > 0 {
+            let firstIndexPath = IndexPath(row: 0, section: 0)
+            collectionView.scrollToItem(at: firstIndexPath,
+                                        at: .bottom, animated: true)
+        }
+    }
+
     @objc private func closeButtonTapped(_ sender: Any) {
         Haptic.sendSelectionFeedback()
         dismiss(animated: true)
@@ -78,6 +87,7 @@ extension AllSessionsCVC {
         Haptic.sendSelectionFeedback()
 
         customDataSource?.itemModeChanged(to: selectedIndex)
+        reloadCVAndScrollToTop()
     }
 }
 
