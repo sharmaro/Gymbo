@@ -14,7 +14,7 @@ class ProfileTitleTVCell: UITableViewCell {
         let button = CustomButton()
         button.contentMode = .scaleAspectFit
         button.addCorner(style: .circle(length: 70))
-        button.addBorder(1, color: .systemRed)
+        button.addBorder(1, color: .dynamicBlack)
         return button
     }()
 
@@ -85,6 +85,7 @@ extension ProfileTitleTVCell: ViewAdding {
 
     func setupColors() {
         contentView.backgroundColor = .dynamicWhite
+        profileImageButton.layer.borderColor = profileImageButton.layer.borderColor
         [nameLabel, descriptionLabel].forEach { $0.textColor = .dynamicBlack }
     }
 
