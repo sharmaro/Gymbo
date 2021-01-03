@@ -10,6 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class TwoLabelsCVCell: UICollectionViewCell {
+    private var indexLabel = UILabel()
+
     private var labelsVStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -39,6 +41,12 @@ private extension TwoLabelsCVCell {
 
 // MARK: - UIView Var/Funcs
 extension TwoLabelsCVCell {
+    override var isHighlighted: Bool {
+        didSet {
+            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -49,22 +57,23 @@ extension TwoLabelsCVCell {
 // MARK: - ViewAdding
 extension TwoLabelsCVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [labelsVStackView])
+        contentView.add(subviews: [indexLabel, labelsVStackView])
         [topLabel, bottomLabel].forEach {
             labelsVStackView.addArrangedSubview($0)
         }
     }
 
     func setupViews() {
+        contentView.layer.addCorner(style: .small)
+        contentView.addBorder(1, color: .dynamicDarkGray)
+        contentView.addShadow(direction: .downRight)
+
+        indexLabel.font = UIFont.medium.semibold
         topLabel.font = UIFont.medium.semibold
         bottomLabel.font = UIFont.normal.light
         [topLabel, bottomLabel].forEach {
             $0.lineBreakMode = .byTruncatingTail
         }
-
-        contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .dynamicDarkGray)
-        contentView.addShadow(direction: .downRight)
     }
 
     func setupColors() {
@@ -76,8 +85,12 @@ extension TwoLabelsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            labelsVStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                      constant: 15),
+            indexLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            indexLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                constant: 15),
+            indexLabel.trailingAnchor.constraint(equalTo: labelsVStackView.leadingAnchor,
+                                                constant: -15),
+
             labelsVStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             labelsVStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                       constant: -15)
@@ -94,7 +107,8 @@ extension TwoLabelsCVCell {
         addConstraints()
     }
 
-    func configure(topText: String, bottomText: String) {
+    func configure(index: Int, topText: String, bottomText: String) {
+        indexLabel.text = "\(index)"
         topLabel.text = topText
         bottomLabel.text = bottomText
     }

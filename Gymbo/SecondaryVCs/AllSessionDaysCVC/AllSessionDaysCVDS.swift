@@ -60,7 +60,8 @@ extension AllSessionDaysCVDS: UICollectionViewDataSource {
 
         let sessionName = sessions[indexPath.row].name ?? ""
         let dateString = date.formattedString(type: .medium)
-        cell.configure(topText: sessionName,
+        cell.configure(index: indexPath.row + 1,
+                       topText: sessionName,
                        bottomText: dateString)
         return cell
     }

@@ -28,7 +28,7 @@ class ModalPickerVC: UIViewController {
         return button
     }()
 
-    private var doneButton: CustomButton = {
+    private var selectButton: CustomButton = {
         let button = CustomButton()
         button.title = "Select"
         button.set(backgroundColor: .systemGreen)
@@ -84,7 +84,7 @@ extension ModalPickerVC: ViewAdding {
     func addViews() {
         view.add(subviews: [containerView])
         containerView.add(subviews: [tabBarView, pickerView])
-        tabBarView.add(subviews: [cancelButton, titleLabel, doneButton])
+        tabBarView.add(subviews: [cancelButton, titleLabel, selectButton])
     }
 
     func setupViews() {
@@ -94,8 +94,8 @@ extension ModalPickerVC: ViewAdding {
                              action: #selector(cancelButtonTapped),
                              for: .touchUpInside)
         titleLabel.textAlignment = .center
-        doneButton.addTarget(self,
-                             action: #selector(doneButtonTapped),
+        selectButton.addTarget(self,
+                             action: #selector(selectButtonTapped),
                              for: .touchUpInside)
 
         pickerView.dataSource = self
@@ -105,8 +105,8 @@ extension ModalPickerVC: ViewAdding {
     func setupColors() {
         view.backgroundColor = .dimmedBackgroundBlack
         containerView.backgroundColor = .dynamicLightGray
+        tabBarView.backgroundColor = .dynamicLightGray
         titleLabel.textColor = .dynamicBlack
-        tabBarView.backgroundColor = .systemGray
     }
 
     func addConstraints() {
@@ -122,34 +122,35 @@ extension ModalPickerVC: ViewAdding {
             tabBarView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             tabBarView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             tabBarView.bottomAnchor.constraint(equalTo: pickerView.topAnchor),
-            tabBarView.heightAnchor.constraint(equalToConstant: 48),
+            tabBarView.heightAnchor.constraint(equalToConstant: 50),
 
             pickerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             pickerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             pickerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
 
             cancelButton.topAnchor.constraint(equalTo: tabBarView.topAnchor,
-                                              constant: 5),
+                                              constant: 10),
             cancelButton.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor,
                                                   constant: 15),
             cancelButton.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor,
-                                                 constant: -5),
+                                                 constant: -10),
             cancelButton.widthAnchor.constraint(equalToConstant: 80),
 
             titleLabel.topAnchor.constraint(equalTo: tabBarView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor,
                                                 constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: doneButton.leadingAnchor,
+            titleLabel.trailingAnchor.constraint(equalTo: selectButton.leadingAnchor,
                                                  constant: -15),
             titleLabel.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor),
 
-            doneButton.topAnchor.constraint(equalTo: tabBarView.topAnchor,
-                                            constant: 5),
-            doneButton.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor,
+            selectButton.topAnchor.constraint(equalTo: tabBarView.topAnchor,
+                                            constant: 10),
+            selectButton.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor,
                                                  constant: -15),
-            doneButton.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor,
-                                               constant: -5),
-            doneButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor)
+            selectButton.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor,
+                                               constant: -10),
+            selectButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor),
+            selectButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor)
         ])
     }
 }
@@ -165,7 +166,7 @@ extension ModalPickerVC {
         dismiss(animated: true)
     }
 
-    @objc private func doneButtonTapped(_ sender: Any) {
+    @objc private func selectButtonTapped(_ sender: Any) {
         guard sender is CustomButton else {
             return
         }
