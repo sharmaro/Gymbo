@@ -53,6 +53,7 @@ extension AllSessionsCVC: ViewAdding {
         collectionView.dataSource = customDataSource
         collectionView.delegate = customDelegate
 
+        collectionView.alwaysBounceVertical = true
         collectionView.register(AllSessionsCVCell.self,
                                 forCellWithReuseIdentifier: AllSessionsCVCell.reuseIdentifier)
     }

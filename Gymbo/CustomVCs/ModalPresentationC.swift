@@ -22,7 +22,6 @@ final class ModalPresentationC: UIPresentationController {
                 UITapGestureRecognizer(target: self, action: #selector(dismiss))
             )
         }
-
         return dimmingView
     }()
 
