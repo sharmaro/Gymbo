@@ -50,6 +50,7 @@ extension DashboardCVC: ViewAdding {
         collectionView.dataSource = customDataSource
         collectionView.delegate = customDelegate
 
+        collectionView.alwaysBounceVertical = true
         collectionView.register(DashboardCVCell.self,
                                 forCellWithReuseIdentifier: DashboardCVCell.reuseIdentifier)
     }

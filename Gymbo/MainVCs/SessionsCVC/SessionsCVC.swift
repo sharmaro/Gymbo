@@ -90,6 +90,7 @@ extension SessionsCVC: ViewAdding {
         collectionView.dragInteractionEnabled = true
         collectionView.reorderingCadence = .fast
         collectionView.keyboardDismissMode = .interactive
+        collectionView.alwaysBounceVertical = true
         collectionView.register(SessionsCVCell.self,
                                 forCellWithReuseIdentifier: SessionsCVCell.reuseIdentifier)
     }
