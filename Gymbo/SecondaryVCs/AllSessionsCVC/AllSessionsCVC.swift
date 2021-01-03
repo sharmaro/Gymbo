@@ -44,9 +44,8 @@ extension AllSessionsCVC {
 // MARK: - ViewAdding
 extension AllSessionsCVC: ViewAdding {
     func setupNavigationBar() {
-        title = ""
+        title = "Past Sessions"
 
-        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                            target: self,
                                                            action: #selector(closeButtonTapped))
@@ -105,4 +104,13 @@ extension AllSessionsCVC: ListDataSource {
 
 // MARK: - ListDelegate
 extension AllSessionsCVC: ListDelegate {
+    func didSelectItem(at indexPath: IndexPath) {
+        guard let session = customDataSource?.session(for: indexPath.row) else {
+            return
+        }
+        Haptic.sendSelectionFeedback()
+
+        let allSessionsDetailTVC = VCFactory.makeAllSessionsDetailTVC(session: session)
+        navigationController?.pushViewController(allSessionsDetailTVC, animated: true)
+    }
 }

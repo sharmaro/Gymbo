@@ -1,5 +1,5 @@
 //
-//  ExercisesHeaderFooterView.swift
+//  ExercisesHFV.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 6/14/20.
@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
+class ExercisesHFV: UITableViewHeaderFooterView {
     private let topDivider = UIView()
 
     private let label: UILabel = {
@@ -32,14 +32,14 @@ class ExercisesHeaderFooterView: UITableViewHeaderFooterView {
 }
 
 // MARK: - Structs/Enums
-private extension ExercisesHeaderFooterView {
+private extension ExercisesHFV {
     struct Constants {
         static var dividerHeight = CGFloat(0.2)
     }
 }
 
 // MARK: - UIView Var/Funcs
-extension ExercisesHeaderFooterView {
+extension ExercisesHFV {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -48,7 +48,7 @@ extension ExercisesHeaderFooterView {
 }
 
 // MARK: - ViewAdding
-extension ExercisesHeaderFooterView: ViewAdding {
+extension ExercisesHFV: ViewAdding {
     func addViews() {
         add(subviews: [topDivider, label, bottomDivider])
     }
@@ -85,7 +85,7 @@ extension ExercisesHeaderFooterView: ViewAdding {
 }
 
 // MARK: - Funcs
-extension ExercisesHeaderFooterView {
+extension ExercisesHFV {
     private func setup() {
         addViews()
         setupColors()

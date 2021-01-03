@@ -100,10 +100,8 @@ extension MainTBDS {
         let profileTVC = VCFactory.makeProfileTVC(user: user)
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let dashboardCVC = VCFactory.makeDashboardCVC(
-            layout: UICollectionViewFlowLayout(),
             user: user)
-        let sessionsCVC = VCFactory.makeSessionsCVC(
-            layout: UICollectionViewFlowLayout())
+        let sessionsCVC = VCFactory.makeSessionsCVC()
         let exercisesTVC = VCFactory.makeExercisesTVC(
             style: .grouped,
             sessionsCVDS: sessionsCVC.customDataSource)

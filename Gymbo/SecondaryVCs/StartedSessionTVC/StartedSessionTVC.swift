@@ -27,7 +27,7 @@ class StartedSessionTVC: UITableViewController {
         return button
     }()
 
-    private let tableHeaderView = SessionHeaderView()
+    private let tableHeaderView = SessionHV()
     private var didLayoutTableHeaderView = false
 
     private lazy var panGesture: UIPanGestureRecognizer = {
@@ -110,8 +110,8 @@ extension StartedSessionTVC {
                 self.tableView.tableHeaderView?.layoutIfNeeded()
                 self.tableView.tableHeaderView = self.tableView.tableHeaderView
             }
+            didLayoutTableHeaderView = true
         }
-        didLayoutTableHeaderView = true
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -187,7 +187,7 @@ extension StartedSessionTVC {
         let footerViewFrame = CGRect(origin: .zero,
                                      size: CGSize(width: tableView.frame.width,
                                                   height: Constants.tableFooterViewHeight))
-        let tableFooterView = StartedSessionFooterView(frame: footerViewFrame)
+        let tableFooterView = StartedSessionFV(frame: footerViewFrame)
         tableFooterView.startedSessionButtonDelegate = self
         tableView.tableFooterView = tableFooterView
         tableView.tableFooterView = tableView.tableFooterView

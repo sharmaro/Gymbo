@@ -13,6 +13,7 @@ class SettingsTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
+        super.init()
         self.listDelegate = listDelegate
     }
 }
@@ -41,8 +42,8 @@ extension SettingsTVD: UITableViewDelegate {
                    viewForHeaderInSection section: Int) -> UIView? {
         guard section > 0,
               let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
-                as? ExercisesHeaderFooterView else {
+                withIdentifier: ExercisesHFV.reuseIdentifier)
+                as? ExercisesHFV else {
             return nil
         }
         return headerView

@@ -1,5 +1,5 @@
 //
-//  StartedSessionFooterView.swift
+//  StartedSessionFV.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 1/12/20.
@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class StartedSessionFooterView: UIView {
+class StartedSessionFV: UIView {
     private let addExerciseButton: CustomButton = {
         let button = CustomButton()
         button.title = "+ Exercise"
@@ -40,7 +40,7 @@ class StartedSessionFooterView: UIView {
 }
 
 // MARK: - UIView Var/Funcs
-extension StartedSessionFooterView {
+extension StartedSessionFV {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -49,7 +49,7 @@ extension StartedSessionFooterView {
 }
 
 // MARK: - ViewAdding
-extension StartedSessionFooterView: ViewAdding {
+extension StartedSessionFV: ViewAdding {
     func addViews() {
         add(subviews: [addExerciseButton, cancelButton])
     }
@@ -79,7 +79,7 @@ extension StartedSessionFooterView: ViewAdding {
 }
 
 // MARK: - Funcs
-extension StartedSessionFooterView {
+extension StartedSessionFV {
     private func setup() {
         addViews()
         setupViews()

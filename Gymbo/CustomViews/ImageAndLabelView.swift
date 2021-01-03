@@ -44,6 +44,10 @@ extension ImageAndLabelView: ViewAdding {
         add(subviews: [imageView, label])
     }
 
+    func setupViews() {
+        label.numberOfLines = 0
+    }
+
     func setupColors() {
         backgroundColor = .dynamicWhite
         label.textColor = label.textColor
@@ -69,6 +73,7 @@ extension ImageAndLabelView: ViewAdding {
 extension ImageAndLabelView {
     private func setup() {
         addViews()
+        setupViews()
         setupColors()
         addConstraints()
     }

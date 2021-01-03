@@ -21,6 +21,7 @@ class ExercisesTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
+        super.init()
         self.listDelegate = listDelegate
     }
 }
@@ -55,7 +56,7 @@ extension ExercisesTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: ExercisesHeaderFooterView.reuseIdentifier) as? ExercisesHeaderFooterView else {
+            withIdentifier: ExercisesHFV.reuseIdentifier) as? ExercisesHFV else {
             return nil
         }
 

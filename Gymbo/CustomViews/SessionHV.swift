@@ -1,5 +1,5 @@
 //
-//  SessionHeaderView.swift
+//  SessionHV.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 11/21/19.
@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class SessionHeaderView: UIView {
+class SessionHV: UIView {
     private let firstTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.xLarge.medium
@@ -60,7 +60,7 @@ class SessionHeaderView: UIView {
 }
 
 // MARK: - UIView Var/Funcs
-extension SessionHeaderView {
+extension SessionHV {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -69,7 +69,7 @@ extension SessionHeaderView {
 }
 
 // MARK: - ViewAdding
-extension SessionHeaderView: ViewAdding {
+extension SessionHV: ViewAdding {
     func addViews() {
         add(subviews: [firstTextView, secondTextView])
     }
@@ -110,7 +110,7 @@ extension SessionHeaderView: ViewAdding {
 }
 
 // MARK: - Funcs
-extension SessionHeaderView {
+extension SessionHV {
     private func setup() {
         addViews()
         setupViews()
@@ -131,7 +131,7 @@ extension SessionHeaderView {
 }
 
 // MARK: - UITextViewDelegate
-extension SessionHeaderView: UITextViewDelegate {
+extension SessionHV: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         customTextViewDelegate?.textViewDidChange(textView, cell: nil)
     }

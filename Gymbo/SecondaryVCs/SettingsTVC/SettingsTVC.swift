@@ -68,8 +68,8 @@ extension SettingsTVC: ViewAdding {
         tableView.delaysContentTouches = false
         tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
-        tableView.register(ExercisesHeaderFooterView.self,
-                           forHeaderFooterViewReuseIdentifier: ExercisesHeaderFooterView.reuseIdentifier)
+        tableView.register(ExercisesHFV.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(SelectionTVCell.self,
                            forCellReuseIdentifier: SelectionTVCell.reuseIdentifier)
     }

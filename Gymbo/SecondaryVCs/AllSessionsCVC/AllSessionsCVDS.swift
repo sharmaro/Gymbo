@@ -63,6 +63,10 @@ extension AllSessionsCVDS {
         }
         self.itemMode = itemMode
     }
+
+    func session(for index: Int) -> Session {
+        items[index]
+    }
 }
 
 // MARK: - UICollectionViewDataSource

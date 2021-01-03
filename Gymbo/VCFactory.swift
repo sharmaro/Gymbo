@@ -15,13 +15,24 @@ struct VCFactory {
 
 // MARK: - Funcs
 extension VCFactory {
-    static func makeAllSessionsCVC(layout: UICollectionViewLayout,
-                                   user: User?) -> AllSessionsCVC {
+    static func makeAllSessionsCVC(
+        layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
+        user: User?) -> AllSessionsCVC {
         let allSessionsCVC = AllSessionsCVC(collectionViewLayout: layout)
         allSessionsCVC.customDataSource = AllSessionsCVDS(
             listDataSource: allSessionsCVC, user: user)
         allSessionsCVC.customDelegate = AllSessionsCVD(listDelegate: allSessionsCVC)
         return allSessionsCVC
+    }
+
+    static func makeAllSessionsDetailTVC(
+        session: Session?) -> AllSessionsDetailTVC {
+        let allSessionsDetailTVC = AllSessionsDetailTVC(style: .grouped)
+        allSessionsDetailTVC.customDataSource = AllSessionsDetailTVDS(
+            listDataSource: allSessionsDetailTVC, session: session)
+        allSessionsDetailTVC.customDelegate = AllSessionsDetailTVD(
+            listDelegate: allSessionsDetailTVC, session: session)
+        return allSessionsDetailTVC
     }
 
     static func makeCreateEditExerciseTVC(
@@ -54,8 +65,9 @@ extension VCFactory {
         return createEditSessionTVC
     }
 
-    static func makeDashboardCVC(layout: UICollectionViewLayout,
-                                 user: User?) -> DashboardCVC {
+    static func makeDashboardCVC(
+        layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
+        user: User?) -> DashboardCVC {
         let dashboardCVC = DashboardCVC(
             collectionViewLayout: layout)
         dashboardCVC.customDataSource = DashboardCVDS(
@@ -174,7 +186,9 @@ extension VCFactory {
         return sessionPreviewTVC
     }
 
-    static func makeSessionsCVC(layout: UICollectionViewLayout) -> SessionsCVC {
+    static func makeSessionsCVC(
+        layout: UICollectionViewLayout = UICollectionViewFlowLayout()
+    ) -> SessionsCVC {
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: layout)
         sessionsCVC.customDataSource = SessionsCVDS(

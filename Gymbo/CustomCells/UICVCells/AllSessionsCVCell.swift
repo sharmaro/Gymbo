@@ -69,6 +69,12 @@ private extension AllSessionsCVCell {
 
 // MARK: - UIView Var/Funcs
 extension AllSessionsCVCell {
+    override var isHighlighted: Bool {
+        didSet {
+            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -13,6 +13,7 @@ class StartedSessionTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
     init(listDelegate: ListDelegate?) {
+        super.init()
         self.listDelegate = listDelegate
     }
 }

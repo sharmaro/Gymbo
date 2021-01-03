@@ -66,7 +66,6 @@ extension DashboardCVC: ViewAdding {
 extension DashboardCVC {
     private func presentAllSessionsCVC() {
         let allSessionsCVC = VCFactory.makeAllSessionsCVC(
-            layout: UICollectionViewFlowLayout(),
             user: customDataSource?.user)
         let mainNC = MainNC(rootVC: allSessionsCVC)
         navigationController?.present(mainNC, animated: true)

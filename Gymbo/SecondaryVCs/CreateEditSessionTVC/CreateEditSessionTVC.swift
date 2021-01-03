@@ -10,7 +10,7 @@ import RealmSwift
 
 // MARK: - Properties
 class CreateEditSessionTVC: UITableViewController {
-    private let tableHeaderView = SessionHeaderView()
+    private let tableHeaderView = SessionHV()
     private var didLayoutTableHeaderView = false
 
     private var realm: Realm? {
@@ -66,8 +66,8 @@ extension CreateEditSessionTVC {
                 self.tableView.tableHeaderView?.layoutIfNeeded()
                 self.tableView.tableHeaderView = self.tableView.tableHeaderView
             }
+            didLayoutTableHeaderView = true
         }
-        didLayoutTableHeaderView = true
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -112,7 +112,6 @@ extension CreateEditSessionTVC: ViewAdding {
                              .dimmedDarkGray : .dynamicBlack
 
         tableHeaderView.configure(dataModel: dataModel)
-        tableHeaderView.isContentEditable = true
         tableHeaderView.customTextViewDelegate = self
     }
 

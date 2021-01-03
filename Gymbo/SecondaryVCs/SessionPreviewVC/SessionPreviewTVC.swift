@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class SessionPreviewTVC: UITableViewController {
-    private let tableHeaderView = SessionHeaderView()
+    private let tableHeaderView = SessionHV()
     private var didLayoutTableHeaderView = false
 
     private let startSessionButton: CustomButton = {
@@ -61,8 +61,8 @@ extension SessionPreviewTVC {
                 self.tableView.tableHeaderView?.layoutIfNeeded()
                 self.tableView.tableHeaderView = self.tableView.tableHeaderView
             }
+            didLayoutTableHeaderView = true
         }
-        didLayoutTableHeaderView = true
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

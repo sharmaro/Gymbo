@@ -16,6 +16,7 @@ class DashboardCVDS: NSObject {
     private weak var listDataSource: ListDataSource?
 
     init(listDataSource: ListDataSource?, user: User?) {
+        super.init()
         self.listDataSource = listDataSource
         self.user = user
     }
