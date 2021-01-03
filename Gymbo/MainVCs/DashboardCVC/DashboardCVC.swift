@@ -71,6 +71,14 @@ extension DashboardCVC {
         let mainNC = MainNC(rootVC: allSessionsCVC)
         navigationController?.present(mainNC, animated: true)
     }
+
+    private func presentAllSessionDaysCVC() {
+        let allSessionDaysCVC = VCFactory.makeAllSessionDaysCVC(
+            user: customDataSource?.user,
+            date: Date())
+        let mainNC = MainNC(rootVC: allSessionDaysCVC)
+        navigationController?.present(mainNC, animated: true)
+    }
 }
 
 // MARK: - ListDataSource
@@ -89,7 +97,7 @@ extension DashboardCVC: ListDelegate {
         case .pastSessions:
             presentAllSessionsCVC()
         case .sessionDays:
-            print(item.rawValue)
+            presentAllSessionDaysCVC()
         }
     }
 }

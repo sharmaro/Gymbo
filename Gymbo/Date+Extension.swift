@@ -10,7 +10,6 @@ import Foundation
 
 extension Date {
     func formattedString(type: SizeType) -> String {
-        let date = Date()
         let dateFormatter = DateFormatter()
         switch type {
         case .short:
@@ -20,7 +19,7 @@ extension Date {
         case .long:
             dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY \nhh:mm:ss a"
         }
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: self)
     }
 
     func isEqual(to date: Date,

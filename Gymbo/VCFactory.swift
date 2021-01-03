@@ -25,6 +25,22 @@ extension VCFactory {
         return allSessionsCVC
     }
 
+    static func makeAllSessionDaysCVC(
+        layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
+        user: User?,
+        date: Date
+    ) -> AllSessionDaysCVC {
+        let allSessionDaysCVC = AllSessionDaysCVC(
+            collectionViewLayout: layout)
+        allSessionDaysCVC.customDataSource = AllSessionDaysCVDS(
+            listDataSource: allSessionDaysCVC,
+            user: user,
+            date: date)
+        allSessionDaysCVC.customDelegate = AllSessionDaysCVD(
+            listDelegate: allSessionDaysCVC)
+        return allSessionDaysCVC
+    }
+
     static func makeAllSessionsDetailTVC(
         session: Session?) -> AllSessionsDetailTVC {
         let allSessionsDetailTVC = AllSessionsDetailTVC(style: .grouped)

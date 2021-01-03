@@ -24,9 +24,6 @@ class DashboardCVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension DashboardCVDS {
-    private struct Constants {
-    }
-
     enum Item: String, CaseIterable {
         case pastSessions = "All Sessions"
         case sessionDays = "Session Days"

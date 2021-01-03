@@ -49,9 +49,6 @@ extension User {
                 }) {
                     dates.append(completedDate)
                 }
-                if dates.count == 10 {
-                    return dates
-                }
             }
         }
         return dates
@@ -91,6 +88,17 @@ extension User {
             }
             allSessions.insert(session, at: 0)
         }
+    }
+
+    func sessions(for date: Date) -> [Session] {
+        var sessions = [Session]()
+        for session in allSessions {
+            if session.dateCompleted?
+            .isSameCalendarDate(as: date) ?? false {
+                sessions.append(session)
+            }
+        }
+        return sessions
     }
 
     func firstTimeLoadComplete() {

@@ -22,8 +22,7 @@ class AllSessionsCVCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.medium.bold
-        label.minimumScaleFactor = 0.5
-        label.adjustsFontSizeToFitWidth = true
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -115,8 +114,7 @@ extension AllSessionsCVCell: ViewAdding {
 
         [dateLabel, firstExerciseLabel].forEach {
             $0.font = UIFont.normal.light
-            $0.minimumScaleFactor = 0.5
-            $0.adjustsFontSizeToFitWidth = true
+            $0.lineBreakMode = .byTruncatingTail
         }
     }
 
