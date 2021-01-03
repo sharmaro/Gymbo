@@ -17,19 +17,12 @@ class AllSessionsDetailTVC: UITableViewController {
     var customDelegate: AllSessionsDetailTVD?
 }
 
-// MARK: - Structs/Enums
-private extension AllSessionsDetailTVC {
-    struct Constants {
-    }
-}
-
 // MARK: - UIViewController Var/Funcs
 extension AllSessionsDetailTVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
-        addViews()
         setupViews()
         setupColors()
         addConstraints()
@@ -62,9 +55,6 @@ extension AllSessionsDetailTVC: ViewAdding {
         title = "Session Details"
     }
 
-    func addViews() {
-    }
-
     func setupViews() {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
@@ -93,10 +83,6 @@ extension AllSessionsDetailTVC: ViewAdding {
             tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor)
         ])
     }
-}
-
-// MARK: - Funcs
-extension AllSessionsDetailTVC {
 }
 
 // MARK: ListDataSource

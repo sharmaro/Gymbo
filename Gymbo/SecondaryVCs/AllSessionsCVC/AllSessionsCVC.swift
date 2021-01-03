@@ -16,22 +16,14 @@ class AllSessionsCVC: UICollectionViewController {
     var customDelegate: AllSessionsCVD?
 }
 
-// MARK: - Structs/Enums
-private extension AllSessionsCVC {
-    struct Constants {
-    }
-}
-
 // MARK: - UIViewController Var/Funcs
 extension AllSessionsCVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
-        addViews()
         setupViews()
         setupColors()
-        addConstraints()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -51,9 +43,6 @@ extension AllSessionsCVC: ViewAdding {
                                                            action: #selector(closeButtonTapped))
     }
 
-    func addViews() {
-    }
-
     func setupViews() {
         let items = customDataSource?.segmentedControlItems
         segmentedControl = UISegmentedControl(items: items ?? [])
@@ -71,9 +60,6 @@ extension AllSessionsCVC: ViewAdding {
 
     func setupColors() {
         [view, collectionView].forEach { $0.backgroundColor = .dynamicWhite }
-    }
-
-    func addConstraints() {
     }
 }
 

@@ -45,9 +45,6 @@ class AllSessionsCVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension AllSessionsCVDS {
-    private struct Constants {
-    }
-
     enum ItemMode: Int {
         case all
         case canceled
