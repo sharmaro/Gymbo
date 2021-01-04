@@ -12,26 +12,47 @@ import RealmSwift
 class StartedSessionTimers: NSObject {
     var sessionSeconds = 0 {
         didSet {
-            startedSessionTimerDelegate?.sessionSecondsUpdated()
+            guard let timerDelegates = startedSessionTimerDelegates else {
+                return
+            }
+            timerDelegates.forEach { $0.sessionSecondsUpdated() }
         }
     }
 
     var totalRestTime = 0 {
         didSet {
-            startedSessionTimerDelegate?.totalRestTimeUpdated()
+            guard let timerDelegates = startedSessionTimerDelegates else {
+                return
+            }
+            timerDelegates.forEach { $0.totalRestTimeUpdated() }
         }
     }
 
     var restTimeRemaining = 0 {
         didSet {
-            startedSessionTimerDelegate?.restTimeRemainingUpdated()
+            guard let timerDelegates = startedSessionTimerDelegates else {
+                return
+            }
+            timerDelegates.forEach { $0.restTimeRemainingUpdated() }
         }
     }
 
     var sessionTimer: Timer?
     var restTimer: Timer?
 
-    weak var startedSessionTimerDelegate: StartedSessionTimerDelegate?
+    var startedSessionTimerDelegates: [StartedSessionTimerDelegate]?
+
+    init(timerDelegate: StartedSessionTimerDelegate?) {
+        guard let timerDelegate = timerDelegate else {
+            return
+        }
+
+        if startedSessionTimerDelegates == nil {
+            startedSessionTimerDelegates = [timerDelegate]
+        } else {
+            startedSessionTimerDelegates?.append(timerDelegate)
+        }
+    }
 
     private let defaults = UserDefaults.standard
 }
@@ -58,7 +79,11 @@ extension StartedSessionTimers {
         if restTimeRemaining <= 0 {
             Haptic.sendNotificationFeedback(.success)
             restTimer?.invalidate()
-            startedSessionTimerDelegate?.restTimerEnded()
+
+            guard let timerDelegates = startedSessionTimerDelegates else {
+                return
+            }
+            timerDelegates.forEach { $0.restTimerEnded() }
         }
     }
 
@@ -81,7 +106,10 @@ extension StartedSessionTimers {
                 restTimeRemaining = newTimeRemaining
 
                 startRestTimer()
-                startedSessionTimerDelegate?.resumeRestTimer()
+                guard let timerDelegates = startedSessionTimerDelegates else {
+                    return
+                }
+                timerDelegates.forEach { $0.resumeRestTimer() }
             }
         }
         startSessionTimer()
@@ -113,7 +141,11 @@ extension StartedSessionTimers {
     func startedRestTimer(totalTime: Int) {
         totalRestTime = totalTime
         restTimeRemaining = totalTime
-        startedSessionTimerDelegate?.restTimerStarted()
+
+        guard let timerDelegates = startedSessionTimerDelegates else {
+            return
+        }
+        timerDelegates.forEach { $0.restTimerStarted() }
         startRestTimer()
     }
 
@@ -132,7 +164,10 @@ extension StartedSessionTimers {
 
     func stopRestTimer() {
         restTimer?.invalidate()
-        startedSessionTimerDelegate?.restTimerEnded()
+        guard let timerDelegates = startedSessionTimerDelegates else {
+            return
+        }
+        timerDelegates.forEach { $0.restTimerEnded() }
     }
 
     func invalidateAll() {

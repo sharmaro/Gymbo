@@ -214,7 +214,9 @@ extension ExercisesTVDS {
     }
 
     func removeLastDS() {
-        listDataSources?.removeLast()
+        if !(listDataSources?.isEmpty ?? true) {
+            listDataSources?.removeLast()
+        }
     }
 
     func prepareForReuse(newListDataSource: ListDataSource?) {

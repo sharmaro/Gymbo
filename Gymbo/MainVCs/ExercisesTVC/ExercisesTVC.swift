@@ -74,6 +74,12 @@ extension ExercisesTVC {
         super.viewDidDisappear(animated)
 
         didViewAppear = false
+        /*
+         - Because the DS is reused
+         - It's important to remove the last one when the VC is dismissed
+         - so there's no retain cycle
+         */
+        customDataSource?.removeLastDS()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -227,12 +233,6 @@ extension ExercisesTVC {
 
     @objc private func closeButtonTapped() {
         Haptic.sendSelectionFeedback()
-        /*
-         - Because the DS is reused
-         - It's important to remove the last one when the VC is dismissed
-         - so there's no retain cycle
-         */
-        customDataSource?.removeLastDS()
         navigationController?.dismiss(animated: true)
     }
 
