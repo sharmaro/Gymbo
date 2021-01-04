@@ -10,6 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class AllSessionsCVCell: UICollectionViewCell {
+    private var indexLabel = UILabel()
+
     private var containerVStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -30,14 +32,13 @@ class AllSessionsCVCell: UICollectionViewCell {
 
     private var labelsHStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
         stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
 
-    private let imageAndTimeView = ImageAndLabelView()
+    private let imageAndDurationView = ImageAndLabelView()
     private let imageAndWeightView = ImageAndLabelView()
 
     private var exerciseTitleLabel: UILabel = {
@@ -62,10 +63,6 @@ class AllSessionsCVCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Structs/Enums
-private extension AllSessionsCVCell {
-}
-
 // MARK: - UIView Var/Funcs
 extension AllSessionsCVCell {
     override var isHighlighted: Bool {
@@ -77,12 +74,13 @@ extension AllSessionsCVCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        nameLabel.text?.removeAll()
-        dateLabel.text?.removeAll()
-        imageAndTimeView.imageView.image = nil
-        imageAndTimeView.label.text?.removeAll()
-        imageAndWeightView.imageView.image = nil
-        imageAndWeightView.label.text?.removeAll()
+        [indexLabel, nameLabel, dateLabel].forEach {
+            $0.text?.removeAll()
+        }
+        [imageAndDurationView, imageAndWeightView].forEach {
+            $0.imageView.image = nil
+            $0.label.text?.removeAll()
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -95,16 +93,15 @@ extension AllSessionsCVCell {
 // MARK: - ViewAdding
 extension AllSessionsCVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [containerVStack])
-
-        [imageAndTimeView, imageAndWeightView].forEach {
+        contentView.add(subviews: [indexLabel, containerVStack])
+        [imageAndDurationView, imageAndWeightView].forEach {
             labelsHStackView.addArrangedSubview($0)
         }
 
         [nameLabel, dateLabel, labelsHStackView,
          exerciseTitleLabel, firstExerciseLabel].forEach {
             containerVStack.addArrangedSubview($0)
-         }
+        }
     }
 
     func setupViews() {
@@ -112,6 +109,7 @@ extension AllSessionsCVCell: ViewAdding {
         contentView.addBorder(1, color: .dynamicDarkGray)
         contentView.addShadow(direction: .downRight)
 
+        indexLabel.font = UIFont.medium.semibold
         [dateLabel, firstExerciseLabel].forEach {
             $0.font = UIFont.normal.light
             $0.lineBreakMode = .byTruncatingTail
@@ -124,7 +122,7 @@ extension AllSessionsCVCell: ViewAdding {
         contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
         contentView.backgroundColor = .dynamicWhite
 
-        [nameLabel, dateLabel, exerciseTitleLabel,
+        [indexLabel, nameLabel, dateLabel, exerciseTitleLabel,
          firstExerciseLabel].forEach {
             $0.textColor = .dynamicBlack
         }
@@ -132,14 +130,15 @@ extension AllSessionsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            containerVStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            containerVStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                     constant: 15),
-            containerVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                      constant: -15),
+            indexLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            indexLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                constant: 15),
+            indexLabel.trailingAnchor.constraint(equalTo: containerVStack.leadingAnchor,
+                                                constant: -15),
 
-            labelsHStackView.leadingAnchor.constraint(equalTo: containerVStack.leadingAnchor),
-            labelsHStackView.trailingAnchor.constraint(equalTo: containerVStack.trailingAnchor)
+            containerVStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            containerVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                      constant: -15)
         ])
     }
 }
@@ -157,10 +156,10 @@ extension AllSessionsCVCell {
         let timeString = session.sessionSeconds.neatTimeString
         let timeImage = UIImage(named: "stopwatch")?
             .withRenderingMode(.alwaysTemplate)
-        imageAndTimeView.imageView.image = timeImage
-        imageAndTimeView.imageView.tintColor = .dynamicBlack
-        imageAndTimeView.label.text = timeString
-        imageAndTimeView.label.font = UIFont.normal.light
+        imageAndDurationView.imageView.image = timeImage
+        imageAndDurationView.imageView.tintColor = .dynamicBlack
+        imageAndDurationView.label.text = timeString
+        imageAndDurationView.label.font = UIFont.normal.light
 
         let weightText = "\(session.totalWeight) lbs"
         let weightImage = UIImage(named: "dumbbell")?
@@ -171,7 +170,9 @@ extension AllSessionsCVCell {
         imageAndWeightView.label.font = UIFont.normal.light
     }
 
-    func configure(session: Session) {
+    func configure(index: Int, session: Session) {
+        indexLabel.text = "\(index)"
+        indexLabel.sizeToFit()
         nameLabel.text = session.name
         dateLabel.text = session.dateCompleted?.formattedString(type: .medium)
 

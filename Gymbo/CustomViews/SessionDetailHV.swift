@@ -13,7 +13,8 @@ class SessionDetailHV: UIView {
     private let firstTextLabel = UILabel()
     private let secondTextLabel = UILabel()
     private let dateLabel = UILabel()
-    private let imageAndTimeView = ImageAndLabelView()
+    private let timeLabel = UILabel()
+    private let imageAndDurationView = ImageAndLabelView()
     private let imageAndWeightView = ImageAndLabelView()
 
     override init(frame: CGRect) {
@@ -40,11 +41,12 @@ extension SessionDetailHV {
 extension SessionDetailHV: ViewAdding {
     func addViews() {
         add(subviews: [firstTextLabel, secondTextLabel, dateLabel,
-                       imageAndTimeView, imageAndWeightView])
+                       timeLabel, imageAndDurationView,
+                       imageAndWeightView])
     }
 
     func setupViews() {
-        [firstTextLabel, secondTextLabel, dateLabel].forEach {
+        [firstTextLabel, secondTextLabel, dateLabel, timeLabel].forEach {
             $0.textColor = .dynamicBlack
             $0.numberOfLines = 0
         }
@@ -52,6 +54,7 @@ extension SessionDetailHV: ViewAdding {
         firstTextLabel.font = UIFont.xLarge.medium
         secondTextLabel.font = UIFont.medium.medium
         dateLabel.font = UIFont.normal.light
+        timeLabel.font = UIFont.normal.light
     }
 
     func setupColors() {
@@ -79,18 +82,25 @@ extension SessionDetailHV: ViewAdding {
                                                       constant: 16),
             dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
                                                        constant: -20),
-            dateLabel.bottomAnchor.constraint(equalTo: imageAndTimeView.topAnchor,
+            dateLabel.bottomAnchor.constraint(equalTo: timeLabel.topAnchor,
                                               constant: -2),
 
-            imageAndTimeView.leadingAnchor.constraint(equalTo: leadingAnchor,
+            timeLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                       constant: 16),
-            imageAndTimeView.trailingAnchor.constraint(equalTo: imageAndWeightView.leadingAnchor,
+            timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                       constant: -20),
+            timeLabel.bottomAnchor.constraint(equalTo: imageAndDurationView.topAnchor,
+                                              constant: -2),
+            timeLabel.bottomAnchor.constraint(equalTo: imageAndWeightView.topAnchor,
+                                              constant: -2),
+
+            imageAndDurationView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                      constant: 16),
+            imageAndDurationView.trailingAnchor.constraint(equalTo: imageAndWeightView.leadingAnchor,
                                                        constant: -10),
-            imageAndTimeView.bottomAnchor.constraint(equalTo: bottomAnchor,
+            imageAndDurationView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                      constant: -10),
 
-            imageAndWeightView.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                       constant: -20),
             imageAndWeightView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                        constant: -10)
         ])
@@ -107,10 +117,10 @@ extension SessionDetailHV {
     }
 
     private func setupImageAndLabelViews(dataModel: SessionDetailHeaderModel) {
-        imageAndTimeView.imageView.image = dataModel.firstImage
-        imageAndTimeView.imageView.tintColor = .dynamicBlack
-        imageAndTimeView.label.text = dataModel.firstImageText
-        imageAndTimeView.label.font = UIFont.normal.light
+        imageAndDurationView.imageView.image = dataModel.firstImage
+        imageAndDurationView.imageView.tintColor = .dynamicBlack
+        imageAndDurationView.label.text = dataModel.firstImageText
+        imageAndDurationView.label.font = UIFont.normal.light
 
         imageAndWeightView.imageView.image = dataModel.secondImage
         imageAndWeightView.imageView.tintColor = .dynamicBlack
@@ -121,7 +131,9 @@ extension SessionDetailHV {
     func configure(dataModel: SessionDetailHeaderModel) {
         firstTextLabel.text = dataModel.firstText
         secondTextLabel.text = dataModel.secondText
-        dateLabel.text = dataModel.dateText
+        let dateText = dataModel.dateText?.components(separatedBy: "\n")
+        dateLabel.text = dateText?.first ?? ""
+        timeLabel.text = dateText?.last ?? ""
         setupImageAndLabelViews(dataModel: dataModel)
     }
 }

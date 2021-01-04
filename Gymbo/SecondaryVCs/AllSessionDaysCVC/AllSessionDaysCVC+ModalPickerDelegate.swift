@@ -11,6 +11,6 @@ import Foundation
 extension AllSessionDaysCVC: ModalPickerDelegate {
     func selected(row: Int) {
         customDataSource?.selected(index: row)
-        collectionView.reloadData()
+        collectionView.reloadAndScrollToTop()
     }
 }

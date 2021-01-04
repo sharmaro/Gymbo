@@ -77,7 +77,7 @@ extension AllSessionsCVDS: UICollectionViewDataSource {
         }
 
         let session = items[indexPath.row]
-        cell.configure(session: session)
+        cell.configure(index: indexPath.row + 1, session: session)
         return cell
     }
 }

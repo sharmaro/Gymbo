@@ -17,7 +17,7 @@ extension Date {
         case .medium:
             dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY"
         case .long:
-            dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY \nhh:mm:ss a"
+            dateFormatter.dateFormat = "EEEE, MMMM dd, YYYY\nhh:mm:ss a"
         }
         return dateFormatter.string(from: self)
     }
