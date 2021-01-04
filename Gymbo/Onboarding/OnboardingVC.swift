@@ -52,7 +52,7 @@ class OnboardingVC: UIViewController {
     }()
 
     private var onboardingStepIndex = -1
-    private let onboardingSteps = OnboardingStep.defaultOrder
+    private let onboardingSteps = OnboardingStep.allCases
 
     private var currentOnboardingStep: OnboardingStep {
         onboardingSteps[onboardingStepIndex]
@@ -219,12 +219,14 @@ extension OnboardingVC {
         switch currentOnboardingStep {
         case .profileTab:
             index = 0
-        case .exercisesTab:
+        case .dashboardTab:
             index = 1
         case .sessionsTab:
             index = 2
-        case .stopwatchTab:
+        case .exercisesTab:
             index = 3
+        case .stopwatchTab:
+            index = 4
         default:
             return
         }
