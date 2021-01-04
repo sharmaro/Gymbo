@@ -131,7 +131,6 @@ extension ExerciseHeaderTVCell: ViewAdding {
         }
 
         weightButton.addTarget(self, action: #selector(weightButtonTapped), for: .touchUpInside)
-
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 

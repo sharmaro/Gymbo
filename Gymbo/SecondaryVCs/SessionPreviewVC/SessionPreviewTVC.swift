@@ -157,7 +157,8 @@ extension SessionPreviewTVC {
         }
         Haptic.sendSelectionFeedback()
 
-        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(session: session,
+        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(user: sessionsCVDS?.user,
+                                                                      session: session,
                                                                       state: .edit,
                                                                       exercisesTVDS: exercisesTVDS)
         createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self

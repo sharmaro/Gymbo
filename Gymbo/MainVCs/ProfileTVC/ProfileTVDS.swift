@@ -10,7 +10,7 @@ import RealmSwift
 
 // MARK: - Properties
 class ProfileTVDS: NSObject {
-    private var user: User?
+    var user: User?
 
     private let items: [[Item]] = [
         [.profileTitle],

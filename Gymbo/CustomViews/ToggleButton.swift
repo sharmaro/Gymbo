@@ -11,8 +11,7 @@ import UIKit
 // MARK: - Properties
 class ToggleButton: CustomButton {
     private var itemIndex = 0
-
-    var items: [String]
+    private var items: [String]
 
     init(items: [String], frame: CGRect = .zero) {
         self.items = items

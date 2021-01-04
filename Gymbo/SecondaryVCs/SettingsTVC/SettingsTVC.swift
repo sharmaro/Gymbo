@@ -81,10 +81,10 @@ extension SettingsTVC: ViewAdding {
 
 // MARK: - Funcs
 extension SettingsTVC {
-    private func presentSelectionTVC(with item: SettingsTVDS.Item) {
+    private func presentSelectionTVC(with item: SettingsItem) {
         let selectionTVC = VCFactory.makeSelectionTVC(items: item.selectionItems,
                                                       selected: item.value,
-                                                      title: item.rawValue,
+                                                      title: item.title,
                                                       delegate: self)
         navigationController?.pushViewController(selectionTVC, animated: true)
     }
@@ -126,9 +126,10 @@ extension SettingsTVC: ListDelegate {
         Haptic.sendSelectionFeedback()
 
         let item = customDataSource.item(at: indexPath)
+        let settingsItem = customDataSource.settingsItem(from: item)
         switch item {
-        case .theme:
-            presentSelectionTVC(with: item)
+        case .theme, .weight:
+            presentSelectionTVC(with: settingsItem)
         case .contactUs:
             contactUsSelected()
         }
@@ -145,7 +146,9 @@ extension SettingsTVC: SelectionDelegate {
         }
 
         let tableItem = customDataSource.item(at: indexPath)
-        guard tableItem.value != item else {
+
+        let settingsItem = customDataSource.settingsItem(from: tableItem)
+        guard settingsItem.value != item else {
             customDataSource.didUpdateSelection = false
             customDataSource.selectedIndexPath = nil
             return
@@ -157,6 +160,8 @@ extension SettingsTVC: SelectionDelegate {
                 fatalError("Incorrect raw value used to initialize UserInterfaceMode.")
             }
             UserInterfaceMode.setUserInterfaceMode(with: mode)
+        case .weight:
+            customDataSource.selectedWeight(settingsText: item)
         case .contactUs:
             break
         }

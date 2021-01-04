@@ -21,6 +21,17 @@ enum WeightType: Int, CaseIterable {
         }
     }
 
+    var settingsText: String {
+        let response: String
+        switch self {
+        case .lbs:
+            response = "US/Imperial (\(text))"
+        case .kgs:
+            response = "Metric (\(text))"
+        }
+        return response
+    }
+
     static var textItems: [String] {
         WeightType.allCases.map {
             $0.text
@@ -36,5 +47,15 @@ enum WeightType: Int, CaseIterable {
         default:
             return -1
         }
+    }
+
+    static func rawValue(from settingsText: String) -> Int {
+        var response = 0
+        if settingsText == WeightType.lbs.settingsText {
+            response = 0
+        } else if settingsText == WeightType.kgs.settingsText {
+            response = 1
+        }
+        return response
     }
 }

@@ -124,7 +124,8 @@ extension ProfileTVC {
     @objc private func settingsButtonTapped() {
         Haptic.sendSelectionFeedback()
 
-        let settingsTVC = VCFactory.makeSettingsTVC(style: .grouped)
+        let settingsTVC = VCFactory.makeSettingsTVC(style: .grouped,
+                                                    user: customDataSource?.user)
         let navigationController = MainNC(rootVC: settingsTVC)
         self.navigationController?.present(navigationController, animated: true)
     }

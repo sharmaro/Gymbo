@@ -14,23 +14,26 @@ class SessionsCVDS: NSObject {
         try? Realm()
     }
 
+    private var sessionsList: SessionsList? {
+        realm?.objects(SessionsList.self).first
+    }
+
+    private weak var listDataSource: ListDataSource?
+
+    var user: User?
+
     var dataState = DataState.notEditing {
         didSet {
             listDataSource?.dataStateChanged()
         }
     }
 
-    private var sessionsList: SessionsList? {
-        realm?.objects(SessionsList.self).first
-    }
-
     var isEmpty: Bool {
         sessionsList?.sessions.isEmpty ?? true
     }
 
-    private weak var listDataSource: ListDataSource?
-
-    init(listDataSource: ListDataSource?) {
+    init(listDataSource: ListDataSource?, user: User?) {
+        self.user = user
         super.init()
 
         self.listDataSource = listDataSource

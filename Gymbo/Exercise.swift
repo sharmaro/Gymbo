@@ -21,6 +21,7 @@ import RealmSwift
     // User-related exercise information
     dynamic var weightType = 0
     dynamic var sets = 1
+    dynamic var didSetWeightType = false
     var exerciseDetails = List<ExerciseDetails>()
 
     // Helpers

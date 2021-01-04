@@ -17,6 +17,7 @@ import RealmSwift
     dynamic var age: String?
     dynamic var weight: String?
     dynamic var height: String?
+    dynamic var preferredWeightType = 0
 
     // Additional Info
     dynamic var isFirstTimeLoad = true

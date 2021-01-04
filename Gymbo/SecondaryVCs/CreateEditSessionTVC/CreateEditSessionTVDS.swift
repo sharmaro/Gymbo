@@ -15,6 +15,8 @@ class CreateEditSessionTVDS: NSObject {
     var previousExerciseDetailInformation: (reps: String?, weight: String?) = ("", "")
     var didAddSet = false
 
+    private var user: User?
+
     private var realm: Realm? {
         try? Realm()
     }
@@ -23,7 +25,8 @@ class CreateEditSessionTVDS: NSObject {
 
     private weak var listDataSource: ListDataSource?
 
-    init(listDataSource: ListDataSource?) {
+    init(listDataSource: ListDataSource?, user: User?) {
+        self.user = user
         super.init()
 
         self.listDataSource = listDataSource
@@ -51,9 +54,18 @@ extension CreateEditSessionTVDS {
             fatalError("Could not dequeue \(ExerciseHeaderTVCell.reuseIdentifier)")
         }
 
+        let exercise = session.exercises[indexPath.section]
         var dataModel = ExerciseHeaderTVCellModel()
-        dataModel.name = session.exercises[indexPath.section].name
-        dataModel.weightType = session.exercises[indexPath.section].weightType
+        dataModel.name = exercise.name
+        if sessionState == .create, !exercise.didSetWeightType {
+            let rawWeightType = user?
+                .preferredWeightType ?? 0
+            dataModel.weightType = rawWeightType
+            updateExerciseWeightTypeRealm(at: indexPath.section,
+                                          weightType: rawWeightType)
+        } else {
+            dataModel.weightType = exercise.weightType
+        }
         dataModel.isDoneButtonImageHidden = true
 
         exerciseHeaderTVCell.configure(dataModel: dataModel)
@@ -202,9 +214,9 @@ extension CreateEditSessionTVDS {
     }
 
     func saveSession(name: String?, info: String?) {
-        let sessionToInteractWith = Session(name: name,
-                                            info: info,
-                                            exercises: session.exercises)
+        let sessionToInteractWith = session.safeCopy
+        sessionToInteractWith.name = name
+        sessionToInteractWith.info = info
         if sessionState == .create {
             sessionDataModelDelegate?.create(sessionToInteractWith,
                                              completion: { _ in
@@ -220,6 +232,7 @@ extension CreateEditSessionTVDS {
     func updateExerciseWeightTypeRealm(at index: Int, weightType: Int) {
         if sessionState == .create {
             session.exercises[index].weightType = weightType
+            session.exercises[index].didSetWeightType = true
         } else {
             try? realm?.write {
                 session.exercises[index].weightType = weightType

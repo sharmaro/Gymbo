@@ -66,14 +66,15 @@ extension VCFactory {
         return createEditExerciseTVC
     }
 
-    static func makeCreateEditSessionTVC(session: Session = Session(),
+    static func makeCreateEditSessionTVC(user: User?,
+                                         session: Session = Session(),
                                          state: SessionState,
                                          exercisesTVDS: ExercisesTVDS?
     ) -> CreateEditSessionTVC {
         let createEditSessionTVC = CreateEditSessionTVC()
         createEditSessionTVC.exercisesTVDS = exercisesTVDS
         createEditSessionTVC.customDataSource = CreateEditSessionTVDS(
-            listDataSource: createEditSessionTVC)
+            listDataSource: createEditSessionTVC, user: user)
         createEditSessionTVC.customDataSource?.session = session
         createEditSessionTVC.customDataSource?.sessionState = state
         createEditSessionTVC.customDelegate = CreateEditSessionTVD(
@@ -204,20 +205,23 @@ extension VCFactory {
     }
 
     static func makeSessionsCVC(
-        layout: UICollectionViewLayout = UICollectionViewFlowLayout()
+        layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
+        user: User?
     ) -> SessionsCVC {
         let sessionsCVC = SessionsCVC(
             collectionViewLayout: layout)
         sessionsCVC.customDataSource = SessionsCVDS(
-            listDataSource: sessionsCVC)
+            listDataSource: sessionsCVC,
+            user: user)
         sessionsCVC.customDelegate = SessionsCVD(
             listDelegate: sessionsCVC)
         return sessionsCVC
     }
 
-    static func makeSettingsTVC(style: UITableView.Style) -> SettingsTVC {
+    static func makeSettingsTVC(style: UITableView.Style,
+                                user: User?) -> SettingsTVC {
         let settingsTVC = SettingsTVC(style: style)
-        settingsTVC.customDataSource = SettingsTVDS()
+        settingsTVC.customDataSource = SettingsTVDS(user: user)
         settingsTVC.customDelegate = SettingsTVD(
             listDelegate: settingsTVC)
         return settingsTVC

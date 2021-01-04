@@ -120,8 +120,10 @@ extension SessionsCVC {
 
     @objc private func addSessionButtonTapped() {
         Haptic.sendSelectionFeedback()
-        let createEditSessionTVC = VCFactory.makeCreateEditSessionTVC(state: .create,
-                                                                      exercisesTVDS: exercisesTVDS)
+        let createEditSessionTVC = VCFactory
+            .makeCreateEditSessionTVC(user: customDataSource?.user,
+                                      state: .create,
+                                      exercisesTVDS: exercisesTVDS)
         createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTVC, animated: true)
     }
