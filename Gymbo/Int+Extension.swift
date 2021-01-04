@@ -33,7 +33,8 @@ extension Int {
             response = "\(minutes)m \(seconds)s"
         } else {
             let hours = self / 3600
-            let minutes = self / 7200
+            let minutesInSeconds = self % 3600
+            let minutes = minutesInSeconds / 60
             response = "\(hours)h \(minutes)m"
         }
         return response

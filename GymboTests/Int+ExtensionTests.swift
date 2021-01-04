@@ -43,4 +43,18 @@ class Int_ExtensionTests: XCTestCase {
         formattedText = 130.minutesAndSecondsString
         XCTAssertEqual(formattedText, "02:10")
     }
+
+    func testNeatTimeString() {
+        let time1 = 120
+        var formatted = time1.neatTimeString
+        XCTAssertEqual("2m 0s", formatted)
+
+        let time2 = 50
+        formatted = time2.neatTimeString
+        XCTAssertEqual("50s", formatted)
+
+        let time3 = 8888
+        formatted = time3.neatTimeString
+        XCTAssertEqual("2h 28m", formatted)
+    }
 }
