@@ -590,7 +590,6 @@
 		695D4BD622CB28B800E3FB1F = {
 			isa = PBXGroup;
 			children = (
-				694DE8ED259D694200F1A512 /* CreateEditExerciseTVC+ListDataSource.swift */,
 				695D4BE122CB28B800E3FB1F /* Gymbo */,
 				69C6BD23256A725C00B247C7 /* GymboTests */,
 				695D4BE022CB28B800E3FB1F /* Products */,
@@ -907,6 +906,7 @@
 				69AD4832259AEFE00092311D /* CreateEditExerciseTVDS.swift */,
 				69AD4838259AEFEB0092311D /* CreateEditExerciseTVD.swift */,
 				694DE8E9259D691100F1A512 /* CreateEditExerciseTVC+CustomTextViewDelegate.swift */,
+				694DE8ED259D694200F1A512 /* CreateEditExerciseTVC+ListDataSource.swift */,
 			);
 			path = CreateEditExerciseTVC;
 			sourceTree = "<group>";
