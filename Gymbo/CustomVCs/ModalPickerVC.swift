@@ -161,6 +161,7 @@ extension ModalPickerVC {
         guard sender is CustomButton else {
             return
         }
+        Haptic.sendSelectionFeedback()
 
         delegate?.canceledSelection()
         dismiss(animated: true)
@@ -170,6 +171,7 @@ extension ModalPickerVC {
         guard sender is CustomButton else {
             return
         }
+        Haptic.sendSelectionFeedback()
 
         let row = pickerView.selectedRow(inComponent: 0)
         delegate?.selected(row: row)

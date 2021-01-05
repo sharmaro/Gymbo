@@ -55,7 +55,8 @@ extension ProfileTVD: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+        guard section > 0,
+              let headerView = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: ExercisesHFV.reuseIdentifier) as? ExercisesHFV else {
             return nil
         }

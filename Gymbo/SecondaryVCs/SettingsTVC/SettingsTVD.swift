@@ -30,12 +30,12 @@ private extension SettingsTVD {
 extension SettingsTVD: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0 : Constants.headerHeight
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
     }
 
     func tableView(_ tableView: UITableView,
                    heightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0 : Constants.headerHeight
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
     }
 
     func tableView(_ tableView: UITableView,

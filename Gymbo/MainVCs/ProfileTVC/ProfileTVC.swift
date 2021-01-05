@@ -75,6 +75,7 @@ extension ProfileTVC: ViewAdding {
 
         tableView.allowsSelection = false
         tableView.keyboardDismissMode = .interactive
+        tableView.sectionFooterHeight = 0
         tableView.tableFooterView = UIView()
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)

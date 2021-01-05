@@ -156,8 +156,9 @@ extension VCFactory {
         return onboardingVC
     }
 
-    static func makeProfileTVC(user: User?) -> ProfileTVC {
-        let profileTVC = ProfileTVC()
+    static func makeProfileTVC(style: UITableView.Style,
+                               user: User?) -> ProfileTVC {
+        let profileTVC = ProfileTVC(style: style)
         profileTVC.customDataSource = ProfileTVDS(
             listDataSource: profileTVC,
             user: user)

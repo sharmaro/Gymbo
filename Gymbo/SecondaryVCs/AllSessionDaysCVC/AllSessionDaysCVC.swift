@@ -112,3 +112,12 @@ extension AllSessionDaysCVC: ListDelegate {
         navigationController?.pushViewController(allSessionsDetailTVC, animated: true)
     }
 }
+
+// MARK: - ModalPickerDelegate
+extension AllSessionDaysCVC: ModalPickerDelegate {
+    func selected(row: Int) {
+        customDataSource?.selected(index: row)
+        dateButton.title = customDataSource?.date.formattedString(type: .short) ?? ""
+        collectionView.reloadAndScrollToTop()
+    }
+}

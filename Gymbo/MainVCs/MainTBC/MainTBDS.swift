@@ -97,7 +97,8 @@ extension MainTBDS {
     }
 
     private func setupVCs() {
-        let profileTVC = VCFactory.makeProfileTVC(user: user)
+        let profileTVC = VCFactory.makeProfileTVC(style: .grouped,
+                                                  user: user)
         // Need to initialize a UICollectionView with a UICollectionViewLayout
         let dashboardCVC = VCFactory.makeDashboardCVC(
             user: user)

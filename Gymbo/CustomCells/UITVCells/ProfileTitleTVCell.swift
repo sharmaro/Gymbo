@@ -134,6 +134,11 @@ extension ProfileTitleTVCell {
 
     func update(image: UIImage? = nil) {
         let updatedImage = image == nil ? defaultImage : image
-        profileImageButton.setImage(updatedImage, for: .normal)
+        UIView.transition(with: profileImageButton,
+                          duration: .defaultAnimationTime,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in
+            self?.profileImageButton.setImage(updatedImage, for: .normal)
+        })
     }
 }
