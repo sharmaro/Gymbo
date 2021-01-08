@@ -205,6 +205,7 @@
 		69DF280E259BEA5A00BDF65B /* SettingsTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF280D259BEA5A00BDF65B /* SettingsTVDS.swift */; };
 		69DF2814259BEA6500BDF65B /* SettingsTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF2813259BEA6500BDF65B /* SettingsTVD.swift */; };
 		69DF587725A824E100F9E2CC /* CellLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF587625A824E100F9E2CC /* CellLocation.swift */; };
+		69DF588525A8361600F9E2CC /* RoundedCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DF588425A8361600F9E2CC /* RoundedCVCell.swift */; };
 		69E3B47D249B331800E4DD99 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B47C249B331800E4DD99 /* NotificationHelper.swift */; };
 		69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */; };
 		69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */; };
@@ -436,6 +437,7 @@
 		69DF280D259BEA5A00BDF65B /* SettingsTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVDS.swift; sourceTree = "<group>"; };
 		69DF2813259BEA6500BDF65B /* SettingsTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVD.swift; sourceTree = "<group>"; };
 		69DF587625A824E100F9E2CC /* CellLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellLocation.swift; sourceTree = "<group>"; };
+		69DF588425A8361600F9E2CC /* RoundedCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCVCell.swift; sourceTree = "<group>"; };
 		69E3B47C249B331800E4DD99 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		69E3B481249F03D500E4DD99 /* ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataModelDelegate.swift; sourceTree = "<group>"; };
 		69E3B483249F045300E4DD99 /* DataFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchDelegate.swift; sourceTree = "<group>"; };
@@ -888,6 +890,7 @@
 			children = (
 				695F9F0A25A055560008C861 /* AllSessionsCVCell.swift */,
 				69F3B974259E76DB008ACE32 /* DashboardCVCell.swift */,
+				69DF588425A8361600F9E2CC /* RoundedCVCell.swift */,
 				69693CE8247D07CE00E87133 /* SelectionCVCell.swift */,
 				691054E6234301DD00E306F1 /* SessionsCVCell.swift */,
 				69692B8C25A1AB8400476C1D /* TwoLabelsCVCell.swift */,
@@ -1233,6 +1236,7 @@
 				691054E8234301DD00E306F1 /* SessionsCVCell.swift in Sources */,
 				694DE88A259C7EB800F1A512 /* StartedSessionTimerDelegate.swift in Sources */,
 				6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */,
+				69DF588525A8361600F9E2CC /* RoundedCVCell.swift in Sources */,
 				69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */,
 				694DE8BA259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift in Sources */,
 				6972E3FA249F257700479E91 /* TextFieldType.swift in Sources */,

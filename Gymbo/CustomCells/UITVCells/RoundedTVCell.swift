@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class RoundedTVCell: UITableViewCell {
-    var roundedView = UIView()
+    let roundedView = UIView()
 
     var rightImageView: UIImageView = {
         let imageView = UIImageView()
@@ -47,16 +47,16 @@ class RoundedTVCell: UITableViewCell {
 
 // MARK: - UIView Var/Funcs
 extension RoundedTVCell {
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        roundedView.backgroundColor = selected ? .selectedBackground : .secondaryBackground
-    }
-
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
 
         roundedView.backgroundColor = highlighted ? .selectedBackground : .secondaryBackground
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        roundedView.backgroundColor = selected ? .selectedBackground : .secondaryBackground
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -75,7 +75,6 @@ extension RoundedTVCell {
 
     private func setupViews() {
         selectionStyle = .none
-        roundedView.layer.masksToBounds = true
     }
 
     private func setupColors() {

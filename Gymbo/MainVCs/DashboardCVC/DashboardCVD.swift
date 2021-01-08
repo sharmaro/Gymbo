@@ -53,10 +53,8 @@ extension DashboardCVD: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let totalWidth = collectionView.frame.width
-        let cellWidth = totalWidth - 40
-        return CGSize(width: cellWidth,
-                      height: Constants.cellHeight)
+        CGSize(width: collectionView.frame.width,
+               height: Constants.cellHeight)
     }
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class DashboardCVCell: UICollectionViewCell {
+class DashboardCVCell: RoundedCVCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.large.bold
@@ -41,12 +41,6 @@ private extension DashboardCVCell {
 
 // MARK: - UIView Var/Funcs
 extension DashboardCVCell {
-    override var isHighlighted: Bool {
-        didSet {
-            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -57,34 +51,24 @@ extension DashboardCVCell {
 // MARK: - ViewAdding
 extension DashboardCVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [titleLabel, contentLabel])
-    }
-
-    func setupViews() {
-        contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .secondaryBackground)
-        contentView.addShadow(direction: .downRight)
+        roundedView.add(subviews: [titleLabel, contentLabel])
     }
 
     func setupColors() {
-        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
-        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
-        contentView.backgroundColor = .primaryBackground
-
         titleLabel.textColor = .primaryText
         contentLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            titleLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -10),
 
-            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            contentLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -5)
+            contentLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            contentLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            contentLabel.bottomAnchor.constraint(lessThanOrEqualTo: roundedView.bottomAnchor, constant: -5)
         ])
     }
 }
@@ -93,7 +77,6 @@ extension DashboardCVCell: ViewAdding {
 extension DashboardCVCell {
     private func setup() {
         addViews()
-        setupViews()
         setupColors()
         addConstraints()
     }
