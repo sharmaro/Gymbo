@@ -12,5 +12,5 @@ import UIKit
 struct SessionHeaderViewModel {
     var firstText: String?
     var secondText: String?
-    var textColor = UIColor.dynamicBlack
+    var textColor = UIColor.primaryText
 }

@@ -21,9 +21,9 @@ extension CreateEditSessionTVC: CustomTextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {
-        if textView.textColor == .dimmedDarkGray {
+        if textView.textColor == .dimmedSecondaryBackground {
             textView.text.removeAll()
-            textView.textColor = .dynamicBlack
+            textView.textColor = .primaryText
         }
     }
 
@@ -35,11 +35,11 @@ extension CreateEditSessionTVC: CustomTextViewDelegate {
 
             if let text = textInfo[textView.tag] {
                 textView.text = text
-                textView.textColor = .dynamicBlack
+                textView.textColor = .primaryText
             } else {
                 textView.text = textView.tag == 0 ?
                     Constants.namePlaceholderText : Constants.infoPlaceholderText
-                textView.textColor = .dimmedDarkGray
+                textView.textColor = .dimmedSecondaryBackground
             }
             return
         }

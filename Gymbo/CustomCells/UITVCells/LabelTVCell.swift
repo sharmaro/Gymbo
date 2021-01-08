@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class LabelTVCell: UITableViewCell {
+class LabelTVCell: RoundedTVCell {
     private let detailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -42,7 +42,7 @@ extension LabelTVCell {
 // MARK: - ViewAdding
 extension LabelTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [detailLabel])
+        roundedView.add(subviews: [detailLabel])
     }
 
     func setupViews() {
@@ -50,17 +50,16 @@ extension LabelTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
-        contentView.backgroundColor = .clear
-        detailLabel.textColor = .dynamicBlack
+        detailLabel.textColor = .primaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            detailLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            detailLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            detailLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            detailLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            detailLabel.topAnchor.constraint(greaterThanOrEqualTo: roundedView.topAnchor),
+            detailLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            detailLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            detailLabel.bottomAnchor.constraint(lessThanOrEqualTo: roundedView.bottomAnchor)
         ])
     }
 }

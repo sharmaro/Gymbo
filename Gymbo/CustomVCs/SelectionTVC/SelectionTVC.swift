@@ -47,12 +47,13 @@ extension SelectionTVC: ViewAdding {
         tableView.delegate = customDelegate
 
         tableView.delaysContentTouches = false
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.register(LabelTVCell.self,
                            forCellReuseIdentifier: LabelTVCell.reuseIdentifier)
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0?.backgroundColor = .dynamicWhite }
+        [view, tableView].forEach { $0?.backgroundColor = .primaryBackground }
     }
 }

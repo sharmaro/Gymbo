@@ -56,7 +56,7 @@ extension DashboardCVC: ViewAdding {
     }
 
     func setupColors() {
-        collectionView.backgroundColor = .dynamicWhite
+        collectionView.backgroundColor = .primaryBackground
     }
 
     func addConstraints() {

@@ -36,9 +36,9 @@ class ExerciseDetailTVCell: UITableViewCell {
 
     private let doneButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(.dynamicBlack, for: .normal)
+        button.setTitleColor(.primaryText, for: .normal)
         button.titleLabel?.text?.removeAll()
-        button.tintColor = .dynamicBlack
+        button.tintColor = .primaryText
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -159,13 +159,13 @@ extension ExerciseDetailTVCell: ViewAdding {
     func setupColors() {
         backgroundColor = didSelect ? .systemGreen : .clear
         contentView.backgroundColor = .clear
-        [setsLabel, lastLabel].forEach { $0.textColor = .dynamicBlack }
+        [setsLabel, lastLabel].forEach { $0.textColor = .primaryText }
         [repsTextField, weightTextField].forEach {
-            $0.textColor = .dynamicBlack
+            $0.textColor = .primaryText
             $0.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
         }
-        doneButton.setTitleColor(.dynamicBlack, for: .normal)
-        doneButton.tintColor = .dynamicBlack
+        doneButton.setTitleColor(.primaryText, for: .normal)
+        doneButton.tintColor = .primaryText
     }
 
     func addConstraints() {

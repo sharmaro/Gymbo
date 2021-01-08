@@ -72,7 +72,7 @@ extension AllSessionsDetailTVC: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
+        [view, tableView].forEach { $0.backgroundColor = .primaryBackground }
     }
 
     func addConstraints() {

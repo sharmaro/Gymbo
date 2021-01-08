@@ -16,7 +16,7 @@ class ExercisePreviewTVC: UITableViewController {
         label.textAlignment = .center
         label.font = UIFont.medium.light
         label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = .dynamicWhite
+        label.backgroundColor = .primaryBackground
         return label
     }()
 
@@ -112,8 +112,8 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView, editDisclaimerLabel].forEach { $0.backgroundColor = .dynamicWhite }
-        editDisclaimerLabel.textColor = UIColor.dynamicBlack.withAlphaComponent(0.5)
+        [view, tableView, editDisclaimerLabel].forEach { $0.backgroundColor = .primaryBackground }
+        editDisclaimerLabel.textColor = .secondaryText
     }
 
     func addConstraints() {

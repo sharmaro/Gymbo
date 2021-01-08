@@ -75,8 +75,8 @@ extension ProfileInfoTVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.backgroundColor = .dynamicWhite
-        leftLabel.textColor = .dynamicBlack
+        contentView.backgroundColor = .primaryBackground
+        leftLabel.textColor = .primaryText
         rightTextField.textColor = .systemBlue
     }
 

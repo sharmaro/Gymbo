@@ -59,7 +59,7 @@ extension AllSessionsCVC: ViewAdding {
     }
 
     func setupColors() {
-        [view, collectionView].forEach { $0.backgroundColor = .dynamicWhite }
+        [view, collectionView].forEach { $0.backgroundColor = .primaryBackground }
     }
 }
 

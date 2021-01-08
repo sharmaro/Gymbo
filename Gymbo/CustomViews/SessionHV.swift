@@ -34,7 +34,7 @@ class SessionHV: UIView {
     }
 
     var isFirstTextValid: Bool {
-        firstTextView.textColor != .dimmedDarkGray && !firstTextView.text.isEmpty
+        firstTextView.textColor != .dimmedSecondaryBackground && !firstTextView.text.isEmpty
     }
 
     var isContentEditable = true {

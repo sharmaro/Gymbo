@@ -9,11 +9,11 @@
 import UIKit
 
 // MARK: - Properties
-class SelectionTVCell: UITableViewCell {
+class SelectionTVCell: RoundedTVCell {
     private let leftImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.tintColor = .dynamicBlack
+        imageView.tintColor = .primaryText
         return imageView
     }()
 
@@ -28,7 +28,7 @@ class SelectionTVCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .dynamicBlack
+        label.textColor = .primaryText
         label.font = .medium
         label.textAlignment = .left
         return label
@@ -36,17 +36,10 @@ class SelectionTVCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemBlue
+        label.textColor = .secondaryText
         label.font = UIFont.medium.light
         label.textAlignment = .right
         return label
-    }()
-
-    private var rightImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.tintColor = .dynamicBlack
-        return imageView
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,47 +65,40 @@ extension SelectionTVCell {
 // MARK: - ViewAdding
 extension SelectionTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [leftImageView, stackView, rightImageView])
+        roundedView.add(subviews: [leftImageView, stackView])
         [titleLabel, valueLabel].forEach {
             stackView.addArrangedSubview($0)
         }
     }
 
     func setupViews() {
-        selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = .dynamicLightGray
+        showsRightImage = true
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
-        contentView.backgroundColor = .clear
         [titleLabel, valueLabel].forEach { $0.textColor = $0.textColor }
     }
 
     func addConstraints() {
         stackViewLeadingConstraintToContentView = stackView.leadingAnchor
-            .constraint(equalTo: contentView.leadingAnchor,
+            .constraint(equalTo: roundedView.leadingAnchor,
                         constant: 20)
         stackViewLeadingConstraintToImageView = stackView.leadingAnchor
             .constraint(equalTo: leftImageView.trailingAnchor,
                         constant: 10)
 
         NSLayoutConstraint.activate([
-            leftImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            leftImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+            leftImageView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            leftImageView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
                                                    constant: 20),
             leftImageView.widthAnchor.constraint(equalToConstant: 25),
             leftImageView.heightAnchor.constraint(equalTo: leftImageView.widthAnchor),
 
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.topAnchor.constraint(equalTo: roundedView.topAnchor),
             stackViewLeadingConstraintToImageView,
-            stackView.trailingAnchor.constraint(equalTo: rightImageView.leadingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-            rightImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            rightImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            rightImageView.widthAnchor.constraint(equalToConstant: 15),
-            rightImageView.heightAnchor.constraint(equalTo: rightImageView.widthAnchor)
+            stackView.trailingAnchor.constraint(equalTo: rightImageView.leadingAnchor,
+                                                constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor)
         ])
     }
 }

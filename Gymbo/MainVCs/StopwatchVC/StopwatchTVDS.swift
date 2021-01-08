@@ -46,7 +46,7 @@ extension StopwatchTVDS {
     private func getLabelColor(timeToCheck: Int,
                                fastestTime: Int,
                                slowestTime: Int) -> UIColor {
-        var color = UIColor.dynamicBlack
+        var color = UIColor.primaryText
         if timeToCheck <= fastestTime {
             color = .systemGreen
         } else if timeToCheck >= slowestTime {
@@ -193,7 +193,7 @@ extension StopwatchTVDS: UITableViewDataSource {
                                       slowestTime: slowestLap?.totalTime ?? 0)
             cell.updateColors(color: color)
         } else {
-            cell.updateColors(color: .dynamicBlack)
+            cell.updateColors(color: .primaryText)
         }
         return cell
     }

@@ -60,15 +60,15 @@ extension SelectionCVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
         selectionLabel.backgroundColor = .clear
 
         if isSelected {
-            selectionLabel.textColor = .dynamicWhite
+            selectionLabel.textColor = .primaryText
         } else {
             selectionLabel.textColor = .systemBlue
-            containerView.backgroundColor = .dimmedDarkGray
+            containerView.backgroundColor = .dimmedSecondaryBackground
         }
     }
 
@@ -98,11 +98,11 @@ extension SelectionCVCell {
             guard let self = self else { return }
 
             if self.isSelected {
-                self.selectionLabel.textColor = .dynamicWhite
+                self.selectionLabel.textColor = .primaryText
                 self.containerView.addGradient(colors: [.customBlue, .customLightGray])
             } else {
                 self.selectionLabel.textColor = .systemBlue
-                self.containerView.backgroundColor = .dimmedDarkGray
+                self.containerView.backgroundColor = .dimmedSecondaryBackground
                 self.containerView.removeGradient()
             }
         }

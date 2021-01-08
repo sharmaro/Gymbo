@@ -26,14 +26,14 @@ class OnboardingVC: UIViewController {
     private var infoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .normal
-        textView.textColor = .dynamicBlack
+        textView.textColor = .primaryText
         textView.textAlignment = .center
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.backgroundColor = .customLightBlue
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.addCorner(style: .small)
-        textView.addBorder(color: .dynamicBlack)
+        textView.addBorder(color: .primaryText)
         return textView
     }()
 
@@ -44,7 +44,7 @@ class OnboardingVC: UIViewController {
                                     size: CGSize(width: 100,
                                                  height: 45)))
         button.title = "Next"
-        button.titleColor = .dynamicBlack
+        button.titleColor = .primaryText
         button.titleLabel?.textAlignment = .center
         button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
@@ -102,7 +102,7 @@ extension OnboardingVC {
         let rightButtonAction: (() -> Void)? = { [weak self] in
             DispatchQueue.main.async {
                 self?.view.backgroundColor = UIColor
-                    .dynamicBlack.withAlphaComponent(0.3)
+                    .secondaryBackground.withAlphaComponent(0.3)
                 UIView.animate(withDuration: .defaultAnimationTime) {
                     self?.view.alpha = 1
                 } completion: { _ in
@@ -142,9 +142,9 @@ extension OnboardingVC: ViewAdding {
 
     func setupColors() {
         view.backgroundColor = view.backgroundColor
-        infoTextView.layer.borderColor = UIColor.dynamicBlack.cgColor
-        infoTextView.textColor = .dynamicBlack
-        continueButton.titleColor = .dynamicBlack
+        infoTextView.layer.borderColor = UIColor.primaryText.cgColor
+        infoTextView.textColor = .primaryText
+        continueButton.titleColor = .primaryText
     }
 }
 

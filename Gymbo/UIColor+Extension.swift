@@ -34,18 +34,22 @@ extension UIColor {
 extension UIColor {
     // Special
     static let defaultSelectedBorder = UIColor.systemGreen
-    static let defaultUnselectedBorder = UIColor.dynamicDarkGray
+    static let defaultUnselectedBorder = UIColor.secondaryBackground
     static let dimmedBackgroundBlack = UIColor.black.withAlphaComponent(0.8)
-    static let dimmedDarkGray = UIColor.dynamicDarkGray.withAlphaComponent(0.3)
-    static let dimmedLightGray = UIColor.dynamicLightGray.withAlphaComponent(0.3)
+    static let dimmedSecondaryBackground = UIColor.secondaryBackground.withAlphaComponent(0.3)
     static let disabledBlack = UIColor.black.withAlphaComponent(0.6)
+    static let selectedBackground = UIColor(named: "selectedBackground") ?? .systemGray
 
-    // Dynamic
-    static let dynamicWhite = UIColor(named: "dynamicWhite") ?? .white
-    static let dynamicBlack = UIColor(named: "dynamicBlack") ?? .black
-    static let dynamicLightGray = UIColor(named: "dynamicLightGray") ?? .gray
-    static let dynamicDarkGray = UIColor(named: "dynamicDarkGray") ?? .gray
-    static let dynamicDarkTabItem = UIColor(named: "dynamicDarkTabItem") ?? .gray
+    // Primary
+    static let primaryBackground = UIColor(named: "primaryBackground") ?? .systemBackground
+    static let primaryText = UIColor(named: "primaryText") ?? .label
+
+    // Secondary
+    static let secondaryBackground = UIColor(named: "secondaryBackground") ?? .secondarySystemBackground
+    static let secondaryText = UIColor(named: "secondaryText") ?? .secondaryLabel
+
+    // Tertiary
+    static let tertiaryText = UIColor(named: "tertiaryText") ?? .tertiaryLabel
 
     // Normal
     static let customBlue = UIColor(rgb: 0x1565C0)

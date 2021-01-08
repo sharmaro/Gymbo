@@ -56,9 +56,9 @@ extension SwipableImageVTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
-        pageControl.pageIndicatorTintColor = .dynamicDarkGray
+        pageControl.pageIndicatorTintColor = .secondaryBackground
         pageControl.currentPageIndicatorTintColor = .systemBlue
     }
 

@@ -47,7 +47,7 @@ extension ButtonTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
     }
 
@@ -76,7 +76,7 @@ extension ButtonTVCell {
 
     func configure(title: String,
                    font: UIFont = .normal,
-                   titleColor: UIColor = .dynamicBlack,
+                   titleColor: UIColor = .primaryText,
                    backgroundColor: UIColor = .systemBlue,
                    cornerStyle: CornerStyle = .none) {
         button.title = title

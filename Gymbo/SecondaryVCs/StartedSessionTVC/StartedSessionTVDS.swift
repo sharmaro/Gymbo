@@ -181,7 +181,7 @@ extension StartedSessionTVDS {
         var dataModel = SessionHeaderViewModel()
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
-        dataModel.textColor = .dynamicBlack
+        dataModel.textColor = .primaryText
         return dataModel
     }
 

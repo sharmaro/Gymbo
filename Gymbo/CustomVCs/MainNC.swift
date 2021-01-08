@@ -58,7 +58,7 @@ extension MainNC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
+        view.backgroundColor = .primaryBackground
     }
 }
 

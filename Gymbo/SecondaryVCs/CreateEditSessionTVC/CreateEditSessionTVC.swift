@@ -109,14 +109,14 @@ extension CreateEditSessionTVC: ViewAdding {
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
         dataModel.textColor = customDataSource?.sessionState == .create ?
-                             .dimmedDarkGray : .dynamicBlack
+                             .dimmedSecondaryBackground : .primaryText
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.customTextViewDelegate = self
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
+        view.backgroundColor = .primaryBackground
     }
 
     func addConstraints() {

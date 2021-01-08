@@ -155,7 +155,7 @@ extension StartedSessionTVC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .dynamicWhite
+        view.backgroundColor = .primaryBackground
     }
 
     func addConstraints() {

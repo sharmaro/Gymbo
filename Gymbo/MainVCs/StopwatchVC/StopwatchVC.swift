@@ -185,8 +185,8 @@ extension StopwatchVC: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0?.backgroundColor = .dynamicWhite }
-        [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .dynamicBlack }
+        [view, tableView].forEach { $0?.backgroundColor = .primaryBackground }
+        [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .primaryText }
     }
 
     //swiftlint:disable:next function_body_length

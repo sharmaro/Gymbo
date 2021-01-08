@@ -145,9 +145,9 @@ extension RestVC: ViewAdding {
 
     func setupColors() {
         [view, topContainerView, circleProgressView].forEach {
-            $0.backgroundColor = .dynamicWhite
+            $0.backgroundColor = .primaryBackground
         }
-        restLabel.textColor = .dynamicDarkGray
+        restLabel.textColor = .secondaryText
     }
 
     //swiftlint:disable:next function_body_length

@@ -12,7 +12,6 @@ import UIKit
 class StopwatchTVCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .dynamicBlack
         label.font = .medium
         label.textAlignment = .left
         return label
@@ -20,7 +19,6 @@ class StopwatchTVCell: UITableViewCell {
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .dynamicBlack
         label.font = .medium
         label.textAlignment = .justified
         return label
@@ -53,9 +51,9 @@ extension StopwatchTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
-        [descriptionLabel, valueLabel].forEach { $0.textColor = $0.textColor }
+        [descriptionLabel, valueLabel].forEach { $0.textColor = .primaryText }
     }
 
     func addConstraints() {

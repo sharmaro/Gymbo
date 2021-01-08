@@ -19,7 +19,7 @@ class ProfileTVC: UITableViewController {
         let containerView = UIView(frame: frame)
 
         let button = CustomButton(frame: frame)
-        button.tintColor = .dynamicBlack
+        button.tintColor = .primaryText
         let settingsImage = UIImage(named: "settings")?
             .withRenderingMode(.alwaysTemplate)
         button.setImage(settingsImage, for: .normal)
@@ -86,7 +86,7 @@ extension ProfileTVC: ViewAdding {
     }
 
     func setupColors() {
-        [view, tableView].forEach { $0.backgroundColor = .dynamicWhite }
+        [view, tableView].forEach { $0.backgroundColor = .primaryBackground }
     }
 
     func addConstraints() {

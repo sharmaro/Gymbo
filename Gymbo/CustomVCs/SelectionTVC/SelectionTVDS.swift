@@ -47,16 +47,18 @@ extension SelectionTVDS: UITableViewDataSource {
 
         let item = items[indexPath.row]
         cell.configure(text: item)
-        cell.accessoryView = nil
 
         if item == selected {
-            let imageView = UIImageView(frame: CGRect(origin: .zero,
-                                                      size: CGSize(width: 15,
-                                                                   height: 15)))
-            imageView.tintColor = .dynamicBlack
-            imageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
-            cell.accessoryView = imageView
+            cell.showsRightImage = true
+            cell.rightImageView.image = UIImage(named: "checkmark")?
+                .withRenderingMode(.alwaysTemplate)
+        } else {
+            cell.showsRightImage = false
+            cell.rightImageView.image = nil
         }
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

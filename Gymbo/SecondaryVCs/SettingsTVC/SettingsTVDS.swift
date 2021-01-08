@@ -159,6 +159,9 @@ extension SettingsTVDS: UITableViewDataSource {
         case .theme, .weight, .contactUs:
             cell = getSelectionCell(in: tableView, for: indexPath)
         }
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

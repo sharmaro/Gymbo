@@ -67,7 +67,7 @@ extension RestDSAndD: UIPickerViewDelegate {
                                                 size: CGSize(width: pickerView.bounds.width,
                                                              height: Constants.pickerRowHeight)))
         pickerLabel.text = restTimes[row]
-        pickerLabel.textColor = .dynamicBlack
+        pickerLabel.textColor = .primaryText
         pickerLabel.textAlignment = .center
         pickerLabel.font = .xLarge
         return pickerLabel

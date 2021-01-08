@@ -64,10 +64,10 @@ extension MainTBC {
     private func setupTabBar() {
         delegate = customDataSource
 
-        tabBar.backgroundColor = .dynamicWhite
-        tabBar.barTintColor = .dynamicWhite
+        tabBar.backgroundColor = .primaryBackground
+        tabBar.barTintColor = .primaryBackground
         // Color of selected item
-        tabBar.unselectedItemTintColor = .dynamicDarkTabItem
+        tabBar.unselectedItemTintColor = .secondaryText
         // Prevents tab bar color from being lighter than intended
         tabBar.backgroundImage = UIImage()
 

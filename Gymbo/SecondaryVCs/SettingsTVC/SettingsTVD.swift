@@ -22,7 +22,7 @@ class SettingsTVD: NSObject {
 private extension SettingsTVD {
     struct Constants {
         static let headerHeight = CGFloat(40)
-        static let cellHeight = CGFloat(70)
+        static let cellHeight = CGFloat(50)
     }
 }
 

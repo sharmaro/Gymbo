@@ -75,7 +75,7 @@ extension AllSessionDaysCVC: ViewAdding {
     }
 
     func setupColors() {
-        collectionView.backgroundColor = .dynamicWhite
+        collectionView.backgroundColor = .primaryBackground
     }
 }
 

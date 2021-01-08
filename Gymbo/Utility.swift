@@ -178,4 +178,23 @@ extension Utility {
         formattedText.append("(\(iOSVersion))")
         return formattedText
     }
+
+    static func configureCellRounding(in tableView: UITableView,
+                                      with cell: UITableViewCell,
+                                      for indexPath: IndexPath) {
+        guard let roundedTVCell = cell as? RoundedTVCell else {
+            return
+        }
+
+        let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
+        if indexPath.row == 0 && indexPath.row == numberOfRows - 1 {
+            roundedTVCell.cellLocation = .solo
+        } else if indexPath.row == 0 {
+            roundedTVCell.cellLocation = .first
+        } else if indexPath.row == numberOfRows - 1 {
+            roundedTVCell.cellLocation = .last
+        } else {
+            roundedTVCell.cellLocation = .middle
+        }
+    }
 }

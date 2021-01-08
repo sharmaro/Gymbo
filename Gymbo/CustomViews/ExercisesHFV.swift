@@ -55,13 +55,13 @@ extension ExercisesHFV: ViewAdding {
 
     func setupColors() {
         let customBackgroundView = UIView()
-        customBackgroundView.backgroundColor = .dynamicLightGray
+        customBackgroundView.backgroundColor = .primaryBackground
         backgroundView = customBackgroundView
 
         [topDivider, bottomDivider].forEach {
-            $0.backgroundColor = .dynamicDarkGray
+            $0.backgroundColor = .secondaryBackground
         }
-        label.textColor = .dynamicBlack
+        label.textColor = .primaryText
     }
 
     func addConstraints() {

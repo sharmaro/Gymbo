@@ -21,7 +21,7 @@ class SelectionTVD: NSObject {
 // MARK: - Structs/Enums
 private extension SelectionTVD {
     struct Constants {
-        static let labelTVCellHeight = CGFloat(70)
+        static let labelTVCellHeight = CGFloat(50)
     }
 }
 

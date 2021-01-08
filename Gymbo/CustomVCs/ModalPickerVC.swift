@@ -104,9 +104,9 @@ extension ModalPickerVC: ViewAdding {
 
     func setupColors() {
         view.backgroundColor = .dimmedBackgroundBlack
-        containerView.backgroundColor = .dynamicLightGray
-        tabBarView.backgroundColor = .dynamicLightGray
-        titleLabel.textColor = .dynamicBlack
+        containerView.backgroundColor = .secondaryBackground
+        tabBarView.backgroundColor = .secondaryBackground
+        titleLabel.textColor = .primaryText
     }
 
     func addConstraints() {
@@ -201,7 +201,7 @@ extension ModalPickerVC: UIPickerViewDelegate {
                                                 size: CGSize(width: pickerView.bounds.width,
                                                              height: 40)))
         pickerLabel.text = items[row]
-        pickerLabel.textColor = .dynamicBlack
+        pickerLabel.textColor = .primaryText
         pickerLabel.textAlignment = .center
         pickerLabel.font = UIFont.large.semibold
         return pickerLabel

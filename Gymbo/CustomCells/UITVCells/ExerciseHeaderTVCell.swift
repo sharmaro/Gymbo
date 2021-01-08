@@ -52,8 +52,8 @@ class ExerciseHeaderTVCell: UITableViewCell {
         button.setTitle("", for: .normal)
         let image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.setTitleColor(.dynamicBlack, for: .normal)
-        button.tintColor = .dynamicBlack
+        button.setTitleColor(.primaryText, for: .normal)
+        button.tintColor = .primaryText
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -135,11 +135,11 @@ extension ExerciseHeaderTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
-        [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .dynamicBlack }
-        doneButton.setTitleColor(.dynamicBlack, for: .normal)
-        doneButton.tintColor = .dynamicBlack
+        [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .primaryText }
+        doneButton.setTitleColor(.primaryText, for: .normal)
+        doneButton.tintColor = .primaryText
     }
 
     func addConstraints() {

@@ -96,8 +96,8 @@ extension SessionsCVC: ViewAdding {
     }
 
     func setupColors() {
-        navigationController?.view.backgroundColor = .dynamicWhite
-        collectionView.backgroundColor = .dynamicWhite
+        navigationController?.view.backgroundColor = .primaryBackground
+        collectionView.backgroundColor = .primaryBackground
     }
 }
 

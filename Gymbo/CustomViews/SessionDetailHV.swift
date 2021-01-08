@@ -47,7 +47,7 @@ extension SessionDetailHV: ViewAdding {
 
     func setupViews() {
         [firstTextLabel, secondTextLabel, dateLabel, timeLabel].forEach {
-            $0.textColor = .dynamicBlack
+            $0.textColor = .primaryText
             $0.numberOfLines = 0
         }
 
@@ -118,12 +118,12 @@ extension SessionDetailHV {
 
     private func setupImageAndLabelViews(dataModel: SessionDetailHeaderModel) {
         imageAndDurationView.imageView.image = dataModel.firstImage
-        imageAndDurationView.imageView.tintColor = .dynamicBlack
+        imageAndDurationView.imageView.tintColor = .primaryText
         imageAndDurationView.label.text = dataModel.firstImageText
         imageAndDurationView.label.font = UIFont.normal.light
 
         imageAndWeightView.imageView.image = dataModel.secondImage
-        imageAndWeightView.imageView.tintColor = .dynamicBlack
+        imageAndWeightView.imageView.tintColor = .primaryText
         imageAndWeightView.label.text = dataModel.secondImageText
         imageAndWeightView.label.font = UIFont.normal.light
     }

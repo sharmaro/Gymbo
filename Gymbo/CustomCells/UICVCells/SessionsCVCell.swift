@@ -100,18 +100,18 @@ extension SessionsCVCell: ViewAdding {
 
     func setupViews() {
         contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .dynamicDarkGray)
+        contentView.addBorder(1, color: .secondaryBackground)
         contentView.addShadow(direction: .downRight)
 
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        contentView.layer.borderColor = UIColor.dynamicDarkGray.cgColor
-        contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
-        contentView.backgroundColor = .dynamicWhite
+        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
+        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
+        contentView.backgroundColor = .primaryBackground
 
-        [titleLabel, infoLabel].forEach { $0.textColor = .dynamicBlack }
+        [titleLabel, infoLabel].forEach { $0.textColor = .primaryText }
     }
 
     func addConstraints() {

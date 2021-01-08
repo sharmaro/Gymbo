@@ -115,9 +115,9 @@ extension AlertVC: ViewAdding {
     }
 
     func setupColors() {
-        containerView.backgroundColor = .dynamicLightGray
+        containerView.backgroundColor = .secondaryBackground
         titleLabel.textColor = .white
-        contentLabel.textColor = .dynamicBlack
+        contentLabel.textColor = .primaryText
     }
 
     func addConstraints() {

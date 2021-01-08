@@ -71,9 +71,9 @@ extension TextViewTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .dynamicWhite
+        backgroundColor = .primaryBackground
         contentView.backgroundColor = .clear
-        textView.textColor = .dynamicBlack
+        textView.textColor = .primaryText
         textView.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
     }
 

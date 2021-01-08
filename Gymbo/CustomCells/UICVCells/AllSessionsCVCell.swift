@@ -106,7 +106,7 @@ extension AllSessionsCVCell: ViewAdding {
 
     func setupViews() {
         contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .dynamicDarkGray)
+        contentView.addBorder(1, color: .secondaryBackground)
         contentView.addShadow(direction: .downRight)
 
         indexLabel.font = UIFont.medium.semibold
@@ -117,14 +117,13 @@ extension AllSessionsCVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.backgroundColor = .dynamicWhite
-        contentView.layer.borderColor = UIColor.dynamicDarkGray.cgColor
-        contentView.layer.shadowColor = UIColor.dynamicDarkGray.cgColor
-        contentView.backgroundColor = .dynamicWhite
+        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
+        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
+        contentView.backgroundColor = .primaryBackground
 
         [indexLabel, nameLabel, dateLabel, exerciseTitleLabel,
          firstExerciseLabel].forEach {
-            $0.textColor = .dynamicBlack
+            $0.textColor = .primaryText
         }
     }
 
@@ -157,7 +156,7 @@ extension AllSessionsCVCell {
         let timeImage = UIImage(named: "stopwatch")?
             .withRenderingMode(.alwaysTemplate)
         imageAndDurationView.imageView.image = timeImage
-        imageAndDurationView.imageView.tintColor = .dynamicBlack
+        imageAndDurationView.imageView.tintColor = .primaryText
         imageAndDurationView.label.text = timeString
         imageAndDurationView.label.font = UIFont.normal.light
 
@@ -165,7 +164,7 @@ extension AllSessionsCVCell {
         let weightImage = UIImage(named: "dumbbell")?
             .withRenderingMode(.alwaysTemplate)
         imageAndWeightView.imageView.image = weightImage
-        imageAndWeightView.imageView.tintColor = .dynamicBlack
+        imageAndWeightView.imageView.tintColor = .primaryText
         imageAndWeightView.label.text = weightText
         imageAndWeightView.label.font = UIFont.normal.light
     }
