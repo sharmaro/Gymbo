@@ -68,18 +68,14 @@ class SessionsCVCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Structs/Enums
-private extension SessionsCVCell {
-    struct Constants {
-        static let transformScale = CGFloat(0.95)
-    }
-}
-
 // MARK: - UICollectionViewCell Var/Funcs
 extension SessionsCVCell {
     override var isHighlighted: Bool {
         didSet {
             if !isEditing {
+                contentView.backgroundColor = isHighlighted ?
+                    .selectedBackground : .secondaryBackground
+
                 Transform.caseFromBool(bool: isHighlighted).transform(view: self)
             }
         }
@@ -100,18 +96,14 @@ extension SessionsCVCell: ViewAdding {
 
     func setupViews() {
         contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .secondaryBackground)
-        contentView.addShadow(direction: .downRight)
 
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
 
     func setupColors() {
-        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
-        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
-        contentView.backgroundColor = .primaryBackground
-
-        [titleLabel, infoLabel].forEach { $0.textColor = .primaryText }
+        contentView.backgroundColor = .secondaryBackground
+        titleLabel.textColor = .primaryText
+        infoLabel.textColor = .secondaryText
     }
 
     func addConstraints() {

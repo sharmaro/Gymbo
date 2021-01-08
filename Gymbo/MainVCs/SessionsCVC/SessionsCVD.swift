@@ -52,7 +52,6 @@ extension SessionsCVD: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-
         let totalWidth = collectionView.frame.width
         let columns = CGFloat(2)
         let columnSpacing = CGFloat(5)
@@ -63,12 +62,6 @@ extension SessionsCVD: UICollectionViewDelegateFlowLayout {
             columns
 
         return CGSize(width: itemWidth, height: Constants.sessionCellHeight)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .zero
     }
 }
 
