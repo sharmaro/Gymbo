@@ -25,6 +25,7 @@ class AllSessionsDetailTVD: NSObject {
 private extension AllSessionsDetailTVD {
     struct Constants {
         static let headerHeight = CGFloat(40)
+        static let cellHeight = CGFloat(50)
     }
 }
 
@@ -55,11 +56,11 @@ extension AllSessionsDetailTVD: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+        Constants.cellHeight
     }
 
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+        Constants.cellHeight
     }
 }

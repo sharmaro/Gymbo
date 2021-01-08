@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class TwoLabelsCVCell: UICollectionViewCell {
+class TwoLabelsCVCell: RoundedCVCell {
     private var indexLabel = UILabel()
 
     private var labelsVStackView: UIStackView = {
@@ -35,18 +35,8 @@ class TwoLabelsCVCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Structs/Enums
-private extension TwoLabelsCVCell {
-}
-
 // MARK: - UIView Var/Funcs
 extension TwoLabelsCVCell {
-    override var isHighlighted: Bool {
-        didSet {
-            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -57,17 +47,13 @@ extension TwoLabelsCVCell {
 // MARK: - ViewAdding
 extension TwoLabelsCVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [indexLabel, labelsVStackView])
+        roundedView.add(subviews: [indexLabel, labelsVStackView])
         [topLabel, bottomLabel].forEach {
             labelsVStackView.addArrangedSubview($0)
         }
     }
 
     func setupViews() {
-        contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .secondaryBackground)
-        contentView.addShadow(direction: .downRight)
-
         indexLabel.font = UIFont.medium.semibold
         topLabel.font = UIFont.medium.semibold
         bottomLabel.font = UIFont.normal.light
@@ -77,23 +63,21 @@ extension TwoLabelsCVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
-        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
-        contentView.backgroundColor = .primaryBackground
-        [topLabel, bottomLabel].forEach { $0.textColor = .primaryText }
+        [indexLabel, topLabel].forEach { $0.textColor = .primaryText }
+        bottomLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            indexLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            indexLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                constant: 15),
+            indexLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            indexLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                                constant: 20),
             indexLabel.trailingAnchor.constraint(equalTo: labelsVStackView.leadingAnchor,
                                                 constant: -15),
 
-            labelsVStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            labelsVStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                      constant: -15)
+            labelsVStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            labelsVStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
+                                                      constant: -20)
         ])
     }
 }

@@ -87,7 +87,11 @@ extension AllSessionsDetailTVDS: UITableViewDataSource {
             text = "\(set) \t \(reps) x \(weight) lbs"
             font = UIFont.normal.light
         }
+
         cell.configure(text: text, font: font)
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

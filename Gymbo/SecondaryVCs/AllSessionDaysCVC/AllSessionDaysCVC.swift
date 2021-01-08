@@ -14,19 +14,13 @@ class AllSessionDaysCVC: UICollectionViewController {
         let barButtonSize = CGSize(width: 120, height: 30)
         let button = CustomButton(frame: CGRect(origin: .zero, size: barButtonSize))
         button.titleLabel?.font = UIFont.small.light
-        button.set(backgroundColor: .systemGray)
+        button.set(backgroundColor: .secondaryBackground)
         button.addCorner(style: .small)
         return button
     }()
 
     var customDataSource: AllSessionDaysCVDS?
     var customDelegate: AllSessionDaysCVD?
-}
-
-// MARK: - Structs/Enums
-private extension AllSessionDaysCVC {
-    struct Constants {
-    }
 }
 
 // MARK: - UIViewController Var/Funcs
@@ -76,6 +70,7 @@ extension AllSessionDaysCVC: ViewAdding {
 
     func setupColors() {
         collectionView.backgroundColor = .primaryBackground
+        dateButton.titleColor = .primaryText
     }
 }
 

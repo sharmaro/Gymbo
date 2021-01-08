@@ -16,7 +16,7 @@ class CustomButton: UIButton {
         }
     }
 
-    var titleColor = UIColor.white {
+    var titleColor = UIColor.primaryText {
         didSet {
             setTitleColor(titleColor, for: .normal)
         }

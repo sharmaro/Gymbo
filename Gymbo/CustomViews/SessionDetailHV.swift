@@ -47,7 +47,6 @@ extension SessionDetailHV: ViewAdding {
 
     func setupViews() {
         [firstTextLabel, secondTextLabel, dateLabel, timeLabel].forEach {
-            $0.textColor = .primaryText
             $0.numberOfLines = 0
         }
 
@@ -59,6 +58,12 @@ extension SessionDetailHV: ViewAdding {
 
     func setupColors() {
         backgroundColor = .clear
+        [firstTextLabel, secondTextLabel].forEach {
+            $0.textColor = .primaryText
+        }
+        [dateLabel, timeLabel].forEach { $0.textColor = .secondaryText }
+        imageAndDurationView.label.textColor = .secondaryText
+        imageAndWeightView.label.textColor = .secondaryText
     }
 
     func addConstraints() {

@@ -45,10 +45,6 @@ extension LabelTVCell: ViewAdding {
         roundedView.add(subviews: [detailLabel])
     }
 
-    func setupViews() {
-        selectionStyle = .none
-    }
-
     func setupColors() {
         detailLabel.textColor = .primaryText
     }
@@ -68,7 +64,6 @@ extension LabelTVCell: ViewAdding {
 extension LabelTVCell {
     private func setup() {
         addViews()
-        setupViews()
         setupColors()
         addConstraints()
     }
