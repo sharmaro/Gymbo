@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class ProfileInfoTVCell: UITableViewCell {
+class ProfileInfoTVCell: RoundedTVCell {
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
@@ -64,7 +64,7 @@ extension ProfileInfoTVCell {
 // MARK: - ViewAdding
 extension ProfileInfoTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [contentStackView])
+        roundedView.add(subviews: [contentStackView])
         [leftLabel, rightTextField].forEach {
             contentStackView.addArrangedSubview($0)
         }
@@ -75,18 +75,17 @@ extension ProfileInfoTVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.backgroundColor = .primaryBackground
         leftLabel.textColor = .primaryText
-        rightTextField.textColor = .systemBlue
+        rightTextField.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                    constant: 15),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                     constant: -15)
+            contentStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                                    constant: 20),
+            contentStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
+                                                     constant: -20)
         ])
     }
 }

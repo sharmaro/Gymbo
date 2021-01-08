@@ -23,7 +23,7 @@ private extension ProfileTVD {
     struct Constants {
         static let headerHeight = CGFloat(40)
         static let titleCellHeight = CGFloat(100)
-        static let infoCellHeight = CGFloat(55)
+        static let infoCellHeight = CGFloat(50)
     }
 }
 

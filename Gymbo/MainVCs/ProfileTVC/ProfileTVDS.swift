@@ -166,6 +166,9 @@ extension ProfileTVDS: UITableViewDataSource {
         case .firstName, .lastName, .age, .weight, .height:
             cell = getProfileInfoTVCell(in: tableView, for: indexPath)
         }
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

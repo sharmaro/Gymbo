@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class ProfileTitleTVCell: UITableViewCell {
+class ProfileTitleTVCell: RoundedTVCell {
     private var profileImageButton: CustomButton = {
         let button = CustomButton()
         button.contentMode = .scaleAspectFit
@@ -66,7 +66,7 @@ extension ProfileTitleTVCell {
 // MARK: - ViewAdding
 extension ProfileTitleTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [profileImageButton, labelStackView])
+        roundedView.add(subviews: [profileImageButton, labelStackView])
         [nameLabel, descriptionLabel].forEach {
             labelStackView.addArrangedSubview($0)
         }
@@ -84,26 +84,26 @@ extension ProfileTitleTVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.backgroundColor = .primaryBackground
         profileImageButton.layer.borderColor = profileImageButton.layer.borderColor
-        [nameLabel, descriptionLabel].forEach { $0.textColor = .primaryText }
+        nameLabel.textColor = .primaryText
+        descriptionLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            profileImageButton.topAnchor.constraint(equalTo: contentView.topAnchor,
+            profileImageButton.topAnchor.constraint(equalTo: roundedView.topAnchor,
                                                     constant: 15),
-            profileImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                        constant: 15),
+            profileImageButton.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                                        constant: 20),
             profileImageButton.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor,
                                                          constant: -15),
-            profileImageButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+            profileImageButton.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor,
                                                        constant: -15),
             profileImageButton.widthAnchor.constraint(equalTo: profileImageButton.heightAnchor),
 
-            labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                constant: 15)
+            labelStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
+                                                constant: -20)
         ])
     }
 }
