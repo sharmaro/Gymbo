@@ -130,7 +130,6 @@ extension ExercisesTVC: ViewAdding {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.sectionFooterHeight = 0
-        tableView.tableFooterView = UIView()
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(ExerciseTVCell.self,

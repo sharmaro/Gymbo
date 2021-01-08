@@ -18,8 +18,35 @@ class CreateEditSessionTVD: NSObject {
     }
 }
 
+// MARK: - Structs/Enums
+private extension CreateEditSessionTVD {
+    struct Constants {
+        static let headerHeight = CGFloat(40)
+    }
+}
+
 // MARK: - UITableViewDelegate
 extension CreateEditSessionTVD: UITableViewDelegate {
+    func tableView(_ tableView: UITableView,
+                   estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
+    }
+
+    func tableView(_ tableView: UITableView,
+                   heightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
+    }
+
+    func tableView(_ tableView: UITableView,
+                   viewForHeaderInSection section: Int) -> UIView? {
+        guard section > 0,
+              let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: ExercisesHFV.reuseIdentifier) as? ExercisesHFV else {
+            return nil
+        }
+        return headerView
+    }
+
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         listDelegate?.heightForRow(at: indexPath) ?? 0

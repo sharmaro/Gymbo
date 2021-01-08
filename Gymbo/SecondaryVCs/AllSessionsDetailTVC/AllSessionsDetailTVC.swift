@@ -62,7 +62,6 @@ extension AllSessionsDetailTVC: ViewAdding {
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = 0
         tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(LabelTVCell.self,

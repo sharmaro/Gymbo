@@ -14,7 +14,9 @@ class ExerciseHeaderTVCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.medium.bold
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        label.sizeToFit()
         return label
     }()
 
@@ -23,7 +25,6 @@ class ExerciseHeaderTVCell: UITableViewCell {
         button.title = ""
         let image = UIImage(named: "delete")
         button.setImage(image, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -73,6 +74,8 @@ class ExerciseHeaderTVCell: UITableViewCell {
         }
     }
 
+    private var didLayoutSubviews = false
+
     var weightType: Int {
         WeightType.type(text: weightButton.title)
     }
@@ -95,7 +98,10 @@ extension ExerciseHeaderTVCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        deleteButton.addCorner(style: .circle(length: deleteButton.frame.height))
+        if !didLayoutSubviews {
+            deleteButton.addCorner(style: .circle(length: deleteButton.frame.height))
+            didLayoutSubviews = true
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -117,8 +123,6 @@ extension ExerciseHeaderTVCell: ViewAdding {
     }
 
     func setupViews() {
-        selectionStyle = .none
-
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
 
         var counter = 0
@@ -135,8 +139,7 @@ extension ExerciseHeaderTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
+        contentView.backgroundColor = .secondaryBackground
         [nameLabel, setsLabel, lastLabel, repsLabel].forEach { $0.textColor = .primaryText }
         doneButton.setTitleColor(.primaryText, for: .normal)
         doneButton.tintColor = .primaryText
@@ -149,13 +152,13 @@ extension ExerciseHeaderTVCell: ViewAdding {
         infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
 
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
             nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
             nameLabel.heightAnchor.constraint(equalToConstant: 22),
 
-            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             deleteButton.widthAnchor.constraint(equalToConstant: 15),
             deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),

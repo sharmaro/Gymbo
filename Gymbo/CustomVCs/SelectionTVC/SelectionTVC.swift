@@ -48,7 +48,6 @@ extension SelectionTVC: ViewAdding {
 
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
         tableView.register(LabelTVCell.self,
                            forCellReuseIdentifier: LabelTVCell.reuseIdentifier)
     }

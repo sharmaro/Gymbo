@@ -90,9 +90,13 @@ extension CreateEditSessionTVC: ViewAdding {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
+        tableView.allowsSelection = false
         tableView.separatorStyle = .none
         tableView.delaysContentTouches = false
         tableView.keyboardDismissMode = .interactive
+        tableView.showsVerticalScrollIndicator = false
+        tableView.register(ExercisesHFV.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(ExerciseHeaderTVCell.self,
                            forCellReuseIdentifier: ExerciseHeaderTVCell.reuseIdentifier)
         tableView.register(ExerciseDetailTVCell.self,
@@ -109,7 +113,7 @@ extension CreateEditSessionTVC: ViewAdding {
         dataModel.firstText = session?.name ?? Constants.namePlaceholderText
         dataModel.secondText = session?.info ?? Constants.infoPlaceholderText
         dataModel.textColor = customDataSource?.sessionState == .create ?
-                             .dimmedSecondaryBackground : .primaryText
+                             .secondaryText : .primaryText
 
         tableHeaderView.configure(dataModel: dataModel)
         tableHeaderView.customTextViewDelegate = self

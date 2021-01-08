@@ -24,7 +24,7 @@ class StopwatchVC: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.allowsSelection = false
-        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
         return tableView
     }()
 

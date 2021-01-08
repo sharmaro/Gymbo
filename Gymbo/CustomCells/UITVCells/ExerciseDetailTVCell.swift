@@ -47,7 +47,8 @@ class ExerciseDetailTVCell: UITableViewCell {
 
     var didSelect = false {
         didSet {
-            backgroundColor = didSelect ? .systemGreen : .clear
+            contentView.backgroundColor = didSelect ?
+                .systemGreen : .secondaryBackground
         }
     }
 
@@ -157,12 +158,14 @@ extension ExerciseDetailTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = didSelect ? .systemGreen : .clear
-        contentView.backgroundColor = .clear
-        [setsLabel, lastLabel].forEach { $0.textColor = .primaryText }
+        contentView.backgroundColor = didSelect ?
+            .systemGreen : .secondaryBackground
+        setsLabel.textColor = .primaryText
+        lastLabel.textColor = .secondaryText
         [repsTextField, weightTextField].forEach {
             $0.textColor = .primaryText
             $0.layer.borderColor = UIColor.defaultUnselectedBorder.cgColor
+            $0.backgroundColor = .primaryBackground
         }
         doneButton.setTitleColor(.primaryText, for: .normal)
         doneButton.tintColor = .primaryText

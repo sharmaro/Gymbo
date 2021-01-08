@@ -38,7 +38,7 @@ private extension CreateEditSessionTVDS {
     struct Constants {
         static let buttonText = "+ Set"
 
-        static let exerciseHeaderCellHeight = CGFloat(67)
+        static let exerciseHeaderCellHeight = CGFloat(77)
         static let exerciseDetailCellHeight = CGFloat(40)
         static let buttonCellHeight = CGFloat(65)
     }

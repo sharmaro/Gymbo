@@ -98,7 +98,6 @@ extension ExercisePreviewTVC: ViewAdding {
         tableView.delegate = customDelegate
 
         tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
         tableView.register(TwoLabelsTVCell.self,
                            forCellReuseIdentifier: TwoLabelsTVCell.reuseIdentifier)
         tableView.register(SwipableImageVTVCell.self,

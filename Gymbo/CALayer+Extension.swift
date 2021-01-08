@@ -15,7 +15,7 @@ extension CALayer {
     }
 
     func removeCorners() {
-        masksToBounds = false
+        cornerRadius = 0
     }
 
     func roundTopCorners(style: CornerStyle) {

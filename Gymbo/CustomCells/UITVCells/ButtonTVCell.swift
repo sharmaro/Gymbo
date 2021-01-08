@@ -47,8 +47,7 @@ extension ButtonTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
+        contentView.backgroundColor = .secondaryBackground
     }
 
     func addConstraints() {

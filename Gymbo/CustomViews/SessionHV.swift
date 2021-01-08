@@ -34,7 +34,7 @@ class SessionHV: UIView {
     }
 
     var isFirstTextValid: Bool {
-        firstTextView.textColor != .dimmedSecondaryBackground && !firstTextView.text.isEmpty
+        firstTextView.textColor != .secondaryText && !firstTextView.text.isEmpty
     }
 
     var isContentEditable = true {
@@ -80,18 +80,18 @@ extension SessionHV: ViewAdding {
             textView.isSelectable = false
             textView.isScrollEnabled = false
             textView.isEditable = true
-            textView.textContainerInset = .zero
-            textView.textContainer.lineFragmentPadding = 0
             textView.textContainer.lineBreakMode = .byWordWrapping
             textView.autocorrectionType = .no
             textView.delegate = self
         }
+        textViews.first?.layer.roundTopCorners(style: .small)
+        textViews.last?.layer.roundBottomCorners(style: .small)
     }
 
     func setupColors() {
         backgroundColor = .clear
         [firstTextView, secondTextView].forEach {
-            $0.backgroundColor = .clear
+            $0.backgroundColor = .secondaryBackground
         }
     }
 
@@ -123,10 +123,6 @@ extension SessionHV {
         secondTextView.text = dataModel.secondText
         firstTextView.textColor = dataModel.textColor
         secondTextView.textColor = dataModel.textColor
-    }
-
-    func makeFirstResponder() {
-        firstTextView.becomeFirstResponder()
     }
 }
 
