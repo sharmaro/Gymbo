@@ -45,7 +45,7 @@ extension ImageAndLabelView: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
+        backgroundColor = .clear
         label.textColor = label.textColor
     }
 

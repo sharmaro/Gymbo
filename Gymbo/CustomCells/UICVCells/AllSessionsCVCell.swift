@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class AllSessionsCVCell: UICollectionViewCell {
+class AllSessionsCVCell: RoundedCVCell {
     private var indexLabel = UILabel()
 
     private var containerVStack: UIStackView = {
@@ -65,12 +65,6 @@ class AllSessionsCVCell: UICollectionViewCell {
 
 // MARK: - UIView Var/Funcs
 extension AllSessionsCVCell {
-    override var isHighlighted: Bool {
-        didSet {
-            Transform.caseFromBool(bool: isHighlighted).transform(view: self)
-        }
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -93,7 +87,7 @@ extension AllSessionsCVCell {
 // MARK: - ViewAdding
 extension AllSessionsCVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [indexLabel, containerVStack])
+        roundedView.add(subviews: [indexLabel, containerVStack])
         [imageAndDurationView, imageAndWeightView].forEach {
             labelsHStackView.addArrangedSubview($0)
         }
@@ -105,10 +99,6 @@ extension AllSessionsCVCell: ViewAdding {
     }
 
     func setupViews() {
-        contentView.layer.addCorner(style: .small)
-        contentView.addBorder(1, color: .secondaryBackground)
-        contentView.addShadow(direction: .downRight)
-
         indexLabel.font = UIFont.medium.semibold
         [dateLabel, firstExerciseLabel].forEach {
             $0.font = UIFont.normal.light
@@ -117,10 +107,6 @@ extension AllSessionsCVCell: ViewAdding {
     }
 
     func setupColors() {
-        contentView.layer.borderColor = UIColor.secondaryBackground.cgColor
-        contentView.layer.shadowColor = UIColor.secondaryBackground.cgColor
-        contentView.backgroundColor = .primaryBackground
-
         [indexLabel, nameLabel, dateLabel, exerciseTitleLabel,
          firstExerciseLabel].forEach {
             $0.textColor = .primaryText
@@ -129,15 +115,15 @@ extension AllSessionsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            indexLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            indexLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                constant: 15),
+            indexLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
+            indexLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                                constant: 20),
             indexLabel.trailingAnchor.constraint(equalTo: containerVStack.leadingAnchor,
                                                 constant: -15),
 
             containerVStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             containerVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                      constant: -15)
+                                                      constant: -20)
         ])
     }
 }
