@@ -129,12 +129,17 @@ extension VCFactory {
         return exercisesVC
     }
 
-    static func makeMainNC(rootVC: UIViewController,
-                           transitioningDelegate: TransitioningDelegate? = nil) -> MainNC {
+    static func makeMainNC(
+        rootVC: UIViewController,
+        transitioningDelegate: TransitioningDelegate? = nil,
+        modalTransitionStyle: UIModalTransitionStyle? = .crossDissolve
+    ) -> MainNC {
         let mainNC = MainNC(rootVC: rootVC)
         if transitioningDelegate != nil {
             mainNC.modalPresentationStyle = .custom
-            mainNC.modalTransitionStyle = .crossDissolve
+            if let transitionStyle = modalTransitionStyle {
+                mainNC.modalTransitionStyle = transitionStyle
+            }
             mainNC.transitioningDelegate = transitioningDelegate
         }
         return mainNC

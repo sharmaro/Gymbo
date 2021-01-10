@@ -16,7 +16,7 @@ extension ExercisesVC: UIViewControllerTransitioningDelegate {
         let modalPresentationC = ModalPresentationC(
             presentedViewController: presented,
             presenting: presenting)
-        modalPresentationC.showDimmingView = presentationStyle == .normal
+        modalPresentationC.showBlurredView = presentationStyle == .normal
         modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
         return modalPresentationC
     }

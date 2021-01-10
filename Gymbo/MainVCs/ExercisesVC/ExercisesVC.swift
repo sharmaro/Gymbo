@@ -251,7 +251,7 @@ extension ExercisesVC {
         createEditExerciseVC.setAlphaDelegate = self
 
         let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseVC,
-                                       transitioningDelegate: self)
+                                           transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
 
         if presentationStyle == .modal {

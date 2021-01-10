@@ -61,7 +61,8 @@ extension AllSessionDaysCVC: ViewAdding {
         dateButton.sizeToFit()
         // Padding for text
         dateButton.frame.size.width += 15
-        dateButton.addTarget(self, action: #selector(dateButtonTapped),
+        dateButton.addTarget(self,
+                             action: #selector(dateButtonTapped),
                              for: .touchUpInside)
 
         collectionView.dataSource = customDataSource
@@ -90,13 +91,15 @@ extension AllSessionDaysCVC {
               let dataSource = customDataSource else {
             return
         }
+        Haptic.sendSelectionFeedback()
 
         let items = dataSource.dates.map { $0.formattedString(type: .short) }
-        let modalPickerVC = ModalPickerVC(title: "Select Date",
-                                          items: items)
-        modalPickerVC.delegate = self
-        modalPickerVC.modalPresentationStyle = .overFullScreen
-        navigationController?.present(modalPickerVC, animated: true)
+        let pickerVC = PickerVC(items: items,
+                                title: "Select Date")
+        pickerVC.delegate = self
+        let mainNC = VCFactory.makeMainNC(rootVC: pickerVC,
+                                          transitioningDelegate: self)
+        navigationController?.present(mainNC, animated: true)
     }
 }
 
@@ -117,8 +120,8 @@ extension AllSessionDaysCVC: ListDelegate {
     }
 }
 
-// MARK: - ModalPickerDelegate
-extension AllSessionDaysCVC: ModalPickerDelegate {
+// MARK: - PickerDelegate
+extension AllSessionDaysCVC: PickerDelegate {
     func selected(row: Int) {
         customDataSource?.selected(index: row)
         dateButton.title = customDataSource?.date.formattedString(type: .short) ?? ""

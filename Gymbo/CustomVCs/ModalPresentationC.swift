@@ -28,7 +28,7 @@ final class ModalPresentationC: UIPresentationController {
     }()
 
     var customBounds: CustomBounds?
-    var showDimmingView = true
+    var showBlurredView = true
     private var hasRegisteredForKeyboardNotifications = false
 
     // MARK: - UIPresentationController Var/Funcs
@@ -39,8 +39,8 @@ final class ModalPresentationC: UIPresentationController {
 
         if let bounds = customBounds {
             if !hasRegisteredForKeyboardNotifications {
-                hasRegisteredForKeyboardNotifications = true
                 registerForKeyboardNotifications()
+                hasRegisteredForKeyboardNotifications = true
             }
             let width = containerView.bounds.width - (2 * bounds.horizontalPadding)
             let height = containerView.bounds.height * bounds.percentHeight
@@ -82,7 +82,7 @@ final class ModalPresentationC: UIPresentationController {
     override func presentationTransitionWillBegin() {
         guard let container = containerView,
             let coordinator = presentingViewController.transitionCoordinator,
-            showDimmingView else {
+            showBlurredView else {
                 return
         }
 
@@ -97,7 +97,7 @@ final class ModalPresentationC: UIPresentationController {
 
     override func dismissalTransitionWillBegin() {
         guard let coordinator = presentingViewController.transitionCoordinator,
-        showDimmingView else {
+        showBlurredView else {
             return
         }
 
@@ -107,7 +107,7 @@ final class ModalPresentationC: UIPresentationController {
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
-        if completed, showDimmingView {
+        if completed, showBlurredView {
             blurredView.removeFromSuperview()
         }
     }

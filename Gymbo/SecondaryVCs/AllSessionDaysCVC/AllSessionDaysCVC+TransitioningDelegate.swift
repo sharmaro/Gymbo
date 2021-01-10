@@ -1,22 +1,21 @@
 //
-//  ExercisePreviewVC+TransitioningDelegate.swift
+//  AllSessionDaysCVC+TransitioningDelegate.swift
 //  Gymbo
 //
-//  Created by Rohan Sharma on 12/30/20.
-//  Copyright © 2020 Rohan Sharma. All rights reserved.
+//  Created by Rohan Sharma on 1/10/21.
+//  Copyright © 2021 Rohan Sharma. All rights reserved.
 //
 
 import UIKit
 
-extension ExercisePreviewVC: UIViewControllerTransitioningDelegate {
+extension AllSessionDaysCVC: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {
         let modalPresentationC = ModalPresentationC(
             presentedViewController: presented,
             presenting: presenting)
-        modalPresentationC.showBlurredView = false
-        modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.7)
+        modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20, percentHeight: 0.5)
         return modalPresentationC
     }
 }

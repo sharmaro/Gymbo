@@ -29,6 +29,8 @@
 		6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */; };
 		6930ACF2254EAA36002F2F80 /* SelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */; };
 		6930AD2E255E526C002F2F80 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */; };
+		6938066225ABC9DD00B8C307 /* AllSessionDaysCVC+TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938066125ABC9DD00B8C307 /* AllSessionDaysCVC+TransitioningDelegate.swift */; };
+		6938066A25ABCA9A00B8C307 /* PickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938066925ABCA9A00B8C307 /* PickerDelegate.swift */; };
 		69403781259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */; };
 		69403785259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */; };
 		6940378A259B1C1F009D4A05 /* ExercisePreviewTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69403789259B1C1F009D4A05 /* ExercisePreviewTVDS.swift */; };
@@ -101,7 +103,7 @@
 		696664FB24F37FD70049507A /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FA24F37FD70049507A /* Axis.swift */; };
 		696664FD24F3812A0049507A /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696664FC24F3812A0049507A /* Gradient.swift */; };
 		6967F14825A2EE2D00EBF932 /* SettingsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6967F14725A2EE2D00EBF932 /* SettingsItem.swift */; };
-		69692B8125A19D1D00476C1D /* ModalPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69692B8025A19D1D00476C1D /* ModalPickerVC.swift */; };
+		69692B8125A19D1D00476C1D /* PickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69692B8025A19D1D00476C1D /* PickerVC.swift */; };
 		69692B8D25A1AB8400476C1D /* TwoLabelsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69692B8C25A1AB8400476C1D /* TwoLabelsCVCell.swift */; };
 		69693CE5247D012A00E87133 /* ImagesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE4247D012A00E87133 /* ImagesTVCell.swift */; };
 		69693CE9247D07CF00E87133 /* SelectionCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69693CE8247D07CE00E87133 /* SelectionCVCell.swift */; };
@@ -258,6 +260,8 @@
 		6930ACEE254EA80B002F2F80 /* SelectionTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVC.swift; sourceTree = "<group>"; };
 		6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionDelegate.swift; sourceTree = "<group>"; };
 		6930AD2D255E526C002F2F80 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		6938066125ABC9DD00B8C307 /* AllSessionDaysCVC+TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AllSessionDaysCVC+TransitioningDelegate.swift"; sourceTree = "<group>"; };
+		6938066925ABCA9A00B8C307 /* PickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerDelegate.swift; sourceTree = "<group>"; };
 		69403780259B0D69009D4A05 /* CreateEditSessionTVC+CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+CustomTextViewDelegate.swift"; sourceTree = "<group>"; };
 		69403784259B0E19009D4A05 /* CreateEditSessionTVC+ExerciseTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditSessionTVC+ExerciseTVCellDelegate.swift"; sourceTree = "<group>"; };
 		69403789259B1C1F009D4A05 /* ExercisePreviewTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePreviewTVDS.swift; sourceTree = "<group>"; };
@@ -332,7 +336,7 @@
 		696664FA24F37FD70049507A /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
 		696664FC24F3812A0049507A /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		6967F14725A2EE2D00EBF932 /* SettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItem.swift; sourceTree = "<group>"; };
-		69692B8025A19D1D00476C1D /* ModalPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPickerVC.swift; sourceTree = "<group>"; };
+		69692B8025A19D1D00476C1D /* PickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerVC.swift; sourceTree = "<group>"; };
 		69692B8C25A1AB8400476C1D /* TwoLabelsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLabelsCVCell.swift; sourceTree = "<group>"; };
 		69693CE4247D012A00E87133 /* ImagesTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTVCell.swift; sourceTree = "<group>"; };
 		69693CE8247D07CE00E87133 /* SelectionCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCVCell.swift; sourceTree = "<group>"; };
@@ -696,7 +700,7 @@
 			children = (
 				69659C0724039C680054F655 /* AlertVC.swift */,
 				691405A62595EB3100DED7C7 /* MainNC.swift */,
-				69692B8025A19D1D00476C1D /* ModalPickerVC.swift */,
+				69692B8025A19D1D00476C1D /* PickerVC.swift */,
 				6956292C234463EF00E0AA96 /* ModalPresentationC.swift */,
 				69DF2809259BEA4100BDF65B /* SelectionTVC */,
 			);
@@ -720,6 +724,7 @@
 				6975760E259881C20063BE74 /* ListDataSource.swift */,
 				697575D825981BB00063BE74 /* ListDelegate.swift */,
 				6972E414249F2A7400479E91 /* MultipleSelectionTVCellDelegate.swift */,
+				6938066925ABCA9A00B8C307 /* PickerDelegate.swift */,
 				6930ACF1254EAA36002F2F80 /* SelectionDelegate.swift */,
 				69E3B485249F15C400E4DD99 /* SessionDataModelDelegate.swift */,
 				6972E3FD249F268500479E91 /* SessionProgressDelegate.swift */,
@@ -948,6 +953,7 @@
 				69B41D1625A1912A008C250D /* AllSessionDaysCVC.swift */,
 				69B41D1B25A1913E008C250D /* AllSessionDaysCVDS.swift */,
 				69B41D1F25A1914B008C250D /* AllSessionDaysCVD.swift */,
+				6938066125ABC9DD00B8C307 /* AllSessionDaysCVC+TransitioningDelegate.swift */,
 			);
 			path = AllSessionDaysCVC;
 			sourceTree = "<group>";
@@ -1221,7 +1227,7 @@
 				694DE918259D6D1400F1A512 /* SettingsTVC+MFMailComposeViewControllerDelegate.swift in Sources */,
 				694DE90E259D6AC700F1A512 /* CreateEditSessionTVC+ListDataSource.swift in Sources */,
 				6972E3F6249F24DD00479E91 /* ButtonFunction.swift in Sources */,
-				69692B8125A19D1D00476C1D /* ModalPickerVC.swift in Sources */,
+				69692B8125A19D1D00476C1D /* PickerVC.swift in Sources */,
 				69F390AD257C9E7A00A9B513 /* AlertData.swift in Sources */,
 				694DE89C259D266D00F1A512 /* StartedSessionTVC+ListDelegate.swift in Sources */,
 				6950709B249752B900942078 /* ExerciseDetails.swift in Sources */,
@@ -1309,6 +1315,7 @@
 				693008042599CF47005D2578 /* SessionsCVDS.swift in Sources */,
 				6984DC272599C9F500254FC8 /* ProfileTVC.swift in Sources */,
 				6965C217254BF28500A898AB /* SelectionTVCell.swift in Sources */,
+				6938066A25ABCA9A00B8C307 /* PickerDelegate.swift in Sources */,
 				694DE8DE259D656C00F1A512 /* SessionsCVC+ListDelegate.swift in Sources */,
 				694DE852259C128300F1A512 /* StartedSessionTVC+ExerciseTVCellDelegate.swift in Sources */,
 				6972E3DA249F215400479E91 /* Notification+Extension.swift in Sources */,
@@ -1348,6 +1355,7 @@
 				69B41D1725A1912A008C250D /* AllSessionDaysCVC.swift in Sources */,
 				695F9F1125A069DB0008C861 /* ImageAndLabelView.swift in Sources */,
 				69FE591425AADE4800322AAE /* VisualEffectView.swift in Sources */,
+				6938066225ABC9DD00B8C307 /* AllSessionDaysCVC+TransitioningDelegate.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
 				694DE8F2259D698D00F1A512 /* CreateEditSessionTVC+KeyboardObserving.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,
