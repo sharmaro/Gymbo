@@ -47,6 +47,9 @@ extension AllSessionDaysCVC: ViewAdding {
     func setupNavigationBar() {
         title = "Session Days"
         navigationItem.titleView = dateButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                                           target: self,
+                                                           action: #selector(closeButtonTapped))
     }
 
     func addViews() {
@@ -77,6 +80,11 @@ extension AllSessionDaysCVC: ViewAdding {
 
 // MARK: - Funcs
 extension AllSessionDaysCVC {
+    @objc private func closeButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
+        dismiss(animated: true)
+    }
+
     @objc private func dateButtonTapped(_ sender: Any) {
         guard sender is CustomButton,
               let dataSource = customDataSource else {
