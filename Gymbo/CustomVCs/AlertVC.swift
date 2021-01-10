@@ -10,6 +10,8 @@ import UIKit
 
 // MARK: - Properties
 class AlertVC: UIViewController {
+    private let blurredView = VisualEffectView()
+
     private let containerView: UIView = {
         let view = UIView()
         view.addCorner(style: .small)
@@ -91,7 +93,7 @@ extension AlertVC {
 // MARK: - ViewAdding
 extension AlertVC: ViewAdding {
     func addViews() {
-        view.add(subviews: [containerView])
+        view.add(subviews: [blurredView, containerView])
         containerView.add(subviews: [titleLabel, contentLabel, buttonsStackView])
         if alertData.usesBothButtons {
             buttonsStackView.addArrangedSubview(leftButton)
@@ -100,7 +102,7 @@ extension AlertVC: ViewAdding {
     }
 
     func setupViews() {
-        view.backgroundColor = .dimmedBackgroundBlack
+        view.backgroundColor = .clear
 
         titleLabel.text = alertData.title
         contentLabel.text = alertData.content
@@ -115,12 +117,13 @@ extension AlertVC: ViewAdding {
     }
 
     func setupColors() {
-        containerView.backgroundColor = .secondaryBackground
+        containerView.backgroundColor = .primaryBackground
         titleLabel.textColor = .white
         contentLabel.textColor = .primaryText
     }
 
     func addConstraints() {
+        blurredView.autoPinEdges(to: view)
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.safeAreaLayoutGuide.leadingAnchor.constraint(

@@ -258,6 +258,13 @@ extension RestVC {
         }
     }
 
+    private func changeTime(delta: Int) {
+        Haptic.sendSelectionFeedback()
+        startedSessionTimers?.totalRestTime += delta
+        startedSessionTimers?.restTimeRemaining += delta
+        updateAnimation()
+    }
+
     private func updateAnimation() {
         let totalRestTime = startedSessionTimers?.totalRestTime ?? 0
         let restTimeRemaining = startedSessionTimers?.restTimeRemaining ?? 0
@@ -270,13 +277,6 @@ extension RestVC {
             circleProgressView.stopAnimation()
             dismiss(animated: true)
         }
-    }
-
-    private func changeTime(delta: Int) {
-        Haptic.sendSelectionFeedback()
-        startedSessionTimers?.totalRestTime += delta
-        startedSessionTimers?.restTimeRemaining += delta
-        updateAnimation()
     }
 
     @objc private func closeButtonTapped() {

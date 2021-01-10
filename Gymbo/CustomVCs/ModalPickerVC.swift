@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class ModalPickerVC: UIViewController {
+    private let blurredView = VisualEffectView()
     private let containerView = UIView()
     private let tabBarView = UIView()
 
@@ -82,7 +83,7 @@ extension ModalPickerVC {
 // MARK: - ViewAdding
 extension ModalPickerVC: ViewAdding {
     func addViews() {
-        view.add(subviews: [containerView])
+        view.add(subviews: [blurredView, containerView])
         containerView.add(subviews: [tabBarView, pickerView])
         tabBarView.add(subviews: [cancelButton, titleLabel, selectButton])
     }
@@ -103,13 +104,14 @@ extension ModalPickerVC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .dimmedBackgroundBlack
+        view.backgroundColor = .clear
         containerView.backgroundColor = .secondaryBackground
         tabBarView.backgroundColor = .secondaryBackground
         titleLabel.textColor = .primaryText
     }
 
     func addConstraints() {
+        blurredView.autoPinEdges(to: view)
         NSLayoutConstraint.activate([
             containerView.safeAreaLayoutGuide.leadingAnchor
                 .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

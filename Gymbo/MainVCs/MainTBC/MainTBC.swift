@@ -104,8 +104,8 @@ extension MainTBC {
         isSessionInProgress = true
         updateSessionProgressObservingViewControllers(state: .start)
 
-        let dimmedView = UIView(frame: view.frame)
-        dimmedView.backgroundColor = .dimmedBackgroundBlack
+        let blurredView = VisualEffectView(frame: view.frame,
+                                           style: .dark)
 
         let height = view.frame.height - Constants.defaultYOffset
         let shadowContainerView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: view.frame.height),
@@ -119,7 +119,7 @@ extension MainTBC {
                                                                 session: session,
                                                                 exercisesTVDS: exercisesTVDS,
                                                                 delegate: self,
-                                                                dimmedView: dimmedView,
+                                                                blurredView: blurredView,
                                                                 panView: shadowContainerView,
                                                                 initialTabBarFrame: tabBar.frame)
 
@@ -134,7 +134,7 @@ extension MainTBC {
         addChild(containerNavigationController)
         containerNavigationController.didMove(toParent: self)
 
-        view.insertSubview(dimmedView, belowSubview: shadowContainerView)
+        view.insertSubview(blurredView, belowSubview: shadowContainerView)
         view.layoutIfNeeded()
 
         UIView.animate(withDuration: 0.4,

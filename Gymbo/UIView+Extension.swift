@@ -98,42 +98,6 @@ extension UIView {
         layer.cornerRadius = style.radius
     }
 
-    func addDimmedView(animated: Bool = false) {
-        let dimmedView = UIView()
-        dimmedView.backgroundColor = .dimmedBackgroundBlack
-        dimmedView.alpha = 0
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(dimmedView)
-        dimmedView.autoPinEdges(to: self)
-
-        if animated {
-            UIView.animate(withDuration: .defaultAnimationTime) {
-                dimmedView.alpha = 1
-            }
-        } else {
-            dimmedView.alpha = 1
-        }
-    }
-
-    func removeDimmedView(animated: Bool = false) {
-        guard let dimmedView = subviews.last,
-            dimmedView.backgroundColor == .dimmedBackgroundBlack else {
-            return
-        }
-
-        if animated {
-            UIView.animate(withDuration: .defaultAnimationTime,
-                           animations: {
-                dimmedView.alpha = 0
-            }) { _ in
-                dimmedView.removeFromSuperview()
-            }
-        } else {
-            dimmedView.removeFromSuperview()
-        }
-    }
-
     func addMovingLayerAnimation(animatedColor: UIColor = .systemGray, duration: Int,
                                  totalTime: Int = 0, timeRemaining: Int = 0) {
         if let sublayer = layer.sublayers?.first as? CAShapeLayer {

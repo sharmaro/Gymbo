@@ -10,19 +10,17 @@ import UIKit
 
 // MARK: - Properties
 final class ModalPresentationC: UIPresentationController {
-    private lazy var dimmingView: UIView = {
+    private lazy var blurredView: VisualEffectView = {
         guard let containerView = containerView else {
-            return UIView()
+            return VisualEffectView()
         }
 
-        let dimmingView = UIView(frame: containerView.bounds)
-        dimmingView.backgroundColor = .dimmedBackgroundBlack
-        if customBounds == nil {
-            dimmingView.addGestureRecognizer(
-                UITapGestureRecognizer(target: self, action: #selector(dismiss))
-            )
-        }
-        return dimmingView
+        let view = VisualEffectView(frame: containerView.bounds,
+                                    style: .dark)
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismiss))
+        )
+        return view
     }()
 
     private lazy var panGesture: UIPanGestureRecognizer = {
@@ -88,13 +86,12 @@ final class ModalPresentationC: UIPresentationController {
                 return
         }
 
-        dimmingView.alpha = 0
-        dimmingView.addSubview(presentedViewController.view)
-        container.addSubview(dimmingView)
+        blurredView.alpha = 0
+        blurredView.contentView.addSubview(presentedViewController.view)
+        container.addSubview(blurredView)
 
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let self = self else { return }
-            self.dimmingView.alpha = 1
+            self?.blurredView.alpha = 1
         })
     }
 
@@ -105,14 +102,13 @@ final class ModalPresentationC: UIPresentationController {
         }
 
         coordinator.animate(alongsideTransition: { [weak self] _ -> Void in
-            guard let self = self else { return }
-            self.dimmingView.alpha = 0
+            self?.blurredView.alpha = 0
         })
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed, showDimmingView {
-            dimmingView.removeFromSuperview()
+            blurredView.removeFromSuperview()
         }
     }
 }

@@ -42,7 +42,7 @@ class StartedSessionTVC: UITableViewController {
     private var panState = PanState.full
 
     var initialTabBarFrame: CGRect?
-    weak var dimmedView: UIView?
+    weak var blurredView: UIVisualEffectView?
     weak var panView: UIView?
 
     var customDataSource: StartedSessionTVDS?
@@ -160,6 +160,9 @@ extension StartedSessionTVC: ViewAdding {
 
     func setupColors() {
         view.backgroundColor = .primaryBackground
+        if panState == .mini {
+            panView?.showShadow()
+        }
     }
 
     func addConstraints() {
@@ -197,7 +200,7 @@ extension StartedSessionTVC {
     }
 
     private func cleanupProperties() {
-        dimmedView?.removeFromSuperview()
+        blurredView?.removeFromSuperview()
         panView?.removeFromSuperview()
         customDataSource?.session = nil
         initialTabBarFrame = nil
@@ -267,7 +270,7 @@ extension StartedSessionTVC {
 
     private func resizeToFullView() {
         if panState != .full {
-            dimmedView?.frame.origin = mainTBC?.view.frame.origin ?? .zero
+            blurredView?.frame.origin = mainTBC?.view.frame.origin ?? .zero
         }
 
         UIView.animate(withDuration: .defaultAnimationTime,
@@ -282,7 +285,7 @@ extension StartedSessionTVC {
              yielding in an unnecessary call
             */
             if self?.panState != .full {
-                self?.dimmedView?.backgroundColor = .dimmedBackgroundBlack
+                self?.blurredView?.alpha = 1
                 self?.panView?.hideShadow()
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = true
@@ -307,7 +310,7 @@ extension StartedSessionTVC {
              yielding in an unnecessary call
             */
             if self?.panState != .mini {
-                self?.dimmedView?.backgroundColor = .clear
+                self?.blurredView?.backgroundColor = .clear
                 self?.panView?.showShadow()
             }
             self?.navigationController?.navigationBar.prefersLargeTitles = false
@@ -321,7 +324,7 @@ extension StartedSessionTVC {
             mainTBC.tabBar.frame = defaultTabBarFrame
         }) { [weak self] _ in
             if self?.panState != .mini {
-                self?.dimmedView?.frame.origin = self?.panView?.frame.origin ?? CGPoint.zero
+                self?.blurredView?.frame.origin = self?.panView?.frame.origin ?? CGPoint.zero
             }
             self?.panState = .mini
         }
@@ -366,7 +369,7 @@ extension StartedSessionTVC {
                 return
             }
 
-            self?.dimmedView?.alpha = 0
+            self?.blurredView?.alpha = 0
             navigationController.view.frame = CGRect(
                 origin: CGPoint(x: 0,
                                 y: navigationController.view.frame.height),

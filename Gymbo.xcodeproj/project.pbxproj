@@ -219,6 +219,7 @@
 		69F3B995259F12B5008ACE32 /* ProfileInfoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B994259F12B5008ACE32 /* ProfileInfoTVCell.swift */; };
 		69F3B99D25A00E53008ACE32 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B99C25A00E53008ACE32 /* Date+Extension.swift */; };
 		69F3B9A125A00ECA008ACE32 /* SizeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3B9A025A00ECA008ACE32 /* SizeType.swift */; };
+		69FE591425AADE4800322AAE /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FE591325AADE4800322AAE /* VisualEffectView.swift */; };
 		ADB0BBDDB012F8BF052C5F46 /* Pods_Gymbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 315700FCAC782D0687667285 /* Pods_Gymbo.framework */; };
 /* End PBXBuildFile section */
 
@@ -451,6 +452,7 @@
 		69F3B994259F12B5008ACE32 /* ProfileInfoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoTVCell.swift; sourceTree = "<group>"; };
 		69F3B99C25A00E53008ACE32 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		69F3B9A025A00ECA008ACE32 /* SizeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeType.swift; sourceTree = "<group>"; };
+		69FE591325AADE4800322AAE /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		FB31E3CEBC89B2BDC6ABC199 /* Pods-Gymbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gymbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Gymbo/Pods-Gymbo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -495,6 +497,7 @@
 				6901E4762387B4DC0051D1B2 /* SessionHV.swift */,
 				69CB2D8B23CC035100603363 /* StartedSessionFV.swift */,
 				6972E43624BEB26400479E91 /* ToggleButton.swift */,
+				69FE591325AADE4800322AAE /* VisualEffectView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1344,6 +1347,7 @@
 				6972E400249F26D100479E91 /* SetAlphaDelegate.swift in Sources */,
 				69B41D1725A1912A008C250D /* AllSessionDaysCVC.swift in Sources */,
 				695F9F1125A069DB0008C861 /* ImageAndLabelView.swift in Sources */,
+				69FE591425AADE4800322AAE /* VisualEffectView.swift in Sources */,
 				6972E3E9249F22FF00479E91 /* UIFont+Extension.swift in Sources */,
 				694DE8F2259D698D00F1A512 /* CreateEditSessionTVC+KeyboardObserving.swift in Sources */,
 				6972E42C249F2EBF00479E91 /* SessionDetailType.swift in Sources */,

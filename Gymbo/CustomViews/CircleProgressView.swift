@@ -16,10 +16,7 @@ class CircleProgressView: UIView {
         return label
     }()
 
-    private let timeRemainingLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+    private let timeRemainingLabel = UILabel()
 
     private let staticLayer = CAShapeLayer()
     private let animatedLayer = CAShapeLayer()
@@ -102,7 +99,8 @@ extension CircleProgressView: ViewAdding {
 
     func setupColors() {
         backgroundColor = .clear
-        timeRemainingLabel.textColor = .dimmedSecondaryBackground
+        totalTimeLabel.textColor = .primaryText
+        timeRemainingLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
@@ -110,14 +108,16 @@ extension CircleProgressView: ViewAdding {
             totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
             totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            totalTimeLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.labelSpacing),
+            totalTimeLabel.centerYAnchor.constraint(
+                equalTo: centerYAnchor,
+                constant: -Constants.labelSpacing),
 
             timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
             timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            timeRemainingLabel.centerYAnchor.constraint(
-                equalTo: centerYAnchor,
-                constant: -Constants.labelSpacing)
+                timeRemainingLabel.centerYAnchor.constraint(
+                    equalTo: centerYAnchor,
+                    constant: Constants.labelSpacing)
         ])
     }
 }

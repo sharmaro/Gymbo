@@ -243,12 +243,12 @@ extension VCFactory {
                                       session: Session?,
                                       exercisesTVDS: ExercisesTVDS?,
                                       delegate: SessionProgressDelegate?,
-                                      dimmedView: UIView,
+                                      blurredView: UIVisualEffectView,
                                       panView: UIView,
                                       initialTabBarFrame: CGRect) -> StartedSessionTVC {
         let startedSessionTVC = StartedSessionTVC(style: style)
         startedSessionTVC.exercisesTVDS = exercisesTVDS
-        startedSessionTVC.dimmedView = dimmedView
+        startedSessionTVC.blurredView = blurredView
         startedSessionTVC.panView = panView
         startedSessionTVC.initialTabBarFrame = initialTabBarFrame
         startedSessionTVC.startedSessionTimers = StartedSessionTimers(

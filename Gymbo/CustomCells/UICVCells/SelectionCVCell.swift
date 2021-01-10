@@ -67,7 +67,7 @@ extension SelectionCVCell: ViewAdding {
         if isSelected {
             selectionLabel.textColor = .primaryText
         } else {
-            selectionLabel.textColor = .systemBlue
+            selectionLabel.textColor = .secondaryText
             containerView.backgroundColor = .primaryBackground
         }
     }
@@ -101,7 +101,7 @@ extension SelectionCVCell {
                 self.selectionLabel.textColor = .primaryText
                 self.containerView.addGradient(colors: [.customBlue, .customLightGray])
             } else {
-                self.selectionLabel.textColor = .systemBlue
+                self.selectionLabel.textColor = .secondaryText
                 self.containerView.backgroundColor = .primaryBackground
                 self.containerView.removeGradient()
             }
