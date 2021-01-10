@@ -104,9 +104,8 @@ extension ModalPickerVC: ViewAdding {
     }
 
     func setupColors() {
-        view.backgroundColor = .clear
-        containerView.backgroundColor = .secondaryBackground
-        tabBarView.backgroundColor = .secondaryBackground
+        containerView.backgroundColor = .primaryBackground
+        tabBarView.backgroundColor = .primaryBackground
         titleLabel.textColor = .primaryText
     }
 
