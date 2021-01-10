@@ -195,6 +195,9 @@ extension StopwatchTVDS: UITableViewDataSource {
         } else {
             cell.updateColors(color: .primaryText)
         }
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

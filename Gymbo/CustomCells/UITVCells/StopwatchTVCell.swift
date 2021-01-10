@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class StopwatchTVCell: UITableViewCell {
+class StopwatchTVCell: RoundedTVCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .medium
@@ -47,24 +47,24 @@ extension StopwatchTVCell {
 // MARK: - ViewAdding
 extension StopwatchTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [descriptionLabel, valueLabel])
+        roundedView.add(subviews: [descriptionLabel, valueLabel])
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
         [descriptionLabel, valueLabel].forEach { $0.textColor = .primaryText }
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: roundedView.topAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
+                                                      constant: 20),
+            descriptionLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
 
-            valueLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            valueLabel.topAnchor.constraint(equalTo: roundedView.safeAreaLayoutGuide.topAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
+                                                 constant: -20),
+            valueLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
             valueLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
     }
