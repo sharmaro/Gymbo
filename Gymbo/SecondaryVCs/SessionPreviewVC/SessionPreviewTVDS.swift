@@ -47,6 +47,9 @@ extension SessionPreviewTVDS: UITableViewDataSource {
         }
 
         exerciseTVCell.configure(dataModel: exercise)
+        Utility.configureCellRounding(in: tableView,
+                                      with: exerciseTVCell,
+                                      for: indexPath)
         return exerciseTVCell
     }
 }

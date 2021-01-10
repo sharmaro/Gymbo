@@ -93,6 +93,7 @@ extension SessionPreviewTVC: ViewAdding {
         tableView.delegate = customDelegate
 
         tableView.allowsSelection = false
+        tableView.separatorStyle = .none
         tableView.register(ExerciseTVCell.self,
                            forCellReuseIdentifier: ExerciseTVCell.reuseIdentifier)
 

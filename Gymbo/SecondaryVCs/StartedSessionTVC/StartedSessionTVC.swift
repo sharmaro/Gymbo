@@ -144,6 +144,7 @@ extension StartedSessionTVC: ViewAdding {
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
         tableView.sectionFooterHeight = 0
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(ExerciseHeaderTVCell.self,
