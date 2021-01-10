@@ -1,5 +1,5 @@
 //
-//  ExercisesTVC+ExerciseDataModelDelegate.swift
+//  ExercisesVC+ExerciseDataModelDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension ExercisesTVC: ExerciseDataModelDelegate {
+extension ExercisesVC: ExerciseDataModelDelegate {
     func create(_ exercise: Exercise, completion: @escaping (Result<Any?, DataError>) -> Void) {
         customDataSource?.create(exercise) { [weak self] result in
             switch result {

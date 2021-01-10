@@ -52,12 +52,12 @@ enum OnboardingStep: CaseIterable {
         return mainNC.viewControllers.first as? SessionsCVC
     }
 
-    private var exercisesTVC: ExercisesTVC? {
+    private var exercisesVC: ExercisesVC? {
         guard let mainNC = windowMainTBC?
                 .viewControllers?[3] as? MainNC else {
             return nil
         }
-        return mainNC.viewControllers.first as? ExercisesTVC
+        return mainNC.viewControllers.first as? ExercisesVC
     }
 
     private var stopwatchVC: StopwatchVC? {
@@ -113,7 +113,7 @@ enum OnboardingStep: CaseIterable {
         var outerVC = UIViewController()
         switch self {
         case .exercisesAddButton:
-            guard let vc = exercisesTVC else {
+            guard let vc = exercisesVC else {
                 return .zero
             }
             outerVC = vc

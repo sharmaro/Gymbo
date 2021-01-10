@@ -20,7 +20,7 @@ extension StartedSessionTVC: UIViewControllerTransitioningDelegate {
         case .restVC:
             modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20,
                                                            percentHeight: 0.7)
-        case .exercisesTVC:
+        case .exercisesVC:
             modalPresentationC.customBounds = CustomBounds(horizontalPadding: 20,
                                                            percentHeight: 0.8)
         case .none:

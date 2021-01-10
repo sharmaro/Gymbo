@@ -52,10 +52,10 @@
 		694DE8A8259D2EAC00F1A512 /* SelectionTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8A7259D2EAC00F1A512 /* SelectionTVDS.swift */; };
 		694DE8AC259D2EB600F1A512 /* SelectionTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8AB259D2EB600F1A512 /* SelectionTVD.swift */; };
 		694DE8B0259D33B800F1A512 /* SelectionTVC+ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8AF259D33B800F1A512 /* SelectionTVC+ListDelegate.swift */; };
-		694DE8B6259D35BC00F1A512 /* ExercisesTVC+KeyboardObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8B5259D35BC00F1A512 /* ExercisesTVC+KeyboardObserving.swift */; };
-		694DE8BA259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8B9259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift */; };
-		694DE8C2259D371500F1A512 /* ExercisesTVC+SetAlphaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8C1259D371500F1A512 /* ExercisesTVC+SetAlphaDelegate.swift */; };
-		694DE8C6259D375800F1A512 /* ExercisesTVC+TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8C5259D375800F1A512 /* ExercisesTVC+TransitioningDelegate.swift */; };
+		694DE8B6259D35BC00F1A512 /* ExercisesVC+KeyboardObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8B5259D35BC00F1A512 /* ExercisesVC+KeyboardObserving.swift */; };
+		694DE8BA259D35F800F1A512 /* ExercisesVC+ExerciseDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8B9259D35F800F1A512 /* ExercisesVC+ExerciseDataModelDelegate.swift */; };
+		694DE8C2259D371500F1A512 /* ExercisesVC+SetAlphaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8C1259D371500F1A512 /* ExercisesVC+SetAlphaDelegate.swift */; };
+		694DE8C6259D375800F1A512 /* ExercisesVC+TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8C5259D375800F1A512 /* ExercisesVC+TransitioningDelegate.swift */; };
 		694DE8D2259D640800F1A512 /* SessionsCVC+SessionProgressDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8D1259D640800F1A512 /* SessionsCVC+SessionProgressDelegate.swift */; };
 		694DE8DE259D656C00F1A512 /* SessionsCVC+ListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8DD259D656C00F1A512 /* SessionsCVC+ListDelegate.swift */; };
 		694DE8EA259D691100F1A512 /* CreateEditExerciseTVC+CustomTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DE8E9259D691100F1A512 /* CreateEditExerciseTVC+CustomTextViewDelegate.swift */; };
@@ -165,7 +165,7 @@
 		6975760B25986AA80063BE74 /* exercise_sections.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6975760A25986AA80063BE74 /* exercise_sections.txt */; };
 		6975760F259881C20063BE74 /* ListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6975760E259881C20063BE74 /* ListDataSource.swift */; };
 		69777A5325996F3B00ED25CC /* ExerciseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69777A5225996F3B00ED25CC /* ExerciseLoader.swift */; };
-		697D461523F3B58A002ACDA7 /* ExercisesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */; };
+		697D461523F3B58A002ACDA7 /* ExercisesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D461423F3B58A002ACDA7 /* ExercisesVC.swift */; };
 		6984DC1A2599BC3400254FC8 /* MainTBDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC192599BC3400254FC8 /* MainTBDS.swift */; };
 		6984DC1F2599C9C800254FC8 /* ProfileTVDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC1E2599C9C800254FC8 /* ProfileTVDS.swift */; };
 		6984DC232599C9D800254FC8 /* ProfileTVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6984DC222599C9D800254FC8 /* ProfileTVD.swift */; };
@@ -281,10 +281,10 @@
 		694DE8A7259D2EAC00F1A512 /* SelectionTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVDS.swift; sourceTree = "<group>"; };
 		694DE8AB259D2EB600F1A512 /* SelectionTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTVD.swift; sourceTree = "<group>"; };
 		694DE8AF259D33B800F1A512 /* SelectionTVC+ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectionTVC+ListDelegate.swift"; sourceTree = "<group>"; };
-		694DE8B5259D35BC00F1A512 /* ExercisesTVC+KeyboardObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesTVC+KeyboardObserving.swift"; sourceTree = "<group>"; };
-		694DE8B9259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesTVC+ExerciseDataModelDelegate.swift"; sourceTree = "<group>"; };
-		694DE8C1259D371500F1A512 /* ExercisesTVC+SetAlphaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesTVC+SetAlphaDelegate.swift"; sourceTree = "<group>"; };
-		694DE8C5259D375800F1A512 /* ExercisesTVC+TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesTVC+TransitioningDelegate.swift"; sourceTree = "<group>"; };
+		694DE8B5259D35BC00F1A512 /* ExercisesVC+KeyboardObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesVC+KeyboardObserving.swift"; sourceTree = "<group>"; };
+		694DE8B9259D35F800F1A512 /* ExercisesVC+ExerciseDataModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesVC+ExerciseDataModelDelegate.swift"; sourceTree = "<group>"; };
+		694DE8C1259D371500F1A512 /* ExercisesVC+SetAlphaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesVC+SetAlphaDelegate.swift"; sourceTree = "<group>"; };
+		694DE8C5259D375800F1A512 /* ExercisesVC+TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExercisesVC+TransitioningDelegate.swift"; sourceTree = "<group>"; };
 		694DE8D1259D640800F1A512 /* SessionsCVC+SessionProgressDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionsCVC+SessionProgressDelegate.swift"; sourceTree = "<group>"; };
 		694DE8DD259D656C00F1A512 /* SessionsCVC+ListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionsCVC+ListDelegate.swift"; sourceTree = "<group>"; };
 		694DE8E9259D691100F1A512 /* CreateEditExerciseTVC+CustomTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateEditExerciseTVC+CustomTextViewDelegate.swift"; sourceTree = "<group>"; };
@@ -396,7 +396,7 @@
 		6975760A25986AA80063BE74 /* exercise_sections.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exercise_sections.txt; sourceTree = "<group>"; };
 		6975760E259881C20063BE74 /* ListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataSource.swift; sourceTree = "<group>"; };
 		69777A5225996F3B00ED25CC /* ExerciseLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseLoader.swift; sourceTree = "<group>"; };
-		697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesTVC.swift; sourceTree = "<group>"; };
+		697D461423F3B58A002ACDA7 /* ExercisesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesVC.swift; sourceTree = "<group>"; };
 		6984DC192599BC3400254FC8 /* MainTBDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBDS.swift; sourceTree = "<group>"; };
 		6984DC1E2599C9C800254FC8 /* ProfileTVDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVDS.swift; sourceTree = "<group>"; };
 		6984DC222599C9D800254FC8 /* ProfileTVD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTVD.swift; sourceTree = "<group>"; };
@@ -639,7 +639,7 @@
 			isa = PBXGroup;
 			children = (
 				697575DC259852F80063BE74 /* DashboardCVC */,
-				697575ED259855B30063BE74 /* ExercisesTVC */,
+				697575ED259855B30063BE74 /* ExercisesVC */,
 				6984DC162599BBE800254FC8 /* MainTBC */,
 				6984DC1D2599C9A500254FC8 /* ProfileTVC */,
 				6984DC322599CE1C00254FC8 /* SessionsCVC */,
@@ -820,18 +820,18 @@
 			path = DashboardCVC;
 			sourceTree = "<group>";
 		};
-		697575ED259855B30063BE74 /* ExercisesTVC */ = {
+		697575ED259855B30063BE74 /* ExercisesVC */ = {
 			isa = PBXGroup;
 			children = (
-				697D461423F3B58A002ACDA7 /* ExercisesTVC.swift */,
+				697D461423F3B58A002ACDA7 /* ExercisesVC.swift */,
 				697575F02598593A0063BE74 /* ExercisesTVDS.swift */,
 				6975760025985ABC0063BE74 /* ExercisesTVD.swift */,
-				694DE8B9259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift */,
-				694DE8B5259D35BC00F1A512 /* ExercisesTVC+KeyboardObserving.swift */,
-				694DE8C1259D371500F1A512 /* ExercisesTVC+SetAlphaDelegate.swift */,
-				694DE8C5259D375800F1A512 /* ExercisesTVC+TransitioningDelegate.swift */,
+				694DE8B9259D35F800F1A512 /* ExercisesVC+ExerciseDataModelDelegate.swift */,
+				694DE8B5259D35BC00F1A512 /* ExercisesVC+KeyboardObserving.swift */,
+				694DE8C1259D371500F1A512 /* ExercisesVC+SetAlphaDelegate.swift */,
+				694DE8C5259D375800F1A512 /* ExercisesVC+TransitioningDelegate.swift */,
 			);
-			path = ExercisesTVC;
+			path = ExercisesVC;
 			sourceTree = "<group>";
 		};
 		6984DC162599BBE800254FC8 /* MainTBC */ = {
@@ -1194,7 +1194,7 @@
 				6972E402249F26E700479E91 /* ExerciseUpdatingDelegate.swift in Sources */,
 				695D4C0122D30B1D00E3FB1F /* MainTBC.swift in Sources */,
 				6930ACEF254EA80B002F2F80 /* SelectionTVC.swift in Sources */,
-				697D461523F3B58A002ACDA7 /* ExercisesTVC.swift in Sources */,
+				697D461523F3B58A002ACDA7 /* ExercisesVC.swift in Sources */,
 				6972E3C5249F1F2700479E91 /* KeyboardObserving.swift in Sources */,
 				69F012E22383A1BD008B4225 /* ExerciseHeaderTVCell.swift in Sources */,
 				694DE8FE259D69EB00F1A512 /* CreateEditSessionTVC+ExerciseUpdatingDelegate.swift in Sources */,
@@ -1241,7 +1241,7 @@
 				6972E3E7249F22E600479E91 /* CGFloat+Extension.swift in Sources */,
 				69DF588525A8361600F9E2CC /* RoundedCVCell.swift in Sources */,
 				69E3B484249F045300E4DD99 /* DataFetchDelegate.swift in Sources */,
-				694DE8BA259D35F800F1A512 /* ExercisesTVC+ExerciseDataModelDelegate.swift in Sources */,
+				694DE8BA259D35F800F1A512 /* ExercisesVC+ExerciseDataModelDelegate.swift in Sources */,
 				6972E3FA249F257700479E91 /* TextFieldType.swift in Sources */,
 				69DF2814259BEA6500BDF65B /* SettingsTVD.swift in Sources */,
 				6901E4772387B4DC0051D1B2 /* SessionHV.swift in Sources */,
@@ -1258,7 +1258,7 @@
 				69C1BCC7245D570800D23556 /* ExercisePreviewTVC.swift in Sources */,
 				6967F14825A2EE2D00EBF932 /* SettingsItem.swift in Sources */,
 				6972E3F8249F254800479E91 /* ImageRepresentationType.swift in Sources */,
-				694DE8B6259D35BC00F1A512 /* ExercisesTVC+KeyboardObserving.swift in Sources */,
+				694DE8B6259D35BC00F1A512 /* ExercisesVC+KeyboardObserving.swift in Sources */,
 				695D4BFF22D30AFE00E3FB1F /* StopwatchVC.swift in Sources */,
 				691405A72595EB3100DED7C7 /* MainNC.swift in Sources */,
 				691405BF2597033800DED7C7 /* OnboardingStepData.swift in Sources */,
@@ -1301,7 +1301,7 @@
 				69E3B482249F03D500E4DD99 /* ExerciseDataModelDelegate.swift in Sources */,
 				691D5F4D23D0272200DB9D4E /* CircleProgressView.swift in Sources */,
 				6972E3FC249F25A100479E91 /* Transform.swift in Sources */,
-				694DE8C2259D371500F1A512 /* ExercisesTVC+SetAlphaDelegate.swift in Sources */,
+				694DE8C2259D371500F1A512 /* ExercisesVC+SetAlphaDelegate.swift in Sources */,
 				69DF2802259BE2A000BDF65B /* SessionPreviewTVD.swift in Sources */,
 				69F3B99D25A00E53008ACE32 /* Date+Extension.swift in Sources */,
 				6972E41B249F2AF800479E91 /* CustomTextFieldDelegate.swift in Sources */,
@@ -1338,7 +1338,7 @@
 				695F9F5325A133000008C861 /* SessionDetailHeaderModel.swift in Sources */,
 				6929673D22F77DC200832C68 /* CustomButton.swift in Sources */,
 				694DE8D2259D640800F1A512 /* SessionsCVC+SessionProgressDelegate.swift in Sources */,
-				694DE8C6259D375800F1A512 /* ExercisesTVC+TransitioningDelegate.swift in Sources */,
+				694DE8C6259D375800F1A512 /* ExercisesVC+TransitioningDelegate.swift in Sources */,
 				695070972497528200942078 /* Exercise.swift in Sources */,
 				69695699245013C3007FADC2 /* StartedSessionTVC.swift in Sources */,
 				695F9F4D25A132030008C861 /* SessionDetailHV.swift in Sources */,

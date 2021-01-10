@@ -43,7 +43,7 @@ extension StartedSessionTVDS {
 
     enum ModallyPresenting {
         case restVC
-        case exercisesTVC
+        case exercisesVC
         case none
     }
 }

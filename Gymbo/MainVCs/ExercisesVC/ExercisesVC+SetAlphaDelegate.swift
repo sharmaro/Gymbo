@@ -1,5 +1,5 @@
 //
-//  ExercisesTVC+SetAlphaDelegate.swift
+//  ExercisesVC+SetAlphaDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension ExercisesTVC: SetAlphaDelegate {
+extension ExercisesVC: SetAlphaDelegate {
     func setAlpha(alpha: CGFloat) {
         let presentationStyle = customDataSource?.presentationStyle ?? .normal
         if presentationStyle == .modal {

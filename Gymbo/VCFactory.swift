@@ -108,27 +108,26 @@ extension VCFactory {
         return exercisePreviewTVC
     }
 
-    static func makeExercisesTVC(
-        style: UITableView.Style,
+    static func makeExercisesVC(
         presentationStyle: PresentationStyle = .normal,
         exerciseUpdatingDelegate: ExerciseUpdatingDelegate? = nil,
         exercisesTVDS: ExercisesTVDS? = nil,
         sessionsCVDS: SessionsCVDS? = nil
-    ) -> ExercisesTVC {
-        let exercisesTVC = ExercisesTVC(style: style)
-        exercisesTVC.exerciseUpdatingDelegate = exerciseUpdatingDelegate
-        exercisesTVC.sessionsCVDS = sessionsCVDS
+    ) -> ExercisesVC {
+        let exercisesVC = ExercisesVC()
+        exercisesVC.exerciseUpdatingDelegate = exerciseUpdatingDelegate
+        exercisesVC.sessionsCVDS = sessionsCVDS
         if exercisesTVDS == nil {
-            exercisesTVC.customDataSource = ExercisesTVDS(
-                listDataSource: exercisesTVC)
+            exercisesVC.customDataSource = ExercisesTVDS(
+                listDataSource: exercisesVC)
         } else {
-            exercisesTVC.customDataSource = exercisesTVDS
-            exercisesTVDS?.prepareForReuse(newListDataSource: exercisesTVC)
+            exercisesVC.customDataSource = exercisesTVDS
+            exercisesTVDS?.prepareForReuse(newListDataSource: exercisesVC)
         }
-        exercisesTVC.customDataSource?.presentationStyle = presentationStyle
-        exercisesTVC.customDelegate = ExercisesTVD(
-            listDelegate: exercisesTVC)
-        return exercisesTVC
+        exercisesVC.customDataSource?.presentationStyle = presentationStyle
+        exercisesVC.customDelegate = ExercisesTVD(
+            listDelegate: exercisesVC)
+        return exercisesVC
     }
 
     static func makeMainNC(rootVC: UIViewController,

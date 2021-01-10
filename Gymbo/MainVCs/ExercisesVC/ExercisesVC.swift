@@ -1,5 +1,5 @@
 //
-//  ExercisesTVC.swift
+//  ExercisesVC.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 2/11/20.
@@ -9,7 +9,16 @@
 import RealmSwift
 
 // MARK: - Properties
-class ExercisesTVC: UITableViewController {
+class ExercisesVC: UIViewController {
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.allowsMultipleSelection = true
+        tableView.delaysContentTouches = false
+        tableView.sectionFooterHeight = 0
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+
     private let addExerciseButton: CustomButton = {
         let button = CustomButton()
         button.title = "Add"
@@ -17,7 +26,6 @@ class ExercisesTVC: UITableViewController {
         button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
         button.set(state: .disabled, animated: false)
-        button.layer.zPosition = 1
         return button
     }()
 
@@ -37,7 +45,7 @@ class ExercisesTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-private extension ExercisesTVC {
+private extension ExercisesVC {
     struct Constants {
         static let addExerciseButtonHeight = CGFloat(45)
         static let sessionStartedConstraintConstant = CGFloat(-64)
@@ -46,7 +54,7 @@ private extension ExercisesTVC {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension ExercisesTVC {
+extension ExercisesVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -90,7 +98,7 @@ extension ExercisesTVC {
 }
 
 // MARK: - ViewAdding
-extension ExercisesTVC: ViewAdding {
+extension ExercisesVC: ViewAdding {
     func setupNavigationBar() {
         title = presentationStyle == .normal ? "My Exercises" : "Add Exercises"
 
@@ -118,6 +126,7 @@ extension ExercisesTVC: ViewAdding {
     }
 
     func addViews() {
+        view.add(subviews: [tableView])
         if presentationStyle == .modal {
             view.add(subviews: [addExerciseButton])
         }
@@ -127,10 +136,6 @@ extension ExercisesTVC: ViewAdding {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
-        tableView.allowsMultipleSelection = true
-        tableView.delaysContentTouches = false
-        tableView.sectionFooterHeight = 0
-        tableView.separatorStyle = .none
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(ExerciseTVCell.self,
@@ -153,6 +158,7 @@ extension ExercisesTVC: ViewAdding {
     }
 
     func addConstraints() {
+        tableView.autoPinSafeEdges(to: view)
         if presentationStyle == .modal {
             addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
@@ -173,7 +179,7 @@ extension ExercisesTVC: ViewAdding {
 }
 
 // MARK: - Funcs
-extension ExercisesTVC {
+extension ExercisesVC {
     private func saveExercise() {
         // Get exercise info from the selected exercises
         guard let selectedExerciseNames = customDataSource?
@@ -271,14 +277,14 @@ extension ExercisesTVC {
 }
 
 // MARK: - ListDataSource
-extension ExercisesTVC: ListDataSource {
+extension ExercisesVC: ListDataSource {
     func reloadData() {
         tableView.reloadData()
     }
 }
 
 // MARK: - ListDelegate
-extension ExercisesTVC: ListDelegate {
+extension ExercisesVC: ListDelegate {
     func didSelectItem(at indexPath: IndexPath) {
         guard let exercise = customDataSource?.exercise(for: indexPath),
               let exerciseName = exercise.name else {
@@ -330,7 +336,7 @@ extension ExercisesTVC: ListDelegate {
 }
 
 // MARK: - SessionProgressDelegate
-extension ExercisesTVC: SessionProgressDelegate {
+extension ExercisesVC: SessionProgressDelegate {
     func sessionDidStart(_ session: Session?) {
         renewConstraints()
     }

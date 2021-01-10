@@ -1,5 +1,5 @@
 //
-//  ExercisesTVC+KeyboardObserving.swift
+//  ExercisesVC+KeyboardObserving.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension ExercisesTVC: KeyboardObserving {
+extension ExercisesVC: KeyboardObserving {
     func keyboardWillShow(_ notification: Notification) {
         guard let keyboardHeight = notification.keyboardSize?.height,
               tableView.numberOfSections > 0 else {

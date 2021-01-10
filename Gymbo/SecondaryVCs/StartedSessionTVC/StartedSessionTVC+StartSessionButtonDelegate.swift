@@ -11,13 +11,12 @@ import UIKit
 extension StartedSessionTVC: StartedSessionButtonDelegate {
     func addExercise() {
         Haptic.sendSelectionFeedback()
-        customDataSource?.modallyPresenting = .exercisesTVC
+        customDataSource?.modallyPresenting = .exercisesVC
 
-        let exercisesTVC = VCFactory.makeExercisesTVC(style: .grouped,
-                                                      presentationStyle: .modal,
-                                                      exerciseUpdatingDelegate: self,
-                                                      exercisesTVDS: exercisesTVDS)
-        let modalNC = VCFactory.makeMainNC(rootVC: exercisesTVC,
+        let exercisesVC = VCFactory.makeExercisesVC(presentationStyle: .modal,
+                                                    exerciseUpdatingDelegate: self,
+                                                    exercisesTVDS: exercisesTVDS)
+        let modalNC = VCFactory.makeMainNC(rootVC: exercisesVC,
                                            transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
     }

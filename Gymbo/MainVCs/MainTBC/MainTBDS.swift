@@ -16,16 +16,16 @@ class MainTBDS: NSObject {
 
     private(set)var exercisesTVDS: ExercisesTVDS? {
         get {
-            exercisesTVC?.customDataSource
+            exercisesVC?.customDataSource
         }
         set {
-            exercisesTVC?.customDataSource = newValue
+            exercisesVC?.customDataSource = newValue
         }
     }
 
-    private var exercisesTVC: ExercisesTVC? {
+    private var exercisesVC: ExercisesVC? {
         let mainNC = viewControllers?[Tab.exercises.rawValue]
-        return (mainNC?.rootVC as? ExercisesTVC)
+        return (mainNC?.rootVC as? ExercisesVC)
     }
 
     override init() {
@@ -103,14 +103,13 @@ extension MainTBDS {
         let dashboardCVC = VCFactory.makeDashboardCVC(
             user: user)
         let sessionsCVC = VCFactory.makeSessionsCVC(user: user)
-        let exercisesTVC = VCFactory.makeExercisesTVC(
-            style: .grouped,
+        let exercisesVC = VCFactory.makeExercisesVC(
             sessionsCVDS: sessionsCVC.customDataSource)
-        sessionsCVC.exercisesTVDS = exercisesTVC.customDataSource
+        sessionsCVC.exercisesTVDS = exercisesVC.customDataSource
         let stopwatchVC = VCFactory.makeStopwatchVC()
 
         let vcs = [profileTVC, dashboardCVC, sessionsCVC,
-                   exercisesTVC, stopwatchVC]
+                   exercisesVC, stopwatchVC]
         for (index, tab) in Tab.allCases.enumerated() {
             let vc = vcs[index]
             vc.tabBarItem = UITabBarItem(title: tab.title,
@@ -127,7 +126,7 @@ extension MainTBDS: UITabBarControllerDelegate {
                                  didSelect viewController: UIViewController) {
         selectedTab = Tab(rawValue: tabBarController.selectedIndex) ?? .sessions
 
-        guard exercisesTVC != nil,
+        guard exercisesVC != nil,
               selectedTab == .exercises else {
             return
         }

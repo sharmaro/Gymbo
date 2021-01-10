@@ -180,7 +180,7 @@ extension ExercisePreviewTVC: ExerciseDataModelDelegate {
                     self?.tableView.reloadData()
                 }
 
-                // Updates ExercisesTVC
+                // Updates ExercisesVC
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)
             case .failure(let error):
                 completion(.failure(error))
