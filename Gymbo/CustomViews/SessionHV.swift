@@ -77,6 +77,7 @@ extension SessionHV: ViewAdding {
     func setupViews() {
         textViews = [firstTextView, secondTextView]
         for textView in textViews {
+            textView.backgroundColor = .clear
             textView.isSelectable = false
             textView.isScrollEnabled = false
             textView.isEditable = true

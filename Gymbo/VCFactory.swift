@@ -239,13 +239,14 @@ extension VCFactory {
     }
 
     //swiftlint:disable:next function_parameter_count
-    static func makeStartedSessionTVC(session: Session?,
+    static func makeStartedSessionTVC(style: UITableView.Style,
+                                      session: Session?,
                                       exercisesTVDS: ExercisesTVDS?,
                                       delegate: SessionProgressDelegate?,
                                       dimmedView: UIView,
                                       panView: UIView,
                                       initialTabBarFrame: CGRect) -> StartedSessionTVC {
-        let startedSessionTVC = StartedSessionTVC()
+        let startedSessionTVC = StartedSessionTVC(style: style)
         startedSessionTVC.exercisesTVDS = exercisesTVDS
         startedSessionTVC.dimmedView = dimmedView
         startedSessionTVC.panView = panView
@@ -258,6 +259,7 @@ extension VCFactory {
         startedSessionTVC.customDataSource?.sessionProgresssDelegate = delegate
         startedSessionTVC.customDelegate = StartedSessionTVD(
             listDelegate: startedSessionTVC)
+        startedSessionTVC.customDelegate?.session = session
         return startedSessionTVC
     }
 }

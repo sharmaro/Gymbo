@@ -60,7 +60,7 @@ private extension StartedSessionTVC {
     struct Constants {
         static let timeInterval = TimeInterval(1)
 
-        static let tableFooterViewHeight = CGFloat(120)
+        static let tableFooterViewHeight = CGFloat(150)
         static let defaultYOffset = CGFloat(60)
 
         static let barButtonSize = CGSize(width: 80, height: 30)
@@ -143,6 +143,9 @@ extension StartedSessionTVC: ViewAdding {
         tableView.keyboardDismissMode = .interactive
         tableView.allowsMultipleSelection = true
         tableView.delaysContentTouches = false
+        tableView.sectionFooterHeight = 0
+        tableView.register(ExercisesHFV.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(ExerciseHeaderTVCell.self,
                            forCellReuseIdentifier: ExerciseHeaderTVCell.reuseIdentifier)
         tableView.register(ExerciseDetailTVCell.self,

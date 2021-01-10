@@ -12,18 +12,40 @@ import UIKit
 class StartedSessionTVD: NSObject {
     private weak var listDelegate: ListDelegate?
 
+    var session: Session?
+
     init(listDelegate: ListDelegate?) {
         super.init()
         self.listDelegate = listDelegate
     }
 }
 
-// MARK: - Funcs
-extension StartedSessionTVD {
+// MARK: - Structs/Enums
+private extension StartedSessionTVD {
+    struct Constants {
+        static let headerHeight = CGFloat(40)
+    }
 }
 
 // MARK: - UITableViewDelegate
 extension StartedSessionTVD: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? .leastNonzeroMagnitude : Constants.headerHeight
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section > 0,
+              let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: ExercisesHFV.reuseIdentifier) as? ExercisesHFV else {
+            return nil
+        }
+        return headerView
+    }
+
     func tableView(_ tableView: UITableView,
                    estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         listDelegate?.heightForRow(at: indexPath) ?? 0

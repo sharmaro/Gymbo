@@ -115,12 +115,13 @@ extension MainTBC {
         shadowContainerView.hideShadow()
 
         let exercisesTVDS = customDataSource?.exercisesTVDS
-        let startedSessionTVC = VCFactory.makeStartedSessionTVC(session: session,
-                                                            exercisesTVDS: exercisesTVDS,
-                                                            delegate: self,
-                                                            dimmedView: dimmedView,
-                                                            panView: shadowContainerView,
-                                                            initialTabBarFrame: tabBar.frame)
+        let startedSessionTVC = VCFactory.makeStartedSessionTVC(style: .grouped,
+                                                                session: session,
+                                                                exercisesTVDS: exercisesTVDS,
+                                                                delegate: self,
+                                                                dimmedView: dimmedView,
+                                                                panView: shadowContainerView,
+                                                                initialTabBarFrame: tabBar.frame)
 
         let containerNavigationController = MainNC(rootVC: startedSessionTVC)
         containerNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
