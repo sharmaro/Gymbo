@@ -145,8 +145,8 @@ extension ExerciseLoader {
         // Ignoring the last line that's empty
         var formattedText = ""
         for (index, line) in text.enumerated() where !line.isEmpty {
-            // The last line should only get 1 new line vertical spacing
-            let newLine = index < text.count - 2 ? "\n\n" : "\n"
+            // The last line should not have a new line
+            let newLine = index < text.count - 2 ? "\n\n" : ""
             formattedText.append("\(line)\(newLine)")
         }
         return formattedText

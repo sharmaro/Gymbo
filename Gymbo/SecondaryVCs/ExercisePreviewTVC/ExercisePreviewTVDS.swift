@@ -24,9 +24,9 @@ class ExercisePreviewTVDS: NSObject {
 // MARK: - Structs/Enums
 extension ExercisePreviewTVDS {
     private struct Constants {
-        static let noImagesText = "No images\n"
-        static let noInstructionsText = "No instructions\n"
-        static let noTipsText = "No tips\n"
+        static let noImagesText = "No images"
+        static let noInstructionsText = "No instructions"
+        static let noTipsText = "No tips"
     }
 
     enum Section: String, CaseIterable {

@@ -169,15 +169,17 @@ extension CreateEditExerciseTVDS {
         return textViewTVCell
     }
 
-    func indexOf(item: Item) -> Int? {
-        var index: Int?
-        items.forEach {
-            if $0.contains(item) {
-                index = $0.firstIndex(of: item)
-                return
+    func indexPathOf(item: Item) -> IndexPath? {
+        var indexPath: IndexPath?
+        for (section, value) in items.enumerated() {
+            if value.contains(item) {
+                if let row = value.firstIndex(of: item) {
+                    indexPath = IndexPath(row: row, section: section)
+                    return indexPath
+                }
             }
         }
-        return index
+        return indexPath
     }
 
     func item(at indexPath: IndexPath) -> Item {

@@ -18,16 +18,15 @@ class ImagesTVCell: RoundedTVCell {
     var images: [UIImage] {
         var images = [UIImage]()
         views.forEach {
-            var image = UIImage()
             if let button = $0 as? UIButton,
                let buttonImage = button.image(for: .normal),
                   buttonImage != defaultImage {
-                image = buttonImage
+                images.append(buttonImage)
             } else if let imageView = $0 as? UIImageView,
-                      let imageViewImage = imageView.image {
-                image = imageViewImage
+                      let imageViewImage = imageView.image,
+                      imageViewImage != defaultImage {
+                images.append(imageViewImage)
             }
-            images.append(image)
         }
         return images
     }

@@ -145,20 +145,18 @@ extension CreateEditExerciseTVC {
     private func getInstructionsAndTipsFromCell() -> (instructions: String?, tips: String?) {
         var instructions: String?
         var tips: String?
-        if let instructionsCellRow = customDataSource?.indexOf(item: .instructions),
-            let tipsCellRow = customDataSource?.indexOf(item: .tips),
-            let instructionsCell = tableView.cellForRow(at: IndexPath(row: instructionsCellRow, section: 0))
+        if let instructionsCellIndexPath = customDataSource?.indexPathOf(item: .instructions),
+            let tipsCellIndexPath = customDataSource?.indexPathOf(item: .tips),
+            let instructionsCell = tableView.cellForRow(at: instructionsCellIndexPath)
                 as? TextViewTVCell,
-            let tipsCell = tableView.cellForRow(at: IndexPath(row: tipsCellRow, section: 0))
+            let tipsCell = tableView.cellForRow(at: tipsCellIndexPath)
                 as? TextViewTVCell {
             if !(instructionsCell.textViewText?.isEmpty ?? true) {
                 instructions = instructionsCell.textViewText
-                instructions?.append("\n")
             }
 
             if !(tipsCell.textViewText?.isEmpty ?? true) {
                 tips = tipsCell.textViewText
-                tips?.append("\n")
             }
         }
         return (instructions, tips)
@@ -283,6 +281,7 @@ extension CreateEditExerciseTVC: ImageButtonDelegate {
                                                     style: .destructive,
                                                     handler: { [weak self] _ in
                 self?.imagesTVCell?.update(for: index)
+                self?.customDataSource?.images = self?.imagesTVCell?.images
                 self?.imagesTVCell = nil
                 self?.imagesTVCellSelectedIndex = nil
             }))

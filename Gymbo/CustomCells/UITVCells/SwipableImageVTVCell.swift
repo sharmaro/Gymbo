@@ -21,6 +21,7 @@ class SwipableImageVTVCell: RoundedTVCell {
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
+        pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
 

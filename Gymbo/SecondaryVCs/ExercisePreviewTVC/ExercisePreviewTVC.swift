@@ -174,8 +174,11 @@ extension ExercisePreviewTVC: ExerciseDataModelDelegate {
             case .success(let value):
                 completion(.success(value))
                 self?.customDataSource?.exercise = exercise
+                self?.customDelegate?.exercise = exercise
                 self?.refreshTitleLabels()
-                self?.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
 
                 // Updates ExercisesTVC
                 NotificationCenter.default.post(name: .updateExercisesUI, object: nil)
