@@ -90,9 +90,6 @@ extension SessionHV: ViewAdding {
 
     func setupColors() {
         backgroundColor = .clear
-        [firstTextView, secondTextView].forEach {
-            $0.backgroundColor = .secondaryBackground
-        }
     }
 
     func addConstraints() {
