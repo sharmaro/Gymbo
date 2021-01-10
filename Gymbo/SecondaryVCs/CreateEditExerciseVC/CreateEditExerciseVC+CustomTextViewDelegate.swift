@@ -1,5 +1,5 @@
 //
-//  CreateEditExerciseTVC+CustomTextViewDelegate.swift
+//  CreateEditExerciseVC+CustomTextViewDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension CreateEditExerciseTVC: CustomTextViewDelegate {
+extension CreateEditExerciseVC: CustomTextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView, cell: UITableViewCell?) {
         textView.animateBorderColorAndWidth(fromColor: .defaultUnselectedBorder,
                                             toColor: .defaultSelectedBorder,

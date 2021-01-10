@@ -153,11 +153,11 @@ extension ExercisePreviewTVC {
     @objc private func editButtonTapped(sender: Any) {
         Haptic.sendSelectionFeedback()
         let exercise = customDataSource?.exercise ?? Exercise()
-        let createEditExerciseTVC = VCFactory
-            .makeCreateEditExerciseTVC(exercise: exercise,
-                                       state: .edit,
-                                       delegate: self)
-        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
+        let createEditExerciseVC = VCFactory
+            .makeCreateEditExerciseVC(exercise: exercise,
+                                      state: .edit,
+                                      delegate: self)
+        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseVC,
                                        transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
     }

@@ -1,5 +1,5 @@
 //
-//  CreateEditExerciseTVC.swift
+//  CreateEditExerciseVC.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 5/26/20.
@@ -9,12 +9,19 @@
 import RealmSwift
 
 // MARK: - Properties
-class CreateEditExerciseTVC: UITableViewController {
+class CreateEditExerciseVC: UIViewController {
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.delaysContentTouches = false
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        return tableView
+    }()
+
     private let actionButton: CustomButton = {
         let button = CustomButton()
         button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
-        button.layer.zPosition = 1
         return button
     }()
 
@@ -32,7 +39,7 @@ class CreateEditExerciseTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-private extension CreateEditExerciseTVC {
+private extension CreateEditExerciseVC {
     struct Constants {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
@@ -41,7 +48,7 @@ private extension CreateEditExerciseTVC {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension CreateEditExerciseTVC {
+extension CreateEditExerciseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,7 +77,7 @@ extension CreateEditExerciseTVC {
 }
 
 // MARK: - ViewAdding
-extension CreateEditExerciseTVC: ViewAdding {
+extension CreateEditExerciseVC: ViewAdding {
     func setupNavigationBar() {
         title = exerciseState.rawValue
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
@@ -79,16 +86,13 @@ extension CreateEditExerciseTVC: ViewAdding {
     }
 
     func addViews() {
-        view.add(subviews: [actionButton])
+        view.add(subviews: [tableView, actionButton])
     }
 
     func setupViews() {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
-        tableView.delaysContentTouches = false
-        tableView.separatorStyle = .none
-        tableView.allowsSelection = false
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(TextFieldTVCell.self,
@@ -114,6 +118,7 @@ extension CreateEditExerciseTVC: ViewAdding {
     }
 
     func addConstraints() {
+        tableView.autoPinSafeEdges(to: view)
         NSLayoutConstraint.activate([
             actionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
@@ -130,7 +135,7 @@ extension CreateEditExerciseTVC: ViewAdding {
 }
 
 // MARK: - Funcs
-extension CreateEditExerciseTVC {
+extension CreateEditExerciseVC {
     private func updateSaveButton() {
         guard let exerciseName = customDataSource?.exerciseName,
               !exerciseName.isEmpty,
@@ -235,7 +240,7 @@ extension CreateEditExerciseTVC {
 }
 
 // MARK: CustomTextFieldDelegate
-extension CreateEditExerciseTVC: CustomTextFieldDelegate {
+extension CreateEditExerciseVC: CustomTextFieldDelegate {
     func textFieldEditingChanged(textField: UITextField) {
         customDataSource?.exerciseName = textField.text ?? ""
         updateSaveButton()
@@ -248,7 +253,7 @@ extension CreateEditExerciseTVC: CustomTextFieldDelegate {
 }
 
 // MARK: - MultipleSelectionTVCellDelegate
-extension CreateEditExerciseTVC: MultipleSelectionTVCellDelegate {
+extension CreateEditExerciseVC: MultipleSelectionTVCellDelegate {
     func selected(items: [String]) {
         customDataSource?.groups = items
         updateSaveButton()
@@ -256,7 +261,7 @@ extension CreateEditExerciseTVC: MultipleSelectionTVCellDelegate {
 }
 
 // MARK: - ImageButtonDelegate
-extension CreateEditExerciseTVC: ImageButtonDelegate {
+extension CreateEditExerciseVC: ImageButtonDelegate {
     func buttonTapped(cell: UITableViewCell, index: Int, function: ButtonFunction) {
         guard let imagesTVCell = cell as? ImagesTVCell else {
             return
@@ -298,7 +303,7 @@ extension CreateEditExerciseTVC: ImageButtonDelegate {
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension CreateEditExerciseTVC: UIImagePickerControllerDelegate,
+extension CreateEditExerciseVC: UIImagePickerControllerDelegate,
 UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

@@ -1,5 +1,5 @@
 //
-//  CreateEditExerciseTVC+ListDataSource.swift
+//  CreateEditExerciseVC+ListDataSource.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension CreateEditExerciseTVC: ListDataSource {
+extension CreateEditExerciseVC: ListDataSource {
     func cellForRowAt(tvCell: UITableViewCell) {
         if let textFieldTVCell = tvCell as? TextFieldTVCell {
             textFieldTVCell.customTextFieldDelegate = self

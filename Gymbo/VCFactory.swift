@@ -51,19 +51,19 @@ extension VCFactory {
         return allSessionsDetailTVC
     }
 
-    static func makeCreateEditExerciseTVC(
+    static func makeCreateEditExerciseVC(
         exercise: Exercise = Exercise(),
         state: ExerciseState = .create,
         delegate: ExerciseDataModelDelegate? = nil
-    ) -> CreateEditExerciseTVC {
-        let createEditExerciseTVC = CreateEditExerciseTVC()
-        createEditExerciseTVC.exercise = exercise
-        createEditExerciseTVC.exerciseState = state
-        createEditExerciseTVC.exerciseDataModelDelegate = delegate
-        createEditExerciseTVC.customDataSource = CreateEditExerciseTVDS(
-            listDataSource: createEditExerciseTVC)
-        createEditExerciseTVC.customDelegate = CreateEditExerciseTVD()
-        return createEditExerciseTVC
+    ) -> CreateEditExerciseVC {
+        let createEditExerciseVC = CreateEditExerciseVC()
+        createEditExerciseVC.exercise = exercise
+        createEditExerciseVC.exerciseState = state
+        createEditExerciseVC.exerciseDataModelDelegate = delegate
+        createEditExerciseVC.customDataSource = CreateEditExerciseTVDS(
+            listDataSource: createEditExerciseVC)
+        createEditExerciseVC.customDelegate = CreateEditExerciseTVD()
+        return createEditExerciseVC
     }
 
     static func makeCreateEditSessionTVC(user: User?,

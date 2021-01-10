@@ -246,11 +246,11 @@ extension ExercisesVC {
         Haptic.sendSelectionFeedback()
         view.endEditing(true)
 
-        let createEditExerciseTVC = VCFactory
-            .makeCreateEditExerciseTVC(delegate: self)
-        createEditExerciseTVC.setAlphaDelegate = self
+        let createEditExerciseVC = VCFactory
+            .makeCreateEditExerciseVC(delegate: self)
+        createEditExerciseVC.setAlphaDelegate = self
 
-        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseTVC,
+        let modalNC = VCFactory.makeMainNC(rootVC: createEditExerciseVC,
                                        transitioningDelegate: self)
         navigationController?.present(modalNC, animated: true)
 
