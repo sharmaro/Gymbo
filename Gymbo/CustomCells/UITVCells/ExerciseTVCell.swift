@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class ExerciseTVCell: UITableViewCell {
+class ExerciseTVCell: RoundedTVCell {
     private let muscleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
@@ -57,13 +57,10 @@ extension ExerciseTVCell {
 // MARK: - ViewAdding
 extension ExerciseTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [muscleImageView, nameLabel, groupsLabel])
+        roundedView.add(subviews: [muscleImageView, nameLabel, groupsLabel])
     }
 
     func setupViews() {
-        selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = .selectedBackground
-
         [nameLabel, groupsLabel].forEach {
             $0.backgroundColor = .clear
             $0.numberOfLines = 1
@@ -73,27 +70,25 @@ extension ExerciseTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
         nameLabel.textColor = .primaryText
         groupsLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            muscleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            muscleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            muscleImageView.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            muscleImageView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
             muscleImageView.trailingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -10),
             muscleImageView.trailingAnchor.constraint(equalTo: groupsLabel.leadingAnchor, constant: -10),
-            muscleImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            muscleImageView.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10),
             muscleImageView.widthAnchor.constraint(equalTo: muscleImageView.heightAnchor),
 
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            nameLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            nameLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
             nameLabel.bottomAnchor.constraint(equalTo: groupsLabel.topAnchor),
 
-            groupsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            groupsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            groupsLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            groupsLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
         ])
     }
 }

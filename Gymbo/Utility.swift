@@ -187,7 +187,7 @@ extension Utility {
         }
 
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
-        if indexPath.row == 0 && indexPath.row == numberOfRows - 1 {
+        if indexPath.row == 0 && numberOfRows == 1 {
             roundedTVCell.cellLocation = .solo
         } else if indexPath.row == 0 {
             roundedTVCell.cellLocation = .first

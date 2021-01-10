@@ -99,7 +99,7 @@ extension ExercisesTVD: UITableViewDelegate {
             self?.listDelegate?
                 .tableView(tableView, trailingSwipeActionsConfiguration: indexPath)
             if tableView.numberOfRows(inSection: indexPath.section) > 1 {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.reloadSections([indexPath.section], with: .fade)
             } else {
                 tableView.deleteSections([indexPath.section], with: .automatic)
             }

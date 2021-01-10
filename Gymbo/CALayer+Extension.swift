@@ -12,6 +12,9 @@ extension CALayer {
     func addCorner(style: CornerStyle) {
         masksToBounds = true
         cornerRadius = style.radius
+        let maskedCorners: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
+                                           .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.maskedCorners = maskedCorners
     }
 
     func removeCorners() {

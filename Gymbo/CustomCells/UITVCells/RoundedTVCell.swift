@@ -143,5 +143,6 @@ extension RoundedTVCell {
             roundedView.layer.addCorner(style: style)
             bottomDivider.isHidden = true
         }
+        roundedView.layoutIfNeeded()
     }
 }

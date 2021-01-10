@@ -214,7 +214,7 @@ extension ExercisesTVDS {
     }
 
     func removeLastDS() {
-        if !(listDataSources?.isEmpty ?? true) {
+        if (listDataSources?.count ?? 1) > 1 {
             listDataSources?.removeLast()
         }
     }
@@ -371,6 +371,9 @@ extension ExercisesTVDS: UITableViewDataSource {
         handleCellSelectionState(exerciseName: exercise.name ?? "",
                                  in: tableView,
                                  indexPath: indexPath)
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 
