@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class SwipableImageVTVCell: UITableViewCell {
+class SwipableImageVTVCell: RoundedTVCell {
     private let horizontalScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
@@ -21,7 +21,6 @@ class SwipableImageVTVCell: UITableViewCell {
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
-        pageControl.alpha = 0.5
         return pageControl
     }()
 
@@ -48,7 +47,7 @@ extension SwipableImageVTVCell {
 // MARK: - ViewAdding
 extension SwipableImageVTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [horizontalScrollView, pageControl])
+        roundedView.add(subviews: [horizontalScrollView, pageControl])
     }
 
     func setupViews() {
@@ -56,22 +55,19 @@ extension SwipableImageVTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
-        pageControl.pageIndicatorTintColor = .secondaryBackground
         pageControl.currentPageIndicatorTintColor = .systemBlue
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            horizontalScrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            horizontalScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            horizontalScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            horizontalScrollView.topAnchor.constraint(equalTo: roundedView.topAnchor),
+            horizontalScrollView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor),
+            horizontalScrollView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor),
             horizontalScrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
 
-            pageControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            pageControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            pageControl.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor),
+            pageControl.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
             pageControl.heightAnchor.constraint(equalToConstant: 20)
         ])
         horizontalScrollView.layoutIfNeeded()
@@ -93,17 +89,19 @@ extension SwipableImageVTVCell {
         }
 
         pageControl.numberOfPages = imageFileNames.count
-        horizontalScrollView.contentSize.width = frame.width * CGFloat(imageFileNames.count)
+        horizontalScrollView.contentSize.width = (frame.width - 40) *
+            CGFloat(imageFileNames.count)
 
         let directory: Directory = isUserMade ? .userImages : .exercises
+        let imageViewSize = CGSize(width: frame.width - 40,
+                                   height: frame.height - 30)
         for (index, fileName) in imageFileNames.enumerated() {
             if let image = Utility.getImageFrom(name: fileName,
                                                 directory: directory) {
-                let imageView = UIImageView(frame: CGRect(origin:
-                    CGPoint(x: frame.width * CGFloat(index),
-                            y: 0), size:
-                    CGSize(width: frame.width,
-                           height: frame.height - 20)))
+                let origin = CGPoint(x: (frame.width - 40) * CGFloat(index),
+                                     y: 10)
+                let frame = CGRect(origin: origin, size: imageViewSize)
+                let imageView = UIImageView(frame: frame)
                 imageView.image = image
                 imageView.contentMode = .scaleAspectFit
                 imageView.layoutIfNeeded()

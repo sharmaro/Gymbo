@@ -12,12 +12,12 @@ import UIKit
 class ExercisePreviewTVDS: NSObject {
     var exercise = Exercise()
 
+    private let sections = Section.allCases
     private let items: [[Item]] = [
-        [
-            .title, .imagesTitle, .images,
-            .instructionsTitle, .instructions, .tipsTitle,
-            .tips
-        ]
+        [.title],
+        [.images],
+        [.instructions],
+        [.tips]
     ]
 }
 
@@ -29,12 +29,16 @@ extension ExercisePreviewTVDS {
         static let noTipsText = "No tips\n"
     }
 
+    enum Section: String, CaseIterable {
+        case name = "Name"
+        case images = "Images"
+        case instructions = "Instructions"
+        case tips = "Tips"
+    }
+
     enum Item: String {
-        case imagesTitle = "Images"
         case images
-        case instructionsTitle = "Instructions"
         case instructions
-        case tipsTitle = "Tips"
         case tips
         case title
     }
@@ -97,7 +101,7 @@ extension ExercisePreviewTVDS {
 // MARK: - UITableViewDataSource
 extension ExercisePreviewTVDS: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        items.count
+        sections.count
     }
 
     func tableView(_ tableView: UITableView,
@@ -113,11 +117,6 @@ extension ExercisePreviewTVDS: UITableViewDataSource {
         switch item {
         case .title:
             cell = getTwoLabelsTVCell(in: tableView, for: indexPath)
-        case .imagesTitle, .instructionsTitle, .tipsTitle:
-            cell = getLabelCell(in: tableView,
-                                for: indexPath,
-                                text: item.rawValue,
-                                font: UIFont.large.medium)
         case .images:
             if exercise.imageNames.isEmpty {
                 cell = getLabelCell(in: tableView, for: indexPath, text: Constants.noImagesText)
@@ -131,6 +130,9 @@ extension ExercisePreviewTVDS: UITableViewDataSource {
                                 for: indexPath,
                                 text: text ?? emptyText)
         }
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

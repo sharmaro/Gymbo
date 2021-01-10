@@ -91,8 +91,6 @@ extension CreateEditExerciseTVC: ViewAdding {
         tableView.allowsSelection = false
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
-        tableView.register(LabelTVCell.self,
-                           forCellReuseIdentifier: LabelTVCell.reuseIdentifier)
         tableView.register(TextFieldTVCell.self,
                            forCellReuseIdentifier: TextFieldTVCell.reuseIdentifier)
         tableView.register(MultipleSelectionTVCell.self,

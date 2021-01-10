@@ -51,11 +51,12 @@ extension LabelTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            detailLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            detailLabel.topAnchor.constraint(greaterThanOrEqualTo: roundedView.topAnchor),
+            detailLabel.topAnchor.constraint(equalTo: roundedView.topAnchor,
+                                             constant: 10),
             detailLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
             detailLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            detailLabel.bottomAnchor.constraint(lessThanOrEqualTo: roundedView.bottomAnchor)
+            detailLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor,
+                                                constant: -10)
         ])
     }
 }

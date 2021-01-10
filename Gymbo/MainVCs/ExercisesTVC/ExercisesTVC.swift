@@ -290,7 +290,8 @@ extension ExercisesTVC: ListDelegate {
         case .normal:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let exercisePreviewTVC = VCFactory.makeExercisePreviewTVC(exercise: exercise,
+            let exercisePreviewTVC = VCFactory.makeExercisePreviewTVC(style: .grouped,
+                                                                      exercise: exercise,
                                              exercisesTVDS: customDataSource)
             let modalNC = VCFactory.makeMainNC(rootVC: exercisePreviewTVC,
                                            transitioningDelegate: self)

@@ -9,19 +9,19 @@
 import UIKit
 
 // MARK: - Properties
-class TwoLabelsTVCell: UITableViewCell {
+class TwoLabelsTVCell: RoundedTVCell {
     private let topLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle).bold
-        label.minimumScaleFactor = 0.5
+        label.font = UIFont.medium.bold
+        label.minimumScaleFactor = 0.1
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
 
     private let bottomLabel: UILabel = {
         let label = UILabel()
-        label.font = .normal
-        label.minimumScaleFactor = 0.5
+        label.font = UIFont.normal.light
+        label.minimumScaleFactor = 0.1
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -49,32 +49,24 @@ extension TwoLabelsTVCell {
 // MARK: - ViewAdding
 extension TwoLabelsTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [topLabel, bottomLabel])
+        roundedView.add(subviews: [topLabel, bottomLabel])
     }
 
-    func setupViews() {
-        selectionStyle = .none
-    }
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
-        [topLabel, bottomLabel].forEach {
-            $0.backgroundColor = .primaryBackground
-        }
         topLabel.textColor = .primaryText
         bottomLabel.textColor = .secondaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            topLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            topLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            topLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            topLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
             topLabel.bottomAnchor.constraint(equalTo: bottomLabel.topAnchor),
 
-            bottomLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            bottomLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            bottomLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            bottomLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            bottomLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            bottomLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
         ])
     }
 }
@@ -83,7 +75,6 @@ extension TwoLabelsTVCell: ViewAdding {
 extension TwoLabelsTVCell {
     private func setup() {
         addViews()
-        setupViews()
         setupColors()
         addConstraints()
     }

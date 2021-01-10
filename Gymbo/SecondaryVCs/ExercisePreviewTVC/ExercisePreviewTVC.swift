@@ -17,6 +17,7 @@ class ExercisePreviewTVC: UITableViewController {
         label.font = UIFont.medium.light
         label.adjustsFontSizeToFitWidth = true
         label.backgroundColor = .primaryBackground
+        label.layer.zPosition = 1
         return label
     }()
 
@@ -26,6 +27,7 @@ class ExercisePreviewTVC: UITableViewController {
         button.titleLabel?.font = .normal
         button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
+        button.layer.zPosition = 1
         return button
     }()
 
@@ -38,9 +40,9 @@ class ExercisePreviewTVC: UITableViewController {
     var customDataSource: ExercisePreviewTVDS?
     var customDelegate: ExercisePreviewTVD?
 
-    init(exercisesTVDS: ExercisesTVDS?) {
+    init(style: UITableView.Style, exercisesTVDS: ExercisesTVDS?) {
         self.exercisesTVDS = exercisesTVDS
-        super.init(nibName: nil, bundle: nil)
+        super.init(style: style)
     }
 
     required init?(coder: NSCoder) {
@@ -98,6 +100,9 @@ extension ExercisePreviewTVC: ViewAdding {
         tableView.delegate = customDelegate
 
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        tableView.register(ExercisesHFV.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(TwoLabelsTVCell.self,
                            forCellReuseIdentifier: TwoLabelsTVCell.reuseIdentifier)
         tableView.register(SwipableImageVTVCell.self,

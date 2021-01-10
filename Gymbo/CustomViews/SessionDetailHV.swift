@@ -123,12 +123,12 @@ extension SessionDetailHV {
 
     private func setupImageAndLabelViews(dataModel: SessionDetailHeaderModel) {
         imageAndDurationView.imageView.image = dataModel.firstImage
-        imageAndDurationView.imageView.tintColor = .primaryText
+        imageAndDurationView.imageView.tintColor = .secondaryText
         imageAndDurationView.label.text = dataModel.firstImageText
         imageAndDurationView.label.font = UIFont.normal.light
 
         imageAndWeightView.imageView.image = dataModel.secondImage
-        imageAndWeightView.imageView.tintColor = .primaryText
+        imageAndWeightView.imageView.tintColor = .secondaryText
         imageAndWeightView.label.text = dataModel.secondImageText
         imageAndWeightView.label.font = UIFont.normal.light
     }
