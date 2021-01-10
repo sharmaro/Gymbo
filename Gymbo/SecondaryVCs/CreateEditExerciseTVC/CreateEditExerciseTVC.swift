@@ -14,6 +14,7 @@ class CreateEditExerciseTVC: UITableViewController {
         let button = CustomButton()
         button.set(backgroundColor: .systemGreen)
         button.addCorner(style: .small)
+        button.layer.zPosition = 1
         return button
     }()
 
@@ -87,6 +88,9 @@ extension CreateEditExerciseTVC: ViewAdding {
 
         tableView.delaysContentTouches = false
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        tableView.register(ExercisesHFV.self,
+                           forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(LabelTVCell.self,
                            forCellReuseIdentifier: LabelTVCell.reuseIdentifier)
         tableView.register(TextFieldTVCell.self,

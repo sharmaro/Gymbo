@@ -64,6 +64,7 @@ extension AllSessionDaysCVC: ViewAdding {
         collectionView.dataSource = customDataSource
         collectionView.delegate = customDelegate
 
+        collectionView.alwaysBounceVertical = true
         collectionView.register(TwoLabelsCVCell.self,
                                 forCellWithReuseIdentifier: TwoLabelsCVCell.reuseIdentifier)
     }

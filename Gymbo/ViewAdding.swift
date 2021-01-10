@@ -18,5 +18,6 @@ extension ViewAdding {
     func setupNavigationBar() {}
     func addViews() {}
     func setupViews() {}
+    func setupColors() {}
     func addConstraints() {}
 }

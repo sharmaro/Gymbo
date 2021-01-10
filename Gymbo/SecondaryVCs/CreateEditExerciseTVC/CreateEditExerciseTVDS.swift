@@ -23,13 +23,14 @@ class CreateEditExerciseTVDS: NSObject {
         }
     }
 
+    private let sections = Section.allCases
+
     private let items: [[Item]] = [
-        [
-            .nameTitle, .name, .muscleGroupsTitle,
-            .muscleGroups, .imagesTitle, .images,
-            .instructionsTitle, .instructions, .tipsTitle,
-            .tips
-        ]
+        [.name],
+        [.muscleGroups],
+        [.images],
+        [.instructions],
+        [.tips]
     ]
 
     private weak var listDataSource: ListDataSource?
@@ -43,17 +44,38 @@ class CreateEditExerciseTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension CreateEditExerciseTVDS {
+    private struct Constants {
+        static let muscleGroupsCellHeight = CGFloat(150)
+        static let imagesCellHeight = CGFloat(100)
+    }
+
+    enum Section: String, CaseIterable {
+        case name = "Exercise Name"
+        case muscleGroups = "Muscle Groups"
+        case images = "Images (Optional)"
+        case instructions = "Instructions (Optional)"
+        case tips = "Tips (Optional)"
+    }
+
     enum Item: String {
-        case nameTitle = "Exercise Name"
         case name
-        case muscleGroupsTitle = "Muscle Groups"
         case muscleGroups
-        case imagesTitle = "Images (Optional)"
         case images
-        case instructionsTitle = "Instructions (Optional)"
         case instructions
-        case tipsTitle = "Tips (Optional)"
         case tips
+
+        var height: CGFloat {
+            let response: CGFloat
+            switch self {
+            case .name, .instructions, .tips:
+                response = UITableView.automaticDimension
+            case .muscleGroups:
+                response = Constants.muscleGroupsCellHeight
+            case .images:
+                response = Constants.imagesCellHeight
+            }
+            return response
+        }
     }
 }
 
@@ -81,19 +103,6 @@ extension CreateEditExerciseTVDS {
     }
 
     // MARK: - UITableViewCells
-    private func getLabelTVCell(in tableView: UITableView,
-                                for indexPath: IndexPath,
-                                item: Item) -> LabelTVCell {
-        guard let labelTVCell = tableView.dequeueReusableCell(
-                withIdentifier: LabelTVCell.reuseIdentifier,
-                for: indexPath) as? LabelTVCell else {
-            fatalError("Could not dequeue \(LabelTVCell.reuseIdentifier)")
-        }
-
-        labelTVCell.configure(text: item.rawValue, font: UIFont.large.medium)
-        return labelTVCell
-    }
-
     private func getTextFieldTVCell(in tableView: UITableView,
                                     for indexPath: IndexPath) -> TextFieldTVCell {
         guard let textFieldTVCell = tableView.dequeueReusableCell(
@@ -220,7 +229,7 @@ extension CreateEditExerciseTVDS {
 // MARK: - UITableViewDataSource
 extension CreateEditExerciseTVDS: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        items.count
+        sections.count
     }
 
     func tableView(_ tableView: UITableView,
@@ -234,8 +243,6 @@ extension CreateEditExerciseTVDS: UITableViewDataSource {
         let item = items[indexPath.section][indexPath.row]
 
         switch item {
-        case .nameTitle, .muscleGroupsTitle, .imagesTitle, .instructionsTitle, .tipsTitle:
-            cell = getLabelTVCell(in: tableView, for: indexPath, item: item)
         case .name:
             cell = getTextFieldTVCell(in: tableView, for: indexPath)
         case .muscleGroups:
@@ -247,6 +254,9 @@ extension CreateEditExerciseTVDS: UITableViewDataSource {
         }
 
         listDataSource?.cellForRowAt(tvCell: cell)
+        Utility.configureCellRounding(in: tableView,
+                                      with: cell,
+                                      for: indexPath)
         return cell
     }
 }

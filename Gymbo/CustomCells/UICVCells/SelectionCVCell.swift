@@ -19,7 +19,7 @@ class SelectionCVCell: UICollectionViewCell {
     private let selectionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .normal
+        label.font = .small
         label.numberOfLines = 0
         label.minimumScaleFactor = 0.1
         label.adjustsFontSizeToFitWidth = true
@@ -60,7 +60,7 @@ extension SelectionCVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
+        backgroundColor = .clear
         contentView.backgroundColor = .clear
         selectionLabel.backgroundColor = .clear
 
@@ -68,7 +68,7 @@ extension SelectionCVCell: ViewAdding {
             selectionLabel.textColor = .primaryText
         } else {
             selectionLabel.textColor = .systemBlue
-            containerView.backgroundColor = .dimmedSecondaryBackground
+            containerView.backgroundColor = .primaryBackground
         }
     }
 
@@ -102,7 +102,7 @@ extension SelectionCVCell {
                 self.containerView.addGradient(colors: [.customBlue, .customLightGray])
             } else {
                 self.selectionLabel.textColor = .systemBlue
-                self.containerView.backgroundColor = .dimmedSecondaryBackground
+                self.containerView.backgroundColor = .primaryBackground
                 self.containerView.removeGradient()
             }
         }

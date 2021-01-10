@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class MultipleSelectionTVCell: UITableViewCell {
+class MultipleSelectionTVCell: RoundedTVCell {
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: UICollectionViewFlowLayout())
@@ -53,12 +53,10 @@ extension MultipleSelectionTVCell {
 // MARK: - ViewAdding
 extension MultipleSelectionTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [collectionView])
+        roundedView.add(subviews: [collectionView])
     }
 
     func setupViews() {
-        selectionStyle = .none
-
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SelectionCVCell.self,
@@ -66,17 +64,15 @@ extension MultipleSelectionTVCell: ViewAdding {
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
-        collectionView.backgroundColor = .primaryBackground
+        collectionView.backgroundColor = .clear
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            collectionView.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            collectionView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
         ])
     }
 }

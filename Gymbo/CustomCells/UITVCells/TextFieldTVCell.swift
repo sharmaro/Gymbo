@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class TextFieldTVCell: UITableViewCell {
+class TextFieldTVCell: RoundedTVCell {
     private let textField: UITextField = {
         let textField = UITextField()
         textField.font = .normal
@@ -43,28 +43,24 @@ extension TextFieldTVCell {
 // MARK: - ViewAdding
 extension TextFieldTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [textField])
+        roundedView.add(subviews: [textField])
     }
 
     func setupViews() {
-        selectionStyle = .none
-
         textField.delegate = self
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
 
     func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
         textField.textColor = .primaryText
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            textField.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            textField.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            textField.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            textField.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
         ])
     }
 }

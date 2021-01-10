@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Properties
-class ImagesTVCell: UITableViewCell {
+class ImagesTVCell: RoundedTVCell {
     private let horizontalScrollView = UIScrollView()
     private var views = [UIView]()
 
@@ -45,37 +45,14 @@ class ImagesTVCell: UITableViewCell {
     }
 }
 
-// MARK: - UITableViewCell Var/Funcs
-extension ImagesTVCell {
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        setupColors()
-    }
-}
-
 // MARK: - ViewAdding
 extension ImagesTVCell: ViewAdding {
     func addViews() {
-        contentView.add(subviews: [horizontalScrollView])
-    }
-
-    func setupViews() {
-        selectionStyle = .none
-    }
-
-    func setupColors() {
-        backgroundColor = .primaryBackground
-        contentView.backgroundColor = .clear
+        roundedView.add(subviews: [horizontalScrollView])
     }
 
     func addConstraints() {
-        NSLayoutConstraint.activate([
-            horizontalScrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            horizontalScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            horizontalScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            horizontalScrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-        ])
+        horizontalScrollView.autoPinEdges(to: roundedView)
         horizontalScrollView.layoutIfNeeded()
     }
 }
@@ -84,15 +61,13 @@ extension ImagesTVCell: ViewAdding {
 extension ImagesTVCell {
     private func setup() {
         addViews()
-        setupViews()
-        setupColors()
         addConstraints()
     }
 
     private func setupHorizontalScrollView(count: Int,
                                            imageType: ImageRepresentationType,
                                            image: UIImage) {
-        let squareBound = frame.height * 0.9
+        let squareBound = frame.height - 20
         let viewSize = CGSize(width: squareBound, height: squareBound)
         let spacing = CGFloat(20)
         horizontalScrollView.contentSize.width =
@@ -102,24 +77,21 @@ extension ImagesTVCell {
         var previousX = CGFloat(0)
         for i in 0..<Int(count) {
             let view: UIView
+            let origin = CGPoint(x: previousX + spacing,
+                                 y: 10)
+            let frame = CGRect(origin: origin,
+                               size: viewSize)
+
             switch imageType {
             case .button:
-                let button = CustomButton(frame:
-                    CGRect(origin:
-                    CGPoint(x: previousX + spacing,
-                            y: 0),
-                            size: viewSize))
+                let button = CustomButton(frame: frame)
                 button.setImage(image, for: .normal)
                 button.contentMode = .scaleAspectFit
                 button.tag = i
                 button.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
                 view = button
             case .image:
-                let imageView = UIImageView(frame:
-                    CGRect(origin:
-                    CGPoint(x: previousX + spacing,
-                            y: 0),
-                            size: viewSize))
+                let imageView = UIImageView(frame: frame)
                 imageView.image = image
                 imageView.contentMode = .scaleAspectFit
                 imageView.layoutIfNeeded()
