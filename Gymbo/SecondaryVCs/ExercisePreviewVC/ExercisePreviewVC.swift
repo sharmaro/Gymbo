@@ -1,5 +1,5 @@
 //
-//  ExercisePreviewTVC.swift
+//  ExercisePreviewVC.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 5/2/20.
@@ -9,7 +9,14 @@
 import UIKit
 
 // MARK: - Properties
-class ExercisePreviewTVC: UITableViewController {
+class ExercisePreviewVC: UIViewController {
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        return tableView
+    }()
+
     private let editDisclaimerLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.editDisclaimerText
@@ -17,7 +24,6 @@ class ExercisePreviewTVC: UITableViewController {
         label.font = UIFont.medium.light
         label.adjustsFontSizeToFitWidth = true
         label.backgroundColor = .primaryBackground
-        label.layer.zPosition = 1
         return label
     }()
 
@@ -27,7 +33,6 @@ class ExercisePreviewTVC: UITableViewController {
         button.titleLabel?.font = .normal
         button.set(backgroundColor: .systemBlue)
         button.addCorner(style: .small)
-        button.layer.zPosition = 1
         return button
     }()
 
@@ -40,9 +45,9 @@ class ExercisePreviewTVC: UITableViewController {
     var customDataSource: ExercisePreviewTVDS?
     var customDelegate: ExercisePreviewTVD?
 
-    init(style: UITableView.Style, exercisesTVDS: ExercisesTVDS?) {
+    init(exercisesTVDS: ExercisesTVDS?) {
         self.exercisesTVDS = exercisesTVDS
-        super.init(style: style)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -51,7 +56,7 @@ class ExercisePreviewTVC: UITableViewController {
 }
 
 // MARK: - Structs/Enums
-private extension ExercisePreviewTVC {
+private extension ExercisePreviewVC {
     struct Constants {
         static let editDisclaimerText = "*Only exercises made by you can be edited."
 
@@ -60,7 +65,7 @@ private extension ExercisePreviewTVC {
 }
 
 // MARK: - UIViewController Var/Funcs
-extension ExercisePreviewTVC {
+extension ExercisePreviewVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,7 +84,7 @@ extension ExercisePreviewTVC {
 }
 
 // MARK: - ViewAdding
-extension ExercisePreviewTVC: ViewAdding {
+extension ExercisePreviewVC: ViewAdding {
     func setupNavigationBar() {
         title = "Exercise"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
@@ -88,6 +93,7 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func addViews() {
+        view.add(subviews: [tableView])
         if isExerciseUserMade {
             view.add(subviews: [editButton])
         } else {
@@ -99,8 +105,6 @@ extension ExercisePreviewTVC: ViewAdding {
         tableView.dataSource = customDataSource
         tableView.delegate = customDelegate
 
-        tableView.separatorStyle = .none
-        tableView.allowsSelection = false
         tableView.register(ExercisesHFV.self,
                            forHeaderFooterViewReuseIdentifier: ExercisesHFV.reuseIdentifier)
         tableView.register(TwoLabelsTVCell.self,
@@ -121,9 +125,10 @@ extension ExercisePreviewTVC: ViewAdding {
     }
 
     func addConstraints() {
+        tableView.autoPinSafeEdges(to: view)
+
         let viewToUse = isExerciseUserMade ? editButton : editDisclaimerLabel
         let bottomSpacing: CGFloat = isExerciseUserMade ? -15 : 0
-
         NSLayoutConstraint.activate([
             viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
@@ -140,7 +145,7 @@ extension ExercisePreviewTVC: ViewAdding {
 }
 
 // MARK: - Funcs
-extension ExercisePreviewTVC {
+extension ExercisePreviewVC {
     private func refreshTitleLabels() {
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
@@ -164,7 +169,7 @@ extension ExercisePreviewTVC {
 }
 
 // MARK: - ExerciseDataModelDelegate
-extension ExercisePreviewTVC: ExerciseDataModelDelegate {
+extension ExercisePreviewVC: ExerciseDataModelDelegate {
     func update(_ currentName: String,
                 exercise: Exercise,
                 completion: @escaping (Result<Any?, DataError>) -> Void) {

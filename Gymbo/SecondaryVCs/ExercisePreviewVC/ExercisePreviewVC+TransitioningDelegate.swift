@@ -1,5 +1,5 @@
 //
-//  ExercisePreviewTVC+TransitioningDelegate.swift
+//  ExercisePreviewVC+TransitioningDelegate.swift
 //  Gymbo
 //
 //  Created by Rohan Sharma on 12/30/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension ExercisePreviewTVC: UIViewControllerTransitioningDelegate {
+extension ExercisePreviewVC: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController,
                                 presenting: UIViewController?,
                                 source: UIViewController) -> UIPresentationController? {

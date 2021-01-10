@@ -95,17 +95,16 @@ extension VCFactory {
         return dashboardCVC
     }
 
-    static func makeExercisePreviewTVC(style: UITableView.Style,
-                                       exercise: Exercise,
-                                       exercisesTVDS: ExercisesTVDS?
-    ) -> ExercisePreviewTVC {
-        let exercisePreviewTVC = ExercisePreviewTVC(style: style,
-                                                    exercisesTVDS: exercisesTVDS)
-        exercisePreviewTVC.customDataSource = ExercisePreviewTVDS()
-        exercisePreviewTVC.customDataSource?.exercise = exercise
-        exercisePreviewTVC.customDelegate = ExercisePreviewTVD()
-        exercisePreviewTVC.customDelegate?.exercise = exercise
-        return exercisePreviewTVC
+    static func makeExercisePreviewVC(exercise: Exercise,
+                                      exercisesTVDS: ExercisesTVDS?
+    ) -> ExercisePreviewVC {
+        let exercisePreviewVC = ExercisePreviewVC(
+            exercisesTVDS: exercisesTVDS)
+        exercisePreviewVC.customDataSource = ExercisePreviewTVDS()
+        exercisePreviewVC.customDataSource?.exercise = exercise
+        exercisePreviewVC.customDelegate = ExercisePreviewTVD()
+        exercisePreviewVC.customDelegate?.exercise = exercise
+        return exercisePreviewVC
     }
 
     static func makeExercisesVC(
