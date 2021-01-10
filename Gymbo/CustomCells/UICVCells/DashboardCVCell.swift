@@ -10,13 +10,13 @@ import UIKit
 
 // MARK: - Properties
 class DashboardCVCell: RoundedCVCell {
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.large.bold
         return label
     }()
 
-    private var contentLabel: UILabel = {
+    private let contentLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.normal.light
         label.numberOfLines = 0

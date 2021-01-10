@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class SelectionCVCell: UICollectionViewCell {
-    private var containerView: UIView = {
+    private let containerView: UIView = {
         let view = UIView()
         view.addCorner(style: .small)
         return view

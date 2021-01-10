@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class AllSessionDaysCVC: UICollectionViewController {
-    private var dateButton: CustomButton = {
+    private let dateButton: CustomButton = {
         let barButtonSize = CGSize(width: 120, height: 30)
         let button = CustomButton(frame: CGRect(origin: .zero, size: barButtonSize))
         button.titleLabel?.font = UIFont.small.light

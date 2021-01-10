@@ -10,21 +10,21 @@ import UIKit
 
 // MARK: - Properties
 class ProfileInfoTVCell: RoundedTVCell {
-    private var contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
         return stackView
     }()
 
-    private var leftLabel: UILabel = {
+    private let leftLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.normal.semibold
         label.backgroundColor = .clear
         return label
     }()
 
-    private var rightTextField: UITextField = {
+    private let rightTextField: UITextField = {
         let textField = UITextField()
         textField.font = .normal
         textField.placeholder = "Not Set"

@@ -12,7 +12,7 @@ import UIKit
 class TwoLabelsCVCell: RoundedCVCell {
     private var indexLabel = UILabel()
 
-    private var labelsVStackView: UIStackView = {
+    private let labelsVStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading

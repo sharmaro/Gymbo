@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class ImageAndLabelView: UIView {
-    var imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         return imageView

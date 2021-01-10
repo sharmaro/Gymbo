@@ -12,7 +12,7 @@ import UIKit
 class AllSessionsCVCell: RoundedCVCell {
     private var indexLabel = UILabel()
 
-    private var containerVStack: UIStackView = {
+    private let containerVStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -30,7 +30,7 @@ class AllSessionsCVCell: RoundedCVCell {
 
     private let dateLabel = UILabel()
 
-    private var labelsHStackView: UIStackView = {
+    private let labelsHStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
@@ -41,7 +41,7 @@ class AllSessionsCVCell: RoundedCVCell {
     private let imageAndDurationView = ImageAndLabelView()
     private let imageAndWeightView = ImageAndLabelView()
 
-    private var exerciseTitleLabel: UILabel = {
+    private let exerciseTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Exercise"
         label.font = UIFont.medium.bold

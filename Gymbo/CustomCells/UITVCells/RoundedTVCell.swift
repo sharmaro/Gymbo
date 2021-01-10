@@ -12,7 +12,7 @@ import UIKit
 class RoundedTVCell: UITableViewCell {
     let roundedView = UIView()
 
-    var rightImageView: UIImageView = {
+    let rightImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.tintColor = .secondaryText

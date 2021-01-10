@@ -14,14 +14,14 @@ class ModalPickerVC: UIViewController {
     private let containerView = UIView()
     private let tabBarView = UIView()
 
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "TITLE"
         label.font = UIFont.medium.bold
         return label
     }()
 
-    private var cancelButton: CustomButton = {
+    private let cancelButton: CustomButton = {
         let button = CustomButton()
         button.title = "Cancel"
         button.set(backgroundColor: .systemRed)
@@ -29,7 +29,7 @@ class ModalPickerVC: UIViewController {
         return button
     }()
 
-    private var selectButton: CustomButton = {
+    private let selectButton: CustomButton = {
         let button = CustomButton()
         button.title = "Select"
         button.set(backgroundColor: .systemGreen)

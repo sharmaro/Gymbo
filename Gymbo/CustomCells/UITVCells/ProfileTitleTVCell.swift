@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class ProfileTitleTVCell: RoundedTVCell {
-    private var profileImageButton: CustomButton = {
+    private let profileImageButton: CustomButton = {
         let button = CustomButton()
         button.contentMode = .scaleAspectFit
         button.addCorner(style: .circle(length: 70))
@@ -18,7 +18,7 @@ class ProfileTitleTVCell: RoundedTVCell {
         return button
     }()
 
-    private var labelStackView: UIStackView = {
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalCentering
@@ -27,13 +27,13 @@ class ProfileTitleTVCell: RoundedTVCell {
         return stackView
     }()
 
-    private var nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.medium.bold
         return label
     }()
 
-    private var descriptionLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.normal.light
         return label

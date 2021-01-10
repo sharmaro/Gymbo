@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Properties
 class OnboardingVC: UIViewController {
-    private var arrowImageView: UIImageView = {
+    private let arrowImageView: UIImageView = {
         let size = CGSize(width: 100, height: 100)
         let origin = CGPoint(x: -size.width, y: -size.height)
         let imageView = UIImageView(frame: CGRect(origin: origin,
@@ -23,7 +23,7 @@ class OnboardingVC: UIViewController {
         return imageView
     }()
 
-    private var infoTextView: UITextView = {
+    private let infoTextView: UITextView = {
         let textView = UITextView()
         textView.font = .normal
         textView.textColor = .primaryText
@@ -37,7 +37,7 @@ class OnboardingVC: UIViewController {
         return textView
     }()
 
-    private var continueButton: CustomButton = {
+    private let continueButton: CustomButton = {
         let button = CustomButton(frame: CGRect(
                                     origin: CGPoint(x: -100,
                                                     y: -45),
