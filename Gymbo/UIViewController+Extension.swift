@@ -17,6 +17,13 @@ extension UIViewController {
         44
     }
 
+    var isOnlyChildVC: Bool {
+        guard let navigationController = navigationController else {
+            return true
+        }
+        return navigationController.viewControllers.count == 1
+    }
+
     func presentCustomAlert(alertData: AlertData) {
         let alertVC = AlertVC(alertData: alertData)
         alertVC.modalTransitionStyle = .crossDissolve
@@ -54,6 +61,21 @@ extension UIViewController {
             }) { _ in
                 activityIndicatorView.removeFromSuperview()
             }
+        }
+    }
+
+    func dismissAppropriately(animated: Bool = true,
+                              completion: (() -> Void)? = nil) {
+        guard let navigationController = navigationController,
+              !navigationController.viewControllers.isEmpty else {
+            dismiss(animated: animated, completion: completion)
+            return
+        }
+
+        if navigationController.viewControllers.count == 1 {
+            dismiss(animated: animated, completion: completion)
+        } else {
+            navigationController.popViewController(animated: animated)
         }
     }
 }

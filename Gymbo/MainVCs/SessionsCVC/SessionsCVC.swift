@@ -124,8 +124,9 @@ extension SessionsCVC {
             .makeCreateEditSessionTVC(user: customDataSource?.user,
                                       state: .create,
                                       exercisesTVDS: exercisesTVDS)
-        createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
-        navigationController?.pushViewController(createEditSessionTVC, animated: true)
+        createEditSessionTVC.sessionDataModelDelegate = self
+        let mainNC = VCFactory.makeMainNC(rootVC: createEditSessionTVC)
+        navigationController?.present(mainNC, animated: true)
     }
 
     @objc private func reloadCVWithoutAnimation() {
@@ -195,10 +196,6 @@ extension SessionsCVC: SessionDataModelDelegate {
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
-                    return
-                }
-                self?.presentCustomAlert(alertData: alertData)
             }
         }
     }
@@ -217,10 +214,6 @@ extension SessionsCVC: SessionDataModelDelegate {
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
-                    return
-                }
-                self?.presentCustomAlert(alertData: alertData)
             }
         }
     }

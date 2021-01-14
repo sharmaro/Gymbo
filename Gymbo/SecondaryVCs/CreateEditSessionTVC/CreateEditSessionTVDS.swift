@@ -21,8 +21,6 @@ class CreateEditSessionTVDS: NSObject {
         try? Realm()
     }
 
-    weak var sessionDataModelDelegate: SessionDataModelDelegate?
-
     private weak var listDataSource: ListDataSource?
 
     init(listDataSource: ListDataSource?, user: User?) {
@@ -210,22 +208,6 @@ extension CreateEditSessionTVDS {
             try? realm?.write {
                 session.exercises.remove(at: index)
             }
-        }
-    }
-
-    func saveSession(name: String?, info: String?) {
-        let sessionToInteractWith = session.safeCopy
-        sessionToInteractWith.name = name
-        sessionToInteractWith.info = info
-        if sessionState == .create {
-            sessionDataModelDelegate?.create(sessionToInteractWith,
-                                             completion: { _ in
-            })
-        } else {
-            sessionDataModelDelegate?.update(session.name ?? "",
-                                             session: sessionToInteractWith,
-                                             completion: { _ in
-            })
         }
     }
 

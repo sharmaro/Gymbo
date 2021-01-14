@@ -161,7 +161,7 @@ extension SessionPreviewTVC {
                                                                       session: session,
                                                                       state: .edit,
                                                                       exercisesTVDS: exercisesTVDS)
-        createEditSessionTVC.customDataSource?.sessionDataModelDelegate = self
+        createEditSessionTVC.sessionDataModelDelegate = self
         navigationController?.pushViewController(createEditSessionTVC, animated: true)
     }
 
@@ -196,10 +196,6 @@ extension SessionPreviewTVC: SessionDataModelDelegate {
                 }
             case .failure(let error):
                 completion(.failure(error))
-                guard let alertData = error.exerciseAlertData(exerciseName: session.name ?? "") else {
-                    return
-                }
-                self?.presentCustomAlert(alertData: alertData)
             }
         }
     }

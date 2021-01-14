@@ -35,7 +35,7 @@ extension UIColor {
     // Special
     static let defaultSelectedBorder = UIColor.systemGreen
     static let defaultUnselectedBorder = UIColor.primaryText
-    static let disabledBlack = UIColor.black.withAlphaComponent(0.6)
+    static let disabledBlack = UIColor.black.withAlphaComponent(0.5)
     static let selectedBackground = UIColor(named: "selectedBackground") ?? .systemGray
 
     // Primary
