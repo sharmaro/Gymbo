@@ -156,13 +156,21 @@ extension CreateEditSessionTVC: ViewAdding {
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = tableHeaderView
         NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
+            tableHeaderView.centerX.constraint(equalTo: tableView.centerX),
+            tableHeaderView.width.constraint(equalTo: tableView.width),
 
-            saveButton.topAnchor.constraint(equalTo: tableFooterView.topAnchor, constant: 15),
-            saveButton.leadingAnchor.constraint(equalTo: tableFooterView.leadingAnchor, constant: 20),
-            saveButton.trailingAnchor.constraint(equalTo: tableFooterView.trailingAnchor, constant: -20),
-            saveButton.bottomAnchor.constraint(equalTo: tableFooterView.bottomAnchor, constant: -15)
+            saveButton.top.constraint(
+                equalTo: tableFooterView.top,
+                constant: 15),
+            saveButton.leading.constraint(
+                equalTo: tableFooterView.leading,
+                constant: 20),
+            saveButton.trailing.constraint(
+                equalTo: tableFooterView.trailing,
+                constant: -20),
+            saveButton.bottom.constraint(
+                equalTo: tableFooterView.bottom,
+                constant: -15)
         ])
     }
 }

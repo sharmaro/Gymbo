@@ -120,16 +120,16 @@ extension CreateEditExerciseVC: ViewAdding {
     func addConstraints() {
         tableView.autoPinSafeEdges(to: view)
         NSLayoutConstraint.activate([
-            actionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            actionButton.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 20),
-            actionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            actionButton.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -20),
-            actionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            actionButton.safeBottom.constraint(
+                equalTo: view.safeBottom,
                 constant: -15),
-            actionButton.heightAnchor.constraint(equalToConstant: Constants.actionButtonHeight)
+            actionButton.height.constraint(equalToConstant: Constants.actionButtonHeight)
         ])
     }
 }

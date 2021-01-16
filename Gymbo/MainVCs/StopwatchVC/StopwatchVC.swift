@@ -189,53 +189,46 @@ extension StopwatchVC: ViewAdding {
         [minuteLabel, secondLabel, centiSecondLabel].forEach { $0.textColor = .primaryText }
     }
 
-    //swiftlint:disable:next function_body_length
     func addConstraints() {
         let verticalSeparatorView1 = timeStackView.arrangedSubviews[1]
         let verticalSeparatorView2 = timeStackView.arrangedSubviews[3]
 
         buttonsStackViewBottomConstraint =
-            buttonsStackView.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            buttonsStackView.safeBottom.constraint(
+                equalTo: view.safeBottom,
                 constant: Constants.sessionEndedConstraintConstant)
         buttonsStackViewBottomConstraint?.isActive = true
 
         NSLayoutConstraint.activate([
-            timeStackView.safeAreaLayoutGuide.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor),
-            timeStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            timeStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            timeStackView.heightAnchor.constraint(equalToConstant: Constants.timeStackViewHeight),
+            timeStackView.safeTop.constraint(equalTo: view.safeTop),
+            timeStackView.safeLeading.constraint(equalTo: view.safeLeading),
+            timeStackView.safeTrailing.constraint(equalTo: view.safeTrailing),
+            timeStackView.height.constraint(equalToConstant: Constants.timeStackViewHeight),
 
-            secondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
-            centiSecondLabel.widthAnchor.constraint(equalTo: minuteLabel.widthAnchor, multiplier: 1),
-            minuteLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            secondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            centiSecondLabel.heightAnchor.constraint(equalTo: timeStackView.heightAnchor),
-            verticalSeparatorView1.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView1.heightAnchor.constraint(
+            secondLabel.width.constraint(equalTo: minuteLabel.width, multiplier: 1),
+            centiSecondLabel.width.constraint(equalTo: minuteLabel.width, multiplier: 1),
+            minuteLabel.height.constraint(equalTo: timeStackView.height),
+            secondLabel.height.constraint(equalTo: timeStackView.height),
+            centiSecondLabel.height.constraint(equalTo: timeStackView.height),
+            verticalSeparatorView1.width.constraint(equalToConstant: 1),
+            verticalSeparatorView1.height.constraint(
                 equalToConstant: Constants.timeStackViewHeight / 2),
-            verticalSeparatorView2.widthAnchor.constraint(equalToConstant: 1),
-            verticalSeparatorView2.heightAnchor.constraint(
+            verticalSeparatorView2.width.constraint(equalToConstant: 1),
+            verticalSeparatorView2.height.constraint(
                 equalToConstant: Constants.timeStackViewHeight / 2),
 
-            tableView.topAnchor.constraint(equalTo: timeStackView.bottomAnchor),
-            tableView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.top.constraint(equalTo: timeStackView.bottom),
+            tableView.safeLeading.constraint(equalTo: view.safeLeading),
+            tableView.safeTrailing.constraint(equalTo: view.safeTrailing),
+            tableView.safeBottom.constraint(equalTo: view.safeBottom),
 
-            buttonsStackView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            buttonsStackView.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 15),
-            buttonsStackView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            buttonsStackView.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -15),
-            buttonsStackView.heightAnchor.constraint(equalToConstant: Constants.buttonsStackViewHeight)
+            buttonsStackView.height.constraint(equalToConstant: Constants.buttonsStackViewHeight)
         ])
         timeStackView.layoutIfNeeded()
     }

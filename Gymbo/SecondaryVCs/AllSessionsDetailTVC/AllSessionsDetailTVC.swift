@@ -79,8 +79,8 @@ extension AllSessionsDetailTVC: ViewAdding {
         tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = tableHeaderView
         NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor)
+            tableHeaderView.centerX.constraint(equalTo: tableView.centerX),
+            tableHeaderView.width.constraint(equalTo: tableView.width)
         ])
     }
 }

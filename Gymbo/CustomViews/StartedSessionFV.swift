@@ -65,15 +65,29 @@ extension StartedSessionFV: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            addExerciseButton.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            addExerciseButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            addExerciseButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            addExerciseButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -15),
-            addExerciseButton.heightAnchor.constraint(equalTo: cancelButton.heightAnchor),
+            addExerciseButton.top.constraint(
+                equalTo: top,
+                constant: 15),
+            addExerciseButton.leading.constraint(
+                equalTo: leading,
+                constant: 20),
+            addExerciseButton.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            addExerciseButton.bottom.constraint(
+                equalTo: cancelButton.top,
+                constant: -15),
+            addExerciseButton.height.constraint(equalTo: cancelButton.height),
 
-            cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            cancelButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
+            cancelButton.leading.constraint(
+                equalTo: leading,
+                constant: 20),
+            cancelButton.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            cancelButton.bottom.constraint(
+                equalTo: bottom,
+                constant: -15)
         ])
     }
 }

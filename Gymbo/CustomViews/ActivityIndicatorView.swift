@@ -102,14 +102,18 @@ extension ActivityIndicatorView: ViewAdding {
         containerBlurEffectView.autoPinEdges(to: self)
 
         NSLayoutConstraint.activate([
-            contentBlurEffectView.centerXAnchor.constraint(equalTo: containerBlurEffectView.centerXAnchor),
-            contentBlurEffectView.centerYAnchor.constraint(equalTo: containerBlurEffectView.centerYAnchor),
-            contentBlurEffectView.widthAnchor.constraint(equalToConstant: 200),
-            contentBlurEffectView.heightAnchor.constraint(equalToConstant: 60),
+            contentBlurEffectView.centerX.constraint(equalTo: containerBlurEffectView.centerX),
+            contentBlurEffectView.centerY.constraint(equalTo: containerBlurEffectView.centerY),
+            contentBlurEffectView.width.constraint(equalToConstant: 200),
+            contentBlurEffectView.height.constraint(equalToConstant: 60),
 
-            stackView.leadingAnchor.constraint(equalTo: contentBlurEffectView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: contentBlurEffectView.trailingAnchor, constant: -20),
-            stackView.centerYAnchor.constraint(equalTo: contentBlurEffectView.centerYAnchor)
+            stackView.leading.constraint(
+                equalTo: contentBlurEffectView.leading,
+                constant: 20),
+            stackView.trailing.constraint(
+                equalTo: contentBlurEffectView.trailing,
+                constant: -20),
+            stackView.centerY.constraint(equalTo: contentBlurEffectView.centerY)
         ])
     }
 }

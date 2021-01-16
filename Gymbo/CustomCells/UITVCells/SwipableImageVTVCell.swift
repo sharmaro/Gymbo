@@ -61,15 +61,15 @@ extension SwipableImageVTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            horizontalScrollView.topAnchor.constraint(equalTo: roundedView.topAnchor),
-            horizontalScrollView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor),
-            horizontalScrollView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor),
-            horizontalScrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor),
+            horizontalScrollView.top.constraint(equalTo: roundedView.top),
+            horizontalScrollView.leading.constraint(equalTo: roundedView.leading),
+            horizontalScrollView.trailing.constraint(equalTo: roundedView.trailing),
+            horizontalScrollView.bottom.constraint(equalTo: pageControl.top),
 
-            pageControl.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor),
-            pageControl.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 20)
+            pageControl.leading.constraint(equalTo: roundedView.leading),
+            pageControl.trailing.constraint(equalTo: roundedView.trailing),
+            pageControl.bottom.constraint(equalTo: roundedView.bottom),
+            pageControl.height.constraint(equalToConstant: 20)
         ])
         horizontalScrollView.layoutIfNeeded()
     }

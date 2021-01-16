@@ -51,16 +51,17 @@ extension ImageAndLabelView: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: label.leadingAnchor,
-                                                constant: -5),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageView.top.constraint(equalTo: top),
+            imageView.leading.constraint(equalTo: leading),
+            imageView.trailing.constraint(
+                equalTo: label.leading,
+                constant: -5),
+            imageView.bottom.constraint(equalTo: bottom),
+            imageView.width.constraint(equalTo: imageView.height),
 
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+            label.top.constraint(equalTo: top),
+            label.trailing.constraint(equalTo: trailing),
+            label.bottom.constraint(equalTo: bottom)
         ])
     }
 }

@@ -91,19 +91,24 @@ extension ProfileTitleTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            profileImageButton.topAnchor.constraint(equalTo: roundedView.topAnchor,
-                                                    constant: 15),
-            profileImageButton.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                        constant: 20),
-            profileImageButton.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor,
-                                                         constant: -15),
-            profileImageButton.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor,
-                                                       constant: -15),
-            profileImageButton.widthAnchor.constraint(equalTo: profileImageButton.heightAnchor),
+            profileImageButton.top.constraint(
+                equalTo: roundedView.top,
+                constant: 15),
+            profileImageButton.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            profileImageButton.trailing.constraint(
+                equalTo: labelStackView.leading,
+                constant: -15),
+            profileImageButton.bottom.constraint(
+                equalTo: roundedView.bottom,
+                constant: -15),
+            profileImageButton.width.constraint(equalTo: profileImageButton.height),
 
-            labelStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            labelStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
-                                                constant: -20)
+            labelStackView.centerY.constraint(equalTo: roundedView.centerY),
+            labelStackView.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20)
         ])
     }
 }

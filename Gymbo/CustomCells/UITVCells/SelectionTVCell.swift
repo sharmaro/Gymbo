@@ -80,25 +80,27 @@ extension SelectionTVCell: ViewAdding {
     }
 
     func addConstraints() {
-        stackViewLeadingConstraintToContentView = stackView.leadingAnchor
-            .constraint(equalTo: roundedView.leadingAnchor,
-                        constant: 20)
-        stackViewLeadingConstraintToImageView = stackView.leadingAnchor
-            .constraint(equalTo: leftImageView.trailingAnchor,
-                        constant: 10)
+        stackViewLeadingConstraintToContentView = stackView.leading.constraint(
+            equalTo: roundedView.leading,
+            constant: 20)
+        stackViewLeadingConstraintToImageView = stackView.leading.constraint(
+            equalTo: leftImageView.trailing,
+            constant: 10)
 
         NSLayoutConstraint.activate([
-            leftImageView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            leftImageView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                   constant: 20),
-            leftImageView.widthAnchor.constraint(equalToConstant: 25),
-            leftImageView.heightAnchor.constraint(equalTo: leftImageView.widthAnchor),
+            leftImageView.centerY.constraint(equalTo: roundedView.centerY),
+            leftImageView.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            leftImageView.width.constraint(equalToConstant: 25),
+            leftImageView.height.constraint(equalTo: leftImageView.width),
 
-            stackView.topAnchor.constraint(equalTo: roundedView.topAnchor),
+            stackView.top.constraint(equalTo: roundedView.top),
             stackViewLeadingConstraintToImageView,
-            stackView.trailingAnchor.constraint(equalTo: rightImageView.leadingAnchor,
-                                                constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor)
+            stackView.trailing.constraint(
+                equalTo: rightImageView.leading,
+                constant: -20),
+            stackView.bottom.constraint(equalTo: roundedView.bottom)
         ])
     }
 }

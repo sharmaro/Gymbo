@@ -56,16 +56,18 @@ extension StopwatchTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: roundedView.topAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                      constant: 20),
-            descriptionLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
+            descriptionLabel.top.constraint(equalTo: roundedView.top),
+            descriptionLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            descriptionLabel.bottom.constraint(equalTo: roundedView.bottom),
 
-            valueLabel.topAnchor.constraint(equalTo: roundedView.safeAreaLayoutGuide.topAnchor),
-            valueLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
-                                                 constant: -20),
-            valueLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
-            valueLabel.widthAnchor.constraint(equalToConstant: 90)
+            valueLabel.top.constraint(equalTo: roundedView.top),
+            valueLabel.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            valueLabel.bottom.constraint(equalTo: roundedView.bottom),
+            valueLabel.width.constraint(equalToConstant: 90)
         ])
     }
 }

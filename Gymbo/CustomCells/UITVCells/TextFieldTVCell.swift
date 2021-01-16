@@ -57,10 +57,18 @@ extension TextFieldTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
-            textField.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            textField.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
+            textField.top.constraint(
+                equalTo: roundedView.top,
+                constant: 10),
+            textField.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            textField.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            textField.bottom.constraint(
+                equalTo: roundedView.bottom,
+                constant: -10)
         ])
     }
 }

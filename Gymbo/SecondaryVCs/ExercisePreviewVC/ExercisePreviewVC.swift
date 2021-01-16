@@ -130,16 +130,16 @@ extension ExercisePreviewVC: ViewAdding {
         let viewToUse = isExerciseUserMade ? editButton : editDisclaimerLabel
         let bottomSpacing: CGFloat = isExerciseUserMade ? -15 : 0
         NSLayoutConstraint.activate([
-            viewToUse.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            viewToUse.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 20),
-            viewToUse.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            viewToUse.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -20),
-            viewToUse.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            viewToUse.safeBottom.constraint(
+                equalTo: view.safeBottom,
                 constant: bottomSpacing),
-            viewToUse.heightAnchor.constraint(equalToConstant: Constants.viewToUseHeight)
+            viewToUse.height.constraint(equalToConstant: Constants.viewToUseHeight)
         ])
     }
 }

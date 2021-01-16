@@ -160,19 +160,19 @@ extension ExercisesVC: ViewAdding {
     func addConstraints() {
         tableView.autoPinSafeEdges(to: view)
         if presentationStyle == .modal {
-            addExerciseButtonBottomConstraint = addExerciseButton.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            addExerciseButtonBottomConstraint = addExerciseButton.safeBottom.constraint(
+                equalTo: view.safeBottom,
                 constant: Constants.sessionEndedConstraintConstant)
             addExerciseButtonBottomConstraint?.isActive = true
 
             NSLayoutConstraint.activate([
-                addExerciseButton.safeAreaLayoutGuide.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                addExerciseButton.safeLeading.constraint(
+                    equalTo: view.safeLeading,
                     constant: 20),
-                addExerciseButton.safeAreaLayoutGuide.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                addExerciseButton.safeTrailing.constraint(
+                    equalTo: view.safeTrailing,
                     constant: -20),
-                addExerciseButton.heightAnchor.constraint(equalToConstant: Constants.addExerciseButtonHeight)
+                addExerciseButton.height.constraint(equalToConstant: Constants.addExerciseButtonHeight)
             ])
         }
     }

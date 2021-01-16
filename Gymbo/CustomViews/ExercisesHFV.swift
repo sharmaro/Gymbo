@@ -66,20 +66,22 @@ extension ExercisesHFV: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topDivider.topAnchor.constraint(equalTo: topAnchor),
-            topDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topDivider.heightAnchor.constraint(equalToConstant: Constants.dividerHeight),
+            topDivider.top.constraint(equalTo: top),
+            topDivider.leading.constraint(equalTo: leading),
+            topDivider.trailing.constraint(equalTo: trailing),
+            topDivider.height.constraint(equalToConstant: Constants.dividerHeight),
 
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.top.constraint(equalTo: top),
+            label.leading.constraint(
+                equalTo: leading,
+                constant: 20),
+            label.trailing.constraint(equalTo: trailing),
+            label.bottom.constraint(equalTo: bottom),
 
-            bottomDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomDivider.bottomAnchor.constraint(equalTo: bottomAnchor),
-            bottomDivider.heightAnchor.constraint(equalToConstant: Constants.dividerHeight)
+            bottomDivider.leading.constraint(equalTo: leading),
+            bottomDivider.trailing.constraint(equalTo: trailing),
+            bottomDivider.bottom.constraint(equalTo: bottom),
+            bottomDivider.height.constraint(equalToConstant: Constants.dividerHeight)
         ])
     }
 }

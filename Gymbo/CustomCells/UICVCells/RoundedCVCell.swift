@@ -65,12 +65,14 @@ extension RoundedCVCell {
 
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            roundedView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            roundedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                 constant: 20),
-            roundedView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                  constant: -20),
-            roundedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            roundedView.top.constraint(equalTo: contentView.top),
+            roundedView.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 20),
+            roundedView.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -20),
+            roundedView.bottom.constraint(equalTo: contentView.bottom)
         ])
     }
 }

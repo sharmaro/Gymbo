@@ -81,11 +81,14 @@ extension ProfileInfoTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                    constant: 20),
-            contentStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
-                                                     constant: -20)
+            contentStackView.centerY.constraint(
+                equalTo: roundedView.centerY),
+            contentStackView.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            contentStackView.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20)
         ])
     }
 }

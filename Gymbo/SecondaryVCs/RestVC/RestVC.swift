@@ -153,58 +153,64 @@ extension RestVC: ViewAdding {
     //swiftlint:disable:next function_body_length
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topContainerView.safeAreaLayoutGuide.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
+            topContainerView.safeTop.constraint(
+                equalTo: view.safeTop,
                 constant: 15),
-            topContainerView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            topContainerView.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 20),
-            topContainerView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            topContainerView.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -20),
-            topContainerView.bottomAnchor.constraint(
-                equalTo: circleProgressView.topAnchor, constant: -15),
-            topContainerView.heightAnchor.constraint(equalToConstant: 30),
-
-            restLabel.topAnchor.constraint(equalTo: topContainerView.topAnchor),
-            restLabel.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor),
-            restLabel.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor),
-            restLabel.bottomAnchor.constraint(equalTo: topContainerView.bottomAnchor),
-
-            addTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
-            addTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
-            addTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: -65),
-            addTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
-
-            removeTimeButton.widthAnchor.constraint(equalToConstant: Constants.timeButtonSize.width),
-            removeTimeButton.heightAnchor.constraint(equalToConstant: Constants.timeButtonSize.height),
-            removeTimeButton.centerXAnchor.constraint(equalTo: topContainerView.centerXAnchor, constant: 65),
-            removeTimeButton.centerYAnchor.constraint(equalTo: topContainerView.centerYAnchor),
-
-            circleProgressView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 20),
-            circleProgressView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -20),
-            circleProgressView.bottomAnchor.constraint(
-                equalTo: mainButton.topAnchor, constant: -15),
-
-            pickerView.topAnchor.constraint(equalTo: circleProgressView.topAnchor),
-            pickerView.leadingAnchor.constraint(equalTo: circleProgressView.leadingAnchor),
-            pickerView.trailingAnchor.constraint(equalTo: circleProgressView.trailingAnchor),
-            pickerView.bottomAnchor.constraint(equalTo: circleProgressView.bottomAnchor),
-
-            mainButton.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 20),
-            mainButton.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -20),
-            mainButton.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            topContainerView.bottom.constraint(
+                equalTo: circleProgressView.top,
                 constant: -15),
-            mainButton.heightAnchor.constraint(equalToConstant: 45)
+            topContainerView.height.constraint(equalToConstant: 30),
+
+            restLabel.top.constraint(equalTo: topContainerView.top),
+            restLabel.leading.constraint(equalTo: topContainerView.leading),
+            restLabel.trailing.constraint(equalTo: topContainerView.trailing),
+            restLabel.bottom.constraint(equalTo: topContainerView.bottom),
+
+            addTimeButton.width.constraint(equalToConstant: Constants.timeButtonSize.width),
+            addTimeButton.height.constraint(equalToConstant: Constants.timeButtonSize.height),
+            addTimeButton.centerX.constraint(
+                equalTo: topContainerView.centerX,
+                constant: -65),
+            addTimeButton.centerY.constraint(equalTo: topContainerView.centerY),
+
+            removeTimeButton.width.constraint(equalToConstant: Constants.timeButtonSize.width),
+            removeTimeButton.height.constraint(equalToConstant: Constants.timeButtonSize.height),
+            removeTimeButton.centerX.constraint(
+                equalTo: topContainerView.centerX,
+                constant: 65),
+            removeTimeButton.centerY.constraint(equalTo: topContainerView.centerY),
+
+            circleProgressView.safeLeading.constraint(
+                equalTo: view.safeLeading,
+                constant: 20),
+            circleProgressView.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
+                constant: -20),
+            circleProgressView.bottom.constraint(
+                equalTo: mainButton.top,
+                constant: -15),
+
+            pickerView.top.constraint(equalTo: circleProgressView.top),
+            pickerView.leading.constraint(equalTo: circleProgressView.leading),
+            pickerView.trailing.constraint(equalTo: circleProgressView.trailing),
+            pickerView.bottom.constraint(equalTo: circleProgressView.bottom),
+
+            mainButton.safeLeading.constraint(
+                equalTo: view.safeLeading,
+                constant: 20),
+            mainButton.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
+                constant: -20),
+            mainButton.safeBottom.constraint(
+                equalTo: view.safeBottom,
+                constant: -15),
+            mainButton.height.constraint(equalToConstant: 45)
         ])
     }
 }

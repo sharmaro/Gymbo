@@ -66,48 +66,66 @@ extension SessionDetailHV: ViewAdding {
         imageAndWeightView.label.textColor = .secondaryText
     }
 
+    //swiftlint:disable:next function_body_length
     func addConstraints() {
         NSLayoutConstraint.activate([
-            firstTextLabel.topAnchor.constraint(equalTo: topAnchor),
-            firstTextLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                      constant: 16),
-            firstTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                       constant: -20),
-            firstTextLabel.bottomAnchor.constraint(equalTo: secondTextLabel.topAnchor,
-                                                   constant: -2),
+            firstTextLabel.top.constraint(equalTo: top),
+            firstTextLabel.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            firstTextLabel.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            firstTextLabel.bottom.constraint(
+                equalTo: secondTextLabel.top,
+                constant: -2),
 
-            secondTextLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                      constant: 16),
-            secondTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                       constant: -20),
-            secondTextLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor,
-                                                    constant: -2),
+            secondTextLabel.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            secondTextLabel.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            secondTextLabel.bottom.constraint(
+                equalTo: dateLabel.top,
+                constant: -2),
 
-            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                      constant: 16),
-            dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                       constant: -20),
-            dateLabel.bottomAnchor.constraint(equalTo: timeLabel.topAnchor,
-                                              constant: -2),
+            dateLabel.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            dateLabel.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            dateLabel.bottom.constraint(
+                equalTo: timeLabel.top,
+                constant: -2),
 
-            timeLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                      constant: 16),
-            timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                       constant: -20),
-            timeLabel.bottomAnchor.constraint(equalTo: imageAndDurationView.topAnchor,
-                                              constant: -2),
-            timeLabel.bottomAnchor.constraint(equalTo: imageAndWeightView.topAnchor,
-                                              constant: -2),
+            timeLabel.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            timeLabel.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            timeLabel.bottom.constraint(
+                equalTo: imageAndDurationView.top,
+                constant: -2),
+            timeLabel.bottom.constraint(
+                equalTo: imageAndWeightView.top,
+                constant: -2),
 
-            imageAndDurationView.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                      constant: 16),
-            imageAndDurationView.trailingAnchor.constraint(equalTo: imageAndWeightView.leadingAnchor,
-                                                       constant: -10),
-            imageAndDurationView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                     constant: -10),
+            imageAndDurationView.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            imageAndDurationView.trailing.constraint(
+                equalTo: imageAndWeightView.leading,
+                constant: -10),
+            imageAndDurationView.bottom.constraint(
+                equalTo: bottom,
+                constant: -10),
 
-            imageAndWeightView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                       constant: -10)
+            imageAndWeightView.bottom.constraint(
+                equalTo: bottom,
+                constant: -10)
         ])
     }
 }

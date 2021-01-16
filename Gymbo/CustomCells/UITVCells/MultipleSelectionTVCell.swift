@@ -69,10 +69,18 @@ extension MultipleSelectionTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
-            collectionView.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
+            collectionView.top.constraint(
+                equalTo: roundedView.top,
+                constant: 10),
+            collectionView.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            collectionView.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            collectionView.bottom.constraint(
+                equalTo: roundedView.bottom,
+                constant: -10)
         ])
     }
 }

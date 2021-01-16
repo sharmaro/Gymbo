@@ -145,35 +145,52 @@ extension ExerciseHeaderTVCell: ViewAdding {
         doneButton.tintColor = .primaryText
     }
 
+    //swiftlint:disable:next function_body_length
     func addConstraints() {
-        let infoStackViewBottomConstraint = infoStackView.bottomAnchor.constraint(
-            equalTo: bottomAnchor,
+        let infoStackViewBottomConstraint = infoStackView.bottom.constraint(
+            equalTo: bottom,
             constant: -10)
         infoStackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
 
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
-            nameLabel.bottomAnchor.constraint(equalTo: infoStackView.topAnchor, constant: -10),
-            nameLabel.heightAnchor.constraint(equalToConstant: 22),
+            nameLabel.top.constraint(
+                equalTo: contentView.top,
+                constant: 10),
+            nameLabel.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 16),
+            nameLabel.trailing.constraint(
+                equalTo: deleteButton.leading,
+                constant: -10),
+            nameLabel.bottom.constraint(
+                equalTo: infoStackView.top,
+                constant: -10),
+            nameLabel.height.constraint(equalToConstant: 22),
 
-            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            deleteButton.widthAnchor.constraint(equalToConstant: 15),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),
+            deleteButton.top.constraint(
+                equalTo: contentView.top,
+                constant: 10),
+            deleteButton.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -10),
+            deleteButton.width.constraint(equalToConstant: 15),
+            deleteButton.height.constraint(equalTo: deleteButton.width),
 
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            infoStackView.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 10),
+            infoStackView.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -10),
             infoStackViewBottomConstraint,
 
-            setsLabel.widthAnchor.constraint(equalToConstant: 40),
-            lastLabel.widthAnchor.constraint(equalToConstant: 130),
-            repsLabel.widthAnchor.constraint(equalToConstant: 45),
-            weightButton.widthAnchor.constraint(equalToConstant: 45),
-            weightButton.heightAnchor.constraint(equalToConstant: 25),
-            doneButton.widthAnchor.constraint(equalToConstant: 15),
-            doneButton.heightAnchor.constraint(equalTo: doneButton.widthAnchor)
+            setsLabel.width.constraint(equalToConstant: 40),
+            lastLabel.width.constraint(equalToConstant: 130),
+            repsLabel.width.constraint(equalToConstant: 45),
+            weightButton.width.constraint(equalToConstant: 45),
+            weightButton.height.constraint(equalToConstant: 25),
+            doneButton.width.constraint(equalToConstant: 15),
+            doneButton.height.constraint(equalTo: doneButton.width)
         ])
         infoStackView.layoutIfNeeded()
     }

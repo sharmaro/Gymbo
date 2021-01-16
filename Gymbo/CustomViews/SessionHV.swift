@@ -95,14 +95,24 @@ extension SessionHV: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            firstTextView.topAnchor.constraint(equalTo: topAnchor),
-            firstTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            firstTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            firstTextView.bottomAnchor.constraint(equalTo: secondTextView.topAnchor),
+            firstTextView.top.constraint(equalTo: top),
+            firstTextView.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            firstTextView.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            firstTextView.bottom.constraint(equalTo: secondTextView.top),
 
-            secondTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            secondTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            secondTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
+            secondTextView.leading.constraint(
+                equalTo: leading,
+                constant: 16),
+            secondTextView.trailing.constraint(
+                equalTo: trailing,
+                constant: -20),
+            secondTextView.bottom.constraint(
+                equalTo: bottom,
+                constant: -15)
         ])
     }
 }

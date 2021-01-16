@@ -108,19 +108,37 @@ extension SessionsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -20),
-            titleLabel.bottomAnchor.constraint(equalTo: infoLabel.topAnchor, constant: -5),
+            titleLabel.top.constraint(
+                equalTo: contentView.top,
+                constant: 5),
+            titleLabel.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 15),
+            titleLabel.trailing.constraint(
+                equalTo: deleteButton.leading,
+                constant: -20),
+            titleLabel.bottom.constraint(
+                equalTo: infoLabel.top,
+                constant: -5),
 
-            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            deleteButton.widthAnchor.constraint(equalToConstant: 20),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),
+            deleteButton.top.constraint(
+                equalTo: contentView.top,
+                constant: 5),
+            deleteButton.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -5),
+            deleteButton.width.constraint(equalToConstant: 20),
+            deleteButton.height.constraint(equalTo: deleteButton.width),
 
-            infoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            infoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            infoLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
+            infoLabel.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 15),
+            infoLabel.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -15),
+            infoLabel.bottom.constraint(
+                lessThanOrEqualTo: contentView.bottom,
+                constant: -10)
         ])
     }
 }

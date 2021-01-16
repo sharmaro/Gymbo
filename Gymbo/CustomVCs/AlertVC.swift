@@ -125,31 +125,39 @@ extension AlertVC: ViewAdding {
     func addConstraints() {
         blurredView.autoPinEdges(to: view)
         NSLayoutConstraint.activate([
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            containerView.centerY.constraint(equalTo: view.centerY),
+            containerView.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 20),
-            containerView.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            containerView.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -20),
 
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 45),
+            titleLabel.top.constraint(equalTo: containerView.top),
+            titleLabel.leading.constraint(equalTo: containerView.leading),
+            titleLabel.trailing.constraint(equalTo: containerView.trailing),
+            titleLabel.bottom.constraint(
+                equalTo: contentLabel.top,
+                constant: -10),
+            titleLabel.height.constraint(equalToConstant: 45),
 
-            contentLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            contentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            contentLabel.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -10),
+            contentLabel.leading.constraint(
+                equalTo: containerView.leading,
+                constant: 20),
+            contentLabel.trailing.constraint(
+                equalTo: containerView.trailing,
+                constant: -20),
+            contentLabel.bottom.constraint(
+                equalTo: buttonsStackView.top,
+                constant: -10),
 
-            buttonsStackView.leadingAnchor.constraint(
-                equalTo: containerView.leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(
-                equalTo: containerView.trailingAnchor, constant: -20),
-            buttonsStackView.bottomAnchor.constraint(
-                equalTo: containerView.bottomAnchor, constant: -10),
-            buttonsStackView.heightAnchor.constraint(equalToConstant: 45)
+            buttonsStackView.leading.constraint(equalTo: containerView.leading,
+                                                constant: 20),
+            buttonsStackView.trailing.constraint(equalTo: containerView.trailing,
+                                                 constant: -20),
+            buttonsStackView.bottom.constraint(equalTo: containerView.bottom,
+                                               constant: -10),
+            buttonsStackView.height.constraint(equalToConstant: 45)
         ])
         buttonsStackView.layoutIfNeeded()
     }

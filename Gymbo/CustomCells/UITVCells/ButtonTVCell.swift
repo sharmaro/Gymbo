@@ -52,10 +52,18 @@ extension ButtonTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
+            button.top.constraint(
+                equalTo: contentView.top,
+                constant: 5),
+            button.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 20),
+            button.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -20),
+            button.bottom.constraint(
+                equalTo: contentView.bottom,
+                constant: -15)
         ])
     }
 }

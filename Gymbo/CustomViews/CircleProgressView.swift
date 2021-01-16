@@ -105,19 +105,19 @@ extension CircleProgressView: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            totalTimeLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            totalTimeLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            totalTimeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            totalTimeLabel.centerYAnchor.constraint(
-                equalTo: centerYAnchor,
+            totalTimeLabel.width.constraint(equalTo: width),
+            totalTimeLabel.height.constraint(equalToConstant: Constants.labelHeight),
+            totalTimeLabel.centerX.constraint(equalTo: centerX),
+            totalTimeLabel.centerY.constraint(
+                equalTo: centerY,
                 constant: -Constants.labelSpacing),
 
-            timeRemainingLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            timeRemainingLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
-            timeRemainingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-                timeRemainingLabel.centerYAnchor.constraint(
-                    equalTo: centerYAnchor,
-                    constant: Constants.labelSpacing)
+            timeRemainingLabel.width.constraint(equalTo: width),
+            timeRemainingLabel.height.constraint(equalToConstant: Constants.labelHeight),
+            timeRemainingLabel.centerX.constraint(equalTo: centerX),
+            timeRemainingLabel.centerY.constraint(
+                equalTo: centerY,
+                constant: Constants.labelSpacing)
         ])
     }
 }

@@ -61,14 +61,28 @@ extension DashboardCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            titleLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -10),
+            titleLabel.top.constraint(
+                equalTo: roundedView.top,
+                constant: 5),
+            titleLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            titleLabel.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            titleLabel.bottom.constraint(
+                equalTo: contentLabel.top,
+                constant: -10),
 
-            contentLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            contentLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            contentLabel.bottomAnchor.constraint(lessThanOrEqualTo: roundedView.bottomAnchor, constant: -5)
+            contentLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            contentLabel.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            contentLabel.bottom.constraint(
+                lessThanOrEqualTo: roundedView.bottom,
+                constant: -5)
         ])
     }
 }

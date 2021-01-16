@@ -86,18 +86,21 @@ extension RoundedTVCell {
 
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            roundedView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            roundedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                 constant: 20),
-            roundedView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                  constant: -20),
-            roundedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            roundedView.top.constraint(equalTo: contentView.top),
+            roundedView.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 20),
+            roundedView.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -20),
+            roundedView.bottom.constraint(equalTo: contentView.bottom),
 
-            bottomDivider.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                   constant: 20),
-            bottomDivider.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor),
-            bottomDivider.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor),
-            bottomDivider.heightAnchor.constraint(equalToConstant: 1)
+            bottomDivider.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            bottomDivider.trailing.constraint(equalTo: roundedView.trailing),
+            bottomDivider.bottom.constraint(equalTo: roundedView.bottom),
+            bottomDivider.height.constraint(equalToConstant: 1)
         ])
     }
 }
@@ -114,10 +117,12 @@ extension RoundedTVCell {
     private func updateRightImageViewConstraints() {
         if showsRightImage {
             NSLayoutConstraint.activate([
-                rightImageView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-                rightImageView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -10),
-                rightImageView.widthAnchor.constraint(equalToConstant: 15),
-                rightImageView.heightAnchor.constraint(equalTo: rightImageView.widthAnchor)
+                rightImageView.centerY.constraint(equalTo: roundedView.centerY),
+                rightImageView.trailing.constraint(
+                    equalTo: roundedView.trailing,
+                    constant: -10),
+                rightImageView.width.constraint(equalToConstant: 15),
+                rightImageView.height.constraint(equalTo: rightImageView.width)
             ])
         } else {
             rightImageView.constraints.forEach {

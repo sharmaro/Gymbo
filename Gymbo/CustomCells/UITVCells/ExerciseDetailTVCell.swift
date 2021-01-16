@@ -172,22 +172,28 @@ extension ExerciseDetailTVCell: ViewAdding {
     }
 
     func addConstraints() {
-        let stackViewBottomConstraint = stackView.bottomAnchor.constraint(
-            equalTo: bottomAnchor,
+        let stackViewBottomConstraint = stackView.bottom.constraint(
+            equalTo: bottom,
             constant: -10)
         stackViewBottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            stackView.top.constraint(
+                equalTo: contentView.top,
+                constant: 5),
+            stackView.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 10),
+            stackView.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -10),
             stackViewBottomConstraint,
 
-            setsLabel.widthAnchor.constraint(equalToConstant: 40),
-            lastLabel.widthAnchor.constraint(equalToConstant: 130),
-            repsTextField.widthAnchor.constraint(equalToConstant: 45),
-            weightTextField.widthAnchor.constraint(equalToConstant: 45),
-            doneButton.widthAnchor.constraint(equalToConstant: 15),
-            doneButton.heightAnchor.constraint(equalTo: doneButton.widthAnchor)
+            setsLabel.width.constraint(equalToConstant: 40),
+            lastLabel.width.constraint(equalToConstant: 130),
+            repsTextField.width.constraint(equalToConstant: 45),
+            weightTextField.width.constraint(equalToConstant: 45),
+            doneButton.width.constraint(equalToConstant: 15),
+            doneButton.height.constraint(equalTo: doneButton.width)
         ])
         stackView.layoutIfNeeded()
     }

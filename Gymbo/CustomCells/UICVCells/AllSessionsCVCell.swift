@@ -115,15 +115,18 @@ extension AllSessionsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            indexLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            indexLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                constant: 20),
-            indexLabel.trailingAnchor.constraint(equalTo: containerVStack.leadingAnchor,
-                                                constant: -15),
+            indexLabel.centerY.constraint(equalTo: roundedView.centerY),
+            indexLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            indexLabel.trailing.constraint(
+                equalTo: containerVStack.leading,
+                constant: -15),
 
-            containerVStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            containerVStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                      constant: -20)
+            containerVStack.centerY.constraint(equalTo: contentView.centerY),
+            containerVStack.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -20)
         ])
     }
 }

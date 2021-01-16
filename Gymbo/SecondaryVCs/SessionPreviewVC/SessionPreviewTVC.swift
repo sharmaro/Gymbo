@@ -116,19 +116,19 @@ extension SessionPreviewTVC: ViewAdding {
         tableView.tableHeaderView = tableHeaderView
 
         NSLayoutConstraint.activate([
-            tableHeaderView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
+            tableHeaderView.centerX.constraint(equalTo: tableView.centerX),
+            tableHeaderView.width.constraint(equalTo: tableView.width),
 
-            startSessionButton.safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            startSessionButton.safeLeading.constraint(
+                equalTo: view.safeLeading,
                 constant: 20),
-            startSessionButton.safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            startSessionButton.safeTrailing.constraint(
+                equalTo: view.safeTrailing,
                 constant: -20),
-            startSessionButton.safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            startSessionButton.safeBottom.constraint(
+                equalTo: view.safeBottom,
                 constant: Constants.startButtonBottomSpacing),
-            startSessionButton.heightAnchor.constraint(equalToConstant: Constants.startButtonHeight)
+            startSessionButton.height.constraint(equalToConstant: Constants.startButtonHeight)
         ])
     }
 }

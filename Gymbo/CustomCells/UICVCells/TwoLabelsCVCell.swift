@@ -69,15 +69,18 @@ extension TwoLabelsCVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            indexLabel.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            indexLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor,
-                                                constant: 20),
-            indexLabel.trailingAnchor.constraint(equalTo: labelsVStackView.leadingAnchor,
-                                                constant: -15),
+            indexLabel.centerY.constraint(equalTo: roundedView.centerY),
+            indexLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            indexLabel.trailing.constraint(
+                equalTo: labelsVStackView.leading,
+                constant: -15),
 
-            labelsVStackView.centerYAnchor.constraint(equalTo: roundedView.centerYAnchor),
-            labelsVStackView.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor,
-                                                      constant: -20)
+            labelsVStackView.centerY.constraint(equalTo: roundedView.centerY),
+            labelsVStackView.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20)
         ])
     }
 }

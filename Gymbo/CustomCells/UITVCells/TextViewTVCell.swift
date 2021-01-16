@@ -79,10 +79,16 @@ extension TextViewTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            textView.top.constraint(equalTo: contentView.top),
+            textView.leading.constraint(
+                equalTo: contentView.leading,
+                constant: 20),
+            textView.trailing.constraint(
+                equalTo: contentView.trailing,
+                constant: -20),
+            textView.bottom.constraint(
+                equalTo: contentView.bottom,
+                constant: -10)
         ])
     }
 }

@@ -59,14 +59,26 @@ extension TwoLabelsTVCell: ViewAdding {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            topLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
-            topLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            topLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            topLabel.bottomAnchor.constraint(equalTo: bottomLabel.topAnchor),
+            topLabel.top.constraint(
+                equalTo: roundedView.top,
+                constant: 10),
+            topLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            topLabel.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            topLabel.bottom.constraint(equalTo: bottomLabel.top),
 
-            bottomLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
-            bottomLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
-            bottomLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
+            bottomLabel.leading.constraint(
+                equalTo: roundedView.leading,
+                constant: 20),
+            bottomLabel.trailing.constraint(
+                equalTo: roundedView.trailing,
+                constant: -20),
+            bottomLabel.bottom.constraint(
+                equalTo: roundedView.bottom,
+                constant: -10)
         ])
     }
 }

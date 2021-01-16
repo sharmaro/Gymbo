@@ -13,6 +13,56 @@ extension UIView {
         String(describing: self)
     }
 
+    // Safe area constraints
+    var safeTop: NSLayoutYAxisAnchor {
+        safeAreaLayoutGuide.topAnchor
+    }
+
+    var safeLeading: NSLayoutXAxisAnchor {
+        safeAreaLayoutGuide.leadingAnchor
+    }
+
+    var safeBottom: NSLayoutYAxisAnchor {
+        safeAreaLayoutGuide.bottomAnchor
+    }
+
+    var safeTrailing: NSLayoutXAxisAnchor {
+        safeAreaLayoutGuide.trailingAnchor
+    }
+
+    // Superview constraints
+    var top: NSLayoutYAxisAnchor {
+        topAnchor
+    }
+
+    var leading: NSLayoutXAxisAnchor {
+        leadingAnchor
+    }
+
+    var bottom: NSLayoutYAxisAnchor {
+        bottomAnchor
+    }
+
+    var trailing: NSLayoutXAxisAnchor {
+        trailingAnchor
+    }
+
+    var centerX: NSLayoutXAxisAnchor {
+        centerXAnchor
+    }
+
+    var centerY: NSLayoutYAxisAnchor {
+        centerYAnchor
+    }
+
+    var height: NSLayoutDimension {
+        heightAnchor
+    }
+
+    var width: NSLayoutDimension {
+        widthAnchor
+    }
+
     func add(subviews: [UIView]) {
         for view in subviews {
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -27,14 +77,10 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            safeAreaLayoutGuide.topAnchor.constraint(
-                equalTo: superView.safeAreaLayoutGuide.topAnchor),
-            safeAreaLayoutGuide.leadingAnchor.constraint(
-                equalTo: superView.safeAreaLayoutGuide.leadingAnchor),
-            safeAreaLayoutGuide.trailingAnchor.constraint(
-                equalTo: superView.safeAreaLayoutGuide.trailingAnchor),
-            safeAreaLayoutGuide.bottomAnchor.constraint(
-                equalTo: superView.safeAreaLayoutGuide.bottomAnchor)
+            safeTop.constraint(equalTo: superView.safeTop),
+            safeLeading.constraint(equalTo: superView.safeLeading),
+            safeTrailing.constraint(equalTo: superView.safeTrailing),
+            safeBottom.constraint(equalTo: superView.safeBottom)
         ])
     }
 
@@ -45,10 +91,10 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: superView.topAnchor),
-            leadingAnchor.constraint(equalTo: superView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superView.trailingAnchor),
-            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
+            top.constraint(equalTo: superView.top),
+            leading.constraint(equalTo: superView.leading),
+            trailing.constraint(equalTo: superView.trailing),
+            bottom.constraint(equalTo: superView.bottom)
         ])
     }
 
