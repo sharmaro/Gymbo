@@ -232,6 +232,7 @@ extension CreateEditSessionTVC {
     }
 
     @objc private func closeButtonTapped(_ sender: Any) {
+        Haptic.sendSelectionFeedback()
         dismissAppropriately()
     }
 
