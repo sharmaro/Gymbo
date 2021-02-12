@@ -59,6 +59,9 @@ extension SettingsTVC {
 extension SettingsTVC: ViewAdding {
     func setupNavigationBar() {
         title = "Settings"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                                           target: self,
+                                                           action: #selector(closeButtonTapped))
     }
 
     func setupViews() {
@@ -89,7 +92,7 @@ extension SettingsTVC {
         navigationController?.pushViewController(selectionTVC, animated: true)
     }
 
-    func contactUsSelected() {
+    private func contactUsSelected() {
         if MFMailComposeViewController.canSendMail() {
             let mailViewController = MFMailComposeViewController()
             mailViewController.mailComposeDelegate = self
@@ -114,6 +117,11 @@ extension SettingsTVC {
         body.append("\n")
         body.append(Utility.formattedDeviceInfo)
         return body
+    }
+
+    @objc private func closeButtonTapped() {
+        Haptic.sendSelectionFeedback()
+        dismiss(animated: true)
     }
 }
 
