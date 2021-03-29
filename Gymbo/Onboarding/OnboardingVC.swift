@@ -38,11 +38,18 @@ class OnboardingVC: UIViewController {
     }()
 
     private let continueButton: CustomButton = {
-        let button = CustomButton(frame: CGRect(
-                                    origin: CGPoint(x: -100,
-                                                    y: -45),
-                                    size: CGSize(width: 100,
-                                                 height: 45)))
+        let button = CustomButton(
+            frame: CGRect(
+                origin: CGPoint(
+                    x: -100,
+                    y: -45
+                ),
+                size: CGSize(
+                    width: 100,
+                             height: 45
+                )
+            )
+        )
         button.title = "Next"
         button.titleColor = .primaryText
         button.titleLabel?.textAlignment = .center

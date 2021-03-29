@@ -112,9 +112,11 @@ extension MainTBDS {
                    exercisesVC, stopwatchVC]
         for (index, tab) in Tab.allCases.enumerated() {
             let vc = vcs[index]
-            vc.tabBarItem = UITabBarItem(title: tab.title,
-                                         image: tab.image,
-                                         tag: tab.rawValue)
+            vc.tabBarItem = UITabBarItem(
+                title: tab.title,
+                image: tab.image,
+                tag: tab.rawValue
+            )
         }
         viewControllers = vcs.map { MainNC(rootVC: $0) }
     }
