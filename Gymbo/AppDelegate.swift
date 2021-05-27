@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupUITableViewAppearance()
         setupUICollectionViewAppearance()
         setupUserInterfaceMode()
+        print("delete me")
 
         return true
     }
