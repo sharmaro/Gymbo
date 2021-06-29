@@ -57,7 +57,7 @@ class StartedSessionTVC: UITableViewController {
 
 // MARK: - Structs/Enums
 private extension StartedSessionTVC {
-    struct Constants {
+    enum Constants {
         static let timeInterval = TimeInterval(1)
 
         static let tableFooterViewHeight = CGFloat(150)

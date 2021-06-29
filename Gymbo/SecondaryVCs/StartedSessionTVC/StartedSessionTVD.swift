@@ -22,7 +22,7 @@ class StartedSessionTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension StartedSessionTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
     }
 }

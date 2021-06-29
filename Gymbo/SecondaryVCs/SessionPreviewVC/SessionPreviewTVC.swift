@@ -32,7 +32,7 @@ class SessionPreviewTVC: UITableViewController {
 
 // MARK: - Structs/Enums
 private extension SessionPreviewTVC {
-    struct Constants {
+    enum Constants {
         static let startButtonHeight = CGFloat(45)
         static let startButtonBottomSpacing = CGFloat(-20)
         static let exerciseCellHeight = CGFloat(70)

@@ -33,7 +33,7 @@ class CreateEditSessionTVDS: NSObject {
 
 // MARK: - Structs/Enums
 private extension CreateEditSessionTVDS {
-    struct Constants {
+    enum Constants {
         static let buttonText = "+ Set"
 
         static let exerciseHeaderCellHeight = CGFloat(77)

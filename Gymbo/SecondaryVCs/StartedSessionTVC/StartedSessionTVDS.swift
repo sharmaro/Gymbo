@@ -31,7 +31,7 @@ class StartedSessionTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension StartedSessionTVDS {
-    private struct Constants {
+    private enum Constants {
         static let buttonText = "+ Set"
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"

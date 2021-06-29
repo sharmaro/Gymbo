@@ -87,7 +87,7 @@ class StopwatchVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension StopwatchVC {
-    struct Constants {
+    enum Constants {
         static let timerInterval = TimeInterval(0.01)
 
         static let timeStackViewHeight = CGFloat(100)

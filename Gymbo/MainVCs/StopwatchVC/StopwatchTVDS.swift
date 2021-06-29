@@ -32,7 +32,7 @@ class StopwatchTVDS: NSObject {
 
 // MARK: - Structs/Enums
 private extension StopwatchTVDS {
-    struct Constants {
+    enum Constants {
         static let LAPS_KEY = "laps"
 
         static let CENTISECONDS_KEY = "centiseconds"

@@ -6,6 +6,6 @@
 //  Copyright © 2020 Rohan Sharma. All rights reserved.
 //
 
-protocol ExerciseUpdatingDelegate: class {
+protocol ExerciseUpdatingDelegate: AnyObject {
     func updateExercises(_ exercises: [Exercise])
 }

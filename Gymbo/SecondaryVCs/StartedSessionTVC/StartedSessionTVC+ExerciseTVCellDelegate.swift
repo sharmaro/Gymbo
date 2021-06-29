@@ -9,7 +9,7 @@
 import UIKit
 
 extension StartedSessionTVC: ExerciseTVCellDelegate {
-    private struct Constants {
+    private enum Constants {
         static let characterLimit = 5
     }
 

@@ -41,7 +41,7 @@ class ProfileTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension ProfileTVDS {
-    private struct Constants {
+    private enum Constants {
     }
 
     enum Item: String {

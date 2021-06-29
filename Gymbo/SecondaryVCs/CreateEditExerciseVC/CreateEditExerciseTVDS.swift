@@ -44,7 +44,7 @@ class CreateEditExerciseTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension CreateEditExerciseTVDS {
-    private struct Constants {
+    private enum Constants {
         static let muscleGroupsCellHeight = CGFloat(150)
         static let imagesCellHeight = CGFloat(100)
     }

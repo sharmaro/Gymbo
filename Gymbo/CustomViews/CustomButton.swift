@@ -46,7 +46,7 @@ class CustomButton: UIButton {
 
 // MARK: - Structs/Enums
 private extension CustomButton {
-    struct Constants {
+    enum Constants {
         static let transformScale = CGFloat(0.95)
     }
 }

@@ -23,7 +23,7 @@ class NotificationHelper: NSObject {
 
 // MARK: - Structs/Enums
 private extension NotificationHelper {
-    struct Constants {
+    enum Constants {
         static let localIdentifier = "localIdentifier"
     }
 }

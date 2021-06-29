@@ -13,8 +13,12 @@ class OnboardingVC: UIViewController {
     private let arrowImageView: UIImageView = {
         let size = CGSize(width: 100, height: 100)
         let origin = CGPoint(x: -size.width, y: -size.height)
-        let imageView = UIImageView(frame: CGRect(origin: origin,
-                                                  size: size))
+        let imageView = UIImageView(
+            frame: CGRect(
+                origin: origin,
+                size: size
+            )
+        )
         let image = UIImage(named: "pointer_arrow")?
             .withRenderingMode(.alwaysTemplate)
         imageView.image = image

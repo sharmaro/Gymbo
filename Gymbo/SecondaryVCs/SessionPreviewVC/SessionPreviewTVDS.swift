@@ -15,7 +15,7 @@ class SessionPreviewTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension SessionPreviewTVDS {
-    private struct Constants {
+    private enum Constants {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "No Info"
     }

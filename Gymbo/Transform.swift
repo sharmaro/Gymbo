@@ -34,7 +34,7 @@ enum Transform {
 
 // MARK: - Structs/Enums
 private extension Transform {
-    struct Constants {
+    enum Constants {
         static let transformScale = CGFloat(0.95)
     }
 }

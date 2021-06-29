@@ -20,7 +20,7 @@ class DashboardCVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension DashboardCVD {
-    struct Constants {
+    enum Constants {
         static let cellHeight = CGFloat(120)
         static let cellMinimumSpacing = CGFloat(20)
     }

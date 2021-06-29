@@ -23,7 +23,7 @@ class AllSessionsDetailTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension AllSessionsDetailTVDS {
-    private struct Constants {
+    private enum Constants {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
     }

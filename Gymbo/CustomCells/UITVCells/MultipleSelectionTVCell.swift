@@ -36,7 +36,7 @@ class MultipleSelectionTVCell: RoundedTVCell {
 
 // MARK: - Structs/Enums
 private extension MultipleSelectionTVCell {
-    struct Constants {
+    enum Constants {
         static let minimumLineSpacing = CGFloat(5)
     }
 }

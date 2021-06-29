@@ -13,7 +13,7 @@ class SessionPreviewTVD: NSObject {}
 
 // MARK: - Structs/Enums
 private extension SessionPreviewTVD {
-    struct Constants {
+    enum Constants {
         static let exerciseCellHeight = CGFloat(70)
     }
 }

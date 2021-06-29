@@ -20,7 +20,7 @@ class AllSessionsCVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension AllSessionsCVD {
-    struct Constants {
+    enum Constants {
         static let cellHeight = CGFloat(150)
         static let cellMinimumSpacing = CGFloat(20)
     }

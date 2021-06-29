@@ -17,7 +17,7 @@ class SettingsTVC: UITableViewController {
 
 // MARK: - Structs/Enums
 private extension SettingsTVC {
-    struct Constants {
+    enum Constants {
         static let gymboEmail = "gymbo.feedback@gmail.com"
         static let emailSubject = "Support"
     }

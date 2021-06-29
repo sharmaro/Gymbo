@@ -9,7 +9,7 @@
 import UIKit
 
 extension SessionsCVC: SessionProgressDelegate {
-    private struct Constants {
+    private enum Constants {
         static let sessionStartedInsetConstant = CGFloat(50)
     }
 

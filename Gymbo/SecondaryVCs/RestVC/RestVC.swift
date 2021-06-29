@@ -51,7 +51,7 @@ class RestVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension RestVC {
-    struct Constants {
+    enum Constants {
         static let timeDelta = 5
         static let defaultRow = 11
 

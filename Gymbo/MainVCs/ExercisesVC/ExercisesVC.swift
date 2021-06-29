@@ -46,7 +46,7 @@ class ExercisesVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension ExercisesVC {
-    struct Constants {
+    enum Constants {
         static let addExerciseButtonHeight = CGFloat(45)
         static let sessionStartedConstraintConstant = CGFloat(-64)
         static let sessionEndedConstraintConstant = CGFloat(-20)

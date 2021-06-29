@@ -23,7 +23,7 @@ class AllSessionsDetailTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension AllSessionsDetailTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
         static let cellHeight = CGFloat(50)
     }

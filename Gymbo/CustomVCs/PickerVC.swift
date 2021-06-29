@@ -58,7 +58,7 @@ class PickerVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension PickerVC {
-    struct Constants {
+    enum Constants {
         static let barButtonSize = CGSize(width: 80, height: 30)
         static let pickerItemHeight = CGFloat(40)
     }

@@ -20,7 +20,7 @@ class SettingsTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension SettingsTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
         static let cellHeight = CGFloat(50)
     }

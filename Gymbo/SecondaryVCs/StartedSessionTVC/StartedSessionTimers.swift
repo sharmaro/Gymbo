@@ -59,7 +59,7 @@ class StartedSessionTimers: NSObject {
 
 // MARK: - Structs/Enums
 private extension StartedSessionTimers {
-    struct Constants {
+    enum Constants {
         static let timeInterval = TimeInterval(1)
 
         static let SESSION_SECONDS_KEY = "sessionSeconds"

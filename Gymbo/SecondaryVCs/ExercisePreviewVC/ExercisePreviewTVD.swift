@@ -24,7 +24,7 @@ class ExercisePreviewTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension ExercisePreviewTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
         static let swipableImageVTVCellHeight = CGFloat(200)
     }

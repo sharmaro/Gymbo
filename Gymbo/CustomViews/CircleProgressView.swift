@@ -54,7 +54,7 @@ class CircleProgressView: UIView {
 
 // MARK: - Structs/Enums
 private extension CircleProgressView {
-    struct Constants {
+    enum Constants {
         static let strokeKey = "strokeEnd"
         static let animationKey = "progress"
 

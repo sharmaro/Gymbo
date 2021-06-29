@@ -33,7 +33,7 @@ class ExercisesHFV: UITableViewHeaderFooterView {
 
 // MARK: - Structs/Enums
 private extension ExercisesHFV {
-    struct Constants {
+    enum Constants {
         static var dividerHeight = CGFloat(0.2)
     }
 }

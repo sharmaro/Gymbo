@@ -20,7 +20,7 @@ class CreateEditSessionTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension CreateEditSessionTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
     }
 }

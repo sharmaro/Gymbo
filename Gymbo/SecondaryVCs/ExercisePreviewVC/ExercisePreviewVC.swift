@@ -57,7 +57,7 @@ class ExercisePreviewVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension ExercisePreviewVC {
-    struct Constants {
+    enum Constants {
         static let editDisclaimerText = "*Only exercises made by you can be edited."
 
         static let viewToUseHeight = CGFloat(45)

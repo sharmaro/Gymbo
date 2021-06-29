@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol KeyboardObserving: class {
+protocol KeyboardObserving: AnyObject {
     func keyboardWillShow(_ notification: Notification)
     func keyboardDidShow(_ notification: Notification)
     func keyboardWillHide(_ notification: Notification)

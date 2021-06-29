@@ -23,7 +23,7 @@ class CreateEditExerciseTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension CreateEditExerciseTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
     }
 }

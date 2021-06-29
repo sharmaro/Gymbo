@@ -21,7 +21,7 @@ class SessionsCVC: UICollectionViewController {
 
 // MARK: - Structs/Enums
 private extension SessionsCVC {
-    struct Constants {
+    enum Constants {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
     }

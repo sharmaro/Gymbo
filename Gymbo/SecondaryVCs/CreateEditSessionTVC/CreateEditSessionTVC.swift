@@ -49,7 +49,7 @@ class CreateEditSessionTVC: UITableViewController {
 
 // MARK: - Structs/Enums
 private extension CreateEditSessionTVC {
-    struct Constants {
+    enum Constants {
         static let namePlaceholderText = "Session name"
         static let infoPlaceholderText = "Info"
     }

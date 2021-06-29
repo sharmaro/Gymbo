@@ -33,7 +33,7 @@ class MainTBC: UITabBarController {
 
 // MARK: - Structs/Enums
 extension MainTBC {
-    private struct Constants {
+    private enum Constants {
         static let defaultYOffset = CGFloat(60)
     }
 

@@ -20,7 +20,7 @@ class RestDSAndD: NSObject {
 
 // MARK: - Structs/Enums
 extension RestDSAndD {
-    private struct Constants {
+    private enum Constants {
         static let pickerRowHeight = CGFloat(38)
     }
 }

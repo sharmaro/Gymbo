@@ -40,7 +40,7 @@ class CreateEditExerciseVC: UIViewController {
 
 // MARK: - Structs/Enums
 private extension CreateEditExerciseVC {
-    struct Constants {
+    enum Constants {
         static let activeAlpha = CGFloat(1.0)
         static let inactiveAlpha = CGFloat(0.3)
         static let actionButtonHeight = CGFloat(45)

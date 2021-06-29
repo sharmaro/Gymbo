@@ -7,6 +7,6 @@
 //
 import UIKit
 
-protocol SetAlphaDelegate: class {
+protocol SetAlphaDelegate: AnyObject {
     func setAlpha(alpha: CGFloat)
 }

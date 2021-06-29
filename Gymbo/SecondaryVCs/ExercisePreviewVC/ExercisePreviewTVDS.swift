@@ -23,7 +23,7 @@ class ExercisePreviewTVDS: NSObject {
 
 // MARK: - Structs/Enums
 extension ExercisePreviewTVDS {
-    private struct Constants {
+    private enum Constants {
         static let noImagesText = "No images"
         static let noInstructionsText = "No instructions"
         static let noTipsText = "No tips"

@@ -19,7 +19,7 @@ class StopwatchTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension StopwatchTVD {
-    struct Constants {
+    enum Constants {
         static let cellHeight = CGFloat(50)
     }
 }

@@ -28,7 +28,7 @@ class ExercisesTVD: NSObject {
 
 // MARK: - Structs/Enums
 private extension ExercisesTVD {
-    struct Constants {
+    enum Constants {
         static let headerHeight = CGFloat(40)
         static let exerciseCellHeight = CGFloat(70)
     }
